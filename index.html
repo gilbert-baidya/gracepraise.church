@@ -446,11 +446,75 @@
             mobileOverlay.addEventListener('click', toggleMobileMenu);
         }
 
-        // Close mobile menu when link is clicked
-        document.querySelectorAll('.nav-links a').forEach(link => {
+        // Close mobile menu when non-dropdown link is clicked
+        document.querySelectorAll('.nav-links a:not(.nav-dropdown > a)').forEach(link => {
             link.addEventListener('click', () => {
                 if (navLinks.classList.contains('mobile-open')) {
                     toggleMobileMenu();
+                }
+            });
+        });
+
+        // ===== MOBILE DROPDOWN ACCORDION FUNCTIONALITY =====
+        // Toggle mobile dropdown menus (accordion style)
+        function initMobileDropdowns() {
+            const navDropdowns = document.querySelectorAll('.nav-dropdown');
+            
+            navDropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector(':scope > a');
+                const menu = dropdown.querySelector('.dropdown-menu');
+                
+                if (toggle && menu) {
+                    // Prevent default link behavior on mobile for parent dropdown link
+                    toggle.addEventListener('click', (e) => {
+                        // Only prevent default and toggle on mobile (when menu is visible as mobile menu)
+                        if (window.innerWidth <= 768) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            // Close other dropdowns
+                            navDropdowns.forEach(otherDropdown => {
+                                if (otherDropdown !== dropdown) {
+                                    otherDropdown.classList.remove('mobile-dropdown-open');
+                                    const otherToggle = otherDropdown.querySelector(':scope > a');
+                                    if (otherToggle) {
+                                        otherToggle.setAttribute('aria-expanded', 'false');
+                                    }
+                                }
+                            });
+                            
+                            // Toggle current dropdown
+                            dropdown.classList.toggle('mobile-dropdown-open');
+                            const isOpen = dropdown.classList.contains('mobile-dropdown-open');
+                            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                        }
+                    });
+                    
+                    // Close dropdown when submenu item is clicked
+                    const submenuLinks = menu.querySelectorAll('a');
+                    submenuLinks.forEach(link => {
+                        link.addEventListener('click', () => {
+                            if (window.innerWidth <= 768 && navLinks.classList.contains('mobile-open')) {
+                                toggleMobileMenu();
+                                dropdown.classList.remove('mobile-dropdown-open');
+                                toggle.setAttribute('aria-expanded', 'false');
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+        // Initialize mobile dropdowns
+        initMobileDropdowns();
+
+        // Close all dropdowns when mobile menu closes
+        mobileOverlay?.addEventListener('click', () => {
+            document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('mobile-dropdown-open');
+                const toggle = dropdown.querySelector(':scope > a');
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', 'false');
                 }
             });
         });

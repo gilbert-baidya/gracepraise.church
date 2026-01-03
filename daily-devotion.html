@@ -785,6 +785,104 @@
                 font-size: var(--font-sm);
                 padding: var(--spacing-sm) var(--spacing-md);
             }
+
+            /* ===== MOBILE HORIZONTAL SCROLL FIX ===== */
+            /* Prevent any element from causing horizontal overflow on mobile */
+            
+            /* Force all content to stay within viewport */
+            body {
+                overflow-x: hidden;
+                max-width: 100vw;
+            }
+
+            /* Ensure date-strip-wrapper doesn't overflow */
+            .date-strip-wrapper {
+                max-width: 100%;
+                width: 100%;
+                overflow: hidden; /* Prevent wrapper from overflowing */
+                padding: 0 var(--spacing-xs);
+                box-sizing: border-box;
+            }
+
+            /* Make date-strip scrollable horizontally within its container */
+            .date-strip {
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+                scrollbar-width: none; /* Hide scrollbar on Firefox */
+                -ms-overflow-style: none; /* Hide scrollbar on IE/Edge */
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Hide scrollbar on Webkit browsers */
+            .date-strip::-webkit-scrollbar {
+                display: none;
+            }
+
+            /* Ensure date pills don't cause overflow */
+            .date-pill {
+                flex-shrink: 0; /* Prevent pills from shrinking */
+                min-width: 70px;
+                max-width: 80px;
+                padding: var(--spacing-xs) var(--spacing-sm);
+                box-sizing: border-box;
+            }
+
+            /* Ensure navigation buttons don't overflow */
+            .date-nav-btn {
+                flex-shrink: 0;
+                min-width: 40px;
+                padding: var(--spacing-xs) var(--spacing-sm);
+            }
+
+            /* Constrain all containers to viewport width */
+            .devotion-controls,
+            .devotion-container,
+            .devotion-section,
+            .share-section {
+                max-width: 100vw;
+                box-sizing: border-box;
+            }
+
+            /* Ensure hero section doesn't overflow */
+            .devotion-hero {
+                max-width: 100vw;
+                overflow: hidden;
+                box-sizing: border-box;
+            }
+
+            /* Prevent text content from causing overflow */
+            .scripture-text,
+            .devotion-text {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                max-width: 100%;
+            }
+
+            /* Ensure images don't overflow */
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            /* Fix share buttons on mobile */
+            .share-buttons {
+                max-width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            /* Ensure jump controls don't overflow */
+            .jump-controls {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .jump-controls select {
+                max-width: 45%;
+            }
         }
     </style>
 </head>
@@ -822,7 +920,20 @@
                     <li><a href="calendar.html">Calendar</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="index.html#prayer">Prayer</a></li>
-                    <li><a href="daily-devotion.html" class="active">Daily Devotion</a></li>
+                    <li class="nav-dropdown">
+                        <a href="daily-devotion.html" class="active" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                            <li><a href="family-devotion.html">Family Devotion</a></li>
+                            <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                            <li><a href="children-devotion.html">Children Devotion</a></li>
+                            <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                            <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                        </ul>
+                    </li>
                     <li><a href="give.html">Give</a></li>
                 </ul>
             </div>
@@ -1473,10 +1584,75 @@
             mobileOverlay.addEventListener('click', toggleMobileMenu);
         }
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
+        // Close mobile menu when non-dropdown link is clicked
+        document.querySelectorAll('.nav-links a:not(.nav-dropdown > a)').forEach(link => {
             link.addEventListener('click', () => {
                 if (navLinks.classList.contains('mobile-open')) {
                     toggleMobileMenu();
+                }
+            });
+        });
+
+        // ===== MOBILE DROPDOWN ACCORDION FUNCTIONALITY =====
+        // Toggle mobile dropdown menus (accordion style)
+        function initMobileDropdowns() {
+            const navDropdowns = document.querySelectorAll('.nav-dropdown');
+            
+            navDropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector(':scope > a');
+                const menu = dropdown.querySelector('.dropdown-menu');
+                
+                if (toggle && menu) {
+                    // Prevent default link behavior on mobile for parent dropdown link
+                    toggle.addEventListener('click', (e) => {
+                        // Only prevent default and toggle on mobile (when menu is visible as mobile menu)
+                        if (window.innerWidth <= 768) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            // Close other dropdowns
+                            navDropdowns.forEach(otherDropdown => {
+                                if (otherDropdown !== dropdown) {
+                                    otherDropdown.classList.remove('mobile-dropdown-open');
+                                    const otherToggle = otherDropdown.querySelector(':scope > a');
+                                    if (otherToggle) {
+                                        otherToggle.setAttribute('aria-expanded', 'false');
+                                    }
+                                }
+                            });
+                            
+                            // Toggle current dropdown
+                            dropdown.classList.toggle('mobile-dropdown-open');
+                            const isOpen = dropdown.classList.contains('mobile-dropdown-open');
+                            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                        }
+                    });
+                    
+                    // Close dropdown when submenu item is clicked
+                    const submenuLinks = menu.querySelectorAll('a');
+                    submenuLinks.forEach(link => {
+                        link.addEventListener('click', () => {
+                            if (window.innerWidth <= 768 && navLinks.classList.contains('mobile-open')) {
+                                toggleMobileMenu();
+                                dropdown.classList.remove('mobile-dropdown-open');
+                                toggle.setAttribute('aria-expanded', 'false');
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+        // Initialize mobile dropdowns
+        initMobileDropdowns();
+
+        // Close all dropdowns when mobile menu closes
+        mobileOverlay?.addEventListener('click', () => {
+            document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('mobile-dropdown-open');
+                const toggle = dropdown.querySelector(':scope > a');
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', 'false');
                 }
             });
         });
