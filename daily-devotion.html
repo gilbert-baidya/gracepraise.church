@@ -61,6 +61,17 @@
                 position: relative;
             }
         }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe, embed, object {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        section, article, main, .hero, .container {
+            width: 100%;
+            max-width: 100%;
+        }
         /* ===== END iOS SAFARI OVERFLOW FIX ===== */
         
         /* Daily Devotion Page Specific Styles */
@@ -175,6 +186,7 @@
             max-width: 100%; /* iOS SAFARI OVERFLOW FIX */
             justify-content: center;
             box-sizing: border-box; /* iOS SAFARI OVERFLOW FIX */
+            overflow: hidden; /* iOS SAFARI OVERFLOW GUARD — Contain scrollable children */
         }
 
         .date-strip {
@@ -183,12 +195,14 @@
             grid-auto-columns: auto;
             gap: var(--spacing-sm);
             overflow-x: auto;
+            overflow-y: hidden; /* iOS SAFARI OVERFLOW GUARD — Only horizontal scroll */
             padding: var(--spacing-xs) var(--spacing-sm);
             scrollbar-width: thin;
             max-width: 100%; /* iOS SAFARI OVERFLOW FIX */
             box-sizing: border-box; /* iOS SAFARI OVERFLOW FIX */
             justify-content: center;
             justify-items: center;
+            min-width: 0; /* iOS SAFARI OVERFLOW GUARD — Allow flex shrinking */
         }
 
         .date-pill {

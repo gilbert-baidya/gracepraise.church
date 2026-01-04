@@ -11,6 +11,34 @@
     <link rel="stylesheet" href="modern.css">
     <link rel="stylesheet" href="mobile-menu.css">
     
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: hidden !important;
+                position: relative;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe { max-width: 100%; height: auto; }
+        section, main, .hero { width: 100%; max-width: 100%; }
+    </style>
+    
     <!-- Content Manager (loads content.json) -->
     <script src="content-manager.js" defer></script>
 </head>

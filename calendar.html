@@ -28,6 +28,42 @@
     
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="countdown.css">
+    
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: hidden !important;
+                position: relative;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe, embed, object {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        section, article, main, .hero, .container {
+            width: 100%;
+            max-width: 100%;
+        }
+    </style>
+    
     <!-- Cloudinary Upload Widget -->
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <style>

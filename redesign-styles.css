@@ -98,6 +98,63 @@ body {
 }
 
 /* ========================================
+   CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL
+   ======================================== */
+
+/* Universal media constraints - prevent overflow */
+img,
+video,
+iframe,
+embed,
+object {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Ensure all content respects container boundaries */
+.container,
+.page-wrapper,
+.content-container,
+section,
+article,
+main,
+.hero,
+.section {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Centered content containers */
+.container,
+.content-container {
+    max-width: var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+}
+
+/* Prevent flex/grid children from overflowing */
+.flex-container > *,
+.grid-container > * {
+    min-width: 0;
+    min-height: 0;
+}
+
+/* Horizontal scrollers must be explicitly contained */
+.horizontal-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure parent of scrollable elements doesn't scroll */
+.scroll-container {
+    overflow: hidden;
+}
+
+/* ========================================
    Translation-Safe Styles
    ======================================== */
 

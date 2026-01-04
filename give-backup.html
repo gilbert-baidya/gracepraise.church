@@ -29,6 +29,34 @@
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="countdown.css">
     
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: hidden !important;
+                position: relative;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe { max-width: 100%; height: auto; }
+        section, main, .hero { width: 100%; max-width: 100%; }
+    </style>
+    
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=BAAWMwhMkl8vYEf72tWcWD1YYF7D1LkudwwjyWdOCJBwgvYrJ2uTshXERm7DvP4TkT4rTjMzMLA6rmCK60&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
     
