@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- iOS / Tablet Horizontal Scroll Lock — SAFE FIX -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
     <!-- Primary Meta Tags -->
     <title>Daily Devotion | Grace and Praise Bangladeshi Church</title>
@@ -34,7 +35,7 @@
     <link rel="stylesheet" href="countdown.css">
     
     <style>
-        /* ===== iOS SAFARI OVERFLOW FIX — DO NOT REMOVE ===== */
+        /* ===== iOS / Tablet Horizontal Scroll Lock — SAFE FIX ===== */
         /* Global box-sizing and overflow control */
         *,
         *::before,
@@ -46,19 +47,27 @@
             width: 100%;
             max-width: 100%;
             overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
         }
         
         body {
             width: 100%;
             max-width: 100%;
             overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+            margin: 0;
+            padding: 0;
         }
         
         /* iOS Safari specific fix for viewport width calculation */
         @supports (-webkit-touch-callout: none) {
+            html,
             body {
-                overflow-x: hidden;
+                overflow-x: hidden !important;
                 position: relative;
+                max-width: 100% !important;
             }
         }
         
@@ -68,11 +77,12 @@
             height: auto;
         }
         
-        section, article, main, .hero, .container {
+        section, article, main, .hero, .container, header, nav {
             width: 100%;
             max-width: 100%;
+            box-sizing: border-box;
         }
-        /* ===== END iOS SAFARI OVERFLOW FIX ===== */
+        /* ===== END iOS / Tablet Horizontal Scroll Lock ===== */
         
         /* Daily Devotion Page Specific Styles */
         
@@ -178,31 +188,34 @@
             outline-offset: 2px;
         }
 
+        /* iOS / Tablet Horizontal Scroll Lock — SAFE FIX */
         .date-strip-wrapper {
             display: flex;
             align-items: center;
             gap: var(--spacing-sm);
             width: 100%;
-            max-width: 100%; /* iOS SAFARI OVERFLOW FIX */
+            max-width: 100%;
             justify-content: center;
-            box-sizing: border-box; /* iOS SAFARI OVERFLOW FIX */
-            overflow: hidden; /* iOS SAFARI OVERFLOW GUARD — Contain scrollable children */
+            box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
         }
 
         .date-strip {
-            display: grid;
-            grid-auto-flow: column;
-            grid-auto-columns: auto;
+            display: flex;
+            flex-wrap: nowrap;
             gap: var(--spacing-sm);
             overflow-x: auto;
-            overflow-y: hidden; /* iOS SAFARI OVERFLOW GUARD — Only horizontal scroll */
+            overflow-y: hidden;
             padding: var(--spacing-xs) var(--spacing-sm);
             scrollbar-width: thin;
-            max-width: 100%; /* iOS SAFARI OVERFLOW FIX */
-            box-sizing: border-box; /* iOS SAFARI OVERFLOW FIX */
-            justify-content: center;
-            justify-items: center;
-            min-width: 0; /* iOS SAFARI OVERFLOW GUARD — Allow flex shrinking */
+            max-width: 100%;
+            box-sizing: border-box;
+            justify-content: flex-start;
+            align-items: center;
+            min-width: 0;
+            flex: 1;
+            -webkit-overflow-scrolling: touch;
         }
 
         .date-pill {
@@ -786,20 +799,33 @@
                 margin-top: var(--spacing-xs);
             }
 
+            /* iOS / Tablet Horizontal Scroll Lock — SAFE FIX */
             .date-strip-wrapper {
                 justify-content: center;
-                padding: 0 var(--spacing-xs);
-                overflow: visible; /* ensure pills are not clipped */
+                padding: 0;
+                max-width: 100%;
+                overflow: hidden;
             }
 
             .date-strip {
-                grid-auto-columns: minmax(70px, 1fr);
-                justify-content: center;
-                overflow: visible; /* keep pills fully visible */
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .date-strip::-webkit-scrollbar {
+                display: none;
             }
 
             .date-strip .date-pill {
-                min-width: auto;
+                flex-shrink: 0;
+                min-width: 70px;
                 padding: var(--spacing-xs) var(--spacing-sm);
             }
 
@@ -857,23 +883,24 @@
                 padding: var(--spacing-sm) var(--spacing-md);
             }
 
-            /* ===== MOBILE HORIZONTAL SCROLL FIX ===== */
-            /* Prevent any element from causing horizontal overflow on mobile */
+            /* ===== iOS / Tablet Horizontal Scroll Lock — SAFE FIX ===== */
+            /* Prevent any element from causing horizontal overflow on mobile/tablet */
             
-            /* iOS SAFARI OVERFLOW FIX — Replace 100vw with 100% */
             /* Force all content to stay within viewport */
+            html,
             body {
-                overflow-x: hidden;
-                max-width: 100%; /* Changed from 100vw - iOS Safari bug fix */
+                overflow-x: hidden !important;
+                max-width: 100% !important;
                 width: 100%;
+                position: relative;
             }
 
             /* Ensure date-strip-wrapper doesn't overflow */
             .date-strip-wrapper {
                 max-width: 100%;
                 width: 100%;
-                overflow: hidden; /* Prevent wrapper from overflowing */
-                padding: 0 var(--spacing-xs);
+                overflow: hidden;
+                padding: 0;
                 box-sizing: border-box;
             }
 
@@ -881,12 +908,13 @@
             .date-strip {
                 overflow-x: auto;
                 overflow-y: hidden;
-                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-                scrollbar-width: none; /* Hide scrollbar on Firefox */
-                -ms-overflow-style: none; /* Hide scrollbar on IE/Edge */
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
                 width: 100%;
                 max-width: 100%;
                 box-sizing: border-box;
+                flex-wrap: nowrap;
             }
 
             /* Hide scrollbar on Webkit browsers */
@@ -896,7 +924,7 @@
 
             /* Ensure date pills don't cause overflow */
             .date-pill {
-                flex-shrink: 0; /* Prevent pills from shrinking */
+                flex-shrink: 0;
                 min-width: 70px;
                 max-width: 80px;
                 padding: var(--spacing-xs) var(--spacing-sm);
@@ -910,14 +938,19 @@
                 padding: var(--spacing-xs) var(--spacing-sm);
             }
 
-            /* iOS SAFARI OVERFLOW FIX — Constrain all containers to viewport width */
+            /* Constrain all containers to viewport width */
             .devotion-controls,
             .devotion-container,
             .devotion-section,
-            .share-section {
-                max-width: 100%; /* Changed from 100vw - iOS Safari bug fix */
+            .share-section,
+            header,
+            nav,
+            main {
+                max-width: 100%;
                 width: 100%;
                 box-sizing: border-box;
+                overflow-x: hidden;
+            }
             }
 
             /* iOS SAFARI OVERFLOW FIX — Ensure hero section doesn't overflow */
@@ -959,25 +992,34 @@
                 max-width: 45%;
             }
 
-            /* ===== FINAL iOS SAFARI OVERFLOW FIX ===== */
-            /* Force ALL elements to respect viewport bounds */
-            * {
+            /* Prevent text content from causing overflow */
+            .scripture-text,
+            .devotion-text {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
                 max-width: 100%;
-                box-sizing: border-box;
+            }
+
+            /* Ensure images don't overflow */
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            /* Fix share buttons on mobile */
+            .share-buttons,
+            .simple-share-buttons {
+                max-width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
             }
             
             /* Prevent flex/grid items from overflowing */
             .devotion-controls-row > *,
-            .date-strip-wrapper > *,
             .jump-controls > *,
             .simple-share-buttons > * {
                 min-width: 0;
                 flex-shrink: 1;
-            }
-            
-            /* iOS-specific touch scrolling for date strip */
-            .date-strip {
-                -webkit-overflow-scrolling: touch;
             }
         }
     </style>
