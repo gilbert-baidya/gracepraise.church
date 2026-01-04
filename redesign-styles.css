@@ -2495,6 +2495,45 @@ footer {
    Responsive Design
    ======================================== */
 
+/* TABLET HEADER NAV UNLOCK — SAFE FIX */
+/* iPad/Tablet: Allow nav items to wrap into 2 rows to prevent horizontal clipping */
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Allow nav items to wrap on tablet - prevents horizontal overflow */
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        max-width: calc(100% - 120px); /* Reserve space for logo */
+        row-gap: var(--spacing-xs);
+    }
+    
+    /* Slightly reduce nav item spacing on tablet */
+    .nav-links {
+        gap: var(--spacing-sm);
+    }
+    
+    .nav-links a {
+        font-size: 0.85rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    /* Ensure nav container doesn't overflow */
+    .nav-container {
+        flex-wrap: nowrap;
+        max-width: 100%;
+    }
+    
+    /* Ensure header itself is contained */
+    header {
+        max-width: 100%;
+        overflow-x: visible; /* Allow wrapping, not clipping */
+    }
+    
+    nav {
+        max-width: 100%;
+        overflow-x: visible;
+    }
+}
+
 @media (max-width: 768px) {
     :root {
         --container-padding: var(--spacing-md);
