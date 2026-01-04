@@ -1,0 +1,85 @@
+==========================================================
+iOS SAFARI HORIZONTAL SCROLL FIX - TESTING CHECKLIST
+==========================================================
+
+📱 TEST ON REAL iPHONE DEVICE (Safari Browser)
+
+Step 1: Open Daily Devotion Page
+---------------------------------
+URL: https://gilbert-baidya.github.io/gracepraise.church/daily-devotion.html
+OR: http://localhost:8001/daily-devotion.html (if testing locally)
+
+Step 2: Portrait Mode Tests
+---------------------------------
+[ ] Try to swipe left/right on page → Should NOT scroll horizontally
+[ ] Swipe on date carousel → Should ONLY scroll carousel
+[ ] All content visible and not cut off
+[ ] Language toggle works
+[ ] Month dropdown works
+[ ] Day input works
+[ ] "Go" and "Today" buttons work
+[ ] Share buttons visible and functional
+
+Step 3: Landscape Mode Tests
+---------------------------------
+[ ] Rotate to landscape
+[ ] Try to swipe left/right → Should NOT scroll horizontally
+[ ] Layout looks good
+[ ] All buttons accessible
+[ ] No overlapping content
+
+Step 4: Navigation Tests
+---------------------------------
+[ ] Tap hamburger menu (top right)
+[ ] Menu opens smoothly
+[ ] Tap "About" → Dropdown expands
+[ ] Tap "Devotion" → Dropdown expands
+[ ] Only one dropdown open at a time
+[ ] Tap outside or overlay → Menu closes
+[ ] Links work
+
+Step 5: Content Tests
+---------------------------------
+[ ] Read devotion text → No horizontal scroll
+[ ] View scripture section → Displays properly
+[ ] Scroll down → No horizontal movement
+[ ] Images (if any) → Stay within bounds
+
+==========================================================
+EXPECTED RESULTS (ALL MUST PASS)
+==========================================================
+✅ NO horizontal scrolling on page
+✅ Date carousel ONLY scrolls horizontally (intended)
+✅ All buttons and controls work
+✅ Layout looks identical to before
+✅ No visual bugs or clipping
+
+==========================================================
+IF ISSUE PERSISTS
+==========================================================
+1. Clear Safari cache:
+   Settings → Safari → Clear History and Website Data
+
+2. Force refresh page:
+   Pull down to refresh OR close/reopen Safari
+
+3. Check network:
+   Make sure latest version loaded (check browser console)
+
+4. Report findings:
+   - Screenshot the issue
+   - Note which specific element causes horizontal scroll
+   - Test in Chrome iOS (for comparison)
+
+==========================================================
+DESKTOP VERIFICATION (OPTIONAL)
+==========================================================
+Open same page on desktop browser:
+[ ] Responsive design works (resize window)
+[ ] No horizontal scroll at any width
+[ ] Desktop layout unchanged
+[ ] Mobile breakpoint (768px) works
+
+==========================================================
+STATUS: READY FOR REAL-DEVICE TESTING ✅
+==========================================================

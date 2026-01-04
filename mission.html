@@ -193,11 +193,9 @@
         </div>
     </footer>
 
+    <!-- Sticky Header Script -->
     <script>
         const header = document.querySelector('header');
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        const mobileOverlay = document.querySelector('.mobile-overlay');
 
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 50) {
@@ -206,28 +204,9 @@
                 header.classList.remove('scrolled');
             }
         });
-
-        function toggleMobileMenu() {
-            navLinks.classList.toggle('mobile-open');
-            mobileOverlay.classList.toggle('active');
-            document.body.style.overflow = navLinks.classList.contains('mobile-open') ? 'hidden' : '';
-        }
-
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-        }
-
-        if (mobileOverlay) {
-            mobileOverlay.addEventListener('click', toggleMobileMenu);
-        }
-
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (navLinks.classList.contains('mobile-open')) {
-                    toggleMobileMenu();
-                }
-            });
-        });
     </script>
+    
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js"></script>
 </body>
 </html>

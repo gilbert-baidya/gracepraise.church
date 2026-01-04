@@ -268,93 +268,10 @@
             
             lastScroll = currentScroll;
         });
-
-        // Mobile menu toggle
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        const mobileOverlay = document.querySelector('.mobile-overlay');
-
-        function toggleMobileMenu() {
-            navLinks.classList.toggle('mobile-open');
-            mobileOverlay.classList.toggle('active');
-            document.body.style.overflow = navLinks.classList.contains('mobile-open') ? 'hidden' : '';
-        }
-
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-        }
-
-        if (mobileOverlay) {
-            mobileOverlay.addEventListener('click', toggleMobileMenu);
-        }
-
-        // Close mobile menu when link is clicked
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (navLinks.classList.contains('mobile-open')) {
-                    toggleMobileMenu();
-                }
-            });
-        });
-
-        // Dropdown menu accessibility and keyboard navigation
-        const navDropdown = document.querySelector('.nav-dropdown');
-        if (navDropdown) {
-            const dropdownToggle = navDropdown.querySelector('a[aria-haspopup]');
-            const dropdownMenu = navDropdown.querySelector('.dropdown-menu');
-            const dropdownLinks = dropdownMenu ? dropdownMenu.querySelectorAll('a') : [];
-
-            // Handle keyboard navigation
-            if (dropdownToggle) {
-                dropdownToggle.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        const isExpanded = dropdownToggle.getAttribute('aria-expanded') === 'true';
-                        dropdownToggle.setAttribute('aria-expanded', !isExpanded);
-                        
-                        if (!isExpanded && dropdownLinks.length > 0) {
-                            dropdownLinks[0].focus();
-                        }
-                    } else if (e.key === 'Escape') {
-                        dropdownToggle.setAttribute('aria-expanded', 'false');
-                        dropdownToggle.focus();
-                    }
-                });
-
-                // Update aria-expanded on hover
-                navDropdown.addEventListener('mouseenter', () => {
-                    dropdownToggle.setAttribute('aria-expanded', 'true');
-                });
-
-                navDropdown.addEventListener('mouseleave', () => {
-                    dropdownToggle.setAttribute('aria-expanded', 'false');
-                });
-            }
-
-            // Handle keyboard navigation within dropdown
-            dropdownLinks.forEach((link, index) => {
-                link.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowDown') {
-                        e.preventDefault();
-                        if (index < dropdownLinks.length - 1) {
-                            dropdownLinks[index + 1].focus();
-                        }
-                    } else if (e.key === 'ArrowUp') {
-                        e.preventDefault();
-                        if (index > 0) {
-                            dropdownLinks[index - 1].focus();
-                        } else {
-                            dropdownToggle.focus();
-                        }
-                    } else if (e.key === 'Escape') {
-                        e.preventDefault();
-                        dropdownToggle.setAttribute('aria-expanded', 'false');
-                        dropdownToggle.focus();
-                    }
-                });
-            });
-        }
     </script>
+    
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js"></script>
     <script src="countdown.js"></script>
 </body>
 </html>

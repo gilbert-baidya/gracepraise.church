@@ -1026,25 +1026,6 @@
 
     <!-- JavaScript -->
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        const mobileOverlay = document.querySelector('.mobile-overlay');
-
-        function toggleMobileMenu() {
-            navLinks.classList.toggle('mobile-open');
-            mobileOverlay.classList.toggle('active');
-            document.body.style.overflow = navLinks.classList.contains('mobile-open') ? 'hidden' : '';
-        }
-
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-        }
-
-        if (mobileOverlay) {
-            mobileOverlay.addEventListener('click', toggleMobileMenu);
-        }
-
         // Method Card Selection
         const methodCards = document.querySelectorAll('.method-card');
         const contentSections = document.querySelectorAll('.content-section');
@@ -1158,5 +1139,8 @@
             lastScroll = currentScroll;
         });
     </script>
+    
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js"></script>
 </body>
 </html>

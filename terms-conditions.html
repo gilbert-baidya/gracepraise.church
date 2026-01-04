@@ -203,34 +203,10 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        const mobileOverlay = document.querySelector('.mobile-overlay');
-
-        function toggleMobileMenu() {
-            navLinks.classList.toggle('mobile-open');
-            mobileOverlay.classList.toggle('active');
-            document.body.style.overflow = navLinks.classList.contains('mobile-open') ? 'hidden' : '';
-        }
-
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-        }
-
-        if (mobileOverlay) {
-            mobileOverlay.addEventListener('click', toggleMobileMenu);
-        }
-
-        // Dropdown functionality
-        document.querySelectorAll('.nav-dropdown > a').forEach(dropdown => {
-            dropdown.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    this.parentElement.classList.toggle('active');
-                }
-            });
-        });
+        // No page-specific JavaScript needed
     </script>
+    
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js"></script>
 </body>
 </html>
