@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="countdown.css">
     
     <style>
-        /* ===== iOS / Tablet Horizontal Scroll Lock — SAFE FIX ===== */
+        /* ===== iPad-only horizontal overflow fix (safe, non-breaking) ===== */
         /* Global box-sizing and overflow control */
         *,
         *::before,
@@ -61,7 +61,7 @@
             padding: 0;
         }
         
-        /* iOS Safari specific fix for viewport width calculation */
+        /* iOS Safari / iPad specific fix for viewport width calculation */
         @supports (-webkit-touch-callout: none) {
             html,
             body {
@@ -82,7 +82,21 @@
             max-width: 100%;
             box-sizing: border-box;
         }
-        /* ===== END iOS / Tablet Horizontal Scroll Lock ===== */
+        
+        /* iPad-only horizontal overflow fix (safe, non-breaking) */
+        /* Prevent box-shadows and transforms from causing overflow */
+        header, nav, .nav-container {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        /* Contain shadows within viewport */
+        .devotion-controls,
+        .devotion-section,
+        .share-section {
+            max-width: calc(100% - 2px);
+        }
+        /* ===== END iPad horizontal overflow fix ===== */
         
         /* Daily Devotion Page Specific Styles */
         
@@ -93,6 +107,9 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .devotion-hero h1 {
@@ -256,6 +273,14 @@
         .date-pill:hover {
             border-color: var(--color-primary);
             transform: translateY(-1px);
+        }
+        
+        /* iPad-only horizontal overflow fix (safe, non-breaking) */
+        /* Prevent transform from causing horizontal scroll */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .date-pill:hover {
+                transform: scale(0.98);
+            }
         }
 
         .date-nav-btn {
@@ -466,6 +491,14 @@
         .share-btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
+        }
+        
+        /* iPad-only horizontal overflow fix (safe, non-breaking) */
+        /* Contain shadow within viewport */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .share-btn:hover {
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            }
         }
         
         .share-btn:active {
@@ -749,6 +782,15 @@
             transform: translateX(2px);
         }
         
+        /* iPad-only horizontal overflow fix (safe, non-breaking) */
+        /* Prevent translateX from causing horizontal scroll on iPad */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .devotion-nav-btn.prev:hover,
+            .devotion-nav-btn.next:hover {
+                transform: translateY(-1px);
+            }
+        }
+        
         .devotion-nav-btn:focus-visible {
             outline: 3px solid var(--color-secondary);
             outline-offset: 2px;
@@ -883,7 +925,7 @@
                 padding: var(--spacing-sm) var(--spacing-md);
             }
 
-            /* ===== iOS / Tablet Horizontal Scroll Lock — SAFE FIX ===== */
+            /* ===== iPad-only horizontal overflow fix (safe, non-breaking) ===== */
             /* Prevent any element from causing horizontal overflow on mobile/tablet */
             
             /* Force all content to stay within viewport */
@@ -893,6 +935,11 @@
                 max-width: 100% !important;
                 width: 100%;
                 position: relative;
+            }
+            
+            /* Lock all containers to viewport width */
+            * {
+                max-width: 100%;
             }
 
             /* Ensure date-strip-wrapper doesn't overflow */
@@ -945,17 +992,34 @@
             .share-section,
             header,
             nav,
-            main {
+            main,
+            .nav-container {
                 max-width: 100%;
                 width: 100%;
                 box-sizing: border-box;
                 overflow-x: hidden;
             }
+            
+            /* iPad-only horizontal overflow fix (safe, non-breaking) */
+            /* Ensure date strip container doesn't cause page scroll */
+            .date-strip-wrapper {
+                position: relative;
+                contain: layout;
+            }
+            
+            /* Prevent any overflow from transforms or shadows */
+            .date-pill,
+            .date-nav-btn,
+            .share-btn,
+            .devotion-nav-btn {
+                will-change: auto;
+            }
             }
 
-            /* iOS SAFARI OVERFLOW FIX — Ensure hero section doesn't overflow */
+            /* iPad-only horizontal overflow fix (safe, non-breaking) */
+            /* Ensure hero section doesn't overflow */
             .devotion-hero {
-                max-width: 100%; /* Changed from 100vw - iOS Safari bug fix */
+                max-width: 100%;
                 width: 100%;
                 overflow: hidden;
                 box-sizing: border-box;
@@ -1020,6 +1084,81 @@
             .simple-share-buttons > * {
                 min-width: 0;
                 flex-shrink: 1;
+            }
+        }
+        
+        /* ===== iPad-only horizontal overflow fix (safe, non-breaking) ===== */
+        /* Dedicated iPad media query to prevent horizontal scrolling */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            /* Lock viewport at root level */
+            html {
+                overflow-x: hidden !important;
+                max-width: 100% !important;
+            }
+            
+            body {
+                overflow-x: hidden !important;
+                max-width: 100% !important;
+            }
+            
+            /* Ensure header/nav stays within viewport */
+            header,
+            nav,
+            .nav-container {
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+                overflow-x: hidden;
+            }
+            
+            /* Contain all major sections */
+            main,
+            .devotion-hero,
+            .devotion-controls,
+            .devotion-container,
+            .devotion-section,
+            .share-section,
+            .action-buttons-section {
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+                overflow-x: hidden;
+            }
+            
+            /* Prevent box-shadows from extending beyond viewport */
+            .devotion-controls,
+            .devotion-section,
+            .share-section {
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
+            
+            /* Ensure date strip doesn't cause page overflow */
+            .date-strip-wrapper {
+                max-width: 100%;
+                overflow: hidden;
+                position: relative;
+            }
+            
+            .date-strip {
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Replace horizontal transforms with safe alternatives */
+            .devotion-nav-btn:hover {
+                transform: translateY(-1px);
+            }
+            
+            /* Prevent any translateX that might cause overflow */
+            .share-btn:hover {
+                transform: scale(0.98);
+            }
+            
+            /* Ensure all images respect viewport */
+            img {
+                max-width: 100% !important;
+                height: auto;
             }
         }
     </style>

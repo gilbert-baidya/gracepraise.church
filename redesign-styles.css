@@ -2495,9 +2495,20 @@ footer {
    Responsive Design
    ======================================== */
 
-/* TABLET HEADER NAV UNLOCK — SAFE FIX */
+/* iPad-only horizontal overflow fix (safe, non-breaking) */
 /* iPad/Tablet: Allow nav items to wrap into 2 rows to prevent horizontal clipping */
 @media (min-width: 769px) and (max-width: 1024px) {
+    /* Lock horizontal overflow at root level for iPad */
+    html {
+        overflow-x: hidden !important;
+        max-width: 100%;
+    }
+    
+    body {
+        overflow-x: hidden !important;
+        max-width: 100%;
+    }
+    
     /* Allow nav items to wrap on tablet - prevents horizontal overflow */
     .nav-links {
         flex-wrap: wrap;
@@ -2520,17 +2531,32 @@ footer {
     .nav-container {
         flex-wrap: nowrap;
         max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
     
     /* Ensure header itself is contained */
     header {
         max-width: 100%;
-        overflow-x: visible; /* Allow wrapping, not clipping */
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
     
     nav {
         max-width: 100%;
-        overflow-x: visible;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+    
+    /* Prevent any container from exceeding viewport */
+    .container,
+    main,
+    section,
+    article {
+        max-width: 100%;
+        box-sizing: border-box;
     }
 }
 
