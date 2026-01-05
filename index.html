@@ -279,6 +279,69 @@
             </div>
         </section>
 
+        <!-- GPBC Content Rotator – isolated, safe to remove -->
+        <section class="gpbc-content-rotator" id="gpbc-content-rotator" aria-label="Featured content">
+            <div class="gpbc-rotator-container">
+                <div class="gpbc-rotator-viewport">
+                    <!-- Slide 1 -->
+                    <article class="gpbc-rotator-slide gpbc-slide-active" data-slide="1">
+                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.85), rgba(201, 169, 97, 0.75)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%231e3a5f%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
+                        </div>
+                        <div class="gpbc-slide-content">
+                            <p class="gpbc-slide-meta">Join Us This Sunday</p>
+                            <h3 class="gpbc-slide-title">Experience Worship Together</h3>
+                            <p class="gpbc-slide-description">Gather with us for heartfelt worship, biblical teaching, and genuine fellowship in Christ.</p>
+                            <a href="#next-service" class="gpbc-slide-cta">View Service Times</a>
+                        </div>
+                    </article>
+                    
+                    <!-- Slide 2 -->
+                    <article class="gpbc-rotator-slide" data-slide="2">
+                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.85), rgba(201, 169, 97, 0.75)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%232d5a8f%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
+                        </div>
+                        <div class="gpbc-slide-content">
+                            <p class="gpbc-slide-meta">Daily Devotions</p>
+                            <h3 class="gpbc-slide-title">Grow Closer to God Daily</h3>
+                            <p class="gpbc-slide-description">Start each day with Scripture-based devotions crafted to strengthen your walk with Christ.</p>
+                            <a href="daily-devotion.html" class="gpbc-slide-cta">Read Today's Devotion</a>
+                        </div>
+                    </article>
+                    
+                    <!-- Slide 3 -->
+                    <article class="gpbc-rotator-slide" data-slide="3">
+                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.85), rgba(201, 169, 97, 0.75)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%23152b47%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
+                        </div>
+                        <div class="gpbc-slide-content">
+                            <p class="gpbc-slide-meta">Prayer & Support</p>
+                            <h3 class="gpbc-slide-title">We're Here to Pray With You</h3>
+                            <p class="gpbc-slide-description">Share your prayer requests with our caring community. You are not alone in your journey.</p>
+                            <a href="prayer-request.html" class="gpbc-slide-cta">Submit Prayer Request</a>
+                        </div>
+                    </article>
+                    
+                    <!-- Slide 4 -->
+                    <article class="gpbc-rotator-slide" data-slide="4">
+                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.85), rgba(201, 169, 97, 0.75)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%23c9a961%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
+                        </div>
+                        <div class="gpbc-slide-content">
+                            <p class="gpbc-slide-meta">Get Connected</p>
+                            <h3 class="gpbc-slide-title">Find Your Place in Our Family</h3>
+                            <p class="gpbc-slide-description">Discover community groups, ministry opportunities, and ways to serve alongside fellow believers.</p>
+                            <a href="#new-here" class="gpbc-slide-cta">Learn More</a>
+                        </div>
+                    </article>
+                </div>
+                
+                <!-- Navigation Dots -->
+                <div class="gpbc-rotator-nav" role="tablist" aria-label="Content slides navigation">
+                    <button type="button" class="gpbc-nav-dot gpbc-dot-active" data-slide-nav="1" role="tab" aria-selected="true" aria-label="Go to slide 1"></button>
+                    <button type="button" class="gpbc-nav-dot" data-slide-nav="2" role="tab" aria-selected="false" aria-label="Go to slide 2"></button>
+                    <button type="button" class="gpbc-nav-dot" data-slide-nav="3" role="tab" aria-selected="false" aria-label="Go to slide 3"></button>
+                    <button type="button" class="gpbc-nav-dot" data-slide-nav="4" role="tab" aria-selected="false" aria-label="Go to slide 4"></button>
+                </div>
+            </div>
+        </section>
+
         <!-- New Here -->
         <section class="new-here" id="new-here" aria-labelledby="new-here-heading">
             <h2 id="new-here-heading">
@@ -901,6 +964,378 @@
                 card.classList.add('gpbc-visible');
             });
         }
+    })();
+    </script>
+    
+    <!-- GPBC Content Rotator – isolated, safe to remove (CSS) -->
+    <style>
+    /* SCOPED STYLES - Only affects .gpbc-content-rotator */
+    .gpbc-content-rotator {
+        background: #faf8f5;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .gpbc-rotator-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
+        position: relative;
+    }
+    
+    .gpbc-rotator-viewport {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        overflow: hidden;
+    }
+    
+    /* Individual Slide */
+    .gpbc-rotator-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .gpbc-rotator-slide.gpbc-slide-active {
+        opacity: 1;
+        visibility: visible;
+        z-index: 1;
+    }
+    
+    /* Slide Background */
+    .gpbc-slide-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 0;
+    }
+    
+    /* Slide Content */
+    .gpbc-slide-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        padding: 3rem 2rem;
+        text-align: center;
+        color: #ffffff;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+    }
+    
+    .gpbc-slide-active .gpbc-slide-content {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .gpbc-slide-meta {
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #c9a961;
+        margin-bottom: 1rem;
+    }
+    
+    .gpbc-slide-title {
+        font-size: 3rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        color: #ffffff;
+    }
+    
+    .gpbc-slide-description {
+        font-size: 1.25rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        color: rgba(255, 255, 255, 0.95);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .gpbc-slide-cta {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        background: #c9a961;
+        color: #1e3a5f;
+        text-decoration: none;
+        border-radius: 9999px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .gpbc-slide-cta:hover {
+        background: #ffffff;
+        color: #1e3a5f;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .gpbc-slide-cta:focus-visible {
+        outline: 2px solid #c9a961;
+        outline-offset: 3px;
+    }
+    
+    /* Navigation Dots */
+    .gpbc-rotator-nav {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.75rem;
+        z-index: 10;
+    }
+    
+    .gpbc-nav-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.4);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 0;
+    }
+    
+    .gpbc-nav-dot:hover {
+        background: rgba(255, 255, 255, 0.7);
+        transform: scale(1.2);
+    }
+    
+    .gpbc-nav-dot.gpbc-dot-active {
+        background: #c9a961;
+        width: 32px;
+        border-radius: 6px;
+    }
+    
+    .gpbc-nav-dot:focus-visible {
+        outline: 2px solid #c9a961;
+        outline-offset: 3px;
+    }
+    
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+        .gpbc-rotator-slide,
+        .gpbc-slide-content,
+        .gpbc-slide-cta,
+        .gpbc-nav-dot {
+            transition: none;
+        }
+        
+        .gpbc-slide-content {
+            opacity: 1;
+            transform: none;
+        }
+    }
+    
+    /* Tablet */
+    @media (min-width: 768px) and (max-width: 1024px) {
+        .gpbc-rotator-viewport {
+            height: 450px;
+        }
+        
+        .gpbc-slide-title {
+            font-size: 2.5rem;
+        }
+        
+        .gpbc-slide-description {
+            font-size: 1.125rem;
+        }
+        
+        .gpbc-slide-content {
+            padding: 2rem 1.5rem;
+        }
+    }
+    
+    /* Mobile */
+    @media (max-width: 767px) {
+        .gpbc-rotator-viewport {
+            height: 400px;
+        }
+        
+        .gpbc-slide-content {
+            padding: 2rem 1rem;
+        }
+        
+        .gpbc-slide-meta {
+            font-size: 0.75rem;
+        }
+        
+        .gpbc-slide-title {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .gpbc-slide-description {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .gpbc-slide-cta {
+            padding: 0.875rem 2rem;
+            font-size: 0.875rem;
+        }
+        
+        .gpbc-rotator-nav {
+            bottom: 1.5rem;
+        }
+    }
+    </style>
+    
+    <!-- GPBC Content Rotator – isolated, safe to remove (JavaScript) -->
+    <script>
+    (function() {
+        'use strict';
+        
+        const rotatorSection = document.querySelector('.gpbc-content-rotator');
+        if (!rotatorSection) return;
+        
+        const slides = document.querySelectorAll('.gpbc-rotator-slide');
+        const navDots = document.querySelectorAll('.gpbc-nav-dot');
+        const totalSlides = slides.length;
+        
+        if (totalSlides === 0) return;
+        
+        let currentSlide = 0;
+        let rotationInterval = null;
+        let isPaused = false;
+        
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const ROTATION_DELAY = 5000; // 5 seconds
+        
+        // Function to show specific slide
+        function showSlide(index) {
+            // Remove active class from all slides and dots
+            slides.forEach(slide => {
+                slide.classList.remove('gpbc-slide-active');
+            });
+            navDots.forEach(dot => {
+                dot.classList.remove('gpbc-dot-active');
+                dot.setAttribute('aria-selected', 'false');
+            });
+            
+            // Add active class to current slide and dot
+            slides[index].classList.add('gpbc-slide-active');
+            navDots[index].classList.add('gpbc-dot-active');
+            navDots[index].setAttribute('aria-selected', 'true');
+            
+            currentSlide = index;
+        }
+        
+        // Function to go to next slide
+        function nextSlide() {
+            const next = (currentSlide + 1) % totalSlides;
+            showSlide(next);
+        }
+        
+        // Function to start auto-rotation
+        function startRotation() {
+            if (prefersReducedMotion || isPaused) return;
+            
+            stopRotation(); // Clear any existing interval
+            rotationInterval = setInterval(nextSlide, ROTATION_DELAY);
+        }
+        
+        // Function to stop auto-rotation
+        function stopRotation() {
+            if (rotationInterval) {
+                clearInterval(rotationInterval);
+                rotationInterval = null;
+            }
+        }
+        
+        // Dot navigation click handlers
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', function() {
+                showSlide(index);
+                stopRotation();
+                startRotation(); // Restart rotation after manual change
+            });
+        });
+        
+        // Pause on hover (desktop only)
+        if (!prefersReducedMotion) {
+            rotatorSection.addEventListener('mouseenter', function() {
+                isPaused = true;
+                stopRotation();
+            });
+            
+            rotatorSection.addEventListener('mouseleave', function() {
+                isPaused = false;
+                startRotation();
+            });
+        }
+        
+        // Pause when tab is not visible
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                stopRotation();
+            } else if (!prefersReducedMotion && !isPaused) {
+                startRotation();
+            }
+        });
+        
+        // Pause on touch devices when user interacts
+        let touchStartY = 0;
+        rotatorSection.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+            stopRotation();
+        }, { passive: true });
+        
+        rotatorSection.addEventListener('touchend', function() {
+            if (!prefersReducedMotion) {
+                setTimeout(() => {
+                    if (!isPaused) startRotation();
+                }, 2000); // Resume after 2 seconds
+            }
+        });
+        
+        // Keyboard navigation
+        rotatorSection.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+                showSlide(prev);
+                stopRotation();
+                startRotation();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                nextSlide();
+                stopRotation();
+                startRotation();
+            }
+        });
+        
+        // Initialize: Start auto-rotation if motion is allowed
+        if (!prefersReducedMotion) {
+            startRotation();
+        }
+        
+        // Ensure first slide is visible
+        showSlide(0);
     })();
     </script>
     
