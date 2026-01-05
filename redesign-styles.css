@@ -3443,3 +3443,167 @@ footer p.footer-links {
         grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     }
 }
+
+/* ========================================
+   GPBC Faith Journey Section – safe isolated block
+   ======================================== */
+
+.faith-journey {
+    background: var(--color-background);
+    padding: var(--spacing-2xl) var(--spacing-md);
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.faith-journey .container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    width: 100%;
+}
+
+.faith-journey h2 {
+    font-size: var(--font-4xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.faith-journey-intro {
+    font-size: var(--font-lg);
+    color: var(--color-text-light);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--spacing-xl);
+    line-height: var(--leading-relaxed);
+}
+
+.faith-journey-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
+    width: 100%;
+    max-width: 100%;
+}
+
+.faith-journey-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    text-align: center;
+    border: 1px solid var(--color-border);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.faith-journey-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.faith-journey-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.faith-journey-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.faith-journey-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.faith-journey-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-secondary);
+}
+
+.faith-journey-card .card-icon {
+    font-size: var(--font-5xl);
+    margin-bottom: var(--spacing-md);
+    line-height: 1;
+}
+
+.faith-journey-card h3 {
+    font-size: var(--font-xl);
+    font-weight: var(--font-semibold);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.faith-journey-card .card-subtitle {
+    font-size: var(--font-base);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    line-height: var(--leading-relaxed);
+    min-height: 3em;
+}
+
+.faith-journey-card .card-verse {
+    font-size: var(--font-sm);
+    color: var(--color-secondary);
+    font-style: italic;
+    font-weight: var(--font-medium);
+}
+
+/* Tablet (iPad) - 2 columns */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .faith-journey-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    .faith-journey h2 {
+        font-size: var(--font-3xl);
+    }
+}
+
+/* Mobile - stacked vertically */
+@media (max-width: 767px) {
+    .faith-journey {
+        padding: var(--spacing-xl) var(--spacing-sm);
+    }
+    
+    .faith-journey h2 {
+        font-size: var(--font-2xl);
+    }
+    
+    .faith-journey-intro {
+        font-size: var(--font-base);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .faith-journey-cards {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .faith-journey-card {
+        padding: var(--spacing-md);
+    }
+    
+    .faith-journey-card .card-icon {
+        font-size: var(--font-4xl);
+    }
+    
+    .faith-journey-card h3 {
+        font-size: var(--font-lg);
+    }
+    
+    .faith-journey-card .card-subtitle {
+        font-size: var(--font-sm);
+        min-height: auto;
+    }
+}
+
