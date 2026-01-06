@@ -1,7 +1,7 @@
 // Calendar Logic
 let currentMonth = 0; // January 2026
 let currentYear = 2026;
-let activeFilters = new Set(['gpbc', 'christian']); // Default to church + Christian events
+let activeFilters = new Set(); // No filters checked by default
 let currentPreset = ''; // No preset active by default
 let selectedDate = null;
 let currentEvent = null;
@@ -32,7 +32,7 @@ if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') 
         // Generate Calendar Access QR Code
         generateCalendarAccessQR();
         
-        // Ensure filters are set to show GPBC/Christian events by default
+        // Sync checkboxes with current filter state
         updateAdvancedCheckboxes();
         
         // Load events from Google Sheets if configured
