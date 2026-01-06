@@ -3498,7 +3498,8 @@ body.dark {
 }
 
 /* Dark mode - only when manually activated via toggle button */
-[data-theme="dark"] {
+[data-theme="dark"], body[data-theme="dark"],
+body[data-theme="dark"], body[data-theme="dark"] {
     --color-background: #0b1220;
     --color-surface: #111827;
     --color-text: #e5e7eb;
@@ -3512,98 +3513,96 @@ body.dark {
     --color-accent: #fde68a;
     --color-border: #1f2937;
     --color-shadow: rgba(0, 0, 0, 0.35);
-}
-
-[data-theme="dark"] body {
+    
     background-color: var(--color-background);
     color: var(--color-text);
 }
 
 /* Component harmony using variables (no layout changes) */
-[data-theme="dark"] header {
+[data-theme="dark"], body[data-theme="dark"] header {
     background: rgba(17, 24, 39, 0.9);
     border-bottom-color: rgba(96, 165, 250, 0.2);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
-[data-theme="dark"] header.scrolled {
+[data-theme="dark"], body[data-theme="dark"] header.scrolled {
     background: rgba(17, 24, 39, 0.95);
     border-bottom-color: rgba(96, 165, 250, 0.25);
 }
 
-[data-theme="dark"] main,
-[data-theme="dark"] section,
-[data-theme="dark"] .hero,
-[data-theme="dark"] .next-service,
-[data-theme="dark"] .welcome,
-[data-theme="dark"] .special-event-details,
-[data-theme="dark"] .daily-devotion-promo,
-[data-theme="dark"] .page-hero,
-[data-theme="dark"] .visit-section,
-[data-theme="dark"] .visit-section:nth-child(even),
-[data-theme="dark"] .need-help,
-[data-theme="dark"] .next-service-section,
-[data-theme="dark"] .whats-happening,
-[data-theme="dark"] .bible-verse,
-[data-theme="dark"] .new-here {
+[data-theme="dark"], body[data-theme="dark"] main,
+[data-theme="dark"], body[data-theme="dark"] section,
+[data-theme="dark"], body[data-theme="dark"] .hero,
+[data-theme="dark"], body[data-theme="dark"] .next-service,
+[data-theme="dark"], body[data-theme="dark"] .welcome,
+[data-theme="dark"], body[data-theme="dark"] .special-event-details,
+[data-theme="dark"], body[data-theme="dark"] .daily-devotion-promo,
+[data-theme="dark"], body[data-theme="dark"] .page-hero,
+[data-theme="dark"], body[data-theme="dark"] .visit-section,
+[data-theme="dark"], body[data-theme="dark"] .visit-section:nth-child(even),
+[data-theme="dark"], body[data-theme="dark"] .need-help,
+[data-theme="dark"], body[data-theme="dark"] .next-service-section,
+[data-theme="dark"], body[data-theme="dark"] .whats-happening,
+[data-theme="dark"], body[data-theme="dark"] .bible-verse,
+[data-theme="dark"], body[data-theme="dark"] .new-here {
     background: linear-gradient(135deg, #0b1220 0%, #111827 100%);
     color: var(--color-text);
 }
 
-[data-theme="dark"] .service-info,
-[data-theme="dark"] .feature-card,
-[data-theme="dark"] .stat-card,
-[data-theme="dark"] .new-here-card,
-[data-theme="dark"] .service-detail-item,
-[data-theme="dark"] .event-info-item,
-[data-theme="dark"] .devotion-card,
-[data-theme="dark"] .prayer-form-container,
-[data-theme="dark"] .prayer-success-message,
-[data-theme="dark"] .reassurance-box,
-[data-theme="dark"] .success-assurance,
-[data-theme="dark"] .peace-verse,
-[data-theme="dark"] .urgent-help,
-[data-theme="dark"] .info-block {
+[data-theme="dark"], body[data-theme="dark"] .service-info,
+[data-theme="dark"], body[data-theme="dark"] .feature-card,
+[data-theme="dark"], body[data-theme="dark"] .stat-card,
+[data-theme="dark"], body[data-theme="dark"] .new-here-card,
+[data-theme="dark"], body[data-theme="dark"] .service-detail-item,
+[data-theme="dark"], body[data-theme="dark"] .event-info-item,
+[data-theme="dark"], body[data-theme="dark"] .devotion-card,
+[data-theme="dark"], body[data-theme="dark"] .prayer-form-container,
+[data-theme="dark"], body[data-theme="dark"] .prayer-success-message,
+[data-theme="dark"], body[data-theme="dark"] .reassurance-box,
+[data-theme="dark"], body[data-theme="dark"] .success-assurance,
+[data-theme="dark"], body[data-theme="dark"] .peace-verse,
+[data-theme="dark"], body[data-theme="dark"] .urgent-help,
+[data-theme="dark"], body[data-theme="dark"] .info-block {
     background: var(--color-surface);
     border-color: var(--color-border);
     box-shadow: var(--shadow-md);
 }
 
-[data-theme="dark"] .inline-countdown-banner {
+[data-theme="dark"], body[data-theme="dark"] .inline-countdown-banner {
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
-[data-theme="dark"] h1,
-[data-theme="dark"] h2,
-[data-theme="dark"] h3,
-[data-theme="dark"] h4,
-[data-theme="dark"] h5,
-[data-theme="dark"] h6,
-[data-theme="dark"] p,
-[data-theme="dark"] .verse-text,
-[data-theme="dark"] .success-main {
+[data-theme="dark"], body[data-theme="dark"] h1,
+[data-theme="dark"], body[data-theme="dark"] h2,
+[data-theme="dark"], body[data-theme="dark"] h3,
+[data-theme="dark"], body[data-theme="dark"] h4,
+[data-theme="dark"], body[data-theme="dark"] h5,
+[data-theme="dark"], body[data-theme="dark"] h6,
+[data-theme="dark"], body[data-theme="dark"] p,
+[data-theme="dark"], body[data-theme="dark"] .verse-text,
+[data-theme="dark"], body[data-theme="dark"] .success-main {
     color: var(--color-text);
 }
 
-[data-theme="dark"] .verse-reference {
+[data-theme="dark"], body[data-theme="dark"] .verse-reference {
     color: var(--color-secondary);
 }
 
-[data-theme="dark"] footer {
+[data-theme="dark"], body[data-theme="dark"] footer {
     background: linear-gradient(135deg, #0b1220, #0f172a);
     color: var(--color-text);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-[data-theme="dark"] .footer-section a,
-[data-theme="dark"] .footer-col a,
-[data-theme="dark"] .footer-bottom a {
+[data-theme="dark"], body[data-theme="dark"] .footer-section a,
+[data-theme="dark"], body[data-theme="dark"] .footer-col a,
+[data-theme="dark"], body[data-theme="dark"] .footer-bottom a {
     color: var(--color-text);
 }
 
-[data-theme="dark"] .footer-section a:hover,
-[data-theme="dark"] .footer-col a:hover,
-[data-theme="dark"] .footer-bottom a:hover {
+[data-theme="dark"], body[data-theme="dark"] .footer-section a:hover,
+[data-theme="dark"], body[data-theme="dark"] .footer-col a:hover,
+[data-theme="dark"], body[data-theme="dark"] .footer-bottom a:hover {
     color: var(--color-accent);
 }
 
