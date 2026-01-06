@@ -3497,201 +3497,114 @@ body.dark {
     color: var(--color-text);
 }
 
-/* Auto-enable for system dark unless force-light is present */
-@media (prefers-color-scheme: dark) {
-    body:not(.force-light) {
-        --color-background: #0b1220;
-        --color-surface: #111827;
-        --color-text: #e5e7eb;
-        --color-text-light: #9ca3af;
-        --color-text-inverse: #0b1220;
+/* Dark mode - only when manually activated via toggle button */
+[data-theme="dark"] {
+    --color-background: #0b1220;
+    --color-surface: #111827;
+    --color-text: #e5e7eb;
+    --color-text-light: #9ca3af;
+    --color-text-inverse: #0b1220;
 
-        --color-primary: #60a5fa;
-        --color-primary-dark: #3b82f6;
-        --color-primary-light: #1f2937;
-        --color-secondary: #2dd4bf;
-        --color-accent: #fde68a;
-        --color-border: #1f2937;
-        --color-shadow: rgba(0, 0, 0, 0.35);
+    --color-primary: #60a5fa;
+    --color-primary-dark: #3b82f6;
+    --color-primary-light: #1f2937;
+    --color-secondary: #2dd4bf;
+    --color-accent: #fde68a;
+    --color-border: #1f2937;
+    --color-shadow: rgba(0, 0, 0, 0.35);
+}
 
-        background-color: var(--color-background);
-        color: var(--color-text);
-    }
+[data-theme="dark"] body {
+    background-color: var(--color-background);
+    color: var(--color-text);
 }
 
 /* Component harmony using variables (no layout changes) */
-body.dark header {
+[data-theme="dark"] header {
     background: rgba(17, 24, 39, 0.9);
     border-bottom-color: rgba(96, 165, 250, 0.2);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
-body.dark header.scrolled {
+[data-theme="dark"] header.scrolled {
     background: rgba(17, 24, 39, 0.95);
     border-bottom-color: rgba(96, 165, 250, 0.25);
 }
 
-body.dark main,
-body.dark section,
-body.dark .hero,
-body.dark .next-service,
-body.dark .welcome,
-body.dark .special-event-details,
-body.dark .daily-devotion-promo,
-body.dark .page-hero,
-body.dark .visit-section,
-body.dark .visit-section:nth-child(even),
-body.dark .need-help,
-body.dark .next-service-section,
-body.dark .whats-happening,
-body.dark .bible-verse,
-body.dark .new-here {
+[data-theme="dark"] main,
+[data-theme="dark"] section,
+[data-theme="dark"] .hero,
+[data-theme="dark"] .next-service,
+[data-theme="dark"] .welcome,
+[data-theme="dark"] .special-event-details,
+[data-theme="dark"] .daily-devotion-promo,
+[data-theme="dark"] .page-hero,
+[data-theme="dark"] .visit-section,
+[data-theme="dark"] .visit-section:nth-child(even),
+[data-theme="dark"] .need-help,
+[data-theme="dark"] .next-service-section,
+[data-theme="dark"] .whats-happening,
+[data-theme="dark"] .bible-verse,
+[data-theme="dark"] .new-here {
     background: linear-gradient(135deg, #0b1220 0%, #111827 100%);
     color: var(--color-text);
 }
 
-body.dark .service-info,
-body.dark .feature-card,
-body.dark .stat-card,
-body.dark .new-here-card,
-body.dark .service-detail-item,
-body.dark .event-info-item,
-body.dark .devotion-card,
-body.dark .prayer-form-container,
-body.dark .prayer-success-message,
-body.dark .reassurance-box,
-body.dark .success-assurance,
-body.dark .peace-verse,
-body.dark .urgent-help,
-body.dark .info-block {
+[data-theme="dark"] .service-info,
+[data-theme="dark"] .feature-card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .new-here-card,
+[data-theme="dark"] .service-detail-item,
+[data-theme="dark"] .event-info-item,
+[data-theme="dark"] .devotion-card,
+[data-theme="dark"] .prayer-form-container,
+[data-theme="dark"] .prayer-success-message,
+[data-theme="dark"] .reassurance-box,
+[data-theme="dark"] .success-assurance,
+[data-theme="dark"] .peace-verse,
+[data-theme="dark"] .urgent-help,
+[data-theme="dark"] .info-block {
     background: var(--color-surface);
     border-color: var(--color-border);
     box-shadow: var(--shadow-md);
 }
 
-body.dark .inline-countdown-banner {
+[data-theme="dark"] .inline-countdown-banner {
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
-body.dark h1,
-body.dark h2,
-body.dark h3,
-body.dark h4,
-body.dark h5,
-body.dark h6,
-body.dark p,
-body.dark .verse-text,
-body.dark .success-main {
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] p,
+[data-theme="dark"] .verse-text,
+[data-theme="dark"] .success-main {
     color: var(--color-text);
 }
 
-body.dark .verse-reference {
+[data-theme="dark"] .verse-reference {
     color: var(--color-secondary);
 }
 
-body.dark footer {
+[data-theme="dark"] footer {
     background: linear-gradient(135deg, #0b1220, #0f172a);
     color: var(--color-text);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-body.dark .footer-section a,
-body.dark .footer-col a,
-body.dark .footer-bottom a {
+[data-theme="dark"] .footer-section a,
+[data-theme="dark"] .footer-col a,
+[data-theme="dark"] .footer-bottom a {
     color: var(--color-text);
 }
 
-body.dark .footer-section a:hover,
-body.dark .footer-col a:hover,
-body.dark .footer-bottom a:hover {
+[data-theme="dark"] .footer-section a:hover,
+[data-theme="dark"] .footer-col a:hover,
+[data-theme="dark"] .footer-bottom a:hover {
     color: var(--color-accent);
 }
 
-@media (prefers-color-scheme: dark) {
-    body:not(.force-light) header {
-        background: rgba(17, 24, 39, 0.9);
-        border-bottom-color: rgba(96, 165, 250, 0.2);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-    }
-
-    body:not(.force-light) header.scrolled {
-        background: rgba(17, 24, 39, 0.95);
-        border-bottom-color: rgba(96, 165, 250, 0.25);
-    }
-
-    body:not(.force-light) main,
-    body:not(.force-light) section,
-    body:not(.force-light) .hero,
-    body:not(.force-light) .next-service,
-    body:not(.force-light) .welcome,
-    body:not(.force-light) .special-event-details,
-    body:not(.force-light) .daily-devotion-promo,
-    body:not(.force-light) .page-hero,
-    body:not(.force-light) .visit-section,
-    body:not(.force-light) .visit-section:nth-child(even),
-    body:not(.force-light) .need-help,
-    body:not(.force-light) .next-service-section,
-    body:not(.force-light) .whats-happening,
-    body:not(.force-light) .bible-verse,
-    body:not(.force-light) .new-here {
-        background: linear-gradient(135deg, #0b1220 0%, #111827 100%);
-        color: var(--color-text);
-    }
-
-    body:not(.force-light) .service-info,
-    body:not(.force-light) .feature-card,
-    body:not(.force-light) .stat-card,
-    body:not(.force-light) .new-here-card,
-    body:not(.force-light) .service-detail-item,
-    body:not(.force-light) .event-info-item,
-    body:not(.force-light) .devotion-card,
-    body:not(.force-light) .prayer-form-container,
-    body:not(.force-light) .prayer-success-message,
-    body:not(.force-light) .reassurance-box,
-    body:not(.force-light) .success-assurance,
-    body:not(.force-light) .peace-verse,
-    body:not(.force-light) .urgent-help,
-    body:not(.force-light) .info-block {
-        background: var(--color-surface);
-        border-color: var(--color-border);
-        box-shadow: var(--shadow-md);
-    }
-
-    body:not(.force-light) .inline-countdown-banner {
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-    }
-
-    body:not(.force-light) h1,
-    body:not(.force-light) h2,
-    body:not(.force-light) h3,
-    body:not(.force-light) h4,
-    body:not(.force-light) h5,
-    body:not(.force-light) h6,
-    body:not(.force-light) p,
-    body:not(.force-light) .verse-text,
-    body:not(.force-light) .success-main {
-        color: var(--color-text);
-    }
-
-    body:not(.force-light) .verse-reference {
-        color: var(--color-secondary);
-    }
-
-    body:not(.force-light) footer {
-        background: linear-gradient(135deg, #0b1220, #0f172a);
-        color: var(--color-text);
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    body:not(.force-light) .footer-section a,
-    body:not(.force-light) .footer-col a,
-    body:not(.force-light) .footer-bottom a {
-        color: var(--color-text);
-    }
-
-    body:not(.force-light) .footer-section a:hover,
-    body:not(.force-light) .footer-col a:hover,
-    body:not(.force-light) .footer-bottom a:hover {
-        color: var(--color-accent);
-    }
-}
+/* System preference removed - dark mode now manual only via toggle button */
