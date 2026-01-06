@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="countdown.css">
     
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Slick Carousel CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    
+    <!-- Slick Carousel JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -284,7 +294,7 @@
                 <div class="gpbc-rotator-viewport">
                     <!-- Slide 1 -->
                     <article class="gpbc-rotator-slide gpbc-slide-active" data-slide="1">
-                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.85), rgba(201, 169, 97, 0.75)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%231e3a5f%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
+                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.88), rgba(45, 122, 143, 0.72)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%231e3a5f%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
                         </div>
                         <div class="gpbc-slide-content">
                             <p class="gpbc-slide-meta">Join Us This Sunday</p>
@@ -296,7 +306,7 @@
                     
                     <!-- Slide 2 -->
                     <article class="gpbc-rotator-slide" data-slide="2">
-                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.85), rgba(201, 169, 97, 0.75)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%232d5a8f%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
+                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.88), rgba(45, 122, 143, 0.72)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%232d5a8f%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
                         </div>
                         <div class="gpbc-slide-content">
                             <p class="gpbc-slide-meta">Daily Devotions</p>
@@ -308,7 +318,7 @@
                     
                     <!-- Slide 3 -->
                     <article class="gpbc-rotator-slide" data-slide="3">
-                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.85), rgba(201, 169, 97, 0.75)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%23152b47%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
+                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.88), rgba(45, 122, 143, 0.72)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%23152b47%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
                         </div>
                         <div class="gpbc-slide-content">
                             <p class="gpbc-slide-meta">Prayer & Support</p>
@@ -320,7 +330,7 @@
                     
                     <!-- Slide 4 -->
                     <article class="gpbc-rotator-slide" data-slide="4">
-                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.85), rgba(201, 169, 97, 0.75)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%23c9a961%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
+                        <div class="gpbc-slide-background" style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.88), rgba(201, 169, 97, 0.75)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%23c9a961%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
                         </div>
                         <div class="gpbc-slide-content">
                             <p class="gpbc-slide-meta">Get Connected</p>
@@ -342,162 +352,156 @@
         </section>
 
         <!-- GPBC Loop Scroll – Scroll-driven circular slider. Isolated, safe to remove -->
-        <section class="gpbc-loop-scroll" id="gpbc-loop-scroll" aria-label="Transformational Loop">
-            <div class="gpbc-loop-container">
-                <!-- Language Toggle -->
-                <div class="gpbc-loop-lang-toggle">
-                    <button type="button" class="gpbc-loop-lang-btn gpbc-loop-lang-active" data-loop-lang="en">English</button>
-                    <span class="gpbc-loop-lang-divider">|</span>
-                    <button type="button" class="gpbc-loop-lang-btn" data-loop-lang="bn">বাংলা</button>
+        <!-- Get Involved: Transformational Loop with Slick Carousel -->
+        <section class="blocks block-the-loop alignfull" id="block_gpbc_transformational_loop">
+            <div class="container">
+                <div class="content">
+                    <h2 data-aos="fade-up">Get Involved</h2>
+                    <p data-aos="fade-up">
+                        At Grace and Praise, we refer to the discipleship journey as the Transformational Loop – becoming more like Jesus as we grow in faith. We want to help you Follow Jesus with your life, Grow Together in community, Serve One Another with your unique gifts, and Change the World with the love of Christ. If you're ready to take your next step of faith, we are here to help.
+                    </p>
+                    <a aria-label="Experience The Loop" class="button button-teal" data-aos="fade-up" href="/plan-visit.html" target="_self">Experience The Loop</a>
                 </div>
-
-                <div class="gpbc-loop-layout">
-                    <!-- LEFT: Decorative Orbit -->
-                    <div class="gpbc-loop-left">
-                        <div class="gpbc-loop-orbit-wrapper">
-                            <svg class="gpbc-loop-orbit" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Dotted orbit circle -->
-                                <circle cx="200" cy="200" r="180" fill="none" stroke="#c9a961" stroke-width="2" stroke-dasharray="8 12" opacity="0.4"/>
-                                
-                                <!-- Orbit indicator dots (will rotate with scroll) -->
-                                <g class="gpbc-loop-orbit-dots">
-                                    <circle cx="200" cy="20" r="6" fill="#c9a961"/>
-                                    <circle cx="380" cy="200" r="6" fill="#c9a961" opacity="0.6"/>
-                                    <circle cx="200" cy="380" r="6" fill="#c9a961" opacity="0.4"/>
-                                    <circle cx="20" cy="200" r="6" fill="#c9a961" opacity="0.3"/>
-                                </g>
-                            </svg>
+                <div class="loop">
+                    <div class="slider" data-aos="fade-up">
+                        <div>
+                            <div class="heading">
+                                <div class="icon">
+                                    <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M30 5L32 22L28 22Z M30 22L30 45" stroke="#c9a961" stroke-width="4" fill="none" stroke-linecap="round"/>
+                                        <circle cx="30" cy="12" r="8" fill="#c9a961" opacity="0.4"/>
+                                    </svg>
+                                </div>
+                                <h2>Follow Jesus</h2>
+                            </div>
+                            <img loading="lazy" decoding="async" width="1080" height="1080" src="https://picsum.photos/seed/baptism-water/1080/1080" class="attachment-large size-large" alt="Young adults being baptized" />
                         </div>
-                    </div>
-
-                    <!-- CENTER: Main Circle with rotating images -->
-                    <div class="gpbc-loop-center">
-                        <div class="gpbc-loop-circle-wrapper">
-                            <!-- Main circular image container (changes with scroll) -->
-                            <div class="gpbc-loop-main-circle">
-                                <!-- Step 1: Follow Jesus -->
-                                <div class="gpbc-loop-circle-img gpbc-loop-img-active" data-step="0">
-                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cdefs%3E%3CradialGradient id='waterGrad1' cx='40%25' cy='30%25'%3E%3Cstop offset='0%25' style='stop-color:%23a8d5e5'/%3E%3Cstop offset='50%25' style='stop-color:%2386b8ce'/%3E%3Cstop offset='100%25' style='stop-color:%235a8ca8'/%3E%3C/radialGradient%3E%3ClinearGradient id='bgGrad1' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232c3e50'/%3E%3Cstop offset='100%25' style='stop-color:%231a252f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23bgGrad1)' width='1200' height='1200'/%3E%3Crect y='700' width='1200' height='500' fill='url(%23waterGrad1)'/%3E%3Cellipse cx='350' cy='500' rx='80' ry='140' fill='%233d5a6b' opacity='0.7'/%3E%3Cellipse cx='600' cy='480' rx='90' ry='150' fill='%23495f72' opacity='0.8'/%3E%3Cellipse cx='850' cy='510' rx='75' ry='135' fill='%233d5a6b' opacity='0.6'/%3E%3Cellipse cx='370' cy='520' rx='50' ry='60' fill='%23e8c8a0' opacity='0.5'/%3E%3Cellipse cx='600' cy='500' rx='55' ry='65' fill='%23f5d5b0' opacity='0.6'/%3E%3Cellipse cx='830' cy='525' rx='48' ry='58' fill='%23e8c8a0' opacity='0.5'/%3E%3Cpath d='M580,490 Q600,450 620,490' stroke='%23ffffff' stroke-width='4' fill='none' opacity='0.3'/%3E%3Cpath d='M300,750 Q400,720 500,750 Q600,780 700,750 Q800,720 900,750' stroke='%23ffffff' stroke-width='3' fill='none' opacity='0.2'/%3E%3Cpath d='M250,850 Q350,830 450,860 Q550,890 650,860 Q750,830 850,870' stroke='%23c9e4f0' stroke-width='2' fill='none' opacity='0.3'/%3E%3Cellipse cx='400' cy='900' rx='40' ry='15' fill='%23ffffff' opacity='0.15'/%3E%3Cellipse cx='700' cy='920' rx='50' ry='18' fill='%23ffffff' opacity='0.12'/%3E%3Cpath d='M550,300 L570,350 L530,350 Z M550,350 L550,400' stroke='%23c9a961' stroke-width='8' fill='none' opacity='0.4'/%3E%3Ccircle cx='550' cy='320' r='25' fill='%23c9a961' opacity='0.25'/%3E%3C/svg%3E" alt="Follow Jesus - Baptism">
+                        <div>
+                            <div class="heading">
+                                <div class="icon">
+                                    <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M30 40Q25 30 20 20 M30 40Q30 30 30 20 M30 40Q35 30 40 20" stroke="#2d5a8f" stroke-width="3" fill="none"/>
+                                        <circle cx="20" cy="17" r="4" fill="#2d5a8f" opacity="0.7"/>
+                                        <circle cx="30" cy="17" r="4" fill="#2d5a8f" opacity="0.7"/>
+                                        <circle cx="40" cy="17" r="4" fill="#2d5a8f" opacity="0.7"/>
+                                    </svg>
                                 </div>
-                                
-                                <!-- Step 2: Grow Together -->
-                                <div class="gpbc-loop-circle-img" data-step="1">
-                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cdefs%3E%3CradialGradient id='roomGrad' cx='50%25' cy='40%25'%3E%3Cstop offset='0%25' style='stop-color:%23f5e6d3'/%3E%3Cstop offset='50%25' style='stop-color:%23e8d4b8'/%3E%3Cstop offset='100%25' style='stop-color:%23d4b896'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23roomGrad)' width='1200' height='1200'/%3E%3Crect x='150' y='400' width='900' height='600' rx='25' fill='%239b7e56' opacity='0.15'/%3E%3Cellipse cx='350' cy='650' rx='70' ry='100' fill='%236b5742' opacity='0.4'/%3E%3Cellipse cx='480' cy='630' rx='75' ry='105' fill='%237a6652' opacity='0.45'/%3E%3Cellipse cx='600' cy='620' rx='80' ry='110' fill='%238a7662' opacity='0.5'/%3E%3Cellipse cx='720' cy='630' rx='75' ry='105' fill='%237a6652' opacity='0.45'/%3E%3Cellipse cx='850' cy='650' rx='70' ry='100' fill='%236b5742' opacity='0.4'/%3E%3Ccircle cx='350' cy='630' r='38' fill='%23d4a574' opacity='0.5'/%3E%3Ccircle cx='480' cy='615' r='40' fill='%23e0b888' opacity='0.55'/%3E%3Ccircle cx='600' cy='605' r='42' fill='%23ecc89a' opacity='0.6'/%3E%3Ccircle cx='720' cy='615' r='40' fill='%23e0b888' opacity='0.55'/%3E%3Ccircle cx='850' cy='630' r='38' fill='%23d4a574' opacity='0.5'/%3E%3Cellipse cx='600' cy='800' rx='250' ry='100' fill='%236b5742' opacity='0.2'/%3E%3Cpath d='M500,550 Q550,520 600,550 Q650,580 700,550' stroke='%236b5742' stroke-width='8' fill='none' opacity='0.3'/%3E%3Crect x='200' y='850' width='800' height='150' rx='15' fill='%239b7e56' opacity='0.25'/%3E%3Ccircle cx='400' cy='350' r='80' fill='%23c9a961' opacity='0.2'/%3E%3Ccircle cx='800' cy='380' r='60' fill='%23c9a961' opacity='0.15'/%3E%3C/svg%3E" alt="Grow Together - Small Group Prayer">
-                                </div>
-                                
-                                <!-- Step 3: Serve One Another -->
-                                <div class="gpbc-loop-circle-img" data-step="2">
-                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cdefs%3E%3CradialGradient id='warmGrad' cx='50%25' cy='50%25'%3E%3Cstop offset='0%25' style='stop-color:%23f5e6d3'/%3E%3Cstop offset='50%25' style='stop-color:%23e8d4b8'/%3E%3Cstop offset='100%25' style='stop-color:%23d4b896'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23warmGrad)' width='1200' height='1200'/%3E%3Cellipse cx='350' cy='550' rx='100' ry='140' fill='%23c9a961' opacity='0.3'/%3E%3Cellipse cx='850' cy='550' rx='100' ry='140' fill='%23c9a961' opacity='0.3'/%3E%3Cpath d='M350,450 Q300,500 280,570 Q270,620 290,660 L350,600 Z' fill='%239b7e56' opacity='0.4'/%3E%3Cpath d='M850,450 Q900,500 920,570 Q930,620 910,660 L850,600 Z' fill='%239b7e56' opacity='0.4'/%3E%3Ccircle cx='350' cy='480' r='45' fill='%23d4a574' opacity='0.5'/%3E%3Ccircle cx='850' cy='480' r='45' fill='%23d4a574' opacity='0.5'/%3E%3Cpath d='M420,600 Q500,550 580,600' stroke='%236b5742' stroke-width='20' fill='none' stroke-linecap='round' opacity='0.4'/%3E%3Cpath d='M420,620 Q500,670 580,620' stroke='%236b5742' stroke-width='18' fill='none' stroke-linecap='round' opacity='0.35'/%3E%3Cellipse cx='500' cy='750' rx='200' ry='80' fill='%23c9a961' opacity='0.25'/%3E%3Crect x='400' y='720' width='200' height='100' rx='15' fill='%239b7e56' opacity='0.3'/%3E%3Crect x='420' y='740' width='50' height='60' rx='5' fill='%23d4a574' opacity='0.4'/%3E%3Crect x='490' y='740' width='50' height='60' rx='5' fill='%23d4a574' opacity='0.4'/%3E%3Crect x='560' y='740' width='50' height='60' rx='5' fill='%23d4a574' opacity='0.4'/%3E%3Cpath d='M480,550 L520,580 L520,620 L480,650 Z' fill='%23e8d4b8' opacity='0.4'/%3E%3Cpath d='M520,550 L560,580 L560,620 L520,650 Z' fill='%23d4b896' opacity='0.35'/%3E%3Cpath d='M560,550 L600,580 L600,620 L560,650 Z' fill='%23e8d4b8' opacity='0.4'/%3E%3C/svg%3E" alt="Serve One Another - Helping Hands">
-                                </div>
-                                
-                                <!-- Step 4: Change the World -->
-                                <div class="gpbc-loop-circle-img" data-step="3">
-                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cdefs%3E%3ClinearGradient id='streetGrad' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23e8e8e8'/%3E%3Cstop offset='50%25' style='stop-color:%23d4d4d4'/%3E%3Cstop offset='100%25' style='stop-color:%23b8b8b8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23streetGrad)' width='1200' height='1200'/%3E%3Crect x='100' y='300' width='1000' height='600' rx='30' fill='%236b7c8f' opacity='0.3'/%3E%3Crect x='850' y='200' width='300' height='400' rx='20' fill='%234a5f7a' opacity='0.4'/%3E%3Crect x='870' y='220' width='120' height='100' rx='8' fill='%2398a8b8' opacity='0.6'/%3E%3Crect x='1010' y='220' width='120' height='100' rx='8' fill='%2398a8b8' opacity='0.6'/%3E%3Crect x='870' y='340' width='120' height='100' rx='8' fill='%238898a8' opacity='0.5'/%3E%3Crect x='1010' y='340' width='120' height='100' rx='8' fill='%238898a8' opacity='0.5'/%3E%3Cpath d='M150,850 L250,850 L250,950 L150,950 Z' fill='%234a5f7a' opacity='0.3'/%3E%3Crect x='300' y='650' width='200' height='150' rx='15' fill='%23c9a961' opacity='0.4'/%3E%3Crect x='320' y='670' width='50' height='60' rx='5' fill='%23d4b896' opacity='0.5'/%3E%3Crect x='385' y='670' width='50' height='60' rx='5' fill='%23d4b896' opacity='0.5'/%3E%3Crect x='450' y='670' width='50' height='60' rx='5' fill='%23d4b896' opacity='0.5'/%3E%3Crect x='320' y='745' width='50' height='45' rx='5' fill='%23b8955a' opacity='0.45'/%3E%3Crect x='385' y='745' width='50' height='45' rx='5' fill='%23b8955a' opacity='0.45'/%3E%3Crect x='450' y='745' width='50' height='45' rx='5' fill='%23b8955a' opacity='0.45'/%3E%3Cellipse cx='650' cy='700' rx='90' ry='120' fill='%232c3e50' opacity='0.4'/%3E%3Cellipse cx='750' cy='690' rx='85' ry='115' fill='%233d5a6b' opacity='0.45'/%3E%3Ccircle cx='650' cy='660' r='45' fill='%23d4a574' opacity='0.5'/%3E%3Ccircle cx='750' cy='655' r='42' fill='%23e0b888' opacity='0.55'/%3E%3Cpath d='M620,750 Q650,720 680,750' stroke='%23c9a961' stroke-width='8' fill='none' opacity='0.4'/%3E%3Cpath d='M720,745 Q750,715 780,745' stroke='%23c9a961' stroke-width='8' fill='none' opacity='0.4'/%3E%3Cellipse cx='400' cy='550' rx='150' ry='80' fill='%234a5f7a' opacity='0.2'/%3E%3C/svg%3E" alt="Change the World - Community Outreach">
-                                </div>
+                                <h2>Grow Together</h2>
                             </div>
-
-                            <!-- Colored dots around the circle edge -->
-                            <div class="gpbc-loop-edge-dots">
-                                <div class="gpbc-loop-edge-dot gpbc-edge-active" data-dot="0" style="background: #ef4444;"></div>
-                                <div class="gpbc-loop-edge-dot" data-dot="1" style="background: #3b82f6;"></div>
-                                <div class="gpbc-loop-edge-dot" data-dot="2" style="background: #10b981;"></div>
-                                <div class="gpbc-loop-edge-dot" data-dot="3" style="background: #f59e0b;"></div>
-                            </div>
-                            
-                            <!-- Thin ring border where dots sit -->
-                            <div class="gpbc-loop-ring-border"></div>
-                            
-                            <!-- White space ring inside border -->
-                            <div class="gpbc-loop-white-ring-inner"></div>
-
-                            <!-- Icon in center (optional - can be removed or customized) -->
-                            <div class="gpbc-loop-center-icon">
-                                <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="30" cy="30" r="28" fill="none" stroke="#c9a961" stroke-width="2" opacity="0.5"/>
-                                    <circle cx="30" cy="15" r="4" fill="#c9a961"/>
-                                    <circle cx="45" cy="30" r="4" fill="#c9a961" opacity="0.7"/>
-                                    <circle cx="30" cy="45" r="4" fill="#c9a961" opacity="0.5"/>
-                                    <circle cx="15" cy="30" r="4" fill="#c9a961" opacity="0.3"/>
-                                </svg>
-                            </div>
-
-                            <!-- Inner white circle with step title -->
-                            <div class="gpbc-loop-inner-circle">
-                                <div class="gpbc-loop-step-title gpbc-loop-title-active" data-step="0">
-                                    <div class="gpbc-loop-icon">
-                                        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M24 4L26 18L22 18Z M24 18L24 36" stroke="#c9a961" stroke-width="3" fill="none" stroke-linecap="round"/>
-                                            <circle cx="24" cy="10" r="6" fill="#c9a961" opacity="0.3"/>
-                                        </svg>
-                                    </div>
-                                    <span data-loop-text="en">Follow Jesus</span>
-                                    <span data-loop-text="bn" style="display:none;">যীশুকে অনুসরণ করুন</span>
-                                </div>
-                                <div class="gpbc-loop-step-title" data-step="1">
-                                    <div class="gpbc-loop-icon">
-                                        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M24 32Q20 24 16 16 M24 32Q24 24 24 16 M24 32Q28 24 32 16" stroke="#2d5a8f" stroke-width="2.5" fill="none"/>
-                                            <circle cx="16" cy="14" r="3" fill="#2d5a8f" opacity="0.6"/>
-                                            <circle cx="24" cy="14" r="3" fill="#2d5a8f" opacity="0.6"/>
-                                            <circle cx="32" cy="14" r="3" fill="#2d5a8f" opacity="0.6"/>
-                                        </svg>
-                                    </div>
-                                    <span data-loop-text="en">Grow Together</span>
-                                    <span data-loop-text="bn" style="display:none;">একসাথে বৃদ্ধি</span>
-                                </div>
-                                <div class="gpbc-loop-step-title" data-step="2">
-                                    <div class="gpbc-loop-icon">
-                                        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M24 12Q18 18 14 26Q10 34 14 40L24 32L34 40Q38 34 34 26Q30 18 24 12Z" fill="#c9a961" opacity="0.6"/>
-                                            <circle cx="24" cy="18" r="4" fill="#ffffff" opacity="0.8"/>
-                                        </svg>
-                                    </div>
-                                    <span data-loop-text="en">Serve One Another</span>
-                                    <span data-loop-text="bn" style="display:none;">একে অপরকে সেবা করুন</span>
-                                </div>
-                                <div class="gpbc-loop-step-title" data-step="3">
-                                    <div class="gpbc-loop-icon">
-                                        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="24" cy="24" r="16" fill="none" stroke="#1e3a5f" stroke-width="2" opacity="0.4"/>
-                                            <circle cx="24" cy="24" r="11" fill="none" stroke="#1e3a5f" stroke-width="1.5" opacity="0.5"/>
-                                            <path d="M18 22L22 26L30 18" stroke="#1e3a5f" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </div>
-                                    <span data-loop-text="en">Change the World</span>
-                                    <span data-loop-text="bn" style="display:none;">বিশ্ব পরিবর্তন করুন</span>
-                                </div>
-                            </div>
+                            <img loading="lazy" decoding="async" width="1080" height="1080" src="https://picsum.photos/seed/community-prayer/1080/1080" class="attachment-large size-large" alt="A group huddling together in a pool and praying" />
                         </div>
-
-                        <!-- Progress indicator removed - using edge dots instead -->
-                    </div>
-
-                    <!-- RIGHT: Text Panel -->
-                    <div class="gpbc-loop-right">
-                        <div class="gpbc-loop-text-panel">
-                            <h2 class="gpbc-loop-heading">
-                                <span data-loop-text="en">Get Involved</span>
-                                <span data-loop-text="bn" style="display:none;">জড়িত হন</span>
-                            </h2>
-                            
-                            <div class="gpbc-loop-description">
-                                <p data-loop-text="en">
-                                    Our faith journey is a continuous transformational loop. As you scroll, discover the four key steps that define our community: Following Jesus with devotion, Growing Together in fellowship, Serving One Another with compassion, and ultimately Changing the World through God's love.
-                                </p>
-                                <p data-loop-text="bn" style="display:none;">
-                                    আমাদের বিশ্বাস যাত্রা একটি ক্রমাগত রূপান্তরমূলক লুপ। আপনি স্ক্রোল করার সাথে সাথে চারটি মূল পদক্ষেপ আবিষ্কার করুন যা আমাদের সম্প্রদায়কে সংজ্ঞায়িত করে: ভক্তির সাথে যীশুকে অনুসরণ করা, সহভাগিতায় একসাথে বৃদ্ধি, করুণার সাথে একে অপরকে সেবা করা এবং শেষ পর্যন্ত ঈশ্বরের ভালবাসার মাধ্যমে বিশ্ব পরিবর্তন করা।
-                                </p>
+                        <div>
+                            <div class="heading">
+                                <div class="icon">
+                                    <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M30 15Q22 22 17 32Q12 42 17 50L30 40L43 50Q48 42 43 32Q38 22 30 15Z" fill="#c9a961" opacity="0.6"/>
+                                        <circle cx="30" cy="22" r="5" fill="#ffffff" opacity="0.9"/>
+                                    </svg>
+                                </div>
+                                <h2>Serve One Another</h2>
                             </div>
-
-                            <a href="plan-visit.html" class="gpbc-loop-cta">
-                                <span data-loop-text="en">Experience the Loop</span>
-                                <span data-loop-text="bn" style="display:none;">লুপ অভিজ্ঞতা করুন</span>
-                            </a>
+                            <img loading="lazy" decoding="async" width="1080" height="1080" src="https://picsum.photos/seed/serving-together/1080/1080" class="attachment-large size-large" alt="A man and woman praying" />
+                        </div>
+                        <div>
+                            <div class="heading">
+                                <div class="icon">
+                                    <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="30" cy="30" r="20" fill="none" stroke="#1e3a5f" stroke-width="2.5" opacity="0.5"/>
+                                        <circle cx="30" cy="30" r="14" fill="none" stroke="#1e3a5f" stroke-width="2" opacity="0.6"/>
+                                        <path d="M22 28L27 33L38 22" stroke="#1e3a5f" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h2>Change The World</h2>
+                            </div>
+                            <img loading="lazy" decoding="async" width="1080" height="1080" src="https://picsum.photos/seed/community-outreach/1080/1080" class="attachment-large size-large" alt="Two adults unloading packaged food from a van" />
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        <script>
+            jQuery(function($) {
+                $(document).ready(function() {
+                    const $slider = $('#block_gpbc_transformational_loop .slider');
+                    
+                    $slider.slick({
+                        fade: true,
+                        autoplay: true,
+                        autoplaySpeed: 3000,
+                        pauseOnFocus: false,
+                        pauseOnHover: false,
+                        pauseOnDotsHover: false,
+                        arrows: false,
+                        dots: true,
+                        infinite: true,
+                        speed: 850,
+                        swipe: true
+                    });
+
+                    // Wait for slick to be fully initialized
+                    setTimeout(function() {
+                        const $dotsContainer = $slider.closest('.block-the-loop').find('.slick-dots');
+                        
+                        // Add transition CSS
+                        $dotsContainer.css({
+                            'transition': 'transform 0.85s ease'
+                        });
+                        
+                        $dotsContainer.find('li').css({
+                            'transition': 'all 0.85s ease'
+                        });
+
+                        // Find and mark the top dot by position
+                        function markTopDot() {
+                            const dots = $dotsContainer.find('li').get();
+                            let topDot = null;
+                            let minTop = Infinity;
+                            
+                            dots.forEach(dot => {
+                                const top = dot.getBoundingClientRect().top;
+                                if (top < minTop) {
+                                    minTop = top;
+                                    topDot = dot;
+                                }
+                            });
+                            
+                            $dotsContainer.find('li').removeClass('is-top-dot');
+                            if (topDot) $(topDot).addClass('is-top-dot');
+                        }
+                        
+                        // Mark top dot initially
+                        markTopDot();
+
+                        // Rotate dots on slide change
+                        $slider.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+                            const rotation = nextSlide * 90;
+                            $dotsContainer.css('transform', `translate(-50%, -50%) rotate(-${rotation}deg)`);
+                            
+                            // Counter-rotate individual dots to keep them upright
+                            $dotsContainer.find('li').each(function(index) {
+                                const $li = $(this);
+                                let baseTransform = '';
+                                
+                                if (index === 0) {
+                                    baseTransform = 'translateX(-50%)';
+                                } else if (index === 1) {
+                                    baseTransform = 'translateY(-50%)';
+                                } else if (index === 2) {
+                                    baseTransform = 'translateX(-50%)';
+                                } else if (index === 3) {
+                                    baseTransform = 'translateY(-50%)';
+                                }
+                                
+                                $li.css('transform', `${baseTransform} rotate(${rotation}deg)`);
+                            });
+                            
+                            // Re-mark top dot after rotation animation
+                            setTimeout(markTopDot, 850);
+                        });
+                    }, 100);
+                });
+            });
+        </script>
 
         <!-- GPBC Rotating Image Showcase -->
         <section class="gpbc-rotating-showcase" aria-label="Ministry Highlights">
@@ -544,7 +548,7 @@
                     <div class="gpbc-showcase-box gpbc-box-large" data-position="3">
                         <!-- Image 1: Get Involved - Teal/Turquoise -->
                         <div class="gpbc-showcase-image gpbc-image-active" data-image="0">
-                            <div class="gpbc-image-content" style="background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);">
+                            <div class="gpbc-image-content" style="background: linear-gradient(135deg, rgba(45, 122, 143, 0.95) 0%, rgba(45, 122, 143, 0.85) 100%);">
                                 <div class="gpbc-image-icon">
                                     <svg width="120" height="120" viewBox="0 0 120 120" style="fill: none; stroke: white; stroke-width: 3;">
                                         <circle cx="60" cy="40" r="15"/>
@@ -563,7 +567,7 @@
                         
                         <!-- Image 2: Women Ministry - Purple -->
                         <div class="gpbc-showcase-image" data-image="1">
-                            <div class="gpbc-image-content" style="background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);">
+                            <div class="gpbc-image-content" style="background: linear-gradient(135deg, rgba(45, 122, 143, 0.92) 0%, rgba(60, 140, 160, 0.88) 100%);">
                                 <div class="gpbc-image-icon">
                                     <svg width="120" height="120" viewBox="0 0 120 120" style="fill: white;">
                                         <circle cx="60" cy="40" r="18"/>
@@ -580,7 +584,7 @@
                         
                         <!-- Image 3: Kids Ministry - Orange -->
                         <div class="gpbc-showcase-image" data-image="2">
-                            <div class="gpbc-image-content" style="background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);">
+                            <div class="gpbc-image-content" style="background: linear-gradient(135deg, rgba(55, 140, 155, 0.92) 0%, rgba(70, 160, 175, 0.88) 100%);">
                                 <div class="gpbc-image-icon">
                                     <svg width="120" height="120" viewBox="0 0 120 120" style="fill: white;">
                                         <circle cx="45" cy="45" r="12"/>
@@ -601,12 +605,12 @@
                         
                         <!-- Image 4: Young Adult - Blue -->
                         <div class="gpbc-showcase-image" data-image="3">
-                            <div class="gpbc-image-content" style="background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);">
+                            <div class="gpbc-image-content" style="background: linear-gradient(135deg, rgba(40, 110, 130, 0.92) 0%, rgba(50, 130, 150, 0.88) 100%);">
                                 <div class="gpbc-image-icon">
                                     <svg width="120" height="120" viewBox="0 0 120 120" style="fill: none; stroke: white; stroke-width: 3;">
                                         <circle cx="60" cy="45" r="16"/>
                                         <path d="M60 65 Q40 78 35 100 L85 100 Q80 78 60 65 Z" fill="white" stroke="white"/>
-                                        <circle cx="60" cy="80" r="8" fill="rgba(37,99,235,0.5)" stroke="none"/>
+                                        <circle cx="60" cy="80" r="8" fill="rgba(45,122,143,0.5)" stroke="none"/>
                                         <path d="M50 30 Q60 25 70 30" stroke-linecap="round"/>
                                     </svg>
                                 </div>
@@ -1099,7 +1103,7 @@
     .gpbc-timeline-number {
         width: 48px;
         height: 48px;
-        background: linear-gradient(135deg, #1e3a5f, #2d5a8f);
+        background: linear-gradient(135deg, #1e3a5f, #2a4d6f);
         color: #ffffff;
         border-radius: 50%;
         display: flex;
@@ -1367,21 +1371,22 @@
     .gpbc-slide-cta {
         display: inline-block;
         padding: 1rem 2.5rem;
-        background: #c9a961;
+        background: rgba(255, 255, 255, 0.95);
         color: #1e3a5f;
         text-decoration: none;
         border-radius: 9999px;
         font-weight: 600;
         font-size: 1rem;
         transition: all 0.3s ease;
-        border: 2px solid transparent;
+        border: 2px solid rgba(255, 255, 255, 0.2);
     }
     
     .gpbc-slide-cta:hover {
         background: #ffffff;
-        color: #1e3a5f;
+        color: #2d7a8f;
         transform: translateY(-2px);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        border-color: rgba(45, 122, 143, 0.3);
     }
     
     .gpbc-slide-cta:focus-visible {
@@ -1417,13 +1422,13 @@
     }
     
     .gpbc-nav-dot.gpbc-dot-active {
-        background: #c9a961;
+        background: rgba(45, 122, 143, 0.95);
         width: 32px;
         border-radius: 6px;
     }
     
     .gpbc-nav-dot:focus-visible {
-        outline: 2px solid #c9a961;
+        outline: 2px solid rgba(45, 122, 143, 0.8);
         outline-offset: 3px;
     }
     
@@ -1776,18 +1781,17 @@
     /* SCOPED STYLES - Only affects .gpbc-loop-scroll */
     .gpbc-loop-scroll {
         width: 100%;
-        background: #faf8f5;
-        padding: 120px 0;
+        background: linear-gradient(135deg, #faf8f5 0%, #f4f1ed 100%);
+        padding: clamp(80px, 12vh, 140px) 0;
         position: relative;
         overflow: hidden;
-        /* This section needs enough height for scroll progress to work */
         min-height: 100vh;
     }
     
     .gpbc-loop-container {
-        max-width: 1440px;
+        max-width: 1400px;
         margin: 0 auto;
-        padding: 0 clamp(1rem, 4vw, 4rem);
+        padding: 0 clamp(1.5rem, 4vw, 3rem);
         position: relative;
     }
     
@@ -1840,41 +1844,44 @@
     .gpbc-loop-layout {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 3rem;
+        gap: 2.5rem;
         align-items: center;
         position: relative;
     }
     
-    /* LEFT: Decorative Orbit */
+    /* LEFT: Decorative Orbit - Hidden on mobile, subtle on desktop */
     .gpbc-loop-left {
-        display: none; /* Hidden on mobile */
+        display: none;
+        justify-content: flex-end;
+        padding-right: 2rem;
     }
     
     .gpbc-loop-orbit-wrapper {
         position: relative;
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
+        width: 320px;
+        height: 320px;
+        flex-shrink: 0;
     }
     
     .gpbc-loop-orbit {
         width: 100%;
-        height: auto;
+        height: 100%;
         display: block;
+        opacity: 0.5;
     }
     
-    /* Orbit dots rotation - subtle animation */
+    /* Orbit dots rotation */
     .gpbc-loop-orbit-dots {
         transform-origin: 200px 200px;
         transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    /* CENTER: Main Circle */
+    /* CENTER: Main Circle - LARGE AND DOMINANT */
     .gpbc-loop-center {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 2rem;
+        justify-content: center;
     }
     
     .gpbc-loop-circle-wrapper {
@@ -1882,6 +1889,7 @@
         width: 100%;
         max-width: 560px;
         aspect-ratio: 1;
+        flex-shrink: 0;
     }
     
     /* Main rotating circle container */
@@ -1893,12 +1901,14 @@
         box-shadow: 0 10px 40px rgba(30, 58, 95, 0.15);
     }
     
-    /* Individual circle images */
+    /* Individual circle images - masked to show only outer ring */
     .gpbc-loop-circle-img {
         position: absolute;
         inset: 0;
         opacity: 0;
-        transition: opacity 0.6s ease-in-out;
+        transition: opacity 0.8s ease-in-out;
+        -webkit-mask-image: radial-gradient(circle, transparent 0%, transparent 50%, black 50%, black 100%);
+        mask-image: radial-gradient(circle, transparent 0%, transparent 50%, black 50%, black 100%);
     }
     
     .gpbc-loop-circle-img.gpbc-loop-img-active {
@@ -1917,30 +1927,32 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 70%;
-        height: 70%;
+        width: 68%;
+        height: 68%;
         transform: translate(-50%, -50%);
-        border: 1px solid rgba(0, 0, 0, 0.12);
+        border: 1.5px solid rgba(0, 0, 0, 0.08);
         border-radius: 50%;
         pointer-events: none;
         z-index: 2;
     }
     
-    /* White ring inside the thin border */
+    /* White ring inside - clean center circle */
     .gpbc-loop-white-ring-inner {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 62%;
-        height: 62%;
+        width: 52%;
+        height: 52%;
         transform: translate(-50%, -50%);
         background: #ffffff;
         border-radius: 50%;
         pointer-events: none;
         z-index: 5;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12),
+                    inset 0 2px 6px rgba(0, 0, 0, 0.04);
     }
     
-    /* Colored dots on circle edge */
+    /* Colored dots on circle edge - ON the thin ring */
     .gpbc-loop-edge-dots {
         position: absolute;
         inset: 0;
@@ -1950,94 +1962,96 @@
     
     .gpbc-loop-edge-dot {
         position: absolute;
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
         border-radius: 50%;
         border: 3px solid #ffffff;
-        box-shadow: 0 3px 16px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 3px 16px rgba(0, 0, 0, 0.25);
         transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         pointer-events: auto;
         cursor: pointer;
         z-index: 20;
     }
     
-    /* Position dots in a ring - sitting ON the thin border line */
-    /* They sit at about 65% from center (on the thin ring border) */
+    /* Position dots on the ring border (34% from center = on 68% diameter ring) */
     
-    /* Dot 0 - Top */
+    /* Dot 0 - Top (Red) */
     .gpbc-loop-edge-dot[data-dot="0"] {
-        top: 15%;
+        top: 16%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
     
-    /* Dot 1 - Right */
+    /* Dot 1 - Right (Blue) */
     .gpbc-loop-edge-dot[data-dot="1"] {
         top: 50%;
-        right: 15%;
+        right: 16%;
         transform: translate(50%, -50%);
     }
     
-    /* Dot 2 - Bottom */
+    /* Dot 2 - Bottom (Green) */
     .gpbc-loop-edge-dot[data-dot="2"] {
-        bottom: 15%;
+        bottom: 16%;
         left: 50%;
         transform: translate(-50%, 50%);
     }
     
-    /* Dot 3 - Left */
+    /* Dot 3 - Left (Orange/Gold) */
     .gpbc-loop-edge-dot[data-dot="3"] {
         top: 50%;
-        left: 15%;
+        left: 16%;
         transform: translate(-50%, -50%);
     }
     
     .gpbc-loop-edge-dot:hover {
-        transform: translate(-50%, -50%) scale(1.3);
-        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+        transform: translate(-50%, -50%) scale(1.25);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
     }
     
     .gpbc-loop-edge-dot[data-dot="1"]:hover {
-        transform: translate(50%, -50%) scale(1.3);
+        transform: translate(50%, -50%) scale(1.25);
     }
     
     .gpbc-loop-edge-dot[data-dot="2"]:hover {
-        transform: translate(-50%, 50%) scale(1.3);
+        transform: translate(-50%, 50%) scale(1.25);
     }
     
-    /* Active dot is slightly larger */
+    /* Active dot is larger */
     .gpbc-loop-edge-dot.gpbc-edge-active {
-        width: 18px;
-        height: 18px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        width: 20px;
+        height: 20px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
     }
     
-    /* Center icon */
+    /* Center icon - optional decorative element */
     .gpbc-loop-center-icon {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 8;
-        opacity: 0.6;
+        opacity: 0.4;
         pointer-events: none;
     }
     
-    /* Inner white circle with step title */
+    /* Inner white circle with step title - LARGE and readable */
     .gpbc-loop-inner-circle {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 240px;
-        height: 240px;
+        width: 48%;
+        height: 48%;
+        max-width: 320px;
+        max-height: 320px;
+        max-height: 360px;
         background: rgba(255, 255, 255, 0.98);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 0 0 1px rgba(201, 169, 97, 0.1),
-                    0 10px 40px rgba(0, 0, 0, 0.15),
+        box-shadow: 0 0 0 1px rgba(201, 169, 97, 0.12),
+                    0 12px 48px rgba(0, 0, 0, 0.15),
                     inset 0 2px 8px rgba(0, 0, 0, 0.03);
         z-index: 10;
     }
@@ -2049,24 +2063,27 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        font-size: 1.375rem;
+        font-size: clamp(1.125rem, 2.5vw, 1.5rem);
         font-weight: 700;
         color: #1e3a5f;
-        padding: 1.25rem;
+        padding: 1.5rem;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
         transition: opacity 0.5s ease-in-out, visibility 0s 0.5s;
         line-height: 1.3;
-        gap: 0.625rem;
+        gap: 0.75rem;
+        width: 100%;
+        height: 100%;
     }
     
     .gpbc-loop-icon {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 56px;
-        height: 56px;
+        width: clamp(48px, 8vw, 64px);
+        height: clamp(48px, 8vw, 64px);
+        flex-shrink: 0;
     }
     
     .gpbc-loop-step-title.gpbc-loop-title-active {
@@ -2079,10 +2096,11 @@
     /* RIGHT: Text Panel */
     .gpbc-loop-right {
         text-align: center;
+        padding: 0 1rem;
     }
     
     .gpbc-loop-text-panel {
-        max-width: 500px;
+        max-width: 480px;
         margin: 0 auto;
     }
     
@@ -2126,28 +2144,15 @@
         outline-offset: 3px;
     }
     
-    /* TABLET - Show orbit, adjust layout */
+    /* TABLET - Larger circle, still stacked */
     @media (min-width: 768px) {
-        .gpbc-loop-layout {
-            grid-template-columns: 1fr 2fr;
-            gap: 3rem;
-        }
-        
-        .gpbc-loop-left {
-            display: block;
-        }
-        
-        .gpbc-loop-center {
-            grid-column: 1 / -1;
-        }
-        
-        .gpbc-loop-right {
-            grid-column: 1 / -1;
+        .gpbc-loop-circle-wrapper {
+            max-width: 620px;
         }
         
         .gpbc-loop-inner-circle {
-            width: 260px;
-            height: 260px;
+            max-width: 400px;
+            max-height: 400px;
         }
         
         .gpbc-loop-step-title {
@@ -2155,67 +2160,94 @@
         }
         
         .gpbc-loop-edge-dot {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
         }
         
         .gpbc-loop-edge-dot.gpbc-edge-active {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
         }
     }
     
-    /* DESKTOP - 3-column layout */
+    /* DESKTOP - 3-column layout with LARGE dominant center circle */
     @media (min-width: 1024px) {
         .gpbc-loop-scroll {
-            min-height: 120vh; /* Extra height for better scroll tracking */
+            min-height: 110vh;
+            padding: clamp(100px, 15vh, 160px) 0;
         }
         
         .gpbc-loop-layout {
-            grid-template-columns: 1fr 1.2fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 320px 1fr 400px;
+            gap: clamp(2rem, 4vw, 4rem);
             align-items: center;
+            justify-items: stretch;
         }
         
+        /* Show decorative orbit on desktop */
         .gpbc-loop-left {
             display: flex;
-            justify-content: center;
+            justify-self: end;
         }
         
         .gpbc-loop-center {
-            grid-column: auto;
+            justify-self: center;
+        }
+        
+        /* Make circle LARGE - 620-680px range */
+        .gpbc-loop-circle-wrapper {
+            max-width: 680px;
+        }
+        
+        .gpbc-loop-inner-circle {
+            max-width: 420px;
+            max-height: 420px;
         }
         
         .gpbc-loop-right {
-            grid-column: auto;
             text-align: left;
+            justify-self: start;
+            padding: 0;
         }
         
         .gpbc-loop-text-panel {
             margin: 0;
-        }
-        
-        .gpbc-loop-circle-wrapper {
-            max-width: 600px;
-        }
-        
-        .gpbc-loop-inner-circle {
-            width: 280px;
-            height: 280px;
+            max-width: 100%;
         }
         
         .gpbc-loop-step-title {
-            font-size: 1.625rem;
+            font-size: 1.75rem;
         }
         
         .gpbc-loop-edge-dot {
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
         }
         
         .gpbc-loop-edge-dot.gpbc-edge-active {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
+        }
+    }
+    
+    /* LARGE DESKTOP - Even bigger, more immersive */
+    @media (min-width: 1280px) {
+        .gpbc-loop-container {
+            max-width: 1480px;
+        }
+        
+        .gpbc-loop-layout {
+            grid-template-columns: 360px 1fr 420px;
+            gap: clamp(3rem, 5vw, 5rem);
+        }
+        
+        .gpbc-loop-orbit-wrapper {
+            width: 360px;
+            height: 360px;
+        }
+        
+        .gpbc-loop-step-title {
+            font-size: 2rem;
         }
     }
     
@@ -2245,50 +2277,774 @@
     /* Mobile refinements */
     @media (max-width: 767px) {
         .gpbc-loop-scroll {
-            padding: 80px 0;
-            min-height: 90vh;
+            padding: 60px 0 80px;
+            min-height: 85vh;
         }
         
         .gpbc-loop-lang-toggle {
-            top: -50px;
+            top: -45px;
             right: 1rem;
+            font-size: 0.8125rem;
         }
         
         .gpbc-loop-circle-wrapper {
-            max-width: 400px;
+            max-width: min(92vw, 480px);
         }
         
         .gpbc-loop-inner-circle {
-            width: 200px;
-            height: 200px;
+            max-width: 280px;
+            max-height: 280px;
         }
         
         .gpbc-loop-step-title {
             font-size: 1.125rem;
-            padding: 0.875rem;
+            padding: 1rem;
+        }
+        
+        .gpbc-loop-icon {
+            width: 44px;
+            height: 44px;
         }
         
         .gpbc-loop-edge-dot {
-            width: 8px;
-            height: 8px;
+            width: 12px;
+            height: 12px;
+            border-width: 2px;
         }
         
         .gpbc-loop-edge-dot.gpbc-edge-active {
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
         }
         
         .gpbc-loop-heading {
             font-size: 2rem;
+            margin-bottom: 1.25rem;
         }
         
         .gpbc-loop-description {
             font-size: 1rem;
+            margin-bottom: 1.75rem;
         }
         
         .gpbc-loop-cta {
             width: 100%;
+            max-width: 100%;
             text-align: center;
+            padding: 0.875rem 2rem;
+        }
+    }
+
+    /* IMMERSIVE LOOP REFRESH */
+    .gpbc-loop-scroll {
+        padding: clamp(64px, 10vw, 120px) 0;
+        background: radial-gradient(circle at 20% 20%, rgba(96, 165, 250, 0.08), transparent 55%), #f8f9fb;
+        overflow: hidden;
+    }
+
+    .gpbc-loop-layout {
+        display: grid;
+        grid-template-columns: minmax(220px, 280px) minmax(280px, 420px) minmax(280px, 420px);
+        gap: clamp(2.5rem, 4vw, 3.75rem);
+        align-items: center;
+        justify-items: center;
+        max-width: 1260px;
+        margin: 0 auto;
+        padding: 0 clamp(1.5rem, 4vw, 3.5rem);
+    }
+
+    .gpbc-loop-left {
+        display: none;
+    }
+
+    .gpbc-loop-circle-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: clamp(320px, 48vw, 420px);
+        aspect-ratio: 1;
+    }
+
+    .gpbc-loop-main-circle {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        overflow: hidden;
+        background: linear-gradient(135deg, #e0f2fe, #f8fafc);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+    }
+
+    .gpbc-loop-circle-img {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transform: scale(0.94);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .gpbc-loop-circle-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .gpbc-loop-circle-img.gpbc-loop-img-active {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .gpbc-loop-ring-border {
+        position: absolute;
+        inset: 9%;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 50%;
+        z-index: 2;
+    }
+
+    .gpbc-loop-white-ring-inner {
+        position: absolute;
+        inset: 18%;
+        background: rgba(255, 255, 255, 0.96);
+        border-radius: 50%;
+        box-shadow: inset 0 6px 18px rgba(0, 0, 0, 0.05), 0 10px 30px rgba(0, 0, 0, 0.08);
+        z-index: 5;
+    }
+
+    .gpbc-loop-center-icon {
+        filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.08));
+    }
+
+    .gpbc-loop-edge-dots {
+        transition: transform 0.8s ease;
+    }
+
+    .gpbc-loop-edge-dot {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .gpbc-loop-edge-dot.gpbc-edge-active {
+        width: 18px;
+        height: 18px;
+    }
+
+    .gpbc-loop-inner-circle {
+        position: absolute;
+        width: 62%;
+        height: 62%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #ffffff;
+        border-radius: 50%;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+    }
+
+    .gpbc-loop-step-title {
+        position: absolute;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        width: 60%;
+        opacity: 0;
+        transform: translateY(6px) scale(0.96);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+        cursor: pointer;
+    }
+
+    .gpbc-loop-step-title .gpbc-loop-icon {
+        margin-bottom: 0.25rem;
+    }
+
+    .gpbc-loop-step-title span {
+        font-size: clamp(1.05rem, 2vw, 1.35rem);
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .gpbc-loop-step-title.gpbc-loop-title-active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    .gpbc-loop-description,
+    .gpbc-loop-heading {
+        text-align: center;
+    }
+
+    .gpbc-loop-heading {
+        font-size: clamp(2rem, 3vw, 2.6rem);
+    }
+
+    .gpbc-loop-description {
+        font-size: 1.05rem;
+        color: #4b5563;
+        max-width: 640px;
+        margin: 0 auto;
+        line-height: 1.7;
+    }
+
+    .gpbc-loop-orbit-wrapper {
+        width: clamp(260px, 40vw, 360px);
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .gpbc-loop-orbit {
+        width: 100%;
+        height: auto;
+    }
+
+    .gpbc-loop-orbit-dots {
+        transform-origin: 200px 200px;
+        animation: gpbc-orbit-spin 26s linear infinite;
+        opacity: 0.9;
+    }
+
+    @keyframes gpbc-orbit-spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    @media (min-width: 1024px) {
+        .gpbc-loop-left {
+            display: block;
+            justify-self: flex-end;
+        }
+        .gpbc-loop-right {
+            justify-self: flex-start;
+            text-align: left;
+        }
+        .gpbc-loop-heading,
+        .gpbc-loop-description {
+            text-align: left;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .gpbc-loop-layout {
+            grid-template-columns: minmax(260px, 320px) minmax(300px, 380px);
+            grid-auto-rows: auto;
+        }
+        .gpbc-loop-left {
+            display: block;
+        }
+        .gpbc-loop-right {
+            grid-column: 2 / -1;
+            text-align: left;
+        }
+        .gpbc-loop-circle-wrapper {
+            max-width: 380px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .gpbc-loop-layout {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        .gpbc-loop-circle-wrapper {
+            max-width: min(88vw, 360px);
+        }
+        .gpbc-loop-inner-circle {
+            width: 68%;
+            height: 68%;
+        }
+        .gpbc-loop-step-title span {
+            font-size: 1rem;
+        }
+        .gpbc-loop-left {
+            display: none;
+        }
+        .gpbc-loop-right {
+            text-align: center;
+        }
+    }
+    </style>
+
+    <!-- ======================================================
+       SLICK CAROUSEL LOOP STYLES
+       Get Involved Transformational Loop
+       ====================================================== -->
+    <style>
+    .block-the-loop {
+        width: 100%;
+        background: linear-gradient(135deg, #faf8f5 0%, #f4f1ed 100%);
+        padding: 80px 0;
+        position: relative;
+        -webkit-text-size-adjust: 100%;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        --wp-block-synced-color: #7a00df;
+        --wp-block-synced-color--rgb: 122,0,223;
+        --wp-bound-block-color: var(--wp-block-synced-color);
+        --wp-editor-canvas-background: #ddd;
+        --wp-admin-theme-color: #007cba;
+        --wp-admin-theme-color--rgb: 0,124,186;
+        --wp-admin-theme-color-darker-10: #006ba1;
+        --wp-admin-theme-color-darker-10--rgb: 0,107,160.5;
+        --wp-admin-theme-color-darker-20: #005a87;
+        --wp-admin-theme-color-darker-20--rgb: 0,90,135;
+        --wp-admin-border-width-focus: 2px;
+        --wp--preset--font-size--normal: 16px;
+        --wp--preset--font-size--huge: 42px;
+        --wp--preset--aspect-ratio--square: 1;
+        --wp--preset--aspect-ratio--4-3: 4/3;
+        --wp--preset--aspect-ratio--3-4: 3/4;
+        --wp--preset--aspect-ratio--3-2: 3/2;
+        --wp--preset--aspect-ratio--2-3: 2/3;
+        --wp--preset--aspect-ratio--16-9: 16/9;
+        --wp--preset--aspect-ratio--9-16: 9/16;
+        --wp--preset--color--black: #000000;
+        --wp--preset--color--cyan-bluish-gray: #abb8c3;
+        --wp--preset--color--white: #ffffff;
+        --wp--preset--color--pale-pink: #f78da7;
+        --wp--preset--color--vivid-red: #cf2e2e;
+        --wp--preset--color--luminous-vivid-orange: #ff6900;
+        --wp--preset--color--luminous-vivid-amber: #fcb900;
+        --wp--preset--color--light-green-cyan: #7bdcb5;
+        --wp--preset--color--vivid-green-cyan: #00d084;
+        --wp--preset--color--pale-cyan-blue: #8ed1fc;
+        --wp--preset--color--vivid-cyan-blue: #0693e3;
+        --wp--preset--color--vivid-purple: #9b51e0;
+        --wp--preset--color--red: #E46C63;
+        --wp--preset--color--teal: #39A1B1;
+        --wp--preset--color--green: #9EC73F;
+        --wp--preset--color--blue: #3364A0;
+        --wp--preset--color--navy: #1A374F;
+        --wp--preset--color--grey: #EFF4F4;
+        --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);
+        --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);
+        --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);
+        --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);
+        --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);
+        --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);
+        --wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);
+        --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);
+        --wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);
+        --wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);
+        --wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);
+        --wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);
+        --wp--preset--font-size--small: 13px;
+        --wp--preset--font-size--medium: 20px;
+        --wp--preset--font-size--large: 36px;
+        --wp--preset--font-size--x-large: 42px;
+        --wp--preset--spacing--20: 0.44rem;
+        --wp--preset--spacing--30: 0.67rem;
+        --wp--preset--spacing--40: 1rem;
+        --wp--preset--spacing--50: 1.5rem;
+        --wp--preset--spacing--60: 2.25rem;
+        --wp--preset--spacing--70: 3.38rem;
+        --wp--preset--spacing--80: 5.06rem;
+        --wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
+        --wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
+        --wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);
+        --wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);
+        --wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);
+        font-size: 1rem;
+        color: #000;
+        font-family: "Gotham",sans-serif;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        visibility: visible !important;
+    }
+
+    .block-the-loop .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 clamp(1.5rem, 4vw, 3rem);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+        .block-the-loop .container {
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+    }
+
+    .block-the-loop .content h2 {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        font-weight: 800;
+        color: #1e3a5f;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .block-the-loop .content p {
+        font-size: clamp(1.05rem, 2vw, 1.2rem);
+        color: #4a5568;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+    }
+
+    .block-the-loop .button {
+        display: inline-block;
+        padding: 16px 40px;
+        background: #c9a961;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 16px rgba(201, 169, 97, 0.3);
+    }
+
+    .block-the-loop .button:hover {
+        background: #b89850;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(201, 169, 97, 0.4);
+    }
+
+    .block-the-loop .loop {
+        position: relative;
+    }
+
+    .block-the-loop .slider {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-text-size-adjust: 100%;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    .block-the-loop .slick-slide {
+        outline: none;
+        float: left;
+        position: relative;
+        z-index: 998;
+        transition: all 0.5s ease;
+        overflow: clip;
+    }
+
+    .block-the-loop .slider img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: auto 1080 / 1080;
+        object-fit: cover;
+        border-radius: 1000px;
+        box-shadow: 0 10px 40px rgba(30, 58, 95, 0.15);
+        -webkit-mask-image: radial-gradient(circle, transparent 0%, transparent 30%, black 30%, black 100%);
+        mask-image: radial-gradient(circle, transparent 0%, transparent 30%, black 30%, black 100%);
+        box-sizing: inherit;
+        float: left;
+        outline: none;
+        height: 100%;
+        min-height: 1px;
+        display: block;
+        overflow: hidden;
+        position: relative;
+        z-index: 0;
+        contain-intrinsic-size: 300px 1500px;
+    }
+
+    .block-the-loop .heading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        text-align: center;
+        background: #ffffff;
+        border-radius: 100%;
+        width: 60%;
+        height: 60%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        padding: 20px;
+        margin: 0;
+        box-sizing: inherit;
+        cursor: pointer;
+        border: none;
+        list-style: none;
+        line-height: 1.75;
+        -webkit-text-size-adjust: 100%;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        visibility: visible !important;
+        font-family: "Gotham",sans-serif;
+        color: #000;
+        font-size: 1rem;
+        pointer-events: none;
+    }
+
+    .block-the-loop .heading .icon {
+        margin-bottom: 12px;
+    }
+
+    .block-the-loop .heading .icon svg {
+        width: 48px;
+        height: 48px;
+    }
+
+    .block-the-loop .heading h2 {
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+        font-weight: 700;
+        color: #1e3a5f;
+        margin: 0;
+        line-height: 1.3;
+    }
+
+    /* Slick dots customization */
+    .block-the-loop .slick-dots {
+        bottom: auto;
+        display: flex !important;
+        justify-content: center;
+        gap: 0;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40%;
+        height: 40%;
+        pointer-events: none;
+        border: dashed 1px hsl(188, 51.28%, 65.88%);
+        border-radius: 50%;
+        z-index: 6;
+    }
+    .block-the-loop .slick-dots li {
+        margin: 0;
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        pointer-events: auto;
+        z-index: 7;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .block-the-loop .slick-dots li:nth-child(1) {
+        top: -9px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .block-the-loop .slick-dots li:nth-child(2) {
+        right: -9px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .block-the-loop .slick-dots li:nth-child(3) {
+        bottom: -9px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .block-the-loop .slick-dots li:nth-child(4) {
+        left: -9px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .block-the-loop .slick-dots li:nth-child(1) button {
+        background: #e46c63 !important;
+    }
+
+    .block-the-loop .slick-dots li:nth-child(2) button {
+        background: #39a1b1 !important;
+    }
+
+    .block-the-loop .slick-dots li.is-top-dot button {
+        width: 18px !important;
+        height: 18px !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .block-the-loop .slick-dots li:nth-child(3) button {
+        background: #9ec73f !important;
+    }
+
+    .block-the-loop .slick-dots li:nth-child(4) button {
+        background: #3364a0 !important;
+    }
+
+    .block-the-loop .slick-dots li button {
+        width: 12px;
+        height: 12px;
+        padding: 0;
+        border-radius: 20px;
+        background: #e46c63 !important;
+        border: 2px solid #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0;
+        line-height: 0;
+        list-style: none;
+        box-sizing: inherit;
+        position: relative;
+        margin: 0;
+        overflow: hidden;
+        text-indent: -9999px;
+        appearance: none;
+        outline: none;
+        display: inline-block;
+        text-align: center;
+        text-decoration: none !important;
+        font-weight: 700;
+        letter-spacing: 0.0625rem;
+        text-transform: uppercase;
+        vertical-align: top;
+        color: transparent;
+        font-family: "Gotham",sans-serif;
+        font: inherit;
+        -webkit-text-size-adjust: 100%;
+        -webkit-font-smoothing: antialiased;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        visibility: visible !important;
+        pointer-events: auto;
+        --wp-block-synced-color: #7a00df;
+        --wp-block-synced-color--rgb: 122,0,223;
+        --wp-bound-block-color: var(--wp-block-synced-color);
+        --wp-editor-canvas-background: #ddd;
+        --wp-admin-theme-color: #007cba;
+        --wp-admin-theme-color--rgb: 0,124,186;
+        --wp-admin-theme-color-darker-10: #006ba1;
+        --wp-admin-theme-color-darker-10--rgb: 0,107,160.5;
+        --wp-admin-theme-color-darker-20: #005a87;
+        --wp-admin-theme-color-darker-20--rgb: 0,90,135;
+        --wp-admin-border-width-focus: 2px;
+        --wp--preset--font-size--normal: 16px;
+        --wp--preset--font-size--huge: 42px;
+        --wp--preset--aspect-ratio--square: 1;
+        --wp--preset--aspect-ratio--4-3: 4/3;
+        --wp--preset--aspect-ratio--3-4: 3/4;
+        --wp--preset--aspect-ratio--3-2: 3/2;
+        --wp--preset--aspect-ratio--2-3: 2/3;
+        --wp--preset--aspect-ratio--16-9: 16/9;
+        --wp--preset--aspect-ratio--9-16: 9/16;
+        --wp--preset--color--black: #000000;
+        --wp--preset--color--cyan-bluish-gray: #abb8c3;
+        --wp--preset--color--white: #ffffff;
+        --wp--preset--color--pale-pink: #f78da7;
+        --wp--preset--color--vivid-red: #cf2e2e;
+        --wp--preset--color--luminous-vivid-orange: #ff6900;
+        --wp--preset--color--luminous-vivid-amber: #fcb900;
+        --wp--preset--color--light-green-cyan: #7bdcb5;
+        --wp--preset--color--vivid-green-cyan: #00d084;
+        --wp--preset--color--pale-cyan-blue: #8ed1fc;
+        --wp--preset--color--vivid-cyan-blue: #0693e3;
+        --wp--preset--color--vivid-purple: #9b51e0;
+        --wp--preset--color--red: #E46C63;
+        --wp--preset--color--teal: #39A1B1;
+        --wp--preset--color--green: #9EC73F;
+        --wp--preset--color--blue: #3364A0;
+        --wp--preset--color--navy: #1A374F;
+        --wp--preset--color--grey: #EFF4F4;
+        --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);
+        --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);
+        --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);
+        --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);
+        --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);
+        --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);
+        --wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);
+        --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);
+        --wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);
+        --wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);
+        --wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);
+        --wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);
+        --wp--preset--font-size--small: 13px;
+        --wp--preset--font-size--medium: 20px;
+        --wp--preset--font-size--large: 36px;
+        --wp--preset--font-size--x-large: 42px;
+        --wp--preset--spacing--20: 0.44rem;
+        --wp--preset--spacing--30: 0.67rem;
+        --wp--preset--spacing--40: 1rem;
+        --wp--preset--spacing--50: 1.5rem;
+        --wp--preset--spacing--60: 2.25rem;
+        --wp--preset--spacing--70: 3.38rem;
+        --wp--preset--spacing--80: 5.06rem;
+        --wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
+        --wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
+        --wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);
+        --wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);
+        --wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);
+    }
+    .slick-slide img {
+    .block-the-loop .slider.slick-initialized {
+        visibility: visible !important;
+    }
+
+    .block-the-loop .slick-dots li button:before {
+    }
+
+    img {
+        border: 0;
+        height: auto;
+        max-width: 100%;
+        overflow-clip-margin: content-box;
+        overflow: clip;
+    }
+    .block-the-loop .slick-dots li button:before {
+        content: '' !important;
+        display: none !important;
+    }
+    
+    .block-the-loop .slick-dots li button:after {
+        content: '' !important;
+        display: none !important;
+    }
+
+    .block-the-loop .slick-dots li.slick-active button {
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    .block-the-loop .slick-dots li button:hover {
+        transform: scale(1.2);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 767px) {
+        .block-the-loop {
+            padding: 60px 0;
+        }
+
+        .block-the-loop .container {
+            gap: 40px;
+        }
+
+        .block-the-loop .heading {
+            width: 55%;
+            height: 55%;
+            padding: 15px;
+        }
+
+        .block-the-loop .heading .icon svg {
+            width: 36px;
+            height: 36px;
+        }
+
+        .block-the-loop .heading h2 {
+            font-size: 1rem;
+        }
+
+        .block-the-loop .slick-dots {
+            width: 66%;
+            height: 66%;
         }
     }
     </style>
@@ -2973,237 +3729,109 @@
     (function() {
         const loopSection = document.querySelector('.gpbc-loop-scroll');
         if (!loopSection) return;
-        
-        const mainCircle = loopSection.querySelector('.gpbc-loop-main-circle');
+
         const orbitDots = loopSection.querySelector('.gpbc-loop-orbit-dots');
         const edgeDotsContainer = loopSection.querySelector('.gpbc-loop-edge-dots');
-        const edgeDots = loopSection.querySelectorAll('.gpbc-loop-edge-dot');
-        const circleImages = loopSection.querySelectorAll('.gpbc-loop-circle-img');
-        const stepTitles = loopSection.querySelectorAll('.gpbc-loop-step-title');
-        const langButtons = loopSection.querySelectorAll('.gpbc-loop-lang-btn');
-        
-        if (circleImages.length === 0 || stepTitles.length === 0) return;
-        
-        const TOTAL_STEPS = 4;
-        let currentStep = 0;
-        let currentLang = 'en';
-        let autoRotateInterval = null;
+        const edgeDots = [...loopSection.querySelectorAll('.gpbc-loop-edge-dot')];
+        const circleImages = [...loopSection.querySelectorAll('.gpbc-loop-circle-img')];
+        const stepTitles = [...loopSection.querySelectorAll('.gpbc-loop-step-title')];
+        const langButtons = [...loopSection.querySelectorAll('.gpbc-loop-lang-btn')];
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const AUTO_ROTATE_DELAY = 3000; // 3 seconds
-        
-        // Language toggle functionality
+
+        if (!circleImages.length || !stepTitles.length) return;
+
+        const TOTAL = circleImages.length;
+        let current = circleImages.findIndex(el => el.classList.contains('gpbc-loop-img-active'));
+        if (current < 0) current = 0;
+        let autoTimer = null;
+        let isVisible = false;
+        const AUTO_DELAY = 5500;
+
         function switchLanguage(lang) {
-            currentLang = lang;
-            
-            // Update button states
             langButtons.forEach(btn => {
-                if (btn.getAttribute('data-loop-lang') === lang) {
-                    btn.classList.add('gpbc-loop-lang-active');
-                } else {
-                    btn.classList.remove('gpbc-loop-lang-active');
-                }
+                const isActive = btn.getAttribute('data-loop-lang') === lang;
+                btn.classList.toggle('gpbc-loop-lang-active', isActive);
             });
-            
-            // Show/hide text based on language
-            const allTexts = loopSection.querySelectorAll('[data-loop-text]');
-            allTexts.forEach(text => {
-                const textLang = text.getAttribute('data-loop-text');
-                text.style.display = (textLang === lang) ? '' : 'none';
+            loopSection.querySelectorAll('[data-loop-text]').forEach(el => {
+                const isMatch = el.getAttribute('data-loop-text') === lang;
+                el.style.display = isMatch ? '' : 'none';
             });
         }
-        
-        // Language button listeners
+
         langButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const lang = this.getAttribute('data-loop-lang');
-                switchLanguage(lang);
-            });
+            btn.addEventListener('click', () => switchLanguage(btn.getAttribute('data-loop-lang')));
         });
-        
-        // Edge dots click listeners - allow manual navigation
-        edgeDots.forEach((dot, index) => {
-            dot.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                stopAutoRotation();
-                updateStep(index);
-                // Restart auto-rotation after 5 seconds of inactivity
-                setTimeout(() => {
-                    if (!prefersReducedMotion) startAutoRotation();
-                }, 5000);
-            });
-        });
-        
-        /**
-         * Start auto-rotation every 3 seconds
-         */
-        function startAutoRotation() {
-            if (prefersReducedMotion || autoRotateInterval) return;
-            autoRotateInterval = setInterval(() => {
-                const nextStep = (currentStep + 1) % TOTAL_STEPS;
-                updateStep(nextStep);
-            }, AUTO_ROTATE_DELAY);
-        }
-        
-        /**
-         * Stop auto-rotation
-         */
-        function stopAutoRotation() {
-            if (autoRotateInterval) {
-                clearInterval(autoRotateInterval);
-                autoRotateInterval = null;
-            }
-        }
-        
-        /**
-         * Update the active step based on scroll position
-         * This is the core scroll-driven logic
-         */
-        function updateStep(stepIndex) {
-            if (stepIndex < 0 || stepIndex >= TOTAL_STEPS || stepIndex === currentStep) return;
-            
-            currentStep = stepIndex;
-            
-            // Update circle images
-            circleImages.forEach((img, i) => {
-                if (i === stepIndex) {
-                    img.classList.add('gpbc-loop-img-active');
-                } else {
-                    img.classList.remove('gpbc-loop-img-active');
-                }
-            });
-            
-            // Update step titles
-            stepTitles.forEach((title, i) => {
-                if (i === stepIndex) {
-                    title.classList.add('gpbc-loop-title-active');
-                } else {
-                    title.classList.remove('gpbc-loop-title-active');
-                }
-            });
-            
-            // Rotate orbit dots - 30 degrees per step
-            if (!prefersReducedMotion && orbitDots) {
-                const orbitRotation = stepIndex * 30;
-                orbitDots.style.transform = `rotate(${orbitRotation}deg)`;
-            }
-            
-            // Rotate edge dots container - 90 degrees per step (opposite direction for visual effect)
-            // Dot 0 starts at top, after 1 step dot 1 should be at top, etc.
+
+        function setActive(idx) {
+            if (idx === current || idx < 0 || idx >= TOTAL) return;
+            current = idx;
+
+            circleImages.forEach((el, i) => el.classList.toggle('gpbc-loop-img-active', i === current));
+            stepTitles.forEach((el, i) => el.classList.toggle('gpbc-loop-title-active', i === current));
+            edgeDots.forEach((el, i) => el.classList.toggle('gpbc-edge-active', i === current));
+
             if (!prefersReducedMotion && edgeDotsContainer) {
-                const edgeRotation = -stepIndex * 90; // Negative for counter-clockwise
-                edgeDotsContainer.style.transform = `rotate(${edgeRotation}deg)`;
+                edgeDotsContainer.style.transform = `rotate(${current * -90}deg)`;
             }
-            
-            // Update edge dots active state (the one at top is active/full size)
-            edgeDots.forEach((dot, i) => {
-                if (i === stepIndex) {
-                    dot.classList.add('gpbc-edge-active');
-                } else {
-                    dot.classList.remove('gpbc-edge-active');
-                }
+        }
+
+        function nextStep() {
+            setActive((current + 1) % TOTAL);
+        }
+
+        function startAuto() {
+            if (prefersReducedMotion || autoTimer || !isVisible) return;
+            autoTimer = setInterval(nextStep, AUTO_DELAY);
+        }
+
+        function stopAuto() {
+            if (!autoTimer) return;
+            clearInterval(autoTimer);
+            autoTimer = null;
+        }
+
+        stepTitles.forEach((title, i) => {
+            title.style.cursor = 'pointer';
+            title.addEventListener('click', () => {
+                setActive(i);
+                stopAuto();
+                setTimeout(startAuto, 800);
             });
-        }
-        
-        /**
-         * Calculate scroll progress within the section
-         * Maps scroll position to step index (0-3)
-         */
-        function calculateScrollProgress() {
-            const rect = loopSection.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            
-            // Section enters viewport from bottom
-            const sectionTop = rect.top;
-            const sectionHeight = rect.height;
-            
-            // Calculate how much of the section has been scrolled through
-            // When section top is at bottom of viewport: progress = 0
-            // When section top is at top of viewport: progress = 1
-            // When section is past viewport: progress > 1
-            
-            const scrollStart = windowHeight * 0.7; // Start tracking when section is 70% visible
-            const scrollEnd = -sectionHeight * 0.3; // End tracking when section is mostly past
-            
-            let progress = 0;
-            
-            if (sectionTop <= scrollStart && sectionTop >= scrollEnd) {
-                // Section is in the active scroll range
-                progress = (scrollStart - sectionTop) / (scrollStart - scrollEnd);
-                progress = Math.max(0, Math.min(1, progress)); // Clamp between 0 and 1
-            } else if (sectionTop < scrollEnd) {
-                // Section has scrolled past - stay at last step
-                progress = 1;
-            }
-            
-            // Map progress (0-1) to step index (0-3)
-            // Divide progress into 4 equal segments
-            const stepIndex = Math.floor(progress * TOTAL_STEPS);
-            const clampedStepIndex = Math.min(stepIndex, TOTAL_STEPS - 1);
-            
-            return clampedStepIndex;
-        }
-        
-        /**
-         * Scroll listener - updates step based on scroll position
-         * This creates the scroll-driven effect
-         */
-        let scrollTimeout;
-        function onScroll() {
-            // Pause auto-rotation during scroll
-            stopAutoRotation();
-            
-            const newStep = calculateScrollProgress();
-            updateStep(newStep);
-            
-            // Resume auto-rotation 2 seconds after scroll stops
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                if (!prefersReducedMotion && isNearViewport) {
-                    startAutoRotation();
-                }
-            }, 2000);
-        }
-        
-        // Use IntersectionObserver to only track scroll when section is near viewport
-        // This improves performance
-        let isNearViewport = false;
-        
+        });
+
+        edgeDots.forEach((dot, i) => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                setActive(i);
+                stopAuto();
+                setTimeout(startAuto, 800);
+            });
+        });
+
         const observer = new IntersectionObserver(
-            (entries) => {
+            entries => {
                 entries.forEach(entry => {
-                    isNearViewport = entry.isIntersecting;
-                    
-                    if (isNearViewport) {
-                        // Section is in view, start auto-rotation
-                        if (!prefersReducedMotion) startAutoRotation();
-                        window.addEventListener('scroll', onScroll, { passive: true });
-                        onScroll(); // Initial check
+                    isVisible = entry.isIntersecting;
+                    if (isVisible) {
+                        nextStep(); // advance when entering view
+                        startAuto();
                     } else {
-                        // Section is out of view, stop auto-rotation
-                        stopAutoRotation();
-                        window.removeEventListener('scroll', onScroll);
+                        stopAuto();
                     }
                 });
             },
-            {
-                rootMargin: '200px 0px', // Start observing 200px before section enters
-                threshold: 0
-            }
+            { threshold: 0.45 }
         );
-        
+
         observer.observe(loopSection);
-        
-        // Initialize
-        updateStep(0);
+
+        // Init
+        setActive(current);
         switchLanguage('en');
-        
-        // Initial scroll check in case section is already in view on load
-        setTimeout(() => {
-            if (isNearViewport) {
-                onScroll();
-            }
-        }, 100);
+        if (loopSection.getBoundingClientRect().top < window.innerHeight * 0.55) {
+            isVisible = true;
+            startAuto();
+        }
     })();
     </script>
     
