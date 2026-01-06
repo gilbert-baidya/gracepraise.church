@@ -50,6 +50,59 @@
             width: 100%;
             max-width: 100%;
         }
+        
+        /* DARK MODE TOGGLE BUTTON */
+        .dark-mode-toggle {
+            background: rgba(45, 122, 143, 0.1);
+            border: 2px solid rgba(45, 122, 143, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-left: 15px;
+            font-size: 20px;
+        }
+        
+        .dark-mode-toggle:hover {
+            background: rgba(45, 122, 143, 0.2);
+            border-color: rgba(45, 122, 143, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .dark-mode-toggle .sun-icon,
+        .dark-mode-toggle .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .dark-mode-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(-180deg);
+        }
+        
+        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg);
+        }
+        
+        [data-theme="dark"] .dark-mode-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+        
+        @media (max-width: 768px) {
+            .dark-mode-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+        }
     </style>
     
     <!-- Structured Data for Special Event -->
@@ -99,6 +152,10 @@
         <nav>
             <div class="nav-container">
                 <a href="#home" class="logo">GPBC</a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
                 <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
                     <span></span>
                     <span></span>
@@ -968,6 +1025,38 @@
             const statsSection = document.querySelector('.stats');
             if (statsSection) {
                 statsObserver.observe(statsSection);
+            }
+        });
+    </script>
+    
+    <!-- Dark Mode Toggle Script -->
+    <script>
+        // Check for saved theme preference or default to 'light'
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', () => {
+                    let theme = document.documentElement.getAttribute('data-theme');
+                    
+                    // Toggle between light and dark
+                    if (theme === 'dark') {
+                        document.documentElement.setAttribute('data-theme', 'light');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                    }
+                    
+                    // Add smooth transition effect
+                    document.documentElement.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+                    setTimeout(() => {
+                        document.documentElement.style.transition = '';
+                    }, 300);
+                });
             }
         });
     </script>
