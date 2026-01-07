@@ -28,6 +28,7 @@
     const navLinks = document.querySelector('.nav-links');
     const mobileOverlay = document.querySelector('.mobile-overlay');
     const navDropdowns = document.querySelectorAll('.nav-dropdown');
+    const navNestedDropdowns = document.querySelectorAll('.nav-dropdown-nested');
 
     // ============================================
     // STICKY HEADER BEHAVIOR (DESKTOP)
@@ -123,6 +124,37 @@
                     if (window.innerWidth <= 768 && navLinks.classList.contains('mobile-open')) {
                         toggleMobileMenu();
                         dropdown.classList.remove('mobile-dropdown-open');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        });
+        
+        // Handle nested dropdowns (Ministries submenu)
+        navNestedDropdowns.forEach(nestedDropdown => {
+            const toggle = nestedDropdown.querySelector(':scope > a');
+            const menu = nestedDropdown.querySelector('.dropdown-menu-nested');
+            
+            if (!toggle || !menu) return;
+            
+            toggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Toggle nested dropdown
+                    const isOpen = nestedDropdown.classList.toggle('mobile-dropdown-open');
+                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                }
+            });
+            
+            // Close everything when nested link is clicked
+            const nestedLinks = menu.querySelectorAll('a');
+            nestedLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768 && navLinks.classList.contains('mobile-open')) {
+                        toggleMobileMenu();
+                        nestedDropdown.classList.remove('mobile-dropdown-open');
                         toggle.setAttribute('aria-expanded', 'false');
                     }
                 });
