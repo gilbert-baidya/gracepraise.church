@@ -315,22 +315,24 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+    align-items: stretch;
 }
 
 .shape-square {
-    aspect-ratio: 1 / 1;
     background: white;
     border-radius: 12px;
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
     box-shadow: 0 8px 30px var(--shape-square-shadow);
     border: 3px solid var(--shape-square-primary);
     transition: all var(--motion-gentle);
     cursor: pointer;
+    min-height: 350px;
+    height: 100%;
 }
 
 .shape-square:hover {
@@ -355,6 +357,12 @@
     color: #64748b;
     line-height: 1.6;
     font-size: 0.95rem;
+    flex-grow: 1;
+}
+
+.shape-square a {
+    margin-top: auto;
+    padding-top: 1rem;
 }
 
 /* ========================================
@@ -666,9 +674,9 @@ body[data-theme="dark"] .shape-square-container h2 {
 
 body.dark .shape-square,
 body[data-theme="dark"] .shape-square {
-    background: #0f172a !important;
+    background: #ffffff !important;
     border-color: #fbbf24 !important;
-    box-shadow: 0 8px 30px rgba(251, 191, 36, 0.2) !important;
+    box-shadow: 0 8px 30px rgba(251, 191, 36, 0.3) !important;
     opacity: 1 !important;
     filter: none !important;
     isolation: isolate;
@@ -689,7 +697,7 @@ body[data-theme="dark"] .shape-square-icon {
 
 body.dark .shape-square h3,
 body[data-theme="dark"] .shape-square h3 {
-    color: #f8fafc !important;
+    color: #1e293b !important;
     opacity: 1 !important;
     text-shadow: none !important;
     filter: none !important;
@@ -697,7 +705,7 @@ body[data-theme="dark"] .shape-square h3 {
 
 body.dark .shape-square p,
 body[data-theme="dark"] .shape-square p {
-    color: #cbd5e1 !important;
+    color: #475569 !important;
     opacity: 1 !important;
     text-shadow: none !important;
     filter: none !important;
@@ -705,14 +713,15 @@ body[data-theme="dark"] .shape-square p {
 
 body.dark .shape-square a,
 body[data-theme="dark"] .shape-square a {
-    color: #a78bfa !important;
+    color: #f59e0b !important;
     opacity: 1 !important;
     text-shadow: none !important;
     filter: none !important;
+    font-weight: 600 !important;
 }
 
 body.dark .shape-square a:hover,
 body[data-theme="dark"] .shape-square a:hover {
-    color: #c4b5fd !important;
+    color: #d97706 !important;
 }
 
