@@ -39,6 +39,7 @@
   background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
   padding: 80px 40px;
   overflow: hidden;
+  isolation: isolate;
 }
 
 /* ============================================================================
@@ -97,6 +98,7 @@
   aspect-ratio: 1 / 1;
   max-width: 90vmin;
   max-height: 90vmin;
+  isolation: isolate;
 }
 
 /* ============================================================================
@@ -134,6 +136,7 @@
   transform-origin: center center;
   will-change: transform;
   z-index: 1;
+  isolation: isolate;
 }
 
 /* SVG Heptagon — Mathematically precise */
@@ -220,6 +223,7 @@
   opacity: 1 !important;
   filter: none !important;
   mix-blend-mode: normal !important;
+  isolation: isolate;
 }
 
 .heptagon-center-inner {
@@ -442,35 +446,45 @@
 body.dark .heptagon-wheel-section,
 body[data-theme="dark"] .heptagon-wheel-section {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  opacity: 1 !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  mix-blend-mode: normal !important;
 }
 
 body.dark .heptagon-center-item h2,
 body[data-theme="dark"] .heptagon-center-item h2 {
-  color: #f8fafc !important;
+  color: #1e293b !important;
   opacity: 1 !important;
   text-shadow: none !important;
   filter: none !important;
+  mix-blend-mode: normal !important;
 }
 
 body.dark .heptagon-center-item .scripture,
 body[data-theme="dark"] .heptagon-center-item .scripture {
-  color: #a78bfa !important;
+  color: #5b21b6 !important;
   opacity: 1 !important;
   text-shadow: none !important;
   filter: none !important;
+  mix-blend-mode: normal !important;
 }
 
 body.dark .heptagon-center-item p,
 body[data-theme="dark"] .heptagon-center-item p {
-  color: #cbd5e1 !important;
+  color: #334155 !important;
   opacity: 1 !important;
   text-shadow: none !important;
   filter: none !important;
+  mix-blend-mode: normal !important;
 }
 
 body.dark .heptagon-polygon,
 body[data-theme="dark"] .heptagon-polygon {
-  fill: rgba(255, 255, 255, 0.95);
+  fill: #ffffff !important;
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
 }
 
 body.dark .heptagon-wall-label,
