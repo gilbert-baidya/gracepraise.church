@@ -1,0 +1,451 @@
+/* ============================================================================
+   HEPTAGON WHEEL — Sacred Geometry Component
+   ============================================================================
+   
+   ARCHITECTURE:
+   - LAYER A: Rotating geometry (heptagon outline + vertex dots)
+   - LAYER B: Static content (text that never moves)
+   
+   CRITICAL REQUIREMENTS:
+   - TRUE heptagon (7 equal sides, 7 equal angles)
+   - NEVER appears oval, rounded, or blob-like
+   - Vertex-based navigation (dots at corners)
+   - Text NEVER rotates or translates
+   - Square aspect ratio LOCKED
+   
+   Design Philosophy:
+   - Architectural, not playful
+   - Sacred completeness (number 7)
+   - Calm, reverent, intentional
+   - Visual catechism wheel
+   
+   ========================================================================== */
+
+:root {
+  /* Sacred Color Palette */
+  --heptagon-primary: #7c3aed;      /* Violet — spiritual authority */
+  --heptagon-text: #1e293b;         /* Slate — readable, grounded */
+  --heptagon-light: #f1f5f9;        /* Near-white */
+  --heptagon-accent: #3b82f6;       /* Blue — trustworthy */
+  --heptagon-watermark: #7c3aed;    /* Violet for background */
+  
+  /* Timing — Worship-paced (not gaming-paced) */
+  --heptagon-transition: 800ms cubic-bezier(0.4, 0, 0.2, 1);
+  --heptagon-rotation: 1200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================================
+   SECTION CONTAINER
+   ========================================================================== */
+
+.heptagon-carousel-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
+  padding: 80px 40px;
+  overflow: hidden;
+}
+
+/* ============================================================================
+   TWO-COLUMN LAYOUT: LEFT PANEL + CENTER WHEEL
+   ========================================================================== */
+
+.heptagon-layout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 80px;
+  max-width: 1400px;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+/* LEFT PANEL — Static Theological Context */
+.heptagon-left-panel {
+  padding: 40px;
+  max-width: 400px;
+}
+
+.heptagon-left-panel h1 {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--heptagon-primary);
+  line-height: 1.1;
+  margin: 0 0 24px;
+  letter-spacing: -0.03em;
+}
+
+.heptagon-left-panel .theological-intro {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--heptagon-text);
+  opacity: 0.85;
+  margin: 0;
+}
+
+/* CENTER PANEL — Wheel Container */
+.heptagon-center-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 600px;
+}
+
+/* Mobile: Stack vertically */
+@media (max-width: 1024px) {
+  .heptagon-layout {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  
+  .heptagon-left-panel {
+    text-align: center;
+    max-width: 100%;
+  }
+  
+  .heptagon-left-panel h1 {
+    font-size: 36px;
+  }
+  
+  .heptagon-left-panel .theological-intro {
+    font-size: 16px;
+  }
+}
+
+/* ============================================================================
+   WATERMARK HEPTAGON (Desktop Only — FAINT)
+   ========================================================================== */
+
+.heptagon-watermark {
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;
+}
+
+.heptagon-watermark svg {
+  width: 100%;
+  height: 100%;
+  /* CRITICAL: Square aspect ratio locked */
+  aspect-ratio: 1 / 1;
+}
+
+.heptagon-watermark polygon {
+  fill: none;
+  stroke: var(--heptagon-watermark);
+  stroke-width: 2;
+  stroke-linejoin: miter; /* NOT round — keeps geometry sharp */
+  vector-effect: non-scaling-stroke;
+}
+
+/* Mobile: Remove watermark */
+@media (max-width: 1024px) {
+  .heptagon-watermark {
+    display: none;
+  }
+}
+
+/* ============================================================================
+   WHEEL CONTAINER — Maintains square aspect ratio
+   ========================================================================== */
+
+.heptagon-carousel-container {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  /* CRITICAL: Force square */
+  aspect-ratio: 1 / 1;
+  max-width: 90vmin;
+  max-height: 90vmin;
+}
+
+@media (max-width: 1024px) {
+  .heptagon-carousel-container {
+    width: 90vmin;
+    height: 90vmin;
+  }
+}
+
+/* ============================================================================
+   LAYER A: ROTATING GEOMETRY (Heptagon + Vertex Dots)
+   ========================================================================== */
+
+.heptagon-rotating-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transition: transform var(--heptagon-rotation);
+  transform-origin: center center; /* LOCKED to prevent drift */
+  will-change: transform;
+  z-index: 2;
+}
+
+/* SVG Heptagon Shape — MATHEMATICALLY PRECISE */
+.heptagon-rotating-layer svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  /* CRITICAL: Square viewBox and aspect ratio */
+  aspect-ratio: 1 / 1;
+  filter: drop-shadow(0 8px 24px rgba(124, 58, 237, 0.12));
+}
+
+.heptagon-rotating-layer polygon {
+  fill: #ffffff;
+  stroke: var(--heptagon-primary);
+  stroke-width: 3;
+  stroke-linejoin: miter; /* NOT round — preserves angles */
+  vector-effect: non-scaling-stroke;
+  transition: fill var(--heptagon-transition);
+}
+
+.heptagon-carousel-container:hover .heptagon-rotating-layer polygon {
+  fill: #fefefe;
+}
+
+/* ============================================================================
+   VERTEX NAVIGATION DOTS (Part of rotating layer)
+   ========================================================================== */
+
+.heptagon-vertex-dots {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.heptagon-vertex-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--heptagon-primary);
+  border: 3px solid #ffffff;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: all 300ms ease;
+  pointer-events: auto;
+  /* Each dot positioned via inline style (calculated from vertex) */
+  /* Dots will rotate WITH the geometry layer */
+}
+
+.heptagon-vertex-dot:hover {
+  opacity: 0.7;
+  transform: scale(1.15);
+}
+
+.heptagon-vertex-dot.active {
+  opacity: 1;
+  width: 20px;
+  height: 20px;
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.5);
+  transform: scale(1);
+}
+
+/* Mobile: Larger touch targets */
+@media (max-width: 768px) {
+  .heptagon-vertex-dot {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .heptagon-vertex-dot.active {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ============================================================================
+   LAYER B: STATIC CONTENT (Text that never moves)
+   ========================================================================== */
+
+.heptagon-static-content-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.heptagon-content-inner {
+  /* CRITICAL: Fixed inner box that never moves */
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  padding: 40px;
+  /* Content is ALWAYS centered, never translates */
+  position: relative;
+}
+
+.heptagon-content-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 320px;
+  padding: 0 20px;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  /* NO translateX, NO translateY, NO rotation */
+}
+
+.heptagon-content-item.active {
+  opacity: 1;
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+}
+
+.heptagon-content-item h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--heptagon-primary);
+  margin: 0 0 12px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.heptagon-content-item .scripture {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--heptagon-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 16px;
+  opacity: 0.9;
+}
+
+.heptagon-content-item p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--heptagon-text);
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .heptagon-content-inner {
+    max-width: 260px;
+    padding: 30px;
+  }
+  
+  .heptagon-content-item {
+    max-width: 260px;
+  }
+  
+  .heptagon-content-item h2 {
+    font-size: 22px;
+  }
+  
+  .heptagon-content-item .scripture {
+    font-size: 12px;
+  }
+  
+  .heptagon-content-item p {
+    font-size: 14px;
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE: Mobile adjustments
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .heptagon-carousel-section {
+    padding: 60px 20px;
+  }
+  
+  .heptagon-wheel-container {
+    width: 340px;
+    height: 340px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heptagon-wheel-container {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* ============================================================================
+   ACCESSIBILITY: Reduced Motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .heptagon-rotating-layer,
+  .heptagon-watermark,
+  .heptagon-content-item,
+  .heptagon-vertex-dot {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================================
+   HIGH CONTRAST MODE
+   ========================================================================== */
+
+@media (prefers-contrast: high) {
+  .heptagon-rotating-layer polygon {
+    stroke-width: 4;
+  }
+  
+  .heptagon-content-item h2,
+  .heptagon-content-item p {
+    color: #000000;
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+   LOADING STATE
+   ========================================================================== */
+
+.heptagon-wheel-container[data-loading="true"] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.heptagon-wheel-container[data-loading="true"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--heptagon-primary);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: heptagonSpin 800ms linear infinite;
+  z-index: 100;
+}
+
+@keyframes heptagonSpin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}

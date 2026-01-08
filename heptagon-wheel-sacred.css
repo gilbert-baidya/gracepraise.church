@@ -1,0 +1,446 @@
+/* ============================================================================
+   TRUE HEPTAGON WHEEL — Sacred Geometry Teaching Tool
+   ============================================================================
+   
+   ARCHITECTURE:
+   - Rotating layer: Heptagon outline + wall text labels
+   - Static center: Active topic details (title, verse, description)
+   - Geometry teaches theology
+   
+   CRITICAL REQUIREMENTS:
+   - TRUE heptagon (7 equal sides, mathematically precise)
+   - Square aspect ratio LOCKED (no oval distortion)
+   - Text labels positioned on each wall/side
+   - Center content NEVER moves (opacity transitions only)
+   - Active side is always at TOP
+   
+   ========================================================================== */
+
+:root {
+  --heptagon-primary: #7c3aed;
+  --heptagon-active: #5b21b6;
+  --heptagon-text: #1e293b;
+  --heptagon-subtle: #94a3b8;
+  --heptagon-bg: #ffffff;
+  --heptagon-rotation: 1200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --heptagon-fade: 600ms ease;
+}
+
+/* ============================================================================
+   SECTION CONTAINER
+   ========================================================================== */
+
+.heptagon-wheel-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
+  padding: 80px 40px;
+  overflow: hidden;
+}
+
+/* ============================================================================
+   LAYOUT: LEFT PANEL + CENTER WHEEL
+   ========================================================================== */
+
+.heptagon-wheel-layout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 80px;
+  max-width: 1400px;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.heptagon-left-panel {
+  padding: 40px;
+  max-width: 400px;
+}
+
+.heptagon-left-panel h1 {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--heptagon-primary);
+  line-height: 1.1;
+  margin: 0 0 24px;
+  letter-spacing: -0.03em;
+}
+
+.heptagon-left-panel .theological-intro {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--heptagon-text);
+  opacity: 0.85;
+  margin: 0;
+}
+
+.heptagon-center-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 700px;
+}
+
+/* ============================================================================
+   WHEEL CONTAINER — Square aspect ratio LOCKED
+   ========================================================================== */
+
+.heptagon-wheel-container {
+  position: relative;
+  width: 700px;
+  height: 700px;
+  aspect-ratio: 1 / 1;
+  max-width: 90vmin;
+  max-height: 90vmin;
+}
+
+/* ============================================================================
+   WATERMARK HEPTAGON — Background depth layer (desktop only)
+   ========================================================================== */
+
+.heptagon-wheel-container::before {
+  content: '';
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,2 87.53,20.07 96.80,60.68 70.83,93.25 29.17,93.25 3.20,60.68 12.47,20.07" fill="none" stroke="rgb(124, 58, 237)" stroke-width="1" stroke-linejoin="miter" vector-effect="non-scaling-stroke"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================================================
+   ROTATING LAYER — Heptagon outline + wall text labels
+   ========================================================================== */
+
+.heptagon-rotating-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transition: transform var(--heptagon-rotation);
+  transform-origin: center center;
+  will-change: transform;
+  z-index: 1;
+}
+
+/* SVG Heptagon — Mathematically precise */
+.heptagon-svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  aspect-ratio: 1 / 1;
+  filter: drop-shadow(0 8px 32px rgba(124, 58, 237, 0.15));
+}
+
+.heptagon-polygon {
+  fill: var(--heptagon-bg);
+  stroke: var(--heptagon-primary);
+  stroke-width: 2.5;
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
+  transition: fill var(--heptagon-fade), stroke var(--heptagon-fade);
+}
+
+.heptagon-wheel-container:hover .heptagon-polygon {
+  stroke: var(--heptagon-active);
+  stroke-width: 3;
+}
+
+/* ============================================================================
+   WALL TEXT LABELS — Positioned OUTSIDE each side (close to wall)
+   ========================================================================== */
+
+.heptagon-wall-labels {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.heptagon-wall-label {
+  position: absolute;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--heptagon-subtle);
+  transition: all var(--heptagon-fade);
+  transform-origin: center center;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+/* Active wall label (top side) — emphasized */
+.heptagon-wall-label.active {
+  color: var(--heptagon-active);
+  font-weight: 700;
+  font-size: 15px;
+  text-shadow: 0 2px 4px rgba(91, 33, 182, 0.2);
+}
+
+/* Labels positioned at side midpoints by JavaScript */
+
+/* ============================================================================
+   CENTER CONTENT — Static position (NEVER moves)
+   ========================================================================== */
+
+.heptagon-center-content {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.heptagon-center-inner {
+  max-width: 320px;
+  padding: 30px;
+}
+
+.heptagon-center-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity var(--heptagon-fade);
+  width: 100%;
+}
+
+.heptagon-center-item.active {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  opacity: 1;
+}
+
+.heptagon-center-item h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--heptagon-primary);
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+.heptagon-center-item .scripture {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--heptagon-active);
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.heptagon-center-item p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--heptagon-text);
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* ============================================================================
+   VERTEX DOTS — Navigation points at corners
+   ========================================================================== */
+
+.heptagon-vertex-dots {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.heptagon-vertex-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--heptagon-subtle);
+  border: 3px solid var(--heptagon-bg);
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all var(--heptagon-fade);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 3;
+}
+
+.heptagon-vertex-dot:hover {
+  background: var(--heptagon-primary);
+  transform: translate(-50%, -50%) scale(1.4);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.heptagon-vertex-dot.active {
+  background: var(--heptagon-active);
+  width: 16px;
+  height: 16px;
+  border-width: 3px;
+  box-shadow: 0 0 0 4px rgba(91, 33, 182, 0.2),
+              0 4px 16px rgba(91, 33, 182, 0.4);
+}
+
+/* ============================================================================
+   RESPONSIVE — Mobile simplification
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  /* Hide watermark heptagon on mobile */
+  .heptagon-wheel-container::before {
+    display: none;
+  }
+  
+  .heptagon-wheel-layout {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  
+  .heptagon-left-panel {
+    text-align: center;
+    max-width: 100%;
+  }
+  
+  .heptagon-left-panel h1 {
+    font-size: 36px;
+  }
+  
+  .heptagon-wheel-container {
+    width: 90vmin;
+    height: 90vmin;
+  }
+  
+  .heptagon-wall-label {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+  
+  .heptagon-wall-label.active {
+    font-size: 13px;
+  }
+  
+  .heptagon-vertex-dot {
+    width: 10px;
+    height: 10px;
+    border-width: 2px;
+  }
+  
+  .heptagon-vertex-dot.active {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .heptagon-center-item h2 {
+    font-size: 22px;
+  }
+  
+  .heptagon-center-item p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 640px) {
+  .heptagon-wheel-section {
+    padding: 40px 20px;
+  }
+  
+  .heptagon-wheel-container {
+    width: 85vmin;
+    height: 85vmin;
+  }
+  
+  .heptagon-wall-label {
+    font-size: 9px;
+    letter-spacing: 0.05em;
+  }
+  
+  .heptagon-wall-label.active {
+    font-size: 11px;
+  }
+  
+  .heptagon-vertex-dot {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .heptagon-vertex-dot.active {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .heptagon-center-item h2 {
+    font-size: 20px;
+  }
+  
+  .heptagon-center-item p {
+    font-size: 13px;
+  }
+}
+
+/* ============================================================================
+   LOADING STATE
+   ========================================================================== */
+
+.heptagon-wheel-container[data-loading="true"] .heptagon-rotating-layer {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.heptagon-wheel-container[data-loading="true"] .heptagon-center-content {
+  opacity: 0;
+}
+
+/* ============================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .heptagon-rotating-layer {
+    transition-duration: 10ms;
+  }
+  
+  .heptagon-center-item {
+    transition-duration: 10ms;
+  }
+  
+  .heptagon-wall-label {
+    transition-duration: 10ms;
+  }
+}
+
+/* Hide screen reader only content */
+.sr-only {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

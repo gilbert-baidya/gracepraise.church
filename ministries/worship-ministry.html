@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worship Ministry - Grace & Praise Bangladeshi Church</title>
+    <meta name="description" content="Join us in worship as we glorify God through song, prayer, and heartfelt praise.">
+    <link rel="stylesheet" href="/redesign-styles.css">
+    <link rel="stylesheet" href="/countdown.css">
+    <link rel="stylesheet" href="/shape-system.css">
+    <link rel="stylesheet" href="/heptagon-wheel-sacred.css">
+    
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            overflow-y: auto;
+        }
+        
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            overflow-y: visible;
+            position: relative;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            html {
+                overflow-x: clip !important;
+            }
+            body {
+                overflow-x: clip !important;
+                position: relative;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe, embed, object {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        section, article, main, .hero, .container {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        /* DARK MODE TOGGLE BUTTON */
+        .dark-mode-toggle {
+            background: rgba(45, 122, 143, 0.1);
+            border: 2px solid rgba(45, 122, 143, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-left: 15px;
+            font-size: 20px;
+        }
+        
+        .dark-mode-toggle:hover {
+            background: rgba(45, 122, 143, 0.2);
+            border-color: rgba(45, 122, 143, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .dark-mode-toggle .sun-icon,
+        .dark-mode-toggle .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .dark-mode-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(-180deg);
+        }
+        
+        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg);
+        }
+        
+        [data-theme="dark"] .dark-mode-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+        
+        @media (max-width: 768px) {
+            .dark-mode-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to main content for keyboard users -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Sticky Header/Nav -->
+<header>
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html#home" class="logo">GPBC</a>
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+            <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="../index.html#live">LIVE</a></li>
+                <li><a href="../index.html#home">Home</a></li>
+                <li class="nav-dropdown">
+                    <a href="../about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../history.html">Our History</a></li>
+                        <li><a href="../mission.html">Our Mission</a></li>
+                        <li><a href="../leadership.html">Our Leadership</a></li>
+                        <li><a href="../beliefs.html">Our Beliefs</a></li>
+                        <li><a href="../core-values.html">Our Core Values</a></li>
+                        <li><a href="../position-papers.html">Position Papers</a></li>
+                        <li><a href="../testimonies.html">Testimonies</a></li>
+                        <li><a href="../songbook.html">GPBC Song Book</a></li>
+                        <li class="nav-dropdown-nested">
+                            <a href="../ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▸</span></a>
+                            <ul class="dropdown-menu-nested">
+                                <li><a href="../ministries/bible-study.html">Bible Study</a></li>
+                                <li><a href="../ministries/community-development.html">Community Development</a></li>
+                                <li><a href="../ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                                <li><a href="../ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                                <li class="nav-dropdown-nested">
+                                    <a href="../ministries/kids-ministry.html" aria-haspopup="true" aria-expanded="false">Kids Ministry <span class="dropdown-arrow">▸</span></a>
+                                    <ul class="dropdown-menu-nested">
+                                        <li><a href="../kids/fellowship.html">Kids Fellowship</a></li>
+                                        <li><a href="../kids/games.html">Kids Games</a></li>
+                                        <li><a href="../kids/sunday-school.html">Sunday School</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="../ministries/men-fellowship.html">Men Fellowship</a></li>
+                                <li><a href="../ministries/mission-outreach.html">Mission Outreach</a></li>
+                                <li><a href="../ministries/prison-ministry.html">Prison Ministry</a></li>
+                                <li><a href="../ministries/support-missionaries.html">Support Missionaries</a></li>
+                                <li><a href="../ministries/worship-ministry.html">Worship Ministry</a></li>
+                                <li class="nav-dropdown-nested">
+                                    <a href="../ministries/youth-ministry.html" aria-haspopup="true" aria-expanded="false">Youth Ministry <span class="dropdown-arrow">▸</span></a>
+                                    <ul class="dropdown-menu-nested">
+                                        <li><a href="../youth/bible-study.html">Youth Bible Study</a></li>
+                                        <li><a href="../youth/fellowship.html">Youth Fellowship</a></li>
+                                        <li><a href="../youth/games.html">Youth Games</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="../index.html#next-service">Next Service</a></li>
+                <li><a href="../calendar.html">Calendar</a></li>
+                <li><a href="../gallery.html">Gallery</a></li>
+                <li><a href="../index.html#prayer">Prayer</a></li>
+                <li class="nav-dropdown">
+                    <a href="../daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../daily-devotion.html">Daily Devotion</a></li>
+                        <li><a href="../couples-devotion.html">Couples Devotion</a></li>
+                        <li><a href="../family-devotion.html">Family Devotion</a></li>
+                        <li><a href="../youth-devotion.html">Youth Devotion</a></li>
+                        <li><a href="../children-devotion.html">Children Devotion</a></li>
+                        <li><a href="../fasting-21days.html">21 Days Fasting</a></li>
+                        <li><a href="../fasting-30days.html">30 Days Fasting</a></li>
+                        <li><a href="../fasting-40days.html">40 Days Fasting</a></li>
+                        <li><a href="../gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                    </ul>
+                </li>
+                <li><a href="../give.html">Give</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="mobile-overlay"></div>
+</header>
+
+    <main id="main-content">
+        <section class="hero-section" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05)); padding: 4rem 0 3rem;">
+            <div class="container">
+                <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                    <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--color-text);">Worship Ministry</h1>
+                    <p style="font-size: 1.25rem; color: var(--color-text-muted); line-height: 1.8;">Glorifying God Through Praise and Song</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="max-width: 900px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-lg);">
+                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1200&h=600&fit=crop" 
+                         alt="Worship team leading congregation in praise" 
+                         style="width: 100%; height: auto; display: block;">
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="background: var(--color-surface); padding: 3rem; border-radius: 16px; box-shadow: var(--shadow-md);">
+                        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; color: var(--color-text);">Our Heart for Worship</h2>
+                        <p style="font-size: 1.125rem; line-height: 1.8; color: var(--color-text-muted); margin-bottom: 1.5rem;">
+                            The Worship Ministry exists to lead God's people in authentic, heartfelt worship that glorifies the Father and draws us into His presence. Through music, song, and prayer, we create an atmosphere where believers can encounter God and offer Him the praise He deserves.
+                        </p>
+                        <p style="font-size: 1.125rem; line-height: 1.8; color: var(--color-text-muted); margin-bottom: 1.5rem;">
+                            We believe worship is both a privilege and a calling. Our team is committed to excellence in ministry while maintaining humble hearts focused on exalting Christ, not ourselves. Every song, every prayer, every moment is dedicated to bringing honor to His name.
+                        </p>
+                        <p style="font-size: 1.125rem; line-height: 1.8; color: var(--color-text-muted);">
+                            Whether you have musical gifts or simply a heart to worship, we invite you to join us in lifting high the name of Jesus and creating a space where God's presence is welcomed and His glory is made known.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.08)); padding: 2.5rem; border-radius: 16px; border-left: 4px solid #8b5cf6;">
+                    <p style="font-size: 1.25rem; line-height: 1.9; color: var(--color-text); font-style: italic; margin-bottom: 1rem;">
+                        "Come, let us bow down in worship, let us kneel before the LORD our Maker; for he is our God and we are the people of his pasture, the flock under his care."
+                    </p>
+                    <p style="font-weight: 600; color: #8b5cf6; font-size: 1rem;">
+                        — Psalm 95:6-7 (NIV)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 3rem 0 5rem;">
+            <div class="container">
+                <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                    <h2 style="font-size: 1.75rem; margin-bottom: 1rem; color: var(--color-text);">Join the Worship Team</h2>
+                    <p style="font-size: 1.125rem; line-height: 1.8; color: var(--color-text-muted); margin-bottom: 2rem;">
+                        Use your gifts to lead others in worship and glorify God through music and song.
+                    </p>
+                    <a href="../index.html#prayer" class="btn" style="display: inline-block; padding: 1rem 2.5rem; background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; text-decoration: none; border-radius: 50px; font-weight: 600; transition: all 0.3s ease; box-shadow: var(--shadow-md);">
+                        Contact Us to Get Involved
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="../index.html#home">Home</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../calendar.html">Calendar</a></li>
+                <li><a href="../gallery.html">Gallery</a></li>
+                <li><a href="../index.html#prayer">Prayer</a></li>
+                <li><a href="../daily-devotion.html">Daily Devotion</a></li>
+                <li><a href="../give.html">Give</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Ministries</h3>
+            <ul>
+                <li><a href="../ministries/men-fellowship.html">Men Fellowship</a></li>
+                <li><a href="../ministries/bible-study.html">Bible Study</a></li>
+                <li><a href="../ministries/worship-ministry.html">Worship Ministry</a></li>
+                <li><a href="../kids/games.html">Kids Games</a></li>
+                <li><a href="../youth/games.html">Youth Games</a></li>
+                <li><a href="../ministries/mission-outreach.html">Mission Outreach</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <address>
+                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                <p>1325 Richardson Street, CA 92408</p>
+                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+            </address>
+        </div>
+
+        <div class="footer-section">
+            <h3>Connect</h3>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+        <p><a href="../privacy-policy.html">Privacy Policy</a> | <a href="../terms-conditions.html">Terms &amp; Conditions</a></p>
+    </div>
+</footer>
+
+    <script src="/navigation.js"></script>
+</body>
+</html>

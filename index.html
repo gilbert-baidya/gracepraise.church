@@ -6,6 +6,8 @@
     <title>Grace and Praise Bangladeshi Church - San Bernardino, CA</title>
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="countdown.css">
+    <link rel="stylesheet" href="shape-system.css">
+    <link rel="stylesheet" href="heptagon-wheel-sacred.css">
     
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -25,17 +27,28 @@
             box-sizing: border-box;
         }
         
-        html,
+        html {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip; /* Use clip instead of hidden to maintain sticky positioning */
+            overflow-y: auto;
+        }
+        
         body {
             width: 100%;
             max-width: 100%;
-            overflow-x: hidden;
+            overflow-x: clip; /* Use clip instead of hidden to maintain sticky positioning */
+            overflow-y: visible;
+            position: relative;
         }
         
         /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
         @supports (-webkit-touch-callout: none) {
+            html {
+                overflow-x: clip !important;
+            }
             body {
-                overflow-x: hidden !important;
+                overflow-x: clip !important;
                 position: relative;
             }
         }
@@ -175,6 +188,36 @@
                             <li><a href="position-papers.html">Position Papers</a></li>
                             <li><a href="testimonies.html">Testimonies</a></li>
                             <li><a href="songbook.html">GPBC Song Book</a></li>
+                            <li class="nav-dropdown-nested">
+                                <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▸</span></a>
+                                <ul class="dropdown-menu-nested">
+                                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                                    <li><a href="ministries/community-development.html">Community Development</a></li>
+                                    <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                                    <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                                    <li class="nav-dropdown-nested">
+                                        <a href="ministries/kids-ministry.html" aria-haspopup="true" aria-expanded="false">Kids Ministry <span class="dropdown-arrow">▸</span></a>
+                                        <ul class="dropdown-menu-nested">
+                                            <li><a href="kids/fellowship.html">Kids Fellowship</a></li>
+                                            <li><a href="kids/games.html">Kids Games</a></li>
+                                            <li><a href="kids/sunday-school.html">Sunday School</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                                    <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                                    <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                                    <li class="nav-dropdown-nested">
+                                        <a href="ministries/youth-ministry.html" aria-haspopup="true" aria-expanded="false">Youth Ministry <span class="dropdown-arrow">▸</span></a>
+                                        <ul class="dropdown-menu-nested">
+                                            <li><a href="youth/bible-study.html">Youth Bible Study</a></li>
+                                            <li><a href="youth/fellowship.html">Youth Fellowship</a></li>
+                                            <li><a href="youth/games.html">Youth Games</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <li><a href="#next-service">Next Service</a></li>
@@ -259,6 +302,100 @@
                             loading="lazy">
                         </iframe>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             SHAPE SYSTEM: CIRCLE HERO - Community & Eternity
+             ======================================== -->
+        <section class="shape-circle-container gentle-fade-in" id="circle-hero" style="background: linear-gradient(to bottom, #f8f9fb 0%, white 100%); padding: 5rem 0;">
+            <div class="container">
+                <div class="circle-carousel" role="region" aria-label="Church community highlights" tabindex="0">
+                    
+                    <!-- Slide 1: Sunday Worship -->
+                    <div class="circle-carousel-item active">
+                        <div class="shape-circle">
+                            <div class="shape-circle-content">
+                                <div class="unity-ring" style="width: 90%; height: 90%; top: 5%; left: 5%;"></div>
+                                <div class="unity-ring" style="width: 95%; height: 95%; top: 2.5%; left: 2.5%;"></div>
+                                
+                                <div class="shape-content-wrapper">
+                                    <h2 style="color: white; font-size: 3rem; margin-bottom: 1.5rem;">
+                                        Join Us in Worship
+                                    </h2>
+                                    <p class="shape-scripture" style="color: white; font-size: 1.3rem; margin-bottom: 2rem;">
+                                        "Taste and see that the Lord is good; blessed is the one who takes refuge in him."
+                                        <br>— Psalm 34:8
+                                    </p>
+                                    <p style="font-size: 1.1rem; margin-bottom: 2rem; color: rgba(255,255,255,0.95);">
+                                        Experience the warmth of fellowship and the joy of worshiping together as one body in Christ.
+                                    </p>
+                                    <a href="#next-service" class="btn btn-primary" style="background: white; color: #3b82f6; padding: 1rem 2.5rem; font-weight: 600; border-radius: 30px; font-size: 1.1rem;">
+                                        Join This Sunday →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 2: Community Prayer -->
+                    <div class="circle-carousel-item">
+                        <div class="shape-circle">
+                            <div class="shape-circle-content">
+                                <div class="unity-ring" style="width: 90%; height: 90%; top: 5%; left: 5%;"></div>
+                                
+                                <div class="shape-content-wrapper">
+                                    <h2 style="color: white; font-size: 3rem; margin-bottom: 1.5rem;">
+                                        United in Prayer
+                                    </h2>
+                                    <p class="shape-scripture" style="color: white; font-size: 1.3rem; margin-bottom: 2rem;">
+                                        "Again, truly I tell you that if two of you on earth agree about anything they ask for, it will be done for them by my Father in heaven."
+                                        <br>— Matthew 18:19
+                                    </p>
+                                    <p style="font-size: 1.1rem; margin-bottom: 2rem; color: rgba(255,255,255,0.95);">
+                                        Our prayer circle meets every Wednesday to lift up our community's needs to God.
+                                    </p>
+                                    <a href="prayer-request.html" class="btn btn-primary" style="background: white; color: #3b82f6; padding: 1rem 2.5rem; font-weight: 600; border-radius: 30px; font-size: 1.1rem;">
+                                        Share Your Request →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 3: Testimonies -->
+                    <div class="circle-carousel-item">
+                        <div class="shape-circle">
+                            <div class="shape-circle-content">
+                                <div class="unity-ring" style="width: 90%; height: 90%; top: 5%; left: 5%;"></div>
+                                
+                                <div class="shape-content-wrapper">
+                                    <h2 style="color: white; font-size: 3rem; margin-bottom: 1.5rem;">
+                                        Stories of Grace
+                                    </h2>
+                                    <p class="shape-scripture" style="color: white; font-size: 1.3rem; margin-bottom: 2rem;">
+                                        "They triumphed over him by the blood of the Lamb and by the word of their testimony."
+                                        <br>— Revelation 12:11
+                                    </p>
+                                    <p style="font-size: 1.1rem; margin-bottom: 2rem; color: rgba(255,255,255,0.95);">
+                                        Hear how God is working in the lives of our church family.
+                                    </p>
+                                    <a href="testimonies.html" class="btn btn-primary" style="background: white; color: #3b82f6; padding: 1rem 2.5rem; font-weight: 600; border-radius: 30px; font-size: 1.1rem;">
+                                        Read Testimonies →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Circle Navigation Dots -->
+                <div class="circle-nav-dots" role="tablist" aria-label="Carousel navigation">
+                    <button class="circle-dot active" role="tab" aria-label="Go to slide 1" aria-selected="true"></button>
+                    <button class="circle-dot" role="tab" aria-label="Go to slide 2" aria-selected="false"></button>
+                    <button class="circle-dot" role="tab" aria-label="Go to slide 3" aria-selected="false"></button>
                 </div>
             </div>
         </section>
@@ -559,6 +696,252 @@
                 });
             });
         </script>
+
+        <!-- ========================================
+             SHAPE SYSTEM: TRAPEZOID - Youth & Growth
+             ======================================== -->
+        <section class="shape-trapezoid-container gentle-fade-in" id="youth-section">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 3rem; color: #14b8a6; font-size: 2.5rem;">
+                    Youth Ministry <span class="growth-arrow">↗</span>
+                </h2>
+                
+                <div class="trapezoid-slider" role="region" aria-label="Youth ministry highlights">
+                    <div class="trapezoid-slide" style="display: block;">
+                        <div class="shape-trapezoid">
+                            <h3>Friday Night Live</h3>
+                            <p style="font-size: 1.2rem; margin: 1.5rem 0; line-height: 1.8; color: white;">
+                                Join us every Friday at 7 PM for worship, games, and powerful messages designed for young hearts seeking God.
+                            </p>
+                            <p class="shape-scripture" style="border-color: white; color: white;">
+                                "Don't let anyone look down on you because you are young, but set an example for the believers in speech, in conduct, in love, in faith and in purity."
+                                <br>— 1 Timothy 4:12
+                            </p>
+                        </div>
+                    </div>
+                    <button class="trapezoid-arrow left" aria-label="Previous slide">
+                        <span style="font-size: 1.5rem;">‹</span>
+                    </button>
+                    <button class="trapezoid-arrow right" aria-label="Next slide">
+                        <span style="font-size: 1.5rem;">›</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             SHAPE SYSTEM: SQUARE - Service & Ministry
+             ======================================== -->
+        <section class="shape-square-container gentle-fade-in" id="service-section">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 3rem; color: #f59e0b; font-size: 2.5rem;">
+                    Ways to Serve
+                </h2>
+                
+                <div class="shape-square-grid">
+                    <div class="shape-square worship-hover" tabindex="0" role="button">
+                        <div class="shape-square-icon">🙏</div>
+                        <h3>Worship Team</h3>
+                        <p>Share your musical gifts to lead our congregation in heartfelt praise and worship every Sunday.</p>
+                    </div>
+                    
+                    <div class="shape-square worship-hover" tabindex="0" role="button">
+                        <div class="shape-square-icon">👶</div>
+                        <h3>Kids Ministry</h3>
+                        <p>Impact the next generation by teaching Bible stories and leading activities for children ages 4-12.</p>
+                    </div>
+                    
+                    <div class="shape-square worship-hover" tabindex="0" role="button">
+                        <div class="shape-square-icon">☕</div>
+                        <h3>Hospitality</h3>
+                        <p>Welcome guests and help create a warm, inviting atmosphere for everyone who enters our doors.</p>
+                    </div>
+                    
+                    <div class="shape-square worship-hover" tabindex="0" role="button">
+                        <div class="shape-square-icon">💝</div>
+                        <h3>Give</h3>
+                        <p>Support the mission of Grace and Praise through your faithful tithes and offerings.</p>
+                        <a href="give.html" style="color: #f59e0b; font-weight: 600; margin-top: 1rem; display: inline-block;">Give Online →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             SHAPE SYSTEM: RECTANGLE - Teaching & Stability
+             ======================================== -->
+        <section class="shape-rectangle-container gentle-fade-in" id="teaching-section">
+            <div class="container">
+                <div class="rectangle-header">
+                    <h2 style="color: white; margin: 0; font-size: 2.2rem;">Grounded in God's Word</h2>
+                </div>
+                
+                <div class="rectangle-grid">
+                    <div class="shape-rectangle">
+                        <span style="display: inline-block; background: #1e293b; color: white; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.85rem; margin-bottom: 1rem; font-weight: 600;">
+                            SUNDAY SERMON
+                        </span>
+                        <h3 style="color: #1e293b; font-size: 1.6rem; margin-bottom: 1rem;">Living by Faith, Not by Sight</h3>
+                        <p style="color: #475569; line-height: 1.7; margin-bottom: 1.5rem;">
+                            Discover what it means to trust God completely, even when circumstances seem impossible. Join us this Sunday.
+                        </p>
+                    </div>
+                    
+                    <div class="shape-rectangle">
+                        <span style="display: inline-block; background: #475569; color: white; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.85rem; margin-bottom: 1rem; font-weight: 600;">
+                            BIBLE STUDY
+                        </span>
+                        <h3 style="color: #1e293b; font-size: 1.6rem; margin-bottom: 1rem;">The Book of Romans</h3>
+                        <p style="color: #475569; line-height: 1.7; margin-bottom: 1.5rem;">
+                            Join us every Wednesday at 7 PM for an in-depth study of Paul's letter to the Romans. All ages welcome.
+                        </p>
+                    </div>
+                    
+                    <div class="shape-rectangle">
+                        <span style="display: inline-block; background: #475569; color: white; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.85rem; margin-bottom: 1rem; font-weight: 600;">
+                            DAILY DEVOTION
+                        </span>
+                        <h3 style="color: #1e293b; font-size: 1.6rem; margin-bottom: 1rem;">Start Your Day with God</h3>
+                        <p style="color: #475569; line-height: 1.7; margin-bottom: 1.5rem;">
+                            Receive daily devotional messages to strengthen your faith and guide your spiritual walk.
+                        </p>
+                        <a href="daily-devotion.html" style="color: #1e293b; font-weight: 600;">Read Today's Devotion →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================================
+             TRUE HEPTAGON WHEEL — Sacred Geometry Teaching Tool
+             ============================================================================
+             Purpose: Visual catechism where geometry teaches theology
+             Interaction: Rotate to bring each side to TOP (active position)
+             Content: 7 aspects from the Lord's Prayer (Matthew 6:9-13)
+             
+             ARCHITECTURE:
+             - Rotating layer: Heptagon outline + wall text labels (rotate together)
+             - Static center: Active topic details (crossfade only, never moves)
+             - Active side: Always at TOP position
+             ========================================================================== -->
+        <section class="heptagon-wheel-section" aria-label="Our Father in Heaven">
+          
+          <!-- Two-Column Layout -->
+          <div class="heptagon-wheel-layout">
+            
+            <!-- LEFT PANEL: Static Theological Context -->
+            <div class="heptagon-left-panel">
+              <h1>Our Father in Heaven</h1>
+              <p class="theological-intro">
+                When Jesus taught us to pray, He revealed seven aspects of our Heavenly Father's nature. 
+                Each dimension reflects His character, His kingdom, and His perfect will for our lives. 
+                This sacred wheel invites us to meditate on who our Father truly is.
+              </p>
+            </div>
+            
+            <!-- CENTER PANEL: Sacred Heptagon Wheel -->
+            <div class="heptagon-center-panel">
+              
+              <!-- Wheel Container (Square aspect ratio LOCKED) -->
+              <div class="heptagon-wheel-container" data-loading="true">
+                
+                <!-- ROTATING LAYER: Heptagon outline + wall text labels -->
+                <div class="heptagon-rotating-layer">
+                  
+                  <!-- SVG Heptagon (Mathematically precise - 7 vertices) -->
+                  <svg class="heptagon-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                    <polygon class="heptagon-polygon" 
+                             points="50,2 87.53,20.07 96.80,60.68 70.83,93.25 29.17,93.25 3.20,60.68 12.47,20.07"
+                             stroke-linejoin="miter"
+                             vector-effect="non-scaling-stroke" />
+                  </svg>
+                  
+                  <!-- Wall Text Labels (one per side) -->
+                  <div class="heptagon-wall-labels">
+                    <div class="heptagon-wall-label active" data-side="0">Character</div>
+                    <div class="heptagon-wall-label" data-side="1">Kingdom</div>
+                    <div class="heptagon-wall-label" data-side="2">Will</div>
+                    <div class="heptagon-wall-label" data-side="3">Provision</div>
+                    <div class="heptagon-wall-label" data-side="4">Forgiveness</div>
+                    <div class="heptagon-wall-label" data-side="5">Guidance</div>
+                    <div class="heptagon-wall-label" data-side="6">Protection</div>
+                  </div>
+                  
+                  <!-- Vertex Navigation Dots -->
+                  <div class="heptagon-vertex-dots">
+                    <button class="heptagon-vertex-dot active" aria-label="Navigate to Character"></button>
+                    <button class="heptagon-vertex-dot" aria-label="Navigate to Kingdom"></button>
+                    <button class="heptagon-vertex-dot" aria-label="Navigate to Will"></button>
+                    <button class="heptagon-vertex-dot" aria-label="Navigate to Provision"></button>
+                    <button class="heptagon-vertex-dot" aria-label="Navigate to Forgiveness"></button>
+                    <button class="heptagon-vertex-dot" aria-label="Navigate to Guidance"></button>
+                    <button class="heptagon-vertex-dot" aria-label="Navigate to Protection"></button>
+                  </div>
+                  
+                </div>
+                
+                <!-- STATIC CENTER: Active topic details (NEVER moves) -->
+                <div class="heptagon-center-content">
+                  <div class="heptagon-center-inner">
+                    
+                    <!-- Content 1: Character -->
+                    <div class="heptagon-center-item active" data-topic="0">
+                      <h2>The Father's Character</h2>
+                      <p class="scripture">Matthew 6:9</p>
+                      <p>"Our Father in heaven, hallowed be Your name" — He is holy, loving, and worthy of reverence.</p>
+                    </div>
+                    
+                    <!-- Content 2: Kingdom -->
+                    <div class="heptagon-center-item" data-topic="1">
+                      <h2>The Father's Kingdom</h2>
+                      <p class="scripture">Matthew 6:10a</p>
+                      <p>"Your kingdom come" — He reigns with justice, peace, and eternal authority.</p>
+                    </div>
+                    
+                    <!-- Content 3: Will -->
+                    <div class="heptagon-center-item" data-topic="2">
+                      <h2>The Father's Will</h2>
+                      <p class="scripture">Matthew 6:10b</p>
+                      <p>"Your will be done" — His plans are perfect, trustworthy, and for our good.</p>
+                    </div>
+                    
+                    <!-- Content 4: Provision -->
+                    <div class="heptagon-center-item" data-topic="3">
+                      <h2>The Father's Provision</h2>
+                      <p class="scripture">Matthew 6:11</p>
+                      <p>"Give us today our daily bread" — He sustains us with everything we need.</p>
+                    </div>
+                    
+                    <!-- Content 5: Forgiveness -->
+                    <div class="heptagon-center-item" data-topic="4">
+                      <h2>The Father's Forgiveness</h2>
+                      <p class="scripture">Matthew 6:12</p>
+                      <p>"Forgive us our debts" — His mercy is boundless, cleansing us completely.</p>
+                    </div>
+                    
+                    <!-- Content 6: Guidance -->
+                    <div class="heptagon-center-item" data-topic="5">
+                      <h2>The Father's Guidance</h2>
+                      <p class="scripture">Matthew 6:13a</p>
+                      <p>"Lead us not into temptation" — He guides our steps and guards our hearts.</p>
+                    </div>
+                    
+                    <!-- Content 7: Protection -->
+                    <div class="heptagon-center-item" data-topic="6">
+                      <h2>The Father's Protection</h2>
+                      <p class="scripture">Matthew 6:13b</p>
+                      <p>"Deliver us from evil" — He is our shield, our refuge, and our strong tower.</p>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </section>
 
         <!-- GPBC Rotating Image Showcase -->
         <section class="gpbc-rotating-showcase" aria-label="Ministry Highlights">
@@ -926,6 +1309,18 @@
             </div>
 
             <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games.html">Kids Games</a></li>
+                    <li><a href="youth/games.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
                 <h3>Contact</h3>
                 <address>
                     <p><strong>Grace and Praise Bangladeshi Church</strong></p>
@@ -1025,45 +1420,6 @@
             const statsSection = document.querySelector('.stats');
             if (statsSection) {
                 statsObserver.observe(statsSection);
-            }
-        });
-    </script>
-    
-    <!-- Dark Mode Toggle Script -->
-    <script>
-        // Check for saved theme preference or default to 'light'
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        document.body.setAttribute('data-theme', currentTheme);
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            
-            if (darkModeToggle) {
-                darkModeToggle.addEventListener('click', () => {
-                    let theme = document.documentElement.getAttribute('data-theme');
-                    
-                    // Toggle between light and dark
-                    if (theme === 'dark') {
-                        document.documentElement.setAttribute('data-theme', 'light');
-                        document.body.setAttribute('data-theme', 'light');
-                        localStorage.setItem('theme', 'light');
-                        console.log('Switched to light mode');
-                    } else {
-                        document.documentElement.setAttribute('data-theme', 'dark');
-                        document.body.setAttribute('data-theme', 'dark');
-                        localStorage.setItem('theme', 'dark');
-                        console.log('Switched to dark mode');
-                    }
-                    
-                    // Add smooth transition effect
-                    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-                    setTimeout(() => {
-                        document.body.style.transition = '';
-                    }, 300);
-                });
-            } else {
-                console.error('Dark mode toggle button not found');
             }
         });
     </script>
@@ -1293,6 +1649,94 @@
             font-size: 0.875rem;
             min-height: auto;
         }
+    }
+    
+    /* ============================================================================
+       DARK MODE — Enhanced Contrast & Readability
+       ============================================================================
+       CRITICAL: NO opacity on primary text in dark mode
+       All text colors are explicit, solid, and meet WCAG AA contrast
+       Cards use soft light background (#F8FAFC) for intentional, active feel
+       ========================================================================== */
+    
+    [data-theme="dark"] .gpbc-faith-timeline {
+        background: #0f172a;
+    }
+    
+    /* Section title */
+    [data-theme="dark"] .gpbc-timeline-title {
+        color: #f1f5f9;
+    }
+    
+    /* Language toggle buttons */
+    [data-theme="dark"] .gpbc-lang-btn {
+        background: #1e293b;
+        border-color: #334155;
+        color: #cbd5e1;
+    }
+    
+    [data-theme="dark"] .gpbc-lang-btn:hover {
+        border-color: #c9a961;
+        color: #f1f5f9;
+        background: #334155;
+    }
+    
+    [data-theme="dark"] .gpbc-lang-btn.gpbc-lang-active {
+        background: #2563eb;
+        border-color: #2563eb;
+        color: #ffffff;
+    }
+    
+    /* Timeline connecting line — Strengthened for dark mode visibility */
+    [data-theme="dark"] .gpbc-timeline-path::before {
+        height: 3px;
+        background: linear-gradient(to right, #64748b 0%, #64748b 25%, #64748b 50%, #64748b 75%, #64748b 100%);
+        opacity: 0.8;
+    }
+    
+    /* Timeline cards — Soft light background for active, purposeful feel */
+    [data-theme="dark"] .gpbc-timeline-card {
+        background: #f8fafc;
+        border-color: #e2e8f0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25);
+    }
+    
+    [data-theme="dark"] .gpbc-timeline-card:hover {
+        background: #f1f5f9;
+        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.35);
+        border-color: #c9a961;
+        transform: translateY(-6px);
+    }
+    
+    /* Number badge — Keep distinctive and vibrant */
+    [data-theme="dark"] .gpbc-timeline-number {
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
+        color: #ffffff;
+        box-shadow: 0 4px 8px -1px rgba(37, 99, 235, 0.4);
+    }
+    
+    /* Card text — EXPLICIT dark colors, NO opacity, high contrast */
+    [data-theme="dark"] .gpbc-timeline-card-title {
+        color: #0f172a;
+        opacity: 1;
+        font-weight: 700;
+    }
+    
+    [data-theme="dark"] .gpbc-timeline-card-subtitle {
+        color: #334155;
+        opacity: 1;
+        font-weight: 500;
+    }
+    
+    [data-theme="dark"] .gpbc-timeline-card-verse {
+        color: #92400e;
+        opacity: 1;
+        font-weight: 600;
+    }
+    
+    /* Focus states */
+    [data-theme="dark"] .gpbc-lang-btn:focus-visible {
+        outline-color: #c9a961;
     }
     </style>
     
@@ -3933,5 +4377,11 @@
     <script src="events.js"></script>
     <script src="homepage-events.js"></script>
     <script src="countdown.js"></script>
+    
+    <!-- SHAPE SYSTEM — Spiritual design interactions -->
+    <script src="shape-system.js"></script>
+    
+    <!-- HEPTAGON CAROUSEL — Sacred geometry scroll interaction -->
+    <script src="heptagon-wheel-sacred.js"></script>
 </body>
 </html>

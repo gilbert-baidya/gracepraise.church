@@ -28,6 +28,7 @@
     const navLinks = document.querySelector('.nav-links');
     const mobileOverlay = document.querySelector('.mobile-overlay');
     const navDropdowns = document.querySelectorAll('.nav-dropdown');
+    const navNestedDropdowns = document.querySelectorAll('.nav-dropdown-nested');
 
     // ============================================
     // STICKY HEADER BEHAVIOR (DESKTOP)
@@ -128,6 +129,37 @@
                 });
             });
         });
+        
+        // Handle nested dropdowns (Ministries submenu)
+        navNestedDropdowns.forEach(nestedDropdown => {
+            const toggle = nestedDropdown.querySelector(':scope > a');
+            const menu = nestedDropdown.querySelector('.dropdown-menu-nested');
+            
+            if (!toggle || !menu) return;
+            
+            toggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Toggle nested dropdown
+                    const isOpen = nestedDropdown.classList.toggle('mobile-dropdown-open');
+                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                }
+            });
+            
+            // Close everything when nested link is clicked
+            const nestedLinks = menu.querySelectorAll('a');
+            nestedLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768 && navLinks.classList.contains('mobile-open')) {
+                        toggleMobileMenu();
+                        nestedDropdown.classList.remove('mobile-dropdown-open');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        });
     }
 
     // ============================================
@@ -197,17 +229,59 @@
     });
 
     // ============================================
+    // DARK MODE THEME TOGGLE
+    // ============================================
+    
+    function initThemeToggle() {
+        // Check for saved theme preference or default to 'light'
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        document.body.setAttribute('data-theme', currentTheme);
+        
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', () => {
+                let theme = document.documentElement.getAttribute('data-theme');
+                
+                // Toggle between light and dark
+                if (theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    document.body.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    console.log('✓ Switched to light mode');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    console.log('✓ Switched to dark mode');
+                }
+                
+                // Add smooth transition effect
+                document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+                setTimeout(() => {
+                    document.body.style.transition = '';
+                }, 300);
+            });
+        }
+    }
+
+    // ============================================
     // INITIALIZATION
     // ============================================
     
     // Initialize dropdown functionality
     initMobileDropdowns();
     initKeyboardNavigation();
+    
+    // Initialize theme toggle
+    initThemeToggle();
 
     // ============================================
     // NAVIGATION LOCK — DO NOT MODIFY WITHOUT REVIEW
     // ============================================
 
     console.log('✓ Global navigation system initialized');
+    console.log('✓ Theme toggle initialized');
 
 })();

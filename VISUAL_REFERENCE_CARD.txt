@@ -1,0 +1,232 @@
+# 🎨 SHAPE SYSTEM - VISUAL REFERENCE CARD
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                    GRACE AND PRAISE BANGLADESHI CHURCH                        ║
+║                      SPIRITUAL SHAPE DESIGN SYSTEM                            ║
+║                       "ONE SHAPE = ONE PURPOSE"                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                          THE FIVE SACRED SHAPES                               │
+└───────────────────────────────────────────────────────────────────────────────┘
+
+
+ ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+ │   ⚪ CIRCLE      │    │  ▭ RECTANGLE     │    │ 🔶 TRAPEZOID    │
+ │                  │    │                  │    │                  │
+ │  Community &     │    │  Teaching &      │    │  Growth &        │
+ │  God's Eternity  │    │  Stability       │    │  Movement        │
+ │                  │    │                  │    │                  │
+ │  Color: Blue     │    │  Color: Gray     │    │  Color: Teal     │
+ │  #3b82f6         │    │  #1e293b         │    │  #14b8a6         │
+ │                  │    │                  │    │                  │
+ │  Usage:          │    │  Usage:          │    │  Usage:          │
+ │  • Hero carousel │    │  • Sermons       │    │  • Youth ministry│
+ │  • Testimonies   │    │  • Bible studies │    │  • Missions      │
+ │  • Worship       │    │  • Teaching      │    │  • Outreach      │
+ │                  │    │  • Footer        │    │  • Growth        │
+ │  Feel: Warm,     │    │  Feel: Trust,    │    │  Feel: Energy,   │
+ │  Safe, Unity     │    │  Clarity, Order  │    │  Progress        │
+ └──────────────────┘    └──────────────────┘    └──────────────────┘
+
+
+ ┌──────────────────┐    ┌──────────────────┐
+ │  ◻️ SQUARE       │    │ ⬡ HEPTAGON (7)  │
+ │                  │    │                  │
+ │  Service &       │    │  Spiritual Depth │
+ │  Structure       │    │  & Sacred Focus  │
+ │                  │    │                  │
+ │  Color: Gold     │    │  Color: Purple   │
+ │  #f59e0b         │    │  #7c3aed         │
+ │                  │    │                  │
+ │  Usage:          │    │  Usage:          │
+ │  • Volunteer     │    │  • Annual theme  │
+ │  • Ministry grid │    │  • Special focus │
+ │  • Giving        │    │  • Conferences   │
+ │  • Service cards │    │                  │
+ │  Feel: Confident,│    │  Feel: Sacred,   │
+ │  Action, Strong  │    │  Special, Divine │
+ │                  │    │                  │
+ │                  │    │  ⚠️ ONE PER PAGE │
+ └──────────────────┘    └──────────────────┘
+
+
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                         HOMEPAGE PAGE RHYTHM                                  │
+└───────────────────────────────────────────────────────────────────────────────┘
+
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+    ┃           HEADER / NAVIGATION               ┃  (Existing - Keep)
+    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+                        ↓
+         ╔═══════════════════════════╗
+        ╱                             ╲
+       │      ⚪ CIRCLE HERO           │  Unity & Welcome
+       │   Community Carousel          │  Blue gradient
+        ╲                             ╱   Auto-rotate 5s
+         ╚═══════════════════════════╝
+                        ↓
+    ╱━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╲
+   ╱    🔶 TRAPEZOID YOUTH SECTION        ╲  Growth & Energy
+  │      Youth Ministry Slider             │  Teal gradient
+  └──────────────────────────────────────────┘  Upward motion
+                        ↓
+    ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐
+    │ 🙏  │  │ 👶  │  │ ☕  │  │ 💝  │  Service & Action
+    │      │  │      │  │      │  │      │  Gold borders
+    └──────┘  └──────┘  └──────┘  └──────┘  Hover lift
+         ◻️ SQUARE SERVICE GRID
+                        ↓
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+    ┃ ▭ RECTANGLE TEACHING SECTION        ┃  Stability & Truth
+    ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫  Gray background
+    ┃ • Sermon cards                      ┃  Left border accent
+    ┃ • Bible study info                  ┃
+    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+                        ↓
+              ╱─────────╲
+            ╱             ╲
+          ╱   ⬡ HEPTAGON  ╲  Sacred Focus (7)
+         │   2026 Theme    │  Purple gradient
+         │   Gratitude     │  ONE ONLY!
+          ╲               ╱   Gentle pulse
+            ╲           ╱
+              ╲───────╱
+                        ↓
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+    ┃              FOOTER                         ┃  (Existing - Keep)
+    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                           QUICK REFERENCE                                     │
+└───────────────────────────────────────────────────────────────────────────────┘
+
+  MOTION PHILOSOPHY                    ACCESSIBILITY
+  ──────────────────                   ──────────────
+  • Slow: 1200ms                       • WCAG AA minimum
+  • Reverent, not flashy               • Keyboard navigation
+  • Worship-like ease                  • Reduced motion support
+  • Pause on hover                     • High contrast text
+  • Gentle transitions                 • Focus indicators
+
+
+  COLOR SYSTEM                         SPACING
+  ────────────                         ────────
+  ⚪ Blue   #3b82f6                    Sacred:  4rem (64px)
+  ▭ Gray   #1e293b                    Breath:  2.5rem (40px)
+  🔶 Teal   #14b8a6                    Rest:    1.5rem (24px)
+  ◻️ Gold   #f59e0b
+  ⬡ Purple #7c3aed
+
+
+  TYPOGRAPHY                           SHADOWS
+  ──────────                           ───────
+  h1: 2.4-2.8rem                       Soft, diffused
+  h2: 1.9-2.1rem                       Gentle depth
+  h3: 1.5rem                           Never harsh
+  Body: 1rem / 1.7 line-height         Sacred glow
+
+
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                         IMPLEMENTATION FILES                                  │
+└───────────────────────────────────────────────────────────────────────────────┘
+
+  📄 shape-system.css          →  All styles (720 lines)
+  ⚙️ shape-system.js           →  Interactions (370 lines)
+  📋 shape-sections.html       →  Templates (370 lines)
+  
+  📖 SHAPE_SYSTEM_GUIDE.md     →  Full docs (950 lines)
+  🚀 SHAPE_QUICK_START.md      →  Quick guide (530 lines)
+  🎨 DESIGN_SPECIFICATIONS.md  →  Tech specs (590 lines)
+
+
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                            CRITICAL RULES                                     │
+└───────────────────────────────────────────────────────────────────────────────┘
+
+  ⚠️  HEPTAGON LIMIT
+      Maximum ONE heptagon per page (represents Biblical number 7)
+
+  ⚠️  MOTION SPEED
+      All animations 600-1200ms (worship-like, never flashy)
+
+  ⚠️  SCRIPTURE PRIORITY
+      Design frames content, never overpowers God's Word
+
+  ⚠️  SHAPE PURPOSE
+      Every shape has spiritual meaning - never random decoration
+
+  ⚠️  ACCESSIBILITY
+      Must work with keyboard, screen readers, reduced motion
+
+
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                          RESPONSIVE BEHAVIOR                                  │
+└───────────────────────────────────────────────────────────────────────────────┘
+
+  DESKTOP (> 768px)          TABLET (481-768px)        MOBILE (< 480px)
+  ─────────────────          ──────────────────        ────────────────
+  Circle:   600px            Circle:   400px           Circle:   300px
+  Squares:  4 columns        Squares:  2 columns       Squares:  1 column
+  Heptagon: 400px            Heptagon: 300px           Heptagon: 250px
+  Full hover effects         Reduced effects           Touch optimized
+
+
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                             GET STARTED NOW                                   │
+└───────────────────────────────────────────────────────────────────────────────┘
+
+  1. Read:  SHAPE_QUICK_START.md
+  2. Copy:  From shape-sections.html
+  3. Paste: Into index.html
+  4. View:  http://localhost:8003
+  5. Test:  Mobile, keyboard, accessibility
+  6. Launch: Show your church family!
+
+
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                            SPIRITUAL MEANING                                  │
+└───────────────────────────────────────────────────────────────────────────────┘
+
+  ⚪ CIRCLE    →  God's eternal, never-ending love (Romans 8:39)
+  ▭ RECTANGLE →  The solid foundation of Scripture (Matthew 7:24)
+  🔶 TRAPEZOID →  The upward call of God in Christ (Philippians 3:14)
+  ◻️ SQUARE    →  Serving with integrity and strength (1 Peter 4:10)
+  ⬡ HEPTAGON  →  God's perfect work of completion (Genesis 2:2-3)
+
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║                    "ONE SHAPE = ONE PURPOSE"                                  ║
+║                                                                               ║
+║              Design with intention. Build with excellence.                    ║
+║                    Honor God with beauty.                                     ║
+║                                                                               ║
+║              "Let all things be done decently and in order."                  ║
+║                          — 1 Corinthians 14:40                                ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+
+                              Version 1.0 • January 2026
+                     Grace and Praise Bangladeshi Church
+                          San Bernardino, California
+
+
+─────────────────────────────────────────────────────────────────────────────────
+
+NEXT STEPS:
+  → Print this card for quick reference
+  → Share with your design/dev team
+  → Keep visible during implementation
+  → Use as teaching tool for content managers
+
+Preview now at: http://localhost:8003
+Start implementing: Open SHAPE_QUICK_START.md
+
+🙏 May God bless your church website project! ✨
+
+─────────────────────────────────────────────────────────────────────────────────

@@ -668,3 +668,182 @@
         font-size: 1.4rem;
     }
 }
+
+/* ============================================================================
+   DARK MODE — Next Service Countdown Section
+   ============================================================================
+   Enhanced readability and contrast for countdown timers in dark mode
+   ========================================================================== */
+
+body.dark .countdown-hero-banner .services-main-title,
+body[data-theme="dark"] .countdown-hero-banner .services-main-title {
+    background: #1e293b;
+    color: #f1f5f9;
+    border-color: #334155;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .countdown-hero-banner .next-event-banner,
+body.dark .next-event-banner,
+body[data-theme="dark"] .countdown-hero-banner .next-event-banner,
+body[data-theme="dark"] .next-event-banner {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.3),
+        0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Accent bar stays golden/yellow */
+body.dark .countdown-hero-banner .next-event-banner::before,
+body.dark .next-event-banner::before,
+body[data-theme="dark"] .countdown-hero-banner .next-event-banner::before,
+body[data-theme="dark"] .next-event-banner::before {
+    background: #fbbf24;
+    opacity: 0.8;
+}
+
+/* Event icon - bright and clear emoji */
+body.dark .event-icon,
+body[data-theme="dark"] .event-icon {
+    filter: drop-shadow(0 2px 6px rgba(255, 255, 255, 0.2));
+    opacity: 1;
+}
+
+/* Event title - bright and clear */
+body.dark .event-title,
+body[data-theme="dark"] .event-title {
+    color: #ffffff;
+    font-weight: 800;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Service type badge */
+body.dark .service-type-badge,
+body[data-theme="dark"] .service-type-badge {
+    background: #3b82f6;
+    color: #ffffff;
+    border-color: #2563eb;
+    font-weight: 600;
+}
+
+/* Event info items */
+body.dark .event-info-item,
+body[data-theme="dark"] .event-info-item {
+    color: #cbd5e1;
+    background: #0f172a;
+    border-color: #334155;
+}
+
+body.dark .event-info-item svg,
+body.dark .event-info-emoji,
+body[data-theme="dark"] .event-info-item svg,
+body[data-theme="dark"] .event-info-emoji {
+    color: #fbbf24;
+    opacity: 1;
+}
+
+/* Countdown timer boxes */
+body.dark .time-unit,
+body[data-theme="dark"] .time-unit {
+    background: #0f172a;
+    border-color: #334155;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .time-unit:hover,
+body[data-theme="dark"] .time-unit:hover {
+    background: #1e293b;
+    border-color: #3b82f6;
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+}
+
+/* Time values - large and clear */
+body.dark .time-value,
+body[data-theme="dark"] .time-value {
+    color: #f1f5f9;
+    font-weight: 700;
+}
+
+/* Time labels */
+body.dark .time-label,
+body[data-theme="dark"] .time-label {
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+/* All Services Banner */
+body.dark .all-services-banner,
+body[data-theme="dark"] .all-services-banner {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+body.dark .services-banner-title,
+body[data-theme="dark"] .services-banner-title {
+    color: #f1f5f9;
+}
+
+/* Service Cards in All Services */
+body.dark .service-card,
+body[data-theme="dark"] .service-card {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+body.dark .service-card:hover,
+body[data-theme="dark"] .service-card:hover {
+    background: #1e293b;
+    border-color: #3b82f6;
+    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.15);
+}
+
+body.dark .service-title,
+body[data-theme="dark"] .service-title {
+    color: #f1f5f9;
+}
+
+body.dark .service-datetime,
+body.dark .service-location,
+body[data-theme="dark"] .service-datetime,
+body[data-theme="dark"] .service-location {
+    color: #cbd5e1;
+}
+
+/* Countdown Separator */
+body.dark .countdown-separator,
+body[data-theme="dark"] .countdown-separator {
+    color: #64748b;
+}
+
+/* Empty State */
+body.dark .no-services-message,
+body[data-theme="dark"] .no-services-message {
+    background: #1e293b;
+    border-color: #334155;
+    color: #cbd5e1;
+}
+
+body.dark .no-services-message h3,
+body[data-theme="dark"] .no-services-message h3 {
+    color: #f1f5f9;
+}
+
+/* Next Service Section Background */
+body.dark .next-service-section,
+body[data-theme="dark"] .next-service-section {
+    background: linear-gradient(135deg, #0b1220 0%, #111827 100%);
+}
+
+body.dark .next-service-content h2,
+body[data-theme="dark"] .next-service-content h2 {
+    color: #f1f5f9;
+}
+
+body.dark .next-service-intro,
+body[data-theme="dark"] .next-service-intro {
+    color: #cbd5e1;
+    opacity: 1;
+}

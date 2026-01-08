@@ -3,19 +3,47 @@
    ======================================== */
 
 :root {
-    /* Colors - Updated to light, youth-friendly palette */
-    --color-primary: #3b82f6; /* Faith Blue */
-    --color-primary-dark: #1d4ed8;
+    /* ========= Brand Colors ========= */
+    --brand-primary: #2563eb;     /* blue */
+    --brand-secondary: #0ea5a4;   /* teal */
+    --brand-accent: #f59e0b;      /* gold */
+
+    /* ========= Backgrounds ========= */
+    --bg-page: #ffffff;
+    --bg-section: #f8fafc;
+    --bg-card: #ffffff;
+
+    /* ========= Text Colors ========= */
+    --text-heading: #0f172a;      /* very dark navy */
+    --text-body: #334155;         /* readable gray */
+    --text-muted: #64748b;        /* secondary text */
+    --text-inverse: #ffffff;
+
+    /* ========= Borders & Lines ========= */
+    --border-subtle: rgba(15, 23, 42, 0.08);
+    --divider-line: rgba(15, 23, 42, 0.12);
+
+    /* ========= Buttons ========= */
+    --btn-primary-bg: #2563eb;
+    --btn-primary-text: #ffffff;
+
+    /* ========= Shadows ========= */
+    --shadow-card: 0 10px 30px rgba(15, 23, 42, 0.12);
+    --shadow-soft: 0 4px 14px rgba(15, 23, 42, 0.08);
+
+    /* ========= LEGACY SUPPORT (mapped to new system) ========= */
+    --color-primary: var(--brand-primary);
+    --color-primary-dark: #1e40af;
     --color-primary-light: #dbeafe;
-    --color-secondary: #14b8a6; /* Grace Teal */
-    --color-accent: #facc15; /* Soft Gold highlight */
-    --color-background: #ffffff;
-    --color-surface: #f8f9fb;
-    --color-text: #111827;
-    --color-text-light: #4b5563;
-    --color-text-inverse: #ffffff;
-    --color-border: #e5e7eb;
-    --color-shadow: rgba(17, 24, 39, 0.08);
+    --color-secondary: var(--brand-secondary);
+    --color-accent: var(--brand-accent);
+    --color-background: var(--bg-page);
+    --color-surface: var(--bg-section);
+    --color-text: var(--text-body);
+    --color-text-light: var(--text-muted);
+    --color-text-inverse: var(--text-inverse);
+    --color-border: var(--border-subtle);
+    --color-shadow: var(--shadow-soft);
     
     /* Spacing */
     --spacing-xs: 0.5rem;
@@ -616,14 +644,26 @@ a:hover {
    ======================================== */
 
 header {
+    position: -webkit-sticky; /* iOS Safari compatibility */
     position: sticky;
     top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--color-border);
     z-index: 1000;
     transition: all var(--transition-base);
+    /* Ensure proper stacking and performance */
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+nav {
+    position: relative;
+    z-index: 1000;
 }
 
 /* Scrolled state - enhanced shadow and solid background */
@@ -767,7 +807,7 @@ header.scrolled nav {
     visibility: hidden;
     transform: translateY(-10px);
     transition: all var(--transition-base);
-    z-index: 1000;
+    z-index: 2000;
     margin-top: var(--spacing-xs);
     border: 1px solid var(--color-border);
 }
@@ -779,8 +819,10 @@ header.scrolled nav {
     transform: translateY(0);
 }
 
-.dropdown-menu li {
+.dropdown-menu > li {
     margin: 0;
+    position: relative;
+    overflow: visible;
 }
 
 .dropdown-menu a {
@@ -807,6 +849,101 @@ header.scrolled nav {
 .dropdown-menu a:focus {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
+}
+
+/* ========================================
+   Nested Dropdown (Ministries submenu)
+   ======================================== */
+
+.nav-dropdown-nested {
+    position: relative;
+}
+
+.nav-dropdown-nested > a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.nav-dropdown-nested .dropdown-arrow {
+    margin-left: auto;
+}
+
+.dropdown-menu-nested {
+    position: absolute !important;
+    left: 100% !important;
+    top: 0 !important;
+    min-width: 200px;
+    width: clamp(220px, 22vw, 280px);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    padding: var(--spacing-xs);
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px);
+    transition: all var(--transition-base);
+    z-index: 2001;
+    margin-left: var(--spacing-sm);
+    margin-top: 0 !important;
+    border: 1px solid var(--color-border);
+    overflow: visible;
+    pointer-events: none;
+}
+
+.nav-dropdown-nested:hover .dropdown-menu-nested,
+.nav-dropdown-nested:focus-within .dropdown-menu-nested {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.dropdown-menu-nested li {
+    margin: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.dropdown-menu-nested a {
+    display: block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--color-text);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    font-size: var(--font-sm);
+    white-space: nowrap;
+}
+
+.dropdown-menu-nested a::after {
+    display: none;
+}
+
+.dropdown-menu-nested a:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(20, 184, 166, 0.08));
+    color: var(--color-primary);
+    transform: translateX(4px);
+}
+
+/* Desktop: Ensure nested dropdowns are hidden by default and only show on hover */
+@media (min-width: 769px) {
+    .dropdown-menu-nested {
+        display: block !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    
+    .nav-dropdown-nested:hover > .dropdown-menu-nested,
+    .nav-dropdown-nested:focus-within > .dropdown-menu-nested {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
 }
 
 /* Mobile menu button (hidden by default) */
@@ -908,6 +1045,7 @@ header.scrolled nav {
     padding: var(--spacing-3xl) var(--spacing-sm);
     overflow: hidden;
     animation: hero-fade-in 0.9s ease both;
+    z-index: 1;
 }
 
 .hero-content {
@@ -2654,6 +2792,60 @@ footer {
         transform: translateX(2px);
     }
     
+    /* ===== MOBILE NESTED DROPDOWN (MINISTRIES) ===== */
+    
+    .dropdown-menu-nested {
+        display: none;
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        margin: 0;
+        background: rgba(59, 130, 246, 0.03);
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    
+    .nav-dropdown-nested.mobile-dropdown-open .dropdown-menu-nested {
+        display: block;
+        max-height: 500px;
+        padding: var(--spacing-xs) 0;
+        margin-top: var(--spacing-xs);
+    }
+    
+    .nav-dropdown-nested.mobile-dropdown-open .dropdown-arrow {
+        transform: rotate(90deg);
+    }
+    
+    .dropdown-menu-nested a {
+        padding: var(--spacing-sm) var(--spacing-lg) !important;
+        padding-left: calc(var(--spacing-lg) * 3) !important;
+        font-size: var(--font-sm) !important;
+        border-left: 3px solid transparent;
+    }
+    
+    .dropdown-menu-nested a:hover,
+    .dropdown-menu-nested a:focus {
+        background: rgba(59, 130, 246, 0.08);
+        border-left-color: var(--color-secondary);
+        transform: translateX(2px);
+    }
+    
+    .nav-dropdown-nested > a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        cursor: pointer;
+        user-select: none;
+    }
+    
     /* Make parent dropdown link clickable for toggling */
     .nav-dropdown > a {
         display: flex;
@@ -3470,140 +3662,559 @@ footer p.footer-links {
     }
 }
 
+
+/* ============================================================================
+   DARK MODE THEME — Unified System
+   ============================================================================
+   Single source of truth for dark mode styling across the entire site.
+   All dark mode rules use body.dark selector for consistency.
+   ========================================================================== */
+
 /* ========================================
-   Dark Mode Theme (optional, non-destructive)
-   Apply via body.dark or prefers-color-scheme
+   1) GLOBAL DARK MODE FOUNDATION
    ======================================== */
 
-/* Light theme lives in :root; overrides only variables */
-body.dark {
-    /* Core palette */
-    --color-background: #0b1220;      /* bg-main */
-    --color-surface: #111827;         /* bg-surface */
-    --color-text: #e5e7eb;            /* text-main */
-    --color-text-light: #9ca3af;      /* text-muted */
-    --color-text-inverse: #0b1220;
+body.dark,
+body[data-theme="dark"],
+[data-theme="dark"] body {
+    /* Page Backgrounds */
+    --bg-page: #020617;
+    --bg-section: #0f172a;
+    --bg-card: #111827;
 
-    /* Accents */
-    --color-primary: #60a5fa;         /* Faith Blue */
-    --color-primary-dark: #3b82f6;
-    --color-primary-light: #1f2937;
-    --color-secondary: #2dd4bf;       /* Grace Teal */
-    --color-accent: #fde68a;          /* Soft Gold */
-    --color-border: #1f2937;
-    --color-shadow: rgba(0, 0, 0, 0.35);
+    /* Text Colors */
+    --text-heading: #f8fafc;
+    --text-body: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-inverse: #020617;
 
-    background-color: var(--color-background);
-    color: var(--color-text);
-}
+    /* Borders & Dividers */
+    --border-subtle: rgba(148, 163, 184, 0.2);
+    --divider-line: rgba(148, 163, 184, 0.25);
 
-/* Dark mode - only when manually activated via toggle button */
-[data-theme="dark"], body[data-theme="dark"],
-body[data-theme="dark"], body[data-theme="dark"] {
-    --color-background: #0b1220;
-    --color-surface: #111827;
-    --color-text: #e5e7eb;
-    --color-text-light: #9ca3af;
-    --color-text-inverse: #0b1220;
+    /* Buttons */
+    --btn-primary-bg: #3b82f6;
+    --btn-primary-text: #ffffff;
 
+    /* Shadows - Enhanced for dark mode */
+    --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.6);
+    --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.7);
+
+    /* Brand Colors - Adjusted for dark mode contrast */
+    --brand-primary: #60a5fa;
+    --brand-secondary: #14b8a6;
+    --brand-accent: #fbbf24;
+
+    /* Legacy Support */
+    --color-background: #020617;
+    --color-surface: #0f172a;
+    --color-text: #cbd5e1;
+    --color-text-light: #94a3b8;
+    --color-text-inverse: #020617;
+    --color-border: rgba(148, 163, 184, 0.2);
+    --color-shadow: rgba(0, 0, 0, 0.4);
     --color-primary: #60a5fa;
     --color-primary-dark: #3b82f6;
-    --color-primary-light: #1f2937;
-    --color-secondary: #2dd4bf;
-    --color-accent: #fde68a;
-    --color-border: #1f2937;
-    --color-shadow: rgba(0, 0, 0, 0.35);
-    
-    background-color: var(--color-background);
-    color: var(--color-text);
+    --color-primary-light: #1e293b;
+    --color-secondary: #14b8a6;
+    --color-accent: #fbbf24;
+
+    /* Apply to body */
+    background-color: #020617;
+    color: #cbd5e1;
 }
 
-/* Component harmony using variables (no layout changes) */
-[data-theme="dark"], body[data-theme="dark"] header {
-    background: rgba(17, 24, 39, 0.9);
-    border-bottom-color: rgba(96, 165, 250, 0.2);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+/* ========================================
+   2) HEADER & NAVIGATION - DROPDOWN Z-INDEX FIX
+   ======================================== */
+
+body.dark header,
+body[data-theme="dark"] header {
+    background: rgba(2, 6, 23, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 }
 
-[data-theme="dark"], body[data-theme="dark"] header.scrolled {
-    background: rgba(17, 24, 39, 0.95);
-    border-bottom-color: rgba(96, 165, 250, 0.25);
+body.dark header.scrolled,
+body[data-theme="dark"] header.scrolled {
+    background: rgba(2, 6, 23, 0.98);
+    border-bottom-color: rgba(148, 163, 184, 0.25);
 }
 
-[data-theme="dark"], body[data-theme="dark"] main,
-[data-theme="dark"], body[data-theme="dark"] section,
-[data-theme="dark"], body[data-theme="dark"] .hero,
-[data-theme="dark"], body[data-theme="dark"] .next-service,
-[data-theme="dark"], body[data-theme="dark"] .welcome,
-[data-theme="dark"], body[data-theme="dark"] .special-event-details,
-[data-theme="dark"], body[data-theme="dark"] .daily-devotion-promo,
-[data-theme="dark"], body[data-theme="dark"] .page-hero,
-[data-theme="dark"], body[data-theme="dark"] .visit-section,
-[data-theme="dark"], body[data-theme="dark"] .visit-section:nth-child(even),
-[data-theme="dark"], body[data-theme="dark"] .need-help,
-[data-theme="dark"], body[data-theme="dark"] .next-service-section,
-[data-theme="dark"], body[data-theme="dark"] .whats-happening,
-[data-theme="dark"], body[data-theme="dark"] .bible-verse,
-[data-theme="dark"], body[data-theme="dark"] .new-here {
-    background: linear-gradient(135deg, #0b1220 0%, #111827 100%);
-    color: var(--color-text);
+body.dark .logo,
+body[data-theme="dark"] .logo {
+    color: #60a5fa;
 }
 
-[data-theme="dark"], body[data-theme="dark"] .service-info,
-[data-theme="dark"], body[data-theme="dark"] .feature-card,
-[data-theme="dark"], body[data-theme="dark"] .stat-card,
-[data-theme="dark"], body[data-theme="dark"] .new-here-card,
-[data-theme="dark"], body[data-theme="dark"] .service-detail-item,
-[data-theme="dark"], body[data-theme="dark"] .event-info-item,
-[data-theme="dark"], body[data-theme="dark"] .devotion-card,
-[data-theme="dark"], body[data-theme="dark"] .prayer-form-container,
-[data-theme="dark"], body[data-theme="dark"] .prayer-success-message,
-[data-theme="dark"], body[data-theme="dark"] .reassurance-box,
-[data-theme="dark"], body[data-theme="dark"] .success-assurance,
-[data-theme="dark"], body[data-theme="dark"] .peace-verse,
-[data-theme="dark"], body[data-theme="dark"] .urgent-help,
-[data-theme="dark"], body[data-theme="dark"] .info-block {
-    background: var(--color-surface);
-    border-color: var(--color-border);
-    box-shadow: var(--shadow-md);
+body.dark .nav-links a,
+body[data-theme="dark"] .nav-links a {
+    color: #cbd5e1;
 }
 
-[data-theme="dark"], body[data-theme="dark"] .inline-countdown-banner {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+body.dark .nav-links a:hover,
+body[data-theme="dark"] .nav-links a:hover {
+    color: #f8fafc;
+    background-color: rgba(96, 165, 250, 0.1);
 }
 
-[data-theme="dark"], body[data-theme="dark"] h1,
-[data-theme="dark"], body[data-theme="dark"] h2,
-[data-theme="dark"], body[data-theme="dark"] h3,
-[data-theme="dark"], body[data-theme="dark"] h4,
-[data-theme="dark"], body[data-theme="dark"] h5,
-[data-theme="dark"], body[data-theme="dark"] h6,
-[data-theme="dark"], body[data-theme="dark"] p,
-[data-theme="dark"], body[data-theme="dark"] .verse-text,
-[data-theme="dark"], body[data-theme="dark"] .success-main {
-    color: var(--color-text);
+body.dark .nav-links a.active,
+body[data-theme="dark"] .nav-links a.active {
+    color: #60a5fa;
+    background-color: rgba(96, 165, 250, 0.15);
 }
 
-[data-theme="dark"], body[data-theme="dark"] .verse-reference {
-    color: var(--color-secondary);
+/* ========================================
+   3) DROPDOWN STYLING IN DARK MODE
+   ======================================== */
+
+body.dark .dropdown-menu,
+body[data-theme="dark"] .dropdown-menu {
+    background: #0f172a;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    z-index: 2000;
 }
 
-[data-theme="dark"], body[data-theme="dark"] footer {
-    background: linear-gradient(135deg, #0b1220, #0f172a);
-    color: var(--color-text);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+body.dark .dropdown-menu a,
+body[data-theme="dark"] .dropdown-menu a {
+    color: #e5e7eb;
 }
 
-[data-theme="dark"], body[data-theme="dark"] .footer-section a,
-[data-theme="dark"], body[data-theme="dark"] .footer-col a,
-[data-theme="dark"], body[data-theme="dark"] .footer-bottom a {
-    color: var(--color-text);
+body.dark .dropdown-menu a:hover,
+body[data-theme="dark"] .dropdown-menu a:hover {
+    background: rgba(96, 165, 250, 0.15);
+    color: #f8fafc;
 }
 
-[data-theme="dark"], body[data-theme="dark"] .footer-section a:hover,
-[data-theme="dark"], body[data-theme="dark"] .footer-col a:hover,
-[data-theme="dark"], body[data-theme="dark"] .footer-bottom a:hover {
-    color: var(--color-accent);
+body.dark .dropdown-menu-nested,
+body[data-theme="dark"] .dropdown-menu-nested {
+    background: #0f172a;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    z-index: 2001;
+}
+
+body.dark .dropdown-menu-nested a,
+body[data-theme="dark"] .dropdown-menu-nested a {
+    color: #e5e7eb;
+}
+
+body.dark .dropdown-menu-nested a:hover,
+body[data-theme="dark"] .dropdown-menu-nested a:hover {
+    background: rgba(96, 165, 250, 0.15);
+    color: #f8fafc;
+}
+
+/* Mobile menu in dark mode */
+body.dark .nav-links,
+body[data-theme="dark"] .nav-links {
+    background: rgba(2, 6, 23, 0.98);
+}
+
+body.dark .mobile-menu-btn span,
+body[data-theme="dark"] .mobile-menu-btn span {
+    background: #cbd5e1;
+}
+
+/* ========================================
+   4) SECTION BACKGROUNDS - STANDARDIZED
+   ======================================== */
+
+body.dark main,
+body.dark section,
+body.dark .hero,
+body.dark .next-service,
+body.dark .welcome,
+body.dark .next-service-section,
+body.dark .whats-happening,
+body.dark .bible-verse,
+body.dark .new-here,
+body.dark .page-hero,
+body.dark .visit-section,
+body.dark .visit-section:nth-child(even),
+body.dark .need-help,
+body.dark .daily-devotion-promo,
+body.dark .special-event-details,
+body[data-theme="dark"] main,
+body[data-theme="dark"] section,
+body[data-theme="dark"] .hero,
+body[data-theme="dark"] .next-service,
+body[data-theme="dark"] .welcome,
+body[data-theme="dark"] .next-service-section,
+body[data-theme="dark"] .whats-happening,
+body[data-theme="dark"] .bible-verse,
+body[data-theme="dark"] .new-here,
+body[data-theme="dark"] .page-hero,
+body[data-theme="dark"] .visit-section,
+body[data-theme="dark"] .visit-section:nth-child(even),
+body[data-theme="dark"] .need-help,
+body[data-theme="dark"] .daily-devotion-promo,
+body[data-theme="dark"] .special-event-details {
+    background: #020617;
+    color: #cbd5e1;
+}
+
+/* Hero gradient in dark mode */
+body.dark .hero,
+body[data-theme="dark"] .hero {
+    background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+}
+
+/* Alternating sections */
+body.dark .next-service,
+body.dark .whats-happening,
+body.dark .new-here,
+body[data-theme="dark"] .next-service,
+body[data-theme="dark"] .whats-happening,
+body[data-theme="dark"] .new-here {
+    background: #0f172a;
+}
+
+/* ========================================
+   5) CARD BACKGROUNDS - STANDARDIZED
+   ======================================== */
+
+body.dark .service-info,
+body.dark .feature-card,
+body.dark .stat-card,
+body.dark .new-here-card,
+body.dark .service-detail-item,
+body.dark .event-info-item,
+body.dark .devotion-card,
+body.dark .prayer-form-container,
+body.dark .reassurance-box,
+body.dark .success-assurance,
+body.dark .peace-verse,
+body.dark .urgent-help,
+body.dark .info-block,
+body.dark .event-details-content,
+body.dark .encouragement-card,
+body.dark .new-here-card,
+body[data-theme="dark"] .service-info,
+body[data-theme="dark"] .feature-card,
+body[data-theme="dark"] .stat-card,
+body[data-theme="dark"] .new-here-card,
+body[data-theme="dark"] .service-detail-item,
+body[data-theme="dark"] .event-info-item,
+body[data-theme="dark"] .devotion-card,
+body[data-theme="dark"] .prayer-form-container,
+body[data-theme="dark"] .reassurance-box,
+body[data-theme="dark"] .success-assurance,
+body[data-theme="dark"] .peace-verse,
+body[data-theme="dark"] .urgent-help,
+body[data-theme="dark"] .info-block,
+body[data-theme="dark"] .event-details-content,
+body[data-theme="dark"] .encouragement-card,
+body[data-theme="dark"] .new-here-card {
+    background: #111827;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Video container in dark mode */
+body.dark .video-container,
+body[data-theme="dark"] .video-container {
+    background: #111827;
+}
+
+/* Hero next service */
+body.dark .hero-next-service,
+body[data-theme="dark"] .hero-next-service {
+    background: #111827;
+    border-left: 4px solid #fbbf24;
+}
+
+/* ========================================
+   6) TEXT & LINK CONTRAST - STANDARDIZED
+   ======================================== */
+
+/* Headings */
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body[data-theme="dark"] h1,
+body[data-theme="dark"] h2,
+body[data-theme="dark"] h3,
+body[data-theme="dark"] h4,
+body[data-theme="dark"] h5,
+body[data-theme="dark"] h6 {
+    color: #f8fafc;
+}
+
+/* Body Text */
+body.dark p,
+body.dark .intro,
+body.dark .tagline,
+body.dark .hero-intro,
+body.dark .service-time,
+body.dark .service-location,
+body[data-theme="dark"] p,
+body[data-theme="dark"] .intro,
+body[data-theme="dark"] .tagline,
+body[data-theme="dark"] .hero-intro,
+body[data-theme="dark"] .service-time,
+body[data-theme="dark"] .service-location {
+    color: #cbd5e1;
+}
+
+/* Muted Text */
+body.dark .address,
+body.dark .service-badge,
+body.dark .stat-label,
+body.dark .verse-reference,
+body.dark .info-subtext,
+body[data-theme="dark"] .address,
+body[data-theme="dark"] .service-badge,
+body[data-theme="dark"] .stat-label,
+body[data-theme="dark"] .verse-reference,
+body[data-theme="dark"] .info-subtext {
+    color: #94a3b8;
+}
+
+/* Links */
+body.dark a,
+body[data-theme="dark"] a {
+    color: #60a5fa;
+}
+
+body.dark a:hover,
+body[data-theme="dark"] a:hover {
+    color: #93c5fd;
+}
+
+/* Card links */
+body.dark .card-link,
+body[data-theme="dark"] .card-link {
+    color: #14b8a6;
+}
+
+body.dark .card-link:hover,
+body[data-theme="dark"] .card-link:hover {
+    color: #2dd4bf;
+    background-color: rgba(20, 184, 166, 0.1);
+}
+
+/* ========================================
+   7) SPECIAL ELEMENTS
+   ======================================== */
+
+/* Bible Verse */
+body.dark .verse-text,
+body[data-theme="dark"] .verse-text {
+    color: #f8fafc;
+}
+
+body.dark .verse-reference,
+body[data-theme="dark"] .verse-reference {
+    color: #14b8a6;
+}
+
+body.dark .bible-verse blockquote::before,
+body.dark .bible-verse blockquote::after,
+body[data-theme="dark"] .bible-verse blockquote::before,
+body[data-theme="dark"] .bible-verse blockquote::after {
+    color: #14b8a6;
+    opacity: 0.2;
+}
+
+/* Stat Numbers */
+body.dark .stat-number,
+body[data-theme="dark"] .stat-number {
+    color: #14b8a6;
+}
+
+/* Service Icons */
+body.dark .service-icon,
+body.dark .event-icon,
+body.dark .card-icon,
+body[data-theme="dark"] .service-icon,
+body[data-theme="dark"] .event-icon,
+body[data-theme="dark"] .card-icon {
+    color: #14b8a6;
+}
+
+/* Buttons */
+body.dark .btn-primary,
+body[data-theme="dark"] .btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: #ffffff;
+}
+
+body.dark .btn-primary:hover,
+body[data-theme="dark"] .btn-primary:hover {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+}
+
+body.dark .btn-secondary,
+body[data-theme="dark"] .btn-secondary {
+    background: transparent;
+    color: #60a5fa;
+    border: 2px solid #60a5fa;
+}
+
+body.dark .btn-secondary:hover,
+body[data-theme="dark"] .btn-secondary:hover {
+    background: #60a5fa;
+    color: #ffffff;
+}
+
+/* ========================================
+   8) FOOTER
+   ======================================== */
+
+body.dark footer,
+body[data-theme="dark"] footer {
+    background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+    color: #cbd5e1;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+body.dark footer h3,
+body.dark footer h4,
+body[data-theme="dark"] footer h3,
+body[data-theme="dark"] footer h4 {
+    color: #f8fafc;
+}
+
+body.dark footer a,
+body[data-theme="dark"] footer a {
+    color: #cbd5e1;
+}
+
+body.dark footer a:hover,
+body[data-theme="dark"] footer a:hover {
+    color: #fbbf24;
+}
+
+body.dark .social-links a,
+body[data-theme="dark"] .social-links a {
+    color: #cbd5e1;
+}
+
+body.dark .social-links a:hover,
+body[data-theme="dark"] .social-links a:hover {
+    color: #fbbf24;
+}
+
+/* ========================================
+   9) FORMS & INPUTS
+   ======================================== */
+
+body.dark input,
+body.dark textarea,
+body.dark select,
+body[data-theme="dark"] input,
+body[data-theme="dark"] textarea,
+body[data-theme="dark"] select {
+    background: #111827;
+    color: #f8fafc;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+body.dark input:focus,
+body.dark textarea:focus,
+body.dark select:focus,
+body[data-theme="dark"] input:focus,
+body[data-theme="dark"] textarea:focus,
+body[data-theme="dark"] select:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder,
+body[data-theme="dark"] input::placeholder,
+body[data-theme="dark"] textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* ========================================
+   10) INLINE COUNTDOWN BANNER
+   ======================================== */
+
+body.dark .inline-countdown-banner,
+body[data-theme="dark"] .inline-countdown-banner {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+    border-bottom: 2px solid rgba(251, 191, 36, 0.4);
+}
+
+body.dark .inline-countdown-banner .countdown-value,
+body[data-theme="dark"] .inline-countdown-banner .countdown-value {
+    background: rgba(255, 255, 255, 0.95);
+    color: #0f172a;
+}
+
+body.dark .inline-countdown-banner .banner-link,
+body[data-theme="dark"] .inline-countdown-banner .banner-link {
+    background: rgba(255, 255, 255, 0.9);
+    color: #0f172a;
+}
+
+body.dark .inline-countdown-banner .banner-link:hover,
+body[data-theme="dark"] .inline-countdown-banner .banner-link:hover {
+    background: #ffffff;
+}
+
+/* ========================================
+   11) BORDERS & DIVIDERS
+   ======================================== */
+
+body.dark hr,
+body.dark .content-page-header,
+body.dark .footer-bottom,
+body[data-theme="dark"] hr,
+body[data-theme="dark"] .content-page-header,
+body[data-theme="dark"] .footer-bottom {
+    border-color: rgba(148, 163, 184, 0.2);
+}
+
+/* ========================================
+   12) CONTENT PAGES
+   ======================================== */
+
+body.dark .content-page,
+body[data-theme="dark"] .content-page {
+    background: #020617;
+}
+
+body.dark .content-page-body strong,
+body[data-theme="dark"] .content-page-body strong {
+    color: #60a5fa;
+}
+
+body.dark .content-page-body a,
+body[data-theme="dark"] .content-page-body a {
+    color: #14b8a6;
+    border-bottom-color: transparent;
+}
+
+body.dark .content-page-body a:hover,
+body[data-theme="dark"] .content-page-body a:hover {
+    border-bottom-color: #14b8a6;
+}
+
+/* ========================================
+   13) PRAYER & SUCCESS MESSAGES
+   ======================================== */
+
+body.dark .prayer-success-message,
+body[data-theme="dark"] .prayer-success-message {
+    background: #111827;
+    border: 2px solid rgba(96, 165, 250, 0.3);
+}
+
+body.dark .success-icon,
+body[data-theme="dark"] .success-icon {
+    color: #14b8a6;
 }
 
 /* System preference removed - dark mode now manual only via toggle button */
