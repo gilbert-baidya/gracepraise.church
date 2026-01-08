@@ -53,13 +53,25 @@
     // MOBILE MENU TOGGLE
     // ============================================
     
+    let scrollPosition = 0;
+    
     function toggleMobileMenu() {
+        const isOpening = !navLinks.classList.contains('mobile-open');
+        
+        if (isOpening) {
+            // Save current scroll position before locking
+            scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+            document.body.style.top = `-${scrollPosition}px`;
+        }
+        
         navLinks.classList.toggle('mobile-open');
         mobileOverlay.classList.toggle('active');
-        document.body.style.overflow = navLinks.classList.contains('mobile-open') ? 'hidden' : '';
+        document.body.classList.toggle('menu-open');
         
-        // Close all dropdowns when mobile menu closes
-        if (!navLinks.classList.contains('mobile-open')) {
+        if (!isOpening) {
+            // Restore scroll position after unlocking
+            document.body.style.top = '';
+            window.scrollTo(0, scrollPosition);
             closeAllDropdowns();
         }
     }
