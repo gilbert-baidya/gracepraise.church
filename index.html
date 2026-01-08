@@ -1424,45 +1424,6 @@
         });
     </script>
     
-    <!-- Dark Mode Toggle Script -->
-    <script>
-        // Check for saved theme preference or default to 'light'
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        document.body.setAttribute('data-theme', currentTheme);
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            
-            if (darkModeToggle) {
-                darkModeToggle.addEventListener('click', () => {
-                    let theme = document.documentElement.getAttribute('data-theme');
-                    
-                    // Toggle between light and dark
-                    if (theme === 'dark') {
-                        document.documentElement.setAttribute('data-theme', 'light');
-                        document.body.setAttribute('data-theme', 'light');
-                        localStorage.setItem('theme', 'light');
-                        console.log('Switched to light mode');
-                    } else {
-                        document.documentElement.setAttribute('data-theme', 'dark');
-                        document.body.setAttribute('data-theme', 'dark');
-                        localStorage.setItem('theme', 'dark');
-                        console.log('Switched to dark mode');
-                    }
-                    
-                    // Add smooth transition effect
-                    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-                    setTimeout(() => {
-                        document.body.style.transition = '';
-                    }, 300);
-                });
-            } else {
-                console.error('Dark mode toggle button not found');
-            }
-        });
-    </script>
-    
     <!-- GPBC Faith Journey Section – isolated, safe to remove (CSS) -->
     <style>
     /* SCOPED STYLES - Only affects .gpbc-faith-timeline */
