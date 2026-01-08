@@ -60,6 +60,7 @@
 .heptagon-left-panel {
   padding: 40px;
   max-width: 400px;
+  isolation: isolate;
 }
 
 .heptagon-left-panel h1 {
@@ -73,10 +74,10 @@
 
 .heptagon-left-panel .theological-intro {
   font-size: 18px;
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--heptagon-text);
-  opacity: 0.85;
   margin: 0;
+  max-width: 100%;
 }
 
 .heptagon-center-panel {
@@ -449,6 +450,24 @@ body[data-theme="dark"] .heptagon-wheel-section {
   opacity: 1 !important;
   filter: none !important;
   backdrop-filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+body.dark .heptagon-left-panel h1,
+body[data-theme="dark"] .heptagon-left-panel h1 {
+  color: #f8fafc !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+body.dark .heptagon-left-panel .theological-intro,
+body[data-theme="dark"] .heptagon-left-panel .theological-intro {
+  color: #cbd5e1 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  filter: none !important;
   mix-blend-mode: normal !important;
 }
 
