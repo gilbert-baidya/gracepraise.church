@@ -661,6 +661,11 @@ header {
     transform: translateZ(0);
 }
 
+nav {
+    position: relative;
+    z-index: 1000;
+}
+
 /* Scrolled state - enhanced shadow and solid background */
 header.scrolled {
     background: rgba(255, 255, 255, 0.98);
@@ -802,7 +807,7 @@ header.scrolled nav {
     visibility: hidden;
     transform: translateY(-10px);
     transition: all var(--transition-base);
-    z-index: 1100;
+    z-index: 2000;
     margin-top: var(--spacing-xs);
     border: 1px solid var(--color-border);
 }
@@ -881,7 +886,7 @@ header.scrolled nav {
     visibility: hidden;
     transform: translateX(-10px);
     transition: all var(--transition-base);
-    z-index: 1101;
+    z-index: 2001;
     margin-left: var(--spacing-sm);
     margin-top: 0 !important;
     border: 1px solid var(--color-border);
@@ -1040,6 +1045,7 @@ header.scrolled nav {
     padding: var(--spacing-3xl) var(--spacing-sm);
     overflow: hidden;
     animation: hero-fade-in 0.9s ease both;
+    z-index: 1;
 }
 
 .hero-content {
@@ -3658,114 +3664,187 @@ footer p.footer-links {
 
 
 /* ============================================================================
-   DARK MODE THEME — Accessible & Reverent
+   DARK MODE THEME — Unified System
    ============================================================================
-   CRITICAL RULES:
-   - NO opacity for readable text
-   - Cards use light backgrounds (#f8fafc) for maximum readability
-   - Text on light cards uses dark colors
-   - Text directly on dark backgrounds uses light colors
-   - Content must NEVER look disabled or faded
+   Single source of truth for dark mode styling across the entire site.
+   All dark mode rules use body.dark selector for consistency.
    ========================================================================== */
 
-[data-theme="dark"] {
-    /* ========= Backgrounds ========= */
+/* ========================================
+   1) GLOBAL DARK MODE FOUNDATION
+   ======================================== */
+
+body.dark,
+body[data-theme="dark"],
+[data-theme="dark"] body {
+    /* Page Backgrounds */
     --bg-page: #020617;
-    --bg-section: #020617;
-    --bg-card: #f8fafc;          /* Light cards in dark mode */
+    --bg-section: #0f172a;
+    --bg-card: #111827;
 
-    /* ========= Text on Light Cards (dark colors) ========= */
-    --text-heading: #0f172a;     /* Dark navy on light cards */
-    --text-body: #334155;        /* Readable gray on light cards */
-    --text-muted: #475569;       /* Secondary text on light cards */
+    /* Text Colors */
+    --text-heading: #f8fafc;
+    --text-body: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-inverse: #020617;
 
-    /* ========= Text Directly on Dark Backgrounds (light colors) ========= */
-    --text-on-dark-heading: #e5e7eb;   /* Light gray for headings on dark */
-    --text-on-dark-body: #cbd5e1;      /* Medium-light for body on dark */
-    --text-on-dark-muted: #94a3b8;     /* Subtle text on dark */
-
-    /* ========= Borders & Lines ========= */
-    --border-subtle: rgba(148, 163, 184, 0.18);
+    /* Borders & Dividers */
+    --border-subtle: rgba(148, 163, 184, 0.2);
     --divider-line: rgba(148, 163, 184, 0.25);
 
-    /* ========= Buttons ========= */
+    /* Buttons */
     --btn-primary-bg: #3b82f6;
     --btn-primary-text: #ffffff;
 
-    /* ========= Shadows ========= */
-    --shadow-card: 0 12px 40px rgba(2, 6, 23, 0.6);
-    --shadow-soft: 0 8px 24px rgba(2, 6, 23, 0.4);
+    /* Shadows - Enhanced for dark mode */
+    --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.6);
+    --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.7);
 
-    /* ========= LEGACY SUPPORT (mapped to new dark mode system) ========= */
-    --color-background: var(--bg-page);
-    --color-surface: var(--bg-card);
-    --color-text: var(--text-on-dark-body);
-    --color-text-light: var(--text-on-dark-muted);
-    --color-text-inverse: var(--text-heading);
-    --color-border: var(--border-subtle);
-    --color-shadow: var(--shadow-soft);
-    
-    --color-primary: #3b82f6;
-    --color-primary-dark: #2563eb;
+    /* Brand Colors - Adjusted for dark mode contrast */
+    --brand-primary: #60a5fa;
+    --brand-secondary: #14b8a6;
+    --brand-accent: #fbbf24;
+
+    /* Legacy Support */
+    --color-background: #020617;
+    --color-surface: #0f172a;
+    --color-text: #cbd5e1;
+    --color-text-light: #94a3b8;
+    --color-text-inverse: #020617;
+    --color-border: rgba(148, 163, 184, 0.2);
+    --color-shadow: rgba(0, 0, 0, 0.4);
+    --color-primary: #60a5fa;
+    --color-primary-dark: #3b82f6;
     --color-primary-light: #1e293b;
-    --color-secondary: #0ea5a4;
-    --color-accent: #f59e0b;
+    --color-secondary: #14b8a6;
+    --color-accent: #fbbf24;
+
+    /* Apply to body */
+    background-color: #020617;
+    color: #cbd5e1;
 }
 
-/* ========= Apply Dark Mode to Body ========= */
-[data-theme="dark"] body,
-body[data-theme="dark"] {
-    background-color: var(--bg-page);
-    color: var(--text-on-dark-body);
-}
+/* ========================================
+   2) HEADER & NAVIGATION - DROPDOWN Z-INDEX FIX
+   ======================================== */
 
-/* ========= Headers & Navigation ========= */
-[data-theme="dark"] header,
+body.dark header,
 body[data-theme="dark"] header {
-    position: -webkit-sticky; /* iOS Safari compatibility */
-    position: sticky;
-    top: 0;
     background: rgba(2, 6, 23, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(148, 163, 184, 0.15);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-    /* Ensure proper stacking */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    will-change: transform;
-    transform: translateZ(0);
-    contain: layout style paint;
 }
 
-[data-theme="dark"] header.scrolled,
+body.dark header.scrolled,
 body[data-theme="dark"] header.scrolled {
     background: rgba(2, 6, 23, 0.98);
-    border-bottom-color: rgba(148, 163, 184, 0.2);
+    border-bottom-color: rgba(148, 163, 184, 0.25);
 }
 
-[data-theme="dark"] header a,
-body[data-theme="dark"] header a {
-    color: var(--text-on-dark-body);
+body.dark .logo,
+body[data-theme="dark"] .logo {
+    color: #60a5fa;
 }
 
-[data-theme="dark"] header a:hover,
-body[data-theme="dark"] header a:hover {
-    color: var(--text-on-dark-heading);
+body.dark .nav-links a,
+body[data-theme="dark"] .nav-links a {
+    color: #cbd5e1;
 }
 
-/* ========= Sections with Dark Backgrounds ========= */
-[data-theme="dark"] main,
-[data-theme="dark"] section,
-[data-theme="dark"] .hero,
-[data-theme="dark"] .welcome,
-[data-theme="dark"] .next-service-section,
-[data-theme="dark"] .whats-happening,
-[data-theme="dark"] .bible-verse,
-[data-theme="dark"] .new-here,
-[data-theme="dark"] .page-hero,
-[data-theme="dark"] .visit-section,
-[data-theme="dark"] .need-help,
+body.dark .nav-links a:hover,
+body[data-theme="dark"] .nav-links a:hover {
+    color: #f8fafc;
+    background-color: rgba(96, 165, 250, 0.1);
+}
+
+body.dark .nav-links a.active,
+body[data-theme="dark"] .nav-links a.active {
+    color: #60a5fa;
+    background-color: rgba(96, 165, 250, 0.15);
+}
+
+/* ========================================
+   3) DROPDOWN STYLING IN DARK MODE
+   ======================================== */
+
+body.dark .dropdown-menu,
+body[data-theme="dark"] .dropdown-menu {
+    background: #0f172a;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+}
+
+body.dark .dropdown-menu a,
+body[data-theme="dark"] .dropdown-menu a {
+    color: #e5e7eb;
+}
+
+body.dark .dropdown-menu a:hover,
+body[data-theme="dark"] .dropdown-menu a:hover {
+    background: rgba(96, 165, 250, 0.15);
+    color: #f8fafc;
+}
+
+body.dark .dropdown-menu-nested,
+body[data-theme="dark"] .dropdown-menu-nested {
+    background: #0f172a;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    z-index: 2001;
+}
+
+body.dark .dropdown-menu-nested a,
+body[data-theme="dark"] .dropdown-menu-nested a {
+    color: #e5e7eb;
+}
+
+body.dark .dropdown-menu-nested a:hover,
+body[data-theme="dark"] .dropdown-menu-nested a:hover {
+    background: rgba(96, 165, 250, 0.15);
+    color: #f8fafc;
+}
+
+/* Mobile menu in dark mode */
+body.dark .nav-links,
+body[data-theme="dark"] .nav-links {
+    background: rgba(2, 6, 23, 0.98);
+}
+
+body.dark .mobile-menu-btn span,
+body[data-theme="dark"] .mobile-menu-btn span {
+    background: #cbd5e1;
+}
+
+/* ========================================
+   4) SECTION BACKGROUNDS - STANDARDIZED
+   ======================================== */
+
+body.dark main,
+body.dark section,
+body.dark .hero,
+body.dark .next-service,
+body.dark .welcome,
+body.dark .next-service-section,
+body.dark .whats-happening,
+body.dark .bible-verse,
+body.dark .new-here,
+body.dark .page-hero,
+body.dark .visit-section,
+body.dark .visit-section:nth-child(even),
+body.dark .need-help,
+body.dark .daily-devotion-promo,
+body.dark .special-event-details,
 body[data-theme="dark"] main,
 body[data-theme="dark"] section,
 body[data-theme="dark"] .hero,
+body[data-theme="dark"] .next-service,
 body[data-theme="dark"] .welcome,
 body[data-theme="dark"] .next-service-section,
 body[data-theme="dark"] .whats-happening,
@@ -3773,200 +3852,369 @@ body[data-theme="dark"] .bible-verse,
 body[data-theme="dark"] .new-here,
 body[data-theme="dark"] .page-hero,
 body[data-theme="dark"] .visit-section,
-body[data-theme="dark"] .need-help {
-    background: var(--bg-section);
-    color: var(--text-on-dark-body);
+body[data-theme="dark"] .visit-section:nth-child(even),
+body[data-theme="dark"] .need-help,
+body[data-theme="dark"] .daily-devotion-promo,
+body[data-theme="dark"] .special-event-details {
+    background: #020617;
+    color: #cbd5e1;
 }
 
-/* ========= Headings on Dark Backgrounds ========= */
-[data-theme="dark"] section h1,
-[data-theme="dark"] section h2,
-[data-theme="dark"] .hero h1,
-[data-theme="dark"] .welcome h2,
-[data-theme="dark"] .bible-verse h2,
-body[data-theme="dark"] section h1,
-body[data-theme="dark"] section h2,
-body[data-theme="dark"] .hero h1,
-body[data-theme="dark"] .welcome h2,
-body[data-theme="dark"] .bible-verse h2 {
-    color: var(--text-on-dark-heading);
+/* Hero gradient in dark mode */
+body.dark .hero,
+body[data-theme="dark"] .hero {
+    background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
 }
 
-/* ========= Paragraphs on Dark Backgrounds ========= */
-[data-theme="dark"] section p,
-[data-theme="dark"] .hero p,
-[data-theme="dark"] .welcome p,
-[data-theme="dark"] .intro,
-body[data-theme="dark"] section p,
-body[data-theme="dark"] .hero p,
-body[data-theme="dark"] .welcome p,
-body[data-theme="dark"] .intro {
-    color: var(--text-on-dark-body);
-    opacity: 1;
+/* Alternating sections */
+body.dark .next-service,
+body.dark .whats-happening,
+body.dark .new-here,
+body[data-theme="dark"] .next-service,
+body[data-theme="dark"] .whats-happening,
+body[data-theme="dark"] .new-here {
+    background: #0f172a;
 }
 
-/* ========= Cards with Light Backgrounds ========= */
-[data-theme="dark"] .service-info,
-[data-theme="dark"] .feature-card,
-[data-theme="dark"] .stat-card,
-[data-theme="dark"] .new-here-card,
-[data-theme="dark"] .service-detail-item,
-[data-theme="dark"] .devotion-card,
-[data-theme="dark"] .prayer-form-container,
-[data-theme="dark"] .reassurance-box,
-[data-theme="dark"] .success-assurance,
-[data-theme="dark"] .peace-verse,
-[data-theme="dark"] .urgent-help,
-[data-theme="dark"] .info-block,
+/* ========================================
+   5) CARD BACKGROUNDS - STANDARDIZED
+   ======================================== */
+
+body.dark .service-info,
+body.dark .feature-card,
+body.dark .stat-card,
+body.dark .new-here-card,
+body.dark .service-detail-item,
+body.dark .event-info-item,
+body.dark .devotion-card,
+body.dark .prayer-form-container,
+body.dark .reassurance-box,
+body.dark .success-assurance,
+body.dark .peace-verse,
+body.dark .urgent-help,
+body.dark .info-block,
+body.dark .event-details-content,
+body.dark .encouragement-card,
+body.dark .new-here-card,
 body[data-theme="dark"] .service-info,
 body[data-theme="dark"] .feature-card,
 body[data-theme="dark"] .stat-card,
 body[data-theme="dark"] .new-here-card,
 body[data-theme="dark"] .service-detail-item,
+body[data-theme="dark"] .event-info-item,
 body[data-theme="dark"] .devotion-card,
 body[data-theme="dark"] .prayer-form-container,
 body[data-theme="dark"] .reassurance-box,
 body[data-theme="dark"] .success-assurance,
 body[data-theme="dark"] .peace-verse,
 body[data-theme="dark"] .urgent-help,
-body[data-theme="dark"] .info-block {
-    background: var(--bg-card);
-    border: 1px solid var(--border-subtle);
-    box-shadow: var(--shadow-card);
+body[data-theme="dark"] .info-block,
+body[data-theme="dark"] .event-details-content,
+body[data-theme="dark"] .encouragement-card,
+body[data-theme="dark"] .new-here-card {
+    background: #111827;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
-/* ========= Card Headings (Dark Text on Light Cards) ========= */
-[data-theme="dark"] .feature-card h3,
-[data-theme="dark"] .stat-card .stat-label,
-[data-theme="dark"] .new-here-card h3,
-[data-theme="dark"] .devotion-card h3,
-[data-theme="dark"] .info-block h3,
-body[data-theme="dark"] .feature-card h3,
-body[data-theme="dark"] .stat-card .stat-label,
-body[data-theme="dark"] .new-here-card h3,
-body[data-theme="dark"] .devotion-card h3,
-body[data-theme="dark"] .info-block h3 {
-    color: var(--text-heading);
-    opacity: 1;
-    font-weight: 700;
+/* Video container in dark mode */
+body.dark .video-container,
+body[data-theme="dark"] .video-container {
+    background: #111827;
 }
 
-/* ========= Card Body Text (Dark Text on Light Cards) ========= */
-[data-theme="dark"] .feature-card p,
-[data-theme="dark"] .new-here-card p,
-[data-theme="dark"] .devotion-card p,
-[data-theme="dark"] .info-block p,
-body[data-theme="dark"] .feature-card p,
-body[data-theme="dark"] .new-here-card p,
-body[data-theme="dark"] .devotion-card p,
-body[data-theme="dark"] .info-block p {
-    color: var(--text-body);
-    opacity: 1;
+/* Hero next service */
+body.dark .hero-next-service,
+body[data-theme="dark"] .hero-next-service {
+    background: #111827;
+    border-left: 4px solid #fbbf24;
 }
 
-/* ========= Card Numbers (Dark Text on Light Cards) ========= */
-[data-theme="dark"] .stat-card .stat-number,
-body[data-theme="dark"] .stat-card .stat-number {
-    color: var(--text-heading);
-    opacity: 1;
+/* ========================================
+   6) TEXT & LINK CONTRAST - STANDARDIZED
+   ======================================== */
+
+/* Headings */
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body[data-theme="dark"] h1,
+body[data-theme="dark"] h2,
+body[data-theme="dark"] h3,
+body[data-theme="dark"] h4,
+body[data-theme="dark"] h5,
+body[data-theme="dark"] h6 {
+    color: #f8fafc;
 }
 
-/* ========= Bible Verses & Scripture ========= */
-[data-theme="dark"] .verse-text,
-[data-theme="dark"] .scripture,
-body[data-theme="dark"] .verse-text,
-body[data-theme="dark"] .scripture {
-    color: var(--text-muted);
-    opacity: 1;
-    font-weight: 500;
+/* Body Text */
+body.dark p,
+body.dark .intro,
+body.dark .tagline,
+body.dark .hero-intro,
+body.dark .service-time,
+body.dark .service-location,
+body[data-theme="dark"] p,
+body[data-theme="dark"] .intro,
+body[data-theme="dark"] .tagline,
+body[data-theme="dark"] .hero-intro,
+body[data-theme="dark"] .service-time,
+body[data-theme="dark"] .service-location {
+    color: #cbd5e1;
 }
 
-[data-theme="dark"] .verse-reference,
-body[data-theme="dark"] .verse-reference {
-    color: var(--brand-accent);
-    opacity: 1;
+/* Muted Text */
+body.dark .address,
+body.dark .service-badge,
+body.dark .stat-label,
+body.dark .verse-reference,
+body.dark .info-subtext,
+body[data-theme="dark"] .address,
+body[data-theme="dark"] .service-badge,
+body[data-theme="dark"] .stat-label,
+body[data-theme="dark"] .verse-reference,
+body[data-theme="dark"] .info-subtext {
+    color: #94a3b8;
 }
 
-/* ========= Links ========= */
-[data-theme="dark"] a,
+/* Links */
+body.dark a,
 body[data-theme="dark"] a {
-    color: var(--brand-primary);
-}
-
-[data-theme="dark"] a:hover,
-body[data-theme="dark"] a:hover {
     color: #60a5fa;
 }
 
-/* ========= Buttons ========= */
-[data-theme="dark"] .btn,
-[data-theme="dark"] button,
-body[data-theme="dark"] .btn,
-body[data-theme="dark"] button {
-    background: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
-    border-color: transparent;
+body.dark a:hover,
+body[data-theme="dark"] a:hover {
+    color: #93c5fd;
 }
 
-[data-theme="dark"] .btn:hover,
-[data-theme="dark"] button:hover,
-body[data-theme="dark"] .btn:hover,
-body[data-theme="dark"] button:hover {
+/* Card links */
+body.dark .card-link,
+body[data-theme="dark"] .card-link {
+    color: #14b8a6;
+}
+
+body.dark .card-link:hover,
+body[data-theme="dark"] .card-link:hover {
+    color: #2dd4bf;
+    background-color: rgba(20, 184, 166, 0.1);
+}
+
+/* ========================================
+   7) SPECIAL ELEMENTS
+   ======================================== */
+
+/* Bible Verse */
+body.dark .verse-text,
+body[data-theme="dark"] .verse-text {
+    color: #f8fafc;
+}
+
+body.dark .verse-reference,
+body[data-theme="dark"] .verse-reference {
+    color: #14b8a6;
+}
+
+body.dark .bible-verse blockquote::before,
+body.dark .bible-verse blockquote::after,
+body[data-theme="dark"] .bible-verse blockquote::before,
+body[data-theme="dark"] .bible-verse blockquote::after {
+    color: #14b8a6;
+    opacity: 0.2;
+}
+
+/* Stat Numbers */
+body.dark .stat-number,
+body[data-theme="dark"] .stat-number {
+    color: #14b8a6;
+}
+
+/* Service Icons */
+body.dark .service-icon,
+body.dark .event-icon,
+body.dark .card-icon,
+body[data-theme="dark"] .service-icon,
+body[data-theme="dark"] .event-icon,
+body[data-theme="dark"] .card-icon {
+    color: #14b8a6;
+}
+
+/* Buttons */
+body.dark .btn-primary,
+body[data-theme="dark"] .btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: #ffffff;
+}
+
+body.dark .btn-primary:hover,
+body[data-theme="dark"] .btn-primary:hover {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+}
+
+body.dark .btn-secondary,
+body[data-theme="dark"] .btn-secondary {
+    background: transparent;
+    color: #60a5fa;
+    border: 2px solid #60a5fa;
+}
+
+body.dark .btn-secondary:hover,
+body[data-theme="dark"] .btn-secondary:hover {
     background: #60a5fa;
+    color: #ffffff;
 }
 
-/* ========= Footer ========= */
-[data-theme="dark"] footer,
+/* ========================================
+   8) FOOTER
+   ======================================== */
+
+body.dark footer,
 body[data-theme="dark"] footer {
-    background: linear-gradient(135deg, #020617, #0f172a);
-    color: var(--text-on-dark-body);
-    border-top: 1px solid rgba(148, 163, 184, 0.15);
+    background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+    color: #cbd5e1;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
 }
 
-[data-theme="dark"] footer h3,
-[data-theme="dark"] footer h4,
+body.dark footer h3,
+body.dark footer h4,
 body[data-theme="dark"] footer h3,
 body[data-theme="dark"] footer h4 {
-    color: var(--text-on-dark-heading);
+    color: #f8fafc;
 }
 
-[data-theme="dark"] footer a,
+body.dark footer a,
 body[data-theme="dark"] footer a {
-    color: var(--text-on-dark-body);
+    color: #cbd5e1;
 }
 
-[data-theme="dark"] footer a:hover,
+body.dark footer a:hover,
 body[data-theme="dark"] footer a:hover {
-    color: var(--text-on-dark-heading);
+    color: #fbbf24;
 }
 
-/* ========= Forms & Inputs ========= */
-[data-theme="dark"] input,
-[data-theme="dark"] textarea,
-[data-theme="dark"] select,
+body.dark .social-links a,
+body[data-theme="dark"] .social-links a {
+    color: #cbd5e1;
+}
+
+body.dark .social-links a:hover,
+body[data-theme="dark"] .social-links a:hover {
+    color: #fbbf24;
+}
+
+/* ========================================
+   9) FORMS & INPUTS
+   ======================================== */
+
+body.dark input,
+body.dark textarea,
+body.dark select,
 body[data-theme="dark"] input,
 body[data-theme="dark"] textarea,
 body[data-theme="dark"] select {
-    background: var(--bg-card);
-    color: var(--text-body);
-    border: 1px solid var(--border-subtle);
+    background: #111827;
+    color: #f8fafc;
+    border: 1px solid rgba(148, 163, 184, 0.2);
 }
 
-[data-theme="dark"] input:focus,
-[data-theme="dark"] textarea:focus,
-[data-theme="dark"] select:focus,
+body.dark input:focus,
+body.dark textarea:focus,
+body.dark select:focus,
 body[data-theme="dark"] input:focus,
 body[data-theme="dark"] textarea:focus,
 body[data-theme="dark"] select:focus {
-    border-color: var(--brand-primary);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
 }
 
-/* ========= Dividers & Borders ========= */
-[data-theme="dark"] hr,
-body[data-theme="dark"] hr {
-    border-color: var(--divider-line);
+body.dark input::placeholder,
+body.dark textarea::placeholder,
+body[data-theme="dark"] input::placeholder,
+body[data-theme="dark"] textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* ========================================
+   10) INLINE COUNTDOWN BANNER
+   ======================================== */
+
+body.dark .inline-countdown-banner,
+body[data-theme="dark"] .inline-countdown-banner {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+    border-bottom: 2px solid rgba(251, 191, 36, 0.4);
+}
+
+body.dark .inline-countdown-banner .countdown-value,
+body[data-theme="dark"] .inline-countdown-banner .countdown-value {
+    background: rgba(255, 255, 255, 0.95);
+    color: #0f172a;
+}
+
+body.dark .inline-countdown-banner .banner-link,
+body[data-theme="dark"] .inline-countdown-banner .banner-link {
+    background: rgba(255, 255, 255, 0.9);
+    color: #0f172a;
+}
+
+body.dark .inline-countdown-banner .banner-link:hover,
+body[data-theme="dark"] .inline-countdown-banner .banner-link:hover {
+    background: #ffffff;
+}
+
+/* ========================================
+   11) BORDERS & DIVIDERS
+   ======================================== */
+
+body.dark hr,
+body.dark .content-page-header,
+body.dark .footer-bottom,
+body[data-theme="dark"] hr,
+body[data-theme="dark"] .content-page-header,
+body[data-theme="dark"] .footer-bottom {
+    border-color: rgba(148, 163, 184, 0.2);
+}
+
+/* ========================================
+   12) CONTENT PAGES
+   ======================================== */
+
+body.dark .content-page,
+body[data-theme="dark"] .content-page {
+    background: #020617;
+}
+
+body.dark .content-page-body strong,
+body[data-theme="dark"] .content-page-body strong {
+    color: #60a5fa;
+}
+
+body.dark .content-page-body a,
+body[data-theme="dark"] .content-page-body a {
+    color: #14b8a6;
+    border-bottom-color: transparent;
+}
+
+body.dark .content-page-body a:hover,
+body[data-theme="dark"] .content-page-body a:hover {
+    border-bottom-color: #14b8a6;
+}
+
+/* ========================================
+   13) PRAYER & SUCCESS MESSAGES
+   ======================================== */
+
+body.dark .prayer-success-message,
+body[data-theme="dark"] .prayer-success-message {
+    background: #111827;
+    border: 2px solid rgba(96, 165, 250, 0.3);
+}
+
+body.dark .success-icon,
+body[data-theme="dark"] .success-icon {
+    color: #14b8a6;
 }
 
 /* System preference removed - dark mode now manual only via toggle button */
