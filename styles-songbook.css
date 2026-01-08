@@ -25,6 +25,8 @@ body.copy-protected .presentation-lyrics {
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: 100px;
+    padding-top: 1.5rem;
 }
 
 header {
@@ -808,8 +810,73 @@ header h1 .icon {
 }
 
 @media (max-width: 768px) {
+    /* Fix for fixed header - ensure content is visible */
+    .container {
+        margin-top: 80px !important;
+        padding-top: 20px !important;
+    }
+    
+    /* Make search bar always visible */
+    .search-container {
+        margin-bottom: 20px;
+        padding: 0 15px;
+    }
+    
+    /* Horizontal scrollable filter tabs with native momentum */
+    .filter-tabs {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        scroll-snap-type: x proximity;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding: 10px 15px;
+        justify-content: flex-start;
+        touch-action: pan-x;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .filter-tabs::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .tab-btn {
+        flex: 0 0 auto;
+        padding: 10px 20px;
+        font-size: 0.95em;
+        white-space: nowrap;
+        scroll-snap-align: start;
+    }
+    
     header h1 {
         font-size: 2em;
+    }
+    
+    /* Horizontal scrollable alphabet index */
+    .alphabet-index {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        touch-action: pan-x;
+        justify-content: flex-start;
+        padding: 10px 15px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .alphabet-index::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .alphabet-btn {
+        flex: 0 0 auto;
+        min-width: 40px;
     }
     
     .song-list {
