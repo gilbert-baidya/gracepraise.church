@@ -331,6 +331,17 @@ a:hover {
     overflow: hidden;
 }
 
+/* Fixed positioning on mobile */
+@media (max-width: 768px) {
+    .inline-countdown-banner {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        z-index: 999;
+    }
+}
+
 /* Subtle glow effect */
 .inline-countdown-banner::before {
     content: '';
@@ -1247,6 +1258,7 @@ header.scrolled nav {
     .hero {
         min-height: auto;
         padding: var(--spacing-3xl) var(--spacing-md) var(--spacing-2xl);
+        padding-top: calc(var(--fixed-top-offset) + var(--spacing-3xl));
     }
     
     .hero-content {
@@ -2766,11 +2778,23 @@ footer {
         max-width: 100%;
         box-sizing: border-box;
     }
+    
+    /* Ensure all page content starts below fixed header + banner */
+    main {
+        padding-top: var(--fixed-top-offset);
+    }
+    
+    /* Override for hero section which has its own padding */
+    .hero {
+        margin-top: calc(var(--fixed-top-offset) * -1);
+    }
 }
 
 @media (max-width: 768px) {
     :root {
         --container-padding: var(--spacing-md);
+        --header-height: 60px;
+        --countdown-banner-height: 55px;
     }
     
     /* Force header to be fixed on mobile to prevent positioning issues */

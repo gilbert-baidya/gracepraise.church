@@ -33,6 +33,13 @@ body.copy-protected .presentation-lyrics {
     padding-top: 140px;
 }
 
+/* Mobile: Use CSS variables from redesign-styles.css */
+@media (max-width: 768px) {
+    .songbook-page {
+        padding-top: var(--fixed-top-offset, 115px);
+    }
+}
+
 /* Page-specific header for Song Book title (not site header) */
 .page-header {
     text-align: center;
@@ -816,11 +823,6 @@ header h1 .icon {
 }
 
 @media (max-width: 768px) {
-    /* Songbook page specific offset for fixed header + banner on mobile */
-    .songbook-page {
-        padding-top: 110px;
-    }
-    
     /* Make search bar always visible */
     .search-container {
         margin-bottom: 20px;
