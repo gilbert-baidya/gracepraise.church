@@ -8,6 +8,11 @@
     --brand-secondary: #0ea5a4;   /* teal */
     --brand-accent: #f59e0b;      /* gold */
 
+    /* ========= Fixed Layout Heights ========= */
+    --header-height: 70px;
+    --countdown-banner-height: 60px;
+    --fixed-top-offset: calc(var(--header-height) + var(--countdown-banner-height));
+
     /* ========= Backgrounds ========= */
     --bg-page: #ffffff;
     --bg-section: #f8fafc;
