@@ -966,11 +966,11 @@ header h1 .icon {
         padding: 8px 12px 10px;
     }
     
-    /* Primary Buttons - Three across on mobile for essential controls */
+    /* Primary Buttons - Two per row on mobile (4 buttons total) */
     .btn-primary {
         padding: 8px 10px;
         font-size: 0.85em;
-        flex: 1 1 calc(33.333% - 4px);
+        flex: 1 1 calc(50% - 3px);
         min-width: 0;
     }
     
@@ -984,7 +984,7 @@ header h1 .icon {
         font-weight: 500;
     }
     
-    /* Advanced controls - two per row when visible */
+    /* Advanced controls - two transpose buttons side by side */
     .controls-advanced .btn {
         padding: 7px 10px;
         font-size: 0.8em;

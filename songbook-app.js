@@ -665,7 +665,7 @@ function openSong(song) {
     const toggleAdvancedBtn = document.getElementById('toggleAdvanced');
     if (advancedControls && toggleAdvancedBtn) {
         advancedControls.style.display = 'none';
-        toggleAdvancedBtn.textContent = 'Advanced ▼';
+        toggleAdvancedBtn.textContent = 'Transpose ▼';
     }
     
     // Store current song globally
@@ -870,7 +870,7 @@ function setupEventListeners() {
         toggleAdvancedBtn.onclick = () => {
             const isVisible = advancedControls.style.display !== 'none';
             advancedControls.style.display = isVisible ? 'none' : 'flex';
-            toggleAdvancedBtn.textContent = isVisible ? 'Advanced ▼' : 'Advanced ▲';
+            toggleAdvancedBtn.textContent = isVisible ? 'Transpose ▼' : 'Transpose ▲';
         };
     }
     
