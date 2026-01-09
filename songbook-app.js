@@ -660,6 +660,14 @@ function openSong(song) {
         showPhonetic = false;
     }
     
+    // Reset advanced controls to hidden on mobile
+    const advancedControls = document.getElementById('advancedControls');
+    const toggleAdvancedBtn = document.getElementById('toggleAdvanced');
+    if (advancedControls && toggleAdvancedBtn) {
+        advancedControls.style.display = 'none';
+        toggleAdvancedBtn.textContent = 'Advanced ▼';
+    }
+    
     // Store current song globally
     window.currentSong = song;
     
@@ -854,6 +862,17 @@ function setupEventListeners() {
         btn.textContent = showPhonetic ? 'Show Bengali' : 'Show Phonetic';
         if (window.currentSong) renderSongContent(window.currentSong.lyrics);
     };
+    
+    // Toggle advanced controls visibility (mobile optimization)
+    const toggleAdvancedBtn = document.getElementById('toggleAdvanced');
+    const advancedControls = document.getElementById('advancedControls');
+    if (toggleAdvancedBtn && advancedControls) {
+        toggleAdvancedBtn.onclick = () => {
+            const isVisible = advancedControls.style.display !== 'none';
+            advancedControls.style.display = isVisible ? 'none' : 'flex';
+            toggleAdvancedBtn.textContent = isVisible ? 'Advanced ▼' : 'Advanced ▲';
+        };
+    }
     
     document.getElementById('increaseFontSize').onclick = () => {
         currentFontSize += 2;

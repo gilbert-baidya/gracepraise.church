@@ -292,12 +292,15 @@
                 <span class="close">&times;</span>
                 <h2 id="songTitle"></h2>
                 <div class="controls">
-                    <button id="togglePhonetic" class="btn">Show Phonetic</button>
-                    <button id="toggleChords" class="btn">Hide Chords</button>
-                    <button id="increaseFontSize" class="btn">A+</button>
-                    <button id="decreaseFontSize" class="btn">A-</button>
+                    <button id="toggleChords" class="btn btn-primary">Hide Chords</button>
+                    <button id="increaseFontSize" class="btn btn-primary">A+</button>
+                    <button id="decreaseFontSize" class="btn btn-primary">A-</button>
+                    <button id="toggleAdvanced" class="btn btn-secondary">Advanced ▼</button>
+                </div>
+                <div class="controls controls-advanced" id="advancedControls" style="display: none;">
                     <button id="transposeUp" class="btn">Transpose +</button>
                     <button id="transposeDown" class="btn">Transpose -</button>
+                    <button id="togglePhonetic" class="btn">Show Phonetic</button>
                 </div>
                 <div id="songContent" class="song-content"></div>
             </div>
