@@ -25,11 +25,16 @@ body.copy-protected .presentation-lyrics {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    margin-top: 100px;
-    padding-top: 1.5rem;
+    padding: 0 20px;
 }
 
-header {
+/* Songbook page specific offset for fixed header + countdown banner */
+.songbook-page {
+    padding-top: 140px;
+}
+
+/* Page-specific header for Song Book title (not site header) */
+.page-header {
     text-align: center;
     color: var(--color-primary, #1e3a5f);
     margin-bottom: 30px;
@@ -232,6 +237,7 @@ header h1 .icon {
     background: var(--color-surface, #ffffff);
     border-radius: 15px;
     box-shadow: var(--shadow-sm, 0 1px 3px 0 rgba(30, 58, 95, 0.08));
+    overflow-x: hidden;
 }
 
 .alphabet-btn {
@@ -810,10 +816,9 @@ header h1 .icon {
 }
 
 @media (max-width: 768px) {
-    /* Fix for fixed header - ensure content is visible */
-    .container {
-        margin-top: 80px !important;
-        padding-top: 20px !important;
+    /* Songbook page specific offset for fixed header + banner on mobile */
+    .songbook-page {
+        padding-top: 110px;
     }
     
     /* Make search bar always visible */
@@ -852,22 +857,23 @@ header h1 .icon {
         scroll-snap-align: start;
     }
     
-    header h1 {
+    .page-header h1 {
         font-size: 2em;
     }
     
-    /* Horizontal scrollable alphabet index */
+    /* Horizontal scrollable alphabet index - BANGLA MENU SWIPE */
     .alphabet-index {
-        flex-wrap: nowrap;
-        overflow-x: auto;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
         scroll-behavior: smooth;
         touch-action: pan-x;
-        justify-content: flex-start;
+        justify-content: flex-start !important;
         padding: 10px 15px;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        gap: 8px;
     }
     
     .alphabet-index::-webkit-scrollbar {
@@ -877,18 +883,24 @@ header h1 .icon {
     .alphabet-btn {
         flex: 0 0 auto;
         min-width: 40px;
+        white-space: nowrap;
     }
     
     .song-list {
         grid-template-columns: 1fr;
     }
     
-    /* Mobile Modal Fixes */
+    /* Mobile Modal Fixes - ONLY apply to OPEN modals */
+    .modal[style*="display: flex"] {
+        padding: 10px;
+        /* display: flex is set by JavaScript - DO NOT force here */
+    }
+    
     .modal-content {
         width: 95%;
         max-width: 100%;
-        max-height: 95vh;
-        margin: 0;
+        max-height: 90vh;
+        margin: auto;
         border-radius: 10px;
     }
     

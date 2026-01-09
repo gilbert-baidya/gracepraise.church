@@ -356,6 +356,9 @@ function showPresentationMode(song) {
     counter.textContent = `${window.currentPresentationIndex + 1} / ${servicePlaylist.length}`;
     
     modal.style.display = 'flex';
+    
+    // Lock body scroll when presentation modal opens
+    document.body.style.overflow = 'hidden';
 }
 
 function nextSong() {
@@ -373,7 +376,14 @@ function previousSong() {
 }
 
 function exitPresentation() {
-    document.getElementById('presentationModal').style.display = 'none';
+    const modal = document.getElementById('presentationModal');
+    modal.style.display = 'none';
+    
+    // Restore body scroll
+    document.body.style.overflow = '';
+    
+    // Reset presentation state
+    window.currentPresentationIndex = 0;
 }
 
 // Chord transposition map
@@ -389,6 +399,21 @@ const chordMap = {
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
+    // CRITICAL: Ensure all modals are closed on page load
+    const songModal = document.getElementById('songModal');
+    const presentationModal = document.getElementById('presentationModal');
+    const copyrightModal = document.getElementById('copyrightModal');
+    
+    if (songModal) songModal.style.display = 'none';
+    if (presentationModal) presentationModal.style.display = 'none';
+    if (copyrightModal) copyrightModal.style.display = 'none';
+    
+    // CRITICAL: Reset all global UI states
+    document.body.style.overflow = '';
+    document.body.classList.remove('menu-open');
+    window.currentSong = null;
+    window.currentPresentationIndex = 0;
+    
     // Setup copy protection first
     setupCopyProtection();
     
@@ -640,6 +665,21 @@ function openSong(song) {
     
     renderSongContent(song.lyrics);
     modal.style.display = 'flex';
+    
+    // Lock body scroll when modal opens
+    document.body.style.overflow = 'hidden';
+}
+
+// Centralized cleanup function to restore UI state
+function closeSongModal() {
+    const modal = document.getElementById('songModal');
+    modal.style.display = 'none';
+    
+    // Restore body scroll
+    document.body.style.overflow = '';
+    
+    // Clear any transient UI states
+    window.currentSong = null;
 }
 
 // Render song content with chords
@@ -781,14 +821,21 @@ function setupEventListeners() {
         renderSongList(filtered);
     });
     
-    closeBtn.onclick = () => modal.style.display = 'none';
+    closeBtn.onclick = () => closeSongModal();
     
     // Close modal when clicking outside content
     modal.onclick = (e) => {
         if (e.target === modal) {
-            modal.style.display = 'none';
+            closeSongModal();
         }
     };
+    
+    // Close modal with ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+            closeSongModal();
+        }
+    });
     
     // Control buttons
     document.getElementById('toggleChords').onclick = function() {
@@ -887,4 +934,20 @@ function disableCopyForUnauthorizedUser() {
     isAuthorizedUser = false;
     updateCopyProtectionUI();
 }
+
+// Safety cleanup: Ensure UI state is restored when leaving the page or switching tabs
+window.addEventListener('beforeunload', () => {
+    document.body.style.overflow = '';
+    document.body.classList.remove('menu-open');
+});
+
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        // Page is hidden - ensure no locks remain
+        const modal = document.getElementById('songModal');
+        if (modal && modal.style.display === 'flex') {
+            closeSongModal();
+        }
+    }
+});
 
