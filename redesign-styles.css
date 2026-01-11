@@ -339,8 +339,9 @@ a:hover {
 /* Fixed positioning on mobile */
 @media (max-width: 768px) {
     .inline-countdown-banner {
-        position: fixed;
-        top: var(--header-height);
+        position: relative;
+        /* Flows naturally below sticky header - no JS required */
+        top: 0;
         left: 0;
         right: 0;
         z-index: 999;
@@ -361,6 +362,14 @@ a:hover {
         rgba(250, 204, 21, 0.2) 50%, 
         transparent 100%);
     animation: shimmer 3s infinite;
+    /* Prevent animation from causing horizontal scroll on mobile */
+    overflow: hidden;
+}
+
+/* Ensure banner constrains shimmer animation */
+.inline-countdown-banner {
+    overflow: hidden;
+    position: relative;
 }
 
 @keyframes shimmer {
@@ -2725,14 +2734,14 @@ footer {
 /* iPad-only horizontal overflow fix (safe, non-breaking) */
 /* iPad/Tablet: Allow nav items to wrap into 2 rows to prevent horizontal clipping */
 @media (min-width: 769px) and (max-width: 1024px) {
-    /* Lock horizontal overflow at root level for iPad */
+    /* Use overflow:hidden instead of clip - preserves sticky positioning */
     html {
-        overflow-x: clip !important;
+        overflow-x: hidden;
         max-width: 100%;
     }
     
     body {
-        overflow-x: clip !important;
+        overflow-x: hidden;
         max-width: 100%;
     }
     
@@ -2760,7 +2769,12 @@ footer {
         flex: 0 0 auto;
     }
 
-    /* Enable tap-to-open dropdowns on iPad */
+    /* Enable tap-to-open dropdowns on iPad (touch-first) */
+    .nav-dropdown > a {
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2);
+    }
+    
     .nav-dropdown.mobile-dropdown-open .dropdown-menu {
         opacity: 1;
         visibility: visible;
@@ -2787,8 +2801,12 @@ footer {
         overflow-x: visible;
     }
     
-    /* Ensure header itself is contained */
+    /* Ensure header itself is contained and sticky works */
     header {
+        position: -webkit-sticky;
+        position: sticky;
+        /* Sticky positioning safe on iPad with overflow:hidden on html/body */
+        contain: layout style;
         max-width: 100%;
         width: 100%;
         box-sizing: border-box;
@@ -2840,6 +2858,7 @@ footer {
 @media (max-width: 768px) {
     :root {
         --container-padding: var(--spacing-md);
+        /* CSS variables for optional JS enhancements only - not required */
         --header-height: 60px;
         --countdown-banner-height: 42px;
     }
@@ -2849,9 +2868,10 @@ footer {
         padding: 0.65rem 0;
     }
     
-    /* Force header to be fixed on mobile to prevent positioning issues */
+    /* Keep sticky positioning - works without JS */
     header {
-        position: fixed !important;
+        position: -webkit-sticky;
+        position: sticky;
         top: 0;
         left: 0;
         right: 0;
@@ -3009,6 +3029,39 @@ footer {
         transform: translateX(0);
     }
     
+    /* NO-JS FALLBACK: Show navigation links in vertical layout */
+    @media (max-width: 768px) {
+        html:not(.js-enabled) .mobile-menu-btn {
+            display: none;
+        }
+        
+        html:not(.js-enabled) .nav-links {
+            position: static;
+            transform: translateX(0);
+            width: 100%;
+            height: auto;
+            padding: 1rem 0;
+            overflow-y: visible;
+            background: var(--color-surface);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        html:not(.js-enabled) .nav-container {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        html:not(.js-enabled) .dropdown-menu {
+            display: block;
+            max-height: none;
+            padding: var(--spacing-xs) 0;
+        }
+        
+        html:not(.js-enabled) .dropdown-arrow {
+            display: none;
+        }
+    }
+    
     .nav-links a {
         width: 100%;
         padding: var(--spacing-md);
@@ -3045,9 +3098,9 @@ footer {
         left: 0;
     }
     
-    /* Add padding to main content to prevent header overlap */
+    /* No padding needed - sticky header + relative banner flow naturally */
     main {
-        padding-top: 60px;
+        padding-top: 0;
     }
     
     .hero h1 {

@@ -19,21 +19,22 @@
     }
 }
 
-/* FIX 2: Ensure inline banner sits below fixed header without overlap */
+/* FIX 2: Banner flows naturally below sticky header - NO JS REQUIRED */
 @media (max-width: 768px) {
     body.homepage .inline-countdown-banner,
     body[data-page="home"] .inline-countdown-banner,
     .page-home .inline-countdown-banner {
-        position: fixed;
-        top: var(--header-height);
-        z-index: 998; /* Below header (999), above content */
+        position: relative;
+        /* Flows naturally in document - no fixed positioning */
+        z-index: 998;
+        top: 0;
     }
     
-    /* Add top margin to main content to prevent overlap */
+    /* No margin needed - banner flows naturally above main */
     body.homepage main,
     body[data-page="home"] main,
     .page-home main {
-        margin-top: calc(var(--header-height) + var(--countdown-banner-height));
+        margin-top: 0;
     }
 }
 
@@ -51,44 +52,380 @@
 
 /* FIX 4: iPad-specific adjustments (769px-1024px) */
 @media (min-width: 769px) and (max-width: 1024px) {
+    /* Single clear hero spacing rule - no conflicts */
     body.homepage .hero,
     body[data-page="home"] .hero,
     .page-home .hero {
-        padding-top: var(--spacing-lg) !important;
+        padding-top: 2.5rem;
+        margin-top: 0;
     }
     
-    /* Ensure banner is visible on iPad */
+    /* Banner flows naturally - consistent positioning */
     body.homepage .inline-countdown-banner,
     body[data-page="home"] .inline-countdown-banner,
     .page-home .inline-countdown-banner {
         position: relative;
-        top: auto;
+        top: 0;
     }
     
-    /* iPad hero spacing fix */
+    /* Main content flows naturally below banner */
     body.homepage main,
     body[data-page="home"] main,
-    .page-home main,
-    body:has(.inline-countdown-banner) main {
-        padding-top: 0 !important;
-    }
-
-    body.homepage .hero,
-    body[data-page="home"] .hero,
-    .page-home .hero,
-    body:has(.inline-countdown-banner) .hero {
-        padding-top: 2rem !important;
+    .page-home main {
+        padding-top: 0;
+        margin-top: 0;
     }
 }
 
-/* FIX 5: Prevent overflow-x issues on iPad Safari */
+/* FIX 5: iPad Safari - Let sticky header work naturally */
 @media (min-width: 769px) and (max-width: 1024px) {
-    @supports (-webkit-touch-callout: none) {
-        body.homepage,
-        body[data-page="home"],
-        .page-home {
-            overflow-x: clip !important;
-        }
+    /* Removed overflow-x: clip override - it breaks position: sticky */
+    /* Base sticky header from redesign-styles.css works correctly */
+}
+
+/* =========================================
+   MOBILE UX POLISH — TAP TARGETS & FEEDBACK
+   ========================================= */
+
+/* 1) CAROUSEL DOTS — Larger tap targets without changing appearance */
+@media (max-width: 768px) {
+    /* Circle carousel dots */
+    .circle-dot {
+        /* Visual size remains 12px, but clickable area is larger */
+        padding: 12px;
+        margin: 0 4px;
+        /* Keeps visual dot size at 12px but tap area is ~36px */
+    }
+    
+    /* GPBC rotator dots */
+    .gpbc-nav-dot {
+        /* Visual size remains 12px, but clickable area is larger */
+        padding: 14px;
+        margin: 0 4px;
+        /* Keeps visual dot size at 12px but tap area is ~40px */
+    }
+    
+    /* Increase gap between dots to prevent mis-taps */
+    .circle-nav-dots {
+        gap: 1rem !important;
+    }
+    
+    .gpbc-rotator-nav {
+        gap: 1.25rem !important;
+    }
+}
+
+/* 2) COUNTDOWN BANNER CTA — Larger tap target, spacing from numbers */
+@media (max-width: 768px) {
+    body.homepage .inline-countdown-banner .banner-link,
+    body[data-page="home"] .inline-countdown-banner .banner-link,
+    .page-home .inline-countdown-banner .banner-link,
+    body:has(.inline-countdown-banner) .banner-link {
+        /* Increase tap area */
+        padding: 0.5rem 0.85rem !important;
+        min-height: 32px;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.5rem;
+    }
+    
+    /* Add tap feedback */
+    body.homepage .inline-countdown-banner .banner-link:active,
+    body[data-page="home"] .inline-countdown-banner .banner-link:active,
+    .page-home .inline-countdown-banner .banner-link:active,
+    body:has(.inline-countdown-banner) .banner-link:active {
+        transform: scale(0.95);
+        background: rgba(255, 255, 255, 1);
+    }
+    
+    /* Reduce accidental taps on countdown numbers */
+    body.homepage .inline-countdown-banner .countdown-value,
+    body[data-page="home"] .inline-countdown-banner .countdown-value,
+    .page-home .inline-countdown-banner .countdown-value,
+    body:has(.inline-countdown-banner) .countdown-value {
+        pointer-events: none;
+        user-select: none;
+    }
+    
+    body.homepage .inline-countdown-banner .countdown-unit,
+    body[data-page="home"] .inline-countdown-banner .countdown-unit,
+    .page-home .inline-countdown-banner .countdown-unit,
+    body:has(.inline-countdown-banner) .countdown-unit {
+        pointer-events: none;
+        user-select: none;
+    }
+}
+
+/* 3) HEADER CONTROLS — Better spacing to prevent accidental taps */
+@media (max-width: 768px) {
+    .nav-container {
+        gap: 1rem !important;
+        padding: 0 1rem;
+    }
+    
+    /* Logo — ensure minimum tap target */
+    .logo {
+        padding: 0.5rem;
+        margin: -0.5rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Dark mode toggle — increase tap area */
+    .dark-mode-toggle {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.5rem;
+    }
+    
+    /* Mobile menu button — ensure 44px minimum */
+    .mobile-menu-btn {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.75rem !important;
+    }
+    
+    /* Add tap feedback to header controls */
+    .logo:active {
+        transform: scale(0.95);
+        opacity: 0.8;
+    }
+    
+    .dark-mode-toggle:active {
+        transform: scale(0.9);
+    }
+    
+    .mobile-menu-btn:active {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+    }
+}
+
+/* 4) HERO CTA BUTTONS — Better tap feedback */
+@media (max-width: 768px) {
+    body.homepage .hero .btn,
+    body[data-page="home"] .hero .btn,
+    .page-home .hero .btn {
+        min-height: 48px;
+        padding: 0.875rem 1.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    body.homepage .hero .btn:active,
+    body[data-page="home"] .hero .btn:active,
+    .page-home .hero .btn:active {
+        transform: scale(0.97);
+    }
+}
+
+/* 5) CAROUSEL CTA BUTTONS — Better tap area */
+@media (max-width: 768px) {
+    /* Circle carousel buttons */
+    .circle-carousel .btn {
+        min-height: 48px;
+        padding: 0.875rem 2rem;
+    }
+    
+    .circle-carousel .btn:active {
+        transform: scale(0.97) !important;
+    }
+    
+    /* GPBC rotator buttons */
+    .gpbc-slide-cta {
+        min-height: 44px;
+        padding: 0.75rem 1.75rem !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .gpbc-slide-cta:active {
+        transform: scale(0.97) !important;
+    }
+}
+
+/* 6) FOCUS STATES — Ensure visibility on all interactive elements */
+@media (max-width: 768px) {
+    /* Enhanced focus for better accessibility */
+    .logo:focus-visible,
+    .dark-mode-toggle:focus-visible,
+    .mobile-menu-btn:focus-visible {
+        outline: 3px solid var(--color-accent, #c9a961);
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+    
+    .circle-dot:focus-visible,
+    .gpbc-nav-dot:focus-visible {
+        outline: 3px solid rgba(45, 122, 143, 0.8);
+        outline-offset: 4px;
+    }
+    
+    body.homepage .inline-countdown-banner .banner-link:focus-visible,
+    body[data-page="home"] .inline-countdown-banner .banner-link:focus-visible,
+    .page-home .inline-countdown-banner .banner-link:focus-visible {
+        outline: 3px solid var(--color-accent, #c9a961);
+        outline-offset: 3px;
+    }
+}
+
+/* 7) CARD LINKS — Better tap targets and feedback */
+@media (max-width: 768px) {
+    /* What's Happening card links */
+    body.homepage .feature-card .card-link,
+    body[data-page="home"] .feature-card .card-link,
+    .page-home .feature-card .card-link {
+        min-height: 44px;
+        padding: 0.75rem 1.25rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+    
+    body.homepage .feature-card .card-link:active,
+    body[data-page="home"] .feature-card .card-link:active,
+    .page-home .feature-card .card-link:active {
+        transform: translateY(1px);
+        opacity: 0.8;
+    }
+    
+    /* Ministry showcase buttons */
+    body.homepage .gpbc-showcase-btn,
+    body[data-page="home"] .gpbc-showcase-btn,
+    .page-home .gpbc-showcase-btn {
+        min-height: 44px;
+        padding: 0.75rem 1.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    body.homepage .gpbc-showcase-btn:active,
+    body[data-page="home"] .gpbc-showcase-btn:active,
+    .page-home .gpbc-showcase-btn:active {
+        transform: scale(0.97);
+    }
+    
+    /* New Here section CTA buttons */
+    body.homepage .new-here-cta .btn,
+    body[data-page="home"] .new-here-cta .btn,
+    .page-home .new-here-cta .btn {
+        min-height: 48px;
+        padding: 0.875rem 1.75rem;
+        margin: 0.5rem;
+    }
+    
+    body.homepage .new-here-cta .btn:active,
+    body[data-page="home"] .new-here-cta .btn:active,
+    .page-home .new-here-cta .btn:active {
+        transform: scale(0.97);
+    }
+    
+    /* Next step section buttons */
+    body.homepage .next-step-cta .btn,
+    body[data-page="home"] .next-step-cta .btn,
+    .page-home .next-step-cta .btn {
+        min-height: 48px;
+        padding: 0.875rem 1.75rem;
+    }
+    
+    body.homepage .next-step-cta .btn:active,
+    body[data-page="home"] .next-step-cta .btn:active,
+    .page-home .next-step-cta .btn:active {
+        transform: scale(0.97);
+    }
+}
+
+/* 8) NAV LINKS — Better tap targets in mobile menu */
+@media (max-width: 768px) {
+    body.homepage .nav-links a,
+    body[data-page="home"] .nav-links a,
+    .page-home .nav-links a {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        padding: 0.875rem 1rem;
+    }
+    
+    body.homepage .nav-links a:active,
+    body[data-page="home"] .nav-links a:active,
+    .page-home .nav-links a:active {
+        background: rgba(59, 130, 246, 0.08);
+        transform: translateX(2px);
+    }
+    
+    /* Dropdown menu items */
+    body.homepage .dropdown-menu a,
+    body[data-page="home"] .dropdown-menu a,
+    .page-home .dropdown-menu a {
+        min-height: 44px;
+        padding: 0.75rem 1.5rem !important;
+    }
+    
+    body.homepage .dropdown-menu a:active,
+    body[data-page="home"] .dropdown-menu a:active,
+    .page-home .dropdown-menu a:active {
+        background: rgba(59, 130, 246, 0.12) !important;
+    }
+}
+
+/* ========================================
+   IPAD UX POLISH (769px-1024px)
+   ======================================== */
+
+/* 1) TAP TARGETS — Slightly smaller than mobile but still comfortable */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .circle-dot {
+        padding: 10px;
+        margin: 0 3px;
+    }
+    
+    .gpbc-nav-dot {
+        padding: 12px;
+        margin: 0 3px;
+    }
+    
+    .circle-nav-dots {
+        gap: 0.875rem !important;
+    }
+    
+    .gpbc-rotator-nav {
+        gap: 1rem !important;
+    }
+}
+
+/* 2) HEADER SPACING — Better for touch on iPad */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .nav-container {
+        gap: 1.25rem;
+    }
+    
+    .dark-mode-toggle {
+        min-width: 40px;
+        min-height: 40px;
+    }
+}
+
+/* 3) TAP FEEDBACK — Consistent across iPad */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .logo:active,
+    .dark-mode-toggle:active,
+    .btn:active,
+    .circle-dot:active,
+    .gpbc-nav-dot:active,
+    .gpbc-slide-cta:active {
+        transform: scale(0.97);
+    }
+    
+    body.homepage .inline-countdown-banner .banner-link:active,
+    body[data-page="home"] .inline-countdown-banner .banner-link:active,
+    .page-home .inline-countdown-banner .banner-link:active {
+        transform: scale(0.95);
     }
 }
 

@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grace and Praise Bangladeshi Church - San Bernardino, CA</title>
+    <meta name="description" content="Join Grace and Praise Bangladeshi Church in San Bernardino for Sunday worship at 5 PM. A welcoming Bengali Christian community serving families in Bengali and English.">
+    <link rel="canonical" href="https://gracepraise.church/">
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Grace and Praise Bangladeshi Church — San Bernardino, CA">
+    <meta property="og:description" content="Join Grace and Praise Bangladeshi Church in San Bernardino for Sunday worship at 5 PM. A welcoming Bengali Christian community serving families in Bengali and English.">
+    <meta property="og:url" content="https://gracepraise.church/">
+    <meta property="og:image" content="https://picsum.photos/seed/community-prayer/1200/630">
+    <meta property="og:image:alt" content="Community members gathered together in prayer and worship">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Grace and Praise Bangladeshi Church — San Bernardino, CA">
+    <meta name="twitter:description" content="Join Grace and Praise Bangladeshi Church in San Bernardino for Sunday worship at 5 PM. A welcoming Bengali Christian community serving families in Bengali and English.">
+    <meta name="twitter:image" content="https://picsum.photos/seed/community-prayer/1200/630">
+    <meta name="twitter:image:alt" content="Community members gathered together in prayer and worship">
+    
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="countdown.css">
     <link rel="stylesheet" href="shape-system.css">
@@ -119,6 +139,73 @@
                 margin-left: 10px;
             }
         }
+        
+        /* DARK MODE FALLBACK (NO JS) */
+        .dark-mode-fallback {
+            background: rgba(45, 122, 143, 0.05);
+            border: 2px solid rgba(45, 122, 143, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-left: 15px;
+            font-size: 20px;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        @media (max-width: 768px) {
+            .dark-mode-fallback {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+        }
+        
+        /* MOBILE MENU NO-JS FALLBACK */
+        @media (max-width: 768px) {
+            /* Hide mobile menu button in noscript environments */
+            noscript + header .mobile-menu-btn {
+                display: none;
+            }
+            
+            /* Show nav-links by default without JS */
+            noscript + header .nav-links {
+                display: flex !important;
+                flex-direction: column;
+                position: static;
+                background: none;
+                box-shadow: none;
+                padding: 1rem 0;
+            }
+            
+            noscript + header .nav-links li {
+                width: 100%;
+            }
+            
+            noscript + header .nav-links a {
+                display: block;
+                padding: 0.75rem 1rem;
+            }
+        }
+        
+        /* CAROUSEL NO-JS FALLBACK - Ensure first slide is always visible */
+        .circle-carousel-item:first-child,
+        .gpbc-rotator-slide:first-child {
+            opacity: 1 !important;
+            visibility: visible !important;
+            position: relative !important;
+        }
+        
+        /* Hide navigation dots without JS - content is still accessible */
+        noscript + * .circle-nav-dots,
+        noscript + * .gpbc-rotator-nav {
+            display: none;
+        }
     </style>
     
     <!-- Structured Data for Special Event -->
@@ -158,6 +245,58 @@
       }
     }
     </script>
+    
+    <!-- Structured Data for Church Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Church",
+      "name": "Grace and Praise Bangladeshi Church",
+      "description": "A Christ-centered Bengali Christian church serving families in San Bernardino and surrounding communities.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "1325 Richardson Street",
+        "addressLocality": "San Bernardino",
+        "addressRegion": "CA",
+        "postalCode": "92408",
+        "addressCountry": "US"
+      },
+      "telephone": "+1-909-555-0100",
+      "url": "https://gracepraise.church",
+      "sameAs": [
+        "https://www.youtube.com/@GracePraise.Church"
+      ],
+      "knowsLanguage": [
+        "en",
+        "bn"
+      ],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "17:00",
+          "closes": "18:30"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Friday",
+          "opens": "17:30",
+          "closes": "19:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "12:00",
+          "closes": "13:30"
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Progressive Enhancement Detection -->
+    <script>
+        document.documentElement.classList.add('js-enabled');
+    </script>
 </head>
 <body class="homepage" data-page="home">
     <!-- Skip to main content for keyboard users -->
@@ -172,13 +311,16 @@
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
+                <noscript>
+                    <span class="dark-mode-fallback" aria-label="Dark mode requires JavaScript" title="JavaScript required for dark mode">☀️</span>
+                </noscript>
                 <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
                 <ul class="nav-links">
-                    <li><a href="#live">LIVE</a></li>
+                    <li><a href="https://www.youtube.com/@GracePraise.Church" target="_blank" rel="noopener noreferrer">YouTube</a></li>
                     <li><a href="#home" class="active">Home</a></li>
                     <li class="nav-dropdown">
                         <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
@@ -212,11 +354,10 @@
                     <li><a href="#next-service">Next Service</a></li>
                     <li><a href="calendar.html">Calendar</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="#prayer">Prayer</a></li>
+                    <li><a href="prayer-request.html">Prayer</a></li>
                     <li class="nav-dropdown">
                         <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
                             <li><a href="couples-devotion.html">Couples Devotion</a></li>
                             <li><a href="family-devotion.html">Family Devotion</a></li>
                             <li><a href="youth-devotion.html">Youth Devotion</a></li>
@@ -250,33 +391,33 @@
                     <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
                     <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
                 </time>
-                <a href="#dynamic-events-container" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
+                <a href="calendar.html" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
             </div>
         </div>
     </div>
 
-    <main>
+    <main id="main-content">
         <!-- Hero Section -->
         <section class="hero" id="home">
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>
-                        <span data-lang="en">Grace and Praise Bangladeshi Church</span>
+                        <span data-lang="en">Grace and Praise Bangladeshi Church — San Bernardino, CA</span>
                         <span data-lang="bn" style="display:none;">[গ্রেস এন্ড প্রেইজ বাংলাদেশী চার্চ]</span>
                     </h1>
                     <p class="tagline">
                         <span data-lang="en">A Christ-centered community worshiping, growing, and serving together</span>
                         <span data-lang="bn" style="display:none;">[খ্রীষ্ট-কেন্দ্রিক সম্প্রদায়]</span>
                     </p>
-                    <p class="address">1325 Richardson Street, CA 92408</p>
+                    <p class="address">1325 Richardson Street, San Bernardino, CA 92408</p>
                     <div class="cta-buttons">
                         <a href="#next-service" class="btn btn-primary">
-                            <span data-lang="en">Join the Next Service</span>
-                            <span data-lang="bn" style="display:none;">[পরবর্তী সেবায় যোগদান করুন]</span>
+                            <span data-lang="en">See Service Countdown</span>
+                            <span data-lang="bn" style="display:none;">[সেবা কাউন্টডাউন দেখুন]</span>
                         </a>
-                        <a href="#live" class="btn btn-secondary">
-                            <span data-lang="en">Watch Live</span>
-                            <span data-lang="bn" style="display:none;">[সরাসরি দেখুন]</span>
+                        <a href="https://www.youtube.com/@GracePraise.Church" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                            <span data-lang="en">Watch Past Services</span>
+                            <span data-lang="bn" style="display:none;">[পূর্ববর্তী সেবা দেখুন]</span>
                         </a>
                         <a href="#new-here" class="btn btn-secondary">
                             <span data-lang="en">New Here?</span>
@@ -290,7 +431,7 @@
                             src="https://www.youtube.com/embed/videoseries?list=UULFOrkCWKNIiDpCzabSxZ2HcQ" 
                             title="Grace and Praise Bangladeshi Church YouTube Channel"
                             frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                             allowfullscreen
                             loading="lazy">
                         </iframe>
@@ -325,7 +466,7 @@
                                         Experience the warmth of fellowship and the joy of worshiping together as one body in Christ.
                                     </p>
                                     <a href="#next-service" class="btn btn-primary" style="background: white; color: #3b82f6; padding: 1rem 2.5rem; font-weight: 600; border-radius: 30px; font-size: 1.1rem;">
-                                        Join This Sunday →
+                                        View Service Countdown →
                                     </a>
                                 </div>
                             </div>
@@ -350,7 +491,7 @@
                                         Our prayer circle meets every Wednesday to lift up our community's needs to God.
                                     </p>
                                     <a href="prayer-request.html" class="btn btn-primary" style="background: white; color: #3b82f6; padding: 1rem 2.5rem; font-weight: 600; border-radius: 30px; font-size: 1.1rem;">
-                                        Share Your Request →
+                                        Request Prayer →
                                     </a>
                                 </div>
                             </div>
@@ -487,7 +628,7 @@
                             <p class="gpbc-slide-meta">Join Us This Sunday</p>
                             <h3 class="gpbc-slide-title">Experience Worship Together</h3>
                             <p class="gpbc-slide-description">Gather with us for heartfelt worship, biblical teaching, and genuine fellowship in Christ.</p>
-                            <a href="#next-service" class="gpbc-slide-cta">View Service Times</a>
+                            <a href="#next-service" class="gpbc-slide-cta">View Service Countdown</a>
                         </div>
                     </article>
                     
@@ -511,7 +652,7 @@
                             <p class="gpbc-slide-meta">Prayer & Support</p>
                             <h3 class="gpbc-slide-title">We're Here to Pray With You</h3>
                             <p class="gpbc-slide-description">Share your prayer requests with our caring community. You are not alone in your journey.</p>
-                            <a href="prayer-request.html" class="gpbc-slide-cta">Submit Prayer Request</a>
+                            <a href="prayer-request.html" class="gpbc-slide-cta">Request Prayer</a>
                         </div>
                     </article>
                     
@@ -523,7 +664,7 @@
                             <p class="gpbc-slide-meta">Get Connected</p>
                             <h3 class="gpbc-slide-title">Find Your Place in Our Family</h3>
                             <p class="gpbc-slide-description">Discover community groups, ministry opportunities, and ways to serve alongside fellow believers.</p>
-                            <a href="#new-here" class="gpbc-slide-cta">Learn More</a>
+                            <a href="#new-here" class="gpbc-slide-cta">Start Here</a>
                         </div>
                     </article>
                 </div>
@@ -947,7 +1088,7 @@
                         <p class="gpbc-showcase-description">
                             Connect with our community through various ministries, volunteer opportunities, and small groups. Find your place to serve and grow.
                         </p>
-                        <a href="#" class="gpbc-showcase-btn">Learn More →</a>
+                        <a href="ministries.html" class="gpbc-showcase-btn">Explore Ministries →</a>
                     </div>
                     <div class="gpbc-content-item" data-content="1">
                         <span class="gpbc-showcase-label">WOMEN'S MINISTRY</span>
@@ -955,7 +1096,7 @@
                         <p class="gpbc-showcase-description">
                             Join our women's fellowship for Bible studies, prayer meetings, and community outreach. Build lasting friendships while growing in faith.
                         </p>
-                        <a href="#" class="gpbc-showcase-btn">Learn More →</a>
+                        <a href="ministries.html" class="gpbc-showcase-btn">See Women's Ministry →</a>
                     </div>
                     <div class="gpbc-content-item" data-content="2">
                         <span class="gpbc-showcase-label">CHILDREN'S MINISTRY</span>
@@ -963,7 +1104,7 @@
                         <p class="gpbc-showcase-description">
                             Fun and engaging programs for children to learn about God's love through stories, games, and activities in a safe environment.
                         </p>
-                        <a href="#" class="gpbc-showcase-btn">Learn More →</a>
+                        <a href="ministries/kids-ministry.html" class="gpbc-showcase-btn">See Kids Ministry →</a>
                     </div>
                     <div class="gpbc-content-item" data-content="3">
                         <span class="gpbc-showcase-label">YOUNG ADULT MINISTRY</span>
@@ -971,7 +1112,7 @@
                         <p class="gpbc-showcase-description">
                             A community for young adults to connect, grow spiritually, and navigate life's challenges together through fellowship and faith.
                         </p>
-                        <a href="#" class="gpbc-showcase-btn">Learn More →</a>
+                        <a href="ministries/youth-ministry.html" class="gpbc-showcase-btn">See Young Adult Ministry →</a>
                     </div>
                 </div>
 
@@ -1145,8 +1286,8 @@
             <div class="new-here-cta">
                 <p class="cta-message">We would love to meet you in person.</p>
                 <div class="cta-buttons">
-                    <a href="#next-service" class="btn btn-primary">Plan My Visit</a>
-                    <a href="#prayer" class="btn btn-secondary">Request Prayer</a>
+                    <a href="#next-service" class="btn btn-primary">See Service Countdown</a>
+                    <a href="prayer-request.html" class="btn btn-secondary">Request Prayer</a>
                 </div>
             </div>
         </section>
@@ -1160,7 +1301,56 @@
             <div class="next-service-content">
                 <h2 id="next-service-heading">Next Service</h2>
                 <p class="next-service-intro">Join us for our next upcoming service. We can't wait to worship with you!</p>
+                
+                <!-- Service Details Above Countdown -->
+                <div class="service-details-header" style="text-align: center; margin: 1.5rem 0;">
+                    <p style="font-size: 1.1rem; color: #2d7a8f; font-weight: 600; margin-bottom: 0.5rem;">
+                        <span id="service-name-display">Sunday Service</span>
+                    </p>
+                    <p style="font-size: 1.5rem; font-weight: 700; color: #1e3a5f; margin-bottom: 0.25rem;">
+                        <span id="service-time-display">Sunday at 5:00 PM PT</span>
+                    </p>
+                    <p style="font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 1rem;">
+                        <span id="service-type-note">Our main Sunday worship service — perfect for first-time visitors</span>
+                    </p>
+                </div>
+                
                 <div id="nextEventBanner" class="countdown-top-strip"></div>
+                
+                <!-- Service Information Below Countdown -->
+                <div class="service-details-footer" style="text-align: center; margin: 2rem auto; max-width: 600px;">
+                    <div style="background: #f8f9fb; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;">
+                        <p style="font-size: 1rem; font-weight: 600; color: #1e3a5f; margin-bottom: 0.75rem;">
+                            📍 Location
+                        </p>
+                        <p style="font-size: 1.1rem; color: #333; margin-bottom: 0.5rem; line-height: 1.6;">
+                            1325 Richardson Street<br>
+                            San Bernardino, CA 92408
+                        </p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=1325+Richardson+Street+San+Bernardino+CA+92408" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: #2d7a8f; text-decoration: none; font-size: 0.95rem; font-weight: 500;">
+                            Get Directions →
+                        </a>
+                    </div>
+                    
+                    <p style="font-size: 1rem; color: #555; margin-bottom: 1.25rem; line-height: 1.6;">
+                        90 minutes · Bengali & English · All are welcome
+                    </p>
+                    
+                    <a href="#new-here" class="btn btn-primary" style="display: inline-block; padding: 0.875rem 2rem; font-size: 1rem;">
+                        Plan Your Visit
+                    </a>
+                </div>
+                
+                <!-- Weekly Service Schedule Reference -->
+                <div style="text-align: center; margin-top: 2rem; padding: 1rem; background: rgba(45, 122, 143, 0.05); border-radius: 8px;">
+                    <p style="font-size: 0.9rem; color: #666; margin: 0; line-height: 1.6;">
+                        <strong>Weekly Gatherings:</strong><br>
+                        Friday 5:30 PM - Worship Practice · Saturday 12:00 PM - Fasting Prayer · Sunday 5:00 PM - Main Service
+                    </p>
+                </div>
             </div>
         </section>
 
@@ -1168,7 +1358,7 @@
         <section class="welcome" id="about" aria-labelledby="welcome-heading">
             <div class="welcome-content">
                 <h2 id="welcome-heading">Welcome Home</h2>
-                <p class="intro">We are a vibrant community of believers who gather to worship God, grow in faith, and serve our community. Whether you're new to church or returning after time away, you'll find a warm welcome here.</p>
+                <p class="intro">We are a vibrant community of believers who gather to worship God, grow in faith, and serve our community. As a Bengali Christian church, we're proud to serve families in San Bernardino and the surrounding Inland Empire with worship in both Bengali and English. Whether you're new to church or returning after time away, you'll find a warm welcome here.</p>
             </div>
             
             <div class="stats">
@@ -1218,7 +1408,7 @@
                     </div>
                     <h3>Prayer Requests</h3>
                     <p>Share your prayer needs with our community. We're here to lift you up in prayer.</p>
-                    <a href="#prayer" class="card-link">Submit Request →</a>
+                    <a href="prayer-request.html" class="card-link">Request Prayer →</a>
                 </article>
 
                 <article class="feature-card">
@@ -1279,8 +1469,8 @@
             <h2 id="next-step-heading">Take Your Next Step</h2>
             <p>Ready to get more connected? We'd love to help you find your place in our community.</p>
             <div class="next-step-cta">
-                <a href="calendar.html" class="btn btn-primary">Join Us Sunday</a>
-                <a href="#prayer" class="btn btn-secondary">Connect With Us</a>
+                <a href="#next-service" class="btn btn-primary">See Service Countdown</a>
+                <a href="prayer-request.html" class="btn btn-secondary">Request Prayer</a>
             </div>
         </section>
     </main>
@@ -1295,7 +1485,7 @@
                     <li><a href="#about">About</a></li>
                     <li><a href="calendar.html">Calendar</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="#prayer">Prayer</a></li>
+                    <li><a href="prayer-request.html">Prayer</a></li>
                     <li><a href="daily-devotion.html">Daily Devotion</a></li>
                     <li><a href="give.html">Give</a></li>
                 </ul>
@@ -1317,7 +1507,7 @@
                 <h3>Contact</h3>
                 <address>
                     <p><strong>Grace and Praise Bangladeshi Church</strong></p>
-                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>1325 Richardson Street, San Bernardino, CA 92408</p>
                     <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
                     <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
                 </address>
@@ -1325,11 +1515,7 @@
 
             <div class="footer-section">
                 <h3>Connect</h3>
-                <ul class="social-links">
-                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
-                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
-                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
-                </ul>
+                <p>Join us for worship and fellowship.</p>
             </div>
         </div>
 
@@ -1835,6 +2021,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    
+    /* NO-JS FALLBACK: First slide visible by default */
+    .gpbc-rotator-slide:first-child {
+        opacity: 1;
+        visibility: visible;
+        position: relative;
+    }
+    
+    .gpbc-rotator-slide:first-child .gpbc-slide-content {
+        opacity: 1;
+        transform: translateY(0);
     }
     
     .gpbc-rotator-slide.gpbc-slide-active {
@@ -4370,6 +4568,49 @@
     <script src="events.js"></script>
     <script src="homepage-events.js"></script>
     <script src="countdown.js"></script>
+    
+    <!-- Dynamic Service Details Update -->
+    <script>
+    (function() {
+        // Update service details based on countdown
+        function updateServiceDetails() {
+            const banner = document.getElementById('nextEventBanner');
+            const serviceName = document.getElementById('service-name-display');
+            const serviceTime = document.getElementById('service-time-display');
+            const serviceNote = document.getElementById('service-type-note');
+            
+            if (!banner || !serviceName || !serviceTime || !serviceNote) return;
+            
+            // Check banner content to determine which service is showing
+            const bannerText = banner.textContent || '';
+            
+            if (bannerText.includes('Sunday Service')) {
+                serviceName.textContent = 'Sunday Service';
+                serviceTime.textContent = 'Sunday at 5:00 PM PT';
+                serviceNote.textContent = 'Our main Sunday worship service — perfect for first-time visitors';
+            } else if (bannerText.includes('Worship Practice')) {
+                serviceName.textContent = 'Worship Practice & Session';
+                serviceTime.textContent = 'Friday at 5:30 PM PT';
+                serviceNote.textContent = 'Weekly worship practice and prayer session';
+            } else if (bannerText.includes('Fasting Prayer')) {
+                serviceName.textContent = 'Fasting Prayer';
+                serviceTime.textContent = 'Saturday at 12:00 PM PT';
+                serviceNote.textContent = 'Weekly fasting and prayer gathering';
+            }
+        }
+        
+        // Update immediately and every 5 seconds to catch countdown changes
+        updateServiceDetails();
+        setInterval(updateServiceDetails, 5000);
+        
+        // Also update when page becomes visible (tab switching)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                updateServiceDetails();
+            }
+        });
+    })();
+    </script>
     
     <!-- SHAPE SYSTEM — Spiritual design interactions -->
     <script src="shape-system.js"></script>

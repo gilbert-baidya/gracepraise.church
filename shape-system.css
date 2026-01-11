@@ -117,6 +117,11 @@
     transition: opacity var(--motion-slow);
 }
 
+/* NO-JS FALLBACK: First slide visible by default */
+.circle-carousel-item:first-child {
+    opacity: 1;
+}
+
 .circle-carousel-item.active {
     opacity: 1;
     animation: gentleGlow var(--motion-slow) ease-in-out infinite alternate;
