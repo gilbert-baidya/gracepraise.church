@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="shape-system.css">
     <link rel="stylesheet" href="heptagon-wheel-sacred.css">
     
+    <!-- Homepage-only responsive fixes (mobile/iPad spacing & scroll) -->
+    <link rel="stylesheet" href="homepage-responsive-fix.css">
+    
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     
@@ -156,7 +159,7 @@
     }
     </script>
 </head>
-<body>
+<body class="homepage" data-page="home">
     <!-- Skip to main content for keyboard users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
@@ -4369,5 +4372,8 @@
     
     <!-- HEPTAGON CAROUSEL — Sacred geometry scroll interaction -->
     <script src="heptagon-wheel-sacred.js"></script>
+    
+    <!-- HOMEPAGE RESPONSIVE FIX — Dynamic header height sync (mobile/iPad only) -->
+    <script src="homepage-responsive-fix.js"></script>
 </body>
 </html>

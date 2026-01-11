@@ -1,0 +1,100 @@
+/**
+ * HOMEPAGE-ONLY RESPONSIVE FIXES
+ * Scoped to index.html only - does NOT affect other pages
+ * Fixes: double padding, banner positioning, anchor scroll offset
+ */
+
+/* ========================================
+   MOBILE & TABLET FIXES (≤1024px)
+   Desktop (≥1025px) is untouched
+   ======================================== */
+
+/* FIX 1: Remove double top spacing on hero section (mobile & iPad) */
+@media (max-width: 1024px) {
+    body.homepage .hero,
+    body[data-page="home"] .hero,
+    .page-home .hero {
+        padding-top: var(--spacing-md) !important;
+        margin-top: 0 !important;
+    }
+}
+
+/* FIX 2: Ensure inline banner sits below fixed header without overlap */
+@media (max-width: 768px) {
+    body.homepage .inline-countdown-banner,
+    body[data-page="home"] .inline-countdown-banner,
+    .page-home .inline-countdown-banner {
+        position: fixed;
+        top: var(--header-height);
+        z-index: 998; /* Below header (999), above content */
+    }
+    
+    /* Add top margin to main content to prevent overlap */
+    body.homepage main,
+    body[data-page="home"] main,
+    .page-home main {
+        margin-top: calc(var(--header-height) + var(--countdown-banner-height));
+    }
+}
+
+/* FIX 3: Anchor scroll offset for all anchor links on homepage */
+@media (max-width: 1024px) {
+    body.homepage section[id],
+    body.homepage div[id],
+    body[data-page="home"] section[id],
+    body[data-page="home"] div[id],
+    .page-home section[id],
+    .page-home div[id] {
+        scroll-margin-top: calc(var(--header-height) + var(--countdown-banner-height) + 20px);
+    }
+}
+
+/* FIX 4: iPad-specific adjustments (769px-1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    body.homepage .hero,
+    body[data-page="home"] .hero,
+    .page-home .hero {
+        padding-top: var(--spacing-lg) !important;
+    }
+    
+    /* Ensure banner is visible on iPad */
+    body.homepage .inline-countdown-banner,
+    body[data-page="home"] .inline-countdown-banner,
+    .page-home .inline-countdown-banner {
+        position: relative;
+        top: auto;
+    }
+}
+
+/* FIX 5: Prevent overflow-x issues on iPad Safari */
+@media (min-width: 769px) and (max-width: 1024px) {
+    @supports (-webkit-touch-callout: none) {
+        body.homepage,
+        body[data-page="home"],
+        .page-home {
+            overflow-x: clip !important;
+        }
+    }
+}
+
+/* ========================================
+   FALLBACK: If body classes not present, 
+   apply to index.html by checking for 
+   .inline-countdown-banner existence
+   ======================================== */
+@media (max-width: 768px) {
+    body:has(.inline-countdown-banner) .hero {
+        padding-top: var(--spacing-md) !important;
+    }
+    
+    body:has(.inline-countdown-banner) main {
+        margin-top: calc(var(--header-height) + var(--countdown-banner-height));
+    }
+}
+
+@media (max-width: 1024px) {
+    body:has(.inline-countdown-banner) section[id],
+    body:has(.inline-countdown-banner) div[id] {
+        scroll-margin-top: calc(var(--header-height) + var(--countdown-banner-height) + 20px);
+    }
+}
