@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>21 Days Fasting | Grace and Praise Bangladeshi Church</title>
     <link rel="stylesheet" href="redesign-styles.css">
-    <link rel="stylesheet" href="countdown.css">
-    
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -19,14 +17,13 @@
         body {
             width: 100%;
             max-width: 100%;
-            overflow-x: hidden;
+            overflow-x: clip;
         }
         
         /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
         @supports (-webkit-touch-callout: none) {
             body {
-                overflow-x: hidden !important;
-                position: relative;
+                overflow-x: clip !important;
             }
         }
         
@@ -46,7 +43,6 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
             margin-left: 15px;
             font-size: 20px;
         }
@@ -160,22 +156,7 @@
         </nav>
         <div class="mobile-overlay"></div>
     </header>
-    <!-- Special Event Inline Countdown Banner -->
-    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="polite" aria-atomic="true">
-        <div class="inline-banner-content">
-            <span class="event-icon" aria-hidden="true">🎉</span>
-            <span class="event-label">
-                <strong>Gratitude & New Year Celebration</strong> starts in
-            </span>
-            <time class="inline-countdown" datetime="2025-12-31T22:30:00">
-                <span class="countdown-value" data-unit="days">01</span><span class="countdown-unit">d</span>
-                <span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span>
-                <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
-                <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
-            </time>
-            <a href="#dynamic-events-container" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
-        </div>
-    </div>
+
 
 
     <main id="main-content">
@@ -313,6 +294,5 @@
     
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js"></script>
-    <script src="countdown.js"></script>
 </body>
 </html>
