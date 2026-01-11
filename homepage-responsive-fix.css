@@ -64,6 +64,21 @@
         position: relative;
         top: auto;
     }
+    
+    /* iPad hero spacing fix */
+    body.homepage main,
+    body[data-page="home"] main,
+    .page-home main,
+    body:has(.inline-countdown-banner) main {
+        padding-top: 0 !important;
+    }
+
+    body.homepage .hero,
+    body[data-page="home"] .hero,
+    .page-home .hero,
+    body:has(.inline-countdown-banner) .hero {
+        padding-top: 2rem !important;
+    }
 }
 
 /* FIX 5: Prevent overflow-x issues on iPad Safari */
@@ -74,6 +89,140 @@
         .page-home {
             overflow-x: clip !important;
         }
+    }
+}
+
+/* =========================================
+   HOMEPAGE ONLY — COUNTDOWN BREATHING ROOM
+   ========================================= */
+body.homepage .inline-countdown-banner,
+body[data-page="home"] .inline-countdown-banner,
+.page-home .inline-countdown-banner,
+body:has(.inline-countdown-banner) .inline-countdown-banner {
+    margin-bottom: 1rem;
+}
+
+/* =========================================
+   HOMEPAGE ONLY — MOBILE H1 FULL NAME FIX
+   ========================================= */
+@media (max-width: 768px) {
+    body.homepage .hero h1,
+    body[data-page="home"] .hero h1,
+    .page-home .hero h1,
+    body:has(.inline-countdown-banner) .hero h1 {
+        font-size: 1.5rem !important; /* Smaller to fit full name */
+        line-height: 1.3 !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: none;
+        max-width: 100%;
+        padding: 0 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body.homepage .hero h1,
+    body[data-page="home"] .hero h1,
+    .page-home .hero h1,
+    body:has(.inline-countdown-banner) .hero h1 {
+        font-size: 1.35rem !important; /* Even smaller for very small screens */
+    }
+}
+
+/* =========================================
+   HOMEPAGE ONLY — MOBILE COUNTDOWN COMPACT
+   ========================================= */
+@media (max-width: 768px) {
+    /* Two-line centered layout */
+    body.homepage .inline-banner-content,
+    body[data-page="home"] .inline-banner-content,
+    .page-home .inline-banner-content,
+    body:has(.inline-countdown-banner) .inline-banner-content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.3rem !important;
+        padding: 0.5rem 0.5rem !important;
+        text-align: center;
+    }
+    
+    /* Line 1: Icon + Event Name */
+    body.homepage .banner-line-1,
+    body[data-page="home"] .banner-line-1,
+    .page-home .banner-line-1,
+    body:has(.inline-countdown-banner) .banner-line-1 {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    
+    body.homepage .inline-countdown-banner .event-icon,
+    body[data-page="home"] .inline-countdown-banner .event-icon,
+    .page-home .inline-countdown-banner .event-icon,
+    body:has(.inline-countdown-banner) .event-icon {
+        font-size: 1rem !important;
+        flex-shrink: 0;
+    }
+    
+    body.homepage .inline-countdown-banner .event-label,
+    body[data-page="home"] .inline-countdown-banner .event-label,
+    .page-home .inline-countdown-banner .event-label,
+    body:has(.inline-countdown-banner) .event-label {
+        font-size: 0.75rem !important;
+    }
+    
+    body.homepage .inline-countdown-banner .event-label strong,
+    body[data-page="home"] .inline-countdown-banner .event-label strong,
+    .page-home .inline-countdown-banner .event-label strong,
+    body:has(.inline-countdown-banner) .event-label strong {
+        font-size: 0.75rem !important;
+    }
+    
+    /* Line 2: Countdown + Details */
+    body.homepage .banner-line-2,
+    body[data-page="home"] .banner-line-2,
+    .page-home .banner-line-2,
+    body:has(.inline-countdown-banner) .banner-line-2 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    body.homepage .inline-countdown-banner .inline-countdown,
+    body[data-page="home"] .inline-countdown-banner .inline-countdown,
+    .page-home .inline-countdown-banner .inline-countdown,
+    body:has(.inline-countdown-banner) .inline-countdown {
+        display: inline-flex !important;
+        gap: 0.2rem !important;
+        flex-wrap: nowrap !important;
+    }
+    
+    body.homepage .inline-countdown-banner .banner-link,
+    body[data-page="home"] .inline-countdown-banner .banner-link,
+    .page-home .inline-countdown-banner .banner-link,
+    body:has(.inline-countdown-banner) .banner-link {
+        display: inline-block !important;
+        font-size: 0.7rem !important;
+        padding: 0.2rem 0.5rem !important;
+        white-space: nowrap !important;
+    }
+    
+    body.homepage .inline-countdown-banner .countdown-value,
+    body[data-page="home"] .inline-countdown-banner .countdown-value,
+    .page-home .inline-countdown-banner .countdown-value,
+    body:has(.inline-countdown-banner) .countdown-value {
+        font-size: 0.8rem !important;
+        padding: 0.15rem 0.25rem !important;
+        min-width: 1.6ch !important;
+    }
+    
+    body.homepage .inline-countdown-banner .countdown-unit,
+    body[data-page="home"] .inline-countdown-banner .countdown-unit,
+    .page-home .inline-countdown-banner .countdown-unit,
+    body:has(.inline-countdown-banner) .countdown-unit {
+        font-size: 0.6rem !important;
+        margin-right: 0.1rem !important;
     }
 }
 
@@ -96,5 +245,32 @@
     body:has(.inline-countdown-banner) section[id],
     body:has(.inline-countdown-banner) div[id] {
         scroll-margin-top: calc(var(--header-height) + var(--countdown-banner-height) + 20px);
+    }
+}
+
+/* =========================================
+   HOMEPAGE ONLY — SKIP LINK FIX (MOBILE)
+   ========================================= */
+@media (max-width: 768px) {
+    body.homepage a.skip-to-content,
+    body.homepage .skip-link,
+    body[data-page="home"] a.skip-to-content,
+    body[data-page="home"] .skip-link,
+    body:has(.inline-countdown-banner) a.skip-to-content,
+    body:has(.inline-countdown-banner) .skip-link {
+        position: absolute;
+        top: -9999px;
+        left: 0;
+    }
+
+    body.homepage a.skip-to-content:focus,
+    body.homepage .skip-link:focus,
+    body[data-page="home"] a.skip-to-content:focus,
+    body[data-page="home"] .skip-link:focus,
+    body:has(.inline-countdown-banner) a.skip-to-content:focus,
+    body:has(.inline-countdown-banner) .skip-link:focus {
+        top: 0.5rem;
+        left: 0.5rem;
+        z-index: 2000;
     }
 }
