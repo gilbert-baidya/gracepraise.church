@@ -1,0 +1,93 @@
+HOMEPAGE RESPONSIVE FIX - SUMMARY
+=================================
+Date: January 10, 2026
+Scope: index.html ONLY (no global changes)
+
+PROBLEM STATEMENT:
+------------------
+1. Double top offset on mobile (main padding + hero padding)
+2. Countdown banner positioning conflicts with sticky header
+3. Anchor links landing under header/banner
+4. iPad Safari sticky header risk due to overflow-x hidden
+5. Header height changes on scroll but CSS offsets assume fixed value
+
+FILES CREATED:
+--------------
+1. homepage-responsive-fix.css
+   - Homepage-scoped CSS fixes
+   - Targets: mobile (≤768px), iPad (769px-1024px)
+   - Desktop (≥1025px) completely untouched
+   
+2. homepage-responsive-fix.js
+   - Lightweight dynamic header height tracker
+   - Updates CSS variable --header-height on scroll/resize
+   - Only runs when .inline-countdown-banner exists
+
+CHANGES TO INDEX.HTML:
+----------------------
+1. Added <link> to homepage-responsive-fix.css in <head>
+2. Added class="homepage" and data-page="home" to <body>
+3. Added <script> for homepage-responsive-fix.js before </body>
+
+CSS FIXES APPLIED:
+------------------
+✓ FIX 1: Removed redundant hero padding-top on mobile/iPad
+  - Used !important to override existing styles safely
+  - Scoped to .homepage, [data-page="home"], or :has() selector
+
+✓ FIX 2: Fixed inline banner positioning on mobile
+  - Ensured banner sits at top: var(--header-height)
+  - Added margin-top to main to prevent overlap
+
+✓ FIX 3: Added scroll-margin-top to all anchors
+  - Formula: header-height + banner-height + 20px buffer
+  - Ensures smooth anchor scrolling without content hidden under header
+
+✓ FIX 4: iPad-specific adjustments (769px-1024px)
+  - Adjusted hero padding for better spacing
+  - Banner positioned relatively on iPad (not fixed)
+
+✓ FIX 5: iPad Safari overflow-x protection
+  - Used overflow-x: clip to maintain sticky positioning
+  - Applied only to WebKit touch devices
+
+JS FUNCTIONALITY:
+-----------------
+✓ Detects homepage by checking for .inline-countdown-banner
+✓ Measures actual header height dynamically
+✓ Updates CSS variable --header-height in real-time
+✓ Throttled scroll listener (100ms)
+✓ Debounced resize listener (150ms)
+✓ Handles orientation changes
+
+TESTING CHECKLIST:
+------------------
+[ ] Desktop (≥1025px) - verify NO changes
+[ ] Mobile (≤768px) - check hero spacing, banner position
+[ ] iPad (769px-1024px) - verify spacing, no sticky issues
+[ ] Anchor links (#home, #next-service, etc.) - proper scroll offset
+[ ] Header collapse on scroll - dynamic height tracking works
+[ ] Rotate device - orientation change handled correctly
+[ ] Other pages - completely unaffected
+
+SAFETY MEASURES:
+----------------
+✓ Scoped to homepage only (3 selector strategies)
+✓ No global CSS modifications
+✓ No navigation.js changes
+✓ Desktop layout preserved exactly
+✓ Fallback :has() selector for future-proofing
+✓ Passive event listeners for performance
+
+ROLLBACK INSTRUCTIONS:
+----------------------
+If issues occur, remove these 3 additions from index.html:
+1. <link> tag for homepage-responsive-fix.css
+2. class="homepage" data-page="home" from <body>
+3. <script> tag for homepage-responsive-fix.js
+
+Then delete:
+- homepage-responsive-fix.css
+- homepage-responsive-fix.js
+
+Original state will be restored immediately.
