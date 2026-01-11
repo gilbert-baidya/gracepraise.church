@@ -32,8 +32,6 @@
     <meta property="twitter:image" content="https://gilbert-baidya.github.io/gracepraise.church/images/devotion-placeholder.jpg" id="twitterImage">
     
     <link rel="stylesheet" href="redesign-styles.css">
-    <link rel="stylesheet" href="countdown.css">
-    
     <style>
         /* ===== iOS Safari Fixed Position Fix ===== */
         /* Global box-sizing */
@@ -94,7 +92,6 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
             margin-left: 15px;
             font-size: 20px;
         }
@@ -157,7 +154,6 @@
             color: var(--color-text-inverse);
             padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
             text-align: center;
-            position: relative;
             overflow: hidden;
             max-width: 100%;
             width: 100%;
@@ -207,7 +203,6 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: var(--spacing-md);
-            position: relative;
             z-index: 2;
             width: 100%; /* iOS SAFARI OVERFLOW FIX */
             box-sizing: border-box; /* iOS SAFARI OVERFLOW FIX */
@@ -267,7 +262,6 @@
             justify-content: center;
             box-sizing: border-box;
             overflow: hidden;
-            position: relative;
         }
 
         .date-strip {
@@ -401,7 +395,6 @@
 
         /* Layout helpers */
         .devotion-container {
-            position: relative;
             z-index: 1;
             margin-top: var(--spacing-xl);
             width: 100%; /* iOS SAFARI OVERFLOW FIX */
@@ -983,10 +976,9 @@
             /* Force all content to stay within viewport */
             html,
             body {
-                overflow-x: hidden !important;
+                overflow-x: clip !important;
                 max-width: 100% !important;
                 width: 100%;
-                position: relative;
             }
             
             /* Lock all containers to viewport width */
@@ -1049,13 +1041,12 @@
                 max-width: 100%;
                 width: 100%;
                 box-sizing: border-box;
-                overflow-x: hidden;
+                overflow-x: clip;
             }
             
             /* iPad-only horizontal overflow fix (safe, non-breaking) */
             /* Ensure date strip container doesn't cause page scroll */
             .date-strip-wrapper {
-                position: relative;
                 contain: layout;
             }
             
@@ -1065,7 +1056,6 @@
             .share-btn,
             .devotion-nav-btn {
                 will-change: auto;
-            }
             }
 
             /* iPad-only horizontal overflow fix (safe, non-breaking) */
@@ -1144,12 +1134,12 @@
         @media (min-width: 768px) and (max-width: 1024px) {
             /* Lock viewport at root level */
             html {
-                overflow-x: hidden !important;
+                overflow-x: clip !important;
                 max-width: 100% !important;
             }
             
             body {
-                overflow-x: hidden !important;
+                overflow-x: clip !important;
                 max-width: 100% !important;
             }
             
@@ -1160,7 +1150,7 @@
                 max-width: 100%;
                 width: 100%;
                 box-sizing: border-box;
-                overflow-x: hidden;
+                overflow-x: clip;
             }
             
             /* Contain all major sections */
@@ -1174,7 +1164,7 @@
                 max-width: 100%;
                 width: 100%;
                 box-sizing: border-box;
-                overflow-x: hidden;
+                overflow-x: clip;
             }
             
             /* Prevent box-shadows from extending beyond viewport */
@@ -1188,7 +1178,6 @@
             .date-strip-wrapper {
                 max-width: 100%;
                 overflow: hidden;
-                position: relative;
             }
             
             .date-strip {
@@ -1290,23 +1279,6 @@
     <div class="mobile-overlay"></div>
 </header>
 
-
-    <!-- Special Event Inline Countdown Banner -->
-    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="polite" aria-atomic="true">
-        <div class="inline-banner-content">
-            <span class="event-icon" aria-hidden="true">🎉</span>
-            <span class="event-label">
-                <strong>Gratitude & New Year Celebration</strong> starts in
-            </span>
-            <time class="inline-countdown" datetime="2025-12-31T22:30:00">
-                <span class="countdown-value" data-unit="days">01</span><span class="countdown-unit">d</span>
-                <span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span>
-                <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
-                <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
-            </time>
-            <a href="#dynamic-events-container" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
-        </div>
-    </div>
 
 
     <main id="main-content">
@@ -1944,6 +1916,5 @@
     
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js"></script>
-    <script src="countdown.js"></script>
 </body>
 </html>
