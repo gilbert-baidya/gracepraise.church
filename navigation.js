@@ -111,6 +111,13 @@
             
             if (!toggle || !menu) return;
             
+            // Make parent link non-navigable on touch devices
+            if (isTouchDropdown()) {
+                toggle.dataset.originalHref = toggle.getAttribute('href');
+                toggle.removeAttribute('href');
+                toggle.style.cursor = 'pointer';
+            }
+            
             // Prevent default link behavior on mobile for parent dropdown link
             toggle.addEventListener('click', (e) => {
                 // Only prevent default and toggle on touch devices
@@ -154,6 +161,13 @@
             const menu = nestedDropdown.querySelector('.dropdown-menu-nested');
             
             if (!toggle || !menu) return;
+            
+            // Make nested parent link non-navigable on touch devices
+            if (isTouchDropdown()) {
+                toggle.dataset.originalHref = toggle.getAttribute('href');
+                toggle.removeAttribute('href');
+                toggle.style.cursor = 'pointer';
+            }
             
             toggle.addEventListener('click', (e) => {
                 if (isTouchDropdown()) {
