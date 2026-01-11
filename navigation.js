@@ -99,7 +99,11 @@
     }
 
     function initMobileDropdowns() {
-        const isTouchDropdown = () => window.innerWidth <= 1024;
+        const isTouchDropdown = () => (
+            window.matchMedia('(hover: none)').matches ||
+            window.matchMedia('(pointer: coarse)').matches ||
+            'ontouchstart' in window
+        );
 
         navDropdowns.forEach(dropdown => {
             const toggle = dropdown.querySelector(':scope > a');
@@ -109,7 +113,7 @@
             
             // Prevent default link behavior on mobile for parent dropdown link
             toggle.addEventListener('click', (e) => {
-                // Only prevent default and toggle on touch widths (≤1024px)
+                // Only prevent default and toggle on touch devices
                 if (isTouchDropdown()) {
                     e.preventDefault();
                     e.stopPropagation();
