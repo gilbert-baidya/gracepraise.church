@@ -2746,7 +2746,7 @@ footer {
         max-width: calc(100vw - 170px);
         gap: var(--spacing-sm);
         overflow-x: auto;
-        overflow-y: hidden;
+        overflow-y: visible;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         touch-action: pan-x;
@@ -2758,6 +2758,20 @@ footer {
 
     .nav-links li {
         flex: 0 0 auto;
+    }
+
+    /* Enable tap-to-open dropdowns on iPad */
+    .nav-dropdown.mobile-dropdown-open .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .nav-dropdown-nested.mobile-dropdown-open .dropdown-menu-nested {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+        pointer-events: auto;
     }
     
     .nav-links a {
