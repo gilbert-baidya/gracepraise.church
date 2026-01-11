@@ -2727,26 +2727,37 @@ footer {
 @media (min-width: 769px) and (max-width: 1024px) {
     /* Lock horizontal overflow at root level for iPad */
     html {
-        overflow-x: hidden !important;
+        overflow-x: clip !important;
         max-width: 100%;
     }
     
     body {
-        overflow-x: hidden !important;
+        overflow-x: clip !important;
         max-width: 100%;
     }
     
-    /* Allow nav items to wrap on tablet - prevents horizontal overflow */
+    /* iPad: keep nav in one row and allow horizontal swipe */
     .nav-links {
-        flex-wrap: wrap;
-        justify-content: flex-end;
-        max-width: calc(100% - 120px); /* Reserve space for logo */
-        row-gap: var(--spacing-xs);
-    }
-    
-    /* Slightly reduce nav item spacing on tablet */
-    .nav-links {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        flex: 0 0 auto;
+        min-width: 0;
+        width: calc(100vw - 170px); /* Reserve space for logo + toggle + padding */
+        max-width: calc(100vw - 170px);
         gap: var(--spacing-sm);
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        touch-action: pan-x;
+    }
+
+    .nav-links::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-links li {
+        flex: 0 0 auto;
     }
     
     .nav-links a {
@@ -2759,7 +2770,7 @@ footer {
         flex-wrap: nowrap;
         max-width: 100%;
         box-sizing: border-box;
-        overflow-x: hidden;
+        overflow-x: visible;
     }
     
     /* Ensure header itself is contained */
@@ -2767,14 +2778,14 @@ footer {
         max-width: 100%;
         width: 100%;
         box-sizing: border-box;
-        overflow-x: hidden;
+        overflow-x: visible;
     }
     
     nav {
         max-width: 100%;
         width: 100%;
         box-sizing: border-box;
-        overflow-x: hidden;
+        overflow-x: visible;
     }
     
     /* Prevent any container from exceeding viewport */

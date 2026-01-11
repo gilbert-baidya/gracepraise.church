@@ -28,6 +28,7 @@
     
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="countdown.css">
+    <link rel="stylesheet" href="homepage-responsive-fix.css">
     
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -41,14 +42,13 @@
         body {
             width: 100%;
             max-width: 100%;
-            overflow-x: hidden;
+            overflow-x: clip;
         }
         
         /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
         @supports (-webkit-touch-callout: none) {
             body {
-                overflow-x: hidden !important;
-                position: relative;
+                overflow-x: clip !important;
             }
         }
         
@@ -61,6 +61,36 @@
     section, article, main, .hero, .container {
         width: 100%;
         max-width: 100%;
+    }
+
+    /* Calendar: show countdown only on phone view and protect hero spacing */
+    #specialEventBanner {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        #specialEventBanner {
+            display: block;
+        }
+
+        .calendar-page #specialEventBanner .inline-banner-content {
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .calendar-page #specialEventBanner .event-label {
+            flex: 1 1 100%;
+        }
+
+        .calendar-page #specialEventBanner .inline-countdown,
+        .calendar-page #specialEventBanner .banner-link {
+            flex: 0 0 auto;
+        }
+
+        .calendar-page .hero {
+            padding-top: calc(var(--fixed-top-offset) + var(--spacing-md)) !important;
+        }
     }
     
     /* DARK MODE TOGGLE BUTTON */
@@ -659,7 +689,7 @@
         }
     </style>
 </head>
-<body>
+<body class="calendar-page">
     <!-- Skip to main content for keyboard users -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -739,17 +769,21 @@
     <!-- Special Event Inline Countdown Banner -->
     <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="polite" aria-atomic="true">
         <div class="inline-banner-content">
-            <span class="event-icon" aria-hidden="true">🎉</span>
-            <span class="event-label">
-                <strong>Gratitude & New Year Celebration</strong> starts in
-            </span>
-            <time class="inline-countdown" datetime="2025-12-31T22:30:00">
-                <span class="countdown-value" data-unit="days">01</span><span class="countdown-unit">d</span>
-                <span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span>
-                <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
-                <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
-            </time>
-            <a href="#dynamic-events-container" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
+            <div class="banner-line-1">
+                <span class="event-icon" aria-hidden="true">🎉</span>
+                <span class="event-label">
+                    <strong>Gratitude & New Year Celebration</strong> starts in
+                </span>
+            </div>
+            <div class="banner-line-2">
+                <time class="inline-countdown" datetime="2025-12-31T22:30:00">
+                    <span class="countdown-value" data-unit="days">01</span><span class="countdown-unit">d</span>
+                    <span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span>
+                    <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
+                    <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
+                </time>
+                <a href="#dynamic-events-container" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
+            </div>
         </div>
     </div>
 
