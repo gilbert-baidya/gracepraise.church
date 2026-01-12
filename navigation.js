@@ -22,6 +22,9 @@
     // NAVIGATION LOCK — DO NOT MODIFY WITHOUT REVIEW
     // ============================================
 
+    // Enable JS-dependent features (disables no-JS fallbacks)
+    document.documentElement.classList.add('js-enabled');
+
     // Navigation elements
     const header = document.querySelector('header');
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
