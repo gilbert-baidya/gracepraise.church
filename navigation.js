@@ -116,6 +116,7 @@
                 toggle.dataset.originalHref = toggle.getAttribute('href');
                 toggle.removeAttribute('href');
                 toggle.style.cursor = 'pointer';
+                console.log('✓ Touch dropdown initialized:', toggle.textContent.trim());
             }
             
             // Prevent default link behavior on mobile for parent dropdown link
