@@ -110,16 +110,18 @@
 
         navDropdowns.forEach(dropdown => {
             const toggle = dropdown.querySelector(':scope > a');
+            const arrow = toggle ? toggle.querySelector('.dropdown-arrow') : null;
             const menu = dropdown.querySelector('.dropdown-menu');
             
-            if (!toggle || !menu) return;
+            if (!toggle || !menu || !arrow) return;
             
-            // Prevent default link behavior on mobile for parent dropdown link
-            toggle.addEventListener('click', (e) => {
-                // Only prevent default and toggle on touch devices
-                if (isTouchDropdown()) {
+            // On touch devices, arrow handles dropdown toggle, link navigates
+            if (isTouchDropdown()) {
+                arrow.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
+                    
+                    console.log('🎯 Arrow tapped - toggling dropdown');
                     
                     // Close other dropdowns (accordion behavior)
                     navDropdowns.forEach(otherDropdown => {
@@ -135,8 +137,20 @@
                     // Toggle current dropdown
                     const isOpen = dropdown.classList.toggle('mobile-dropdown-open');
                     toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                }
-            });
+                });
+                
+                // Debug: Verify parent link has no handler
+                console.log('✓ Arrow handler attached, parent link free to navigate');
+            } else {
+                // Desktop: entire link toggles dropdown on click
+                toggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isOpen = dropdown.classList.toggle('mobile-dropdown-open');
+                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                });
+            }
             
             // Close dropdown and menu when submenu item is clicked
             const submenuLinks = menu.querySelectorAll('a');
@@ -154,20 +168,30 @@
         // Handle nested dropdowns (Ministries submenu)
         navNestedDropdowns.forEach(nestedDropdown => {
             const toggle = nestedDropdown.querySelector(':scope > a');
+            const arrow = toggle ? toggle.querySelector('.dropdown-arrow') : null;
             const menu = nestedDropdown.querySelector('.dropdown-menu-nested');
             
-            if (!toggle || !menu) return;
+            if (!toggle || !menu || !arrow) return;
             
-            toggle.addEventListener('click', (e) => {
-                if (isTouchDropdown()) {
+            if (isTouchDropdown()) {
+                arrow.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     
                     // Toggle nested dropdown
                     const isOpen = nestedDropdown.classList.toggle('mobile-dropdown-open');
                     toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                }
-            });
+                });
+            } else {
+                // Desktop: entire link toggles dropdown
+                toggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isOpen = nestedDropdown.classList.toggle('mobile-dropdown-open');
+                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                });
+            }
             
             // Close everything when nested link is clicked
             const nestedLinks = menu.querySelectorAll('a');
