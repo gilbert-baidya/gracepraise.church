@@ -11,7 +11,7 @@
  * Desktop: Hover-based dropdowns
  * Mobile: Accordion-style expandable menus
  * 
- * @version 1.0.0
+ * @version 2.0.0 - Arrow-based mobile navigation
  * @locked true
  */
 
@@ -121,8 +121,6 @@
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    console.log('🎯 Arrow tapped - toggling dropdown');
-                    
                     // Close other dropdowns (accordion behavior)
                     navDropdowns.forEach(otherDropdown => {
                         if (otherDropdown !== dropdown) {
@@ -138,9 +136,6 @@
                     const isOpen = dropdown.classList.toggle('mobile-dropdown-open');
                     toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
                 });
-                
-                // Debug: Verify parent link has no handler
-                console.log('✓ Arrow handler attached, parent link free to navigate');
             } else {
                 // Desktop: entire link toggles dropdown on click
                 toggle.addEventListener('click', (e) => {
