@@ -11,7 +11,7 @@
  * Desktop: Hover-based dropdowns
  * Mobile: Accordion-style expandable menus
  * 
- * @version 2.0.0 - Arrow-based mobile navigation
+ * @version 2.1.0 - Mobile menu context-aware navigation
  * @locked true
  */
 
@@ -102,11 +102,13 @@
     }
 
     function initMobileDropdowns() {
-        const isTouchDropdown = () => (
+        const isTouchDevice = () => (
             window.matchMedia('(hover: none)').matches ||
             window.matchMedia('(pointer: coarse)').matches ||
             'ontouchstart' in window
         );
+
+        const isMobileMenuOpen = () => navLinks && navLinks.classList.contains('mobile-open');
 
         navDropdowns.forEach(dropdown => {
             const toggle = dropdown.querySelector(':scope > a');
@@ -115,26 +117,34 @@
             
             if (!toggle || !menu || !arrow) return;
             
-            // On touch devices, arrow handles dropdown toggle, link navigates
-            if (isTouchDropdown()) {
-                arrow.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // Close other dropdowns (accordion behavior)
-                    navDropdowns.forEach(otherDropdown => {
-                        if (otherDropdown !== dropdown) {
-                            otherDropdown.classList.remove('mobile-dropdown-open');
-                            const otherToggle = otherDropdown.querySelector(':scope > a');
-                            if (otherToggle) {
-                                otherToggle.setAttribute('aria-expanded', 'false');
+            // On touch devices (mobile/iPad)
+            if (isTouchDevice()) {
+                // Intercept ALL clicks on the toggle link on mobile
+                toggle.addEventListener('click', (e) => {
+                    // Only prevent navigation if mobile menu is open
+                    if (isMobileMenuOpen() && window.innerWidth <= 1024) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        console.log('📱 Mobile dropdown toggle:', toggle.textContent.trim());
+                        
+                        // Close other dropdowns (accordion behavior)
+                        navDropdowns.forEach(otherDropdown => {
+                            if (otherDropdown !== dropdown) {
+                                otherDropdown.classList.remove('mobile-dropdown-open');
+                                const otherToggle = otherDropdown.querySelector(':scope > a');
+                                if (otherToggle) {
+                                    otherToggle.setAttribute('aria-expanded', 'false');
+                                }
                             }
-                        }
-                    });
-                    
-                    // Toggle current dropdown
-                    const isOpen = dropdown.classList.toggle('mobile-dropdown-open');
-                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                        });
+                        
+                        // Toggle current dropdown
+                        const isOpen = dropdown.classList.toggle('mobile-dropdown-open');
+                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                        console.log('📱 Dropdown now:', isOpen ? 'OPEN' : 'CLOSED');
+                    }
+                    // If mobile menu is closed, let the link navigate normally
                 });
             } else {
                 // Desktop: entire link toggles dropdown on click
