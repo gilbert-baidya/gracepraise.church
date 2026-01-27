@@ -240,8 +240,8 @@
       "@type": "Event",
       "name": "Gratitude & New Year Celebration",
       "description": "Join us for a special evening of worship, thanksgiving, and hope as we celebrate the new year together.",
-      "startDate": "2025-12-31T22:30:00-08:00",
-      "endDate": "2026-01-01T01:00:00-08:00",
+      "startDate": "2026-12-31T22:30:00-08:00",
+      "endDate": "2027-01-01T01:00:00-08:00",
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "location": {
@@ -338,10 +338,6 @@
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
-                <noscript>
-                    <span class="dark-mode-fallback" aria-label="Dark mode requires JavaScript"
-                        title="JavaScript required for dark mode">☀️</span>
-                </noscript>
                 <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
                     <span></span>
                     <span></span>
@@ -390,6 +386,7 @@
                         <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span
                                 class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
                             <li><a href="couples-devotion.html">Couples Devotion</a></li>
                             <li><a href="family-devotion.html">Family Devotion</a></li>
                             <li><a href="youth-devotion.html">Youth Devotion</a></li>
@@ -406,9 +403,13 @@
         </nav>
         <div class="mobile-overlay"></div>
     </header>
+    <noscript>
+        <span class="dark-mode-fallback" aria-label="Dark mode requires JavaScript"
+            title="JavaScript required for dark mode">☀️</span>
+    </noscript>
 
     <!-- Special Event Inline Countdown Banner -->
-    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="polite" aria-atomic="true">
+    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="off" aria-atomic="true">
         <div class="inline-banner-content">
             <div class="banner-line-1">
                 <span class="event-icon" aria-hidden="true">🎉</span>
@@ -508,7 +509,8 @@
 
                 <div class="shape-square-grid">
                     <!-- Worship Team -->
-                    <div class="shape-square" onclick="location.href='ministries/worship-ministry.html'">
+                    <div class="shape-square" onclick="location.href='ministries/worship-ministry.html'" role="button"
+                        tabindex="0">
                         <div class="shape-square-icon">🙏</div>
                         <h3>Worship Team</h3>
                         <p>Share your musical gifts to lead our congregation in heartfelt praise and worship every
@@ -517,7 +519,8 @@
                     </div>
 
                     <!-- Kids Ministry -->
-                    <div class="shape-square" onclick="location.href='ministries/kids-ministry.html'">
+                    <div class="shape-square" onclick="location.href='ministries/kids-ministry.html'" role="button"
+                        tabindex="0">
                         <div class="shape-square-icon">👶</div>
                         <h3>Kids Ministry</h3>
                         <p>Impact the next generation by teaching Bible stories and leading activities for children ages
@@ -533,7 +536,7 @@
                     </div>
 
                     <!-- Give -->
-                    <div class="shape-square" onclick="location.href='give.html'">
+                    <div class="shape-square" onclick="location.href='give.html'" role="button" tabindex="0">
                         <div class="shape-square-icon">💝</div>
                         <h3>Give</h3>
                         <p>Support the mission of Grace and Praise through your faithful tithes and offerings.</p>
@@ -563,7 +566,8 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="church_worship_bengali_1769526049394.png" alt="Sunday Service">
+                                    <img src="https://picsum.photos/seed/worship1/800/600"
+                                        alt="Placeholder photo for Sunday service">
                                 </div>
                                 <h3 class="card-back-title">Sunday Main Service</h3>
                                 <p style="text-align: left; font-size: 0.9rem; margin-top: 0.5rem;">Join us for our main
@@ -583,7 +587,8 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="church_youth_fellowship_1769526277283.png" alt="Youth Night">
+                                    <img src="https://picsum.photos/seed/worship2/800/600"
+                                        alt="Placeholder photo for youth night gathering">
                                 </div>
                                 <h3 class="card-back-title">Friday Youth Night</h3>
                                 <p style="text-align: left; font-size: 0.9rem; margin-top: 0.5rem;">Empowering the next
@@ -603,7 +608,8 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="church_bible_study_1769526369870.png" alt="Bible Study">
+                                    <img src="https://picsum.photos/seed/worship3/800/600"
+                                        alt="Placeholder photo for Bible study group">
                                 </div>
                                 <h3 class="card-back-title">Weekly Bible Study</h3>
                                 <p style="text-align: left; font-size: 0.9rem; margin-top: 0.5rem;">Deep dive into the
@@ -623,7 +629,8 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="church_fasting_prayer_1769526539786.png" alt="Fasting Prayer">
+                                    <img src="https://picsum.photos/seed/worship4/800/600"
+                                        alt="Placeholder photo for fasting prayer">
                                 </div>
                                 <h3 class="card-back-title">Saturday Fasting Prayer</h3>
                                 <p style="text-align: left; font-size: 0.9rem; margin-top: 0.5rem;">Morning fasting and
@@ -642,7 +649,7 @@
             <!-- Slide 1: Sunday Worship -->
             <div class="circle-carousel-item active">
                 <div class="slide-backdrop"
-                    style="background-image: url('authentic_worship_background_1769490238568.png');"></div>
+                    style="background-image: url('https://picsum.photos/seed/worship5/800/600');"></div>
                 <div class="slide-overlay"></div>
                 <div class="glass-halo-card">
                     <div class="unity-ring"></div>
@@ -667,7 +674,7 @@
             <!-- Slide 2: Community Prayer -->
             <div class="circle-carousel-item">
                 <div class="slide-backdrop"
-                    style="background-image: url('authentic_prayer_background_1769490261661.png');"></div>
+                    style="background-image: url('https://picsum.photos/seed/worship6/800/600');"></div>
                 <div class="slide-overlay"></div>
                 <div class="glass-halo-card">
                     <div class="unity-ring"></div>
@@ -692,7 +699,7 @@
             <!-- Slide 3: Testimonies -->
             <div class="circle-carousel-item">
                 <div class="slide-backdrop"
-                    style="background-image: url('authentic_testimonies_background_1769490275835.png');"></div>
+                    style="background-image: url('https://picsum.photos/seed/worship7/800/600');"></div>
                 <div class="slide-overlay"></div>
                 <div class="glass-halo-card">
                     <div class="unity-ring"></div>
@@ -752,7 +759,7 @@
                             </div>
                             <img loading="lazy" decoding="async" width="1080" height="1080"
                                 src="https://picsum.photos/seed/baptism-water/1080/1080"
-                                class="attachment-large size-large" alt="Young adults being baptized" />
+                                class="attachment-large size-large" alt="Placeholder photo of baptism" />
                         </div>
                         <div>
                             <div class="heading">
@@ -770,7 +777,7 @@
                             <img loading="lazy" decoding="async" width="1080" height="1080"
                                 src="https://picsum.photos/seed/community-prayer/1080/1080"
                                 class="attachment-large size-large"
-                                alt="A group huddling together in a pool and praying" />
+                                alt="Placeholder photo of a prayer group" />
                         </div>
                         <div>
                             <div class="heading">
@@ -785,7 +792,7 @@
                             </div>
                             <img loading="lazy" decoding="async" width="1080" height="1080"
                                 src="https://picsum.photos/seed/serving-together/1080/1080"
-                                class="attachment-large size-large" alt="A man and woman praying" />
+                                class="attachment-large size-large" alt="Placeholder photo of serving together" />
                         </div>
                         <div>
                             <div class="heading">
@@ -804,7 +811,7 @@
                             <img loading="lazy" decoding="async" width="1080" height="1080"
                                 src="https://picsum.photos/seed/community-outreach/1080/1080"
                                 class="attachment-large size-large"
-                                alt="Two adults unloading packaged food from a van" />
+                                alt="Placeholder photo of community outreach" />
                         </div>
                     </div>
                 </div>
@@ -998,7 +1005,7 @@
 
                 <!-- LEFT PANEL: Static Theological Context -->
                 <div class="heptagon-left-panel">
-                    <h1>Our Father in Heaven</h1>
+                    <h2>Our Father in Heaven</h2>
                     <p class="theological-intro">
                         When Jesus taught us to pray, He revealed seven aspects of our Heavenly Father's nature.
                         Each dimension reflects His character, His kingdom, and His perfect will for our lives.
@@ -1443,7 +1450,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p>&copy; 2026 Grace and Praise Bangladeshi Church. All rights reserved.</p>
             <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
                     Conditions</a></p>
         </div>

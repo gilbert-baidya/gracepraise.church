@@ -52,7 +52,12 @@ class CountdownSystem {
                 // Create full date+time for accurate comparison
                 const timeIn24 = this.convertTo24Hour(event.eventTime || '17:00');
                 const eventDateTime = new Date(event.date + 'T' + timeIn24);
-                return event.category === 'gpbc' && eventDateTime > now;
+                const name = event.name || '';
+                return event.category === 'gpbc'
+                    && eventDateTime > now
+                    && !name.includes('Connection')
+                    && !name.includes('Worship Service')
+                    && !name.includes('Fasting Prayer');
             }).sort((a, b) => {
                 const timeA = this.convertTo24Hour(a.eventTime || '17:00');
                 const timeB = this.convertTo24Hour(b.eventTime || '17:00');
@@ -527,8 +532,3 @@ class CountdownSystem {
 document.addEventListener('DOMContentLoaded', () => {
     new CountdownSystem();
 });
-
-// Also try immediate initialization if DOM is already loaded
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    setTimeout(() => new CountdownSystem(), 1);
-}

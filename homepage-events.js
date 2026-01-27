@@ -71,7 +71,12 @@ class HomepageEvents {
         const gpbcEvents = events.filter(event => {
             const time24 = this.convertTo24Hour(event.eventTime || '17:00');
             const eventDateTime = new Date(event.date + 'T' + time24);
-            return event.category === 'gpbc' && eventDateTime > now;
+            const name = event.name || '';
+            return event.category === 'gpbc'
+                && eventDateTime > now
+                && !name.includes('Connection')
+                && !name.includes('Worship Service')
+                && !name.includes('Fasting Prayer');
         });
 
         // Sort by date/time (earliest first)
