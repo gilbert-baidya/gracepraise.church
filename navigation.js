@@ -15,7 +15,7 @@
  * @locked true
  */
 
-(function() {
+(function () {
     'use strict';
 
     // ============================================
@@ -36,41 +36,41 @@
     // ============================================
     // STICKY HEADER BEHAVIOR (DESKTOP)
     // ============================================
-    
+
     let lastScroll = 0;
-    
+
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
-        
+
         // Add scrolled class for styling
         if (currentScroll > 50) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
-        
+
         lastScroll = currentScroll;
     });
 
     // ============================================
     // MOBILE MENU TOGGLE
     // ============================================
-    
+
     let scrollPosition = 0;
-    
+
     function toggleMobileMenu() {
         const isOpening = !navLinks.classList.contains('mobile-open');
-        
+
         if (isOpening) {
             // Save current scroll position before locking
             scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
             document.body.style.top = `-${scrollPosition}px`;
         }
-        
+
         navLinks.classList.toggle('mobile-open');
         mobileOverlay.classList.toggle('active');
         document.body.classList.toggle('menu-open');
-        
+
         if (!isOpening) {
             // Restore scroll position after unlocking
             document.body.style.top = '';
@@ -90,7 +90,7 @@
     // ============================================
     // DROPDOWN MANAGEMENT (MOBILE & DESKTOP)
     // ============================================
-    
+
     function closeAllDropdowns() {
         navDropdowns.forEach(dropdown => {
             dropdown.classList.remove('mobile-dropdown-open');
@@ -118,9 +118,9 @@
             const toggle = dropdown.querySelector(':scope > a');
             const arrow = toggle ? toggle.querySelector('.dropdown-arrow') : null;
             const menu = dropdown.querySelector('.dropdown-menu');
-            
+
             if (!toggle || !menu || !arrow) return;
-            
+
             // Tablet/mobile: tap-to-toggle regardless of touch detection
             if (isTabletOrMobile()) {
                 toggle.addEventListener('click', (e) => {
@@ -128,14 +128,6 @@
                     if (isTablet()) {
                         e.preventDefault();
                         e.stopPropagation();
-
-                        const isOpen = dropdown.classList.contains('mobile-dropdown-open');
-
-                        if (isOpen) {
-                            dropdown.classList.remove('mobile-dropdown-open');
-                            toggle.setAttribute('aria-expanded', 'false');
-                            return;
-                        }
 
                         // Close other dropdowns (accordion behavior)
                         navDropdowns.forEach(otherDropdown => {
@@ -148,8 +140,8 @@
                             }
                         });
 
-                        dropdown.classList.add('mobile-dropdown-open');
-                        toggle.setAttribute('aria-expanded', 'true');
+                        const isOpen = dropdown.classList.toggle('mobile-dropdown-open');
+                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
                         return;
                     }
 
@@ -178,7 +170,7 @@
                     }
                 });
             }
-            
+
             // Close dropdown and menu when submenu item is clicked
             const submenuLinks = menu.querySelectorAll('a');
             submenuLinks.forEach(link => {
@@ -191,26 +183,26 @@
                 });
             });
         });
-        
+
         // Handle nested dropdowns (Ministries submenu)
         navNestedDropdowns.forEach(nestedDropdown => {
             const toggle = nestedDropdown.querySelector(':scope > a');
             const arrow = toggle ? toggle.querySelector('.dropdown-arrow') : null;
             const menu = nestedDropdown.querySelector('.dropdown-menu-nested');
-            
+
             if (!toggle || !menu || !arrow) return;
-            
+
             if (isTabletOrMobile()) {
                 arrow.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     // Toggle nested dropdown
                     const isOpen = nestedDropdown.classList.toggle('mobile-dropdown-open');
                     toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
                 });
             }
-            
+
             // Close everything when nested link is clicked
             const nestedLinks = menu.querySelectorAll('a');
             nestedLinks.forEach(link => {
@@ -228,21 +220,21 @@
     // ============================================
     // ACCESSIBILITY: KEYBOARD NAVIGATION
     // ============================================
-    
+
     function initKeyboardNavigation() {
         navDropdowns.forEach(dropdown => {
             const toggle = dropdown.querySelector(':scope > a');
             const menu = dropdown.querySelector('.dropdown-menu');
-            
+
             if (!toggle || !menu) return;
-            
+
             // ESC key closes dropdown
             toggle.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     closeAllDropdowns();
                 }
             });
-            
+
             // Arrow keys navigation
             const menuLinks = menu.querySelectorAll('a');
             menuLinks.forEach((link, index) => {
@@ -268,7 +260,7 @@
     // ============================================
     // CLOSE DROPDOWN ON OUTSIDE CLICK (DESKTOP)
     // ============================================
-    
+
     document.addEventListener('click', (e) => {
         // Only on desktop
         if (window.innerWidth > 768) {
@@ -282,7 +274,7 @@
     // ============================================
     // CLOSE MOBILE MENU ON REGULAR LINK CLICK
     // ============================================
-    
+
     document.querySelectorAll('.nav-links a:not(.nav-dropdown > a)').forEach(link => {
         link.addEventListener('click', () => {
             if (navLinks.classList.contains('mobile-open')) {
@@ -294,19 +286,19 @@
     // ============================================
     // DARK MODE THEME TOGGLE
     // ============================================
-    
+
     function initThemeToggle() {
         // Check for saved theme preference or default to 'light'
         const currentTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', currentTheme);
         document.body.setAttribute('data-theme', currentTheme);
-        
+
         const darkModeToggle = document.getElementById('darkModeToggle');
-        
+
         if (darkModeToggle) {
             darkModeToggle.addEventListener('click', () => {
                 let theme = document.documentElement.getAttribute('data-theme');
-                
+
                 // Toggle between light and dark
                 if (theme === 'dark') {
                     document.documentElement.setAttribute('data-theme', 'light');
@@ -319,7 +311,7 @@
                     localStorage.setItem('theme', 'dark');
                     console.log('✓ Switched to dark mode');
                 }
-                
+
                 // Add smooth transition effect
                 document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
                 setTimeout(() => {
@@ -332,11 +324,11 @@
     // ============================================
     // INITIALIZATION
     // ============================================
-    
+
     // Initialize dropdown functionality
     initMobileDropdowns();
     initKeyboardNavigation();
-    
+
     // Initialize theme toggle
     initThemeToggle();
 

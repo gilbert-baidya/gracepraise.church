@@ -42,6 +42,7 @@
 
     <!-- Homepage-only responsive fixes (mobile/iPad spacing & scroll) -->
     <link rel="stylesheet" href="homepage-responsive-fix.css">
+    <link rel="stylesheet" href="event-flip-cards.css">
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -354,7 +355,6 @@
                         <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span
                                 class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="about.html">About Overview</a></li>
                             <li><a href="history.html">Our History</a></li>
                             <li><a href="mission.html">Our Mission</a></li>
                             <li><a href="leadership.html">Our Leadership</a></li>
@@ -369,7 +369,6 @@
                         <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span
                                 class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="ministries.html">Ministries Overview</a></li>
                             <li><a href="ministries/bible-study.html">Bible Study</a></li>
                             <li><a href="ministries/community-development.html">Community Development</a></li>
                             <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
@@ -391,7 +390,6 @@
                         <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span
                                 class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="daily-devotion.html">Devotion Overview</a></li>
                             <li><a href="couples-devotion.html">Couples Devotion</a></li>
                             <li><a href="family-devotion.html">Family Devotion</a></li>
                             <li><a href="youth-devotion.html">Youth Devotion</a></li>
@@ -499,94 +497,139 @@
             </div>
         </section>
 
-        <!-- NEON GLASS PORTAL - YOUTH MINISTRY (Replaced Trapezoid) -->
-        <section class="neon-glass-portal" id="youth-ministry">
+
+        <!-- SHAPE SYSTEM: SQUARE - Service & Ministry (Restored) -->
+        <section class="shape-square-container gentle-fade-in" id="ministries">
             <div class="container">
-                <div class="portal-glass-card">
-                    <p class="eyebrow" style="color: #60a5fa;">Next Generation</p>
-                    <h2>Youth Ministry</h2>
-                    <div class="shape-scripture">
-                        "Don't let anyone look down on you because you are young, but set an example for the believers
-                        in speech, in conduct, in love, in faith and in purity."
-                        <br>— 1 Timothy 4:12
+                <h2
+                    style="text-align: center; margin-bottom: 3rem; color: #f59e0b; font-family: 'Cinzel', serif; font-size: 3.5rem;">
+                    Ways to Serve
+                </h2>
+
+                <div class="shape-square-grid">
+                    <!-- Worship Team -->
+                    <div class="shape-square" onclick="location.href='ministries/worship-ministry.html'">
+                        <div class="shape-square-icon">🙏</div>
+                        <h3>Worship Team</h3>
+                        <p>Share your musical gifts to lead our congregation in heartfelt praise and worship every
+                            Sunday.
+                        </p>
                     </div>
-                    <p style="font-size: 1.25rem; color: rgba(255,255,255,0.8); margin-bottom: 3rem;">
-                        Join us every Friday at 7 PM for worship, games, and powerful messages designed for young hearts
-                        seeking God.
-                    </p>
-                    <a href="ministries/youth-ministry.html" class="btn btn-primary"
-                        style="background: #2563eb; color: white; padding: 1.25rem 3.5rem; font-weight: 700; border-radius: 50px; font-size: 1.2rem; box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);">
-                        Explore Youth Lives →
-                    </a>
+
+                    <!-- Kids Ministry -->
+                    <div class="shape-square" onclick="location.href='ministries/kids-ministry.html'">
+                        <div class="shape-square-icon">👶</div>
+                        <h3>Kids Ministry</h3>
+                        <p>Impact the next generation by teaching Bible stories and leading activities for children ages
+                            4-12.</p>
+                    </div>
+
+                    <!-- Hospitality -->
+                    <div class="shape-square">
+                        <div class="shape-square-icon">☕</div>
+                        <h3>Hospitality</h3>
+                        <p>Welcome guests and help create a warm, inviting atmosphere for everyone who enters our doors.
+                        </p>
+                    </div>
+
+                    <!-- Give -->
+                    <div class="shape-square" onclick="location.href='give.html'">
+                        <div class="shape-square-icon">💝</div>
+                        <h3>Give</h3>
+                        <p>Support the mission of Grace and Praise through your faithful tithes and offerings.</p>
+                        <a href="give.html">Give Online →</a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- BENTO GRID - MINISTRIES (Replaced Square Grid) -->
-        <section class="bento-grid-container" id="ministries">
-            <div class="container">
-                <div class="section-header" style="text-align: center; margin-bottom: 5rem;">
-                    <p class="eyebrow"
-                        style="color: #2563eb; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 700;">Ways
-                        to Serve</p>
-                    <h2 style="font-family: 'Cinzel', serif; font-size: 3.5rem; color: white;">Our Ministries</h2>
+        <!-- FLIPPING CARDS SCROLL SECTION -->
+        <section class="flip-scroll-section" id="featured-events">
+            <div class="flip-sticky-wrapper">
+                <div class="flip-section-title">
+                    <h2
+                        style="font-family: 'Cinzel', serif; font-size: 3.5rem; color: #ffffff; text-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                        Community Highlights</h2>
                 </div>
 
-                <div class="bento-grid">
-                    <!-- Kids Ministry - Large -->
-                    <div class="bento-item large" onclick="location.href='ministries/kids-ministry.html'">
-                        <div class="bento-content">
-                            <div class="bento-icon">👶</div>
-                            <h3>Kids Ministry</h3>
-                            <p>Nurturing the next generation in faith with fun, interactive Bible teaching and a safe
-                                environment for your little ones to grow.</p>
+                <div class="flip-cards-container">
+                    <!-- Card 1 -->
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-category">Worship</div>
+                                <div class="card-icon">🙏</div>
+                                <p style="font-size: 0.8rem; opacity: 0.7;">Scroll to flip</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="church_worship_bengali_1769526049394.png" alt="Sunday Service">
+                                </div>
+                                <h3 class="card-back-title">Sunday Main Service</h3>
+                                <p style="text-align: left; font-size: 0.9rem; margin-top: 0.5rem;">Join us for our main
+                                    Bengali service every Sunday at 5:00 PM.</p>
+                                <a href="calendar.html" class="card-button">Learn More</a>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Worship - Wide -->
-                    <div class="bento-item wide" onclick="location.href='ministries/worship-ministry.html'">
-                        <div class="bento-content">
-                            <div class="bento-icon">🎸</div>
-                            <h3>Worship & Arts</h3>
-                            <p>Join our team of musicians and vocalists dedicated to leading the congregation into God's
-                                presence through praise.</p>
+                    <!-- Card 2 -->
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-category">Youth</div>
+                                <div class="card-icon">🔥</div>
+                                <p style="font-size: 0.8rem; opacity: 0.7;">Scroll to flip</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="church_youth_fellowship_1769526277283.png" alt="Youth Night">
+                                </div>
+                                <h3 class="card-back-title">Friday Youth Night</h3>
+                                <p style="text-align: left; font-size: 0.9rem; margin-top: 0.5rem;">Empowering the next
+                                    generation. Every Friday at 7:30 PM.</p>
+                                <a href="ministries/youth-ministry.html" class="card-button">Join Youth</a>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Mission - Wide -->
-                    <div class="bento-item wide" onclick="location.href='ministries/mission-outreach.html'">
-                        <div class="bento-content">
-                            <div class="bento-icon">🌍</div>
-                            <h3>Mission Outreach</h3>
-                            <p>Taking the gospel beyond our walls, supporting missionaries and local community
-                                development projects.</p>
+                    <!-- Card 3 -->
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-category">Prayer</div>
+                                <div class="card-icon">📖</div>
+                                <p style="font-size: 0.8rem; opacity: 0.7;">Scroll to flip</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="church_bible_study_1769526369870.png" alt="Bible Study">
+                                </div>
+                                <h3 class="card-back-title">Weekly Bible Study</h3>
+                                <p style="text-align: left; font-size: 0.9rem; margin-top: 0.5rem;">Deep dive into the
+                                    Word of God every Wednesday at 7:00 PM.</p>
+                                <a href="ministries/bible-study.html" class="card-button">Study Word</a>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Men Fellowship - Tall -->
-                    <div class="bento-item tall" onclick="location.href='ministries/men-fellowship.html'">
-                        <div class="bento-content">
-                            <div class="bento-icon">👨</div>
-                            <h3>Men's Fellowship</h3>
-                            <p>Building strong men of God through accountability, Bible study, and brotherhood.</p>
-                        </div>
-                    </div>
-
-                    <!-- Women Fellowship - Wide -->
-                    <div class="bento-item wide" onclick="location.href='ministries/womens-ministry.html'">
-                        <div class="bento-content">
-                            <div class="bento-icon">👩</div>
-                            <h3>Women's Ministry</h3>
-                            <p>A supportive community for women to grow in grace, share wisdom, and serve together.</p>
-                        </div>
-                    </div>
-
-                    <!-- Prison Ministry -->
-                    <div class="bento-item" onclick="location.href='ministries/prison-ministry.html'">
-                        <div class="bento-content">
-                            <div class="bento-icon">⚓</div>
-                            <h3>Prison Ministry</h3>
-                            <p>Bringing hope and freedom to the incarcerated through the light of the Gospel.</p>
+                    <!-- Card 4 -->
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-category">Fasting</div>
+                                <div class="card-icon">⛪</div>
+                                <p style="font-size: 0.8rem; opacity: 0.7;">Scroll to flip</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="church_fasting_prayer_1769526539786.png" alt="Fasting Prayer">
+                                </div>
+                                <h3 class="card-back-title">Saturday Fasting Prayer</h3>
+                                <p style="text-align: left; font-size: 0.9rem; margin-top: 0.5rem;">Morning fasting and
+                                    prayer for our church—Saturday at 10:00 AM.</p>
+                                <a href="prayer-request.html" class="card-button">Request Prayer</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -676,168 +719,6 @@
                 <button class="circle-dot" role="tab" aria-label="Go to slide 2" aria-selected="false"></button>
                 <button class="circle-dot" role="tab" aria-label="Go to slide 3" aria-selected="false"></button>
             </div>
-            </div>
-        </section>
-
-        <!-- GPBC Faith Journey Section – isolated, safe to remove -->
-        <section class="gpbc-faith-timeline" id="gpbc-faith-timeline" aria-labelledby="gpbc-faith-timeline-heading">
-            <div class="gpbc-faith-timeline-container">
-                <!-- Language Toggle (Isolated to this section only) -->
-                <div class="gpbc-faith-timeline-lang-toggle">
-                    <button type="button" class="gpbc-lang-btn gpbc-lang-active" data-gpbc-lang="en"
-                        aria-label="Switch to English">English</button>
-                    <button type="button" class="gpbc-lang-btn" data-gpbc-lang="bn"
-                        aria-label="Switch to Bengali">বাংলা</button>
-                </div>
-
-                <h2 id="gpbc-faith-timeline-heading" class="gpbc-timeline-title">
-                    <span class="gpbc-lang-en">Our Journey at Grace &amp; Praise</span>
-                    <span class="gpbc-lang-bn" style="display:none;">গ্রেস এন্ড প্রেইজে আমাদের যাত্রা</span>
-                </h2>
-
-                <div class="gpbc-timeline-path">
-                    <!-- Step 1 -->
-                    <article class="gpbc-timeline-card" data-step="1">
-                        <div class="gpbc-timeline-number">1</div>
-                        <div class="gpbc-timeline-content">
-                            <h3 class="gpbc-timeline-card-title">
-                                <span class="gpbc-lang-en">Follow Jesus</span>
-                                <span class="gpbc-lang-bn" style="display:none;">যীশুকে অনুসরণ করুন</span>
-                            </h3>
-                            <p class="gpbc-timeline-card-subtitle">
-                                <span class="gpbc-lang-en">Discover Jesus and His love</span>
-                                <span class="gpbc-lang-bn" style="display:none;">যীশু এবং তাঁর ভালোবাসা আবিষ্কার
-                                    করুন</span>
-                            </p>
-                            <p class="gpbc-timeline-card-verse">
-                                <span class="gpbc-lang-en">Psalm 34:8</span>
-                                <span class="gpbc-lang-bn" style="display:none;">গীতসংহিতা ৩৪:৮</span>
-                            </p>
-                        </div>
-                    </article>
-
-                    <!-- Step 2 -->
-                    <article class="gpbc-timeline-card" data-step="2">
-                        <div class="gpbc-timeline-number">2</div>
-                        <div class="gpbc-timeline-content">
-                            <h3 class="gpbc-timeline-card-title">
-                                <span class="gpbc-lang-en">Grow Together</span>
-                                <span class="gpbc-lang-bn" style="display:none;">একসাথে বৃদ্ধি পান</span>
-                            </h3>
-                            <p class="gpbc-timeline-card-subtitle">
-                                <span class="gpbc-lang-en">Fellowship, prayer, and spiritual growth</span>
-                                <span class="gpbc-lang-bn" style="display:none;">সহভাগিতা, প্রার্থনা এবং আত্মিক
-                                    বৃদ্ধি</span>
-                            </p>
-                        </div>
-                    </article>
-
-                    <!-- Step 3 -->
-                    <article class="gpbc-timeline-card" data-step="3">
-                        <div class="gpbc-timeline-number">3</div>
-                        <div class="gpbc-timeline-content">
-                            <h3 class="gpbc-timeline-card-title">
-                                <span class="gpbc-lang-en">Serve One Another</span>
-                                <span class="gpbc-lang-bn" style="display:none;">একে অপরের সেবা করুন</span>
-                            </h3>
-                            <p class="gpbc-timeline-card-subtitle">
-                                <span class="gpbc-lang-en">Serving with humility and compassion</span>
-                                <span class="gpbc-lang-bn" style="display:none;">নম্রতা এবং করুণার সাথে সেবা করা</span>
-                            </p>
-                        </div>
-                    </article>
-
-                    <!-- Step 4 -->
-                    <article class="gpbc-timeline-card" data-step="4">
-                        <div class="gpbc-timeline-number">4</div>
-                        <div class="gpbc-timeline-content">
-                            <h3 class="gpbc-timeline-card-title">
-                                <span class="gpbc-lang-en">Share Hope</span>
-                                <span class="gpbc-lang-bn" style="display:none;">আশা ভাগ করুন</span>
-                            </h3>
-                            <p class="gpbc-timeline-card-subtitle">
-                                <span class="gpbc-lang-en">Carrying Christ's love to the world</span>
-                                <span class="gpbc-lang-bn" style="display:none;">খ্রীষ্টের ভালোবাসা বিশ্বে বহন
-                                    করা</span>
-                            </p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- GPBC Content Rotator – isolated, safe to remove -->
-        <section class="gpbc-content-rotator" id="gpbc-content-rotator" aria-label="Featured content">
-            <div class="gpbc-rotator-container">
-                <div class="gpbc-rotator-viewport">
-                    <!-- Slide 1 -->
-                    <article class="gpbc-rotator-slide gpbc-slide-active" data-slide="1">
-                        <div class="gpbc-slide-background"
-                            style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.88), rgba(45, 122, 143, 0.72)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%231e3a5f%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
-                        </div>
-                        <div class="gpbc-slide-content">
-                            <p class="gpbc-slide-meta">Join Us This Sunday</p>
-                            <h3 class="gpbc-slide-title">Experience Worship Together</h3>
-                            <p class="gpbc-slide-description">Gather with us for heartfelt worship, biblical teaching,
-                                and genuine fellowship in Christ.</p>
-                            <a href="#next-service" class="gpbc-slide-cta">View Service Countdown</a>
-                        </div>
-                    </article>
-
-                    <!-- Slide 2 -->
-                    <article class="gpbc-rotator-slide" data-slide="2">
-                        <div class="gpbc-slide-background"
-                            style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.88), rgba(45, 122, 143, 0.72)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%232d5a8f%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
-                        </div>
-                        <div class="gpbc-slide-content">
-                            <p class="gpbc-slide-meta">Daily Devotions</p>
-                            <h3 class="gpbc-slide-title">Grow Closer to God Daily</h3>
-                            <p class="gpbc-slide-description">Start each day with Scripture-based devotions crafted to
-                                strengthen your walk with Christ.</p>
-                            <a href="daily-devotion.html" class="gpbc-slide-cta">Read Today's Devotion</a>
-                        </div>
-                    </article>
-
-                    <!-- Slide 3 -->
-                    <article class="gpbc-rotator-slide" data-slide="3">
-                        <div class="gpbc-slide-background"
-                            style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.88), rgba(45, 122, 143, 0.72)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%23152b47%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
-                        </div>
-                        <div class="gpbc-slide-content">
-                            <p class="gpbc-slide-meta">Prayer & Support</p>
-                            <h3 class="gpbc-slide-title">We're Here to Pray With You</h3>
-                            <p class="gpbc-slide-description">Share your prayer requests with our caring community. You
-                                are not alone in your journey.</p>
-                            <a href="prayer-request.html" class="gpbc-slide-cta">Request Prayer</a>
-                        </div>
-                    </article>
-
-                    <!-- Slide 4 -->
-                    <article class="gpbc-rotator-slide" data-slide="4">
-                        <div class="gpbc-slide-background"
-                            style="background-image: linear-gradient(135deg, rgba(30, 58, 95, 0.88), rgba(201, 169, 97, 0.75)), url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1920 1080%22%3E%3Crect fill=%22%23c9a961%22 width=%221920%22 height=%221080%22/%3E%3C/svg%3E');">
-                        </div>
-                        <div class="gpbc-slide-content">
-                            <p class="gpbc-slide-meta">Get Connected</p>
-                            <h3 class="gpbc-slide-title">Find Your Place in Our Family</h3>
-                            <p class="gpbc-slide-description">Discover community groups, ministry opportunities, and
-                                ways to serve alongside fellow believers.</p>
-                            <a href="#new-here" class="gpbc-slide-cta">Start Here</a>
-                        </div>
-                    </article>
-                </div>
-
-                <!-- Navigation Dots -->
-                <div class="gpbc-rotator-nav" role="tablist" aria-label="Content slides navigation">
-                    <button type="button" class="gpbc-nav-dot gpbc-dot-active" data-slide-nav="1" role="tab"
-                        aria-selected="true" aria-label="Go to slide 1"></button>
-                    <button type="button" class="gpbc-nav-dot" data-slide-nav="2" role="tab" aria-selected="false"
-                        aria-label="Go to slide 2"></button>
-                    <button type="button" class="gpbc-nav-dot" data-slide-nav="3" role="tab" aria-selected="false"
-                        aria-label="Go to slide 3"></button>
-                    <button type="button" class="gpbc-nav-dot" data-slide-nav="4" role="tab" aria-selected="false"
-                        aria-label="Go to slide 4"></button>
-                </div>
             </div>
         </section>
 
@@ -1048,49 +929,6 @@
         </section>
 
         <!-- ========================================
-             SHAPE SYSTEM: SQUARE - Service & Ministry
-             ======================================== -->
-        <section class="shape-square-container gentle-fade-in" id="service-section">
-            <div class="container">
-                <h2 style="text-align: center; margin-bottom: 3rem; color: #f59e0b; font-size: 2.5rem;">
-                    Ways to Serve
-                </h2>
-
-                <div class="shape-square-grid">
-                    <div class="shape-square worship-hover" tabindex="0" role="button">
-                        <div class="shape-square-icon">🙏</div>
-                        <h3>Worship Team</h3>
-                        <p>Share your musical gifts to lead our congregation in heartfelt praise and worship every
-                            Sunday.</p>
-                    </div>
-
-                    <div class="shape-square worship-hover" tabindex="0" role="button">
-                        <div class="shape-square-icon">👶</div>
-                        <h3>Kids Ministry</h3>
-                        <p>Impact the next generation by teaching Bible stories and leading activities for children ages
-                            4-12.</p>
-                    </div>
-
-                    <div class="shape-square worship-hover" tabindex="0" role="button">
-                        <div class="shape-square-icon">☕</div>
-                        <h3>Hospitality</h3>
-                        <p>Welcome guests and help create a warm, inviting atmosphere for everyone who enters our doors.
-                        </p>
-                    </div>
-
-                    <div class="shape-square worship-hover" tabindex="0" role="button">
-                        <div class="shape-square-icon">💝</div>
-                        <h3>Give</h3>
-                        <p>Support the mission of Grace and Praise through your faithful tithes and offerings.</p>
-                        <a href="give.html"
-                            style="color: #f59e0b; font-weight: 600; margin-top: 1rem; display: inline-block;">Give
-                            Online →</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========================================
              SHAPE SYSTEM: RECTANGLE - Teaching & Stability
              ======================================== -->
         <section class="shape-rectangle-container gentle-fade-in" id="teaching-section">
@@ -1271,155 +1109,6 @@
 
             </div>
 
-        </section>
-
-        <!-- GPBC Rotating Image Showcase -->
-        <section class="gpbc-rotating-showcase" aria-label="Ministry Highlights">
-            <div class="gpbc-showcase-container">
-                <!-- Left side: Content -->
-                <div class="gpbc-showcase-content">
-                    <div class="gpbc-content-item gpbc-content-active" data-content="0">
-                        <span class="gpbc-showcase-label">COMMUNITY</span>
-                        <h2 class="gpbc-showcase-title">Get Involved</h2>
-                        <p class="gpbc-showcase-description">
-                            Connect with our community through various ministries, volunteer opportunities, and small
-                            groups. Find your place to serve and grow.
-                        </p>
-                        <a href="ministries.html" class="gpbc-showcase-btn">Explore Ministries →</a>
-                    </div>
-                    <div class="gpbc-content-item" data-content="1">
-                        <span class="gpbc-showcase-label">WOMEN'S MINISTRY</span>
-                        <h2 class="gpbc-showcase-title">Women Ministry</h2>
-                        <p class="gpbc-showcase-description">
-                            Join our women's fellowship for Bible studies, prayer meetings, and community outreach.
-                            Build lasting friendships while growing in faith.
-                        </p>
-                        <a href="ministries.html" class="gpbc-showcase-btn">See Women's Ministry →</a>
-                    </div>
-                    <div class="gpbc-content-item" data-content="2">
-                        <span class="gpbc-showcase-label">CHILDREN'S MINISTRY</span>
-                        <h2 class="gpbc-showcase-title">Kids Ministry</h2>
-                        <p class="gpbc-showcase-description">
-                            Fun and engaging programs for children to learn about God's love through stories, games, and
-                            activities in a safe environment.
-                        </p>
-                        <a href="ministries/kids-ministry.html" class="gpbc-showcase-btn">See Kids Ministry →</a>
-                    </div>
-                    <div class="gpbc-content-item" data-content="3">
-                        <span class="gpbc-showcase-label">YOUNG ADULT MINISTRY</span>
-                        <h2 class="gpbc-showcase-title">Young Adult</h2>
-                        <p class="gpbc-showcase-description">
-                            A community for young adults to connect, grow spiritually, and navigate life's challenges
-                            together through fellowship and faith.
-                        </p>
-                        <a href="ministries/youth-ministry.html" class="gpbc-showcase-btn">See Young Adult Ministry
-                            →</a>
-                    </div>
-                </div>
-
-                <!-- Right side: Image Grid -->
-                <div class="gpbc-showcase-grid">
-                    <!-- Position 3: Large box (left) -->
-                    <div class="gpbc-showcase-box gpbc-box-large" data-position="3">
-                        <!-- Image 1: Get Involved - Teal/Turquoise -->
-                        <div class="gpbc-showcase-image gpbc-image-active" data-image="0">
-                            <div class="gpbc-image-content"
-                                style="background: linear-gradient(135deg, rgba(45, 122, 143, 0.95) 0%, rgba(45, 122, 143, 0.85) 100%);">
-                                <div class="gpbc-image-icon">
-                                    <svg width="120" height="120" viewBox="0 0 120 120"
-                                        style="fill: none; stroke: white; stroke-width: 3;">
-                                        <circle cx="60" cy="40" r="15" />
-                                        <path d="M60 60 Q45 70 40 90 L50 90 L60 75 L70 90 L80 90 Q75 70 60 60" />
-                                        <circle cx="30" cy="50" r="12" />
-                                        <circle cx="90" cy="50" r="12" />
-                                        <path d="M20 95 L30 75 L40 95" stroke-width="2" />
-                                        <path d="M80 95 L90 75 L100 95" stroke-width="2" />
-                                    </svg>
-                                </div>
-                                <div class="gpbc-image-text">
-                                    <span style="color: white; font-size: 2rem; font-weight: 700;">Get Involved</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Image 2: Women Ministry - Purple -->
-                        <div class="gpbc-showcase-image" data-image="1">
-                            <div class="gpbc-image-content"
-                                style="background: linear-gradient(135deg, rgba(45, 122, 143, 0.92) 0%, rgba(60, 140, 160, 0.88) 100%);">
-                                <div class="gpbc-image-icon">
-                                    <svg width="120" height="120" viewBox="0 0 120 120" style="fill: white;">
-                                        <circle cx="60" cy="40" r="18" />
-                                        <path d="M60 62 Q40 75 35 100 L85 100 Q80 75 60 62 Z" />
-                                        <path d="M45 85 Q50 75 60 75 Q70 75 75 85" fill="rgba(255,255,255,0.3)" />
-                                    </svg>
-                                </div>
-                                <div class="gpbc-image-text">
-                                    <span style="color: white; font-size: 2rem; font-weight: 700;">Women</span>
-                                    <span
-                                        style="color: rgba(255,255,255,0.9); font-size: 1.5rem; font-weight: 600;">Ministry</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Image 3: Kids Ministry - Orange -->
-                        <div class="gpbc-showcase-image" data-image="2">
-                            <div class="gpbc-image-content"
-                                style="background: linear-gradient(135deg, rgba(55, 140, 155, 0.92) 0%, rgba(70, 160, 175, 0.88) 100%);">
-                                <div class="gpbc-image-icon">
-                                    <svg width="120" height="120" viewBox="0 0 120 120" style="fill: white;">
-                                        <circle cx="45" cy="45" r="12" />
-                                        <circle cx="75" cy="45" r="12" />
-                                        <path d="M45 60 Q40 68 35 80 L55 80 L45 70 Z" />
-                                        <path d="M75 60 Q70 68 65 80 L85 80 L75 70 Z" />
-                                        <path d="M30 95 L40 75 L50 95 L40 85 Z" opacity="0.8" />
-                                        <path d="M70 95 L80 75 L90 95 L80 85 Z" opacity="0.8" />
-                                        <circle cx="60" cy="25" r="8" opacity="0.7" />
-                                    </svg>
-                                </div>
-                                <div class="gpbc-image-text">
-                                    <span style="color: white; font-size: 2rem; font-weight: 700;">Kids</span>
-                                    <span
-                                        style="color: rgba(255,255,255,0.9); font-size: 1.5rem; font-weight: 600;">Ministry</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Image 4: Young Adult - Blue -->
-                        <div class="gpbc-showcase-image" data-image="3">
-                            <div class="gpbc-image-content"
-                                style="background: linear-gradient(135deg, rgba(40, 110, 130, 0.92) 0%, rgba(50, 130, 150, 0.88) 100%);">
-                                <div class="gpbc-image-icon">
-                                    <svg width="120" height="120" viewBox="0 0 120 120"
-                                        style="fill: none; stroke: white; stroke-width: 3;">
-                                        <circle cx="60" cy="45" r="16" />
-                                        <path d="M60 65 Q40 78 35 100 L85 100 Q80 78 60 65 Z" fill="white"
-                                            stroke="white" />
-                                        <circle cx="60" cy="80" r="8" fill="rgba(45,122,143,0.5)" stroke="none" />
-                                        <path d="M50 30 Q60 25 70 30" stroke-linecap="round" />
-                                    </svg>
-                                </div>
-                                <div class="gpbc-image-text">
-                                    <span style="color: white; font-size: 2rem; font-weight: 700;">Young Adult</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Position 2: Top right -->
-                    <div class="gpbc-showcase-box gpbc-box-small gpbc-box-top" data-position="2"></div>
-
-                    <!-- Position 1: Bottom right -->
-                    <div class="gpbc-showcase-box gpbc-box-small gpbc-box-bottom" data-position="1"></div>
-                </div>
-
-                <!-- Progress Dots -->
-                <div class="gpbc-showcase-dots">
-                    <span class="gpbc-dot gpbc-dot-active" data-dot="0"></span>
-                    <span class="gpbc-dot" data-dot="1"></span>
-                    <span class="gpbc-dot" data-dot="2"></span>
-                    <span class="gpbc-dot" data-dot="3"></span>
-                </div>
-            </div>
         </section>
 
         <!-- New Here -->
@@ -3981,67 +3670,66 @@
         }
 
         .slick-slide img {
-            .block-the-loop .slider.slick-initialized {
-                visibility: visible !important;
+            border: 0;
+            height: auto;
+            max-width: 100%;
+            overflow-clip-margin: content-box;
+            overflow: clip;
+        }
+
+        .block-the-loop .slider.slick-initialized {
+            visibility: visible !important;
+        }
+
+        .block-the-loop .slick-dots li button:before {
+            content: '' !important;
+            display: none !important;
+        }
+
+        .block-the-loop .slick-dots li button:after {
+            content: '' !important;
+            display: none !important;
+        }
+
+        .block-the-loop .slick-dots li.slick-active button {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25) !important;
+        }
+
+        .block-the-loop .slick-dots li button:hover {
+            transform: scale(1.2);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 767px) {
+            .block-the-loop {
+                padding: 60px 0;
             }
 
-            img {
-                border: 0;
-                height: auto;
-                max-width: 100%;
-                overflow-clip-margin: content-box;
-                overflow: clip;
+            .block-the-loop .container {
+                gap: 40px;
             }
 
-            .block-the-loop .slick-dots li button:before {
-                content: '' !important;
-                display: none !important;
+            .block-the-loop .heading {
+                width: 55%;
+                height: 55%;
+                padding: 15px;
             }
 
-            .block-the-loop .slick-dots li button:after {
-                content: '' !important;
-                display: none !important;
+            .block-the-loop .heading .icon svg {
+                width: 36px;
+                height: 36px;
             }
 
-            .block-the-loop .slick-dots li.slick-active button {
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25) !important;
+            .block-the-loop .heading h2 {
+                font-size: 1rem;
             }
 
-            .block-the-loop .slick-dots li button:hover {
-                transform: scale(1.2);
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            .block-the-loop .slick-dots {
+                width: 66%;
+                height: 66%;
             }
-
-            /* Mobile adjustments */
-            @media (max-width: 767px) {
-                .block-the-loop {
-                    padding: 60px 0;
-                }
-
-                .block-the-loop .container {
-                    gap: 40px;
-                }
-
-                .block-the-loop .heading {
-                    width: 55%;
-                    height: 55%;
-                    padding: 15px;
-                }
-
-                .block-the-loop .heading .icon svg {
-                    width: 36px;
-                    height: 36px;
-                }
-
-                .block-the-loop .heading h2 {
-                    font-size: 1rem;
-                }
-
-                .block-the-loop .slick-dots {
-                    width: 66%;
-                    height: 66%;
-                }
-            }
+        }
     </style>
 
     <!-- ======================================================
@@ -4933,6 +4621,7 @@
     </script>
 
 
+    <script src="event-flip-cards.js"></script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
     <script src="events.js"></script>

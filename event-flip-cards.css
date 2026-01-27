@@ -1,0 +1,179 @@
+/* 
+ * Flipping Cards Scroll Effect 
+ * Inspired by Evatto Webflow Template
+ */
+
+:root {
+    --card-primary: #e7f2e7;
+    --card-secondary: #f1eae2;
+    --card-border-radius: 24px;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.flip-scroll-section {
+    position: relative;
+    height: 110vh;
+    /* Much shorter scroll distance for a faster, snappier feel */
+    background-color: #0d1117;
+    margin: 0;
+    margin-bottom: -10vh;
+    padding-top: 12px;
+}
+
+.flip-sticky-wrapper {
+    position: relative;
+    /* CHANGED FROM STICKY TO RELATIVE: 
+       GSAP 'pin: true' already handles the pinning. 
+       Double pinning (CSS sticky + GSAP pin spacer) caused the "Double Title" ghosting 
+       and the massive layout gaps. This allows GSAP to control the flow naturally. */
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    perspective: 2000px;
+}
+
+.flip-section-title {
+    margin-bottom: 2rem;
+    text-align: center;
+    z-index: 100;
+}
+
+.flip-section-title h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 3.5rem;
+    color: white;
+    /* Matches church theme */
+}
+
+.flip-cards-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flip-card {
+    position: absolute;
+    /* Stacked on top of each other initially */
+    width: 280px;
+    height: 420px;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    /* Initial state: small and slightly above */
+    transform: scale(0.4) translateY(-100px);
+    opacity: 0;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    /* Rotation will be handled by GSAP */
+    transform-style: preserve-3d;
+}
+
+/* We will control the rotation via GSAP */
+/* .flip-card:hover .flip-card-inner { transform: rotateY(180deg); } */
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: var(--card-border-radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--card-shadow);
+}
+
+.flip-card-front {
+    background-color: var(--card-primary);
+    color: #090b0f;
+}
+
+.flip-card-back {
+    background-color: var(--card-secondary);
+    color: #090b0f;
+    transform: rotateY(180deg);
+}
+
+.card-icon {
+    font-size: 4rem;
+    margin: auto;
+}
+
+.card-category {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.card-image-wrap {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.card-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-back-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.card-button {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: #090b0f;
+    color: white;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    align-self: flex-start;
+}
+
+@media (max-width: 1024px) {
+    .flip-cards-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .flip-scroll-section {
+        height: 130vh;
+    }
+}
+
+@media (max-width: 640px) {
+    .flip-cards-container {
+        grid-template-columns: 1fr;
+    }
+
+    .flip-scroll-section {
+        height: 135vh;
+    }
+
+    .flip-card {
+        height: 400px;
+    }
+}
