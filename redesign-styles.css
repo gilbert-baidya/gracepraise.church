@@ -2732,8 +2732,8 @@ footer {
    ======================================== */
 
 /* iPad-only horizontal overflow fix (safe, non-breaking) */
-/* iPad/Tablet: Allow nav items to wrap into 2 rows to prevent horizontal clipping */
-@media (min-width: 769px) and (max-width: 1024px) {
+/* iPad/Tablet (touch, up to large iPad width): Allow nav items to wrap */
+@media (pointer: coarse) and (min-width: 769px) and (max-width: 1366px) {
     /* Use overflow:hidden instead of clip - preserves sticky positioning */
     html {
         overflow-x: hidden;
@@ -2745,28 +2745,16 @@ footer {
         max-width: 100%;
     }
     
-    /* iPad: keep nav in one row and allow horizontal swipe */
+    /* iPad: allow wrapping to avoid overflow + keep dropdowns visible */
     .nav-links {
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        flex: 0 0 auto;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        flex: 1 1 auto;
         min-width: 0;
-        width: calc(100vw - 170px); /* Reserve space for logo + toggle + padding */
-        max-width: calc(100vw - 170px);
-        gap: var(--spacing-sm);
-        overflow-x: auto;
-        overflow-y: visible;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        touch-action: pan-x;
-    }
-
-    .nav-links::-webkit-scrollbar {
-        display: none;
-    }
-
-    .nav-links li {
-        flex: 0 0 auto;
+        width: auto;
+        max-width: 100%;
+        gap: var(--spacing-sm) var(--spacing-xs);
+        overflow: visible;
     }
 
     /* Enable tap-to-open dropdowns on iPad (touch-first) */
@@ -2829,14 +2817,15 @@ footer {
         box-sizing: border-box;
     }
     
-    /* Ensure all page content starts below fixed header + banner */
+    /* iPad: main content flows naturally - no fixed offset needed */
     main {
-        padding-top: var(--fixed-top-offset);
+        padding-top: 0;
+        margin-top: 0;
     }
     
-    /* Override for hero section which has its own padding */
+    /* iPad: hero section uses its own padding from homepage-responsive-fix.css */
     .hero {
-        margin-top: calc(var(--fixed-top-offset) * -1);
+        margin-top: 0;
     }
 }
 

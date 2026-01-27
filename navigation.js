@@ -109,6 +109,10 @@
         );
 
         const isMobileMenuOpen = () => navLinks && navLinks.classList.contains('mobile-open');
+        const isCoarsePointer = () => window.matchMedia('(pointer: coarse)').matches;
+        const isTablet = () => isCoarsePointer() && window.innerWidth >= 769;
+        const isMobileViewport = () => window.innerWidth <= 768;
+        const isTabletOrMobile = () => isTablet() || isMobileViewport();
 
         navDropdowns.forEach(dropdown => {
             const toggle = dropdown.querySelector(':scope > a');
@@ -117,17 +121,22 @@
             
             if (!toggle || !menu || !arrow) return;
             
-            // On touch devices (mobile/iPad)
-            if (isTouchDevice()) {
-                // Intercept ALL clicks on the toggle link on mobile
+            // Tablet/mobile: tap-to-toggle regardless of touch detection
+            if (isTabletOrMobile()) {
                 toggle.addEventListener('click', (e) => {
-                    // Only prevent navigation if mobile menu is open
-                    if (isMobileMenuOpen() && window.innerWidth <= 1024) {
+                    // iPad: always toggle dropdown on tap, navigate via "Overview" item
+                    if (isTablet()) {
                         e.preventDefault();
                         e.stopPropagation();
-                        
-                        console.log('📱 Mobile dropdown toggle:', toggle.textContent.trim());
-                        
+
+                        const isOpen = dropdown.classList.contains('mobile-dropdown-open');
+
+                        if (isOpen) {
+                            dropdown.classList.remove('mobile-dropdown-open');
+                            toggle.setAttribute('aria-expanded', 'false');
+                            return;
+                        }
+
                         // Close other dropdowns (accordion behavior)
                         navDropdowns.forEach(otherDropdown => {
                             if (otherDropdown !== dropdown) {
@@ -138,22 +147,35 @@
                                 }
                             }
                         });
-                        
-                        // Toggle current dropdown
-                        const isOpen = dropdown.classList.toggle('mobile-dropdown-open');
-                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                        console.log('📱 Dropdown now:', isOpen ? 'OPEN' : 'CLOSED');
+
+                        dropdown.classList.add('mobile-dropdown-open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                        return;
                     }
-                    // If mobile menu is closed, let the link navigate normally
-                });
-            } else {
-                // Desktop: entire link toggles dropdown on click
-                toggle.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const isOpen = dropdown.classList.toggle('mobile-dropdown-open');
-                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+                    if (isMobileViewport() && isMobileMenuOpen()) {
+                        const isOpen = dropdown.classList.contains('mobile-dropdown-open');
+
+                        if (!isOpen) {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // Close other dropdowns (accordion behavior)
+                            navDropdowns.forEach(otherDropdown => {
+                                if (otherDropdown !== dropdown) {
+                                    otherDropdown.classList.remove('mobile-dropdown-open');
+                                    const otherToggle = otherDropdown.querySelector(':scope > a');
+                                    if (otherToggle) {
+                                        otherToggle.setAttribute('aria-expanded', 'false');
+                                    }
+                                }
+                            });
+
+                            dropdown.classList.add('mobile-dropdown-open');
+                            toggle.setAttribute('aria-expanded', 'true');
+                            return;
+                        }
+                    }
                 });
             }
             
@@ -178,21 +200,12 @@
             
             if (!toggle || !menu || !arrow) return;
             
-            if (isTouchDropdown()) {
+            if (isTabletOrMobile()) {
                 arrow.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     
                     // Toggle nested dropdown
-                    const isOpen = nestedDropdown.classList.toggle('mobile-dropdown-open');
-                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                });
-            } else {
-                // Desktop: entire link toggles dropdown
-                toggle.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
                     const isOpen = nestedDropdown.classList.toggle('mobile-dropdown-open');
                     toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
                 });

@@ -68,12 +68,12 @@
         top: 0;
     }
     
-    /* Main content flows naturally below banner */
+    /* Main content flows naturally below banner - DON'T override redesign-styles.css */
     body.homepage main,
     body[data-page="home"] main,
     .page-home main {
-        padding-top: 0;
-        margin-top: 0;
+        padding-top: 0 !important;
+        margin-top: 0 !important;
     }
 }
 
