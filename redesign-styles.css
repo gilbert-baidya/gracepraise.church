@@ -4,9 +4,12 @@
 
 :root {
     /* ========= Brand Colors ========= */
-    --brand-primary: #2563eb;     /* blue */
-    --brand-secondary: #0ea5a4;   /* teal */
-    --brand-accent: #f59e0b;      /* gold */
+    --brand-primary: #2563eb;
+    /* blue */
+    --brand-secondary: #0ea5a4;
+    /* teal */
+    --brand-accent: #f59e0b;
+    /* gold */
 
     /* ========= Fixed Layout Heights ========= */
     --header-height: 70px;
@@ -19,9 +22,12 @@
     --bg-card: #ffffff;
 
     /* ========= Text Colors ========= */
-    --text-heading: #0f172a;      /* very dark navy */
-    --text-body: #334155;         /* readable gray */
-    --text-muted: #64748b;        /* secondary text */
+    --text-heading: #0f172a;
+    /* very dark navy */
+    --text-body: #334155;
+    /* readable gray */
+    --text-muted: #64748b;
+    /* secondary text */
     --text-inverse: #ffffff;
 
     /* ========= Borders & Lines ========= */
@@ -49,7 +55,7 @@
     --color-text-inverse: var(--text-inverse);
     --color-border: var(--border-subtle);
     --color-shadow: var(--shadow-soft);
-    
+
     /* Spacing */
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
@@ -58,20 +64,20 @@
     --spacing-xl: 3.5rem;
     --spacing-2xl: 5rem;
     --spacing-3xl: 7rem;
-    
+
     /* Border Radius */
     --radius-sm: 0.375rem;
     --radius-md: 0.5rem;
     --radius-lg: 1rem;
     --radius-xl: 1.5rem;
     --radius-full: 9999px;
-    
+
     /* Shadows */
     --shadow-sm: 0 1px 3px 0 rgba(17, 24, 39, 0.06);
     --shadow-md: 0 6px 18px -6px rgba(17, 24, 39, 0.12);
     --shadow-lg: 0 14px 28px -8px rgba(17, 24, 39, 0.14);
     --shadow-xl: 0 24px 40px -12px rgba(17, 24, 39, 0.18);
-    
+
     /* Font Sizes */
     --font-xs: 0.75rem;
     --font-sm: 0.875rem;
@@ -83,23 +89,23 @@
     --font-4xl: 2.1rem;
     --font-5xl: 2.7rem;
     --font-6xl: 3.2rem;
-    
+
     /* Font Weights */
     --font-normal: 400;
     --font-medium: 500;
     --font-semibold: 600;
     --font-bold: 700;
     --font-extrabold: 800;
-    
+
     /* Line Heights */
     --leading-tight: 1.3;
     --leading-normal: 1.7;
     --leading-relaxed: 1.85;
-    
+
     /* Container */
     --container-max-width: 1200px;
     --container-padding: var(--spacing-md);
-    
+
     /* Transitions */
     --transition-fast: 150ms ease;
     --transition-base: 300ms ease;
@@ -169,8 +175,8 @@ main,
 }
 
 /* Prevent flex/grid children from overflowing */
-.flex-container > *,
-.grid-container > * {
+.flex-container>*,
+.grid-container>* {
     min-width: 0;
     min-height: 0;
 }
@@ -262,7 +268,12 @@ html[lang="bn"] [data-lang="bn"] {
    Typography
    ======================================== */
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-weight: var(--font-bold);
     line-height: var(--leading-tight);
@@ -357,10 +368,10 @@ a:hover {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(250, 204, 21, 0.2) 50%, 
-        transparent 100%);
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(250, 204, 21, 0.2) 50%,
+            transparent 100%);
     animation: shimmer 3s infinite;
     /* Prevent animation from causing horizontal scroll on mobile */
     overflow: hidden;
@@ -373,8 +384,13 @@ a:hover {
 }
 
 @keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 200%; }
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 200%;
+    }
 }
 
 .inline-banner-content {
@@ -399,8 +415,15 @@ a:hover {
 }
 
 @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
 }
 
 .inline-countdown-banner .event-label {
@@ -475,25 +498,25 @@ a:hover {
         font-size: 0.8rem;
         gap: 0.4rem;
     }
-    
+
     .inline-countdown-banner .event-icon {
         font-size: 1.1rem;
     }
-    
+
     .inline-countdown-banner .event-label {
         font-size: 0.8rem;
     }
-    
+
     .inline-countdown-banner .countdown-value {
         font-size: 0.95rem;
         padding: 0.15rem 0.35rem;
         min-width: 2ch;
     }
-    
+
     .inline-countdown-banner .countdown-unit {
         font-size: 0.7rem;
     }
-    
+
     .inline-countdown-banner .banner-link {
         font-size: 0.75rem;
         padding: 0.25rem 0.65rem;
@@ -501,13 +524,25 @@ a:hover {
 }
 
 @keyframes hero-fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes hero-rise {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 480px) {
@@ -517,7 +552,7 @@ a:hover {
         text-align: center;
         padding: 0.65rem 0.75rem;
     }
-    
+
     .inline-countdown-banner .inline-countdown {
         gap: 0.25rem;
     }
@@ -530,9 +565,9 @@ a:hover {
 /* Compact countdown strip at top of page */
 .countdown-top-strip {
     width: 100%;
-    background: linear-gradient(135deg, 
-        rgba(59, 130, 246, 0.06) 0%, 
-        rgba(20, 184, 166, 0.06) 100%);
+    background: linear-gradient(135deg,
+            rgba(59, 130, 246, 0.06) 0%,
+            rgba(20, 184, 166, 0.06) 100%);
     border-bottom: 1px solid rgba(250, 204, 21, 0.25);
     box-shadow: 0 8px 24px rgba(17, 24, 39, 0.04);
     backdrop-filter: blur(10px);
@@ -557,7 +592,8 @@ a:hover {
 }
 
 .countdown-top-strip .next-event-banner::before {
-    display: none; /* Remove accent bar for top strip */
+    display: none;
+    /* Remove accent bar for top strip */
 }
 
 .countdown-top-strip .event-header {
@@ -643,23 +679,23 @@ a:hover {
         gap: 1rem;
         padding: 1rem;
     }
-    
+
     .countdown-top-strip .event-header {
         width: 100%;
     }
-    
+
     .countdown-top-strip .event-info {
         width: 100%;
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
     }
-    
+
     .countdown-top-strip .countdown-display {
         width: 100%;
         justify-content: space-between;
     }
-    
+
     .countdown-top-strip .countdown-unit {
         flex: 1;
         min-width: 0;
@@ -671,7 +707,8 @@ a:hover {
    ======================================== */
 
 header {
-    position: -webkit-sticky; /* iOS Safari compatibility */
+    position: -webkit-sticky;
+    /* iOS Safari compatibility */
     position: sticky;
     top: 0;
     left: 0;
@@ -809,7 +846,7 @@ header.scrolled nav {
     position: relative;
 }
 
-.nav-dropdown > a {
+.nav-dropdown>a {
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -854,7 +891,7 @@ header.scrolled nav {
     transform: translateY(0);
 }
 
-.dropdown-menu > li {
+.dropdown-menu>li {
     margin: 0;
     position: relative;
     overflow: visible;
@@ -872,7 +909,8 @@ header.scrolled nav {
 }
 
 .dropdown-menu a::after {
-    display: none; /* Remove underline animation in dropdown */
+    display: none;
+    /* Remove underline animation in dropdown */
 }
 
 .dropdown-menu a:hover {
@@ -894,7 +932,7 @@ header.scrolled nav {
     position: relative;
 }
 
-.nav-dropdown-nested > a {
+.nav-dropdown-nested>a {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -972,9 +1010,9 @@ header.scrolled nav {
         visibility: hidden !important;
         pointer-events: none !important;
     }
-    
-    .nav-dropdown-nested:hover > .dropdown-menu-nested,
-    .nav-dropdown-nested:focus-within > .dropdown-menu-nested {
+
+    .nav-dropdown-nested:hover>.dropdown-menu-nested,
+    .nav-dropdown-nested:focus-within>.dropdown-menu-nested {
         opacity: 1 !important;
         visibility: visible !important;
         pointer-events: auto !important;
@@ -1145,7 +1183,8 @@ header.scrolled nav {
 .video-container {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%;
+    /* 16:9 aspect ratio */
     background: var(--color-surface);
     border-radius: var(--radius-xl);
     overflow: hidden;
@@ -1276,39 +1315,39 @@ header.scrolled nav {
         padding: var(--spacing-3xl) var(--spacing-md) var(--spacing-2xl);
         padding-top: calc(var(--fixed-top-offset) + var(--spacing-md));
     }
-    
+
     .hero-content {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl);
     }
-    
+
     .hero-text {
         text-align: center;
         align-items: center;
     }
-    
+
     .hero h1 {
         font-size: var(--font-4xl);
     }
-    
+
     .hero .tagline {
         font-size: var(--font-xl);
     }
-    
+
     .hero .address {
         font-size: var(--font-base);
     }
-    
+
     .cta-buttons {
         justify-content: center;
         flex-direction: column;
     }
-    
+
     .btn {
         width: 100%;
         max-width: 300px;
     }
-    
+
     .hero-video {
         max-width: 100%;
     }
@@ -1572,7 +1611,7 @@ header.scrolled nav {
 }
 
 /* Center single card on last row */
-.event-details-grid > :nth-child(4) {
+.event-details-grid> :nth-child(4) {
     grid-column: 2;
 }
 
@@ -1587,7 +1626,7 @@ header.scrolled nav {
         grid-template-columns: repeat(2, minmax(260px, 1fr));
     }
 
-    .event-details-grid > :nth-child(4) {
+    .event-details-grid> :nth-child(4) {
         grid-column: auto;
     }
 }
@@ -1709,24 +1748,24 @@ header.scrolled nav {
         flex-direction: column;
         text-align: center;
     }
-    
+
     .event-header-section h2 {
         font-size: var(--font-2xl);
     }
-    
+
     .event-icon-large {
         font-size: 3rem;
     }
-    
+
     .event-info-grid {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
     }
-    
+
     .event-cta {
         flex-direction: column;
     }
-    
+
     .event-cta .btn {
         width: 100%;
     }
@@ -1773,7 +1812,7 @@ header.scrolled nav {
     .next-service-content h2 {
         font-size: var(--font-3xl);
     }
-    
+
     .next-service-intro {
         font-size: var(--font-base);
     }
@@ -2638,7 +2677,7 @@ footer {
     margin: 0;
 }
 
-.footer-col .nav-dropdown > a {
+.footer-col .nav-dropdown>a {
     margin-bottom: var(--spacing-xs);
     display: inline-block;
 }
@@ -2734,17 +2773,18 @@ footer {
 /* iPad-only horizontal overflow fix (safe, non-breaking) */
 /* iPad/Tablet (touch, up to large iPad width): Allow nav items to wrap */
 @media (pointer: coarse) and (min-width: 769px) and (max-width: 1366px) {
+
     /* Use overflow:hidden instead of clip - preserves sticky positioning */
     html {
         overflow-x: hidden;
         max-width: 100%;
     }
-    
+
     body {
         overflow-x: hidden;
         max-width: 100%;
     }
-    
+
     /* iPad: allow wrapping to avoid overflow + keep dropdowns visible */
     .nav-links {
         flex-wrap: wrap;
@@ -2758,11 +2798,11 @@ footer {
     }
 
     /* Enable tap-to-open dropdowns on iPad (touch-first) */
-    .nav-dropdown > a {
+    .nav-dropdown>a {
         cursor: pointer;
         -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2);
     }
-    
+
     .nav-dropdown.mobile-dropdown-open .dropdown-menu {
         opacity: 1;
         visibility: visible;
@@ -2775,12 +2815,12 @@ footer {
         transform: translateX(0);
         pointer-events: auto;
     }
-    
+
     .nav-links a {
         font-size: 0.85rem;
         padding: var(--spacing-xs) var(--spacing-sm);
     }
-    
+
     /* Ensure nav container doesn't overflow */
     .nav-container {
         flex-wrap: nowrap;
@@ -2788,7 +2828,7 @@ footer {
         box-sizing: border-box;
         overflow-x: visible;
     }
-    
+
     /* Ensure header itself is contained and sticky works */
     header {
         position: -webkit-sticky;
@@ -2800,14 +2840,14 @@ footer {
         box-sizing: border-box;
         overflow-x: visible;
     }
-    
+
     nav {
         max-width: 100%;
         width: 100%;
         box-sizing: border-box;
         overflow-x: visible;
     }
-    
+
     /* Prevent any container from exceeding viewport */
     .container,
     main,
@@ -2816,13 +2856,13 @@ footer {
         max-width: 100%;
         box-sizing: border-box;
     }
-    
+
     /* iPad: main content flows naturally - no fixed offset needed */
     main {
         padding-top: 0;
         margin-top: 0;
     }
-    
+
     /* iPad: hero section uses its own padding from homepage-responsive-fix.css */
     .hero {
         margin-top: 0;
@@ -2851,12 +2891,12 @@ footer {
         --header-height: 60px;
         --countdown-banner-height: 42px;
     }
-    
+
     /* Compact nav padding on mobile */
     nav {
         padding: 0.65rem 0;
     }
-    
+
     /* Keep sticky positioning - works without JS */
     header {
         position: -webkit-sticky;
@@ -2866,14 +2906,14 @@ footer {
         right: 0;
         width: 100%;
     }
-    
+
     /* Mobile menu button */
     .mobile-menu-btn {
         display: flex;
     }
-    
+
     /* ===== MOBILE NAVIGATION ACCORDION DROPDOWN ===== */
-    
+
     /* Keep dropdown arrow visible on mobile for indication */
     .dropdown-arrow {
         display: inline-block;
@@ -2881,7 +2921,7 @@ footer {
         transition: transform var(--transition-fast);
         margin-left: auto;
     }
-    
+
     /* Mobile dropdown menu styling */
     .dropdown-menu {
         display: none;
@@ -2900,7 +2940,7 @@ footer {
         overflow: hidden;
         transition: max-height 0.3s ease, padding 0.3s ease;
     }
-    
+
     /* Show dropdown menu when parent has mobile-dropdown-open class */
     .nav-dropdown.mobile-dropdown-open .dropdown-menu {
         display: block;
@@ -2908,30 +2948,30 @@ footer {
         padding: var(--spacing-xs) 0;
         margin-top: var(--spacing-xs);
     }
-    
+
     /* Rotate arrow when dropdown is open */
     .nav-dropdown.mobile-dropdown-open .dropdown-arrow {
         transform: rotate(180deg);
     }
-    
+
     /* Mobile dropdown link styling */
-.dropdown-menu a {
+    .dropdown-menu a {
         padding: var(--spacing-sm) var(--spacing-lg) !important;
         padding-left: calc(var(--spacing-lg) * 2) !important;
         font-size: var(--font-sm) !important;
         border-left: 3px solid transparent;
         transition: all var(--transition-fast);
     }
-    
+
     .dropdown-menu a:hover,
     .dropdown-menu a:focus {
         background: rgba(59, 130, 246, 0.1);
         border-left-color: var(--color-primary);
         transform: translateX(2px);
     }
-    
+
     /* ===== MOBILE NESTED DROPDOWN (MINISTRIES) ===== */
-    
+
     .dropdown-menu-nested {
         display: none;
         position: static !important;
@@ -2949,33 +2989,33 @@ footer {
         overflow: hidden;
         transition: max-height 0.3s ease, padding 0.3s ease;
     }
-    
+
     .nav-dropdown-nested.mobile-dropdown-open .dropdown-menu-nested {
         display: block;
         max-height: 500px;
         padding: var(--spacing-xs) 0;
         margin-top: var(--spacing-xs);
     }
-    
+
     .nav-dropdown-nested.mobile-dropdown-open .dropdown-arrow {
         transform: rotate(90deg);
     }
-    
+
     .dropdown-menu-nested a {
         padding: var(--spacing-sm) var(--spacing-lg) !important;
         padding-left: calc(var(--spacing-lg) * 3) !important;
         font-size: var(--font-sm) !important;
         border-left: 3px solid transparent;
     }
-    
+
     .dropdown-menu-nested a:hover,
     .dropdown-menu-nested a:focus {
         background: rgba(59, 130, 246, 0.08);
         border-left-color: var(--color-secondary);
         transform: translateX(2px);
     }
-    
-    .nav-dropdown-nested > a {
+
+    .nav-dropdown-nested>a {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -2983,9 +3023,9 @@ footer {
         cursor: pointer;
         user-select: none;
     }
-    
+
     /* Make parent dropdown link clickable for toggling */
-    .nav-dropdown > a {
+    .nav-dropdown>a {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -2993,7 +3033,7 @@ footer {
         cursor: pointer;
         user-select: none;
     }
-    
+
     /* Hide desktop nav links on mobile */
     .nav-links {
         position: fixed;
@@ -3013,17 +3053,17 @@ footer {
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
-    
+
     .nav-links.mobile-open {
         transform: translateX(0);
     }
-    
+
     /* NO-JS FALLBACK: Show navigation links in vertical layout */
     @media (max-width: 768px) {
         html:not(.js-enabled) .mobile-menu-btn {
             display: none;
         }
-        
+
         html:not(.js-enabled) .nav-links {
             position: static;
             transform: translateX(0);
@@ -3034,33 +3074,33 @@ footer {
             background: var(--color-surface);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
+
         html:not(.js-enabled) .nav-container {
             flex-direction: column;
             align-items: stretch;
         }
-        
+
         html:not(.js-enabled) .dropdown-menu {
             display: block;
             max-height: none;
             padding: var(--spacing-xs) 0;
         }
-        
+
         html:not(.js-enabled) .dropdown-arrow {
             display: none;
         }
     }
-    
+
     .nav-links a {
         width: 100%;
         padding: var(--spacing-md);
         font-size: var(--font-base);
     }
-    
+
     .nav-links li {
         width: 100%;
     }
-    
+
     /* Mobile overlay */
     .mobile-overlay {
         position: fixed;
@@ -3071,12 +3111,12 @@ footer {
         transition: opacity var(--transition-base);
         z-index: 1001;
     }
-    
+
     .mobile-overlay.active {
         opacity: 1;
         pointer-events: all;
     }
-    
+
     /* Prevent body scroll when mobile menu is open */
     body.menu-open {
         overflow: hidden;
@@ -3086,205 +3126,205 @@ footer {
         top: 0;
         left: 0;
     }
-    
+
     /* No padding needed - sticky header + relative banner flow naturally */
     main {
         padding-top: 0;
     }
-    
+
     .hero h1 {
         font-size: var(--font-4xl);
         line-height: 1.2;
     }
-    
+
     .hero .tagline {
         font-size: var(--font-xl);
         line-height: 1.6;
     }
-    
+
     .hero .address {
         font-size: var(--font-lg);
     }
-    
+
     h2 {
         font-size: var(--font-3xl);
         margin-bottom: var(--spacing-lg);
     }
-    
+
     .cta-buttons {
         flex-direction: column;
         gap: var(--spacing-md);
     }
-    
+
     .btn {
         width: 100%;
         max-width: 100%;
         padding: 1.125rem 1.5rem;
         font-size: var(--font-lg);
     }
-    
+
     /* Next Service mobile adjustments */
     .service-info {
         width: 100%;
         padding: var(--spacing-xl) var(--spacing-lg);
         margin: 0;
     }
-    
+
     .service-date {
         font-size: var(--font-2xl);
     }
-    
+
     .service-time {
         font-size: var(--font-xl);
     }
-    
+
     .service-detail-item {
         flex-direction: column;
         text-align: center;
         gap: var(--spacing-xs);
     }
-    
+
     .btn-add-calendar {
         width: 100%;
     }
-    
+
     /* New Here mobile adjustments */
     .new-here {
         padding: var(--spacing-2xl) var(--spacing-md);
     }
-    
+
     .new-here-intro {
         font-size: var(--font-lg);
     }
-    
+
     .new-here-questions {
         text-align: left;
     }
-    
+
     .new-here-questions dt {
         font-size: var(--font-lg);
     }
-    
+
     .new-here-questions dd {
         font-size: var(--font-sm);
         padding-left: var(--spacing-sm);
     }
-    
+
     .new-here-cards {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
     }
-    
+
     .new-here-card {
         padding: var(--spacing-lg);
     }
-    
+
     .stats {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     /* Plan Your Visit mobile adjustments */
     .page-hero {
         padding: var(--spacing-2xl) var(--spacing-md);
     }
-    
+
     .hero-intro {
         font-size: var(--font-lg);
     }
-    
+
     .visit-section {
         padding: var(--spacing-xl) var(--spacing-md);
     }
-    
+
     .visit-content h3 {
         font-size: var(--font-lg);
         margin-top: var(--spacing-lg);
     }
-    
+
     .info-block {
         padding: var(--spacing-md);
     }
-    
+
     .need-help {
         padding: var(--spacing-2xl) var(--spacing-md);
     }
-    
+
     .help-message {
         font-size: var(--font-lg);
     }
-    
+
     .help-buttons {
         flex-direction: column;
     }
-    
+
     .feature-cards {
         grid-template-columns: 1fr;
         gap: var(--spacing-lg);
     }
-    
+
     .feature-card {
         padding: var(--spacing-xl) var(--spacing-lg);
     }
-    
+
     .bible-verse {
         padding: var(--spacing-2xl) var(--spacing-md);
     }
-    
+
     .verse-text {
         font-size: var(--font-xl);
         line-height: 1.7;
     }
-    
+
     .bible-verse blockquote {
         padding: var(--spacing-md);
     }
-    
+
     .bible-verse blockquote::before,
     .bible-verse blockquote::after {
         font-size: 3.5rem;
         opacity: 0.2;
     }
-    
+
     /* Daily Devotion Promo mobile adjustments */
     .daily-devotion-promo {
         padding: var(--spacing-2xl) var(--spacing-md);
     }
-    
+
     .devotion-promo-content {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl);
     }
-    
+
     .devotion-promo-text {
         text-align: center;
     }
-    
+
     .devotion-icon {
         font-size: 2.5rem;
     }
-    
+
     .devotion-promo-text h2 {
         font-size: var(--font-2xl);
     }
-    
+
     .devotion-promo-text p {
         font-size: var(--font-base);
     }
-    
+
     .devotion-card {
         padding: var(--spacing-lg);
     }
-    
+
     footer {
         padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-lg);
     }
-    
+
     .footer-content {
         grid-template-columns: 1fr;
         text-align: left;
         gap: var(--spacing-xl);
     }
-    
+
     .footer-section h3,
     .footer-col h3 {
         margin-bottom: var(--spacing-sm);
@@ -3293,7 +3333,7 @@ footer {
     .footer-col:first-child h3 {
         font-size: var(--font-xl);
     }
-    
+
     /* Footer dropdown handling on mobile */
     .footer-col .nav-dropdown {
         position: static;
@@ -3301,15 +3341,15 @@ footer {
         padding: 0;
         margin: 0;
     }
-    
-    .footer-col .nav-dropdown > a {
+
+    .footer-col .nav-dropdown>a {
         display: block;
         padding: 0;
         margin: 0 0 var(--spacing-xs) 0;
         color: #4a4a4a;
         font-weight: var(--font-medium);
     }
-    
+
     .footer-col .dropdown-menu {
         position: static;
         opacity: 1;
@@ -3323,16 +3363,16 @@ footer {
         margin: var(--spacing-xs) 0 0 0;
         list-style: none;
     }
-    
+
     .footer-col .dropdown-arrow {
         display: none;
     }
-    
+
     .footer-col .dropdown-menu li {
         list-style: none;
         margin-bottom: var(--spacing-xs);
     }
-    
+
     .footer-col .dropdown-menu a {
         display: block;
         padding: var(--spacing-xs) 0;
@@ -3340,54 +3380,54 @@ footer {
         color: #4a4a4a;
         font-weight: var(--font-normal);
     }
-    
+
     .footer-col .dropdown-menu a:hover {
         background: transparent;
         color: var(--color-secondary);
         transform: none;
         padding-left: var(--spacing-xs);
     }
-    
+
     .social-links {
         justify-content: flex-start;
     }
-    
+
     /* Prayer Request Mobile Styles */
     .prayer-request-section {
         padding: var(--spacing-2xl) var(--spacing-sm);
     }
-    
+
     .prayer-icon-header {
         font-size: 3rem;
     }
-    
+
     .prayer-intro,
     .prayer-subtitle {
         font-size: var(--font-base);
     }
-    
+
     .prayer-reassurance {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
     }
-    
+
     .reassurance-box {
         padding: var(--spacing-lg);
     }
-    
+
     .prayer-form-container {
         padding: var(--spacing-lg);
     }
-    
+
     .encouragement-cards {
         grid-template-columns: 1fr;
         gap: var(--spacing-lg);
     }
-    
+
     .success-actions {
         flex-direction: column;
     }
-    
+
     .success-actions .btn {
         width: 100%;
     }
@@ -3398,24 +3438,24 @@ footer {
         --spacing-3xl: 4rem;
         --spacing-2xl: 3rem;
     }
-    
+
     .hero h1 {
         font-size: var(--font-3xl);
     }
-    
+
     .stats {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
     }
-    
+
     .stat-card {
         padding: var(--spacing-lg);
     }
-    
+
     .stat-number {
         font-size: var(--font-3xl);
     }
-    
+
     .service-info {
         padding: var(--spacing-lg);
     }
@@ -3617,15 +3657,15 @@ footer p.footer-links {
     .content-page {
         padding: var(--spacing-xl) var(--spacing-md);
     }
-    
+
     .content-page-header h1 {
         font-size: var(--font-3xl);
     }
-    
+
     .content-page-body h2 {
         font-size: var(--font-xl);
     }
-    
+
     .content-page-body ul {
         padding-left: var(--spacing-lg);
     }
@@ -3635,7 +3675,7 @@ footer p.footer-links {
     .content-page {
         padding: var(--spacing-lg) var(--spacing-sm);
     }
-    
+
     .content-page-header h1 {
         font-size: var(--font-2xl);
     }
@@ -3647,6 +3687,7 @@ footer p.footer-links {
    ======================================== */
 
 @media (min-width: 1024px) {
+
     /* Increase container width for better desktop use of space */
     :root {
         --container-max-width: 1280px;
@@ -4319,83 +4360,251 @@ body[data-theme="dark"] textarea::placeholder {
 }
 
 /* ========================================
-   10) INLINE COUNTDOWN BANNER
+   14) SACRED FOCUS - 3D PARTICLE CROSS
    ======================================== */
 
-body.dark .inline-countdown-banner,
-body[data-theme="dark"] .inline-countdown-banner {
-    background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
-    border-bottom: 2px solid rgba(251, 191, 36, 0.4);
+.sacred-focus {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    min-height: 600px;
+    background: #010409;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
 }
 
-body.dark .inline-countdown-banner .countdown-value,
-body[data-theme="dark"] .inline-countdown-banner .countdown-value {
-    background: rgba(255, 255, 255, 0.95);
-    color: #0f172a;
+.sacred-focus-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
 }
 
-body.dark .inline-countdown-banner .banner-link,
-body[data-theme="dark"] .inline-countdown-banner .banner-link {
-    background: rgba(255, 255, 255, 0.9);
-    color: #0f172a;
+#sacred-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
-body.dark .inline-countdown-banner .banner-link:hover,
-body[data-theme="dark"] .inline-countdown-banner .banner-link:hover {
-    background: #ffffff;
+.sacred-focus .container {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+    /* Let clicks pass to canvas if needed */
 }
 
-/* ========================================
-   11) BORDERS & DIVIDERS
-   ======================================== */
-
-body.dark hr,
-body.dark .content-page-header,
-body.dark .footer-bottom,
-body[data-theme="dark"] hr,
-body[data-theme="dark"] .content-page-header,
-body[data-theme="dark"] .footer-bottom {
-    border-color: rgba(148, 163, 184, 0.2);
+.sacred-focus-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    pointer-events: auto;
+    padding: 3rem;
+    background: radial-gradient(circle, rgba(1, 4, 9, 0.8) 0%, transparent 80%);
+    border-radius: 50%;
 }
 
-/* ========================================
-   12) CONTENT PAGES
-   ======================================== */
-
-body.dark .content-page,
-body[data-theme="dark"] .content-page {
-    background: #020617;
-}
-
-body.dark .content-page-body strong,
-body[data-theme="dark"] .content-page-body strong {
+.sacred-focus-content .eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
     color: #60a5fa;
+    /* Lighter blue for better contrast */
+    margin-bottom: 1.5rem;
+    font-weight: 700;
 }
 
-body.dark .content-page-body a,
-body[data-theme="dark"] .content-page-body a {
-    color: #14b8a6;
-    border-bottom-color: transparent;
+.sacred-focus-content h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3rem, 10vw, 5.5rem);
+    margin-bottom: 2rem;
+    background: linear-gradient(to bottom, #ffffff 30%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    line-height: 1.1;
 }
 
-body.dark .content-page-body a:hover,
-body[data-theme="dark"] .content-page-body a:hover {
-    border-bottom-color: #14b8a6;
+.sacred-focus-content p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+}
+
+.sacred-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
 }
 
 /* ========================================
-   13) PRAYER & SUCCESS MESSAGES
+   15) NEON GLASS PORTAL - YOUTH MINISTRY
    ======================================== */
 
-body.dark .prayer-success-message,
-body[data-theme="dark"] .prayer-success-message {
-    background: #111827;
-    border: 2px solid rgba(96, 165, 250, 0.3);
+.neon-glass-portal {
+    padding: 8rem 0;
+    background: #020617;
+    position: relative;
+    overflow: hidden;
 }
 
-body.dark .success-icon,
-body[data-theme="dark"] .success-icon {
-    color: #14b8a6;
+.neon-glass-portal::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle at center, rgba(37, 99, 235, 0.1) 0%, transparent 60%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.portal-glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 48px;
+    padding: 5rem;
+    position: relative;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.portal-glass-card::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 48px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.5), transparent, rgba(168, 85, 247, 0.5));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    animation: neonPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes neonPulse {
+    from {
+        opacity: 0.3;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.portal-glass-card h2 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+/* ========================================
+   16) BENTO GRID - MINISTRIES
+   ======================================== */
+
+.bento-grid-container {
+    padding: 8rem 0;
+    background: #010409;
+}
+
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 250px;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.bento-item {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.bento-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.bento-item.large {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.bento-item.wide {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.bento-item.tall {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.bento-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.bento-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.bento-item h3 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.bento-item p {
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: min-content;
+    }
+
+    .bento-item.large,
+    .bento-item.wide,
+    .bento-item.tall {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
 }
 
 /* System preference removed - dark mode now manual only via toggle button */
