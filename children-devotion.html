@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,36 +14,48 @@
         *::after {
             box-sizing: border-box;
         }
-        
+
         html {
             width: 100%;
             max-width: 100%;
             overflow-x: clip;
             overflow-y: auto;
         }
-        
+
         body {
             width: 100%;
             max-width: 100%;
             overflow-x: clip;
             overflow-y: visible;
         }
-        
+
         /* iOS SAFARI OVERFLOW GUARD — DO NOT use overflow-x: hidden or position: relative */
         /* These break position: fixed on iOS Safari */
         @supports (-webkit-touch-callout: none) {
             html {
                 overflow-x: clip !important;
             }
+
             body {
                 overflow-x: clip !important;
             }
         }
-        
+
         /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
-        img, video, iframe { max-width: 100%; height: auto; }
-        section, main, .hero { width: 100%; max-width: 100%; }
-        
+        img,
+        video,
+        iframe {
+            max-width: 100%;
+            height: auto;
+        }
+
+        section,
+        main,
+        .hero {
+            width: 100%;
+            max-width: 100%;
+        }
+
         /* DARK MODE TOGGLE BUTTON */
         .dark-mode-toggle {
             background: rgba(45, 122, 143, 0.1);
@@ -58,34 +71,34 @@
             margin-left: 15px;
             font-size: 20px;
         }
-        
+
         .dark-mode-toggle:hover {
             background: rgba(45, 122, 143, 0.2);
             border-color: rgba(45, 122, 143, 0.5);
             transform: scale(1.05);
         }
-        
+
         .dark-mode-toggle .sun-icon,
         .dark-mode-toggle .moon-icon {
             position: absolute;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        
+
         .dark-mode-toggle .moon-icon {
             opacity: 0;
             transform: rotate(-180deg);
         }
-        
+
         [data-theme="dark"] .dark-mode-toggle .sun-icon {
             opacity: 0;
             transform: rotate(180deg);
         }
-        
+
         [data-theme="dark"] .dark-mode-toggle .moon-icon {
             opacity: 1;
             transform: rotate(0deg);
         }
-        
+
         @media (max-width: 768px) {
             .dark-mode-toggle {
                 width: 36px;
@@ -96,14 +109,16 @@
         }
     </style>
 </head>
+
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    
+
     <header>
         <nav>
             <div class="nav-container">
                 <a href="#home" class="logo">GPBC</a>
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
+                    title="Toggle dark mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
@@ -116,9 +131,10 @@
                     <li><a href="#live">LIVE</a></li>
                     <li><a href="index.html">Home</a></li>
                     <li class="nav-dropdown">
-                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span
+                                class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="about.html">About Overview</a></li>
+                            <li><a href="about.html">About Overview</a></li>
                             <li><a href="history.html">Our History</a></li>
                             <li><a href="mission.html">Our Mission</a></li>
                             <li><a href="leadership.html">Our Leadership</a></li>
@@ -130,9 +146,10 @@
                         </ul>
                     </li>
                     <li class="nav-dropdown">
-                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span
+                                class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="ministries.html">Ministries Overview</a></li>
+                            <li><a href="ministries.html">Ministries Overview</a></li>
                             <li><a href="ministries/bible-study.html">Bible Study</a></li>
                             <li><a href="ministries/community-development.html">Community Development</a></li>
                             <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
@@ -151,9 +168,10 @@
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="#prayer">Prayer</a></li>
                     <li class="nav-dropdown">
-                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false" class="active">Devotion <span class="dropdown-arrow">▼</span></a>
+                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false" class="active">Devotion
+                            <span class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
                             <li><a href="couples-devotion.html">Couples Devotion</a></li>
                             <li><a href="family-devotion.html">Family Devotion</a></li>
                             <li><a href="youth-devotion.html">Youth Devotion</a></li>
@@ -181,29 +199,83 @@
             </div>
 
             <div class="content-page-body">
-                <div style="text-align: center; padding: 3rem 0;">
-                    <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&h=500&fit=crop&q=80" 
-                         alt="Children learning Bible stories" 
-                         style="width: 100%; max-width: 800px; height: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <div
+                    style="text-align: center; padding: 3rem 0; position: relative; background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 50%, #dbeafe 100%); border-radius: 25px; margin: 2rem 0; border: 4px dashed #fbbf24;">
+                    <div style="position: relative; max-width: 900px; margin: 0 auto; padding: 2rem;">
+                        <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=900&h=550&fit=crop&q=80"
+                            alt="Children learning about Jesus - Adventure with Jesus"
+                            style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 20px 60px rgba(251, 191, 36, 0.3); margin-bottom: 0; border: 4px solid white;">
+                        <div
+                            style="position: absolute; top: -15px; right: 20px; background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%); color: white; padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 700; box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5); font-size: 1rem; border: 3px solid white; transform: rotate(-5deg);">
+                            🌟 Kids
+                        </div>
+                        <div
+                            style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); background: white; padding: 1rem 2rem; border-radius: 50px; box-shadow: 0 6px 25px rgba(0,0,0,0.15); border: 3px solid #fbbf24;">
+                            <p
+                                style="margin: 0; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 800; font-size: 1.2rem;">
+                                ✨ Adventure with Jesus! ✨</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div style="background: linear-gradient(135deg, #fce7f3 0%, #fff5f7 100%); padding: 2rem; border-radius: 12px; border-left: 4px solid #ec4899; margin: 2rem 0;">
-                    <p style="font-family: Georgia, serif; font-size: 1.25rem; font-style: italic; line-height: 1.8; color: #1e3a8a; margin-bottom: 1rem;">
-                        "Jesus said, 'Let the little children come to me, and do not hinder them, for the kingdom of heaven belongs to such as these.'"
-                    </p>
-                    <p style="text-align: right; color: #ec4899; font-weight: 600; font-size: 1rem;">
-                        — Matthew 19:14 (NIV)
+                <div
+                    style="background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%); padding: 2.5rem; border-radius: 20px; border: 4px solid #fbbf24; margin: 2rem 0; box-shadow: 0 8px 25px rgba(251, 191, 36, 0.2); position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 10px; left: 10px; font-size: 3rem; opacity: 0.2;">🌈</div>
+                    <div style="position: absolute; bottom: 10px; right: 10px; font-size: 3rem; opacity: 0.2;">⭐</div>
+                    <div
+                        style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1rem; position: relative; z-index: 1;">
+                        <span style="font-size: 3.5rem; color: #fbbf24; line-height: 1;">📖</span>
+                        <p
+                            style="font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 1.4rem; font-weight: 700; line-height: 1.7; color: #92400e; margin: 0;">
+                            Jesus loves the little children, all the children of the world! He wants you to know Him and
+                            follow Him every day!
+                        </p>
+                    </div>
+                    <p
+                        style="text-align: right; color: #f59e0b; font-weight: 800; font-size: 1.2rem; margin-top: 1.5rem; position: relative; z-index: 1;">
+                        — Based on Matthew 19:14
                     </p>
                 </div>
 
-                <div style="text-align: center; padding: 3rem 0;">
-                    <h2 style="color: #667eea; font-size: 2rem; margin-bottom: 1.5rem;">🚧 Coming Soon</h2>
-                    <p style="font-size: 1.125rem; color: #4b5563; line-height: 1.8; max-width: 600px; margin: 0 auto 2rem;">
-                        We are creating fun, colorful, and engaging devotional content that helps children discover God's love in amazing ways!
+                <div
+                    style="text-align: center; padding: 3rem 0; background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(252, 211, 77, 0.1) 100%); border-radius: 25px; margin: 2rem 0; border: 3px dashed #fbbf24;">
+                    <div
+                        style="display: inline-block; background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%); padding: 0.75rem 2rem; border-radius: 50px; margin-bottom: 1.5rem; box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4); border: 3px solid white;">
+                        <h2 style="color: white; font-size: 1.6rem; margin: 0; font-weight: 800;">🎉 Coming Super Soon!
+                        </h2>
+                    </div>
+                    <p
+                        style="font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 1.3rem; color: #92400e; line-height: 1.7; max-width: 650px; margin: 0 auto 2rem; font-weight: 700;">
+                        Get ready for amazing Bible stories, fun games, and cool activities that help you learn about
+                        Jesus!
                     </p>
-                    <p style="font-size: 1rem; color: #6b7280; max-width: 600px; margin: 0 auto;">
-                        Our Children's Devotion will feature simple Bible stories, fun activities, songs, and prayers that make learning about Jesus exciting and memorable.
-                    </p>
+                    <div
+                        style="margin-top: 2.5rem; display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                        <div
+                            style="background: white; padding: 1.5rem; border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); text-align: center; border: 3px solid #fbbf24; min-width: 150px;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🦁</div>
+                            <h3 style="color: #f59e0b; font-size: 1.1rem; margin: 0.5rem 0; font-weight: 800;">Bible
+                                Heroes</h3>
+                            <p style="color: #92400e; font-size: 0.9rem; margin: 0; font-weight: 600;">Meet amazing
+                                people!</p>
+                        </div>
+                        <div
+                            style="background: white; padding: 1.5rem; border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); text-align: center; border: 3px solid #10b981; min-width: 150px;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎨</div>
+                            <h3 style="color: #10b981; font-size: 1.1rem; margin: 0.5rem 0; font-weight: 800;">Fun Games
+                            </h3>
+                            <p style="color: #065f46; font-size: 0.9rem; margin: 0; font-weight: 600;">Play and learn!
+                            </p>
+                        </div>
+                        <div
+                            style="background: white; padding: 1.5rem; border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); text-align: center; border: 3px solid #3b82f6; min-width: 150px;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">⭐</div>
+                            <h3 style="color: #3b82f6; font-size: 1.1rem; margin: 0.5rem 0; font-weight: 800;">Earn
+                                Stars</h3>
+                            <p style="color: #1e40af; font-size: 0.9rem; margin: 0; font-weight: 600;">Collect rewards!
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <div style="background: #f3f4f6; padding: 2rem; border-radius: 12px; margin: 2rem 0;">
@@ -222,7 +294,8 @@
                     <p style="font-size: 1rem; color: #6b7280; margin-bottom: 1.5rem;">
                         Parents, check out our Daily Devotion for the whole family:
                     </p>
-                    <a href="daily-devotion.html" style="display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: transform 0.3s;">
+                    <a href="daily-devotion.html"
+                        style="display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: transform 0.3s;">
                         📖 Read Daily Devotion
                     </a>
                 </div>
@@ -230,59 +303,60 @@
         </section>
     </main>
 
-        <!-- Footer -->
+    <!-- Footer -->
     <footer>
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="index.html#prayer">Prayer</a></li>
-                <li><a href="daily-devotion.html">Daily Devotion</a></li>
-                <li><a href="give.html">Give</a></li>
-            </ul>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games/index.html">Kids Games</a></li>
+                    <li><a href="youth/games/index.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="footer-section">
-            <h3>Ministries</h3>
-            <ul>
-                <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
-                <li><a href="ministries/bible-study.html">Bible Study</a></li>
-                <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
-                <li><a href="kids/games/index.html">Kids Games</a></li>
-                <li><a href="youth/games/index.html">Youth Games</a></li>
-                <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
-            </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
+                    Conditions</a></p>
         </div>
-
-        <div class="footer-section">
-            <h3>Contact</h3>
-            <address>
-                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
-                <p>1325 Richardson Street, CA 92408</p>
-                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
-                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
-            </address>
-        </div>
-
-        <div class="footer-section">
-            <h3>Connect</h3>
-            <ul class="social-links">
-                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
-                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
-                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
-        <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
-    </div>
-</footer>
+    </footer>
 
 
 
@@ -298,8 +372,9 @@
             }
         });
     </script>
-    
+
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
 </body>
+
 </html>

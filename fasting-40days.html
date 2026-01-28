@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>40 Days Fasting | Grace and Praise Bangladeshi Church</title>
     <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="homepage-responsive-fix.css">
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -12,25 +14,36 @@
         *::after {
             box-sizing: border-box;
         }
-        
+
         html,
         body {
             width: 100%;
             max-width: 100%;
             overflow-x: clip;
         }
-        
+
         /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
         @supports (-webkit-touch-callout: none) {
             body {
                 overflow-x: clip !important;
             }
         }
-        
+
         /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
-        img, video, iframe { max-width: 100%; height: auto; }
-        section, main, .hero { width: 100%; max-width: 100%; }
-        
+        img,
+        video,
+        iframe {
+            max-width: 100%;
+            height: auto;
+        }
+
+        section,
+        main,
+        .hero {
+            width: 100%;
+            max-width: 100%;
+        }
+
         /* DARK MODE TOGGLE BUTTON */
         .dark-mode-toggle {
             background: rgba(45, 122, 143, 0.1);
@@ -46,34 +59,34 @@
             margin-left: 15px;
             font-size: 20px;
         }
-        
+
         .dark-mode-toggle:hover {
             background: rgba(45, 122, 143, 0.2);
             border-color: rgba(45, 122, 143, 0.5);
             transform: scale(1.05);
         }
-        
+
         .dark-mode-toggle .sun-icon,
         .dark-mode-toggle .moon-icon {
             position: absolute;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        
+
         .dark-mode-toggle .moon-icon {
             opacity: 0;
             transform: rotate(-180deg);
         }
-        
+
         [data-theme="dark"] .dark-mode-toggle .sun-icon {
             opacity: 0;
             transform: rotate(180deg);
         }
-        
+
         [data-theme="dark"] .dark-mode-toggle .moon-icon {
             opacity: 1;
             transform: rotate(0deg);
         }
-        
+
         @media (max-width: 768px) {
             .dark-mode-toggle {
                 width: 36px;
@@ -82,16 +95,83 @@
                 margin-left: 10px;
             }
         }
+
+        /* 40 Days Fasting Unique Styles */
+        .fasting-40-hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.85)),
+                url('/Users/gbaidya/.gemini/antigravity/brain/38369f3d-dcd1-4700-a4f7-2633f67e095e/fasting_40days_hero_1769570973778.png') center/cover no-repeat;
+            color: white;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fasting-40-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .fasting-40-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .fasting-40-hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.95;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .victory-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 6px 25px rgba(245, 158, 11, 0.5);
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            border: 3px solid white;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .fasting-40-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .fasting-40-hero .subtitle {
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
+
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    
+
     <header>
         <nav>
             <div class="nav-container">
                 <a href="#home" class="logo">GPBC</a>
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
+                    title="Toggle dark mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
@@ -104,9 +184,10 @@
                     <li><a href="#live">LIVE</a></li>
                     <li><a href="index.html">Home</a></li>
                     <li class="nav-dropdown">
-                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span
+                                class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="about.html">About Overview</a></li>
+                            <li><a href="about.html">About Overview</a></li>
                             <li><a href="history.html">Our History</a></li>
                             <li><a href="mission.html">Our Mission</a></li>
                             <li><a href="leadership.html">Our Leadership</a></li>
@@ -118,9 +199,10 @@
                         </ul>
                     </li>
                     <li class="nav-dropdown">
-                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span
+                                class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="ministries.html">Ministries Overview</a></li>
+                            <li><a href="ministries.html">Ministries Overview</a></li>
                             <li><a href="ministries/bible-study.html">Bible Study</a></li>
                             <li><a href="ministries/community-development.html">Community Development</a></li>
                             <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
@@ -139,9 +221,10 @@
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="#prayer">Prayer</a></li>
                     <li class="nav-dropdown">
-                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false" class="active">Devotion <span class="dropdown-arrow">▼</span></a>
+                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false" class="active">Devotion
+                            <span class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
                             <li><a href="couples-devotion.html">Couples Devotion</a></li>
                             <li><a href="family-devotion.html">Family Devotion</a></li>
                             <li><a href="youth-devotion.html">Youth Devotion</a></li>
@@ -162,76 +245,211 @@
 
 
     <main id="main-content">
+        <section class="fasting-40-hero">
+            <h1>🏔️ 40 Days of Victory</h1>
+            <p class="subtitle">Walking in Jesus's Footsteps Through the Wilderness</p>
+            <div class="victory-badge">✨ Ultimate Endurance & Victory ✨</div>
+        </section>
+
         <section class="content-page">
-            <div class="content-page-header">
-                <h1>🏔️ 40 Days Fasting</h1>
-                <p class="subtitle">Walking in the Footsteps of Jesus - A Wilderness Journey</p>
-            </div>
-
             <div class="content-page-body">
-                <div style="text-align: center; padding: 3rem 0;">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=500&fit=crop&q=80" 
-                         alt="Mountain wilderness representing 40 days journey" 
-                         style="width: 100%; max-width: 800px; height: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <div
+                    style="background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%); padding: 2.5rem; border-radius: 20px; border-left: 6px solid #3b82f6; margin: 2rem 0; box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15); position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 10px; right: 10px; font-size: 4rem; opacity: 0.1;">🏔️</div>
+                    <div
+                        style="display: flex; align-items: start; gap: 1.5rem; margin-bottom: 1.5rem; position: relative; z-index: 1;">
+                        <span style="font-size: 4rem; color: #3b82f6; line-height: 1;">📜</span>
+                        <div>
+                            <p
+                                style="font-family: Georgia, serif; font-size: 1.35rem; font-style: italic; line-height: 1.8; color: #1e40af; margin: 0 0 1rem 0; font-weight: 500;">
+                                "Then Jesus was led by the Spirit into the wilderness to be tempted by the devil. After
+                                fasting forty days and forty nights, he was hungry. The tempter came to him... Jesus
+                                said to him, 'Away from me, Satan! For it is written: Worship the Lord your God, and
+                                serve him only.'"
+                            </p>
+                            <p
+                                style="text-align: right; color: #3b82f6; font-weight: 700; font-size: 1.1rem; margin: 0;">
+                                — Matthew 4:1-2, 10 (NIV)
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <div style="background: linear-gradient(135deg, #fee2e2 0%, #fff5f5 100%); padding: 2rem; border-radius: 12px; border-left: 4px solid #ef4444; margin: 2rem 0;">
-                    <p style="font-family: Georgia, serif; font-size: 1.25rem; font-style: italic; line-height: 1.8; color: #1e3a8a; margin-bottom: 1rem;">
-                        "Then Jesus was led by the Spirit into the wilderness to be tempted by the devil. After fasting forty days and forty nights, he was hungry. The tempter came to him..."
-                    </p>
-                    <p style="text-align: right; color: #ef4444; font-weight: 600; font-size: 1rem;">
-                        — Matthew 4:1-3 (NIV)
-                    </p>
-                </div>
-
-                <div style="text-align: center; padding: 3rem 0;">
-                    <h2 style="color: #667eea; font-size: 2rem; margin-bottom: 1.5rem;">🚧 Coming Soon</h2>
-                    <p style="font-size: 1.125rem; color: #4b5563; line-height: 1.8; max-width: 600px; margin: 0 auto 2rem;">
-                        We are preparing a profound 40-day fasting devotional following the pattern of Jesus, Moses, and Elijah. This is the ultimate spiritual fast for radical transformation and divine empowerment.
-                    </p>
-                    <p style="font-size: 1rem; color: #6b7280; max-width: 600px; margin: 0 auto;">
-                        The 40-day fast is biblically significant as a period of testing, preparation, and encounter with God. This journey requires commitment, faith, and preparation—but the spiritual rewards are immeasurable.
+                <div
+                    style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(30, 41, 59, 0.05) 100%); padding: 3rem; border-radius: 25px; margin: 3rem 0; border: 3px solid rgba(59, 130, 246, 0.2);">
+                    <h2
+                        style="color: #1e40af; font-size: 2.2rem; margin-bottom: 1.5rem; text-align: center; font-weight: 800;">
+                        🌟 Following Jesus's Example</h2>
+                    <p
+                        style="font-size: 1.15rem; color: #4b5563; line-height: 1.9; margin-bottom: 1.5rem; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
+                        The 40-day fast is the ultimate spiritual discipline, following Jesus's example in the
+                        wilderness. This journey is for those seeking complete surrender, spiritual authority, and
+                        victory over every temptation and stronghold.
                     </p>
                 </div>
 
-                <div style="background: #f3f4f6; padding: 2rem; border-radius: 12px; margin: 2rem 0;">
-                    <h3 style="color: #667eea; margin-bottom: 1rem;">What This Fasting Journey Will Include:</h3>
-                    <ul style="color: #4b5563; line-height: 2; font-size: 1rem;">
-                        <li>📖 40 days of powerful Scripture readings from Jesus' wilderness experience</li>
-                        <li>⚔️ Overcoming temptation and spiritual warfare strategies</li>
-                        <li>🙏 Deep intercessory prayer and ministry preparation</li>
-                        <li>🏃 Physical and spiritual health guidelines for extended fasting</li>
-                        <li>✨ Encounters with God through extended consecration</li>
-                        <li>💪 Building endurance and faith for long-term commitment</li>
-                        <li>📝 Daily journaling for profound spiritual insights</li>
-                        <li>🎯 Weekly milestones: Testing, Refining, Empowering, Commissioning</li>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 3rem 0;">
+                    <div
+                        style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-top: 5px solid #1e40af; transition: transform 0.3s;">
+                        <div style="font-size: 3.5rem; margin-bottom: 1rem; text-align: center;">🛡️</div>
+                        <h3
+                            style="color: #1e40af; font-size: 1.4rem; margin-bottom: 1rem; text-align: center; font-weight: 700;">
+                            Spiritual Authority</h3>
+                        <p style="color: #6b7280; line-height: 1.8; text-align: center;">
+                            Gain spiritual authority over temptation, sin, and the enemy's schemes in your life.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-top: 5px solid #3b82f6; transition: transform 0.3s;">
+                        <div style="font-size: 3.5rem; margin-bottom: 1rem; text-align: center;">👑</div>
+                        <h3
+                            style="color: #3b82f6; font-size: 1.4rem; margin-bottom: 1rem; text-align: center; font-weight: 700;">
+                            Complete Surrender</h3>
+                        <p style="color: #6b7280; line-height: 1.8; text-align: center;">
+                            Experience total consecration as you lay down everything at the feet of Jesus.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-top: 5px solid #f59e0b; transition: transform 0.3s;">
+                        <div style="font-size: 3.5rem; margin-bottom: 1rem; text-align: center;">🏆</div>
+                        <h3
+                            style="color: #f59e0b; font-size: 1.4rem; margin-bottom: 1rem; text-align: center; font-weight: 700;">
+                            Ultimate Victory</h3>
+                        <p style="color: #6b7280; line-height: 1.8; text-align: center;">
+                            Emerge victorious with renewed strength, purpose, and power for your calling.
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    style="background: linear-gradient(135deg, #fef3c7 0%, #fef9e6 100%); padding: 2.5rem; border-radius: 20px; margin: 3rem 0; border: 3px solid #fbbf24; box-shadow: 0 6px 25px rgba(251, 191, 36, 0.2);">
+                    <h3
+                        style="color: #92400e; margin-bottom: 1.5rem; font-size: 1.8rem; font-weight: 800; text-align: center;">
+                        📋 Your 40-Day Wilderness Journey:</h3>
+                    <ul style="color: #78350f; line-height: 2.2; font-size: 1.1rem; list-style: none; padding: 0;">
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(251, 191, 36, 0.2);">📖 <strong>40
+                                Days of Scripture</strong> following Jesus's wilderness experience</li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(251, 191, 36, 0.2);">🙏
+                            <strong>Daily Prayer Warfare</strong> against temptation and spiritual opposition</li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(251, 191, 36, 0.2);">💪
+                            <strong>Endurance Training</strong> for spiritual stamina and perseverance</li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(251, 191, 36, 0.2);">🍽️
+                            <strong>Fasting Protocols</strong> with medical guidance and safety tips</li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(251, 191, 36, 0.2);">✨
+                            <strong>Victory Declarations</strong> based on God's Word</li>
+                        <li style="padding: 0.75rem 0;">📝 <strong>Wilderness Journal</strong> to document your
+                            transformation</li>
                     </ul>
                 </div>
 
-                <div style="background: linear-gradient(135deg, #fef3c7 0%, #fef9e6 100%); padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
-                    <h4 style="color: #92400e; margin-bottom: 0.5rem;">📌 Biblical Significance:</h4>
-                    <p style="color: #78350f; line-height: 1.8; margin-bottom: 1rem;">
-                        <strong>Jesus:</strong> Fasted 40 days before beginning His public ministry (Matthew 4:1-11)<br>
-                        <strong>Moses:</strong> Fasted 40 days on Mount Sinai receiving the Law (Exodus 34:28)<br>
-                        <strong>Elijah:</strong> Fasted 40 days journeying to Mount Horeb (1 Kings 19:8)
+                <div
+                    style="background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); padding: 2.5rem; border-radius: 20px; margin: 3rem 0; border-left: 6px solid #6b7280;">
+                    <h3 style="color: #374151; margin-bottom: 1.5rem; font-size: 1.8rem; font-weight: 800;">🗺️ The
+                        Wilderness Journey</h3>
+
+                    <div style="margin: 2rem 0;">
+                        <div
+                            style="background: white; padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(107, 114, 128, 0.1);">
+                            <h4 style="color: #6b7280; font-size: 1.3rem; margin-bottom: 0.75rem; font-weight: 700;">
+                                Days 1-10: Testing 🔥</h4>
+                            <p style="color: #6b7280; line-height: 1.8; margin: 0;">
+                                The wilderness begins. Face your temptations head-on with God's Word as your weapon.
+                                Learn to stand firm when tested.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: white; padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(107, 114, 128, 0.1);">
+                            <h4 style="color: #6b7280; font-size: 1.3rem; margin-bottom: 0.75rem; font-weight: 700;">
+                                Days 11-20: Refining 💎</h4>
+                            <p style="color: #6b7280; line-height: 1.8; margin: 0;">
+                                God refines you like gold in fire. Old patterns break, new character forms. Persevere
+                                through the middle stretch.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: white; padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(107, 114, 128, 0.1);">
+                            <h4 style="color: #6b7280; font-size: 1.3rem; margin-bottom: 0.75rem; font-weight: 700;">
+                                Days 21-30: Strengthening 💪</h4>
+                            <p style="color: #6b7280; line-height: 1.8; margin: 0;">
+                                Your spiritual muscles grow stronger. What once seemed impossible becomes your new
+                                normal. Press on!
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(107, 114, 128, 0.1);">
+                            <h4 style="color: #6b7280; font-size: 1.3rem; margin-bottom: 0.75rem; font-weight: 700;">
+                                Days 31-40: Victory 🏆</h4>
+                            <p style="color: #6b7280; line-height: 1.8; margin: 0;">
+                                The final stretch brings breakthrough. Angels minister to you. You emerge victorious,
+                                transformed, and empowered.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%); padding: 2rem; border-radius: 15px; margin: 3rem 0; border: 2px solid #ef4444;">
+                    <h4 style="color: #991b1b; margin-bottom: 1rem; font-size: 1.4rem; font-weight: 700;">⚠️ Important
+                        Medical Guidance:</h4>
+                    <p style="color: #991b1b; line-height: 1.8; margin: 0 0 1rem 0;">
+                        <strong>A 40-day fast is an extreme spiritual discipline.</strong> You MUST consult with your
+                        doctor before beginning. Most people should do a partial fast (Daniel Fast) rather than a
+                        complete water-only fast. Listen to your body, stay hydrated, and break the fast immediately if
+                        you experience serious health concerns.
                     </p>
-                    <p style="color: #78350f; line-height: 1.8;">
-                        This fast marks divine preparation for significant spiritual assignments. Expect supernatural encounters, clarity of purpose, and empowerment for ministry.
+                    <p style="color: #991b1b; line-height: 1.8; margin: 0; font-weight: 600;">
+                        This is a spiritual journey, not a physical achievement. God honors your heart's devotion more
+                        than physical extremes.
                     </p>
                 </div>
 
-                <div style="background: #fef2f2; border: 2px solid #fecaca; padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
-                    <h4 style="color: #991b1b; margin-bottom: 0.5rem;">⚠️ Important Note:</h4>
-                    <p style="color: #7f1d1d; line-height: 1.8;">
-                        A 40-day fast is an advanced spiritual discipline. Please consult with your physician before beginning this journey, especially if you have any health conditions. We recommend starting with shorter fasts (21 or 30 days) before attempting 40 days.
-                    </p>
+                <div
+                    style="background: linear-gradient(135deg, #ede9fe 0%, #f5f3ff 100%); padding: 2.5rem; border-radius: 20px; margin: 3rem 0; border: 3px solid #8b5cf6;">
+                    <h3
+                        style="color: #6d28d9; margin-bottom: 1.5rem; font-size: 1.8rem; font-weight: 800; text-align: center;">
+                        💡 Biblical Examples of 40 Days</h3>
+                    <div style="display: grid; gap: 1.5rem;">
+                        <div
+                            style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);">
+                            <p style="color: #6b7280; line-height: 1.8; margin: 0;">
+                                <strong style="color: #8b5cf6;">Moses</strong> fasted 40 days on Mount Sinai and
+                                received the Ten Commandments (Exodus 34:28)
+                            </p>
+                        </div>
+                        <div
+                            style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);">
+                            <p style="color: #6b7280; line-height: 1.8; margin: 0;">
+                                <strong style="color: #8b5cf6;">Elijah</strong> fasted 40 days and received strength for
+                                his journey (1 Kings 19:8)
+                            </p>
+                        </div>
+                        <div
+                            style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);">
+                            <p style="color: #6b7280; line-height: 1.8; margin: 0;">
+                                <strong style="color: #8b5cf6;">Jesus</strong> fasted 40 days and overcame every
+                                temptation (Matthew 4:1-11)
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <div style="text-align: center; padding: 2rem 0;">
-                    <p style="font-size: 1rem; color: #6b7280; margin-bottom: 1.5rem;">
-                        Begin building your spiritual foundation with our Daily Devotion:
+                <div
+                    style="text-align: center; padding: 3rem 0; background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(30, 64, 175, 0.05) 100%); border-radius: 25px; margin: 3rem 0;">
+                    <h3 style="color: #1e40af; font-size: 2rem; margin-bottom: 1.5rem; font-weight: 800;">🚀 Are You
+                        Ready for the Wilderness?</h3>
+                    <p
+                        style="font-size: 1.15rem; color: #4b5563; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.8;">
+                        While we prepare the complete 40-day wilderness guide, begin strengthening your spiritual
+                        foundation with our Daily Devotion. The wilderness awaits!
                     </p>
-                    <a href="daily-devotion.html" style="display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: transform 0.3s;">
+                    <a href="daily-devotion.html"
+                        style="display: inline-block; background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 1.25rem 3rem; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1rem; box-shadow: 0 6px 25px rgba(30, 64, 175, 0.4); transition: transform 0.3s, box-shadow 0.3s;">
                         📖 Read Daily Devotion
                     </a>
                 </div>
@@ -239,59 +457,60 @@
         </section>
     </main>
 
-        <!-- Footer -->
+    <!-- Footer -->
     <footer>
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="index.html#prayer">Prayer</a></li>
-                <li><a href="daily-devotion.html">Daily Devotion</a></li>
-                <li><a href="give.html">Give</a></li>
-            </ul>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games/index.html">Kids Games</a></li>
+                    <li><a href="youth/games/index.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="footer-section">
-            <h3>Ministries</h3>
-            <ul>
-                <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
-                <li><a href="ministries/bible-study.html">Bible Study</a></li>
-                <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
-                <li><a href="kids/games/index.html">Kids Games</a></li>
-                <li><a href="youth/games/index.html">Youth Games</a></li>
-                <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
-            </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
+                    Conditions</a></p>
         </div>
-
-        <div class="footer-section">
-            <h3>Contact</h3>
-            <address>
-                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
-                <p>1325 Richardson Street, CA 92408</p>
-                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
-                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
-            </address>
-        </div>
-
-        <div class="footer-section">
-            <h3>Connect</h3>
-            <ul class="social-links">
-                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
-                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
-                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
-        <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
-    </div>
-</footer>
+    </footer>
 
 
 
@@ -307,8 +526,9 @@
             }
         });
     </script>
-    
+
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
 </body>
+
 </html>

@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gratitude Fasting 2026 | Grace and Praise Bangladeshi Church</title>
-    <meta name="description" content="Join us for 26 days of thanksgiving and consecration. Daily devotions with Bible verses, reflections, and prayers in English and Bengali.">
-    
+    <meta name="description"
+        content="Join us for 26 days of thanksgiving and consecration. Daily devotions with Bible verses, reflections, and prayers in English and Bengali.">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gracepraise.church/gratitude-fasting.html">
     <meta property="og:title" content="Gratitude Fasting 2026 - Grace and Praise Bangladeshi Church">
-    <meta property="og:description" content="26 days of thanksgiving and consecration. Daily devotions with Bible verses, reflections, and prayers.">
+    <meta property="og:description"
+        content="26 days of thanksgiving and consecration. Daily devotions with Bible verses, reflections, and prayers.">
     <meta property="og:image" content="https://gracepraise.church/images/gratitude-fasting-share.jpg">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://gracepraise.church/gratitude-fasting.html">
     <meta property="twitter:title" content="Gratitude Fasting 2026 - Grace and Praise Bangladeshi Church">
-    <meta property="twitter:description" content="26 days of thanksgiving and consecration. Daily devotions with Bible verses, reflections, and prayers.">
+    <meta property="twitter:description"
+        content="26 days of thanksgiving and consecration. Daily devotions with Bible verses, reflections, and prayers.">
     <meta property="twitter:image" content="https://gracepraise.church/images/gratitude-fasting-share.jpg">
-    
+
+    <!-- Google Fonts for Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="gratitude-fasting-enhanced.css">
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -28,32 +40,40 @@
         *::after {
             box-sizing: border-box;
         }
-        
+
         html,
         body {
             width: 100%;
             max-width: 100%;
             overflow-x: clip;
         }
-        
+
         /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
         @supports (-webkit-touch-callout: none) {
             body {
                 overflow-x: clip !important;
             }
         }
-        
+
         /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
-        img, video, iframe, embed, object {
+        img,
+        video,
+        iframe,
+        embed,
+        object {
             max-width: 100%;
             height: auto;
         }
-        
-        section, article, main, .hero, .container {
+
+        section,
+        article,
+        main,
+        .hero,
+        .container {
             width: 100%;
             max-width: 100%;
         }
-        
+
         /* DARK MODE TOGGLE BUTTON */
         .dark-mode-toggle {
             background: rgba(45, 122, 143, 0.1);
@@ -69,34 +89,34 @@
             margin-left: 15px;
             font-size: 20px;
         }
-        
+
         .dark-mode-toggle:hover {
             background: rgba(45, 122, 143, 0.2);
             border-color: rgba(45, 122, 143, 0.5);
             transform: scale(1.05);
         }
-        
+
         .dark-mode-toggle .sun-icon,
         .dark-mode-toggle .moon-icon {
             position: absolute;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        
+
         .dark-mode-toggle .moon-icon {
             opacity: 0;
             transform: rotate(-180deg);
         }
-        
+
         [data-theme="dark"] .dark-mode-toggle .sun-icon {
             opacity: 0;
             transform: rotate(180deg);
         }
-        
+
         [data-theme="dark"] .dark-mode-toggle .moon-icon {
             opacity: 1;
             transform: rotate(0deg);
         }
-        
+
         @media (max-width: 768px) {
             .dark-mode-toggle {
                 width: 36px;
@@ -106,31 +126,62 @@
             }
         }
     </style>
-    
+
     <style>
         .devotion-hero {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            background: linear-gradient(rgba(251, 191, 36, 0.75), rgba(245, 158, 11, 0.85)),
+                url('https://picsum.photos/seed/gratitude-fasting/1600/900') center/cover no-repeat;
             color: white;
-            padding: 3rem 1.5rem 2rem;
+            padding: 5rem 2rem 4rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .devotion-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
         .devotion-hero h1 {
             color: white;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
         }
-        
+
+        .devotion-hero p {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .devotion-hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+
+    <style>
         .devotion-controls {
             max-width: 1000px;
             margin: -2rem auto 2rem;
             padding: 1.5rem;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             border-radius: 12px;
             z-index: 2;
         }
-        
+
         .controls-row {
             display: flex;
             align-items: center;
@@ -139,14 +190,15 @@
             justify-content: space-between;
             margin-bottom: 1rem;
         }
-        
+
         .day-nav {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        
-        .day-nav button, .lang-toggle button {
+
+        .day-nav button,
+        .lang-toggle button {
             padding: 0.5rem 1rem;
             border-radius: 8px;
             border: 1px solid #e5e7eb;
@@ -155,86 +207,91 @@
             font-weight: 500;
             transition: all 0.2s;
         }
-        
-        .day-nav button:hover, .lang-toggle button:hover {
+
+        .day-nav button:hover,
+        .lang-toggle button:hover {
             background: #f3f4f6;
         }
-        
+
         .day-nav button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-        
+
         .day-nav select {
             padding: 0.5rem 1rem;
             border-radius: 8px;
             border: 1px solid #e5e7eb;
             font-weight: 500;
         }
-        
+
         .lang-toggle {
             display: flex;
             gap: 0.5rem;
         }
-        
+
         .lang-toggle button.active {
             background: #f59e0b;
             color: white;
             border-color: #f59e0b;
         }
-        
+
         .devotion-container {
             max-width: 800px;
             margin: 0 auto;
             padding: 2rem 1.5rem;
         }
-        
+
         .devotion-section {
             background: white;
             border-radius: 12px;
             padding: 2rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
-        
+
         .scripture-section {
             background: linear-gradient(to bottom right, #fef9c3, #fef3c7);
             border-left: 4px solid #f59e0b;
         }
-        
+
         .scripture-section h3 {
             color: #92400e;
             font-size: 1.5rem;
             margin-bottom: 1rem;
         }
-        
+
         .scripture-text {
             font-family: Georgia, serif;
             font-size: 1.125rem;
             line-height: 1.8;
             font-style: italic;
-            color: #1e3a8a;
+            color: #1e40af;
             margin-bottom: 0.5rem;
+            font-weight: 500;
         }
-        
+
         .scripture-ref {
             text-align: right;
             color: #f59e0b;
             font-weight: 600;
         }
-        
-        .reflection-section h3, .prayer-section h3 {
+
+        .reflection-section h3,
+        .prayer-section h3 {
             color: #667eea;
             font-size: 1.5rem;
             margin-bottom: 1rem;
         }
-        
-        .reflection-text, .prayer-text {
+
+        .reflection-text,
+        .prayer-text {
             line-height: 1.8;
-            color: #374151;
+            color: #1f2937;
             white-space: pre-wrap;
+            font-size: 1rem;
         }
-        
+
         .promise-box {
             background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
             padding: 1.5rem;
@@ -242,11 +299,17 @@
             border-left: 4px solid #3b82f6;
             margin-top: 1rem;
         }
-        
+
         .promise-box strong {
             color: #1e40af;
+            font-size: 1.05rem;
         }
-        
+
+        .promise-box p {
+            color: #1e40af;
+            font-weight: 500;
+        }
+
         .share-section {
             background: linear-gradient(135deg, #f3e8ff 0%, #fae8ff 100%);
             padding: 1.5rem;
@@ -254,20 +317,20 @@
             text-align: center;
             margin-top: 2rem;
         }
-        
+
         .share-section h3 {
             color: #7c3aed;
             font-size: 1.25rem;
             margin-bottom: 1rem;
         }
-        
+
         .share-buttons {
             display: flex;
             gap: 0.75rem;
             justify-content: center;
             flex-wrap: wrap;
         }
-        
+
         .share-btn {
             padding: 0.75rem 1.25rem;
             border: none;
@@ -281,65 +344,158 @@
             transition: all 0.3s ease;
             color: white;
         }
-        
+
         .share-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-        
+
         .share-btn.facebook {
             background: #1877f2;
         }
-        
+
         .share-btn.twitter {
             background: #1da1f2;
         }
-        
+
         .share-btn.whatsapp {
             background: #25d366;
         }
-        
+
         .share-btn.email {
             background: #ea4335;
         }
-        
+
         .share-btn.copy {
             background: #6366f1;
         }
-        
+
         .share-btn.copy.copied {
             background: #10b981;
         }
-        
+
         @media (max-width: 640px) {
             .share-buttons {
                 flex-direction: column;
             }
-            
+
             .share-btn {
                 width: 100%;
                 justify-content: center;
             }
         }
-        
-        #loadingMsg, #errorMsg {
+
+        #loadingMsg,
+        #errorMsg {
             text-align: center;
             padding: 3rem;
             font-size: 1.125rem;
         }
-        
+
         #errorMsg {
             color: #dc2626;
         }
+
+        /* DARK MODE OVERRIDES - ROBUST VERIFIED */
+        body[data-theme="dark"] .devotion-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+                url('https://picsum.photos/seed/gratitude-fasting/1600/900') center/cover no-repeat !important;
+        }
+
+        body[data-theme="dark"] .devotion-section,
+        body[data-theme="dark"] .devotion-controls {
+            background: #1f2937 !important;
+            color: #f3f4f6 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        body[data-theme="dark"] .scripture-section {
+            background: linear-gradient(to bottom right, #374151, #1f2937) !important;
+            border-left-color: #fbbf24 !important;
+        }
+
+        body[data-theme="dark"] .scripture-section h3 {
+            color: #fbbf24 !important;
+        }
+
+        body[data-theme="dark"] .scripture-text {
+            color: #e5e7eb !important;
+            font-weight: 400 !important;
+        }
+
+        body[data-theme="dark"] .scripture-ref {
+            color: #fbbf24 !important;
+        }
+
+        body[data-theme="dark"] .reflection-section h3,
+        body[data-theme="dark"] .prayer-section h3 {
+            color: #a5b4fc !important;
+        }
+
+        body[data-theme="dark"] .reflection-text,
+        body[data-theme="dark"] .prayer-text {
+            color: #d1d5db !important;
+        }
+
+        body[data-theme="dark"] .promise-box {
+            background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%) !important;
+            border-left-color: #60a5fa !important;
+        }
+
+        body[data-theme="dark"] .promise-box strong {
+            color: #93c5fd !important;
+        }
+
+        body[data-theme="dark"] .promise-box p {
+            color: #bfdbfe !important;
+        }
+
+        body[data-theme="dark"] .day-nav button,
+        body[data-theme="dark"] .day-nav select,
+        body[data-theme="dark"] .lang-toggle button {
+            background: #374151 !important;
+            color: #f3f4f6 !important;
+            border-color: #4b5563 !important;
+        }
+
+        body[data-theme="dark"] .day-nav button:hover,
+        body[data-theme="dark"] .lang-toggle button:hover {
+            background: #4b5563 !important;
+        }
+
+        body[data-theme="dark"] .lang-toggle button.active {
+            background: #fbbf24 !important;
+            color: #1f2937 !important;
+            border-color: #fbbf24 !important;
+        }
+
+        body[data-theme="dark"] .share-section {
+            background: linear-gradient(135deg, #4c1d95 0%, #312e81 100%) !important;
+        }
+
+        body[data-theme="dark"] .share-section h3 {
+            color: #e9d5ff !important;
+        }
+
+        /* Override Inline Styles specifics */
+        body[data-theme="dark"] #devotionTopic {
+            color: #fbbf24 !important;
+        }
+
+        body[data-theme="dark"] #devotionDate {
+            color: #9ca3af !important;
+        }
     </style>
 </head>
+
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
         <nav>
             <div class="nav-container">
                 <a href="#home" class="logo">GPBC</a>
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
+                    title="Toggle dark mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
@@ -352,9 +508,10 @@
                     <li><a href="#live">LIVE</a></li>
                     <li><a href="index.html">Home</a></li>
                     <li class="nav-dropdown">
-                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span
+                                class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="about.html">About Overview</a></li>
+                            <li><a href="about.html">About Overview</a></li>
                             <li><a href="history.html">Our History</a></li>
                             <li><a href="mission.html">Our Mission</a></li>
                             <li><a href="leadership.html">Our Leadership</a></li>
@@ -366,9 +523,10 @@
                         </ul>
                     </li>
                     <li class="nav-dropdown">
-                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span
+                                class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="ministries.html">Ministries Overview</a></li>
+                            <li><a href="ministries.html">Ministries Overview</a></li>
                             <li><a href="ministries/bible-study.html">Bible Study</a></li>
                             <li><a href="ministries/community-development.html">Community Development</a></li>
                             <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
@@ -387,9 +545,10 @@
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="#prayer">Prayer</a></li>
                     <li class="nav-dropdown">
-                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false" class="active">Devotion <span class="dropdown-arrow">▼</span></a>
+                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false" class="active">Devotion
+                            <span class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
                             <li><a href="couples-devotion.html">Couples Devotion</a></li>
                             <li><a href="family-devotion.html">Family Devotion</a></li>
                             <li><a href="youth-devotion.html">Youth Devotion</a></li>
@@ -397,7 +556,8 @@
                             <li><a href="fasting-21days.html">21 Days Fasting</a></li>
                             <li><a href="fasting-30days.html">30 Days Fasting</a></li>
                             <li><a href="fasting-40days.html">40 Days Fasting</a></li>
-                            <li><a href="gratitude-fasting.html" class="active">Gratitude Fasting (<span class="year-display"></span> - <span class="days-display"></span> Days)</a></li>
+                            <li><a href="gratitude-fasting.html" class="active">Gratitude Fasting (<span
+                                        class="year-display"></span> - <span class="days-display"></span> Days)</a></li>
                         </ul>
                     </li>
                     <li><a href="give.html">Give</a></li>
@@ -412,7 +572,19 @@
     <main id="main-content">
         <div class="devotion-hero">
             <h1>✨ Gratitude Fasting <span class="year-display"></span></h1>
-            <p style="font-size: 1.25rem; opacity: 0.95;"><span class="days-display"></span> Days of Thanksgiving and Consecration</p>
+            <p style="font-size: 1.25rem; opacity: 0.95;"><span class="days-display"></span> Days of Thanksgiving and
+                Consecration</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-wrapper">
+                <span class="progress-label">Day <span id="currentDayProgress">1</span> of <span
+                        class="days-display"></span></span>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBarFill" style="width: 0%"></div>
+                </div>
+            </div>
         </div>
 
         <div class="devotion-controls">
@@ -434,7 +606,7 @@
         <div class="devotion-container">
             <div id="loadingMsg">Loading devotional...</div>
             <div id="errorMsg" style="display: none;">Unable to load devotional content. Please try again later.</div>
-            
+
             <div id="devotionContent" style="display: none;">
                 <div class="devotion-section">
                     <h2 id="devotionTopic" style="color: #f59e0b; font-size: 2rem; margin-bottom: 1rem;"></h2>
@@ -465,23 +637,38 @@
                     <h3>📤 Share This Devotion</h3>
                     <div class="share-buttons">
                         <button class="share-btn facebook" onclick="shareToFacebook()">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
                             Facebook
                         </button>
                         <button class="share-btn twitter" onclick="shareToTwitter()">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                            </svg>
                             Twitter
                         </button>
                         <button class="share-btn whatsapp" onclick="shareToWhatsApp()">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                            </svg>
                             WhatsApp
                         </button>
                         <button class="share-btn email" onclick="shareViaEmail()">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                            </svg>
                             Email
                         </button>
                         <button class="share-btn copy" id="copyLinkBtn" onclick="copyLink()">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
+                            </svg>
                             <span id="copyLinkText">Copy Link</span>
                         </button>
                     </div>
@@ -489,61 +676,62 @@
             </div>
         </div>
     </main>
-                    </p>
+    </p>
 
-        <!-- Footer -->
+    <!-- Footer -->
     <footer>
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="index.html#prayer">Prayer</a></li>
-                <li><a href="daily-devotion.html">Daily Devotion</a></li>
-                <li><a href="give.html">Give</a></li>
-            </ul>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games/index.html">Kids Games</a></li>
+                    <li><a href="youth/games/index.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="footer-section">
-            <h3>Ministries</h3>
-            <ul>
-                <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
-                <li><a href="ministries/bible-study.html">Bible Study</a></li>
-                <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
-                <li><a href="kids/games/index.html">Kids Games</a></li>
-                <li><a href="youth/games/index.html">Youth Games</a></li>
-                <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
-            </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
+                    Conditions</a></p>
         </div>
-
-        <div class="footer-section">
-            <h3>Contact</h3>
-            <address>
-                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
-                <p>1325 Richardson Street, CA 92408</p>
-                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
-                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
-            </address>
-        </div>
-
-        <div class="footer-section">
-            <h3>Connect</h3>
-            <ul class="social-links">
-                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
-                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
-                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
-        <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
-    </div>
-</footer>
+    </footer>
 
 
 
@@ -579,7 +767,7 @@
                     }
                 }
                 if (!devotionalData) throw lastError || new Error('Failed to load devotional data');
-                
+
                 // Populate day selector
                 const daySelect = document.getElementById('daySelect');
                 devotionalData.devotions.forEach(dev => {
@@ -588,12 +776,12 @@
                     option.textContent = `Day ${dev.day}`;
                     daySelect.appendChild(option);
                 });
-                
+
                 // Load first day or day from URL parameter
                 const urlParams = new URLSearchParams(window.location.search);
                 const dayParam = urlParams.get('day');
                 currentDay = dayParam ? parseInt(dayParam) : 1;
-                
+
                 displayDevotion(currentDay);
                 document.getElementById('loadingMsg').style.display = 'none';
                 document.getElementById('devotionContent').style.display = 'block';
@@ -606,7 +794,7 @@
 
         function displayDevotion(day) {
             if (!devotionalData) return;
-            
+
             const devotion = devotionalData.devotions.find(d => d.day === day);
             if (!devotion) {
                 document.getElementById('errorMsg').textContent = `Day ${day} content is not yet available. Please check back soon!`;
@@ -616,35 +804,35 @@
             }
 
             currentDay = day;
-            
+
             // Update URL without reload
             const url = new URL(window.location);
             url.searchParams.set('day', day);
             window.history.pushState({}, '', url);
-            
+
             // Update day selector
             document.getElementById('daySelect').value = day;
-            
+
             // Update navigation buttons
             document.getElementById('prevDay').disabled = (day === 1);
             document.getElementById('nextDay').disabled = (day === totalDays);
-            
+
             // Display content based on language
             updateContent(devotion);
-            
+
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function updateContent(devotion) {
             const isEnglish = currentLang === 'en';
-            
+
             document.getElementById('devotionTopic').textContent = isEnglish ? devotion.topic : devotion.topicBn;
             document.getElementById('devotionDate').textContent = `Day ${devotion.day} - ${devotion.date}`;
-            
+
             document.getElementById('verseText').textContent = isEnglish ? devotion.keyVerseText : devotion.keyVerseTextBn;
             document.getElementById('verseRef').textContent = `— ${devotion.keyVerse}`;
-            
+
             document.getElementById('reflectionText').textContent = isEnglish ? devotion.reflection : devotion.reflectionBn;
             document.getElementById('prayerText').textContent = isEnglish ? devotion.prayer : devotion.prayerBn;
             document.getElementById('promiseText').textContent = isEnglish ? devotion.biblePromise : devotion.biblePromiseBn;
@@ -652,14 +840,100 @@
 
         function switchLanguage(lang) {
             currentLang = lang;
-            
+
             // Update button states
             document.getElementById('langEn').classList.toggle('active', lang === 'en');
             document.getElementById('langBn').classList.toggle('active', lang === 'bn');
-            
+
             // Update content
             const devotion = devotionalData.devotions.find(d => d.day === currentDay);
             if (devotion) updateContent(devotion);
+        }
+
+        // Social Media Sharing Functions
+        function getShareContent() {
+            const devotion = devotionalData.devotions.find(d => d.day === currentDay);
+            const topic = currentLang === 'en' ? devotion.topic : devotion.topicBn;
+            const verse = currentLang === 'en' ? devotion.keyVerseText : devotion.keyVerseTextBn;
+            const verseRef = devotion.keyVerse;
+            const url = window.location.href;
+
+            const text = `${topic}\n\n"${verse}"\n- ${verseRef}\n\nGratitude Fasting ${devotionalData.year} - Day ${currentDay}`;
+
+            return { text, url, topic, verseRef };
+        }
+
+        function shareToFacebook() {
+            const { url } = getShareContent();
+            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+        }
+
+        function shareToTwitter() {
+            const { text, url } = getShareContent();
+            const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+        }
+
+        function shareToWhatsApp() {
+            const { text, url } = getShareContent();
+            const message = `${text}\n\nRead more: ${url}`;
+            const shareUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(shareUrl, '_blank');
+        }
+
+        function shareViaEmail() {
+            const { text, url, topic } = getShareContent();
+            const subject = `Gratitude Fasting ${devotionalData.year} - Day ${currentDay}: ${topic}`;
+            const body = `${text}\n\nRead the full devotion here:\n${url}\n\nGrace and Praise Bangladeshi Church\nhttps://gracepraise.church`;
+
+            window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function copyLink() {
+            const url = window.location.href;
+            const copyBtn = document.getElementById('copyLinkBtn');
+            const copyText = document.getElementById('copyLinkText');
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(() => {
+                    copyBtn.classList.add('copied');
+                    copyText.textContent = '✓ Copied!';
+
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copied');
+                        copyText.textContent = 'Copy Link';
+                    }, 2000);
+                }).catch(() => fallbackCopyLink(url));
+            } else {
+                fallbackCopyLink(url);
+            }
+        }
+
+        function fallbackCopyLink(url) {
+            const textArea = document.createElement('textarea');
+            textArea.value = url;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                const copyBtn = document.getElementById('copyLinkBtn');
+                const copyText = document.getElementById('copyLinkText');
+                copyBtn.classList.add('copied');
+                copyText.textContent = '✓ Copied!';
+
+                setTimeout(() => {
+                    copyBtn.classList.remove('copied');
+                    copyText.textContent = 'Copy Link';
+                }, 2000);
+            } catch (err) {
+                alert('Unable to copy link. Please copy manually: ' + url);
+            }
+
+            document.body.removeChild(textArea);
         }
 
         // Event Listeners
@@ -691,94 +965,6 @@
         // Initialize on page load
         loadDevotionalData();
 
-        // Social Media Sharing Functions
-        function getShareContent() {
-            const devotion = devotionalData.devotions.find(d => d.day === currentDay);
-            const topic = currentLang === 'en' ? devotion.topic : devotion.topicBn;
-            const verse = currentLang === 'en' ? devotion.keyVerseText : devotion.keyVerseTextBn;
-            const verseRef = devotion.keyVerse;
-            const url = window.location.href;
-            
-            const text = `${topic}\n\n"${verse}"\n- ${verseRef}\n\nGratitude Fasting ${devotionalData.year} - Day ${currentDay}`;
-            
-            return { text, url, topic, verse, verseRef };
-        }
-
-        function shareToFacebook() {
-            const { url } = getShareContent();
-            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-            window.open(shareUrl, '_blank', 'width=600,height=400');
-        }
-
-        function shareToTwitter() {
-            const { text, url } = getShareContent();
-            const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-            window.open(shareUrl, '_blank', 'width=600,height=400');
-        }
-
-        function shareToWhatsApp() {
-            const { text, url } = getShareContent();
-            const message = `${text}\n\nRead more: ${url}`;
-            const shareUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-            window.open(shareUrl, '_blank');
-        }
-
-        function shareViaEmail() {
-            const { text, url, topic } = getShareContent();
-            const subject = `Gratitude Fasting ${devotionalData.year} - Day ${currentDay}: ${topic}`;
-            const body = `${text}\n\nRead the full devotion here:\n${url}\n\nGrace and Praise Bangladeshi Church\nhttps://gracepraise.church`;
-            
-            window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        }
-
-        function copyLink() {
-            const url = window.location.href;
-            const copyBtn = document.getElementById('copyLinkBtn');
-            const copyText = document.getElementById('copyLinkText');
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(url).then(() => {
-                    copyBtn.classList.add('copied');
-                    copyText.textContent = '✓ Copied!';
-                    
-                    setTimeout(() => {
-                        copyBtn.classList.remove('copied');
-                        copyText.textContent = 'Copy Link';
-                    }, 2000);
-                }).catch(() => {
-                    fallbackCopyLink(url);
-                });
-            } else {
-                fallbackCopyLink(url);
-            }
-        }
-
-        function fallbackCopyLink(url) {
-            const textArea = document.createElement('textarea');
-            textArea.value = url;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                const copyBtn = document.getElementById('copyLinkBtn');
-                const copyText = document.getElementById('copyLinkText');
-                copyBtn.classList.add('copied');
-                copyText.textContent = '✓ Copied!';
-                
-                setTimeout(() => {
-                    copyBtn.classList.remove('copied');
-                    copyText.textContent = 'Copy Link';
-                }, 2000);
-            } catch (err) {
-                alert('Unable to copy link. Please copy manually: ' + url);
-            }
-            
-            document.body.removeChild(textArea);
-        }
-
         // Web Share API (for mobile devices with native share)
         if (navigator.share) {
             const shareSection = document.querySelector('.share-section');
@@ -791,7 +977,7 @@
                 </svg>
                 Share
             `;
-            nativeShareBtn.onclick = async function() {
+            nativeShareBtn.onclick = async function () {
                 const { text, url, topic } = getShareContent();
                 try {
                     await navigator.share({
@@ -805,12 +991,71 @@
                     }
                 }
             };
-            
+
             document.querySelector('.share-buttons').prepend(nativeShareBtn);
         }
     </script>
-    
+
+    <!-- Enhanced UX JavaScript -->
+    <script>
+        // Update progress bar when day changes
+        function updateProgressBar(day) {
+            const totalDays = document.querySelector('.days-display').textContent || 26;
+            const progress = (day / totalDays) * 100;
+            document.getElementById('currentDayProgress').textContent = day;
+            document.getElementById('progressBarFill').style.width = progress + '%';
+        }
+
+        // Scroll reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all devotion sections for scroll reveal
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.devotion-section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Update progress bar on initial load
+            const urlParams = new URLSearchParams(window.location.search);
+            const dayParam = urlParams.get('day');
+            const initialDay = dayParam ? parseInt(dayParam) : 1;
+            updateProgressBar(initialDay);
+        });
+
+        // Hook into the existing displayDevotion function to update progress
+        const originalDisplayDevotion = window.displayDevotion;
+        if (typeof originalDisplayDevotion === 'function') {
+            window.displayDevotion = function (day) {
+                originalDisplayDevotion(day);
+                updateProgressBar(day);
+
+                // Re-observe sections for animation on day change
+                setTimeout(() => {
+                    const sections = document.querySelectorAll('.devotion-section');
+                    sections.forEach(section => {
+                        section.classList.remove('fade-in-up');
+                        observer.observe(section);
+                    });
+                }, 100);
+            };
+        }
+    </script>
+
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
 </body>
+
 </html>

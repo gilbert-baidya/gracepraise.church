@@ -4977,3 +4977,59 @@ body[data-theme="dark"] textarea::placeholder {
 }
 
 /* System preference removed - dark mode now manual only via toggle button */
+
+/* ========================================
+   DARK MODE COMPATIBILITY FOR INLINE STYLES
+   (Fixes Contrast on Fasting Pages)
+   ======================================== */
+
+/* Force dark backgrounds on inline-styled cards */
+body[data-theme="dark"] .content-page-body div[style*="background: white"],
+body[data-theme="dark"] .content-page-body div[style*="background:white"] {
+    background: #1f2937 !important;
+    border-color: #374151 !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+}
+
+body[data-theme="dark"] .content-page-body div[style*="background: linear-gradient"] {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
+    border-color: #374151 !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+}
+
+/* Force text colors in dark mode */
+body[data-theme="dark"] .content-page-body h2,
+body[data-theme="dark"] .content-page-body h3,
+body[data-theme="dark"] .content-page-body h4,
+body[data-theme="dark"] .content-page-body h5,
+body[data-theme="dark"] .content-page-body strong {
+    color: #f3f4f6 !important;
+}
+
+body[data-theme="dark"] .content-page-body p,
+body[data-theme="dark"] .content-page-body li,
+body[data-theme="dark"] .content-page-body span,
+body[data-theme="dark"] .content-page-body div {
+    color: #d1d5db !important;
+}
+
+/* Exceptions for large icons/emojis */
+body[data-theme="dark"] .content-page-body div[style*="font-size: 3.5rem"],
+body[data-theme="dark"] .content-page-body div[style*="font-size: 4rem"],
+body[data-theme="dark"] .content-page-body span[style*="font-size: 4rem"] {
+    filter: brightness(0.9);
+}
+
+/* Specific Accent Preservation (Optional - creates colored borders instead of backgrounds) */
+body[data-theme="dark"] .content-page-body div[style*="border-left"] {
+    background: #1e293b !important;
+}
+
+/* Fix links/buttons in content body */
+body[data-theme="dark"] .content-page-body a {
+    color: #60a5fa !important;
+}
+body[data-theme="dark"] .content-page-body a[style*="background"] {
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+}
