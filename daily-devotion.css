@@ -1,0 +1,1334 @@
+        /* ===== iOS Safari Fixed Position Fix ===== */
+        /* Global box-sizing */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            overflow-y: auto;
+        }
+
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            overflow-y: visible;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* iOS Safari / iPad specific fix - DO NOT use overflow-x: hidden or position: relative */
+        /* These break position: fixed on iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            html {
+                overflow-x: clip !important;
+            }
+
+            body {
+                overflow-x: clip !important;
+            }
+        }
+
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img,
+        video,
+        iframe,
+        embed,
+        object {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Dark mode toggle styles — match homepage */
+        .dark-mode-toggle {
+            background: rgba(45, 122, 143, 0.1);
+            border: 2px solid rgba(45, 122, 143, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-left: 15px;
+            font-size: 20px;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(45, 122, 143, 0.2);
+            border-color: rgba(45, 122, 143, 0.5);
+            transform: scale(1.05);
+        }
+
+        .dark-mode-toggle .sun-icon,
+        .dark-mode-toggle .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dark-mode-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(-180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        @media (max-width: 768px) {
+            .dark-mode-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+        }
+
+        /* iPad-only horizontal overflow fix (safe, non-breaking) */
+        /* Prevent box-shadows and transforms from causing overflow */
+
+        /* Contain shadows within viewport */
+        .devotion-controls,
+        .devotion-section,
+        .share-section {
+            max-width: calc(100% - 2px);
+        }
+
+        /* ===== END iPad horizontal overflow fix ===== */
+
+        /* Daily Devotion Page Specific Styles */
+
+        .devotion-hero {
+            background: linear-gradient(rgba(45, 122, 143, 0.85), rgba(31, 82, 96, 0.9));
+            /* Background image removed - use solid gradient for consistency */
+            color: var(--color-text-inverse);
+            padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-xl);
+            text-align: center;
+            overflow: visible;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .devotion-hero h1 {
+            color: var(--color-text-inverse);
+            font-size: var(--font-4xl);
+            margin-bottom: var(--spacing-lg); /* Increased from sm */
+            font-weight: var(--font-bold);
+        }
+
+        .devotion-hero h2 {
+            color: var(--color-secondary);
+            font-size: var(--font-xl);
+            font-weight: var(--font-normal);
+            margin-bottom: var(--spacing-lg); /* Increased from md */
+            opacity: 0.95;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .devotion-date {
+            font-size: var(--font-lg);
+            font-weight: var(--font-semibold); /* Increased from medium */
+            color: var(--color-text-inverse);
+            opacity: 1; /* Increased from 0.9 */
+            background: rgba(255, 255, 255, 0.15); /* Add subtle background */
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-md);
+            display: inline-block;
+        }
+
+        /* Controls */
+        .devotion-controls {
+            max-width: 800px;
+            margin: var(--spacing-xl) auto var(--spacing-xl);
+            padding: var(--spacing-lg); /* Increased from md */
+            background: var(--color-surface);
+            box-shadow: var(--shadow-lg); /* Enhanced shadow */
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border); /* Add border for definition */
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg); /* Increased from md for better separation */
+            z-index: 2;
+            width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            box-sizing: border-box;
+            /* iOS SAFARI OVERFLOW FIX */
+        }
+
+        .devotion-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-xl) 0;
+            color: var(--color-text-light);
+            font-size: var(--font-lg);
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 3px solid rgba(148, 163, 184, 0.3);
+            border-top-color: var(--color-primary);
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .devotion-controls-row {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            box-sizing: border-box;
+            /* iOS SAFARI OVERFLOW FIX */
+            min-width: 0;
+            /* iOS SAFARI OVERFLOW FIX - prevents flex overflow */
+        }
+
+        .devotion-controls-row.date-row,
+        .devotion-controls-row.jump-row {
+            justify-content: center;
+        }
+
+        /* ================================
+           Dark mode adjustments (UI + share)
+           ================================ */
+        body[data-theme="dark"] .devotion-controls,
+        body[data-theme="dark"] .devotion-container,
+        body[data-theme="dark"] .devotion-section,
+        body[data-theme="dark"] .simple-share-section,
+        body[data-theme="dark"] .share-section {
+            background: #1e293b; /* Lighter than #0f172a for better contrast */
+            color: #e2e8f0; /* Brighter than #cbd5e1 */
+            border: 1px solid rgba(148, 163, 184, 0.3); /* Increased from 0.2 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+        }
+
+        body[data-theme="dark"] .language-toggle,
+        body[data-theme="dark"] .jump-controls select,
+        body[data-theme="dark"] .date-pill,
+        body[data-theme="dark"] .date-nav-btn,
+        body[data-theme="dark"] .devotion-nav-btn,
+        body[data-theme="dark"] .simple-share-btn,
+        body[data-theme="dark"] #goToDateBtn,
+        body[data-theme="dark"] #todayBtn {
+            background: #0f172a; /* Darker background */
+            color: #f1f5f9; /* Brighter text */
+            border: 2px solid rgba(148, 163, 184, 0.4); /* Thicker, more visible border */
+        }
+
+        /* Dark mode hover states for better interactivity */
+        body[data-theme="dark"] .date-pill:hover,
+        body[data-theme="dark"] .date-nav-btn:hover,
+        body[data-theme="dark"] .devotion-nav-btn:hover,
+        body[data-theme="dark"] .simple-share-btn:hover,
+        body[data-theme="dark"] #todayBtn:hover {
+            background: #1e293b;
+            border-color: rgba(148, 163, 184, 0.6);
+        }
+
+        body[data-theme="dark"] .date-pill.active,
+        body[data-theme="dark"] .language-toggle button.active,
+        body[data-theme="dark"] #goToDateBtn {
+            background: #2563eb !important;
+            /* Force primary blue */
+            color: #ffffff !important;
+            border-color: #2563eb !important;
+        }
+
+        body[data-theme="dark"] .language-toggle {
+            background: #111827 !important;
+            border-color: #374151 !important;
+        }
+
+        body[data-theme="dark"] .language-toggle button {
+            color: #9ca3af !important;
+            /* inactive text color */
+        }
+
+
+        body[data-theme="dark"] .devotion-meta,
+        body[data-theme="dark"] .devotion-text,
+        body[data-theme="dark"] .devotion-section p,
+        body[data-theme="dark"] .devotion-section h3 {
+            color: #cbd5e1;
+        }
+
+        .language-toggle {
+            display: inline-flex;
+            border: none;
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            background: transparent;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-toggle button {
+            border: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: var(--spacing-sm) var(--spacing-xl);
+            font-weight: var(--font-semibold);
+            cursor: pointer;
+            color: #6b7280;
+            transition: all var(--transition-base);
+            font-size: var(--font-lg);
+            min-width: 120px;
+        }
+
+        .language-toggle button.active {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        
+        .language-toggle button:not(.active):hover {
+            background: rgba(255, 255, 255, 1);
+            color: #374151;
+        }
+
+        .language-toggle button:focus-visible {
+            outline: 3px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        /* iOS / Tablet Horizontal Scroll Lock — SAFE FIX */
+        .date-strip-wrapper {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            width: 100%;
+            max-width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .date-strip {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: var(--spacing-sm);
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            scrollbar-width: thin;
+            max-width: 100%;
+            box-sizing: border-box;
+            justify-content: flex-start;
+            align-items: center;
+            min-width: 0;
+            flex: 1;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .date-pill {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid var(--color-border); /* Thicker border */
+            border-radius: var(--radius-full);
+            background: var(--color-surface);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            min-width: 82px;
+            color: var(--color-text);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+        }
+
+        .date-pill strong {
+            display: block;
+            color: var(--color-primary);
+            font-size: var(--font-base);
+        }
+
+        .date-pill span {
+            font-size: var(--font-sm);
+            color: var(--color-text-light);
+        }
+
+        .date-pill.active {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-text-inverse);
+            border-color: transparent;
+            box-shadow: var(--shadow-md);
+        }
+
+        .date-pill.active span,
+        .date-pill.active strong {
+            color: var(--color-text-inverse);
+        }
+
+        .date-pill:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-1px);
+        }
+
+        /* iPad-only horizontal overflow fix (safe, non-breaking) */
+        /* Prevent transform from causing horizontal scroll */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .date-pill:hover {
+                transform: scale(0.98);
+            }
+        }
+
+        .date-nav-btn {
+            border: 2px solid var(--color-border); /* Thicker border */
+            background: var(--color-surface);
+            border-radius: var(--radius-full);
+            padding: var(--spacing-sm) var(--spacing-md);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            color: var(--color-text);
+            font-weight: var(--font-semibold); /* Add font weight */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+
+        .date-nav-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: rgba(37, 99, 235, 0.05); /* Subtle hover background */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n            transform: scale(1.05);\n        }
+
+        .jump-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            max-width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            box-sizing: border-box;
+            /* iOS SAFARI OVERFLOW FIX */
+        }
+
+        .jump-controls select,
+        .jump-controls button {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            color: var(--color-text);
+            cursor: pointer;
+            font-weight: var(--font-medium);
+            transition: all var(--transition-base);
+            max-width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            box-sizing: border-box;
+            /* iOS SAFARI OVERFLOW FIX */
+        }
+
+        .jump-controls button.primary {
+            background: var(--color-primary);
+            color: var(--color-text-inverse);
+            border: none;
+        }
+
+        .jump-controls button.primary:hover {
+            filter: brightness(0.96);
+        }
+
+        .jump-controls button:focus-visible,
+        .jump-controls select:focus-visible {
+            outline: 3px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        .devotion-meta {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-light);
+            font-size: var(--font-sm);
+        }
+
+        /* Layout helpers */
+        .devotion-container {
+            z-index: 1;
+            margin-top: var(--spacing-xl);
+            width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            max-width: 800px;
+            box-sizing: border-box;
+            /* iOS SAFARI OVERFLOW FIX */
+        }
+
+        /* Hide the interim header box to keep the layout clean */
+        #devotionHeader {
+            display: none;
+        }
+
+
+        .devotion-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+            width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            box-sizing: border-box;
+            /* iOS SAFARI OVERFLOW FIX */
+        }
+
+        .devotion-section {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            max-width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            box-sizing: border-box;
+            /* iOS SAFARI OVERFLOW FIX */
+        }
+
+        .scripture-section {
+            background: linear-gradient(to bottom right, #faf8f5, #f5f1ea);
+            border-left: 4px solid var(--color-secondary);
+        }
+
+        .scripture-section h3 {
+            color: var(--color-primary);
+            font-size: var(--font-2xl);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .scripture-section h3::before {
+            content: '📖';
+            font-size: var(--font-3xl);
+        }
+
+        .scripture-text {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: var(--font-lg);
+            line-height: var(--leading-relaxed);
+            font-style: italic;
+            color: var(--color-text);
+            margin: 0;
+            padding: var(--spacing-md);
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
+        }
+
+        .reflection-section h3,
+        .prayer-section h3 {
+            color: var(--color-primary);
+            font-size: var(--font-2xl);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .reflection-section h3::before {
+            content: '💭';
+            font-size: var(--font-3xl);
+        }
+
+        .prayer-section h3::before {
+            content: '🙏';
+            font-size: var(--font-3xl);
+        }
+
+        .reflection-section {
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .prayer-section {
+            border-left: 4px solid var(--color-accent);
+            background: linear-gradient(to bottom right, #fefefe, #faf8f5);
+        }
+
+        .devotion-text {
+            font-size: var(--font-base);
+            line-height: var(--leading-relaxed);
+            color: var(--color-text);
+        }
+
+        /* Share Section */
+        .share-section {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .share-section h3 {
+            color: var(--color-primary);
+            font-size: var(--font-xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+            margin-top: var(--spacing-md);
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: none;
+            border-radius: var(--radius-full);
+            font-size: var(--font-base);
+            font-weight: var(--font-medium);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            text-decoration: none;
+            color: var(--color-text-inverse);
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* iPad-only horizontal overflow fix (safe, non-breaking) */
+        /* Contain shadow within viewport */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .share-btn:hover {
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            }
+        }
+
+        .share-btn:active {
+            transform: translateY(0);
+        }
+
+        .share-btn:focus-visible {
+            outline: 3px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        .share-btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+        }
+
+        .share-btn-facebook {
+            background: linear-gradient(135deg, #1877F2, #0C63D4);
+        }
+
+        .share-btn-twitter {
+            background: linear-gradient(135deg, #000000, #333333);
+        }
+
+        .share-btn-email {
+            background: linear-gradient(135deg, #6b6b6b, #4a4a4a);
+        }
+
+        .share-btn-copy {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+        }
+
+        .share-btn-copy.copied {
+            background: linear-gradient(135deg, #28a745, #218838);
+        }
+
+        /* Loading/Fallback State */
+        .devotion-loading {
+            text-align: center;
+            padding: var(--spacing-2xl) var(--spacing-md);
+            color: var(--color-text-light);
+        }
+
+        .devotion-loading p {
+            font-size: var(--font-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .devotion-fallback {
+            text-align: center;
+            padding: var(--spacing-2xl) var(--spacing-lg);
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .devotion-fallback::before {
+            content: '📖';
+            font-size: 4rem;
+            display: block;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.3;
+        }
+
+        .devotion-fallback h3 {
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-2xl);
+        }
+
+        .devotion-fallback p {
+            color: var(--color-text);
+            font-size: var(--font-lg);
+            line-height: var(--leading-relaxed);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .devotion-fallback .fallback-scripture {
+            background: linear-gradient(to bottom right, #faf8f5, #f5f1ea);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--color-secondary);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .devotion-fallback .fallback-scripture p {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-style: italic;
+            color: var(--color-text);
+            font-size: var(--font-base);
+            margin: 0;
+        }
+
+        .devotion-fallback .fallback-links {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: var(--spacing-xl);
+        }
+
+        .devotion-fallback .fallback-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: var(--color-primary);
+            color: var(--color-text-inverse);
+            text-decoration: none;
+            border-radius: var(--radius-full);
+            font-weight: var(--font-medium);
+            transition: all var(--transition-base);
+        }
+
+        .devotion-fallback .fallback-links a:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Action Buttons Section */
+        .action-buttons-section {
+            max-width: 800px;
+            margin: var(--spacing-xl) auto 0;
+            padding: 0 var(--spacing-md);
+            text-align: center;
+        }
+
+        .action-buttons-section h3 {
+            color: var(--color-primary);
+            font-size: var(--font-xl);
+            margin-bottom: var(--spacing-md);
+            font-weight: var(--font-semibold);
+        }
+
+        .action-buttons-section p {
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-base);
+        }
+
+        .action-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Fixed 3 columns for symmetry */
+            gap: var(--spacing-lg); /* Increased gap */
+            margin-bottom: var(--spacing-xl);
+        }
+
+        /* Mobile: stack cards */
+        @media (max-width: 768px) {
+            .action-buttons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Tablet: 2 columns with centered last card */
+        @media (min-width: 769px) and (max-width: 900px) {
+            .action-buttons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-xl); /* Increased padding */
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: var(--color-text);
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-md); /* Enhanced shadow */
+        }
+
+        .action-btn:hover {
+            border-color: var(--color-secondary);
+            background: linear-gradient(to bottom, var(--color-surface), rgba(255, 255, 0, 0.05)); /* Subtle gradient */
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px); /* More pronounced lift */
+        }
+
+        /* Dark mode action buttons */
+        body[data-theme="dark"] .action-btn {
+            background: #1e293b;
+            border-color: rgba(148, 163, 184, 0.3);
+        }
+
+        body[data-theme="dark"] .action-btn:hover {
+            background: linear-gradient(to bottom, #1e293b, rgba(255, 255, 0, 0.1));
+            border-color: rgba(148, 163, 184, 0.5);
+        }
+
+        .action-btn:focus-visible {
+            outline: 3px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        .action-btn-icon {
+            font-size: var(--font-3xl);
+            line-height: 1;
+        }
+
+        .action-btn-title {
+            font-weight: var(--font-semibold);
+            font-size: var(--font-lg);
+            color: var(--color-primary);
+        }
+
+        .action-btn-desc {
+            font-size: var(--font-sm);
+            color: var(--color-text-light);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* Simple Share Section */
+        .simple-share-section {
+            margin-top: var(--spacing-md); /* Reduced from lg */
+            padding: var(--spacing-md); /* Add padding all around */
+            background: rgba(255, 255, 0, 0.05); /* Subtle yellow tint to connect with theme */
+            border: 1px solid var(--color-border); /* Full border instead of just top */
+            border-radius: var(--radius-md); /* Add border radius */
+            text-align: center;
+            width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            max-width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            box-sizing: border-box;
+            /* iOS SAFARI OVERFLOW FIX */
+        }
+
+        /* Dark mode for share section */
+        body[data-theme="dark"] .simple-share-section {
+            background: rgba(255, 255, 0, 0.08);
+            border-color: rgba(148, 163, 184, 0.3);
+        }
+
+        .simple-share-section p {
+            font-size: var(--font-sm);
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .simple-share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            max-width: 100%;
+            /* iOS SAFARI OVERFLOW FIX */
+            box-sizing: border-box;
+            /* iOS SAFARI OVERFLOW FIX */
+        }
+
+        .simple-share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-sm) var(--spacing-lg); /* Increased padding */
+            background: var(--color-surface);
+            border: 2px solid var(--color-border); /* Thicker border */
+            border-radius: var(--radius-full);
+            font-size: var(--font-sm);
+            font-weight: var(--font-medium); /* Add font weight */
+            color: var(--color-text);
+            text-decoration: none;
+            transition: all var(--transition-base);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+
+        .simple-share-btn:hover {
+            border-color: var(--color-secondary);
+            background: linear-gradient(135deg, var(--color-background), rgba(255, 255, 0, 0.1));
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .simple-share-btn:focus-visible {
+            outline: 2px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        /* Devotion Navigation */
+        .devotion-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: var(--spacing-xl) auto 0;
+            padding: var(--spacing-lg) var(--spacing-md);
+            gap: var(--spacing-md);
+        }
+
+        .devotion-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-xl); /* Increased padding */
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); /* Active gradient */
+            border: 2px solid var(--color-primary); /* Primary border */
+            border-radius: var(--radius-lg); /* Increased border radius */
+            font-size: var(--font-base);
+            font-weight: var(--font-semibold); /* Bolder text */
+            color: var(--color-text-inverse); /* White text */
+            text-decoration: none;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-md); /* Add shadow */
+        }
+
+        .devotion-nav-btn:hover {
+            background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+            border-color: var(--color-primary-dark);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .devotion-nav-btn.prev:hover {
+            transform: translateX(-2px);
+        }
+
+        .devotion-nav-btn.next:hover {
+            transform: translateX(2px);
+        }
+
+        /* iPad-only horizontal overflow fix (safe, non-breaking) */
+        /* Prevent translateX from causing horizontal scroll on iPad */
+        @media (min-width: 768px) and (max-width: 1024px) {
+
+            .devotion-nav-btn.prev:hover,
+            .devotion-nav-btn.next:hover {
+                transform: translateY(-1px);
+            }
+        }
+
+        .devotion-nav-btn:focus-visible {
+            outline: 3px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        .devotion-nav-btn[disabled] {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+
+            /* Reduce hero height on mobile so content starts higher */
+            .devotion-hero {
+                padding: var(--spacing-md) var(--spacing-sm) var(--spacing-sm);
+            }
+
+            .devotion-hero h1 {
+                font-size: var(--font-3xl);
+            }
+
+            .devotion-hero h2 {
+                font-size: var(--font-lg);
+            }
+
+            .devotion-controls {
+                /* Avoid heavy overlap with hero and tighten padding */
+                margin-top: var(--spacing-sm);
+                padding: var(--spacing-sm);
+                gap: var(--spacing-sm);
+            }
+
+            .devotion-controls-row {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: var(--spacing-xs);
+            }
+
+            .devotion-controls-row.date-row,
+            .devotion-controls-row.jump-row {
+                flex-direction: column;
+            }
+
+            .devotion-meta {
+                justify-content: center;
+                margin-top: var(--spacing-xs);
+            }
+
+            /* iOS / Tablet Horizontal Scroll Lock — SAFE FIX */
+            .date-strip-wrapper {
+                justify-content: center;
+                padding: 0;
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            .date-strip {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .date-strip::-webkit-scrollbar {
+                display: none;
+            }
+
+            .date-strip .date-pill {
+                flex-shrink: 0;
+                min-width: 70px;
+                padding: var(--spacing-xs) var(--spacing-sm);
+            }
+
+            .language-toggle button {
+                padding: var(--spacing-xs) var(--spacing-md);
+            }
+
+            .jump-controls {
+                width: 100%;
+                justify-content: center;
+                gap: var(--spacing-sm);
+                flex-wrap: wrap;
+            }
+
+            /* Keep dropdowns and Go button aligned and touch-friendly */
+            .jump-controls select,
+            .jump-controls button {
+                min-height: 44px;
+            }
+
+            .jump-controls select {
+                flex: 1 1 42%;
+                min-width: 120px;
+            }
+
+            .jump-controls button {
+                flex: 0 0 auto;
+                min-width: 64px;
+            }
+
+            /* Reduce excess space before first card */
+            .devotion-container {
+                padding-top: var(--spacing-sm);
+                margin-top: var(--spacing-md);
+            }
+
+            .devotion-container {
+                padding: var(--spacing-lg) var(--spacing-sm);
+            }
+
+            .devotion-section {
+                padding: var(--spacing-md);
+            }
+
+            .scripture-text {
+                font-size: var(--font-base);
+            }
+
+            .share-buttons {
+                gap: var(--spacing-sm);
+            }
+
+            .share-btn {
+                font-size: var(--font-sm);
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
+
+            /* ===== iPad-only horizontal overflow fix (safe, non-breaking) ===== */
+            /* Prevent any element from causing horizontal overflow on mobile/tablet */
+
+            /* Force all content to stay within viewport */
+            html,
+            body {
+                overflow-x: clip !important;
+                max-width: 100% !important;
+                width: 100%;
+            }
+
+            /* Lock all containers to viewport width */
+            * {
+                max-width: 100%;
+            }
+
+            /* Ensure date-strip-wrapper doesn't overflow */
+            .date-strip-wrapper {
+                max-width: 100%;
+                width: 100%;
+                overflow: hidden;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            /* Make date-strip scrollable horizontally within its container */
+            .date-strip {
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                flex-wrap: nowrap;
+            }
+
+            /* Hide scrollbar on Webkit browsers */
+            .date-strip::-webkit-scrollbar {
+                display: none;
+            }
+
+            /* Ensure date pills don't cause overflow */
+            .date-pill {
+                flex-shrink: 0;
+                min-width: 70px;
+                max-width: 80px;
+                padding: var(--spacing-xs) var(--spacing-sm);
+                box-sizing: border-box;
+            }
+
+            /* Ensure navigation buttons don't overflow */
+            .date-nav-btn {
+                flex-shrink: 0;
+                min-width: 40px;
+                padding: var(--spacing-xs) var(--spacing-sm);
+            }
+
+            /* Constrain all containers to viewport width */
+            .devotion-controls,
+            .devotion-container,
+            .devotion-section,
+            .share-section,
+            main {
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+                overflow-x: clip;
+            }
+
+            /* iPad-only horizontal overflow fix (safe, non-breaking) */
+            /* Ensure date strip container doesn't cause page scroll */
+            .date-strip-wrapper {
+                contain: layout;
+            }
+
+            /* Prevent any overflow from transforms or shadows */
+            .date-pill,
+            .date-nav-btn,
+            .share-btn,
+            .devotion-nav-btn {
+                will-change: auto;
+            }
+
+            /* iPad-only horizontal overflow fix (safe, non-breaking) */
+            /* Ensure hero section doesn't overflow */
+            .devotion-hero {
+                max-width: 100%;
+                width: 100%;
+                overflow: hidden;
+                box-sizing: border-box;
+            }
+
+            /* Prevent text content from causing overflow */
+            .scripture-text,
+            .devotion-text {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                max-width: 100%;
+            }
+
+            /* Ensure images don't overflow */
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            /* Fix share buttons on mobile */
+            .share-buttons {
+                max-width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            /* Ensure jump controls don't overflow */
+            .jump-controls {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .jump-controls select {
+                max-width: 45%;
+            }
+
+            /* Prevent text content from causing overflow */
+            .scripture-text,
+            .devotion-text {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                max-width: 100%;
+            }
+
+            /* Ensure images don't overflow */
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            /* Fix share buttons on mobile */
+            .share-buttons,
+            .simple-share-buttons {
+                max-width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            /* Prevent flex/grid items from overflowing */
+            .devotion-controls-row>*,
+            .jump-controls>*,
+            .simple-share-buttons>* {
+                min-width: 0;
+                flex-shrink: 1;
+            }
+        }
+
+        /* ===== iPad-only horizontal overflow fix (safe, non-breaking) ===== */
+        /* Dedicated iPad media query to prevent horizontal scrolling */
+        @media (min-width: 768px) and (max-width: 1024px) {
+
+            /* Lock viewport at root level */
+            html {
+                overflow-x: clip !important;
+                max-width: 100% !important;
+            }
+
+            body {
+                overflow-x: clip !important;
+                max-width: 100% !important;
+            }
+
+            /* Ensure header/nav stays within viewport */
+
+            /* Contain all major sections */
+            main,
+            .devotion-hero,
+            .devotion-controls,
+            .devotion-container,
+            .devotion-section,
+            .share-section,
+            .action-buttons-section {
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+                overflow-x: clip;
+            }
+
+            /* Prevent box-shadows from extending beyond viewport */
+            .devotion-controls,
+            .devotion-section,
+            .share-section {
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
+
+            /* Ensure date strip doesn't cause page overflow */
+            .date-strip-wrapper {
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            .date-strip {
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Replace horizontal transforms with safe alternatives */
+            .devotion-nav-btn:hover {
+                transform: translateY(-1px);
+            }
+
+            /* Prevent any translateX that might cause overflow */
+            .share-btn:hover {
+                transform: scale(0.98);
+            }
+
+            /* Ensure all images respect viewport */
+            img {
+                max-width: 100% !important;
+                height: auto;
+            }
+        }
