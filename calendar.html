@@ -155,7 +155,7 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 1px;
-            background: #e8e4dd;
+            background: var(--border-subtle);
             border-radius: var(--radius-lg);
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(30, 58, 95, 0.06);
@@ -168,7 +168,7 @@
             text-align: center;
             padding: var(--spacing-md);
             font-size: var(--font-sm);
-            background: #ffffff;
+            background: var(--bg-card-surface);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -182,24 +182,24 @@
             padding: var(--spacing-sm);
             cursor: pointer;
             transition: background var(--transition-base);
-            background: #faf8f5;
+            background: var(--bg-page);
             border: none;
             font-size: var(--font-base);
             color: var(--color-text);
         }
 
         .calendar-grid .day:hover {
-            background: #f5f1ea;
+            background: var(--bg-section);
         }
 
         .calendar-grid .day.other-month {
             opacity: 0.35;
-            background: #fcfcfc;
+            background: var(--bg-card-surface);
         }
 
         .calendar-grid .day.today {
-            background: var(--color-primary);
-            color: var(--color-text-inverse);
+            background: var(--brand-primary);
+            color: var(--text-inverse);
             font-weight: var(--font-bold);
         }
 
@@ -208,18 +208,25 @@
         }
 
         .calendar-grid .day.has-event {
-            background: linear-gradient(135deg, #c9a961 0%, #d4af6a 100%);
-            color: var(--color-text-inverse);
+            background: linear-gradient(135deg, var(--brand-secondary) 0%, var(--brand-accent) 100%);
+            color: var(--text-inverse);
             font-weight: var(--font-semibold);
         }
 
         .calendar-grid .day.has-event:hover {
-            background: linear-gradient(135deg, #b89550 0%, #c9a961 100%);
+            background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-secondary) 100%);
         }
         
         /* Subtle Sunday highlighting */
         .calendar-grid .day.sunday:not(.other-month) {
-            background: #f5f1ea;
+            background: var(--bg-section);
+        }
+
+        body.dark .calendar-grid .day.other-month,
+        body[data-theme="dark"] .calendar-grid .day.other-month {
+            background: var(--bg-section);
+            color: var(--text-muted);
+            opacity: 0.5;
         }
         
         /* Navigation button hover states */
@@ -748,7 +755,7 @@
                 <li class="nav-dropdown">
                     <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="daily-devotion.html">Devotion Overview</a></li>
+                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
                         <li><a href="couples-devotion.html">Couples Devotion</a></li>
                         <li><a href="family-devotion.html">Family Devotion</a></li>
                         <li><a href="youth-devotion.html">Youth Devotion</a></li>

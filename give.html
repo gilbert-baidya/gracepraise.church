@@ -107,25 +107,8 @@
             margin-left: 10px;
         }
     }
-</style>    <!-- Tailwind CDN for utility classes -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1e3a5f',
-                        'primary-dark': '#152b47',
-                        secondary: '#c9a961',
-                        accent: '#d4af6a',
-                        background: '#faf8f5',
-                        border: '#e8e4dd'
-                    }
-                }
-            }
-        }
-    </script>
-    
+</style>
+
     <style>
         /* Skip link for accessibility */
         .skip-link {
@@ -432,30 +415,16 @@
             gap: var(--spacing-md);
             margin-top: var(--spacing-xl);
         }
-        
-        .btn-payment {
+
+        .payment-buttons .btn {
             padding: var(--spacing-md) var(--spacing-xl);
             font-size: var(--font-lg);
             font-weight: var(--font-semibold);
-            border: none;
-            border-radius: var(--radius-lg);
-            cursor: pointer;
-            transition: all var(--transition-base);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: var(--spacing-sm);
-        }
-        
-        .btn-primary {
-            background: var(--color-primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: var(--color-primary-dark);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
+            width: 100%;
         }
         
         /* QR Code Section */
@@ -793,7 +762,7 @@
                     <li class="nav-dropdown">
                         <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="daily-devotion.html">Devotion Overview</a></li>
+                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
                             <li><a href="couples-devotion.html">Couples Devotion</a></li>
                             <li><a href="family-devotion.html">Family Devotion</a></li>
                             <li><a href="youth-devotion.html">Youth Devotion</a></li>
@@ -932,10 +901,10 @@
                             </div>
 
                             <div class="payment-buttons">
-                                <button type="button" class="btn-payment btn-primary" aria-label="Continue with PayPal">
+                                <button type="button" class="btn btn-primary" aria-label="Continue with PayPal">
                                     <span>Continue with PayPal</span>
                                 </button>
-                                <button type="button" class="btn-payment btn-primary" aria-label="Continue with credit or debit card">
+                                <button type="button" class="btn btn-primary" aria-label="Continue with credit or debit card">
                                     <span>Continue with Card</span>
                                 </button>
                             </div>

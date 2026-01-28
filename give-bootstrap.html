@@ -27,6 +27,9 @@
     <meta property="twitter:title" content="Give | GPBC">
     <meta property="twitter:description" content="Support our ministry through secure online giving">
     <meta property="twitter:image" content="https://gracepraise.church/images/og-give.jpg">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="redesign-styles.css">
     
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -304,40 +307,77 @@
     <!-- Skip to main content -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
-    <!-- Header/Nav (Match redesign-mockup.html) -->
-    <header class="sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
-            <div class="container">
-                <a class="navbar-brand" href="redesign-mockup.html">GPBC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="#home" class="logo">GPBC</a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#live">LIVE</a></li>
-                        <li class="nav-item"><a class="nav-link" href="redesign-mockup.html">Home</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="about.html" role="button" data-bs-toggle="dropdown">About</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="history.html">Our History</a></li>
-                                <li><a class="dropdown-item" href="mission.html">Our Mission</a></li>
-                                <li><a class="dropdown-item" href="leadership.html">Our Leadership</a></li>
-                                <li><a class="dropdown-item" href="beliefs.html">Our Beliefs</a></li>
-                                <li><a class="dropdown-item" href="core-values.html">Our Core Values</a></li>
-                                <li><a class="dropdown-item" href="position-papers.html">Position Papers</a></li>
-                                <li><a class="dropdown-item" href="testimonies.html">Testimonies</a></li>
-                                <li><a class="dropdown-item" href="songbook.html">GPBC Song Book</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#next-service">Next Service</a></li>
-                        <li class="nav-item"><a class="nav-link" href="calendar.html">Calendar</a></li>
-                        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
-                        <li class="nav-item"><a class="nav-link" href="prayer-request.html">Prayer</a></li>
-                        <li class="nav-item"><a class="nav-link active fw-semibold" href="give-bootstrap.html">Give</a></li>
-                    </ul>
-                </div>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#live">LIVE</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="about.html">About Overview</a></li>
+                            <li><a href="history.html">Our History</a></li>
+                            <li><a href="mission.html">Our Mission</a></li>
+                            <li><a href="leadership.html">Our Leadership</a></li>
+                            <li><a href="beliefs.html">Our Beliefs</a></li>
+                            <li><a href="core-values.html">Our Core Values</a></li>
+                            <li><a href="position-papers.html">Position Papers</a></li>
+                            <li><a href="testimonies.html">Testimonies</a></li>
+                            <li><a href="songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="ministries.html">Ministries Overview</a></li>
+                            <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                            <li><a href="ministries/community-development.html">Community Development</a></li>
+                            <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                            <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                            <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                            <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                            <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                            <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                            <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                            <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                            <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#next-service">Next Service</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="#prayer">Prayer</a></li>
+                    <li class="nav-dropdown">
+                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                            <li><a href="family-devotion.html">Family Devotion</a></li>
+                            <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                            <li><a href="children-devotion.html">Children Devotion</a></li>
+                            <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                            <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="give.html" class="active">Give</a></li>
+                </ul>
             </div>
         </nav>
+        <div class="mobile-overlay"></div>
     </header>
 
     <!-- Main Content -->
@@ -759,5 +799,6 @@
             });
         }
     </script>
+    <script src="navigation.js?v=20260125c"></script>
 </body>
 </html>
