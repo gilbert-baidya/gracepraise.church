@@ -32,6 +32,7 @@
     <meta property="twitter:image" content="https://gilbert-baidya.github.io/gracepraise.church/images/devotion-placeholder.jpg" id="twitterImage">
     
     <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="homepage-responsive-fix.css">
     <style>
         /* ===== iOS Safari Fixed Position Fix ===== */
         /* Global box-sizing */
@@ -72,12 +73,6 @@
         img, video, iframe, embed, object {
             max-width: 100%;
             height: auto;
-        }
-        
-        section, article, main, .hero, .container, header, nav {
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
         }
         
         /* DARK MODE TOGGLE BUTTON */
@@ -134,10 +129,6 @@
         
         /* iPad-only horizontal overflow fix (safe, non-breaking) */
         /* Prevent box-shadows and transforms from causing overflow */
-        header, nav, .nav-container {
-            max-width: 100%;
-            box-sizing: border-box;
-        }
         
         /* Contain shadows within viewport */
         .devotion-controls,
@@ -1034,16 +1025,13 @@
             .devotion-container,
             .devotion-section,
             .share-section,
-            header,
-            nav,
-            main,
-            .nav-container {
+            main {
                 max-width: 100%;
                 width: 100%;
                 box-sizing: border-box;
                 overflow-x: clip;
             }
-            
+
             /* iPad-only horizontal overflow fix (safe, non-breaking) */
             /* Ensure date strip container doesn't cause page scroll */
             .date-strip-wrapper {
@@ -1144,14 +1132,6 @@
             }
             
             /* Ensure header/nav stays within viewport */
-            header,
-            nav,
-            .nav-container {
-                max-width: 100%;
-                width: 100%;
-                box-sizing: border-box;
-                overflow-x: clip;
-            }
             
             /* Contain all major sections */
             main,
@@ -1261,7 +1241,7 @@
                 <li><a href="gallery.html">Gallery</a></li>
                 <li><a href="index.html#prayer">Prayer</a></li>
                 <li class="nav-dropdown">
-                    <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                    <a href="daily-devotion.html" class="active" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
                     <ul class="dropdown-menu">
                         <li><a href="daily-devotion.html">Daily Devotion</a></li>
                         <li><a href="couples-devotion.html">Couples Devotion</a></li>
