@@ -554,6 +554,11 @@
         let currentLang = 'en';
         const currentYear = new Date().getFullYear();
         const totalDays = currentYear % 100;
+        const dataCandidates = [
+            'gratitude-fasting-devotions.json',
+            './gratitude-fasting-devotions.json',
+            '/gratitude-fasting-devotions.json'
+        ];
 
         // Update year and days displays
         document.querySelectorAll('.year-display').forEach(el => el.textContent = currentYear);
@@ -562,9 +567,18 @@
         // Load devotional data
         async function loadDevotionalData() {
             try {
-                const response = await fetch('gratitude-fasting-devotions.json');
-                if (!response.ok) throw new Error('Failed to load devotional data');
-                devotionalData = await response.json();
+                let lastError = null;
+                for (const url of dataCandidates) {
+                    try {
+                        const response = await fetch(url, { cache: 'no-store' });
+                        if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
+                        devotionalData = await response.json();
+                        break;
+                    } catch (err) {
+                        lastError = err;
+                    }
+                }
+                if (!devotionalData) throw lastError || new Error('Failed to load devotional data');
                 
                 // Populate day selector
                 const daySelect = document.getElementById('daySelect');
