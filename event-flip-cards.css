@@ -16,7 +16,6 @@
     /* Much shorter scroll distance for a faster, snappier feel */
     background-color: #0d1117;
     margin: 0;
-    margin-bottom: -10vh;
     padding-top: 12px;
 }
 
@@ -30,8 +29,10 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    padding-top: 100px;
+    /* Space for header + Title breathing room */
     overflow: hidden;
     perspective: 2000px;
 }
@@ -57,18 +58,40 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
+    /* Ensure centering */
 }
 
 .flip-card {
     position: absolute;
-    /* Stacked on top of each other initially */
+    top: 50%;
+    left: 50%;
     width: 280px;
     height: 420px;
     transform-style: preserve-3d;
     cursor: pointer;
-    /* Initial state: small and slightly above */
-    transform: scale(0.4) translateY(-100px);
+    /* Initial state: small and centered */
+    transform: translate(-50%, -50%) scale(0.4);
     opacity: 0;
+    z-index: 10;
+    /* Base z-index */
+}
+
+/* Reverse stacking order so first card is on top */
+.flip-card:nth-child(1) {
+    z-index: 40;
+}
+
+.flip-card:nth-child(2) {
+    z-index: 30;
+}
+
+.flip-card:nth-child(3) {
+    z-index: 20;
+}
+
+.flip-card:nth-child(4) {
+    z-index: 10;
 }
 
 .flip-card-inner {
@@ -101,12 +124,14 @@
 
 .flip-card-front {
     background-color: var(--card-primary);
-    color: #090b0f;
+    color: #0f172a !important;
+    /* Force dark navy even in dark mode */
 }
 
 .flip-card-back {
     background-color: var(--card-secondary);
-    color: #090b0f;
+    color: #334155 !important;
+    /* Force dark gray even in dark mode */
     transform: rotateY(180deg);
 }
 
@@ -138,9 +163,29 @@
 
 .card-back-title {
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.4;
     text-align: left;
+    color: #0f172a !important;
+    margin-bottom: 0.5rem;
+}
+
+.flip-card-back p {
+    color: #334155 !important;
+    text-align: left;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-top: 0;
+}
+
+/* Explicit Dark Mode Overrides for these specific light cards */
+body.dark .card-category,
+body.dark .card-back-title,
+body.dark .flip-card-back p,
+body[data-theme="dark"] .card-category,
+body[data-theme="dark"] .card-back-title,
+body[data-theme="dark"] .flip-card-back p {
+    color: #0f172a !important;
 }
 
 .card-button {
@@ -154,26 +199,51 @@
 }
 
 @media (max-width: 1024px) {
+    .flip-section-title h2 {
+        font-size: 2.5rem;
+    }
+
     .flip-cards-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        height: 460px;
     }
 
     .flip-scroll-section {
-        height: 130vh;
+        height: 10S0vh;
     }
 }
 
-@media (max-width: 640px) {
-    .flip-cards-container {
-        grid-template-columns: 1fr;
+@media (max-width: 768px) {
+    .flip-section-title h2 {
+        font-size: 2rem;
     }
 
-    .flip-scroll-section {
-        height: 135vh;
+    .flip-sticky-wrapper {
+        padding: 80px 1rem 0;
+        /* Tighter for mobile but still clearing header */
+    }
+
+    .flip-cards-container {
+        height: 420px;
     }
 
     .flip-card {
-        height: 400px;
+        width: 260px;
+        height: 380px;
+    }
+
+    .flip-scroll-section {
+        height: 110vh;
+        /* Extra scroll room for mobile stacking sequence */
+    }
+}
+
+@media (max-width: 480px) {
+    .flip-section-title h2 {
+        font-size: 1.75rem;
+    }
+
+    .flip-card {
+        width: 240px;
+        height: 350px;
     }
 }

@@ -11,6 +11,7 @@
 
 /* FIX 1: Remove double top spacing on hero section (mobile & iPad) */
 @media (max-width: 1024px) {
+
     body.homepage .hero,
     body[data-page="home"] .hero,
     .page-home .hero {
@@ -21,6 +22,7 @@
 
 /* FIX 2: Banner flows naturally below sticky header - NO JS REQUIRED */
 @media (max-width: 768px) {
+
     body.homepage .inline-countdown-banner,
     body[data-page="home"] .inline-countdown-banner,
     .page-home .inline-countdown-banner {
@@ -29,7 +31,7 @@
         z-index: 998;
         top: 0;
     }
-    
+
     /* No margin needed - banner flows naturally above main */
     body.homepage main,
     body[data-page="home"] main,
@@ -40,6 +42,7 @@
 
 /* FIX 3: Anchor scroll offset for all anchor links on homepage */
 @media (max-width: 1024px) {
+
     body.homepage section[id],
     body.homepage div[id],
     body[data-page="home"] section[id],
@@ -52,6 +55,7 @@
 
 /* FIX 4: iPad-specific adjustments (769px-1024px) */
 @media (min-width: 769px) and (max-width: 1024px) {
+
     /* Single clear hero spacing rule - no conflicts */
     body.homepage .hero,
     body[data-page="home"] .hero,
@@ -59,7 +63,7 @@
         padding-top: 2.5rem;
         margin-top: 0;
     }
-    
+
     /* Banner flows naturally - consistent positioning */
     body.homepage .inline-countdown-banner,
     body[data-page="home"] .inline-countdown-banner,
@@ -67,7 +71,7 @@
         position: relative;
         top: 0;
     }
-    
+
     /* Main content flows naturally below banner - DON'T override redesign-styles.css */
     body.homepage main,
     body[data-page="home"] main,
@@ -89,6 +93,7 @@
 
 /* 1) CAROUSEL DOTS — Larger tap targets without changing appearance */
 @media (max-width: 768px) {
+
     /* Circle carousel dots */
     .circle-dot {
         /* Visual size remains 12px, but clickable area is larger */
@@ -96,7 +101,7 @@
         margin: 0 4px;
         /* Keeps visual dot size at 12px but tap area is ~36px */
     }
-    
+
     /* GPBC rotator dots */
     .gpbc-nav-dot {
         /* Visual size remains 12px, but clickable area is larger */
@@ -104,12 +109,12 @@
         margin: 0 4px;
         /* Keeps visual dot size at 12px but tap area is ~40px */
     }
-    
+
     /* Increase gap between dots to prevent mis-taps */
     .circle-nav-dots {
         gap: 1rem !important;
     }
-    
+
     .gpbc-rotator-nav {
         gap: 1.25rem !important;
     }
@@ -117,6 +122,7 @@
 
 /* 2) COUNTDOWN BANNER CTA — Larger tap target, spacing from numbers */
 @media (max-width: 768px) {
+
     body.homepage .inline-countdown-banner .banner-link,
     body[data-page="home"] .inline-countdown-banner .banner-link,
     .page-home .inline-countdown-banner .banner-link,
@@ -129,7 +135,7 @@
         justify-content: center;
         margin-left: 0.5rem;
     }
-    
+
     /* Add tap feedback */
     body.homepage .inline-countdown-banner .banner-link:active,
     body[data-page="home"] .inline-countdown-banner .banner-link:active,
@@ -138,7 +144,7 @@
         transform: scale(0.95);
         background: rgba(255, 255, 255, 1);
     }
-    
+
     /* Reduce accidental taps on countdown numbers */
     body.homepage .inline-countdown-banner .countdown-value,
     body[data-page="home"] .inline-countdown-banner .countdown-value,
@@ -147,7 +153,7 @@
         pointer-events: none;
         user-select: none;
     }
-    
+
     body.homepage .inline-countdown-banner .countdown-unit,
     body[data-page="home"] .inline-countdown-banner .countdown-unit,
     .page-home .inline-countdown-banner .countdown-unit,
@@ -163,7 +169,7 @@
         gap: 1rem !important;
         padding: 0 1rem;
     }
-    
+
     /* Logo — ensure minimum tap target */
     .logo {
         padding: 0.5rem;
@@ -172,31 +178,31 @@
         display: flex;
         align-items: center;
     }
-    
+
     /* Dark mode toggle — increase tap area */
     .dark-mode-toggle {
         min-width: 44px;
         min-height: 44px;
         padding: 0.5rem;
     }
-    
+
     /* Mobile menu button — ensure 44px minimum */
     .mobile-menu-btn {
         min-width: 44px;
         min-height: 44px;
         padding: 0.75rem !important;
     }
-    
+
     /* Add tap feedback to header controls */
     .logo:active {
         transform: scale(0.95);
         opacity: 0.8;
     }
-    
+
     .dark-mode-toggle:active {
         transform: scale(0.9);
     }
-    
+
     .mobile-menu-btn:active {
         background: rgba(0, 0, 0, 0.05);
         border-radius: 8px;
@@ -205,6 +211,7 @@
 
 /* 4) HERO CTA BUTTONS — Better tap feedback */
 @media (max-width: 768px) {
+
     body.homepage .hero .btn,
     body[data-page="home"] .hero .btn,
     .page-home .hero .btn {
@@ -214,7 +221,7 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     body.homepage .hero .btn:active,
     body[data-page="home"] .hero .btn:active,
     .page-home .hero .btn:active {
@@ -224,16 +231,17 @@
 
 /* 5) CAROUSEL CTA BUTTONS — Better tap area */
 @media (max-width: 768px) {
+
     /* Circle carousel buttons */
     .circle-carousel .btn {
         min-height: 48px;
         padding: 0.875rem 2rem;
     }
-    
+
     .circle-carousel .btn:active {
         transform: scale(0.97) !important;
     }
-    
+
     /* GPBC rotator buttons */
     .gpbc-slide-cta {
         min-height: 44px;
@@ -242,7 +250,7 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .gpbc-slide-cta:active {
         transform: scale(0.97) !important;
     }
@@ -250,6 +258,7 @@
 
 /* 6) FOCUS STATES — Ensure visibility on all interactive elements */
 @media (max-width: 768px) {
+
     /* Enhanced focus for better accessibility */
     .logo:focus-visible,
     .dark-mode-toggle:focus-visible,
@@ -258,13 +267,13 @@
         outline-offset: 2px;
         border-radius: 4px;
     }
-    
+
     .circle-dot:focus-visible,
     .gpbc-nav-dot:focus-visible {
         outline: 3px solid rgba(45, 122, 143, 0.8);
         outline-offset: 4px;
     }
-    
+
     body.homepage .inline-countdown-banner .banner-link:focus-visible,
     body[data-page="home"] .inline-countdown-banner .banner-link:focus-visible,
     .page-home .inline-countdown-banner .banner-link:focus-visible {
@@ -275,6 +284,7 @@
 
 /* 7) CARD LINKS — Better tap targets and feedback */
 @media (max-width: 768px) {
+
     /* What's Happening card links */
     body.homepage .feature-card .card-link,
     body[data-page="home"] .feature-card .card-link,
@@ -286,14 +296,14 @@
         justify-content: center;
         margin-top: 0.5rem;
     }
-    
+
     body.homepage .feature-card .card-link:active,
     body[data-page="home"] .feature-card .card-link:active,
     .page-home .feature-card .card-link:active {
         transform: translateY(1px);
         opacity: 0.8;
     }
-    
+
     /* Ministry showcase buttons */
     body.homepage .gpbc-showcase-btn,
     body[data-page="home"] .gpbc-showcase-btn,
@@ -304,13 +314,13 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     body.homepage .gpbc-showcase-btn:active,
     body[data-page="home"] .gpbc-showcase-btn:active,
     .page-home .gpbc-showcase-btn:active {
         transform: scale(0.97);
     }
-    
+
     /* New Here section CTA buttons */
     body.homepage .new-here-cta .btn,
     body[data-page="home"] .new-here-cta .btn,
@@ -319,13 +329,13 @@
         padding: 0.875rem 1.75rem;
         margin: 0.5rem;
     }
-    
+
     body.homepage .new-here-cta .btn:active,
     body[data-page="home"] .new-here-cta .btn:active,
     .page-home .new-here-cta .btn:active {
         transform: scale(0.97);
     }
-    
+
     /* Next step section buttons */
     body.homepage .next-step-cta .btn,
     body[data-page="home"] .next-step-cta .btn,
@@ -333,7 +343,7 @@
         min-height: 48px;
         padding: 0.875rem 1.75rem;
     }
-    
+
     body.homepage .next-step-cta .btn:active,
     body[data-page="home"] .next-step-cta .btn:active,
     .page-home .next-step-cta .btn:active {
@@ -343,6 +353,7 @@
 
 /* 8) NAV LINKS — Better tap targets in mobile menu */
 @media (max-width: 768px) {
+
     body.homepage .nav-links a,
     body[data-page="home"] .nav-links a,
     .page-home .nav-links a {
@@ -351,14 +362,14 @@
         align-items: center;
         padding: 0.875rem 1rem;
     }
-    
+
     body.homepage .nav-links a:active,
     body[data-page="home"] .nav-links a:active,
     .page-home .nav-links a:active {
         background: rgba(59, 130, 246, 0.08);
         transform: translateX(2px);
     }
-    
+
     /* Dropdown menu items */
     body.homepage .dropdown-menu a,
     body[data-page="home"] .dropdown-menu a,
@@ -366,7 +377,7 @@
         min-height: 44px;
         padding: 0.75rem 1.5rem !important;
     }
-    
+
     body.homepage .dropdown-menu a:active,
     body[data-page="home"] .dropdown-menu a:active,
     .page-home .dropdown-menu a:active {
@@ -384,16 +395,16 @@
         padding: 10px;
         margin: 0 3px;
     }
-    
+
     .gpbc-nav-dot {
         padding: 12px;
         margin: 0 3px;
     }
-    
+
     .circle-nav-dots {
         gap: 0.875rem !important;
     }
-    
+
     .gpbc-rotator-nav {
         gap: 1rem !important;
     }
@@ -404,7 +415,7 @@
     .nav-container {
         gap: 1.25rem;
     }
-    
+
     .dark-mode-toggle {
         min-width: 40px;
         min-height: 40px;
@@ -413,6 +424,7 @@
 
 /* 3) TAP FEEDBACK — Consistent across iPad */
 @media (min-width: 769px) and (max-width: 1024px) {
+
     .logo:active,
     .dark-mode-toggle:active,
     .btn:active,
@@ -421,7 +433,7 @@
     .gpbc-slide-cta:active {
         transform: scale(0.97);
     }
-    
+
     body.homepage .inline-countdown-banner .banner-link:active,
     body[data-page="home"] .inline-countdown-banner .banner-link:active,
     .page-home .inline-countdown-banner .banner-link:active {
@@ -443,11 +455,13 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
    HOMEPAGE ONLY — MOBILE H1 FULL NAME FIX
    ========================================= */
 @media (max-width: 768px) {
+
     body.homepage .hero h1,
     body[data-page="home"] .hero h1,
     .page-home .hero h1,
     body:has(.inline-countdown-banner) .hero h1 {
-        font-size: 1.5rem !important; /* Smaller to fit full name */
+        font-size: 1.5rem !important;
+        /* Smaller to fit full name */
         line-height: 1.3 !important;
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -458,11 +472,13 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
 }
 
 @media (max-width: 480px) {
+
     body.homepage .hero h1,
     body[data-page="home"] .hero h1,
     .page-home .hero h1,
     body:has(.inline-countdown-banner) .hero h1 {
-        font-size: 1.35rem !important; /* Even smaller for very small screens */
+        font-size: 1.35rem !important;
+        /* Even smaller for very small screens */
     }
 }
 
@@ -470,6 +486,7 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
    HOMEPAGE ONLY — MOBILE COUNTDOWN COMPACT
    ========================================= */
 @media (max-width: 768px) {
+
     /* Two-line centered layout */
     body.homepage .inline-banner-content,
     body[data-page="home"] .inline-banner-content,
@@ -483,7 +500,7 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
         padding: 0.5rem 0.5rem !important;
         text-align: center;
     }
-    
+
     /* Line 1: Icon + Event Name */
     body.homepage .banner-line-1,
     body[data-page="home"] .banner-line-1,
@@ -493,7 +510,7 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
         align-items: center;
         gap: 0.3rem;
     }
-    
+
     body.homepage .inline-countdown-banner .event-icon,
     body[data-page="home"] .inline-countdown-banner .event-icon,
     .page-home .inline-countdown-banner .event-icon,
@@ -501,21 +518,21 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
         font-size: 1rem !important;
         flex-shrink: 0;
     }
-    
+
     body.homepage .inline-countdown-banner .event-label,
     body[data-page="home"] .inline-countdown-banner .event-label,
     .page-home .inline-countdown-banner .event-label,
     body:has(.inline-countdown-banner) .event-label {
         font-size: 0.75rem !important;
     }
-    
+
     body.homepage .inline-countdown-banner .event-label strong,
     body[data-page="home"] .inline-countdown-banner .event-label strong,
     .page-home .inline-countdown-banner .event-label strong,
     body:has(.inline-countdown-banner) .event-label strong {
         font-size: 0.75rem !important;
     }
-    
+
     /* Line 2: Countdown + Details */
     body.homepage .banner-line-2,
     body[data-page="home"] .banner-line-2,
@@ -525,7 +542,7 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
         align-items: center;
         gap: 0.5rem;
     }
-    
+
     body.homepage .inline-countdown-banner .inline-countdown,
     body[data-page="home"] .inline-countdown-banner .inline-countdown,
     .page-home .inline-countdown-banner .inline-countdown,
@@ -534,7 +551,7 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
         gap: 0.2rem !important;
         flex-wrap: nowrap !important;
     }
-    
+
     body.homepage .inline-countdown-banner .banner-link,
     body[data-page="home"] .inline-countdown-banner .banner-link,
     .page-home .inline-countdown-banner .banner-link,
@@ -544,7 +561,7 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
         padding: 0.2rem 0.5rem !important;
         white-space: nowrap !important;
     }
-    
+
     body.homepage .inline-countdown-banner .countdown-value,
     body[data-page="home"] .inline-countdown-banner .countdown-value,
     .page-home .inline-countdown-banner .countdown-value,
@@ -553,7 +570,7 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
         padding: 0.15rem 0.25rem !important;
         min-width: 1.6ch !important;
     }
-    
+
     body.homepage .inline-countdown-banner .countdown-unit,
     body[data-page="home"] .inline-countdown-banner .countdown-unit,
     .page-home .inline-countdown-banner .countdown-unit,
@@ -572,13 +589,14 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
     body:has(.inline-countdown-banner) .hero {
         padding-top: var(--spacing-md) !important;
     }
-    
+
     body:has(.inline-countdown-banner) main {
         margin-top: calc(var(--header-height) + var(--countdown-banner-height));
     }
 }
 
 @media (max-width: 1024px) {
+
     body:has(.inline-countdown-banner) section[id],
     body:has(.inline-countdown-banner) div[id] {
         scroll-margin-top: calc(var(--header-height) + var(--countdown-banner-height) + 20px);
@@ -589,6 +607,7 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
    HOMEPAGE ONLY — SKIP LINK FIX (MOBILE)
    ========================================= */
 @media (max-width: 768px) {
+
     body.homepage a.skip-to-content,
     body.homepage .skip-link,
     body[data-page="home"] a.skip-to-content,
@@ -609,5 +628,64 @@ body:has(.inline-countdown-banner) .inline-countdown-banner {
         top: 0.5rem;
         left: 0.5rem;
         z-index: 2000;
+    }
+}
+
+/* =========================================
+   HOMEPAGE ONLY — COMMUNITY SPACING & RHYTHM
+   ========================================= */
+@media (max-width: 768px) {
+
+    /* Tighten the macro container that holds community events */
+    .whats-happening-macro {
+        padding: 2rem 0 !important;
+        background: rgba(0, 0, 0, 0.02);
+        /* Subtle separation */
+        border-radius: 20px;
+        margin: 1rem 0;
+    }
+
+    /* Reduce gap between Flip Cards section and Circle Carousel */
+    .flip-scroll-section {
+        padding-bottom: 2rem !important;
+    }
+
+    #circle-hero {
+        padding-top: 1rem !important;
+        margin-top: 0 !important;
+    }
+
+    /* Adjust section display titles for mobile density */
+    .section-title-display {
+        font-size: 2.25rem !important;
+        margin-bottom: 2rem !important;
+        padding: 0 1rem;
+    }
+
+    /* Tighten the "Join Us" carousel items */
+    .glass-halo-card {
+        padding: 1.5rem !important;
+        margin: 0 1rem;
+    }
+
+    .shape-content-wrapper h2 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    /* Ensure vertical rhythm is consistent */
+    section {
+        padding: 3.5rem 0 !important;
+    }
+}
+
+/* Specific iPhone Fix for long Flip-Card scroll height */
+@media (max-width: 480px) {
+    .flip-sticky-wrapper {
+        min-height: auto !important;
+    }
+
+    .flip-cards-container {
+        gap: 1.5rem !important;
     }
 }

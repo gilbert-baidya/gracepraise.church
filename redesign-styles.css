@@ -2139,14 +2139,31 @@ header.scrolled nav {
    ======================================== */
 
 .next-service-section {
+    position: relative;
     padding: var(--spacing-3xl) var(--spacing-md);
+    padding-top: 160px;
     background: var(--color-surface);
     text-align: center;
+    overflow: hidden;
+}
+
+.next-service-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 160px;
+    background: linear-gradient(180deg, rgba(12, 18, 28, 0.55) 0%, rgba(12, 18, 28, 0) 100%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .next-service-content {
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
 .next-service-content h2 {
@@ -2169,6 +2186,30 @@ header.scrolled nav {
 .next-service-section .countdown-top-strip {
     max-width: 900px;
     margin: 0 auto;
+}
+
+body.dark .next-service-section::before,
+body[data-theme="dark"] .next-service-section::before {
+    background: linear-gradient(180deg, rgba(2, 6, 23, 0.9) 0%, rgba(2, 6, 23, 0) 100%);
+}
+
+.whats-happening-macro {
+    display: block;
+}
+
+.whats-happening-macro > * + * {
+    margin-top: var(--spacing-lg);
+}
+
+.whats-happening-macro #dynamic-events-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.whats-happening-macro .special-event-details {
+    padding-top: var(--spacing-2xl);
+    padding-bottom: var(--spacing-2xl);
 }
 
 @media (max-width: 768px) {

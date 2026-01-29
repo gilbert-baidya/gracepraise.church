@@ -173,9 +173,12 @@ class HomepageEvents {
         // Extract or generate event details
         const eventTime = event.eventTime || 'TBA';
         const displayTime = eventTime === 'TBA' ? 'TBA' : `${eventTime} PT`;
+        const time24 = eventTime === 'TBA' ? '' : this.convertTo24Hour(eventTime);
+        const datetime = time24 ? `${event.date}T${time24}` : event.date;
         const details = {
             when: this.formatEventDate(event.date, eventTime),
-            time: displayTime,
+            timeLabel: displayTime,
+            datetime,
             where: this.churchAddress.display,
             mapsUrl: this.churchAddress.mapsUrl,
             whatToExpect: this.getWhatToExpect(event),
@@ -246,7 +249,7 @@ class HomepageEvents {
                         <span class="info-icon">📅</span>
                         <div>
                             <h3>When</h3>
-                            <time datetime="${event.date}T${details.time}">${details.when}${details.time !== 'TBA' ? ' at ' + details.time : ''}</time>
+                            <time datetime="${details.datetime}">${details.when}${details.timeLabel !== 'TBA' ? ' at ' + details.timeLabel : ''}</time>
                             ${event.name.includes('New Year') ? '<p class="info-subtext">Ring in the New Year with us!</p>' : ''}
                         </div>
                     </div>
