@@ -409,23 +409,23 @@
     </noscript>
 
     <!-- Special Event Inline Countdown Banner -->
-    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="off" aria-atomic="true">
+    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="off" aria-atomic="true"
+        style="display: none;">
         <div class="inline-banner-content">
             <div class="banner-line-1">
                 <span class="event-icon" aria-hidden="true">🎉</span>
                 <span class="event-label">
-                    <strong>Gratitude & New Year Celebration</strong> starts in
+                    <strong>Upcoming Event</strong> starts in
                 </span>
             </div>
             <div class="banner-line-2">
-                <time class="inline-countdown" datetime="2025-12-31T22:30:00">
-                    <span class="countdown-value" data-unit="days">01</span><span class="countdown-unit">d</span>
+                <time class="inline-countdown" datetime="">
+                    <span class="countdown-value" data-unit="days">00</span><span class="countdown-unit">d</span>
                     <span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span>
-                    <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
-                    <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
+                    <span class="countdown-value" data-unit="minutes">00</span><span class="countdown-unit">m</span>
+                    <span class="countdown-value" data-unit="seconds">00</span><span class="countdown-unit">s</span>
                 </time>
-                <a href="calendar.html" class="banner-link"
-                    aria-label="View Gratitude & New Year Celebration details">Details →</a>
+                <a href="calendar.html" class="banner-link" aria-label="View event details">Details →</a>
             </div>
         </div>
     </div>
@@ -547,6 +547,7 @@
                 <div class="flip-section-title">
                     <h2 class="section-title-display section-title-display--light">
                         Community Highlights</h2>
+                    <p class="flip-scroll-hint">Scroll to flip each card</p>
                 </div>
 
                 <div class="flip-cards-container">
@@ -556,7 +557,6 @@
                             <div class="flip-card-front">
                                 <div class="card-category">Worship</div>
                                 <div class="card-icon">🙏</div>
-                                <p style="font-size: 0.8rem; opacity: 0.7;">Scroll to flip</p>
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
@@ -577,7 +577,6 @@
                             <div class="flip-card-front">
                                 <div class="card-category">Youth</div>
                                 <div class="card-icon">🔥</div>
-                                <p style="font-size: 0.8rem; opacity: 0.7;">Scroll to flip</p>
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
@@ -598,7 +597,6 @@
                             <div class="flip-card-front">
                                 <div class="card-category">Prayer</div>
                                 <div class="card-icon">📖</div>
-                                <p style="font-size: 0.8rem; opacity: 0.7;">Scroll to flip</p>
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
@@ -619,7 +617,6 @@
                             <div class="flip-card-front">
                                 <div class="card-category">Fasting</div>
                                 <div class="card-icon">⛪</div>
-                                <p style="font-size: 0.8rem; opacity: 0.7;">Scroll to flip</p>
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
@@ -629,7 +626,7 @@
                                 <h3 class="card-back-title">Saturday Fasting Prayer</h3>
                                 <p style="text-align: left; font-size: 0.9rem; margin-top: 0.5rem;">Morning fasting and
                                     prayer for our church—Saturday at 10:00 AM.</p>
-                                <a href="prayer-request.html" class="card-button">Request Prayer</a>
+                                <a href="prayer-request.html" class="card-button">Send Prayer Request</a>
                             </div>
                         </div>
                     </div>
@@ -1186,8 +1183,8 @@
             <div class="new-here-cta">
                 <p class="cta-message">We would love to meet you in person.</p>
                 <div class="cta-buttons">
-                    <a href="#next-service" class="btn btn-primary">See Service Countdown</a>
-                    <a href="prayer-request.html" class="btn btn-secondary">Request Prayer</a>
+                    <a href="plan-visit.html" class="btn btn-primary">Plan Your Visit</a>
+                    <a href="#ministries" class="btn btn-secondary">Explore Ministries</a>
                 </div>
             </div>
         </section>
@@ -1314,7 +1311,7 @@
                     </div>
                     <h3>Prayer Requests</h3>
                     <p>Share your prayer needs with our community. We're here to lift you up in prayer.</p>
-                    <a href="prayer-request.html" class="card-link">Request Prayer →</a>
+                    <a href="prayer-request.html" class="card-link">Share a Prayer →</a>
                 </article>
 
                 <article class="feature-card">
@@ -1383,8 +1380,8 @@
             <h2 id="next-step-heading">Take Your Next Step</h2>
             <p>Ready to get more connected? We'd love to help you find your place in our community.</p>
             <div class="next-step-cta">
-                <a href="#next-service" class="btn btn-primary">See Service Countdown</a>
-                <a href="prayer-request.html" class="btn btn-secondary">Request Prayer</a>
+                <a href="calendar.html" class="btn btn-primary">View Calendar</a>
+                <a href="ministries.html" class="btn btn-secondary">Join a Ministry</a>
             </div>
         </section>
     </main>
@@ -4614,9 +4611,9 @@
     <script src="event-flip-cards.js"></script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
-    <script src="events.js"></script>
-    <script src="homepage-events.js"></script>
-    <script src="countdown.js"></script>
+    <script src="events.js?v=20260129a"></script>
+    <script src="homepage-events.js?v=20260129a"></script>
+    <script src="countdown.js?v=20260129a"></script>
 
     <!-- Dynamic Service Details Update -->
     <script>
@@ -4630,22 +4627,14 @@
 
                 if (!banner || !serviceName || !serviceTime || !serviceNote) return;
 
-                // Check banner content to determine which service is showing
-                const bannerText = banner.textContent || '';
+                const bannerCard = banner.querySelector('.next-event-banner');
+                if (!bannerCard) return;
 
-                if (bannerText.includes('Sunday Service')) {
-                    serviceName.textContent = 'Sunday Service';
-                    serviceTime.textContent = 'Sunday at 5:00 PM PT';
-                    serviceNote.textContent = 'Our main Sunday worship service — perfect for first-time visitors';
-                } else if (bannerText.includes('Worship Practice')) {
-                    serviceName.textContent = 'Worship Practice & Session';
-                    serviceTime.textContent = 'Friday at 5:30 PM PT';
-                    serviceNote.textContent = 'Weekly worship practice and prayer session';
-                } else if (bannerText.includes('Fasting Prayer')) {
-                    serviceName.textContent = 'Fasting Prayer';
-                    serviceTime.textContent = 'Saturday at 12:00 PM PT';
-                    serviceNote.textContent = 'Weekly fasting and prayer gathering';
-                }
+                const { eventName, eventTimeLabel, eventNote } = bannerCard.dataset;
+
+                if (eventName) serviceName.textContent = eventName;
+                if (eventTimeLabel) serviceTime.textContent = eventTimeLabel;
+                if (eventNote) serviceNote.textContent = eventNote;
             }
 
             // Update immediately and every 5 seconds to catch countdown changes

@@ -5,36 +5,78 @@
 
 class CountdownSystem {
     constructor() {
-        // Regular weekly services
+        this.timeZone = 'America/Los_Angeles';
+
+        // Weekly service display config (schedule comes from events.js when available)
+        this.serviceConfig = {
+            'friday-connection': {
+                displayName: 'Worship Practice & Session',
+                icon: '🎵',
+                duration: 120,
+                detailsLabel: 'Friday at 5:30 PM PT',
+                detailsNote: 'Weekly worship practice and prayer session'
+            },
+            'fasting-prayer': {
+                displayName: 'Fasting Prayer',
+                icon: '🙏',
+                duration: 120,
+                detailsLabel: 'Saturday at 12:00 PM PT',
+                detailsNote: 'Weekly fasting and prayer gathering'
+            },
+            'sunday-service': {
+                displayName: 'Sunday Service',
+                icon: '⛪',
+                duration: 150,
+                detailsLabel: 'Sunday at 5:00 PM PT',
+                detailsNote: 'Our main Sunday worship service — perfect for first-time visitors'
+            }
+        };
+
+        this.weeklyServiceKeys = ['friday-connection', 'fasting-prayer', 'sunday-service'];
+
+        // Fallback weekly services if events.js is unavailable
         this.services = [
             {
-                name: 'Worship Practice & Session',
+                serviceKey: 'friday-connection',
+                name: this.serviceConfig['friday-connection'].displayName,
                 day: 5, // Friday (0=Sunday, 5=Friday)
                 time: '17:30', // 5:30 PM
-                duration: 120, // 2 hours
-                icon: '🎵',
-                type: 'service'
+                duration: this.serviceConfig['friday-connection'].duration,
+                icon: this.serviceConfig['friday-connection'].icon,
+                type: 'service',
+                detailsLabel: this.serviceConfig['friday-connection'].detailsLabel,
+                detailsNote: this.serviceConfig['friday-connection'].detailsNote
             },
             {
-                name: 'Fasting Prayer',
+                serviceKey: 'fasting-prayer',
+                name: this.serviceConfig['fasting-prayer'].displayName,
                 day: 6, // Saturday
                 time: '12:00', // 12:00 PM
-                duration: 120,
-                icon: '🙏',
-                type: 'service'
+                duration: this.serviceConfig['fasting-prayer'].duration,
+                icon: this.serviceConfig['fasting-prayer'].icon,
+                type: 'service',
+                detailsLabel: this.serviceConfig['fasting-prayer'].detailsLabel,
+                detailsNote: this.serviceConfig['fasting-prayer'].detailsNote
             },
             {
-                name: 'Sunday Service',
+                serviceKey: 'sunday-service',
+                name: this.serviceConfig['sunday-service'].displayName,
                 day: 0, // Sunday
                 time: '17:00', // 5:00 PM
-                duration: 150,
-                icon: '⛪',
-                type: 'service'
+                duration: this.serviceConfig['sunday-service'].duration,
+                icon: this.serviceConfig['sunday-service'].icon,
+                type: 'service',
+                detailsLabel: this.serviceConfig['sunday-service'].detailsLabel,
+                detailsNote: this.serviceConfig['sunday-service'].detailsNote
             }
         ];
 
-        // Get special events dynamically from events.js
-        this.loadSpecialEventsFromGlobal();
+        this.eventsReady = false;
+        this.specialEvents = [];
+        this.serviceEventsByKey = {};
+
+        // Get events dynamically from events.js
+        this.loadEventsFromGlobal();
 
         // Auto-init on home page OR About page
         if (document.querySelector('.hero') || document.getElementById('nextServiceCountdown')) {
@@ -42,48 +84,48 @@ class CountdownSystem {
         }
     }
 
-    loadSpecialEventsFromGlobal() {
+    loadEventsFromGlobal() {
         // Check if global events array exists (from events.js)
-        if (typeof events !== 'undefined') {
-            const now = new Date();
-            
-            // Get ALL upcoming GPBC events from events.js (regular + special services)
-            const gpbcEvents = events.filter(event => {
-                // Create full date+time for accurate comparison
-                const timeIn24 = this.convertTo24Hour(event.eventTime || '17:00');
-                const eventDateTime = new Date(event.date + 'T' + timeIn24);
-                const name = event.name || '';
-                return event.category === 'gpbc'
-                    && eventDateTime > now
-                    && !name.includes('Connection')
-                    && !name.includes('Worship Service')
-                    && !name.includes('Fasting Prayer');
-            }).sort((a, b) => {
-                const timeA = this.convertTo24Hour(a.eventTime || '17:00');
-                const timeB = this.convertTo24Hour(b.eventTime || '17:00');
-                return new Date(a.date + 'T' + timeA) - new Date(b.date + 'T' + timeB);
-            }).slice(0, 50); // Get next 50 events to ensure we have upcoming ones
-            
-            // Convert to countdown format
-            this.specialEvents = gpbcEvents.map(event => {
-                // Determine badge based on description
-                let badge = 'Regular Service';
-                if (event.description && event.description.toLowerCase().includes('special')) {
-                    badge = 'Special Event';
-                }
-                
-                return {
-                    name: event.name,
-                    date: event.date,
-                    time: this.convertTo24Hour(event.eventTime || '17:00'),
-                    icon: this.getEventIcon(event),
-                    badge: badge,
-                    type: 'event'
-                };
-            });
-        } else {
+        if (typeof events === 'undefined') {
+            this.eventsReady = false;
             this.specialEvents = [];
+            this.serviceEventsByKey = {};
+            return;
         }
+
+        const gpbcEvents = events
+            .filter(event => event.category === 'gpbc' && event.date && event.eventTime)
+            .map(event => {
+                const time24 = this.convertTo24Hour(event.eventTime || '17:00');
+                const dateTime = this.buildZonedDate(event.date, time24);
+                const isWeeklyService = Boolean(event.serviceKey);
+                return {
+                    ...event,
+                    time24,
+                    dateTime,
+                    icon: this.getEventIcon(event),
+                    badge: isWeeklyService ? 'Regular Service' : 'Special Event'
+                };
+            })
+            .filter(event => event.dateTime instanceof Date && !Number.isNaN(event.dateTime.getTime()))
+            .sort((a, b) => a.dateTime - b.dateTime);
+
+        this.specialEvents = gpbcEvents.filter(event => !event.serviceKey);
+        this.serviceEventsByKey = {};
+        gpbcEvents.forEach(event => {
+            if (event.serviceKey) {
+                if (!this.serviceEventsByKey[event.serviceKey]) {
+                    this.serviceEventsByKey[event.serviceKey] = [];
+                }
+                this.serviceEventsByKey[event.serviceKey].push(event);
+            }
+        });
+
+        Object.values(this.serviceEventsByKey).forEach(list => {
+            list.sort((a, b) => a.dateTime - b.dateTime);
+        });
+
+        this.eventsReady = true;
     }
 
     convertTo24Hour(timeStr) {
@@ -102,6 +144,118 @@ class CountdownSystem {
             return `${String(hours).padStart(2, '0')}:${minutes || '00'}`;
         }
         return timeStr;
+    }
+
+    getTimeZoneParts(date, timeZone) {
+        const formatter = new Intl.DateTimeFormat('en-US', {
+            timeZone,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            weekday: 'short',
+            hour12: false
+        });
+
+        const parts = formatter.formatToParts(date);
+        const map = {};
+        parts.forEach(part => {
+            map[part.type] = part.value;
+        });
+
+        const weekdayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+        return {
+            year: Number(map.year),
+            month: Number(map.month),
+            day: Number(map.day),
+            hour: Number(map.hour),
+            minute: Number(map.minute),
+            second: Number(map.second),
+            weekdayIndex: weekdayMap[map.weekday]
+        };
+    }
+
+    getTimeZoneOffset(date, timeZone) {
+        const parts = this.getTimeZoneParts(date, timeZone);
+        const utcTime = Date.UTC(
+            parts.year,
+            parts.month - 1,
+            parts.day,
+            parts.hour,
+            parts.minute,
+            parts.second
+        );
+        return utcTime - date.getTime();
+    }
+
+    zonedTimeToUtc(year, month, day, hour, minute, second, timeZone) {
+        const utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+        const offset = this.getTimeZoneOffset(utcDate, timeZone);
+        return new Date(utcDate.getTime() - offset);
+    }
+
+    buildZonedDate(dateString, timeString = '00:00') {
+        const [year, month, day] = dateString.split('-').map(Number);
+        const [hoursStr = '0', minutesStr = '0'] = timeString.includes(':') ? timeString.split(':') : ['0', '0'];
+        const hours = Number(hoursStr);
+        const minutes = Number(minutesStr);
+        return this.zonedTimeToUtc(year, month, day, hours || 0, minutes || 0, 0, this.timeZone);
+    }
+
+    getZonedWeekdayIndex(date) {
+        return this.getTimeZoneParts(date, this.timeZone).weekdayIndex;
+    }
+
+    getUpcomingSpecialEvents(now, limit = 50) {
+        if (!this.specialEvents || this.specialEvents.length === 0) {
+            return [];
+        }
+        return this.specialEvents
+            .filter(event => event.dateTime > now)
+            .slice(0, limit);
+    }
+
+    getNextEventByServiceKey(serviceKey, nowTime) {
+        const list = this.serviceEventsByKey[serviceKey];
+        if (!list) return null;
+        return list.find(event => event.dateTime.getTime() > nowTime) || null;
+    }
+
+    getNextWeeklyServices(now) {
+        const nowTime = now.getTime();
+        const services = [];
+
+        this.weeklyServiceKeys.forEach(serviceKey => {
+            const config = this.serviceConfig[serviceKey];
+            const nextEvent = this.getNextEventByServiceKey(serviceKey, nowTime);
+            if (!nextEvent || !config) return;
+
+            const nextTime = nextEvent.dateTime;
+            const isLive = this.isServiceHappeningNow(nextTime, config.duration);
+            const time24 = this.convertTo24Hour(nextEvent.eventTime || '17:00');
+
+            services.push({
+                name: config.displayName || nextEvent.name,
+                day: this.getZonedWeekdayIndex(nextTime),
+                time: time24,
+                duration: config.duration,
+                icon: config.icon,
+                type: 'service',
+                serviceKey,
+                detailsLabel: config.detailsLabel,
+                detailsNote: config.detailsNote,
+                nextTime,
+                timeUntil: nextTime - now,
+                isLive,
+                sortTime: nextTime,
+                badge: 'Regular Service'
+            });
+        });
+
+        return services;
     }
 
     getEventIcon(event) {
@@ -155,23 +309,31 @@ class CountdownSystem {
     getNextOccurrence(dayOfWeek, time) {
         const now = new Date();
         const [hours, minutes] = time.split(':').map(Number);
-        
-        const next = new Date();
-        next.setHours(hours, minutes, 0, 0);
-        
-        // Calculate days until next occurrence
-        const daysUntil = (dayOfWeek - now.getDay() + 7) % 7;
-        
-        if (daysUntil === 0) {
-            // Same day - check if time has passed
-            if (now > next) {
-                next.setDate(next.getDate() + 7);
-            }
-        } else {
-            next.setDate(next.getDate() + daysUntil);
+        const nowParts = this.getTimeZoneParts(now, this.timeZone);
+
+        const daysUntil = (dayOfWeek - nowParts.weekdayIndex + 7) % 7;
+        const baseDate = new Date(Date.UTC(nowParts.year, nowParts.month - 1, nowParts.day));
+        const targetDate = new Date(baseDate.getTime());
+        targetDate.setUTCDate(targetDate.getUTCDate() + daysUntil);
+
+        const hasPassed =
+            nowParts.hour > hours ||
+            (nowParts.hour === hours && nowParts.minute > minutes) ||
+            (nowParts.hour === hours && nowParts.minute === minutes && nowParts.second > 0);
+
+        if (daysUntil === 0 && hasPassed) {
+            targetDate.setUTCDate(targetDate.getUTCDate() + 7);
         }
-        
-        return next;
+
+        return this.zonedTimeToUtc(
+            targetDate.getUTCFullYear(),
+            targetDate.getUTCMonth() + 1,
+            targetDate.getUTCDate(),
+            hours,
+            minutes,
+            0,
+            this.timeZone
+        );
     }
 
     isServiceHappeningNow(nextTime, duration) {
@@ -231,34 +393,56 @@ class CountdownSystem {
         const now = new Date();
         const allEvents = [];
 
-        // Add all services with their next occurrences
-        this.services.forEach(service => {
-            const nextTime = this.getNextOccurrence(service.day, service.time);
-            const isLive = this.isServiceHappeningNow(nextTime, service.duration);
-            
-            allEvents.push({
-                ...service,
-                nextTime,
-                isLive,
-                sortTime: isLive ? now : nextTime
-            });
-        });
-
-        // Add special events that haven't passed
-        this.specialEvents.forEach(event => {
-            const [year, month, day] = event.date.split('-').map(Number);
-            const [hours, minutes] = event.time.split(':').map(Number);
-            const eventDate = new Date(year, month - 1, day, hours, minutes);
-            
-            if (eventDate > now) {
+        if (this.eventsReady) {
+            const weeklyServices = this.getNextWeeklyServices(now);
+            weeklyServices.forEach(service => {
                 allEvents.push({
-                    ...event,
-                    nextTime: eventDate,
-                    isLive: false,
-                    sortTime: eventDate
+                    ...service,
+                    sortTime: service.isLive ? now : service.nextTime
                 });
-            }
-        });
+            });
+
+            const upcomingSpecialEvents = this.getUpcomingSpecialEvents(now, 50);
+            upcomingSpecialEvents.forEach(event => {
+                allEvents.push({
+                    name: event.name,
+                    date: event.date,
+                    time: event.time24,
+                    icon: event.icon || this.getEventIcon(event),
+                    badge: event.badge || 'Special Event',
+                    type: 'event',
+                    nextTime: event.dateTime,
+                    isLive: false,
+                    sortTime: event.dateTime
+                });
+            });
+        } else {
+            // Fallback to static weekly services if events.js is unavailable
+            this.services.forEach(service => {
+                const nextTime = this.getNextOccurrence(service.day, service.time);
+                const isLive = this.isServiceHappeningNow(nextTime, service.duration);
+
+                allEvents.push({
+                    ...service,
+                    nextTime,
+                    isLive,
+                    sortTime: isLive ? now : nextTime
+                });
+            });
+
+            // Add special events that haven't passed
+            this.specialEvents.forEach(event => {
+                const eventDate = this.buildZonedDate(event.date, event.time);
+                if (eventDate > now) {
+                    allEvents.push({
+                        ...event,
+                        nextTime: eventDate,
+                        isLive: false,
+                        sortTime: eventDate
+                    });
+                }
+            });
+        }
 
         // Sort by time and return the next one
         allEvents.sort((a, b) => a.sortTime - b.sortTime);
@@ -280,38 +464,64 @@ class CountdownSystem {
         
         // Get all events with their countdowns
         const allEvents = [];
-        
-        // Add regular services
-        this.services.forEach(service => {
-            const nextTime = this.getNextOccurrence(service.day, service.time);
-            const isLive = this.isServiceHappeningNow(nextTime, service.duration);
-            const timeUntil = nextTime - now;
-            
-            allEvents.push({
-                ...service,
-                nextTime: nextTime,
-                timeUntil: timeUntil,
-                isLive: isLive,
-                sortTime: nextTime,
-                badge: 'Regular Service'
+
+        if (this.eventsReady) {
+            // Weekly services derived from events.js (PT-aware)
+            const weeklyServices = this.getNextWeeklyServices(now);
+            weeklyServices.forEach(service => {
+                allEvents.push(service);
             });
-        });
-        
-        // Add special events
-        this.specialEvents.forEach(event => {
-            const eventDate = new Date(event.date + 'T' + event.time);
-            if (eventDate > now) {
-                const timeUntil = eventDate - now;
+
+            // Special GPBC events (non-weekly)
+            const upcomingSpecialEvents = this.getUpcomingSpecialEvents(now, 50);
+            upcomingSpecialEvents.forEach(event => {
+                const timeUntil = event.dateTime - now;
                 allEvents.push({
-                    ...event,
-                    nextTime: eventDate,
-                    timeUntil: timeUntil,
+                    name: event.name,
+                    date: event.date,
+                    time: event.time24,
+                    icon: event.icon || this.getEventIcon(event),
+                    badge: event.badge || 'Special Event',
+                    type: 'event',
+                    nextTime: event.dateTime,
+                    timeUntil,
                     isLive: false,
-                    sortTime: eventDate,
-                    badge: 'Special Event'
+                    sortTime: event.dateTime
                 });
-            }
-        });
+            });
+        } else {
+            // Fallback to static weekly services if events.js is unavailable
+            this.services.forEach(service => {
+                const nextTime = this.getNextOccurrence(service.day, service.time);
+                const isLive = this.isServiceHappeningNow(nextTime, service.duration);
+                const timeUntil = nextTime - now;
+
+                allEvents.push({
+                    ...service,
+                    nextTime,
+                    timeUntil,
+                    isLive,
+                    sortTime: nextTime,
+                    badge: 'Regular Service'
+                });
+            });
+
+            // Add special events if any were loaded
+            this.specialEvents.forEach(event => {
+                const eventDate = this.buildZonedDate(event.date, event.time);
+                if (eventDate > now) {
+                    const timeUntil = eventDate - now;
+                    allEvents.push({
+                        ...event,
+                        nextTime: eventDate,
+                        timeUntil,
+                        isLive: false,
+                        sortTime: eventDate,
+                        badge: event.badge || 'Special Event'
+                    });
+                }
+            });
+        }
         
         // Sort by time
         allEvents.sort((a, b) => a.sortTime - b.sortTime);
@@ -334,18 +544,45 @@ class CountdownSystem {
             const formattedTime = this.formatTime(event.time);
             const isService = event.type === 'service';
             const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            
+            const dayIndex = typeof event.day === 'number' ? event.day : this.getZonedWeekdayIndex(event.nextTime);
+            const dayName = dayNames[dayIndex];
+
             let dateTimeStr;
+            let detailsLabel;
+            let detailsNote;
+
             if (isService) {
-                dateTimeStr = `Every ${dayNames[event.day]} at ${formattedTime}`;
+                dateTimeStr = `Every ${dayName} at ${formattedTime} PT`;
+                detailsLabel = event.detailsLabel || `${dayName} at ${formattedTime} PT`;
+                detailsNote = event.detailsNote || 'Weekly service gathering';
             } else {
-                dateTimeStr = `${this.formatDate(event.nextTime)} at ${formattedTime}`;
+                dateTimeStr = `${this.formatDate(event.nextTime)} at ${formattedTime} PT`;
+                detailsLabel = `${this.formatDate(event.nextTime)} at ${formattedTime} PT`;
+                detailsNote = 'Special event — see calendar for details';
             }
-            
-            const cardId = `top-strip-${Date.now()}`;
-            
+
+            const cardId = 'top-strip';
+            const eventKey = `${event.type || 'event'}|${event.name}|${event.nextTime.toISOString()}`;
+            const shouldRender =
+                container.dataset.eventKey !== eventKey ||
+                container.dataset.eventLive !== String(event.isLive);
+
+            if (!shouldRender) {
+                if (!event.isLive) {
+                    this.updateCountdownNumbers(container, countdown, cardId);
+                }
+                return;
+            }
+
+            container.dataset.eventKey = eventKey;
+            container.dataset.eventLive = String(event.isLive);
+
             container.innerHTML = `
-                <div class="next-event-banner ${event.isLive ? 'happening-now' : ''}" data-card-id="${cardId}">
+                <div class="next-event-banner ${event.isLive ? 'happening-now' : ''}" data-card-id="${cardId}"
+                    data-event-type="${event.type}"
+                    data-event-name="${event.name}"
+                    data-event-time-label="${detailsLabel}"
+                    data-event-note="${detailsNote}">
                     <div class="event-header">
                         <span class="event-icon" data-translate="no">${event.icon}</span>
                         <div class="event-title-wrapper">
@@ -381,9 +618,10 @@ class CountdownSystem {
                 
                 let dateTimeStr;
                 if (isService) {
-                    dateTimeStr = `${dayNames[event.day]}s at ${formattedTime}`;
+                    const dayIndex = typeof event.day === 'number' ? event.day : this.getZonedWeekdayIndex(event.nextTime);
+                    dateTimeStr = `Every ${dayNames[dayIndex]} at ${formattedTime} PT`;
                 } else {
-                    dateTimeStr = `${this.formatDate(event.nextTime)} at ${formattedTime}`;
+                    dateTimeStr = `${this.formatDate(event.nextTime)} at ${formattedTime} PT`;
                 }
                 
                 const cardId = `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
@@ -426,8 +664,26 @@ class CountdownSystem {
     }
 
     formatDate(date) {
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        return date.toLocaleDateString('en-US', options);
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: this.timeZone
+        };
+        return new Intl.DateTimeFormat('en-US', options).format(date);
+    }
+
+    updateCountdownNumbers(container, countdown, cardId) {
+        const daysEl = container.querySelector(`[data-countdown-days="${cardId}"]`);
+        const hoursEl = container.querySelector(`[data-countdown-hours="${cardId}"]`);
+        const minutesEl = container.querySelector(`[data-countdown-minutes="${cardId}"]`);
+        const secondsEl = container.querySelector(`[data-countdown-seconds="${cardId}"]`);
+
+        if (daysEl) daysEl.textContent = String(countdown.days).padStart(2, '0');
+        if (hoursEl) hoursEl.textContent = String(countdown.hours).padStart(2, '0');
+        if (minutesEl) minutesEl.textContent = String(countdown.minutes).padStart(2, '0');
+        if (secondsEl) secondsEl.textContent = String(countdown.seconds).padStart(2, '0');
     }
 
     updateCountdownValues() {
@@ -471,25 +727,14 @@ class CountdownSystem {
         if (!banner) return;
 
         const now = new Date();
-        
-        // Find the next upcoming special event
-        const upcomingEvents = this.specialEvents.filter(event => {
-            const eventDate = new Date(event.date + 'T' + event.time);
-            return eventDate > now;
-        }).sort((a, b) => {
-            const dateA = new Date(a.date + 'T' + a.time);
-            const dateB = new Date(b.date + 'T' + b.time);
-            return dateA - dateB;
-        });
+        const nextEvent = this.getNextEvent();
 
-        // If no upcoming events, hide banner
-        if (upcomingEvents.length === 0) {
+        if (!nextEvent || !nextEvent.nextTime) {
             banner.style.display = 'none';
             return;
         }
 
-        const specialEvent = upcomingEvents[0];
-        const eventDate = new Date(specialEvent.date + 'T' + specialEvent.time);
+        const eventDate = nextEvent.nextTime;
 
         // Show banner and calculate countdown
         banner.style.display = 'block';
@@ -500,17 +745,29 @@ class CountdownSystem {
         const eventLabelEl = banner.querySelector('.event-label strong');
         const eventIconEl = banner.querySelector('.event-icon');
         const bannerLink = banner.querySelector('.banner-link');
+        const timeEl = banner.querySelector('.inline-countdown');
         
         if (eventLabelEl) {
-            eventLabelEl.textContent = specialEvent.name;
+            eventLabelEl.textContent = nextEvent.name || 'Next Service';
         }
         if (eventIconEl) {
-            eventIconEl.textContent = specialEvent.icon;
+            eventIconEl.textContent = nextEvent.icon || this.getEventIcon(nextEvent);
         }
         if (bannerLink) {
-            // Link to the specific event card using event date as ID
-            bannerLink.href = `#event-${specialEvent.date}`;
-            bannerLink.setAttribute('aria-label', `View ${specialEvent.name} details`);
+            if (nextEvent.type === 'service') {
+                bannerLink.href = '#next-service';
+                bannerLink.setAttribute('aria-label', `View ${nextEvent.name} details`);
+            } else if (nextEvent.date) {
+                // Link to the specific event card using event date as ID
+                bannerLink.href = `#event-${nextEvent.date}`;
+                bannerLink.setAttribute('aria-label', `View ${nextEvent.name} details`);
+            } else {
+                bannerLink.href = 'calendar.html';
+                bannerLink.setAttribute('aria-label', `View event details`);
+            }
+        }
+        if (timeEl) {
+            timeEl.setAttribute('datetime', eventDate.toISOString());
         }
 
         // Update countdown values

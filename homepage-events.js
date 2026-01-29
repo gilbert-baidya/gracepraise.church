@@ -6,6 +6,7 @@
 class HomepageEvents {
     constructor() {
         this.container = document.getElementById('dynamic-events-container');
+        this.timeZone = 'America/Los_Angeles';
         // Default address fallback; updated from content.json when available
         this.churchAddress = {
             display: '1325 Richardson Street, CA 92408',
@@ -58,6 +59,62 @@ class HomepageEvents {
         return timeStr;
     }
 
+    getTimeZoneParts(date, timeZone) {
+        const formatter = new Intl.DateTimeFormat('en-US', {
+            timeZone,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        });
+
+        const parts = formatter.formatToParts(date);
+        const map = {};
+        parts.forEach(part => {
+            map[part.type] = part.value;
+        });
+
+        return {
+            year: Number(map.year),
+            month: Number(map.month),
+            day: Number(map.day),
+            hour: Number(map.hour),
+            minute: Number(map.minute),
+            second: Number(map.second)
+        };
+    }
+
+    getTimeZoneOffset(date, timeZone) {
+        const parts = this.getTimeZoneParts(date, timeZone);
+        const utcTime = Date.UTC(
+            parts.year,
+            parts.month - 1,
+            parts.day,
+            parts.hour,
+            parts.minute,
+            parts.second
+        );
+        return utcTime - date.getTime();
+    }
+
+    zonedTimeToUtc(year, month, day, hour, minute, second, timeZone) {
+        const utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+        const offset = this.getTimeZoneOffset(utcDate, timeZone);
+        return new Date(utcDate.getTime() - offset);
+    }
+
+    buildZonedDateTime(dateString, timeString = '00:00') {
+        const [year, month, day] = dateString.split('-').map(Number);
+        const time24 = this.convertTo24Hour(timeString);
+        const [hoursStr = '0', minutesStr = '0'] = time24.includes(':') ? time24.split(':') : ['0', '0'];
+        const hours = Number(hoursStr);
+        const minutes = Number(minutesStr);
+        return this.zonedTimeToUtc(year, month, day, hours || 0, minutes || 0, 0, this.timeZone);
+    }
+
     getSpecialGPBCEvents() {
         // Get current date and time
         const now = new Date();
@@ -67,24 +124,18 @@ class HomepageEvents {
             return [];
         }
 
-        // Get ALL upcoming GPBC events (regular + special)
+        // Get ALL upcoming GPBC events (exclude weekly services by serviceKey)
         const gpbcEvents = events.filter(event => {
-            const time24 = this.convertTo24Hour(event.eventTime || '17:00');
-            const eventDateTime = new Date(event.date + 'T' + time24);
-            const name = event.name || '';
+            const eventDateTime = this.buildZonedDateTime(event.date, event.eventTime || '17:00');
             return event.category === 'gpbc'
                 && eventDateTime > now
-                && !name.includes('Connection')
-                && !name.includes('Worship Service')
-                && !name.includes('Fasting Prayer');
+                && !event.serviceKey;
         });
 
         // Sort by date/time (earliest first)
         gpbcEvents.sort((a, b) => {
-            const timeA = this.convertTo24Hour(a.eventTime || '17:00');
-            const timeB = this.convertTo24Hour(b.eventTime || '17:00');
-            const dateA = new Date(a.date + 'T' + timeA);
-            const dateB = new Date(b.date + 'T' + timeB);
+            const dateA = this.buildZonedDateTime(a.date, a.eventTime || '17:00');
+            const dateB = this.buildZonedDateTime(b.date, b.eventTime || '17:00');
             return dateA - dateB;
         });
 
@@ -92,21 +143,14 @@ class HomepageEvents {
         return gpbcEvents.slice(0, 1);
     }
 
-    buildLocalDateTime(dateString, timeString = '00:00') {
-        // Construct a Date in local time (avoids UTC shift from Date parsing)
-        const [year, month, day] = dateString.split('-').map(Number);
-        const time24 = this.convertTo24Hour(timeString);
-        const [hours, minutes] = time24.split(':').map(Number);
-        return new Date(year, month - 1, day, hours || 0, minutes || 0, 0);
-    }
-
     formatEventDate(dateString, timeString) {
-        const date = this.buildLocalDateTime(dateString, timeString);
+        const date = this.buildZonedDateTime(dateString, timeString);
         const options = {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
-            day: 'numeric'
+            day: 'numeric',
+            timeZone: this.timeZone
         };
         return date.toLocaleDateString('en-US', options);
     }
@@ -128,9 +172,10 @@ class HomepageEvents {
     getEventDetails(event) {
         // Extract or generate event details
         const eventTime = event.eventTime || 'TBA';
+        const displayTime = eventTime === 'TBA' ? 'TBA' : `${eventTime} PT`;
         const details = {
             when: this.formatEventDate(event.date, eventTime),
-            time: eventTime,
+            time: displayTime,
             where: this.churchAddress.display,
             mapsUrl: this.churchAddress.mapsUrl,
             whatToExpect: this.getWhatToExpect(event),

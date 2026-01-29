@@ -7,6 +7,7 @@ const events = [
         return {
             date: date.toISOString().split('T')[0],
             name: '✨ Friday Connection (Prayer)',
+            serviceKey: 'friday-connection',
             category: 'gpbc',
             eventCategory: 'GPBC',
             eventType: 'prayer',
@@ -21,6 +22,7 @@ const events = [
         return {
             date: date.toISOString().split('T')[0],
             name: '🙌 Fasting Prayer',
+            serviceKey: 'fasting-prayer',
             category: 'gpbc',
             eventCategory: 'GPBC',
             eventType: 'prayer',
@@ -35,6 +37,7 @@ const events = [
         return {
             date: date.toISOString().split('T')[0],
             name: '🙏 Sunday Connection',
+            serviceKey: 'sunday-connection',
             category: 'gpbc',
             eventCategory: 'GPBC',
             eventType: 'worship',
@@ -49,6 +52,7 @@ const events = [
         return {
             date: date.toISOString().split('T')[0],
             name: 'Worship Service',
+            serviceKey: 'sunday-service',
             category: 'gpbc',
             eventCategory: 'GPBC',
             eventType: 'worship',
@@ -152,7 +156,7 @@ const categoryEmojis = {
 };
 
 // Events database version - increment when structure changes
-const EVENTS_VERSION = '3.0';
+const EVENTS_VERSION = '3.1';
 
 // Load custom GPBC events from localStorage
 function loadCustomEvents() {
