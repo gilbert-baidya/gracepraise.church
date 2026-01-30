@@ -42,11 +42,6 @@
 
 /* Mobile rhythm: breather + consistent section titles */
 @media (max-width: 768px) {
-    #next-service,
-    .next-service-section {
-        padding-top: 80px !important;
-    }
-
     .next-service-section::before {
         height: 80px;
     }
@@ -56,19 +51,6 @@
     #ministries h2,
     #featured-events h2 {
         margin-bottom: 1rem;
-    }
-}
-
-/* FIX 3: Anchor scroll offset for all anchor links on homepage */
-@media (max-width: 1024px) {
-
-    body.homepage section[id],
-    body.homepage div[id],
-    body[data-page="home"] section[id],
-    body[data-page="home"] div[id],
-    .page-home section[id],
-    .page-home div[id] {
-        scroll-margin-top: calc(var(--header-height) + var(--countdown-banner-height) + 20px);
     }
 }
 

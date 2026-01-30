@@ -499,6 +499,9 @@
 
 
 
+        <!-- LIQUID TRANSITION GAP -->
+        <div class="liquid-transition-gap" aria-hidden="true"></div>
+
         <!-- NEXT SERVICE SECTION — FIX FOR HEADER LINK ANCHOR -->
         <section class="next-service-section" id="next-service" aria-labelledby="next-service-heading">
             <div class="next-service-content">
@@ -642,6 +645,36 @@
                 <div class="cta-buttons">
                     <a href="beliefs.html" class="btn btn-primary">See Our Beliefs</a>
                     <a href="leadership.html" class="btn btn-secondary">Meet the Leaders</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Welcome Home -->
+        <section class="welcome" id="about" aria-labelledby="welcome-heading">
+            <div class="welcome-content">
+                <h2 id="welcome-heading">Welcome Home</h2>
+                <p class="intro">We are a vibrant community of believers who gather to worship God, grow in faith, and
+                    serve our community. As a Bengali Christian church, we're proud to serve families in San Bernardino
+                    and the surrounding Inland Empire with worship in both Bengali and English. Whether you're new to
+                    church or returning after time away, you'll find a warm welcome here.</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <span class="stat-number" data-count="500">0</span>
+                    <span class="stat-label">Members</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-count="20">0</span>
+                    <span class="stat-label">Years Serving</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-count="100">0</span>
+                    <span class="stat-label">Weekly Attendance</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-count="24">0</span>
+                    <span class="stat-label">Prayer Support</span>
                 </div>
             </div>
         </section>
@@ -1257,36 +1290,6 @@
 
         </section>
 
-        <!-- Welcome Home -->
-        <section class="welcome" id="about" aria-labelledby="welcome-heading">
-            <div class="welcome-content">
-                <h2 id="welcome-heading">Welcome Home</h2>
-                <p class="intro">We are a vibrant community of believers who gather to worship God, grow in faith, and
-                    serve our community. As a Bengali Christian church, we're proud to serve families in San Bernardino
-                    and the surrounding Inland Empire with worship in both Bengali and English. Whether you're new to
-                    church or returning after time away, you'll find a warm welcome here.</p>
-            </div>
-
-            <div class="stats">
-                <div class="stat-card">
-                    <span class="stat-number" data-count="500">0</span>
-                    <span class="stat-label">Members</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" data-count="20">0</span>
-                    <span class="stat-label">Years Serving</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" data-count="100">0</span>
-                    <span class="stat-label">Weekly Attendance</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" data-count="24">0</span>
-                    <span class="stat-label">Prayer Support</span>
-                </div>
-            </div>
-        </section>
-
         <!-- What's Happening -->
         <section class="whats-happening" aria-labelledby="happening-heading">
             <h2 id="happening-heading">What's Happening</h2>
@@ -1512,7 +1515,7 @@
 
         // Observe stats section when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            const statsSection = document.querySelector('.stats');
+            const statsSection = document.querySelector('#about .stats');
             if (statsSection) {
                 statsObserver.observe(statsSection);
             }

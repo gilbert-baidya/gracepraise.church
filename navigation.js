@@ -32,6 +32,38 @@
     const mobileOverlay = document.querySelector('.mobile-overlay');
     const navDropdowns = document.querySelectorAll('.nav-dropdown');
     const navNestedDropdowns = document.querySelectorAll('.nav-dropdown-nested');
+    const root = document.documentElement;
+    const countdownBanner = document.getElementById('specialEventBanner') || document.querySelector('.inline-countdown-banner');
+
+    // ============================================
+    // SCROLL PADDING — HEADER + BANNER OFFSET
+    // ============================================
+
+    function getVisibleHeight(element) {
+        if (!element) return 0;
+        const style = window.getComputedStyle(element);
+        if (style.display === 'none' || style.visibility === 'hidden') {
+            return 0;
+        }
+        return element.offsetHeight || 0;
+    }
+
+    function updateScrollPadding() {
+        const headerHeight = header ? header.offsetHeight : 0;
+        const bannerHeight = getVisibleHeight(countdownBanner);
+        const totalOffset = headerHeight + bannerHeight;
+        root.style.scrollPaddingTop = `${totalOffset}px`;
+        root.style.setProperty('--scroll-padding-top', `${totalOffset}px`);
+    }
+
+    updateScrollPadding();
+    window.addEventListener('resize', updateScrollPadding);
+    window.addEventListener('orientationchange', updateScrollPadding);
+
+    if (countdownBanner && 'MutationObserver' in window) {
+        const bannerObserver = new MutationObserver(updateScrollPadding);
+        bannerObserver.observe(countdownBanner, { attributes: true, attributeFilter: ['style', 'class'] });
+    }
 
     // ============================================
     // STICKY HEADER BEHAVIOR (DESKTOP)
@@ -50,6 +82,7 @@
         }
 
         lastScroll = currentScroll;
+        updateScrollPadding();
     });
 
     // ============================================
