@@ -1469,6 +1469,7 @@ header.scrolled nav {
     color: var(--color-primary);
     font-size: 1rem;
 }
+
 /* ========================================
    Hero Section - Style C: Warm Premium
    ======================================== */
@@ -2265,7 +2266,7 @@ body[data-theme="dark"] .next-service-section::before {
     display: block;
 }
 
-.whats-happening-macro > * + * {
+.whats-happening-macro>*+* {
     margin-top: var(--spacing-lg);
 }
 
@@ -3514,14 +3515,17 @@ footer {
         inset: 0;
         width: 100vw;
         height: 100vh;
-        background: var(--color-surface);
+        background: rgba(15, 23, 42, 0.95);
+        /* Deep navy glassmorphism */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
         padding: var(--spacing-3xl) var(--spacing-lg);
-        padding-top: 80px;
+        padding-top: 100px;
         box-shadow: none;
         transform: translateX(100%);
         transition: transform var(--transition-base);
-        z-index: 1002;
+        z-index: 1005;
         gap: var(--spacing-sm);
         align-items: flex-start;
         overflow-y: auto;
@@ -3569,10 +3573,20 @@ footer {
         width: 100%;
         padding: var(--spacing-md);
         font-size: var(--font-base);
+        color: #ffffff !important;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .dropdown-menu a,
+    .dropdown-menu-nested a {
+        color: rgba(255, 255, 255, 0.8) !important;
     }
 
     .nav-links li {
         width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     /* Mobile overlay */
@@ -3598,6 +3612,63 @@ footer {
         width: 100%;
         height: 100%;
         left: 0;
+        z-index: 1000;
+    }
+
+    /* FIX: Prevent header from creating a new containing block for fixed menu.
+       Transforms, filters, and backdrop-filters on a fixed parent will 'capture' fixed children. */
+    body.menu-open header,
+    body.menu-open nav,
+    body.menu-open .nav-container {
+        transform: none !important;
+        -webkit-transform: none !important;
+        will-change: auto !important;
+        filter: none !important;
+        -webkit-filter: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        contain: none !important;
+    }
+
+    /* FIX: Force header to stay at top of viewport when body is offset by scroll-lock.
+       Sticky elements inside a fixed/shifted body will move with the body.
+       Fixed elements stay relative to the viewport. */
+    body.menu-open header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        z-index: 2000 !important;
+        /* Ensure header is above nav-links (1005) */
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    /* FIX: Ensure logo and burger icon are visible and white on the dark menu background */
+    body.menu-open .logo {
+        color: #ffffff !important;
+        z-index: 2001 !important;
+    }
+
+    body.menu-open .mobile-menu-btn {
+        z-index: 2001 !important;
+    }
+
+    body.menu-open .mobile-menu-btn span {
+        background-color: #ffffff !important;
+    }
+
+    body.menu-open .mobile-menu-btn span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    body.menu-open .mobile-menu-btn span:nth-child(2) {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+
+    body.menu-open .mobile-menu-btn span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
     }
 
     /* No padding needed - sticky header + relative banner flow naturally */
@@ -4464,10 +4535,13 @@ body[data-theme="dark"] .nav-links a:hover {
 
 body.dark .nav-links a.active,
 body[data-theme="dark"] .nav-links a.active {
-    color: #93c5fd; /* Brighter blue */
-    background-color: rgba(96, 165, 250, 0.25); /* Increased from 0.15 */
+    color: #93c5fd;
+    /* Brighter blue */
+    background-color: rgba(96, 165, 250, 0.25);
+    /* Increased from 0.15 */
     font-weight: var(--font-bold);
-    border-bottom: 3px solid #60a5fa; /* Add border for emphasis */
+    border-bottom: 3px solid #60a5fa;
+    /* Add border for emphasis */
 }
 
 /* ========================================
@@ -5104,13 +5178,13 @@ body[data-theme="dark"] .content-page-body div[style*="background: white"],
 body[data-theme="dark"] .content-page-body div[style*="background:white"] {
     background: #1f2937 !important;
     border-color: #374151 !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
 }
 
 body[data-theme="dark"] .content-page-body div[style*="background: linear-gradient"] {
     background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
     border-color: #374151 !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
 }
 
 /* Force text colors in dark mode */
@@ -5145,7 +5219,8 @@ body[data-theme="dark"] .content-page-body div[style*="border-left"] {
 body[data-theme="dark"] .content-page-body a {
     color: #60a5fa !important;
 }
+
 body[data-theme="dark"] .content-page-body a[style*="background"] {
     color: #ffffff !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
 }
