@@ -1,3 +1,20 @@
+@media (max-width: 768px) {
+    .action-buttons {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: var(--spacing-md) !important;
+        width: 100%;
+    }
+    .action-buttons .btn,
+    .action-buttons .btn-secondary {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+        display: block;
+        text-align: center;
+    }
+}
 /* ========================================
    CSS Variables / Design Tokens
    ======================================== */
@@ -2494,10 +2511,25 @@ body[data-theme="dark"] .next-service-section::before {
     margin-bottom: 0;
 }
 
+
 .visit-cta {
     margin-top: var(--spacing-2xl);
     padding-top: var(--spacing-xl);
     border-top: 1px solid var(--color-border);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-lg);
+}
+
+.visit-cta .btn,
+.visit-cta .btn-primary {
+    margin: 0 auto;
+    display: block;
+    max-width: 280px;
+    width: 100%;
     text-align: center;
 }
 
@@ -3753,12 +3785,17 @@ footer {
     .service-details-footer {
         padding: 0 var(--spacing-lg);
         display: flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
+        gap: var(--spacing-md);
     }
 
     .service-details-footer .btn-compact {
         width: 100%;
         max-width: 280px;
+        margin: 0 auto;
+        display: block;
     }
 
     /* New Here mobile adjustments */
