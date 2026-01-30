@@ -1,5 +1,6 @@
 {
-  "logo": "",
+  "logo": "/images/logo/gpbc-white.svg",
+  "logoDark": "/images/logo/gpbc-black.svg",
   "churchName": "Grace and Praise Bangladeshi Church",
   "abbreviation": "GPBC"
 }

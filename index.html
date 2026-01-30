@@ -36,6 +36,7 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="redesign-styles.css?v=20260112">
+    <link rel="stylesheet" href="hero-upgrade.css">
     <link rel="stylesheet" href="countdown.css">
     <link rel="stylesheet" href="shape-system.css">
     <link rel="stylesheet" href="heptagon-wheel-sacred.css">
@@ -508,46 +509,95 @@
     </div>
 
     <main id="main-content">
-        <!-- Hero Section -->
-        <section class="hero" id="home">
-            <div class="hero-content">
-                <div class="hero-text">
+        <!-- HERO UPGRADE: HYBRID GLASSMORPHISM -->
+        <section class="hero-upgrade" id="home">
+            <!-- Video Background Base Layer -->
+            <div class="video-background">
+                <video autoplay muted loop playsinline poster="images/hero-fallback.jpg">
+                    <source
+                        src="https://player.vimeo.com/external/494252666.sd.mp4?s=72fd1304543788771966ec93e7e226027a65975b&profile_id=164&oauth2_token_id=57447761"
+                        type="video/mp4">
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+
+            <!-- Dynamic Background Effects -->
+            <div class="mesh-gradient" aria-hidden="true">
+                <div class="mesh-point mesh-point-1"></div>
+                <div class="mesh-point mesh-point-2"></div>
+                <div class="mesh-point mesh-point-3"></div>
+            </div>
+            <div class="global-lines" aria-hidden="true"></div>
+
+            <div class="hero-upgrade-container">
+                <!-- Text Content -->
+                <div class="hero-main-text">
                     <h1>
-                        <span data-lang="en">Grace and Praise Bangladeshi Church — San Bernardino, CA</span>
-                        <span data-lang="bn" style="display:none;">[গ্রেস এন্ড প্রেইজ বাংলাদেশী চার্চ]</span>
+                        <span class="gradient-text">A Community</span>
+                        <span>of Grace</span>
                     </h1>
-                    <p class="tagline">
-                        <span data-lang="en">A Christ-centered community worshiping, growing, and serving
-                            together</span>
-                        <span data-lang="bn" style="display:none;">[খ্রীষ্ট-কেন্দ্রিক সম্প্রদায়]</span>
+                    <p class="hero-description">
+                        From Bangladesh to San Bernardino, we are a diverse family united in Christ.
+                        Experience futuristic worship rooted in timeless tradition.
                     </p>
-                    <p class="address">1325 Richardson Street, San Bernardino, CA 92408</p>
-                    <div class="cta-buttons">
-                        <a href="#next-service" class="btn btn-primary">
-                            <span data-lang="en">See Service Countdown</span>
-                            <span data-lang="bn" style="display:none;">[সেবা কাউন্টডাউন দেখুন]</span>
+                    <div class="hero-actions">
+                        <a href="#next-service" class="btn-glass btn-glass-primary">
+                            <span>Join Us This Sunday</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
                         </a>
-                        <a href="https://www.youtube.com/@GracePraise.Church" target="_blank" rel="noopener noreferrer"
-                            class="btn btn-secondary">
-                            <span data-lang="en">Watch Past Services</span>
-                            <span data-lang="bn" style="display:none;">[পূর্ববর্তী সেবা দেখুন]</span>
+                        <a href="#new-here" class="btn-glass">
+                            I'm New Here
                         </a>
-                        <a href="#new-here" class="btn btn-secondary">
-                            <span data-lang="en">New Here?</span>
-                            <span data-lang="bn" style="display:none;">[নতুন?]</span>
-                        </a>
+                        <button class="btn-glass btn-watch-story" onclick="openVideoModal()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5,3 19,12 5,21"></polygon>
+                            </svg>
+                            Watch Our Story
+                        </button>
                     </div>
                 </div>
-                <!-- AUTHENTIC HERO IMAGE FALLBACK/POSTER -->
-                <div class="hero-video">
-                    <div class="video-container"
-                        style="background-image: url('images/hero-worship-authentic.png'); background-size: cover; background-position: center;">
-                        <iframe src="https://www.youtube.com/embed/videoseries?list=UULFOrkCWKNIiDpCzabSxZ2HcQ"
-                            title="Grace and Praise Bangladeshi Church YouTube Channel - Community Worship"
-                            frameborder="0"
-                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen loading="lazy">
-                        </iframe>
+
+                <!-- Mosaic Bento Grid -->
+                <div class="hero-visual-grid">
+                    <div class="bento-card card-1 float-1">
+                        <img src="images/community-worship.png" alt="Community Worship" class="card-img"
+                            loading="eager">
+                    </div>
+                    <div class="bento-card card-2 float-2">
+                        <img src="images/community-youth-night.png" alt="Youth Night" class="card-img" loading="lazy">
+                    </div>
+                    <div class="bento-card card-3 float-3">
+                        <img src="images/hero-worship-authentic.png" alt="Sanctuary Atmosphere" class="card-img"
+                            loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator"
+                onclick="document.getElementById('sacred-focus').scrollIntoView({behavior: 'smooth'})"
+                aria-label="Scroll to content">
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+                <span class="scroll-text">Scroll Down</span>
+            </div>
+
+            <!-- Video Modal Structure -->
+            <div id="heroVideoModal" class="hero-video-modal" role="dialog" aria-modal="true"
+                aria-label="Our Story Video">
+                <button class="close-modal" onclick="closeVideoModal()" aria-label="Close modal">✕</button>
+                <div class="video-modal-content">
+                    <div class="video-player-wrapper">
+                        <!-- Using vimeo as example, in production replace with church video -->
+                        <iframe id="heroStoryVideo"
+                            src="https://player.vimeo.com/video/494252666?h=72fd130454&badge=0&autopause=0&player_id=0&app_id=58479"
+                            frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+                            title="Our Story"></iframe>
                     </div>
                 </div>
             </div>
@@ -898,91 +948,94 @@
             <div id="dynamic-events-container"></div>
 
             <!-- THE COMMUNITY HALO - Reimagined Community Section -->
-        <section class="shape-circle-container gentle-fade-in" id="circle-hero">
-            <div class="circle-carousel" tabindex="0" role="region" aria-label="Community highlights carousel">
+            <section class="shape-circle-container gentle-fade-in" id="circle-hero">
+                <div class="circle-carousel" tabindex="0" role="region" aria-label="Community highlights carousel">
 
-                <!-- Slide 1: Sunday Worship -->
-                <div class="circle-carousel-item active">
-                    <div class="slide-backdrop"
-                        style="background-image: url('images/community-worship.png');"></div>
-                    <div class="slide-overlay"></div>
-                    <div class="glass-halo-card">
-                        <div class="unity-ring"></div>
-                        <div class="shape-content-wrapper">
-                            <h2>Join Us in Worship</h2>
-                            <p class="shape-scripture">
-                                "Taste and see that the Lord is good; blessed is the one who takes refuge in him."
-                                <br>— Psalm 34:8
-                            </p>
-                            <p class="slide-description">
-                                Experience the warmth of fellowship and the joy of worshiping together as one body in
-                                Christ.
-                            </p>
-                            <a href="#next-service" class="btn btn-primary btn-hero-light">
-                                View Service Countdown →
-                            </a>
+                    <!-- Slide 1: Sunday Worship -->
+                    <div class="circle-carousel-item active">
+                        <div class="slide-backdrop" style="background-image: url('images/community-worship.png');">
+                        </div>
+                        <div class="slide-overlay"></div>
+                        <div class="glass-halo-card">
+                            <div class="unity-ring"></div>
+                            <div class="shape-content-wrapper">
+                                <h2>Join Us in Worship</h2>
+                                <p class="shape-scripture">
+                                    "Taste and see that the Lord is good; blessed is the one who takes refuge in him."
+                                    <br>— Psalm 34:8
+                                </p>
+                                <p class="slide-description">
+                                    Experience the warmth of fellowship and the joy of worshiping together as one body
+                                    in
+                                    Christ.
+                                </p>
+                                <a href="#next-service" class="btn btn-primary btn-hero-light">
+                                    View Service Countdown →
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Slide 2: Community Prayer -->
-                <div class="circle-carousel-item">
-                    <div class="slide-backdrop"
-                        style="background-image: url('images/fasting-prayer-hands.jpg');"></div>
-                    <div class="slide-overlay"></div>
-                    <div class="glass-halo-card">
-                        <div class="unity-ring"></div>
-                        <div class="shape-content-wrapper">
-                            <h2>United in Prayer</h2>
-                            <p class="shape-scripture">
-                                "Again, truly I tell you that if two of you on earth agree about anything they ask for,
-                                it
-                                will be done for them by my Father in heaven."
-                                <br>— Matthew 18:19
-                            </p>
-                            <p class="slide-description">
-                                Our prayer circle meets to lift up our community's needs to God in faith and unity.
-                            </p>
-                            <a href="prayer-request.html" class="btn btn-primary btn-hero-light">
-                                Request Prayer →
-                            </a>
+                    <!-- Slide 2: Community Prayer -->
+                    <div class="circle-carousel-item">
+                        <div class="slide-backdrop" style="background-image: url('images/fasting-prayer-hands.jpg');">
+                        </div>
+                        <div class="slide-overlay"></div>
+                        <div class="glass-halo-card">
+                            <div class="unity-ring"></div>
+                            <div class="shape-content-wrapper">
+                                <h2>United in Prayer</h2>
+                                <p class="shape-scripture">
+                                    "Again, truly I tell you that if two of you on earth agree about anything they ask
+                                    for,
+                                    it
+                                    will be done for them by my Father in heaven."
+                                    <br>— Matthew 18:19
+                                </p>
+                                <p class="slide-description">
+                                    Our prayer circle meets to lift up our community's needs to God in faith and unity.
+                                </p>
+                                <a href="prayer-request.html" class="btn btn-primary btn-hero-light">
+                                    Request Prayer →
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Slide 3: Testimonies -->
-                <div class="circle-carousel-item">
-                    <div class="slide-backdrop"
-                        style="background-image: url('images/community-greeting.png');"></div>
-                    <div class="slide-overlay"></div>
-                    <div class="glass-halo-card">
-                        <div class="unity-ring"></div>
-                        <div class="shape-content-wrapper">
-                            <h2>Stories of Grace</h2>
-                            <p class="shape-scripture">
-                                "They triumphed over him by the blood of the Lamb and by the word of their testimony."
-                                <br>— Revelation 12:11
-                            </p>
-                            <p class="slide-description">
-                                Hear how God is working in the lives of our church family through transformation and
-                                hope.
-                            </p>
-                            <a href="testimonies.html" class="btn btn-primary btn-hero-light">
-                                Read Testimonies →
-                            </a>
+                    <!-- Slide 3: Testimonies -->
+                    <div class="circle-carousel-item">
+                        <div class="slide-backdrop" style="background-image: url('images/community-greeting.png');">
+                        </div>
+                        <div class="slide-overlay"></div>
+                        <div class="glass-halo-card">
+                            <div class="unity-ring"></div>
+                            <div class="shape-content-wrapper">
+                                <h2>Stories of Grace</h2>
+                                <p class="shape-scripture">
+                                    "They triumphed over him by the blood of the Lamb and by the word of their
+                                    testimony."
+                                    <br>— Revelation 12:11
+                                </p>
+                                <p class="slide-description">
+                                    Hear how God is working in the lives of our church family through transformation and
+                                    hope.
+                                </p>
+                                <a href="testimonies.html" class="btn btn-primary btn-hero-light">
+                                    Read Testimonies →
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Circle Navigation Dots -->
-                <div class="circle-nav-dots" role="tablist" aria-label="Carousel navigation">
-                    <button class="circle-dot active" role="tab" aria-label="Go to slide 1"
-                        aria-selected="true"></button>
-                    <button class="circle-dot" role="tab" aria-label="Go to slide 2" aria-selected="false"></button>
-                    <button class="circle-dot" role="tab" aria-label="Go to slide 3" aria-selected="false"></button>
+                    <!-- Circle Navigation Dots -->
+                    <div class="circle-nav-dots" role="tablist" aria-label="Carousel navigation">
+                        <button class="circle-dot active" role="tab" aria-label="Go to slide 1"
+                            aria-selected="true"></button>
+                        <button class="circle-dot" role="tab" aria-label="Go to slide 2" aria-selected="false"></button>
+                        <button class="circle-dot" role="tab" aria-label="Go to slide 3" aria-selected="false"></button>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         </div>
 
         <!-- GPBC Loop Scroll – Scroll-driven circular slider. Isolated, safe to remove -->
@@ -4821,7 +4874,8 @@
     <!-- SCROLL TO TOP BUTTON -->
     <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 4L12 20M12 4L6 10M12 4L18 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+            <path d="M12 4L12 20M12 4L6 10M12 4L18 10" stroke="white" stroke-width="2.5" stroke-linecap="round"
+                stroke-linejoin="round" opacity="0.4" />
         </svg>
     </button>
 
@@ -4856,6 +4910,7 @@
             }
         })();
     </script>
+    <script src="hero-upgrade.js" defer></script>
 </body>
 
 </html>

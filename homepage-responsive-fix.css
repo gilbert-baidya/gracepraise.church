@@ -233,6 +233,26 @@
 /* 5) CAROUSEL CTA BUTTONS — Better tap area */
 @media (max-width: 768px) {
 
+    /* Fix: Center event-cta buttons on homepage */
+    body.homepage .event-cta,
+    body[data-page="home"] .event-cta,
+    .page-home .event-cta {
+        align-items: center !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: var(--spacing-md) !important;
+    }
+    body.homepage .event-cta .btn,
+    body[data-page="home"] .event-cta .btn,
+    .page-home .event-cta .btn {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+        display: block;
+        text-align: center;
+    }
+
+
     /* Circle carousel buttons */
     .circle-carousel .btn {
         min-height: 48px;
@@ -383,6 +403,115 @@
     body[data-page="home"] .dropdown-menu a:active,
     .page-home .dropdown-menu a:active {
         background: rgba(59, 130, 246, 0.12) !important;
+    }
+}
+
+/* ========================================
+   GET INVOLVED SECTION — Mobile Text Fixes
+   ======================================== */
+
+/* Prevent text truncation and overflow in Get Involved section */
+@media (max-width: 768px) {
+    body.homepage .block-the-loop .content,
+    body[data-page="home"] .block-the-loop .content,
+    .page-home .block-the-loop .content {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: none !important;
+        height: auto !important;
+        overflow: visible !important;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        hyphens: auto !important;
+    }
+
+    body.homepage .block-the-loop .content p,
+    body[data-page="home"] .block-the-loop .content p,
+    .page-home .block-the-loop .content p {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: none !important;
+        height: auto !important;
+        font-size: 1rem !important;
+        line-height: 1.65 !important;
+        overflow: visible !important;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        white-space: normal !important;
+        hyphens: auto !important;
+        margin-bottom: 1.5rem !important;
+        display: block !important;
+    }
+
+    body.homepage .block-the-loop .content h2,
+    body[data-page="home"] .block-the-loop .content h2,
+    .page-home .block-the-loop .content h2 {
+        font-size: 2rem !important;
+        line-height: 1.2 !important;
+        margin-bottom: 1rem !important;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        max-height: none !important;
+        height: auto !important;
+    }
+
+    body.homepage .block-the-loop .container,
+    body[data-page="home"] .block-the-loop .container,
+    .page-home .block-the-loop .container {
+        padding: 0 1.25rem !important;
+        gap: 2.5rem !important;
+        max-height: none !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    body.homepage .block-the-loop,
+    body[data-page="home"] .block-the-loop,
+    .page-home .block-the-loop {
+        padding: 3rem 0 !important;
+        max-height: none !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    /* Ensure button doesn't overflow */
+    body.homepage .block-the-loop .button,
+    body[data-page="home"] .block-the-loop .button,
+    .page-home .block-the-loop .button {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+        padding: 14px 32px !important;
+        font-size: 1rem !important;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    body.homepage .block-the-loop .content h2,
+    body[data-page="home"] .block-the-loop .content h2,
+    .page-home .block-the-loop .content h2 {
+        font-size: 1.75rem !important;
+    }
+
+    body.homepage .block-the-loop .content p,
+    body[data-page="home"] .block-the-loop .content p,
+    .page-home .block-the-loop .content p {
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+    }
+
+    body.homepage .block-the-loop .container,
+    body[data-page="home"] .block-the-loop .container,
+    .page-home .block-the-loop .container {
+        padding: 0 1rem !important;
+    }
+
+    body.homepage .block-the-loop .button,
+    body[data-page="home"] .block-the-loop .button,
+    .page-home .block-the-loop .button {
+        padding: 12px 28px !important;
+        font-size: 0.95rem !important;
     }
 }
 
