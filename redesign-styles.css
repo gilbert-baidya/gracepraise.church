@@ -198,6 +198,18 @@ main,
 }
 
 /* ========================================
+   Anchor Offsets (Desktop)
+   ======================================== */
+
+#home,
+#next-service,
+#new-here,
+#ministries,
+#featured-events {
+    scroll-margin-top: 100px;
+}
+
+/* ========================================
    Translation-Safe Styles
    ======================================== */
 
@@ -1899,12 +1911,15 @@ header.scrolled nav {
 }
 
 .new-here-card {
-    background: var(--color-surface);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: var(--spacing-xl);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-sm);
     text-align: center;
     border: 1px solid var(--color-border);
+    border-left: 2px solid var(--brand-primary);
 }
 
 .new-here-card .card-icon {
@@ -2141,7 +2156,7 @@ header.scrolled nav {
 .next-service-section {
     position: relative;
     padding: var(--spacing-3xl) var(--spacing-md);
-    padding-top: 160px;
+    padding-top: 150px;
     background: var(--color-surface);
     text-align: center;
     overflow: hidden;
@@ -4549,6 +4564,11 @@ body[data-theme="dark"] .new-here-card {
     background: #111827;
     border: 1px solid rgba(148, 163, 184, 0.2);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+body.dark .new-here-card,
+body[data-theme="dark"] .new-here-card {
+    border-left: 2px solid var(--brand-primary);
 }
 
 /* Video container in dark mode */

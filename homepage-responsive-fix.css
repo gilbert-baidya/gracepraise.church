@@ -40,6 +40,25 @@
     }
 }
 
+/* Mobile rhythm: breather + consistent section titles */
+@media (max-width: 768px) {
+    #next-service,
+    .next-service-section {
+        padding-top: 80px !important;
+    }
+
+    .next-service-section::before {
+        height: 80px;
+    }
+
+    #next-service h2,
+    #new-here h2,
+    #ministries h2,
+    #featured-events h2 {
+        margin-bottom: 1rem;
+    }
+}
+
 /* FIX 3: Anchor scroll offset for all anchor links on homepage */
 @media (max-width: 1024px) {
 
