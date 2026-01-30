@@ -1064,6 +1064,8 @@ header.scrolled nav {
     transition: all var(--transition-base);
     border: none;
     text-decoration: none;
+    max-width: 280px;
+    width: 100%;
 }
 
 .btn-primary {
@@ -1481,7 +1483,7 @@ header.scrolled nav {
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, #e0f2fe 0%, #f0fdfa 100%);
-    padding: var(--spacing-3xl) var(--spacing-sm);
+    padding: var(--spacing-3xl) var(--spacing-lg);
     overflow: hidden;
     animation: hero-fade-in 0.9s ease both;
     z-index: 1;
@@ -1533,6 +1535,7 @@ header.scrolled nav {
     gap: var(--spacing-md);
     flex-wrap: wrap;
     align-items: center;
+    padding: 0 var(--spacing-sm);
 }
 
 /* Hero Video Container */
@@ -1677,7 +1680,7 @@ header.scrolled nav {
 @media (max-width: 768px) {
     .hero {
         min-height: auto;
-        padding: var(--spacing-3xl) var(--spacing-md) var(--spacing-2xl);
+        padding: var(--spacing-3xl) var(--spacing-lg) var(--spacing-2xl);
         padding-top: calc(var(--fixed-top-offset) + var(--spacing-md));
     }
 
@@ -1706,11 +1709,13 @@ header.scrolled nav {
     .cta-buttons {
         justify-content: center;
         flex-direction: column;
+        padding: 0 var(--spacing-lg);
+        align-items: center;
     }
 
     .btn {
         width: 100%;
-        max-width: 300px;
+        max-width: 280px;
     }
 
     .hero-video {
@@ -1846,7 +1851,7 @@ header.scrolled nav {
    ======================================== */
 
 .new-here {
-    padding: var(--spacing-3xl) var(--spacing-sm);
+    padding: var(--spacing-3xl) var(--spacing-lg);
     background: var(--color-surface);
     text-align: center;
 }
@@ -1889,7 +1894,7 @@ header.scrolled nav {
     color: var(--color-text);
     line-height: var(--leading-relaxed);
     margin: 0;
-    padding-left: var(--spacing-md);
+    padding-left: var(--spacing-lg);
 }
 
 .new-here-cards {
@@ -1933,7 +1938,7 @@ header.scrolled nav {
 
 .new-here-cta {
     margin-top: var(--spacing-2xl);
-    padding-top: var(--spacing-2xl);
+    padding: var(--spacing-2xl) var(--spacing-md) 0;
     border-top: 1px solid var(--color-border);
     max-width: 600px;
     margin-left: auto;
@@ -2218,6 +2223,15 @@ header.scrolled nav {
     color: #cbd5e1;
 }
 
+.next-service-section .weekly-gatherings-note {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.next-service-section .weekly-gatherings-text strong {
+    color: #f8fafc;
+}
+
 .next-service-section .service-location-card {
     background: rgba(15, 23, 42, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -2296,7 +2310,7 @@ body[data-theme="dark"] .next-service-section::before {
    ======================================== */
 
 .welcome {
-    padding: var(--spacing-3xl) var(--spacing-sm);
+    padding: var(--spacing-3xl) var(--spacing-lg);
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fb 100%);
     text-align: center;
 }
@@ -3097,6 +3111,10 @@ body[data-theme="dark"] .next-service-section::before {
     gap: var(--spacing-md);
     justify-content: center;
     flex-wrap: wrap;
+    padding: 0 var(--spacing-md);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* ========================================
@@ -3702,7 +3720,7 @@ footer {
 
     .btn {
         width: 100%;
-        max-width: 100%;
+        max-width: 280px;
         padding: 1.125rem 1.5rem;
         font-size: var(--font-lg);
     }
@@ -3732,26 +3750,41 @@ footer {
         width: 100%;
     }
 
+    .service-details-footer {
+        padding: 0 var(--spacing-lg);
+        display: flex;
+        justify-content: center;
+    }
+
+    .service-details-footer .btn-compact {
+        width: 100%;
+        max-width: 280px;
+    }
+
     /* New Here mobile adjustments */
     .new-here {
-        padding: var(--spacing-2xl) var(--spacing-md);
+        padding: var(--spacing-2xl) var(--spacing-lg);
     }
 
     .new-here-intro {
         font-size: var(--font-lg);
+        padding: 0 var(--spacing-sm);
     }
 
     .new-here-questions {
         text-align: left;
+        padding: 0 var(--spacing-sm);
     }
 
     .new-here-questions dt {
         font-size: var(--font-lg);
+        padding-left: 0;
     }
 
     .new-here-questions dd {
         font-size: var(--font-sm);
-        padding-left: var(--spacing-sm);
+        padding-left: var(--spacing-md);
+        margin-right: var(--spacing-xs);
     }
 
     .new-here-cards {
@@ -3761,6 +3794,25 @@ footer {
 
     .new-here-card {
         padding: var(--spacing-lg);
+    }
+
+    /* New Here CTA mobile adjustments */
+    .new-here-cta {
+        padding: var(--spacing-lg) var(--spacing-md);
+        margin-left: var(--spacing-md);
+        margin-right: var(--spacing-md);
+        max-width: calc(100% - var(--spacing-lg) * 2);
+    }
+
+    .new-here-cta .cta-buttons {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        align-items: center;
+    }
+
+    .new-here-cta .btn {
+        width: 100%;
+        max-width: 280px;
     }
 
     .stats {
@@ -3841,6 +3893,15 @@ footer {
 
     .devotion-promo-text {
         text-align: center;
+        padding: 0 var(--spacing-md);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .devotion-promo-text .btn {
+        width: 100%;
+        max-width: 280px;
     }
 
     .devotion-icon {
@@ -3857,6 +3918,31 @@ footer {
 
     .devotion-card {
         padding: var(--spacing-lg);
+    }
+
+    /* Next Step CTA mobile adjustments */
+    .next-step-cta {
+        flex-direction: column;
+        padding: 0 var(--spacing-lg);
+        max-width: calc(100% - var(--spacing-lg) * 2);
+        align-items: center;
+    }
+
+    .next-step-cta .btn {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    /* Sacred Actions mobile adjustments */
+    .sacred-actions {
+        flex-direction: column;
+        padding: 0 var(--spacing-lg);
+        align-items: center;
+    }
+
+    .sacred-actions .btn {
+        width: 100%;
+        max-width: 280px;
     }
 
     footer {
@@ -4997,6 +5083,8 @@ body[data-theme="dark"] textarea::placeholder {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
+    padding: 0 var(--spacing-md);
+    flex-wrap: wrap;
 }
 
 /* ========================================
