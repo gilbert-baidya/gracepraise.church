@@ -57,6 +57,42 @@
 
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
+        :root {
+            --bg-main: #020617;
+            --bg-secondary: #0f172a;
+            --bg-glass: rgba(15, 23, 42, 0.6);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-accent: #38bdf8;
+            --text-gold: #fbbf24;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-glow: rgba(56, 189, 248, 0.5);
+            --gradient-hero: linear-gradient(135deg, #020617 0%, #1e1b4b 100%);
+            --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            --gradient-glass: linear-gradient(145deg,
+                    rgba(255, 255, 255, 0.05) 0%,
+                    rgba(255, 255, 255, 0.01) 100%);
+            --border-subtle: rgba(255, 255, 255, 0.05);
+            --border-highlight: rgba(56, 189, 248, 0.2);
+            --font-sans: 'Poppins', sans-serif;
+            --font-display: 'Montserrat', sans-serif;
+            --section-padding: 120px 0;
+            --container-width: 1280px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --shadow-glass: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+                0 2px 4px -1px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.15);
+            --fa-style-family-brands: "Font Awesome 6 Brands";
+            --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+            --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
+            --fa-style-family-classic: "Font Awesome 6 Free";
+            --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+        }
+
         *,
         *::before,
         *::after {
@@ -230,6 +266,47 @@
         html:not(.js-enabled) .circle-nav-dots,
         html:not(.js-enabled) .gpbc-rotator-nav {
             display: none;
+        }
+
+        /* SCROLL TO TOP BUTTON */
+        .scroll-to-top {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgb(37, 99, 235), rgb(59, 130, 246));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 1;
+            visibility: visible;
+            transition: 0.3s;
+            z-index: 999;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateX(-50%) translateY(-3px) scale(1.05);
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 12px -2px;
+        }
+
+        .scroll-to-top:active {
+            transform: translateX(-50%) translateY(-1px) scale(1);
+        }
+
+        .scroll-to-top svg {
+            width: 24px;
+            height: 24px;
         }
     </style>
 
@@ -3342,6 +3419,20 @@
             align-items: center;
         }
 
+        .block-the-loop .content {
+            width: 100%;
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            min-width: 0;
+        }
+
+        .block-the-loop .content,
+        .block-the-loop .content * {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
         @media (min-width: 1024px) {
             .block-the-loop .container {
                 grid-template-columns: 1fr 1fr;
@@ -3355,6 +3446,8 @@
             color: #1e3a5f;
             margin-bottom: 1.5rem;
             line-height: 1.2;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
 
         .block-the-loop .content p {
@@ -3362,13 +3455,18 @@
             color: #4a5568;
             line-height: 1.7;
             margin-bottom: 2rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            hyphens: auto;
         }
 
         .block-the-loop .button {
             display: inline-block;
             padding: 16px 40px;
             background: #c9a961;
-            color: #ffffff;
+            color: #0f172a;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
@@ -3379,16 +3477,19 @@
 
         .block-the-loop .button:hover {
             background: #b89850;
+            color: #0f172a;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(201, 169, 97, 0.4);
         }
 
         .block-the-loop .loop {
             position: relative;
+            min-width: 0;
         }
 
         .block-the-loop .slider {
             position: relative;
+            width: 100%;
             max-width: 600px;
             margin: 0 auto;
             user-select: none;
@@ -3703,8 +3804,41 @@
 
             .block-the-loop .container {
                 gap: 40px;
+                padding: 0 1.25rem !important;
             }
 
+            .block-the-loop .content {
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow-wrap: break-word !important;
+                word-wrap: break-word !important;
+            }
+
+            /* TEXT ONLY - Fix paragraph font size on mobile */
+            .block-the-loop .content h2 {
+                font-size: 2rem !important;
+                line-height: 1.2 !important;
+                margin-bottom: 1rem !important;
+                overflow-wrap: break-word !important;
+                word-wrap: break-word !important;
+            }
+
+            .block-the-loop .content p {
+                font-size: 1rem !important;
+                line-height: 1.65 !important;
+                margin-bottom: 1.5rem !important;
+                overflow-wrap: break-word !important;
+                word-wrap: break-word !important;
+                word-break: break-word !important;
+                hyphens: auto !important;
+            }
+
+            .block-the-loop .button {
+                font-size: 1rem !important;
+                padding: 14px 32px !important;
+            }
+
+            /* SLIDER ONLY - Don't modify text */
             .block-the-loop .heading {
                 width: 55%;
                 height: 55%;
@@ -3723,6 +3857,23 @@
             .block-the-loop .slick-dots {
                 width: 66%;
                 height: 66%;
+            }
+        }
+
+        /* Extra small devices - TEXT ONLY */
+        @media (max-width: 480px) {
+            .block-the-loop .content h2 {
+                font-size: 1.75rem !important;
+            }
+
+            .block-the-loop .content p {
+                font-size: 0.95rem !important;
+                line-height: 1.6 !important;
+            }
+
+            .block-the-loop .button {
+                font-size: 0.95rem !important;
+                padding: 12px 28px !important;
             }
         }
     </style>
@@ -4666,6 +4817,45 @@
 
     <!-- HOMEPAGE RESPONSIVE FIX — Dynamic header height sync (mobile/iPad only) -->
     <script src="homepage-responsive-fix.js"></script>
+
+    <!-- SCROLL TO TOP BUTTON -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4L12 20M12 4L6 10M12 4L18 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+        </svg>
+    </button>
+
+    <script>
+        (function () {
+            const scrollBtn = document.getElementById('scrollToTop');
+            if (!scrollBtn) return;
+
+            // Show/hide button based on scroll position
+            window.addEventListener('scroll', function () {
+                if (window.pageYOffset > 300) {
+                    scrollBtn.style.opacity = '1';
+                    scrollBtn.style.visibility = 'visible';
+                } else {
+                    scrollBtn.style.opacity = '0';
+                    scrollBtn.style.visibility = 'hidden';
+                }
+            });
+
+            // Scroll to top on click
+            scrollBtn.addEventListener('click', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Hide button initially if at top
+            if (window.pageYOffset <= 300) {
+                scrollBtn.style.opacity = '0';
+                scrollBtn.style.visibility = 'hidden';
+            }
+        })();
+    </script>
 </body>
 
 </html>
