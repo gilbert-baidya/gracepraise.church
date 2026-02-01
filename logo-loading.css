@@ -4,12 +4,17 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+    background: var(--bg-main, #ffffff);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 99999;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity 0.5s ease, visibility 0.5s ease, background 0.3s ease;
+}
+
+body.dark #logo-loading-screen,
+body[data-theme="dark"] #logo-loading-screen {
+    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
 }
 
 #logo-loading-screen.hidden {
@@ -50,12 +55,17 @@
 
 .loading-text {
     margin-top: 2rem;
-    color: white;
+    color: var(--text-primary, #0f172a);
     font-size: 1.2rem;
     font-weight: 300;
     letter-spacing: 2px;
     text-transform: uppercase;
     animation: textPulse 2s ease-in-out infinite;
+}
+
+body.dark .loading-text,
+body[data-theme="dark"] .loading-text {
+    color: #ffffff;
 }
 
 .loading-dots {
@@ -68,11 +78,16 @@
     margin-top: 1rem;
     width: 200px;
     height: 3px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(14, 165, 164, 0.1);
     border-radius: 3px;
     overflow: hidden;
     margin-left: auto;
     margin-right: auto;
+}
+
+body.dark .loading-progress,
+body[data-theme="dark"] .loading-progress {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .loading-progress-bar {

@@ -150,7 +150,7 @@
     function closeAllDropdowns() {
         navDropdowns.forEach(dropdown => {
             dropdown.classList.remove('mobile-dropdown-open');
-            const toggle = dropdown.querySelector(':scope > a');
+            const toggle = dropdown.querySelector('a');
             if (toggle) {
                 toggle.setAttribute('aria-expanded', 'false');
             }
@@ -168,10 +168,11 @@
         const isCoarsePointer = () => window.matchMedia('(pointer: coarse)').matches;
         const isTablet = () => isCoarsePointer() && window.innerWidth >= 769;
         const isMobileViewport = () => window.innerWidth <= 768;
-        const isTabletOrMobile = () => isTablet() || isMobileViewport();
+        const isHandheldViewport = () => window.innerWidth <= 1024;
+        const isTabletOrMobile = () => isTablet() || isMobileViewport() || isHandheldViewport();
 
         navDropdowns.forEach(dropdown => {
-            const toggle = dropdown.querySelector(':scope > a');
+            const toggle = dropdown.querySelector('a');
             const arrow = toggle ? toggle.querySelector('.dropdown-arrow') : null;
             const menu = dropdown.querySelector('.dropdown-menu');
 
@@ -189,7 +190,7 @@
                         navDropdowns.forEach(otherDropdown => {
                             if (otherDropdown !== dropdown) {
                                 otherDropdown.classList.remove('mobile-dropdown-open');
-                                const otherToggle = otherDropdown.querySelector(':scope > a');
+                                const otherToggle = otherDropdown.querySelector('a');
                                 if (otherToggle) {
                                     otherToggle.setAttribute('aria-expanded', 'false');
                                 }
@@ -212,7 +213,7 @@
                             navDropdowns.forEach(otherDropdown => {
                                 if (otherDropdown !== dropdown) {
                                     otherDropdown.classList.remove('mobile-dropdown-open');
-                                    const otherToggle = otherDropdown.querySelector(':scope > a');
+                                    const otherToggle = otherDropdown.querySelector('a');
                                     if (otherToggle) {
                                         otherToggle.setAttribute('aria-expanded', 'false');
                                     }
@@ -226,23 +227,11 @@
                     }
                 });
             }
-
-            // Close dropdown and menu when submenu item is clicked
-            const submenuLinks = menu.querySelectorAll('a');
-            submenuLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (window.innerWidth <= 768 && navLinks.classList.contains('mobile-open')) {
-                        toggleMobileMenu();
-                        dropdown.classList.remove('mobile-dropdown-open');
-                        toggle.setAttribute('aria-expanded', 'false');
-                    }
-                });
-            });
         });
 
         // Handle nested dropdowns (Ministries submenu)
         navNestedDropdowns.forEach(nestedDropdown => {
-            const toggle = nestedDropdown.querySelector(':scope > a');
+            const toggle = nestedDropdown.querySelector('a');
             const arrow = toggle ? toggle.querySelector('.dropdown-arrow') : null;
             const menu = nestedDropdown.querySelector('.dropdown-menu-nested');
 
@@ -259,17 +248,6 @@
                 });
             }
 
-            // Close everything when nested link is clicked
-            const nestedLinks = menu.querySelectorAll('a');
-            nestedLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (window.innerWidth <= 768 && navLinks.classList.contains('mobile-open')) {
-                        toggleMobileMenu();
-                        nestedDropdown.classList.remove('mobile-dropdown-open');
-                        toggle.setAttribute('aria-expanded', 'false');
-                    }
-                });
-            });
         });
     }
 
@@ -279,7 +257,7 @@
 
     function initKeyboardNavigation() {
         navDropdowns.forEach(dropdown => {
-            const toggle = dropdown.querySelector(':scope > a');
+            const toggle = dropdown.querySelector('a');
             const menu = dropdown.querySelector('.dropdown-menu');
 
             if (!toggle || !menu) return;
@@ -331,13 +309,20 @@
     // CLOSE MOBILE MENU ON REGULAR LINK CLICK
     // ============================================
 
-    document.querySelectorAll('.nav-links a:not(.nav-dropdown > a)').forEach(link => {
-        link.addEventListener('click', () => {
-            if (navLinks.classList.contains('mobile-open')) {
-                toggleMobileMenu();
-            }
-        });
-    });
+    // TEMPORARILY DISABLED FOR TESTING
+    // document.querySelectorAll('.nav-links a:not(.nav-dropdown > a)').forEach(link => {
+    //     link.addEventListener('click', (e) => {
+    //         if (navLinks.classList.contains('mobile-open')) {
+    //             const href = link.getAttribute('href');
+    //             // Only close menu for anchor links (#home, #about, etc.)
+    //             // For page links (history.html, etc.), let browser navigate naturally
+    //             if (href && href.startsWith('#')) {
+    //                 toggleMobileMenu();
+    //             }
+    //             // For page links, do nothing - menu will close when new page loads
+    //         }
+    //     });
+    // });
 
     // ============================================
     // DARK MODE THEME TOGGLE

@@ -7,14 +7,38 @@
  */
 
 :root {
-    --hero-bg-dark: #010409;
+    /* Base Hero Tokens (Light Mode Defaults) */
+    --hero-bg: #ffffff;
+    --hero-text: #0f172a;
+    --hero-text-dim: rgba(15, 23, 42, 0.7);
     --hero-accent-gold: #f59e0b;
     --hero-accent-teal: #0ea5a4;
     --hero-accent-blue: #2563eb;
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(15, 23, 42, 0.1);
+    --glass-glow-gold: rgba(245, 158, 11, 0.1);
+    --glass-glow-teal: rgba(14, 165, 164, 0.1);
+    --mesh-opacity: 0.6;
+    --mesh-blend: multiply;
+    --hero-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --hero-shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.03);
+    --hero-offset: var(--header-height);
+}
+
+/* Dark Mode Overrides */
+body.dark,
+body[data-theme="dark"] {
+    --hero-bg: #010409;
+    --hero-text: #ffffff;
+    --hero-text-dim: rgba(255, 255, 255, 0.7);
     --glass-bg: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-glow-gold: rgba(245, 158, 11, 0.2);
     --glass-glow-teal: rgba(14, 165, 164, 0.2);
+    --mesh-opacity: 0.8;
+    --mesh-blend: screen;
+    --hero-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --hero-shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* ========================================
@@ -24,12 +48,13 @@
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background: var(--hero-bg-dark);
+    background: var(--hero-bg);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding-top: var(--header-height);
+    padding-top: var(--hero-offset, var(--header-height));
+    transition: background 0.5s ease;
 }
 
 .mesh-gradient {
@@ -37,7 +62,8 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.8;
+    opacity: var(--mesh-opacity);
+    transition: opacity 0.5s ease;
 }
 
 .mesh-point {
@@ -46,10 +72,20 @@
     height: 60vw;
     border-radius: 50%;
     filter: blur(80px);
-    mix-blend-mode: screen;
+    mix-blend-mode: var(--mesh-blend);
     opacity: 0.4;
     animation: mesh-float 25s infinite alternate ease-in-out;
-    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.5s ease;
+    will-change: transform;
+    /* Performance Hint: Promotes to GPU layer */
+}
+
+/* Performance: Disable expensive animation if user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .mesh-point {
+        animation: none;
+        will-change: auto;
+    }
 }
 
 .mesh-point-1 {
@@ -142,9 +178,10 @@
 .video-overlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, transparent 0%, var(--hero-bg-dark) 100%);
+    background: radial-gradient(circle at center, transparent 0%, var(--hero-bg) 100%);
     z-index: 1;
     pointer-events: none;
+    transition: background 0.5s ease;
 }
 
 /* ========================================
@@ -203,13 +240,13 @@
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    background: rgba(15, 23, 42, 0.4);
+    background: var(--glass-bg);
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px) saturate(180%);
     padding: 0.6rem 1.25rem;
     border-radius: 99px;
-    border: 1px solid rgba(56, 189, 248, 0.2);
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease;
 }
 
@@ -242,13 +279,13 @@
 .hero-countdown-badge .countdown-value {
     font-family: 'JetBrains Mono', monospace;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--hero-text);
     font-size: 1.1rem;
 }
 
 .hero-countdown-badge .countdown-unit {
     font-size: 0.65rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--hero-text-dim);
     font-weight: 500;
 }
 
@@ -301,14 +338,15 @@
     font-size: clamp(3rem, 6vw, 5.5rem);
     line-height: 1.05;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--hero-text);
     letter-spacing: -0.03em;
     margin: 0;
-    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-shadow: var(--hero-shadow, 0 10px 30px rgba(0, 0, 0, 0.1));
+    transition: color 0.5s ease;
 }
 
 .hero-upgrade h1 span.gradient-text {
-    background: linear-gradient(135deg, #ffffff 0%, var(--hero-accent-teal) 100%);
+    background: linear-gradient(135deg, var(--hero-accent-teal) 0%, var(--hero-accent-blue) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -317,11 +355,12 @@
 
 .hero-description {
     font-size: var(--font-lg);
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--hero-text-dim);
     max-width: 600px;
     line-height: 1.6;
     margin-bottom: var(--spacing-lg);
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-shadow: var(--hero-shadow-sm, 0 4px 10px rgba(0, 0, 0, 0.05));
+    transition: color 0.5s ease;
 }
 
 @media (max-width: 1024px) {
@@ -742,4 +781,27 @@
     color: rgba(255, 255, 255, 0.5);
     text-transform: uppercase;
     letter-spacing: 0.1em;
+}
+
+/* ========================================
+   Mobile Performance Optimization 
+   ======================================== */
+@media (max-width: 768px) {
+
+    /* Reduce GPU load on mobile */
+    .mesh-point {
+        filter: blur(40px);
+        /* Cheaper blur */
+        animation: none;
+        /* Save battery */
+        will-change: auto;
+    }
+
+    /* Optimize glassmorphism */
+    .badge-content {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: var(--bg-glass);
+        /* Semantic fallback */
+    }
 }

@@ -150,6 +150,7 @@ html {
     scroll-padding-top: var(--scroll-padding-top, 100px);
 }
 
+html,
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-size: var(--font-base);
@@ -158,6 +159,9 @@ body {
     background-color: var(--color-background);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip !important;
+    width: 100%;
+    max-width: 100vw;
 }
 
 /* ========================================
@@ -5269,11 +5273,18 @@ body[data-theme="dark"] textarea::placeholder {
     width: 100%;
     height: 80vh;
     min-height: 600px;
-    background: #010409;
+    background: var(--bg-main, #ffffff);
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--text-primary);
+    transition: background 0.5s ease;
+}
+
+body.dark .sacred-focus,
+body[data-theme="dark"] .sacred-focus {
+    background: #010409;
     color: white;
 }
 
@@ -5349,9 +5360,15 @@ body[data-theme="dark"] textarea::placeholder {
 
 .neon-glass-portal {
     padding: 8rem 0;
-    background: #020617;
+    background: var(--bg-secondary, #f8fafc);
     position: relative;
     overflow: hidden;
+    transition: background 0.5s ease;
+}
+
+body.dark .neon-glass-portal,
+body[data-theme="dark"] .neon-glass-portal {
+    background: #020617;
 }
 
 .neon-glass-portal::before {
@@ -5567,4 +5584,30 @@ body[data-theme="dark"] .content-page-body a {
 body[data-theme="dark"] .content-page-body a[style*="background"] {
     color: #ffffff !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ========================================
+   CRITICAL MOBILE FIXES (Audit Step 1442)
+   ======================================== */
+@media (max-width: 768px) {
+
+    /* 1. Fix Hero Heading "White Box" issue */
+    .hero-upgrade h1 span.gradient-text {
+        background: none !important;
+        -webkit-text-fill-color: var(--hero-text) !important;
+        color: var(--hero-text) !important;
+        display: block;
+    }
+
+    /* 2. Fix Mobile Dropdowns not opening */
+    .nav-dropdown.mobile-dropdown-open .dropdown-menu,
+    .nav-dropdown-nested.mobile-dropdown-open .dropdown-menu-nested {
+        display: block !important;
+        max-height: 1000px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        position: static !important;
+        overflow: visible !important;
+        pointer-events: auto !important;
+    }
 }

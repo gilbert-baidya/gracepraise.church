@@ -45,6 +45,9 @@
     <link rel="stylesheet" href="homepage-responsive-fix.css">
     <link rel="stylesheet" href="event-flip-cards.css">
 
+    <!-- Mobile Performance Optimization (load LAST for proper override) -->
+    <link rel="stylesheet" href="mobile-performance-optimization.css">
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -59,6 +62,47 @@
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         :root {
+            /* Default Light Mode Tokens */
+            --bg-main: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-glass: rgba(255, 255, 255, 0.8);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-accent: #2563eb;
+            --text-gold: #d97706;
+            --accent-blue: #2563eb;
+            --accent-cyan: #0ea5e9;
+            --accent-glow: rgba(37, 99, 235, 0.2);
+            --gradient-hero: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            --gradient-glass: linear-gradient(145deg,
+                    rgba(255, 255, 255, 0.7) 0%,
+                    rgba(255, 255, 255, 0.4) 100%);
+            --border-subtle: rgba(0, 0, 0, 0.05);
+            --border-highlight: rgba(37, 99, 235, 0.2);
+
+            /* Shared Spacing & Layout */
+            --font-sans: 'Poppins', sans-serif;
+            --font-display: 'Montserrat', sans-serif;
+            --section-padding: 120px 0;
+            --container-width: 1280px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --shadow-glass: 0 4px 10px rgba(0, 0, 0, 0.05),
+                0 2px 4px rgba(0, 0, 0, 0.02),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.1);
+            --fa-style-family-brands: "Font Awesome 6 Brands";
+            --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+            --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
+            --fa-style-family-classic: "Font Awesome 6 Free";
+            --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+        }
+
+        /* Dark Mode Overrides */
+        body.dark,
+        body[data-theme="dark"] {
             --bg-main: #020617;
             --bg-secondary: #0f172a;
             --bg-glass: rgba(15, 23, 42, 0.6);
@@ -70,28 +114,12 @@
             --accent-cyan: #06b6d4;
             --accent-glow: rgba(56, 189, 248, 0.5);
             --gradient-hero: linear-gradient(135deg, #020617 0%, #1e1b4b 100%);
-            --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-            --gradient-glass: linear-gradient(145deg,
-                    rgba(255, 255, 255, 0.05) 0%,
-                    rgba(255, 255, 255, 0.01) 100%);
             --border-subtle: rgba(255, 255, 255, 0.05);
             --border-highlight: rgba(56, 189, 248, 0.2);
-            --font-sans: 'Poppins', sans-serif;
-            --font-display: 'Montserrat', sans-serif;
-            --section-padding: 120px 0;
-            --container-width: 1280px;
-            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
             --shadow-glass: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
                 0 2px 4px -1px rgba(0, 0, 0, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
             --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.15);
-            --fa-style-family-brands: "Font Awesome 6 Brands";
-            --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
-            --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
-            --fa-style-family-classic: "Font Awesome 6 Free";
-            --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
         }
 
         *,
@@ -148,58 +176,7 @@
             max-width: 100%;
         }
 
-        /* DARK MODE TOGGLE BUTTON */
-        .dark-mode-toggle {
-            background: rgba(45, 122, 143, 0.1);
-            border: 2px solid rgba(45, 122, 143, 0.3);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            margin-left: 15px;
-            font-size: 20px;
-        }
 
-        .dark-mode-toggle:hover {
-            background: rgba(45, 122, 143, 0.2);
-            border-color: rgba(45, 122, 143, 0.5);
-            transform: scale(1.05);
-        }
-
-        .dark-mode-toggle .sun-icon,
-        .dark-mode-toggle .moon-icon {
-            position: absolute;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .dark-mode-toggle .moon-icon {
-            opacity: 0;
-            transform: rotate(-180deg);
-        }
-
-        [data-theme="dark"] .dark-mode-toggle .sun-icon {
-            opacity: 0;
-            transform: rotate(180deg);
-        }
-
-        [data-theme="dark"] .dark-mode-toggle .moon-icon {
-            opacity: 1;
-            transform: rotate(0deg);
-        }
-
-        @media (max-width: 768px) {
-            .dark-mode-toggle {
-                width: 36px;
-                height: 36px;
-                font-size: 18px;
-                margin-left: 10px;
-            }
-        }
 
         /* DARK MODE FALLBACK (NO JS) */
         .dark-mode-fallback {
@@ -396,12 +373,27 @@
     }
     </script>
 
-    <!-- Progressive Enhancement Detection -->
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
     <script>
-        document.documentElement.classList.add('js-enabled');
+        (function () {
+            // Instant JS detection
+            document.documentElement.classList.add('js-enabled');
+
+            // Theme pre-detection
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                // We'll also apply to body once it exists
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
     </script>
 
-    <!-- Logo System Styles -->
+    <!-- Logo System & Position Styles -->
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css">
@@ -533,7 +525,7 @@
         <section class="hero-upgrade" id="home">
             <!-- Video Background Base Layer -->
             <div class="video-background">
-                <video autoplay muted loop playsinline poster="images/hero-fallback.jpg">
+                <video autoplay muted loop playsinline poster="images/hero-worship-authentic.png">
                     <source
                         src="https://player.vimeo.com/external/494252666.sd.mp4?s=72fd1304543788771966ec93e7e226027a65975b&profile_id=164&oauth2_token_id=57447761"
                         type="video/mp4">
@@ -585,14 +577,14 @@
                 <div class="hero-visual-grid">
                     <div class="bento-card card-1 float-1">
                         <img src="images/community-worship.png" alt="Community Worship" class="card-img"
-                            loading="eager">
+                            loading="eager" width="800" height="600">
                     </div>
                     <div class="bento-card card-2 float-2">
-                        <img src="images/community-youth-night.png" alt="Youth Night" class="card-img" loading="lazy">
+                        <img src="images/community-youth-night.png" alt="Youth Night" class="card-img" loading="lazy" width="800" height="600">
                     </div>
                     <div class="bento-card card-3 float-3">
                         <img src="images/hero-worship-authentic.png" alt="Sanctuary Atmosphere" class="card-img"
-                            loading="lazy">
+                            loading="lazy" width="800" height="600">
                     </div>
                 </div>
             </div>
@@ -893,7 +885,8 @@
                                 <div class="flip-card-back">
                                     <div class="card-image-wrap">
                                         <img src="images/community-worship.png"
-                                            alt="Sunday worship gathering at Grace and Praise Bangladeshi Church">
+                                            alt="Sunday worship gathering at Grace and Praise Bangladeshi Church"
+                                            loading="lazy" width="800" height="600">
                                     </div>
                                     <h3 class="card-back-title">Sunday Main Service</h3>
                                     <p>Join us for our main
@@ -913,7 +906,8 @@
                                 <div class="flip-card-back">
                                     <div class="card-image-wrap">
                                         <img src="images/community-youth-night.png"
-                                            alt="Youth gathering for Friday night worship and fellowship">
+                                            alt="Youth gathering for Friday night worship and fellowship"
+                                            loading="lazy" width="800" height="600">
                                     </div>
                                     <h3 class="card-back-title">Friday Youth Night</h3>
                                     <p>Empowering the next generation. Every Friday at 7:30 PM.</p>
@@ -932,7 +926,8 @@
                                 <div class="flip-card-back">
                                     <div class="card-image-wrap">
                                         <img src="images/community-bible-study.png"
-                                            alt="Small group Bible study with Scripture and coffee">
+                                            alt="Small group Bible study with Scripture and coffee"
+                                            loading="lazy" width="800" height="600">
                                     </div>
                                     <h3 class="card-back-title">Weekly Bible Study</h3>
                                     <p>Deep dive into the Word of God every Wednesday at 7:00 PM.</p>
@@ -951,7 +946,8 @@
                                 <div class="flip-card-back">
                                     <div class="card-image-wrap">
                                         <img src="images/fasting-prayer-hands.jpg"
-                                            alt="Saturday fasting prayer with quiet reflection and intercession">
+                                            alt="Saturday fasting prayer with quiet reflection and intercession"
+                                            loading="lazy" width="800" height="600">
                                     </div>
                                     <h3 class="card-back-title">Saturday Fasting Prayer</h3>
                                     <p>Morning fasting and prayer for our church—Saturday at 10:00 AM.</p>

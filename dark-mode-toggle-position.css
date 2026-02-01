@@ -20,10 +20,10 @@
     pointer-events: none;
 }
 
-.header-countdown.is-scrolling {
+.header-countdown.is-scrolling .badge-content {
     opacity: 0;
     pointer-events: none;
-    transform: translate(-50%, -20%);
+    transform: translateY(-10%);
 }
 
 .header-countdown .badge-content {
@@ -31,6 +31,18 @@
     gap: 0.75rem;
     border-radius: 999px;
     pointer-events: auto;
+    background: var(--bg-glass, rgba(255, 255, 255, 0.8));
+    border: 1px solid var(--border-highlight, rgba(0, 0, 0, 0.1));
+    box-shadow: var(--shadow-glass, 0 4px 10px rgba(0, 0, 0, 0.05));
+    color: var(--text-primary, #0f172a);
+}
+
+body.dark .header-countdown .badge-content,
+body[data-theme="dark"] .header-countdown .badge-content {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
 }
 
 .header-countdown .event-label {

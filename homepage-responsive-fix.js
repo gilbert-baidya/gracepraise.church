@@ -33,11 +33,14 @@
         const headerHeight = header.offsetHeight;
         const bannerHeight = getVisibleHeight(headerCountdown);
         const totalHeight = headerHeight + bannerHeight;
-        document.documentElement.style.setProperty('--header-height', `${totalHeight}px`);
+        document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+        document.documentElement.style.setProperty('--countdown-banner-height', `${bannerHeight}px`);
+        document.documentElement.style.setProperty('--hero-offset', `${totalHeight}px`);
     }
     
     // Initial update
     updateHeaderHeight();
+    window.addEventListener('load', updateHeaderHeight);
     
     // Update on scroll (throttled)
     let scrollTimeout;
