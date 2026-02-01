@@ -51,9 +51,15 @@
     function updateScrollPadding() {
         const headerHeight = header ? header.offsetHeight : 0;
         const bannerHeight = getVisibleHeight(countdownBanner);
+        const bannerInHeader = header && countdownBanner ? header.contains(countdownBanner) : false;
         const totalOffset = headerHeight + bannerHeight;
         root.style.scrollPaddingTop = `${totalOffset}px`;
         root.style.setProperty('--scroll-padding-top', `${totalOffset}px`);
+
+        // Dynamically adjust header top position if banner is visible
+        if (header) {
+            header.style.top = bannerInHeader ? '0px' : `${bannerHeight}px`;
+        }
     }
 
     updateScrollPadding();
@@ -71,6 +77,8 @@
 
     let lastScroll = 0;
 
+    let scrollTimer;
+
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
 
@@ -81,8 +89,23 @@
             header.classList.remove('scrolled');
         }
 
+        // Temporarily hide countdown banner while scrolling
+        const countdownInHeader = countdownBanner && header && header.contains(countdownBanner);
+        if (countdownInHeader) {
+            countdownBanner.classList.add('is-scrolling');
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+                countdownBanner.classList.remove('is-scrolling');
+            }, 250);
+        }
+
         lastScroll = currentScroll;
-        updateScrollPadding();
+
+        // Update root scroll padding based on header + banner
+        const hHeight = header ? header.offsetHeight : 0;
+        const bHeight = getVisibleHeight(countdownBanner);
+        const totalOffset = hHeight + bHeight;
+        root.style.setProperty('--scroll-padding-top', `${totalOffset}px`);
     });
 
     // ============================================
@@ -320,32 +343,30 @@
     // DARK MODE THEME TOGGLE
     // ============================================
 
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.body.setAttribute('data-theme', theme);
+        document.body.classList.toggle('dark', theme === 'dark');
+        if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('theme', theme);
+        }
+    }
+
     function initThemeToggle() {
-        // Check for saved theme preference or default to 'light'
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        document.body.setAttribute('data-theme', currentTheme);
+        const currentTheme = (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) || 'light';
+        applyTheme(currentTheme);
 
         const darkModeToggle = document.getElementById('darkModeToggle');
 
         if (darkModeToggle) {
             darkModeToggle.addEventListener('click', () => {
-                let theme = document.documentElement.getAttribute('data-theme');
+                const theme = document.documentElement.getAttribute('data-theme') || 'light';
+                const nextTheme = theme === 'dark' ? 'light' : 'dark';
+                applyTheme(nextTheme);
 
-                // Toggle between light and dark
-                if (theme === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    document.body.setAttribute('data-theme', 'light');
-                    localStorage.setItem('theme', 'light');
-                    console.log('✓ Switched to light mode');
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    document.body.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                    console.log('✓ Switched to dark mode');
-                }
+                console.log(`✓ Switched to ${nextTheme} mode`);
 
-                // Add smooth transition effect
                 document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
                 setTimeout(() => {
                     document.body.style.transition = '';

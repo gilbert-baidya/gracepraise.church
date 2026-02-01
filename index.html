@@ -400,6 +400,20 @@
     <script>
         document.documentElement.classList.add('js-enabled');
     </script>
+
+    <!-- Logo System Styles -->
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+
+    <!-- Favicon Package - Trinity Cross -->
+    <link rel="icon" type="image/png" sizes="512x512" href="images/logo/trinity-cross-favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/logo/trinity-cross-favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo/trinity-cross-favicon.png">
+    <link rel="alternate icon" type="image/png" sizes="32x32" href="images/logo/trinity-cross-favicon.png">
+    <link rel="alternate icon" type="image/png" sizes="16x16" href="images/logo/trinity-cross-favicon.png">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#000000">
 </head>
 
 <body class="homepage" data-page="home">
@@ -479,6 +493,32 @@
                 </ul>
             </div>
         </nav>
+        <!-- Header Countdown Overlay -->
+        <div id="specialEventBanner" class="hero-countdown-badge header-countdown" role="region" aria-live="off">
+            <div class="badge-content">
+                <span class="event-icon" aria-hidden="true">🎉</span>
+                <span class="event-label">
+                    <strong class="event-name">Next Event</strong>
+                </span>
+                <time class="inline-countdown" datetime="">
+                    <div class="unit-group"><span class="countdown-value" data-unit="days">00</span><span
+                            class="countdown-unit">d</span></div>
+                    <div class="unit-group"><span class="countdown-value" data-unit="hours">00</span><span
+                            class="countdown-unit">h</span></div>
+                    <div class="unit-group"><span class="countdown-value" data-unit="minutes">00</span><span
+                            class="countdown-unit">m</span></div>
+                    <div class="unit-group"><span class="countdown-value" data-unit="seconds">00</span><span
+                            class="countdown-unit">s</span></div>
+                </time>
+                <a href="calendar.html" class="banner-link" aria-label="View event details">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+        </div>
         <div class="mobile-overlay"></div>
     </header>
     <noscript>
@@ -486,27 +526,7 @@
             title="JavaScript required for dark mode">☀️</span>
     </noscript>
 
-    <!-- Special Event Inline Countdown Banner -->
-    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="off" aria-atomic="true"
-        style="display: none;">
-        <div class="inline-banner-content">
-            <div class="banner-line-1">
-                <span class="event-icon" aria-hidden="true">🎉</span>
-                <span class="event-label">
-                    <strong>Upcoming Event</strong> starts in
-                </span>
-            </div>
-            <div class="banner-line-2">
-                <time class="inline-countdown" datetime="">
-                    <span class="countdown-value" data-unit="days">00</span><span class="countdown-unit">d</span>
-                    <span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span>
-                    <span class="countdown-value" data-unit="minutes">00</span><span class="countdown-unit">m</span>
-                    <span class="countdown-value" data-unit="seconds">00</span><span class="countdown-unit">s</span>
-                </time>
-                <a href="calendar.html" class="banner-link" aria-label="View event details">Details →</a>
-            </div>
-        </div>
-    </div>
+
 
     <main id="main-content">
         <!-- HERO UPGRADE: HYBRID GLASSMORPHISM -->
@@ -4910,6 +4930,9 @@
             }
         })();
     </script>
+    <!-- Logo System Scripts -->
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
     <script src="hero-upgrade.js" defer></script>
 </body>
 

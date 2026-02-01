@@ -180,13 +180,6 @@
         align-items: center;
     }
 
-    /* Dark mode toggle — increase tap area */
-    .dark-mode-toggle {
-        min-width: 44px;
-        min-height: 44px;
-        padding: 0.5rem;
-    }
-
     /* Mobile menu button — ensure 44px minimum */
     .mobile-menu-btn {
         min-width: 44px;
@@ -242,6 +235,7 @@
         justify-content: center !important;
         gap: var(--spacing-md) !important;
     }
+
     body.homepage .event-cta .btn,
     body[data-page="home"] .event-cta .btn,
     .page-home .event-cta .btn {
@@ -412,6 +406,7 @@
 
 /* Prevent text truncation and overflow in Get Involved section */
 @media (max-width: 768px) {
+
     body.homepage .block-the-loop .content,
     body[data-page="home"] .block-the-loop .content,
     .page-home .block-the-loop .content {
@@ -488,6 +483,7 @@
 
 /* Extra small devices */
 @media (max-width: 480px) {
+
     body.homepage .block-the-loop .content h2,
     body[data-page="home"] .block-the-loop .content h2,
     .page-home .block-the-loop .content h2 {

@@ -8,17 +8,32 @@
 (function() {
     'use strict';
     
-    // Only run on homepage (check for inline-countdown-banner)
-    const isHomepage = document.querySelector('.inline-countdown-banner');
+    // Only run on homepage (header countdown or legacy banner)
+    const isHomepage = document.getElementById('specialEventBanner') ||
+        document.querySelector('.inline-countdown-banner');
     if (!isHomepage) return;
     
     const header = document.querySelector('header');
     if (!header) return;
+
+    const headerCountdown = document.getElementById('specialEventBanner') ||
+        document.querySelector('.inline-countdown-banner');
+
+    function getVisibleHeight(element) {
+        if (!element) return 0;
+        const style = window.getComputedStyle(element);
+        if (style.display === 'none' || style.visibility === 'hidden') {
+            return 0;
+        }
+        return element.offsetHeight || 0;
+    }
     
     // Function to update header height CSS variable
     function updateHeaderHeight() {
-        const height = header.offsetHeight;
-        document.documentElement.style.setProperty('--header-height', `${height}px`);
+        const headerHeight = header.offsetHeight;
+        const bannerHeight = getVisibleHeight(headerCountdown);
+        const totalHeight = headerHeight + bannerHeight;
+        document.documentElement.style.setProperty('--header-height', `${totalHeight}px`);
     }
     
     // Initial update

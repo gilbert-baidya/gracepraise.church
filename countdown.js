@@ -134,13 +134,13 @@ class CountdownSystem {
             const [time, period] = timeStr.split(' ');
             let [hours, minutes] = time.split(':');
             hours = parseInt(hours);
-            
+
             if (period === 'PM' && hours !== 12) {
                 hours += 12;
             } else if (period === 'AM' && hours === 12) {
                 hours = 0;
             }
-            
+
             return `${String(hours).padStart(2, '0')}:${minutes || '00'}`;
         }
         return timeStr;
@@ -451,17 +451,17 @@ class CountdownSystem {
 
     updateCountdown() {
         const container = document.getElementById('nextEventBanner');
-        
+
         if (!container) {
             // Container doesn't exist on this page - silently skip
             return;
         }
 
         const now = new Date();
-        
+
         // Check if we're on About page (shows all services) or Home page (shows only next service)
         const isAboutPage = document.getElementById('nextServiceCountdown') !== null;
-        
+
         // Get all events with their countdowns
         const allEvents = [];
 
@@ -522,10 +522,10 @@ class CountdownSystem {
                 }
             });
         }
-        
+
         // Sort by time
         allEvents.sort((a, b) => a.sortTime - b.sortTime);
-        
+
         if (allEvents.length === 0) {
             container.innerHTML = '<p style="color: #6b6b6b; text-align: center; padding: 1rem;">No upcoming services</p>';
             return;
@@ -533,10 +533,10 @@ class CountdownSystem {
 
         // Home page: show only the next event. About page: show all events
         const eventsToShow = isAboutPage ? allEvents : [allEvents[0]];
-        
+
         // Check if this is the top strip or regular countdown section
         const isTopStrip = container.classList.contains('countdown-top-strip');
-        
+
         if (isTopStrip) {
             // Render compact horizontal strip for top of page
             const event = eventsToShow[0]; // Always show only next event in top strip
@@ -596,26 +596,26 @@ class CountdownSystem {
                         <p data-translate="no">📅 ${dateTimeStr}</p>
                         <p data-translate="no">📍 1325 Richardson St, San Bernardino, CA</p>
                     </div>
-                    ${event.isLive ? 
-                        `<div class="live-badge">
+                    ${event.isLive ?
+                    `<div class="live-badge">
                             <span data-lang="en">🔴 HAPPENING NOW</span>
                             <span data-lang="bn" style="display:none;">🔴 এখন চলছে</span>
                         </div>` :
-                        `<div class="countdown-display">
+                    `<div class="countdown-display">
                             ${this.createCountdownHTML(countdown, false, cardId)}
                         </div>`
-                    }
+                }
                 </div>
             `;
         } else {
             // Render traditional card-based countdown for about page or other sections
             const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            
+
             const servicesHTML = eventsToShow.map(event => {
                 const countdown = this.formatCountdown(event.timeUntil);
                 const formattedTime = this.formatTime(event.time);
                 const isService = event.type === 'service';
-                
+
                 let dateTimeStr;
                 if (isService) {
                     const dayIndex = typeof event.day === 'number' ? event.day : this.getZonedWeekdayIndex(event.nextTime);
@@ -623,7 +623,7 @@ class CountdownSystem {
                 } else {
                     dateTimeStr = `${this.formatDate(event.nextTime)} at ${formattedTime} PT`;
                 }
-                
+
                 const cardId = `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
                 return `
                     <div class="service-card ${event.isLive ? 'happening-now' : ''}" data-card-id="${cardId}">
@@ -641,10 +641,10 @@ class CountdownSystem {
                     </div>
                 `;
             }).join('');
-            
+
             // Different titles for home vs about page
             const title = isAboutPage ? '⏰ Upcoming Services' : '⏰ Next Service';
-            
+
             container.innerHTML = `
                 <div class="all-services-banner">
                     <h2 class="services-main-title">${title}</h2>
@@ -690,18 +690,18 @@ class CountdownSystem {
         // Update countdown numbers without re-rendering entire HTML
         // This preserves DOM structure during translations
         const now = new Date();
-        
+
         // Update all countdown cards
         document.querySelectorAll('.service-card').forEach(card => {
             const cardId = card.getAttribute('data-card-id');
             if (!cardId) return;
-            
+
             // Find countdown value elements for this card
             const daysEl = card.querySelector(`[data-countdown-days="${cardId}"]`);
             const hoursEl = card.querySelector(`[data-countdown-hours="${cardId}"]`);
             const minutesEl = card.querySelector(`[data-countdown-minutes="${cardId}"]`);
             const secondsEl = card.querySelector(`[data-countdown-seconds="${cardId}"]`);
-            
+
             if (daysEl && hoursEl && minutesEl && secondsEl) {
                 // Calculate time remaining (simplified - would need event data)
                 // This is a fallback update mechanism
@@ -709,14 +709,14 @@ class CountdownSystem {
                 const currentHours = parseInt(hoursEl.textContent);
                 const currentMinutes = parseInt(minutesEl.textContent);
                 let currentSeconds = parseInt(secondsEl.textContent);
-                
+
                 // Decrement seconds
                 currentSeconds--;
                 if (currentSeconds < 0) {
                     // Full recalculation needed
                     return;
                 }
-                
+
                 secondsEl.textContent = String(currentSeconds).padStart(2, '0');
             }
         });
@@ -746,7 +746,7 @@ class CountdownSystem {
         const eventIconEl = banner.querySelector('.event-icon');
         const bannerLink = banner.querySelector('.banner-link');
         const timeEl = banner.querySelector('.inline-countdown');
-        
+
         if (eventLabelEl) {
             eventLabelEl.textContent = nextEvent.name || 'Next Service';
         }
@@ -787,5 +787,15 @@ class CountdownSystem {
 
 // Initialize countdown system when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    new CountdownSystem();
+    // Small delay to ensure events.js is fully parsed if it was loaded async/defer
+    setTimeout(() => {
+        try {
+            window.gpbcCountdown = new CountdownSystem();
+            // Force an immediate update
+            window.gpbcCountdown.init();
+            console.log('Countdown System initialized successfully');
+        } catch (e) {
+            console.error('Countdown initialization failed:', e);
+        }
+    }, 100);
 });

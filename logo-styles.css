@@ -1,0 +1,92 @@
+/* Logo Styles Enhancement */
+
+/* Ensure logo link has proper display with transparent background */
+.logo {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
+    max-height: 65px !important;
+    /* Slightly more compact for premium feel */
+    padding: 0 !important;
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Logo image styling with full transparency */
+.logo-image {
+    height: auto !important;
+    width: auto !important;
+    max-height: 100% !important;
+    max-width: 180px !important;
+    object-fit: contain !important;
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    /* Removed filters to preserve original logo clarity */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: auto;
+}
+
+/* Logo hover effect */
+.logo:hover .logo-image {
+    transform: scale(1.08);
+    /* Slightly more premium elastic scale */
+    background-color: transparent !important;
+}
+
+/* Background transitions are now handled exclusively by redesign-styles.css */
+
+/* SVG specific transparency */
+svg.logo-image,
+.logo svg {
+    background-color: transparent !important;
+    background: transparent !important;
+}
+
+/* Remove any backgrounds from wrappers */
+.logo-wrapper,
+.logo-container,
+a.logo,
+a[href="/"] img {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* Text fallback styling */
+.logo:not(:has(img)) {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary, #f8fafc);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .logo {
+        height: 100% !important;
+        max-height: 60px !important;
+    }
+
+    .logo-image {
+        max-height: 60px !important;
+        max-width: 130px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        max-height: 55px !important;
+    }
+
+    .logo-image {
+        max-height: 55px !important;
+        max-width: 120px !important;
+    }
+}

@@ -1,42 +1,124 @@
-// Load church logo and branding from settings
+// Load church logo and branding
+// Default settings in case JSON doesn't load
+let logoSettings = {
+    "logo": "images/new-gpbc-logo-final.svg",
+    "logoDark": "images/new-gpbc-logo-final.svg",
+    "logoFallback": "images/logo/gpbc_Logo_Transparent.svg",
+    "logoDarkFallback": "images/logo/gpbc_Logo_Transparent.svg",
+    "churchName": "Grace and Praise Bangladeshi Church",
+    "abbreviation": "GPBC"
+};
+
 async function loadChurchLogo() {
-    try {
-        const response = await fetch('/content/settings/logo.json');
-        const settings = await response.json();
-        
-        // Update all logo elements
-        const logoElements = document.querySelectorAll('.logo');
-        logoElements.forEach(logo => {
-            // Ensure the logo is a link to home
-            if (!logo.hasAttribute('href')) {
-                logo.setAttribute('href', 'index.html');
+    // Check if we're in file:// mode
+    const isFileProtocol = window.location.protocol === 'file:';
+
+    if (!isFileProtocol) {
+        try {
+            console.log('Loading logo settings from server...');
+            const response = await fetch('content/settings/logo.json');
+            if (response.ok) {
+                logoSettings = await response.json();
+                console.log('Logo settings loaded from JSON:', logoSettings);
             }
-            
-            if (settings.logo && settings.logo.trim() !== '') {
-                // Logo image exists - replace text with image
-                logo.innerHTML = `<img src="${settings.logo}" alt="${settings.churchName}" style="height: 50px; width: auto; object-fit: contain;">`;
-            } else {
-                // No logo - use abbreviation text
-                logo.textContent = settings.abbreviation || 'GPBC';
+        } catch (error) {
+            console.log('Using default logo settings:', error.message);
+        }
+    } else {
+        console.log('File protocol detected - using embedded logo settings');
+    }
+
+    // Initial logo update (will use default settings if fetch failed)
+    updateLogoDisplay();
+
+    // Update page title if needed
+    if (logoSettings.churchName) {
+        const titleElement = document.querySelector('title');
+        if (titleElement && titleElement.textContent.includes('Grace and Praise Bangladeshi Church')) {
+            titleElement.textContent = titleElement.textContent.replace(
+                'Grace and Praise Bangladeshi Church',
+                logoSettings.churchName
+            );
+        }
+    }
+
+    // Watch for theme changes
+    setupThemeObserver();
+}
+
+function updateLogoDisplay() {
+    if (!logoSettings) return;
+
+    const logoElements = document.querySelectorAll('.logo');
+    const isDarkMode = document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark';
+
+    // Choose appropriate logo based on theme
+    let logoSrc = logoSettings.logo;
+    let fallbackSrc = logoSettings.logoFallback;
+    if (isDarkMode && logoSettings.logoDark) {
+        logoSrc = logoSettings.logoDark;
+        fallbackSrc = logoSettings.logoDarkFallback || logoSettings.logoFallback;
+    }
+
+    logoElements.forEach(logo => {
+        // Ensure the logo is a link to home
+        if (!logo.hasAttribute('href')) {
+            logo.setAttribute('href', 'index.html');
+        }
+
+        if (logoSrc && logoSrc.trim() !== '') {
+            // Check if there's already an image
+            let img = logo.querySelector('img');
+
+            if (!img) {
+                // Clear text immediately to prevent "GPBC" flash
+                logo.textContent = '';
+                img = document.createElement('img');
+                img.className = 'logo-image';
+                logo.appendChild(img);
+            }
+
+            img.src = logoSrc;
+            img.alt = logoSettings.churchName;
+
+            // Add error handler for image loading
+            img.dataset.logoFallback = fallbackSrc || '';
+            img.dataset.logoFallbackTried = 'false';
+
+            img.onerror = function () {
+                const fallback = img.dataset.logoFallback;
+                if (fallback && img.dataset.logoFallbackTried !== 'true') {
+                    img.dataset.logoFallbackTried = 'true';
+                    img.src = fallback;
+                    return;
+                }
+                console.error('Failed to load logo image:', logoSrc);
+                logo.textContent = logoSettings.abbreviation || 'GPBC';
+            };
+        } else {
+            console.log('No logo image, using text:', logoSettings.abbreviation);
+            // No logo - use abbreviation text
+            logo.textContent = logoSettings.abbreviation || 'GPBC';
+        }
+    });
+}
+
+function setupThemeObserver() {
+    // Watch for theme changes on body element
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' &&
+                (mutation.attributeName === 'class' || mutation.attributeName === 'data-theme')) {
+                updateLogoDisplay();
             }
         });
-        
-        // Update page title if needed
-        if (settings.churchName) {
-            // Only update if it contains the church name placeholder
-            const titleElement = document.querySelector('title');
-            if (titleElement && titleElement.textContent.includes('Grace and Praise Bangladeshi Church')) {
-                titleElement.textContent = titleElement.textContent.replace(
-                    'Grace and Praise Bangladeshi Church',
-                    settings.churchName
-                );
-            }
-        }
-        
-    } catch (error) {
-        console.log('Logo settings not found or error loading:', error);
-        // Keep default GPBC text if settings fail to load
-    }
+    });
+
+    observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'data-theme']
+    });
 }
 
 // Load logo when page loads

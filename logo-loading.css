@@ -1,0 +1,166 @@
+#logo-loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#logo-loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.logo-loader-container {
+    text-align: center;
+    max-width: 90%;
+}
+
+.logo-video-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+}
+
+.logo-fallback {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    animation: logoFadeIn 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+}
+
+.loading-text {
+    margin-top: 2rem;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: textPulse 2s ease-in-out infinite;
+}
+
+.loading-dots {
+    display: inline-block;
+    width: 50px;
+    text-align: left;
+}
+
+.loading-progress {
+    margin-top: 1rem;
+    width: 200px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loading-progress-bar {
+    height: 100%;
+    background: #0ea5a4;
+    /* Brand Teal */
+    border-radius: 3px;
+    animation: progressBar 2s ease-in-out;
+    box-shadow: 0 0 15px rgba(14, 165, 164, 0.6);
+}
+
+@keyframes logoFadeIn {
+
+    0%,
+    100% {
+        opacity: 0.7;
+        transform: scale(0.95);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes textPulse {
+
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes progressBar {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .logo-video-container {
+        width: 250px;
+        height: 250px;
+    }
+
+    .logo-fallback {
+        width: 150px;
+    }
+
+    .loading-text {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-video-container {
+        width: 200px;
+        height: 200px;
+    }
+
+    .logo-fallback {
+        width: 120px;
+    }
+
+    .loading-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    .logo-fallback,
+    .loading-text,
+    .loading-progress-bar {
+        animation: none;
+    }
+
+    #logo-loading-screen {
+        transition: none;
+    }
+}

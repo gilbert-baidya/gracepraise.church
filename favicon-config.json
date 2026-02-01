@@ -1,0 +1,34 @@
+{
+  "masterPicture": "/images/logo/gpbc-no-name.svg",
+  "iconsPath": "/images/favicons/",
+  "design": {
+    "ios": {
+      "pictureAspect": "backgroundAndMargin",
+      "backgroundColor": "#ffffff",
+      "margin": "14%"
+    },
+    "desktopBrowser": {},
+    "windows": {
+      "pictureAspect": "whiteSilhouette",
+      "backgroundColor": "#2b5797",
+      "onConflict": "override"
+    },
+    "androidChrome": {
+      "pictureAspect": "noChange",
+      "themeColor": "#ffffff",
+      "manifest": {
+        "name": "Grace and Praise Bangladeshi Church",
+        "shortName": "GPBC",
+        "display": "standalone",
+        "orientation": "notSet",
+        "startUrl": "/",
+        "backgroundColor": "#ffffff"
+      }
+    }
+  },
+  "settings": {
+    "compression": 5,
+    "scalingAlgorithm": "Mitchell",
+    "errorOnImageTooSmall": false
+  }
+}
