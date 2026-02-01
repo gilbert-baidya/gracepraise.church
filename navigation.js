@@ -53,8 +53,14 @@
         const bannerHeight = getVisibleHeight(countdownBanner);
         const bannerInHeader = header && countdownBanner ? header.contains(countdownBanner) : false;
         const totalOffset = headerHeight + bannerHeight;
+        
+        // Set scroll padding for anchor links
         root.style.scrollPaddingTop = `${totalOffset}px`;
         root.style.setProperty('--scroll-padding-top', `${totalOffset}px`);
+        
+        // 🆕 CRITICAL FIX: Set body padding to prevent content overlap with fixed header
+        root.style.setProperty('--header-total-height', `${totalOffset}px`);
+        document.body.style.paddingTop = `${totalOffset}px`;
 
         // Dynamically adjust header top position if banner is visible
         if (header) {

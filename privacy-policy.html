@@ -4,7 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Grace and Praise Bangladeshi Church</title>
+    
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
     <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
     
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -43,6 +62,10 @@
         <nav>
             <div class="nav-container">
                 <a href="index.html" class="logo">GPBC</a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
                 <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
                     <span></span>
                     <span></span>

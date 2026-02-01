@@ -5,8 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>40 Days Fasting | Grace and Praise Bangladeshi Church</title>
+    
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
     <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="homepage-responsive-fix.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -66,18 +85,21 @@
             transform: scale(1.05);
         }
 
-        .dark-mode-toggle .sun-icon,
-        .dark-mode-toggle .moon-icon {
-            position: absolute;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .dark-mode-toggle .moon-icon {
-            opacity: 0;
-            transform: rotate(-180deg);
-        }
-
-        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+    .dark-mode-toggle .sun-icon,
+    .dark-mode-toggle .moon-icon {
+        position: absolute;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .dark-mode-toggle .sun-icon {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    
+    .dark-mode-toggle .moon-icon {
+        opacity: 0;
+        transform: rotate(-180deg);
+    }        [data-theme="dark"] .dark-mode-toggle .sun-icon {
             opacity: 0;
             transform: rotate(180deg);
         }
@@ -529,6 +551,7 @@
 
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
+    <script src="logo-loader.js"></script>
 </body>
 
 </html>

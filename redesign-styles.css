@@ -164,6 +164,12 @@ body {
     max-width: 100vw;
 }
 
+/* 🆕 CRITICAL FIX: Body padding to offset fixed header (JS will update dynamically) */
+body {
+    padding-top: var(--header-total-height, 70px);
+    transition: padding-top 0.3s ease;
+}
+
 /* ========================================
    CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL
    ======================================== */
@@ -918,34 +924,34 @@ header.scrolled {
     transform: scale(1.1);
 }
 
-/* Visibility Logic */
+/* Visibility Logic - Fixed to use opacity for smooth transitions */
+.dark-mode-toggle .sun-icon,
+.dark-mode-toggle .moon-icon {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.3));
+}
+
 .dark-mode-toggle .sun-icon {
-    display: none;
+    opacity: 1;
+    transform: rotate(0deg);
 }
 
 .dark-mode-toggle .moon-icon {
-    display: inline-block;
+    opacity: 0;
+    transform: rotate(-180deg);
 }
 
-[data-theme="dark"] .dark-mode-toggle .sun-icon {
-    display: inline-block;
-}
-
-[data-theme="dark"] .dark-mode-toggle .moon-icon {
-    display: none;
-}
-
+[data-theme="dark"] .dark-mode-toggle .sun-icon,
 body.dark .dark-mode-toggle .sun-icon {
-    display: inline-block;
+    opacity: 0;
+    transform: rotate(180deg);
 }
 
+[data-theme="dark"] .dark-mode-toggle .moon-icon,
 body.dark .dark-mode-toggle .moon-icon {
-    display: none;
-}
-
-.dark-mode-toggle .moon-icon,
-.dark-mode-toggle .sun-icon {
-    filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.3));
+    opacity: 1;
+    transform: rotate(0deg);
 }
 
 

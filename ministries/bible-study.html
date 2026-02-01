@@ -5,7 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bible Study Ministry - Grace & Praise Bangladeshi Church</title>
     <meta name="description" content="Join us as we grow deeper in God's Word through faithful study and teaching of Scripture.">
+    
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
     <link rel="stylesheet" href="../redesign-styles.css">
+    <link rel="stylesheet" href="../logo-loading.css">
+    <link rel="stylesheet" href="../dark-mode-toggle-position.css">
     <link rel="stylesheet" href="../shape-system.css">
     <link rel="stylesheet" href="../heptagon-wheel-sacred.css">
     
@@ -313,5 +332,6 @@
 
 
     <script src="../navigation.js?v=20260125c"></script>
+    <script src="../logo-loader.js"></script>
 </body>
 </html>

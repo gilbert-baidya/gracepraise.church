@@ -9,7 +9,25 @@
     
     <link rel="canonical" href="https://gilbert-baidya.github.io/gracepraise.church/beliefs.html">
     
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
     <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
     
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -279,6 +297,8 @@
     </script>
     
     <!-- NAVIGATION LOCK — Centralized navigation system -->
+    
     <script src="navigation.js?v=20260125c"></script>
+    <script src="logo-loader.js"></script>
 </body>
 </html>

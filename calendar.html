@@ -26,9 +26,27 @@
     <meta property="twitter:title" content="Calendar 2026 - GPBC">
     <meta property="twitter:description" content="View GPBC's 2026 calendar with all upcoming events and services.">
     
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
     <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="countdown.css">
     <link rel="stylesheet" href="homepage-responsive-fix.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
     
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -120,6 +138,11 @@
     .dark-mode-toggle .moon-icon {
         position: absolute;
         transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .dark-mode-toggle .sun-icon {
+        opacity: 1;
+        transform: rotate(0deg);
     }
     
     .dark-mode-toggle .moon-icon {
@@ -1125,5 +1148,6 @@
     
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
+    <script src="logo-loader.js"></script>
 </body>
 </html>

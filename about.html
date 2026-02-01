@@ -26,7 +26,25 @@
     <meta property="twitter:title" content="About GPBC | Grace and Praise Bangladeshi Church">
     <meta property="twitter:description" content="About Grace and Praise Bangladeshi Church in San Bernardino, CA — our mission, beliefs, leadership, and community.">
     
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
     <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -135,6 +153,24 @@
             </ul>
         </div>
     </nav>
+    <div id="specialEventBanner" class="hero-countdown-badge header-countdown" role="region" aria-live="off">
+        <div class="badge-content">
+            <span class="event-icon" aria-hidden="true">🎉</span>
+            <span class="event-label"><strong class="event-name">Next Event</strong></span>
+            <time class="inline-countdown" datetime="">
+                <div class="unit-group"><span class="countdown-value" data-unit="days">00</span><span class="countdown-unit">d</span></div>
+                <div class="unit-group"><span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span></div>
+                <div class="unit-group"><span class="countdown-value" data-unit="minutes">00</span><span class="countdown-unit">m</span></div>
+                <div class="unit-group"><span class="countdown-value" data-unit="seconds">00</span><span class="countdown-unit">s</span></div>
+            </time>
+            <a href="calendar.html" class="banner-link" aria-label="View event details">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </div>
     <div class="mobile-overlay"></div>
 </header>
 
@@ -319,5 +355,6 @@
     
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
+    <script src="logo-loader.js"></script>
 </body>
 </html>

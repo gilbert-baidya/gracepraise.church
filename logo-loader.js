@@ -9,23 +9,70 @@ let logoSettings = {
     "abbreviation": "GPBC"
 };
 
+// Detect directory depth to adjust relative paths for images
+function getPathPrefix() {
+    const path = window.location.pathname;
+    
+    // If we're in a subdirectory (like ministries/), add ../ prefix
+    if (path.includes('/ministries/') || path.match(/\/[^\/]+\/[^\/]+\.html$/)) {
+        return '../';
+    }
+    return '';
+}
+
+// Get correct path for fetching content (always relative to root)
+function getContentPath() {
+    const path = window.location.pathname;
+    
+    // If we're in a subdirectory, go up one level
+    if (path.includes('/ministries/') || path.match(/\/[^\/]+\/[^\/]+\.html$/)) {
+        return '../content/settings/logo.json';
+    }
+    return 'content/settings/logo.json';
+}
+
 async function loadChurchLogo() {
     // Check if we're in file:// mode
     const isFileProtocol = window.location.protocol === 'file:';
+    const pathPrefix = getPathPrefix();
 
     if (!isFileProtocol) {
         try {
             console.log('Loading logo settings from server...');
-            const response = await fetch('content/settings/logo.json');
+            const response = await fetch(getContentPath());
             if (response.ok) {
-                logoSettings = await response.json();
+                const settings = await response.json();
+                // Adjust image paths based on directory depth
+                logoSettings = {
+                    ...settings,
+                    logo: pathPrefix + settings.logo,
+                    logoDark: pathPrefix + settings.logoDark,
+                    logoFallback: pathPrefix + settings.logoFallback,
+                    logoDarkFallback: pathPrefix + settings.logoDarkFallback
+                };
                 console.log('Logo settings loaded from JSON:', logoSettings);
             }
         } catch (error) {
             console.log('Using default logo settings:', error.message);
+            // Adjust default paths based on directory depth
+            logoSettings = {
+                ...logoSettings,
+                logo: pathPrefix + logoSettings.logo,
+                logoDark: pathPrefix + logoSettings.logoDark,
+                logoFallback: pathPrefix + logoSettings.logoFallback,
+                logoDarkFallback: pathPrefix + logoSettings.logoDarkFallback
+            };
         }
     } else {
         console.log('File protocol detected - using embedded logo settings');
+        // Adjust default paths based on directory depth
+        logoSettings = {
+            ...logoSettings,
+            logo: pathPrefix + logoSettings.logo,
+            logoDark: pathPrefix + logoSettings.logoDark,
+            logoFallback: pathPrefix + logoSettings.logoFallback,
+            logoDarkFallback: pathPrefix + logoSettings.logoDarkFallback
+        };
     }
 
     // Initial logo update (will use default settings if fetch failed)

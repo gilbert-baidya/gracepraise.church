@@ -10,9 +10,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
     <!-- Modern CSS -->
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="styles-songbook.css?v=12">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
     
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -63,18 +80,21 @@
             transform: scale(1.05);
         }
         
-        .dark-mode-toggle .sun-icon,
-        .dark-mode-toggle .moon-icon {
-            position: absolute;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        
-        .dark-mode-toggle .moon-icon {
-            opacity: 0;
-            transform: rotate(-180deg);
-        }
-        
-        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+    .dark-mode-toggle .sun-icon,
+    .dark-mode-toggle .moon-icon {
+        position: absolute;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .dark-mode-toggle .sun-icon {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    
+    .dark-mode-toggle .moon-icon {
+        opacity: 0;
+        transform: rotate(-180deg);
+    }        [data-theme="dark"] .dark-mode-toggle .sun-icon {
             opacity: 0;
             transform: rotate(180deg);
         }

@@ -1,13 +1,203 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Our Ministries | Grace & Praise Bangladeshi Church</title>
-  <meta name="description" content="Explore GPBC ministries—worship, Bible study, outreach, compassion ministries, and ways to get involved and serve in Christ's love." />
-  <link rel="stylesheet" href="../assets/gpbc-ministry.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Ministries | Grace & Praise Bangladeshi Church</title>
+    <meta name="description" content="Explore GPBC ministries—worship, Bible study, outreach, compassion ministries, and ways to get involved and serve in Christ's love.">
+    
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
+    <link rel="stylesheet" href="../redesign-styles.css">
+    <link rel="stylesheet" href="../logo-loading.css">
+    <link rel="stylesheet" href="../dark-mode-toggle-position.css">
+    
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            overflow-y: auto;
+        }
+        
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            overflow-y: visible;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            html {
+                overflow-x: clip !important;
+            }
+            body {
+                overflow-x: clip !important;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe, embed, object {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        section, article, main, .hero, .container {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        /* DARK MODE TOGGLE BUTTON */
+        .dark-mode-toggle {
+            background: rgba(45, 122, 143, 0.1);
+            border: 2px solid rgba(45, 122, 143, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-left: 15px;
+            font-size: 20px;
+        }
+        
+        .dark-mode-toggle:hover {
+            background: rgba(45, 122, 143, 0.2);
+            border-color: rgba(45, 122, 143, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .dark-mode-toggle .sun-icon,
+        .dark-mode-toggle .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .dark-mode-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(-180deg);
+        }
+        
+        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg);
+        }
+        
+        [data-theme="dark"] .dark-mode-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+        
+        @media (max-width: 768px) {
+            .dark-mode-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Skip to main content for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Sticky Header/Nav -->
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="../index.html#home" class="logo">GPBC</a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="../index.html#live">LIVE</a></li>
+                    <li><a href="../index.html#home">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="../about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../about.html">About Overview</a></li>
+                            <li><a href="../history.html">Our History</a></li>
+                            <li><a href="../mission.html">Our Mission</a></li>
+                            <li><a href="../leadership.html">Our Leadership</a></li>
+                            <li><a href="../beliefs.html">Our Beliefs</a></li>
+                            <li><a href="../core-values.html">Our Core Values</a></li>
+                            <li><a href="../position-papers.html">Position Papers</a></li>
+                            <li><a href="../testimonies.html">Testimonies</a></li>
+                            <li><a href="../songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="../ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../ministries.html">Ministries Overview</a></li>
+                            <li><a href="../ministries/bible-study.html">Bible Study</a></li>
+                            <li><a href="../ministries/community-development.html">Community Development</a></li>
+                            <li><a href="../ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                            <li><a href="../ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                            <li><a href="../ministries/kids-ministry.html">Kids Ministry</a></li>
+                            <li><a href="../ministries/men-fellowship.html">Men Fellowship</a></li>
+                            <li><a href="../ministries/mission-outreach.html">Mission Outreach</a></li>
+                            <li><a href="../ministries/prison-ministry.html">Prison Ministry</a></li>
+                            <li><a href="../ministries/support-missionaries.html">Support Missionaries</a></li>
+                            <li><a href="../ministries/worship-ministry.html">Worship Ministry</a></li>
+                            <li><a href="../ministries/youth-ministry.html">Youth Ministry</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="../index.html#next-service">Next Service</a></li>
+                    <li><a href="../calendar.html">Calendar</a></li>
+                    <li><a href="../gallery.html">Gallery</a></li>
+                    <li><a href="../index.html#prayer">Prayer</a></li>
+                    <li class="nav-dropdown">
+                        <a href="../daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="../couples-devotion.html">Couples Devotion</a></li>
+                            <li><a href="../family-devotion.html">Family Devotion</a></li>
+                            <li><a href="../youth-devotion.html">Youth Devotion</a></li>
+                            <li><a href="../children-devotion.html">Children Devotion</a></li>
+                            <li><a href="../fasting-21days.html">21 Days Fasting</a></li>
+                            <li><a href="../fasting-30days.html">30 Days Fasting</a></li>
+                            <li><a href="../fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="../gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="../give.html">Give</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 <main class="gpbc-page">
   <section class="gpbc-hero">
     <div class="gpbc-container">
@@ -79,30 +269,8 @@
     </div>
   </section>
 </main>
-    <script>
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        document.body.setAttribute('data-theme', currentTheme);
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            if (darkModeToggle) {
-                darkModeToggle.addEventListener('click', () => {
-                    let theme = document.documentElement.getAttribute('data-theme');
-                    if (theme === 'dark') {
-                        document.documentElement.setAttribute('data-theme', 'light');
-                        document.body.setAttribute('data-theme', 'light');
-                        localStorage.setItem('theme', 'light');
-                    } else {
-                        document.documentElement.setAttribute('data-theme', 'dark');
-                        document.body.setAttribute('data-theme', 'dark');
-                        localStorage.setItem('theme', 'dark');
-                    }
-                    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-                    setTimeout(() => { document.body.style.transition = ''; }, 300);
-                });
-            }
-        });
-    </script>
 
+    <script src="../navigation.js?v=20260125c"></script>
+    <script src="../logo-loader.js"></script>
 </body>
 </html>
