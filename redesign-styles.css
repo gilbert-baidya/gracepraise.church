@@ -65,6 +65,8 @@
     --shadow-card: 0 10px 30px rgba(15, 23, 42, 0.12);
     --shadow-soft: 0 4px 14px rgba(15, 23, 42, 0.08);
 
+    --gpbc-header-total-height: 134px;
+
     /* ========= LEGACY SUPPORT (mapped to new system) ========= */
     --color-primary: var(--brand-primary);
     --color-primary-dark: #1e40af;
@@ -168,6 +170,13 @@ body {
 body {
     padding-top: var(--header-total-height, 70px);
     transition: padding-top 0.3s ease;
+    will-change: padding-top;
+}
+
+/* iOS scroll lock improvements */
+body.menu-open {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* ========================================
@@ -892,7 +901,8 @@ body[data-theme="dark"] header {
 
 nav {
     position: relative;
-    z-index: 1000;
+    z-index: 1010;
+    /* FIX: Ensure nav is above overlay (1004) */
 }
 
 /* Scrolled state - Reveal Glassmorphism */
@@ -975,6 +985,27 @@ header.scrolled nav {
     margin: 0 auto;
     padding: 0 2rem;
     /* Safety padding from screen edges */
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+}
+
+nav {
+    flex: 0 0 auto;
+}
+
+.nav-container {
+    min-height: 70px;
+    max-height: 70px;
+}
+
+.logo img,
+.logo-image {
+    max-height: 65px;
+    height: auto;
+    width: auto;
 }
 
 @media (max-width: 1024px) {
@@ -1086,6 +1117,9 @@ header.scrolled nav {
     font-size: 0.65rem;
     transition: transform var(--transition-fast);
     display: inline-block;
+    padding: 10px;
+    margin: -10px;
+    cursor: pointer;
 }
 
 .nav-dropdown:hover .dropdown-arrow,
@@ -1130,8 +1164,8 @@ header.scrolled nav {
     white-space: nowrap;
 }
 
-/* Mobile-Specific Menu Adjustments */
-@media (max-width: 768px) {
+/* Mobile-Specific Menu Adjustments - Updated for Tablet (1024px) */
+@media (max-width: 1024px) {
     .dropdown-menu {
         position: static !important;
         opacity: 1 !important;
@@ -1282,6 +1316,8 @@ header.scrolled nav {
     padding: var(--spacing-xs);
     z-index: 1003;
     position: relative;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .mobile-menu-btn span {
@@ -3636,7 +3672,7 @@ footer {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     :root {
         --container-padding: var(--spacing-md);
         /* CSS variables for optional JS enhancements only - not required */
@@ -3691,6 +3727,11 @@ footer {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease, padding 0.3s ease;
+        pointer-events: none;
+    }
+
+    .nav-dropdown.mobile-dropdown-open .dropdown-menu {
+        pointer-events: auto;
     }
 
     /* Show dropdown menu when parent has mobile-dropdown-open class */
@@ -3708,12 +3749,15 @@ footer {
 
     /* Mobile dropdown link styling */
     .dropdown-menu a {
-        padding: var(--spacing-sm) var(--spacing-lg) !important;
+        padding: 0.875rem var(--spacing-lg) !important;
         padding-left: calc(var(--spacing-lg) * 2) !important;
         font-size: var(--font-sm) !important;
         border-left: 3px solid transparent;
         color: var(--text-body);
         transition: all var(--transition-fast);
+        min-height: 44px;
+        display: flex;
+        align-items: center;
     }
 
     .dropdown-menu a:hover,
@@ -3788,19 +3832,20 @@ footer {
         user-select: none;
     }
 
-    /* Hide desktop nav links on mobile */
+    /* Hide desktop nav links on mobile/tablet */
     .nav-links {
         position: fixed;
         inset: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(15, 23, 42, 0.95);
+        background: rgba(15, 23, 42, 0.98);
         /* Deep navy glassmorphism */
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
         padding: var(--spacing-3xl) var(--spacing-lg);
-        padding-top: 100px;
+        padding-top: calc(var(--gpbc-header-total-height, 100px) + 20px);
+        padding-bottom: env(safe-area-inset-bottom, 20px);
         box-shadow: none;
         transform: translateX(100%);
         transition: transform var(--transition-base);
@@ -3816,7 +3861,7 @@ footer {
     }
 
     /* NO-JS FALLBACK: Show navigation links in vertical layout */
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
         html:not(.js-enabled) .mobile-menu-btn {
             display: none;
         }
@@ -3882,6 +3927,8 @@ footer {
     .mobile-overlay.active {
         opacity: 1;
         pointer-events: all;
+        z-index: 1004;
+        /* Menu is at 1005, overlay at 1004 - overlay is BEHIND menu */
     }
 
     /* Prevent body scroll when mobile menu is open */
@@ -4483,6 +4530,8 @@ footer p.footer-links {
     margin-bottom: var(--spacing-2xl);
     padding-bottom: var(--spacing-lg);
     border-bottom: 2px solid var(--color-border);
+    /* Add top padding to prevent hiding behind fixed header */
+    padding-top: var(--spacing-2xl);
 }
 
 .content-page-header h1 {
@@ -4910,7 +4959,7 @@ body[data-theme="dark"] .dropdown-menu {
 
 body.dark .dropdown-menu a,
 body[data-theme="dark"] .dropdown-menu a {
-    color: var(--text-body);
+    color: #e2e8f0;
 }
 
 body.dark .dropdown-menu a:hover,
@@ -4929,7 +4978,7 @@ body[data-theme="dark"] .dropdown-menu-nested {
 
 body.dark .dropdown-menu-nested a,
 body[data-theme="dark"] .dropdown-menu-nested a {
-    color: var(--text-body);
+    color: #e2e8f0;
 }
 
 body.dark .dropdown-menu-nested a:hover,

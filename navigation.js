@@ -15,7 +15,7 @@
  * @locked true
  */
 
-(function () {
+(() => {
     'use strict';
 
     // ============================================
@@ -25,15 +25,83 @@
     // Enable JS-dependent features (disables no-JS fallbacks)
     document.documentElement.classList.add('js-enabled');
 
-    // Navigation elements
-    const header = document.querySelector('header');
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-    const mobileOverlay = document.querySelector('.mobile-overlay');
-    const navDropdowns = document.querySelectorAll('.nav-dropdown');
-    const navNestedDropdowns = document.querySelectorAll('.nav-dropdown-nested');
+    // Navigation elements (will be refreshed after partials load)
+    let header = document.querySelector('header');
+    let mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    let navLinks = document.querySelector('.nav-links');
+    let mobileOverlay = document.querySelector('.mobile-overlay');
+    let navDropdowns = [];
+    let navNestedDropdowns = [];
+    let countdownBanner = document.getElementById('specialEventBanner') || document.querySelector('.inline-countdown-banner');
+    let navInitialized = false;
+    let bannerObserver;
+    let resizeListenerAdded = false;
+    let orientationListenerAdded = false;
+    let headerHeightListenerAdded = false;
+    let scrollListenerAdded = false;
+    let outsideClickListenerAdded = false;
+    let retryTimeout = null;
+    let initAttempts = 0;
+    const MAX_INIT_ATTEMPTS = 3;
     const root = document.documentElement;
-    const countdownBanner = document.getElementById('specialEventBanner') || document.querySelector('.inline-countdown-banner');
+    let isNavigatingToAnchor = false; // Flag to skip scroll restoration for anchor links
+
+    function refreshNavElements() {
+        header = document.querySelector('header');
+        mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        navLinks = document.querySelector('.nav-links');
+        mobileOverlay = document.querySelector('.mobile-overlay');
+        navDropdowns = Array.from(document.querySelectorAll('.nav-dropdown'));
+        navNestedDropdowns = Array.from(document.querySelectorAll('.nav-dropdown-nested'));
+        countdownBanner = document.getElementById('specialEventBanner') || document.querySelector('.inline-countdown-banner');
+    }
+
+    function cleanupGlobalListeners() {
+        if (scrollListenerAdded) {
+            window.removeEventListener('scroll', handleScroll);
+            scrollListenerAdded = false;
+        }
+        if (resizeListenerAdded) {
+            window.removeEventListener('resize', debouncedUpdateScrollPadding);
+            resizeListenerAdded = false;
+        }
+        if (orientationListenerAdded) {
+            window.removeEventListener('orientationchange', updateScrollPadding);
+            orientationListenerAdded = false;
+        }
+        if (outsideClickListenerAdded) {
+            document.removeEventListener('click', handleDocumentClick);
+            outsideClickListenerAdded = false;
+        }
+        if (mobileMenuBtn) {
+            mobileMenuBtn.removeEventListener('click', toggleMobileMenu);
+        }
+        if (mobileOverlay) {
+            mobileOverlay.removeEventListener('click', toggleMobileMenu);
+        }
+        navInitialized = false;
+    }
+
+    function attachHeaderHeightListener() {
+        if (headerHeightListenerAdded) return;
+        document.addEventListener('gpbc:headerHeightChanged', updateScrollPadding);
+        headerHeightListenerAdded = true;
+    }
+
+    function scheduleInitRetry() {
+        if (retryTimeout) {
+            return;
+        }
+        if (initAttempts >= MAX_INIT_ATTEMPTS) {
+            console.warn('Navigation init retry limit reached');
+            return;
+        }
+        initAttempts += 1;
+        retryTimeout = setTimeout(() => {
+            retryTimeout = null;
+            initializeNavigationSystem();
+        }, 80);
+    }
 
     // ============================================
     // SCROLL PADDING — HEADER + BANNER OFFSET
@@ -48,16 +116,57 @@
         return element.offsetHeight || 0;
     }
 
+    let headerStabilityTimer;
+    function GPBC_updateHeaderTotalHeight() {
+        const headerEl = document.querySelector('header');
+        if (!headerEl) return;
+        
+        clearTimeout(headerStabilityTimer);
+        headerStabilityTimer = setTimeout(() => {
+            const height = headerEl.getBoundingClientRect().height;
+            const currentHeight = parseFloat(
+                getComputedStyle(document.documentElement)
+                    .getPropertyValue('--gpbc-header-total-height') || '0'
+            );
+            
+            // Only update if height actually changed by more than 2px
+            if (Math.abs(height - currentHeight) > 2) {
+                document.documentElement.style.setProperty('--gpbc-header-total-height', `${height}px`);
+            }
+        }, 50); // Wait for logo/font/banner to settle
+    }
+
+    if (typeof window !== 'undefined') {
+        window.GPBC_updateHeaderTotalHeight = GPBC_updateHeaderTotalHeight;
+    }
+
+    // Debounce utility for resize listener
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
     function updateScrollPadding() {
+        GPBC_updateHeaderTotalHeight();
         const headerHeight = header ? header.offsetHeight : 0;
         const bannerHeight = getVisibleHeight(countdownBanner);
         const bannerInHeader = header && countdownBanner ? header.contains(countdownBanner) : false;
-        const totalOffset = headerHeight + bannerHeight;
-        
+
+        // Fix: If banner is inside header, header.offsetHeight already includes it.
+        // Only add bannerHeight if it's OUTSIDE the header.
+        const totalOffset = bannerInHeader ? headerHeight : (headerHeight + bannerHeight);
+
         // Set scroll padding for anchor links
         root.style.scrollPaddingTop = `${totalOffset}px`;
         root.style.setProperty('--scroll-padding-top', `${totalOffset}px`);
-        
+
         // 🆕 CRITICAL FIX: Set body padding to prevent content overlap with fixed header
         root.style.setProperty('--header-total-height', `${totalOffset}px`);
         document.body.style.paddingTop = `${totalOffset}px`;
@@ -68,13 +177,26 @@
         }
     }
 
-    updateScrollPadding();
-    window.addEventListener('resize', updateScrollPadding);
-    window.addEventListener('orientationchange', updateScrollPadding);
+    const debouncedUpdateScrollPadding = debounce(updateScrollPadding, 150);
 
-    if (countdownBanner && 'MutationObserver' in window) {
-        const bannerObserver = new MutationObserver(updateScrollPadding);
-        bannerObserver.observe(countdownBanner, { attributes: true, attributeFilter: ['style', 'class'] });
+    document.addEventListener('gpbc:headerHeightChanged', () => {
+        GPBC_updateHeaderTotalHeight();
+        updateScrollPadding();
+    });
+
+    document.addEventListener('gpbc:logoLoaded', () => {
+        GPBC_updateHeaderTotalHeight();
+        updateScrollPadding();
+    });
+
+    document.addEventListener('gpbc:navReady', () => {
+        GPBC_updateHeaderTotalHeight();
+        updateScrollPadding();
+    });
+
+    // Expose the updater so other scripts can request a recalculation after DOM changes (e.g., logo height updates)
+    if (typeof window !== 'undefined') {
+        window.GPBC_updateHeaderPadding = updateScrollPadding;
     }
 
     // ============================================
@@ -82,42 +204,7 @@
     // ============================================
 
     let lastScroll = 0;
-
     let scrollTimer;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-
-        // Add scrolled class for styling
-        if (currentScroll > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-
-        // Temporarily hide countdown banner while scrolling
-        const countdownInHeader = countdownBanner && header && header.contains(countdownBanner);
-        if (countdownInHeader) {
-            countdownBanner.classList.add('is-scrolling');
-            clearTimeout(scrollTimer);
-            scrollTimer = setTimeout(() => {
-                countdownBanner.classList.remove('is-scrolling');
-            }, 250);
-        }
-
-        lastScroll = currentScroll;
-
-        // Update root scroll padding based on header + banner
-        const hHeight = header ? header.offsetHeight : 0;
-        const bHeight = getVisibleHeight(countdownBanner);
-        const totalOffset = hHeight + bHeight;
-        root.style.setProperty('--scroll-padding-top', `${totalOffset}px`);
-    });
-
-    // ============================================
-    // MOBILE MENU TOGGLE
-    // ============================================
-
     let scrollPosition = 0;
 
     function toggleMobileMenu() {
@@ -127,26 +214,83 @@
             // Save current scroll position before locking
             scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
             document.body.style.top = `-${scrollPosition}px`;
+
+            // Phase 4: Update ARIA expanded BEFORE visual transition
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            // Phase 5: Ensure menu is visible to accessibility tree
+            navLinks.removeAttribute('aria-hidden');
+            navLinks.removeAttribute('inert');
+        } else {
+            // Phase 4: Update ARIA expanded BEFORE visual transition
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            // Phase 5: Hide menu from accessibility tree when closed
+            navLinks.setAttribute('aria-hidden', 'true');
+            navLinks.setAttribute('inert', '');
+            
+            // Restore scroll position after unlocking
+            document.body.style.top = '';
+            
+            // Only restore scroll if NOT navigating to anchor
+            if (!isNavigatingToAnchor) {
+                window.scrollTo(0, scrollPosition);
+            }
+            
+            // Reset flag after restoration
+            isNavigatingToAnchor = false;
+            
+            closeAllDropdowns();
         }
 
+        // THEN toggle visual state
         navLinks.classList.toggle('mobile-open');
         mobileOverlay.classList.toggle('active');
         document.body.classList.toggle('menu-open');
 
-        if (!isOpening) {
-            // Restore scroll position after unlocking
-            document.body.style.top = '';
-            window.scrollTo(0, scrollPosition);
-            closeAllDropdowns();
+        if (isOpening) {
+            // Phase 5: Focus first link for keyboard users
+            setTimeout(() => {
+                const firstLink = navLinks.querySelector('a');
+                if (firstLink) firstLink.focus();
+            }, 100);
         }
     }
 
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-    }
+    // Phase 2: Performance-optimized scroll handler (No layout reads)
+    let isTicking = false;
+    function handleScroll() {
+        if (!isTicking) {
+            window.requestAnimationFrame(() => {
+                const currentScroll = window.pageYOffset;
+                if (!header) {
+                    isTicking = false;
+                    return;
+                }
 
-    if (mobileOverlay) {
-        mobileOverlay.addEventListener('click', toggleMobileMenu);
+                // Only write to DOM if state changed
+                const isScrolled = currentScroll > 50;
+                if (isScrolled !== header.classList.contains('scrolled')) {
+                    header.classList.toggle('scrolled', isScrolled);
+                    // Note: Body padding doesn't need to update on scroll
+                    // Header is fixed, and padding is already correct
+                }
+
+                const countdownInHeader = countdownBanner && header && header.contains(countdownBanner);
+                if (countdownInHeader) {
+                    const isBannerScrolling = !countdownBanner.classList.contains('is-scrolling');
+                    if (isBannerScrolling) {
+                        countdownBanner.classList.add('is-scrolling');
+                    }
+                    clearTimeout(scrollTimer);
+                    scrollTimer = setTimeout(() => {
+                        countdownBanner.classList.remove('is-scrolling');
+                    }, 250);
+                }
+
+                lastScroll = currentScroll;
+                isTicking = false;
+            });
+            isTicking = true;
+        }
     }
 
     // ============================================
@@ -183,6 +327,8 @@
             const menu = dropdown.querySelector('.dropdown-menu');
 
             if (!toggle || !menu || !arrow) return;
+            if (dropdown.dataset.mobileDropdownInit === 'true') return;
+            dropdown.dataset.mobileDropdownInit = 'true';
 
             // Tablet/mobile: tap-to-toggle regardless of touch detection
             if (isTabletOrMobile()) {
@@ -242,6 +388,8 @@
             const menu = nestedDropdown.querySelector('.dropdown-menu-nested');
 
             if (!toggle || !menu || !arrow) return;
+            if (nestedDropdown.dataset.nestedDropdownInit === 'true') return;
+            nestedDropdown.dataset.nestedDropdownInit = 'true';
 
             if (isTabletOrMobile()) {
                 arrow.addEventListener('click', (e) => {
@@ -267,6 +415,8 @@
             const menu = dropdown.querySelector('.dropdown-menu');
 
             if (!toggle || !menu) return;
+            if (dropdown.dataset.keyboardInit === 'true') return;
+            dropdown.dataset.keyboardInit = 'true';
 
             // ESC key closes dropdown
             toggle.addEventListener('keydown', (e) => {
@@ -301,34 +451,36 @@
     // CLOSE DROPDOWN ON OUTSIDE CLICK (DESKTOP)
     // ============================================
 
-    document.addEventListener('click', (e) => {
-        // Only on desktop
-        if (window.innerWidth > 768) {
+    function handleDocumentClick(e) {
+        if (window.innerWidth > 1024) {
             const isDropdownClick = e.target.closest('.nav-dropdown');
             if (!isDropdownClick) {
                 closeAllDropdowns();
             }
         }
-    });
+    }
 
     // ============================================
     // CLOSE MOBILE MENU ON REGULAR LINK CLICK
     // ============================================
 
-    // TEMPORARILY DISABLED FOR TESTING
-    // document.querySelectorAll('.nav-links a:not(.nav-dropdown > a)').forEach(link => {
-    //     link.addEventListener('click', (e) => {
-    //         if (navLinks.classList.contains('mobile-open')) {
-    //             const href = link.getAttribute('href');
-    //             // Only close menu for anchor links (#home, #about, etc.)
-    //             // For page links (history.html, etc.), let browser navigate naturally
-    //             if (href && href.startsWith('#')) {
-    //                 toggleMobileMenu();
-    //             }
-    //             // For page links, do nothing - menu will close when new page loads
-    //         }
-    //     });
-    // });
+    // RE-ENABLED for Mobile UX: Close menu when clicking anchor links
+    document.querySelectorAll('.nav-links a:not(.nav-dropdown > a)').forEach(link => {
+        link.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('mobile-open')) {
+                const href = link.getAttribute('href');
+                // Only close menu for anchor links (#home, #about, etc.)
+                // For page links, let browser navigate naturally
+                if (href && (href.startsWith('#') || href.includes('#'))) {
+                    // Set flag to skip scroll restoration
+                    isNavigatingToAnchor = true;
+                    // Close menu immediately (no delay)
+                    toggleMobileMenu();
+                    // Browser will handle anchor navigation naturally
+                }
+            }
+        });
+    });
 
     // ============================================
     // DARK MODE THEME TOGGLE
@@ -366,22 +518,91 @@
         }
     }
 
-    // ============================================
-    // INITIALIZATION
-    // ============================================
+    function initializeNavigationSystem() {
+        if (retryTimeout) {
+            clearTimeout(retryTimeout);
+            retryTimeout = null;
+        }
 
-    // Initialize dropdown functionality
-    initMobileDropdowns();
-    initKeyboardNavigation();
+        cleanupGlobalListeners();
+        refreshNavElements();
 
-    // Initialize theme toggle
-    initThemeToggle();
+        if (!header || !navLinks) {
+            scheduleInitRetry();
+            return;
+        }
 
-    // ============================================
-    // NAVIGATION LOCK — DO NOT MODIFY WITHOUT REVIEW
-    // ============================================
+        initAttempts = 0;
+        attachHeaderHeightListener();
 
-    console.log('✓ Global navigation system initialized');
-    console.log('✓ Theme toggle initialized');
+        updateScrollPadding();
+        if (!resizeListenerAdded) {
+            window.addEventListener('resize', debouncedUpdateScrollPadding);
+            resizeListenerAdded = true;
+        }
+        if (!orientationListenerAdded) {
+            window.addEventListener('orientationchange', updateScrollPadding);
+            orientationListenerAdded = true;
+        }
+        if (!scrollListenerAdded) {
+            window.addEventListener('scroll', handleScroll);
+            scrollListenerAdded = true;
+        }
+
+        if (countdownBanner && 'MutationObserver' in window && !bannerObserver) {
+            let bannerMutationTimer;
+            bannerObserver = new MutationObserver(() => {
+                clearTimeout(bannerMutationTimer);
+                bannerMutationTimer = setTimeout(() => {
+                    updateScrollPadding();
+                    GPBC_updateHeaderTotalHeight();
+                }, 150);
+            });
+            bannerObserver.observe(countdownBanner, { 
+                attributes: true, 
+                attributeFilter: ['style', 'class'],
+                childList: true 
+            });
+        }
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            // Phase 4: Initial ARIA state
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            mobileMenuBtn.setAttribute('aria-controls', 'nav-links');
+        }
+        if (mobileOverlay) {
+            mobileOverlay.addEventListener('click', toggleMobileMenu);
+        }
+
+        if (navLinks) {
+            // Phase 5: Initial accessibility tree state
+            navLinks.setAttribute('id', 'nav-links');
+            if (window.innerWidth <= 1024) {
+                navLinks.setAttribute('aria-hidden', 'true');
+                navLinks.setAttribute('inert', '');
+            }
+        }
+
+        if (!outsideClickListenerAdded) {
+            document.addEventListener('click', handleDocumentClick);
+            outsideClickListenerAdded = true;
+        }
+
+        initMobileDropdowns();
+        initKeyboardNavigation();
+        initThemeToggle();
+
+        navInitialized = true;
+        console.log('✓ Global navigation system initialized');
+        console.log('✓ Theme toggle initialized');
+        document.dispatchEvent(new CustomEvent('gpbc:navReady'));
+    }
+
+    if (typeof window !== 'undefined') {
+        window.GPBC_initNav = initializeNavigationSystem;
+    }
+
+    initializeNavigationSystem();
 
 })();

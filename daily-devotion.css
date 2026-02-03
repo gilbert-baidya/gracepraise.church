@@ -116,6 +116,8 @@
             /* Background image removed - use solid gradient for consistency */
             color: var(--color-text-inverse);
             padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-xl);
+            /* Add extra top padding to account for fixed header */
+            padding-top: calc(var(--spacing-2xl) + var(--spacing-xl));
             text-align: center;
             overflow: visible;
             max-width: 100%;

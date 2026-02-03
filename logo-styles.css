@@ -1,42 +1,42 @@
 /* Logo Styles Enhancement */
 
-/* Ensure logo link has proper display with transparent background */
+/* Ensure logo link has proper display while keeping header rhythm stable */
 .logo {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    height: 100% !important;
-    max-height: 65px !important;
-    /* Slightly more compact for premium feel */
-    padding: 0 !important;
-    background-color: transparent !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    min-height: 135px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
-/* Logo image styling with full transparency */
+.logo img,
 .logo-image {
-    height: auto !important;
-    width: auto !important;
-    max-height: 100% !important;
-    max-width: 180px !important;
-    object-fit: contain !important;
-    background-color: transparent !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    /* Removed filters to preserve original logo clarity */
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    width: auto;
+    height: auto;
+    max-height: 135px;
+    aspect-ratio: auto;
+    object-fit: contain;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     image-rendering: -webkit-optimize-contrast;
     image-rendering: auto;
+}
+
+/* Stabilize header height so a new logo doesn't resize the container unexpectedly */
+header nav,
+.nav-container {
+    min-height: 70px;
+    align-items: center;
 }
 
 /* Logo hover effect */
 .logo:hover .logo-image {
     transform: scale(1.08);
-    /* Slightly more premium elastic scale */
-    background-color: transparent !important;
 }
 
 /* Background transitions are now handled exclusively by redesign-styles.css */
@@ -48,46 +48,56 @@ svg.logo-image,
     background: transparent !important;
 }
 
-/* Remove any backgrounds from wrappers */
+/* Remove backgrounds from wrappers */
 .logo-wrapper,
 .logo-container,
 a.logo,
 a[href="/"] img {
-    background-color: transparent !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
+    background-color: transparent;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
 }
 
 /* Text fallback styling */
 .logo:not(:has(img)) {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     color: var(--text-primary, #f8fafc);
 }
 
 /* Mobile responsive */
 @media (max-width: 768px) {
     .logo {
-        height: 100% !important;
-        max-height: 60px !important;
+        min-height: 68px; /* Up from 62px for better brand presence */
     }
 
+    .logo img,
     .logo-image {
-        max-height: 60px !important;
-        max-width: 130px !important;
+        max-height: 78px; /* Up from 68px — 15% increase for clarity */
+        max-width: 180px; /* Up from 155px */
+        width: auto; /* Maintain aspect ratio */
+        height: auto; /* Maintain aspect ratio */
     }
 }
 
 @media (max-width: 480px) {
     .logo {
-        max-height: 55px !important;
+        min-height: 64px; /* Up from 58px */
     }
 
+    .logo img,
     .logo-image {
-        max-height: 55px !important;
-        max-width: 120px !important;
+        max-height: 68px; /* Up from 62px for ribbon text clarity */
+        max-width: 160px; /* Up from 140px */
+        width: auto; /* Maintain aspect ratio */
+        height: auto; /* Maintain aspect ratio */
     }
 }
 
