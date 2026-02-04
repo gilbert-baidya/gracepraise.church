@@ -31,7 +31,7 @@
     /* gold */
 
     /* ========= Fixed Layout Heights ========= */
-    --header-height: 70px;
+    --header-height: var(--header-total-height, 70px);
     --countdown-banner-height: 0px;
     --fixed-top-offset: var(--header-height);
 
@@ -149,7 +149,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: var(--scroll-padding-top, 100px);
+    scroll-padding-top: var(--scroll-padding-top, calc(var(--header-height, 70px) + 20px));
 }
 
 html,
@@ -916,56 +916,6 @@ header.scrolled {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
-.dark-mode-toggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.25rem;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    outline: none;
-    z-index: 1003;
-}
-
-.dark-mode-toggle:hover {
-    transform: scale(1.1);
-}
-
-/* Visibility Logic - Fixed to use opacity for smooth transitions */
-.dark-mode-toggle .sun-icon,
-.dark-mode-toggle .moon-icon {
-    position: absolute;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.3));
-}
-
-.dark-mode-toggle .sun-icon {
-    opacity: 1;
-    transform: rotate(0deg);
-}
-
-.dark-mode-toggle .moon-icon {
-    opacity: 0;
-    transform: rotate(-180deg);
-}
-
-[data-theme="dark"] .dark-mode-toggle .sun-icon,
-body.dark .dark-mode-toggle .sun-icon {
-    opacity: 0;
-    transform: rotate(180deg);
-}
-
-[data-theme="dark"] .dark-mode-toggle .moon-icon,
-body.dark .dark-mode-toggle .moon-icon {
-    opacity: 1;
-    transform: rotate(0deg);
-}
-
-
-
 nav {
     padding: 0.5rem 0;
     transition: padding var(--transition-base);
@@ -994,18 +944,6 @@ header {
 
 nav {
     flex: 0 0 auto;
-}
-
-.nav-container {
-    min-height: 70px;
-    max-height: 70px;
-}
-
-.logo img,
-.logo-image {
-    max-height: 65px;
-    height: auto;
-    width: auto;
 }
 
 @media (max-width: 1024px) {
@@ -3676,7 +3614,7 @@ footer {
     :root {
         --container-padding: var(--spacing-md);
         /* CSS variables for optional JS enhancements only - not required */
-        --header-height: 60px;
+        --header-height: var(--header-total-height, 60px);
         --countdown-banner-height: 42px;
     }
 
@@ -3693,6 +3631,11 @@ footer {
         left: 0;
         right: 0;
         width: 100%;
+        padding-top: 6px;
+    }
+
+    header.scrolled {
+        padding-top: 2px;
     }
 
     /* Mobile menu button */

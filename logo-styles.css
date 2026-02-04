@@ -75,29 +75,37 @@ a[href="/"] img {
 /* Mobile responsive */
 @media (max-width: 768px) {
     .logo {
-        min-height: 68px; /* Up from 62px for better brand presence */
+        min-height: 112px;
+        width: 112px;
+        height: 112px;
+        padding: 0;
     }
 
     .logo img,
     .logo-image {
-        max-height: 78px; /* Up from 68px — 15% increase for clarity */
-        max-width: 180px; /* Up from 155px */
-        width: auto; /* Maintain aspect ratio */
-        height: auto; /* Maintain aspect ratio */
+        width: 112px;
+        height: 112px;
+        max-height: 112px;
+        max-width: 112px;
+        transform: scale(1.05);
     }
 }
 
 @media (max-width: 480px) {
     .logo {
-        min-height: 64px; /* Up from 58px */
+        min-height: 104px;
+        width: 104px;
+        height: 104px;
+        padding: 0;
     }
 
     .logo img,
     .logo-image {
-        max-height: 68px; /* Up from 62px for ribbon text clarity */
-        max-width: 160px; /* Up from 140px */
-        width: auto; /* Maintain aspect ratio */
-        height: auto; /* Maintain aspect ratio */
+        width: 104px;
+        height: 104px;
+        max-height: 104px;
+        max-width: 104px;
+        transform: scale(1.08);
     }
 }
 

@@ -53,11 +53,20 @@
     }
     
     /* Hero countdown badge (hero-upgrade.css) */
-    .hero-countdown-badge,
-    #specialEventBanner {
-        background: rgba(15, 23, 42, 0.92) !important;
+    .hero-countdown-badge .badge-content,
+    #specialEventBanner .badge-content {
+        background: rgba(255, 255, 255, 0.92) !important;
+        border: 1px solid rgba(15, 23, 42, 0.1) !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
+    }
+
+    body.dark .hero-countdown-badge .badge-content,
+    body[data-theme="dark"] .hero-countdown-badge .badge-content,
+    body.dark #specialEventBanner .badge-content,
+    body[data-theme="dark"] #specialEventBanner .badge-content {
+        background: rgba(15, 23, 42, 0.92) !important;
+        border-color: rgba(255, 255, 255, 0.12) !important;
     }
     
     /* Hero modal (hero-upgrade.css line 602) */

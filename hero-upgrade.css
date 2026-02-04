@@ -289,6 +289,26 @@ body[data-theme="dark"] {
     font-weight: 500;
 }
 
+body.dark .hero-countdown-badge .countdown-value,
+body[data-theme="dark"] .hero-countdown-badge .countdown-value {
+    color: #ffffff;
+}
+
+body.dark .hero-countdown-badge .countdown-unit,
+body[data-theme="dark"] .hero-countdown-badge .countdown-unit {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+body.dark .hero-countdown-badge .inline-countdown,
+body[data-theme="dark"] .hero-countdown-badge .inline-countdown {
+    border-left-color: rgba(255, 255, 255, 0.25);
+}
+
+body.dark .hero-countdown-badge .event-label,
+body[data-theme="dark"] .hero-countdown-badge .event-label {
+    color: #8bf3f0;
+}
+
 .badge-link {
     display: flex;
     align-items: center;
@@ -332,6 +352,30 @@ body[data-theme="dark"] {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
+}
+
+.hero-slogan {
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--hero-accent-gold);
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+
+.hero-slogan span {
+    display: block;
+}
+
+.hero-slogan span + span {
+    margin-top: 0.2rem;
+}
+
+@media (max-width: 768px) {
+    .hero-slogan {
+        font-size: 0.85rem;
+    }
 }
 
 .hero-upgrade h1 {
@@ -561,7 +605,7 @@ body[data-theme="dark"] {
 
 @media (max-width: 1024px) {
     .hero-upgrade {
-        padding-top: 100px;
+        padding-top: 0;
         min-height: auto;
         padding-bottom: var(--spacing-3xl);
     }
@@ -722,6 +766,11 @@ body[data-theme="dark"] {
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font: inherit;
     display: flex;
     flex-direction: column;
     align-items: center;

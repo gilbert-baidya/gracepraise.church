@@ -167,9 +167,17 @@
         root.style.scrollPaddingTop = `${totalOffset}px`;
         root.style.setProperty('--scroll-padding-top', `${totalOffset}px`);
 
-        // 🆕 CRITICAL FIX: Set body padding to prevent content overlap with fixed header
+        // 🆕 CRITICAL FIX: Set body padding only for fixed headers (sticky headers stay in flow)
         root.style.setProperty('--header-total-height', `${totalOffset}px`);
-        document.body.style.paddingTop = `${totalOffset}px`;
+        if (header) {
+            const headerPosition = getComputedStyle(header).position;
+            const isFixedHeader = headerPosition === 'fixed';
+            if (isFixedHeader) {
+                document.body.style.paddingTop = `${totalOffset}px`;
+            } else {
+                document.body.style.paddingTop = '0px';
+            }
+        }
 
         // Dynamically adjust header top position if banner is visible
         if (header) {
@@ -333,8 +341,13 @@
             // Tablet/mobile: tap-to-toggle regardless of touch detection
             if (isTabletOrMobile()) {
                 toggle.addEventListener('click', (e) => {
-                    // iPad: always toggle dropdown on tap, navigate via "Overview" item
+                    const clickedArrow = e.target && e.target.closest && e.target.closest('.dropdown-arrow');
+
+                    // iPad/tablet: allow link navigation, use arrow to toggle
                     if (isTablet()) {
+                        if (!clickedArrow) {
+                            return; // Allow navigation to About/Ministries
+                        }
                         e.preventDefault();
                         e.stopPropagation();
 

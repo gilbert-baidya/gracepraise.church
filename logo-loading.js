@@ -10,9 +10,19 @@
             'images/logo/gpbc-dove-one-fav.mp4'
         ],
         fallbackLogo: 'images/new-gpbc-logo-final.svg',
-        minDisplayTime: 1000, // Minimum time to show loading screen (ms)
+        minDisplayTime: 500, // Minimum time to show loading screen (ms)
+        maxDisplayTime: 1500, // Maximum time to keep the loader visible (ms)
         fadeOutDuration: 500 // Fade out animation duration (ms)
     };
+
+    const loaderSeenKey = 'gpbc:logoLoaderSeen';
+    const shouldShowLoader = (() => {
+        try {
+            return localStorage.getItem(loaderSeenKey) !== 'true';
+        } catch (error) {
+            return true;
+        }
+    })();
 
     let startTime = Date.now();
     let isPageLoaded = false;
@@ -91,6 +101,10 @@
 
     // Initialize loading screen
     function init() {
+        if (!shouldShowLoader) {
+            return;
+        }
+
         // Create loading screen immediately
         const loadingScreen = createLoadingScreen();
         const video = loadingScreen.querySelector('.logo-video');
@@ -130,12 +144,18 @@
             window.addEventListener('load', onPageLoad);
         }
 
-        // Fallback: Force hide after 3 seconds maximum
+        try {
+            localStorage.setItem(loaderSeenKey, 'true');
+        } catch (error) {
+            // Ignore storage errors and allow loader to show again.
+        }
+
+        // Fallback: Force hide after max display time
         setTimeout(() => {
             if (!loadingScreen.classList.contains('hidden')) {
                 hideLoadingScreen(loadingScreen);
             }
-        }, 3000);
+        }, config.maxDisplayTime);
     }
 
     // Start immediately

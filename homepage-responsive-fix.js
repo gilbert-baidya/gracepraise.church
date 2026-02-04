@@ -65,3 +65,20 @@
     });
     
 })();
+
+// Keyboard support for clickable cards on homepage
+(function() {
+    'use strict';
+
+    const clickableCards = document.querySelectorAll('.shape-square[role="button"]');
+    if (!clickableCards.length) return;
+
+    clickableCards.forEach((card) => {
+        card.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                card.click();
+            }
+        });
+    });
+})();

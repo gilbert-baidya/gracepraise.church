@@ -382,6 +382,7 @@
 .shape-square {
     background: var(--bg-card-surface) !important;
     color: var(--text-heading);
+    text-decoration: none;
     border-radius: 12px;
     padding: 2rem;
     display: flex;
@@ -431,7 +432,8 @@
     mix-blend-mode: normal !important;
 }
 
-.shape-square a {
+.shape-square a,
+.shape-square .shape-square-link {
     color: var(--brand-accent) !important;
     font-weight: 700;
     margin-top: auto;
@@ -791,7 +793,9 @@ body[data-theme="dark"] .shape-square p {
 }
 
 body.dark .shape-square a,
-body[data-theme="dark"] .shape-square a {
+body.dark .shape-square .shape-square-link,
+body[data-theme="dark"] .shape-square a,
+body[data-theme="dark"] .shape-square .shape-square-link {
     color: var(--brand-accent) !important;
     opacity: 1 !important;
     text-shadow: none !important;
@@ -801,6 +805,8 @@ body[data-theme="dark"] .shape-square a {
 }
 
 body.dark .shape-square a:hover,
-body[data-theme="dark"] .shape-square a:hover {
+body.dark .shape-square .shape-square-link:hover,
+body[data-theme="dark"] .shape-square a:hover,
+body[data-theme="dark"] .shape-square .shape-square-link:hover {
     color: var(--brand-accent) !important;
 }

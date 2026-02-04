@@ -62,6 +62,23 @@
     /* Ensure centering */
 }
 
+/* Fallback when GSAP/ScrollTrigger fails */
+html.gsap-disabled .flip-cards-container {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+html.gsap-disabled .flip-card {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    opacity: 1;
+    margin: 0 auto 1.5rem;
+}
+
 .flip-card {
     position: absolute;
     top: 50%;
@@ -208,7 +225,7 @@ body[data-theme="dark"] .flip-card-back p {
     }
 
     .flip-scroll-section {
-        height: 10S0vh;
+        height: 100vh;
     }
 }
 

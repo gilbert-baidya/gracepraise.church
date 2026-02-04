@@ -85,6 +85,16 @@ body[data-theme="dark"] .header-countdown .badge-content {
 
 /* Dark mode toggle overlay aligned above the Give link area */
 .dark-mode-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    outline: none;
     position: absolute !important;
     right: calc(var(--container-padding) + 0.25rem) !important;
     top: 6px !important;

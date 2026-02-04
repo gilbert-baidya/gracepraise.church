@@ -240,6 +240,51 @@
     }
 }
 
+/* 3B) MOBILE HEADER SLOGAN — Premium gold placement under countdown */
+@media (max-width: 768px) {
+    body.homepage .header-slogan {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.2rem;
+        width: 100%;
+        padding: 0.25rem 1rem 0.75rem;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        font-weight: 700;
+        font-size: 0.82rem;
+        line-height: 1.25;
+        background: linear-gradient(135deg, #f7e3a1 0%, #d4a64a 45%, #b17a2b 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 8px rgba(177, 122, 43, 0.25);
+    }
+
+    body.homepage .header-slogan span {
+        display: block;
+    }
+
+    /* Hide hero slogan on mobile */
+    body.homepage .hero-main-text .hero-slogan {
+        display: none;
+    }
+
+    /* Dark/scrolled header needs extra glow for legibility */
+    body.dark header.scrolled .header-slogan,
+    body[data-theme="dark"] header.scrolled .header-slogan {
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45), 0 0 10px rgba(247, 227, 161, 0.35);
+    }
+}
+
+@media (min-width: 769px) {
+    body.homepage .header-slogan {
+        display: none;
+    }
+}
+
 /* 4) HERO CTA BUTTONS — Better tap feedback */
 @media (max-width: 768px) {
 

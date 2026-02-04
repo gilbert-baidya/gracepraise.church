@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if GSAP and ScrollTrigger are loaded
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
         console.error('GSAP or ScrollTrigger not loaded');
+        document.documentElement.classList.add('gsap-disabled');
+        document.querySelectorAll('.flip-card').forEach((card) => {
+            card.style.opacity = '1';
+            card.style.transform = 'none';
+        });
         return;
     }
 
