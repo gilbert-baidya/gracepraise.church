@@ -129,7 +129,8 @@
         .devotion-hero h1 {
             color: var(--color-text-inverse);
             font-size: var(--font-4xl);
-            margin-bottom: var(--spacing-lg); /* Increased from sm */
+            margin-bottom: var(--spacing-lg);
+            /* Increased from sm */
             font-weight: var(--font-bold);
         }
 
@@ -137,7 +138,8 @@
             color: var(--color-secondary);
             font-size: var(--font-xl);
             font-weight: var(--font-normal);
-            margin-bottom: var(--spacing-lg); /* Increased from md */
+            margin-bottom: var(--spacing-lg);
+            /* Increased from md */
             opacity: 0.95;
         }
 
@@ -155,10 +157,13 @@
 
         .devotion-date {
             font-size: var(--font-lg);
-            font-weight: var(--font-semibold); /* Increased from medium */
+            font-weight: var(--font-semibold);
+            /* Increased from medium */
             color: var(--color-text-inverse);
-            opacity: 1; /* Increased from 0.9 */
-            background: rgba(255, 255, 255, 0.15); /* Add subtle background */
+            opacity: 1;
+            /* Increased from 0.9 */
+            background: rgba(255, 255, 255, 0.15);
+            /* Add subtle background */
             padding: var(--spacing-xs) var(--spacing-md);
             border-radius: var(--radius-md);
             display: inline-block;
@@ -168,14 +173,18 @@
         .devotion-controls {
             max-width: 800px;
             margin: var(--spacing-xl) auto var(--spacing-xl);
-            padding: var(--spacing-lg); /* Increased from md */
+            padding: var(--spacing-lg);
+            /* Increased from md */
             background: var(--color-surface);
-            box-shadow: var(--shadow-lg); /* Enhanced shadow */
+            box-shadow: var(--shadow-lg);
+            /* Enhanced shadow */
             border-radius: var(--radius-lg);
-            border: 1px solid var(--color-border); /* Add border for definition */
+            border: 1px solid var(--color-border);
+            /* Add border for definition */
             display: grid;
             grid-template-columns: 1fr;
-            gap: var(--spacing-lg); /* Increased from md for better separation */
+            gap: var(--spacing-lg);
+            /* Increased from md for better separation */
             z-index: 2;
             width: 100%;
             /* iOS SAFARI OVERFLOW FIX */
@@ -236,10 +245,14 @@
         body[data-theme="dark"] .devotion-section,
         body[data-theme="dark"] .simple-share-section,
         body[data-theme="dark"] .share-section {
-            background: #1e293b; /* Lighter than #0f172a for better contrast */
-            color: #e2e8f0; /* Brighter than #cbd5e1 */
-            border: 1px solid rgba(148, 163, 184, 0.3); /* Increased from 0.2 */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+            background: #1e293b;
+            /* Lighter than #0f172a for better contrast */
+            color: #e2e8f0;
+            /* Brighter than #cbd5e1 */
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            /* Increased from 0.2 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+            /* Enhanced shadow */
         }
 
         body[data-theme="dark"] .language-toggle,
@@ -250,9 +263,12 @@
         body[data-theme="dark"] .simple-share-btn,
         body[data-theme="dark"] #goToDateBtn,
         body[data-theme="dark"] #todayBtn {
-            background: #0f172a; /* Darker background */
-            color: #f1f5f9; /* Brighter text */
-            border: 2px solid rgba(148, 163, 184, 0.4); /* Thicker, more visible border */
+            background: #0f172a;
+            /* Darker background */
+            color: #f1f5f9;
+            /* Brighter text */
+            border: 2px solid rgba(148, 163, 184, 0.4);
+            /* Thicker, more visible border */
         }
 
         /* Dark mode hover states for better interactivity */
@@ -318,7 +334,7 @@
             color: #ffffff;
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
-        
+
         .language-toggle button:not(.active):hover {
             background: rgba(255, 255, 255, 1);
             color: #374151;
@@ -360,15 +376,24 @@
 
         .date-pill {
             padding: var(--spacing-sm) var(--spacing-md);
-            border: 2px solid var(--color-border); /* Thicker border */
+            border: 2px solid var(--color-border);
+            /* Thicker border */
             border-radius: var(--radius-full);
             background: var(--color-surface);
             text-align: center;
             cursor: pointer;
             transition: all var(--transition-base);
-            min-width: 82px;
+            min-width: 44px;
+            /* Minimum touch target width */
+            min-height: 44px;
+            /* Minimum touch target height */
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             color: var(--color-text);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            /* Add subtle shadow */
         }
 
         .date-pill strong {
@@ -408,22 +433,33 @@
         }
 
         .date-nav-btn {
-            border: 2px solid var(--color-border); /* Thicker border */
+            border: 2px solid var(--color-border);
+            /* Thicker border */
             background: var(--color-surface);
             border-radius: var(--radius-full);
             padding: var(--spacing-sm) var(--spacing-md);
             cursor: pointer;
             transition: all var(--transition-base);
             color: var(--color-text);
-            font-weight: var(--font-semibold); /* Add font weight */
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Add shadow */
+            font-weight: var(--font-semibold);
+            /* Add font weight */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            /* Add shadow */
+            min-width: 44px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .date-nav-btn:hover {
             border-color: var(--color-primary);
             color: var(--color-primary);
-            background: rgba(37, 99, 235, 0.05); /* Subtle hover background */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);\n            transform: scale(1.05);\n        }
+            background: rgba(37, 99, 235, 0.05);
+            /* Subtle hover background */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            transform: scale(1.05);
+        }
 
         .jump-controls {
             display: flex;
@@ -782,8 +818,10 @@
 
         .action-buttons-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Fixed 3 columns for symmetry */
-            gap: var(--spacing-lg); /* Increased gap */
+            grid-template-columns: repeat(3, 1fr);
+            /* Fixed 3 columns for symmetry */
+            gap: var(--spacing-lg);
+            /* Increased gap */
             margin-bottom: var(--spacing-xl);
         }
 
@@ -806,21 +844,25 @@
             flex-direction: column;
             align-items: center;
             gap: var(--spacing-sm);
-            padding: var(--spacing-xl); /* Increased padding */
+            padding: var(--spacing-xl);
+            /* Increased padding */
             background: var(--color-surface);
             border: 2px solid var(--color-border);
             border-radius: var(--radius-lg);
             text-decoration: none;
             color: var(--color-text);
             transition: all var(--transition-base);
-            box-shadow: var(--shadow-md); /* Enhanced shadow */
+            box-shadow: var(--shadow-md);
+            /* Enhanced shadow */
         }
 
         .action-btn:hover {
             border-color: var(--color-secondary);
-            background: linear-gradient(to bottom, var(--color-surface), rgba(255, 255, 0, 0.05)); /* Subtle gradient */
+            background: linear-gradient(to bottom, var(--color-surface), rgba(255, 255, 0, 0.05));
+            /* Subtle gradient */
             box-shadow: var(--shadow-lg);
-            transform: translateY(-4px); /* More pronounced lift */
+            transform: translateY(-4px);
+            /* More pronounced lift */
         }
 
         /* Dark mode action buttons */
@@ -858,11 +900,16 @@
 
         /* Simple Share Section */
         .simple-share-section {
-            margin-top: var(--spacing-md); /* Reduced from lg */
-            padding: var(--spacing-md); /* Add padding all around */
-            background: rgba(255, 255, 0, 0.05); /* Subtle yellow tint to connect with theme */
-            border: 1px solid var(--color-border); /* Full border instead of just top */
-            border-radius: var(--radius-md); /* Add border radius */
+            margin-top: var(--spacing-md);
+            /* Reduced from lg */
+            padding: var(--spacing-md);
+            /* Add padding all around */
+            background: rgba(255, 255, 0, 0.05);
+            /* Subtle yellow tint to connect with theme */
+            border: 1px solid var(--color-border);
+            /* Full border instead of just top */
+            border-radius: var(--radius-md);
+            /* Add border radius */
             text-align: center;
             width: 100%;
             /* iOS SAFARI OVERFLOW FIX */
@@ -901,16 +948,20 @@
             display: inline-flex;
             align-items: center;
             gap: var(--spacing-xs);
-            padding: var(--spacing-sm) var(--spacing-lg); /* Increased padding */
+            padding: var(--spacing-sm) var(--spacing-lg);
+            /* Increased padding */
             background: var(--color-surface);
-            border: 2px solid var(--color-border); /* Thicker border */
+            border: 2px solid var(--color-border);
+            /* Thicker border */
             border-radius: var(--radius-full);
             font-size: var(--font-sm);
-            font-weight: var(--font-medium); /* Add font weight */
+            font-weight: var(--font-medium);
+            /* Add font weight */
             color: var(--color-text);
             text-decoration: none;
             transition: all var(--transition-base);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Add shadow */
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            /* Add shadow */
         }
 
         .simple-share-btn:hover {
@@ -940,16 +991,23 @@
             display: inline-flex;
             align-items: center;
             gap: var(--spacing-sm);
-            padding: var(--spacing-md) var(--spacing-xl); /* Increased padding */
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); /* Active gradient */
-            border: 2px solid var(--color-primary); /* Primary border */
-            border-radius: var(--radius-lg); /* Increased border radius */
+            padding: var(--spacing-md) var(--spacing-xl);
+            /* Increased padding */
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            /* Active gradient */
+            border: 2px solid var(--color-primary);
+            /* Primary border */
+            border-radius: var(--radius-lg);
+            /* Increased border radius */
             font-size: var(--font-base);
-            font-weight: var(--font-semibold); /* Bolder text */
-            color: var(--color-text-inverse); /* White text */
+            font-weight: var(--font-semibold);
+            /* Bolder text */
+            color: var(--color-text-inverse);
+            /* White text */
             text-decoration: none;
             transition: all var(--transition-base);
-            box-shadow: var(--shadow-md); /* Add shadow */
+            box-shadow: var(--shadow-md);
+            /* Add shadow */
         }
 
         .devotion-nav-btn:hover {
