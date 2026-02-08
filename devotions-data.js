@@ -8,15 +8,15 @@
  * - devotionsLoadError { error, stage, year }
  */
 
-(function() {
+(function () {
     'use strict';
 
-    const scriptBase = (function() {
+    const scriptBase = (function () {
         try {
             if (document.currentScript && document.currentScript.src) {
                 return new URL('.', document.currentScript.src).toString();
             }
-        } catch (err) {}
+        } catch (err) { }
         return new URL('.', window.location.href).toString();
     })();
 
@@ -50,6 +50,24 @@
 
         let devotions = [];
         let source = `devotions-${yearLabel}.json`;
+
+        // CHECK OFFLINE DB FIRST
+        if (window.DEVOTIONS_2026_DB && Array.isArray(window.DEVOTIONS_2026_DB) && yearLabel === 2026) {
+            console.log('Using bundled offline devotions DB');
+            devotions = window.DEVOTIONS_2026_DB;
+            source = 'devotions-db-2026.js (bundled)';
+
+            // Skip all fetch logic
+            window.DEVOTIONS = devotions;
+            window.DEVOTIONS_YEAR = yearLabel;
+
+            console.log(`✓ Loaded ${devotions.length} devotions (${source})`);
+
+            window.dispatchEvent(new CustomEvent('devotionsLoaded', {
+                detail: { count: devotions.length, source, year: yearLabel }
+            }));
+            return;
+        }
 
         try {
             const primaryCandidates = [

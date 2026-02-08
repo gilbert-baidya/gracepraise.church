@@ -27,7 +27,7 @@
     <!-- Google Fonts for Premium Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
     <!-- Theme & JS Detection — DO NOT REMOVE -->
     <script>
         (function () {
@@ -43,7 +43,7 @@
             }
         })();
     </script>
-    
+
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -116,21 +116,23 @@
             transform: scale(1.05);
         }
 
-    .dark-mode-toggle .sun-icon,
-    .dark-mode-toggle .moon-icon {
-        position: absolute;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    
-    .dark-mode-toggle .sun-icon {
-        opacity: 1;
-        transform: rotate(0deg);
-    }
-    
-    .dark-mode-toggle .moon-icon {
-        opacity: 0;
-        transform: rotate(-180deg);
-    }        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+        .dark-mode-toggle .sun-icon,
+        .dark-mode-toggle .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dark-mode-toggle .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .dark-mode-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(-180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .sun-icon {
             opacity: 0;
             transform: rotate(180deg);
         }
@@ -517,7 +519,8 @@
         <nav>
             <div class="nav-container">
                 <a href="#home" class="logo">
-                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
+                        class="logo-image" loading="eager" decoding="async">
                 </a>
                 <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
                     title="Toggle dark mode">
@@ -760,6 +763,7 @@
 
 
 
+    <script src="devotions-db-2026.js"></script>
     <script>
         // Gratitude Fasting Devotional Application
         let devotionalData = null;
@@ -780,18 +784,24 @@
         // Load devotional data
         async function loadDevotionalData() {
             try {
-                let lastError = null;
-                for (const url of dataCandidates) {
-                    try {
-                        const response = await fetch(url, { cache: 'no-store' });
-                        if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
-                        devotionalData = await response.json();
-                        break;
-                    } catch (err) {
-                        lastError = err;
+                // CHECK OFFLINE DB FIRST
+                if (window.GRATITUDE_DEVOTIONS_DB) {
+                    console.log('Using bundled offline Gratitude DB');
+                    devotionalData = window.GRATITUDE_DEVOTIONS_DB;
+                } else {
+                    let lastError = null;
+                    for (const url of dataCandidates) {
+                        try {
+                            const response = await fetch(url, { cache: 'no-store' });
+                            if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
+                            devotionalData = await response.json();
+                            break;
+                        } catch (err) {
+                            lastError = err;
+                        }
                     }
+                    if (!devotionalData) throw lastError || new Error('Failed to load devotional data');
                 }
-                if (!devotionalData) throw lastError || new Error('Failed to load devotional data');
 
                 // Populate day selector
                 const daySelect = document.getElementById('daySelect');
