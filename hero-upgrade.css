@@ -53,7 +53,8 @@ body[data-theme="dark"] {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding-top: 0; /* Body already has padding, remove to prevent double offset */
+    padding-top: 0;
+    /* Body already has padding, remove to prevent double offset */
     transition: background 0.5s ease;
 }
 
@@ -227,10 +228,9 @@ body[data-theme="dark"] {
     }
 }
 
-@media (max-width: 768px) {
-    .badge-content {
-        gap: 0.75rem;
-        padding: 0.5rem 1rem;
+@media (max-width: 480px) {
+    .inline-countdown-banner {
+        display: none !important;
     }
 }
 
@@ -368,7 +368,7 @@ body[data-theme="dark"] .hero-countdown-badge .event-label {
     display: block;
 }
 
-.hero-slogan span + span {
+.hero-slogan span+span {
     margin-top: 0.2rem;
 }
 

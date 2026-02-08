@@ -48,8 +48,8 @@
     /* very dark navy */
     --text-body: #334155;
     /* readable gray */
-    --text-muted: #64748b;
-    /* secondary text */
+    --text-muted: #475569;
+    /* darkened from #64748b for better contrast */
     --text-inverse: #ffffff;
 
     /* ========= Borders & Lines ========= */
