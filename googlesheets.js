@@ -24,7 +24,7 @@ async function loadEventsFromGoogleSheets() {
         }
 
         const data = await response.json();
-        
+
         if (data.events) {
             // Clear existing GPBC events from array
             for (let i = events.length - 1; i >= 0; i--) {
@@ -32,12 +32,29 @@ async function loadEventsFromGoogleSheets() {
                     events.splice(i, 1);
                 }
             }
-            
+
             // Add events from Google Sheets
             data.events.forEach(event => {
                 if (event.date && event.name) {
+                    // Fix: Normalize date format to YYYY-MM-DD to ensure calendar.js can parse it
+                    let normalizedDate = event.date;
+
+                    // Handle M/D/YYYY format (common in Google Sheets)
+                    if (event.date.includes('/')) {
+                        const parts = event.date.split('/');
+                        if (parts.length === 3) {
+                            const [month, day, year] = parts;
+                            // Ensure year is 4 digits
+                            const fullYear = year.length === 2 ? '20' + year : year;
+                            normalizedDate = `${fullYear}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                        }
+                    } else if (event.date.includes('T')) {
+                        // Handle ISO format
+                        normalizedDate = event.date.split('T')[0];
+                    }
+
                     events.push({
-                        date: event.date,
+                        date: normalizedDate,
                         name: event.name,
                         category: event.category || 'gpbc',
                         description: event.description || '',
@@ -49,11 +66,11 @@ async function loadEventsFromGoogleSheets() {
                     });
                 }
             });
-            
+
             console.log(`Loaded ${data.events.length} events from Google Sheets`);
             return true;
         }
-        
+
         return false;
     } catch (error) {
         console.error('Error loading events from Google Sheets:', error);
@@ -89,7 +106,7 @@ async function saveEventToGoogleSheets(event) {
         });
 
         const data = await response.json();
-        
+
         if (data.success) {
             console.log('Event saved to Google Sheets successfully');
             return true;
@@ -126,7 +143,7 @@ async function deleteEventFromGoogleSheets(event) {
         });
 
         const data = await response.json();
-        
+
         if (data.success) {
             console.log('Event deleted from Google Sheets successfully');
             return true;
