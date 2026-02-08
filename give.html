@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- SEO Meta Tags -->
     <title>Give | Support Our Ministry | Grace and Praise Bangladeshi Church</title>
-    <meta name="description" content="Support Grace and Praise Bangladeshi Church through secure online giving. Multiple convenient payment options including online payment, QR code, bank transfer, and check.">
-    <meta name="keywords" content="church giving, donate GPBC, online donation, church support, tax-deductible donation">
-    
+    <meta name="description"
+        content="Support Grace and Praise Bangladeshi Church through secure online giving. Multiple convenient payment options including online payment, QR code, bank transfer, and check.">
+    <meta name="keywords"
+        content="church giving, donate GPBC, online donation, church support, tax-deductible donation">
+
     <!-- Open Graph -->
     <meta property="og:title" content="Give | Grace and Praise Bangladeshi Church">
     <meta property="og:description" content="Support our ministry through secure, convenient giving options">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gracepraise.church/give">
-    
+
     <!-- Canonical -->
     <link rel="canonical" href="https://gracepraise.church/give">
-    
+
     <!-- Theme & JS Detection — DO NOT REMOVE -->
     <script>
         (function () {
@@ -33,13 +36,13 @@
             }
         })();
     </script>
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css">
-    
+
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -47,14 +50,14 @@
         *::after {
             box-sizing: border-box;
         }
-        
+
         html,
         body {
             width: 100%;
             max-width: 100%;
             overflow-x: hidden;
         }
-        
+
         /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
         @supports (-webkit-touch-callout: none) {
             body {
@@ -62,76 +65,84 @@
                 position: relative;
             }
         }
-        
+
         /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
-        img, video, iframe, embed, object {
+        img,
+        video,
+        iframe,
+        embed,
+        object {
             max-width: 100%;
             height: auto;
         }
-        
-    section, article, main, .hero, .container {
-        width: 100%;
-        max-width: 100%;
-    }
-    
-    /* DARK MODE TOGGLE BUTTON */
-    .dark-mode-toggle {
-        background: rgba(45, 122, 143, 0.1);
-        border: 2px solid rgba(45, 122, 143, 0.3);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        margin-left: 15px;
-        font-size: 20px;
-    }
-    
-    .dark-mode-toggle:hover {
-        background: rgba(45, 122, 143, 0.2);
-        border-color: rgba(45, 122, 143, 0.5);
-        transform: scale(1.05);
-    }
-    
-    .dark-mode-toggle .sun-icon,
-    .dark-mode-toggle .moon-icon {
-        position: absolute;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    
-    .dark-mode-toggle .sun-icon {
-        opacity: 1;
-        transform: rotate(0deg);
-    }
-    
-    .dark-mode-toggle .moon-icon {
-        opacity: 0;
-        transform: rotate(-180deg);
-    }
-    
-    [data-theme="dark"] .dark-mode-toggle .sun-icon {
-        opacity: 0;
-        transform: rotate(180deg);
-    }
-    
-    [data-theme="dark"] .dark-mode-toggle .moon-icon {
-        opacity: 1;
-        transform: rotate(0deg);
-    }
-    
-    @media (max-width: 768px) {
-        .dark-mode-toggle {
-            width: 36px;
-            height: 36px;
-            font-size: 18px;
-            margin-left: 10px;
+
+        section,
+        article,
+        main,
+        .hero,
+        .container {
+            width: 100%;
+            max-width: 100%;
         }
-    }
-</style>
+
+        /* DARK MODE TOGGLE BUTTON */
+        .dark-mode-toggle {
+            background: rgba(45, 122, 143, 0.1);
+            border: 2px solid rgba(45, 122, 143, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-left: 15px;
+            font-size: 20px;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(45, 122, 143, 0.2);
+            border-color: rgba(45, 122, 143, 0.5);
+            transform: scale(1.05);
+        }
+
+        .dark-mode-toggle .sun-icon,
+        .dark-mode-toggle .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dark-mode-toggle .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .dark-mode-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(-180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        @media (max-width: 768px) {
+            .dark-mode-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+        }
+    </style>
 
     <style>
         /* Skip link for accessibility */
@@ -145,23 +156,23 @@
             text-decoration: none;
             z-index: 100;
         }
-        
+
         .skip-link:focus {
             top: 0;
         }
-        
+
         /* Hero Section */
         .give-hero {
             background: linear-gradient(135deg, rgba(30, 58, 95, 0.02) 0%, rgba(201, 169, 97, 0.05) 100%);
-            padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-xl);
+            padding: calc(var(--gpbc-header-total-height) + var(--spacing-lg)) var(--spacing-md) var(--spacing-xl);
         }
-        
+
         .give-hero-container {
             max-width: var(--container-max-width);
             margin: 0 auto;
             text-align: center;
         }
-        
+
         .give-hero h1 {
             font-family: Georgia, 'Times New Roman', serif;
             font-size: var(--font-5xl);
@@ -169,7 +180,7 @@
             color: var(--color-primary);
             margin-bottom: var(--spacing-md);
         }
-        
+
         .give-hero-subtitle {
             font-size: var(--font-xl);
             color: var(--color-text);
@@ -177,7 +188,7 @@
             max-width: 700px;
             margin: 0 auto var(--spacing-xl);
         }
-        
+
         /* Bible Verse Card - Prominently Displayed */
         .verse-card {
             background: var(--color-surface);
@@ -188,7 +199,7 @@
             margin: 0 auto;
             box-shadow: var(--shadow-md);
         }
-        
+
         .verse-text {
             font-size: var(--font-2xl);
             font-style: italic;
@@ -197,25 +208,25 @@
             margin-bottom: var(--spacing-md);
             font-weight: var(--font-medium);
         }
-        
+
         .verse-reference {
             font-size: var(--font-lg);
             color: var(--color-text-light);
             text-align: right;
             font-style: normal;
         }
-        
+
         /* Method Selection Section */
         .method-selection {
             padding: var(--spacing-2xl) var(--spacing-md);
             background: var(--color-background);
         }
-        
+
         .method-selection-container {
             max-width: var(--container-max-width);
             margin: 0 auto;
         }
-        
+
         .section-title {
             font-family: Georgia, serif;
             font-size: var(--font-3xl);
@@ -224,7 +235,7 @@
             text-align: center;
             margin-bottom: var(--spacing-xl);
         }
-        
+
         /* Method Cards Grid */
         .method-cards {
             display: grid;
@@ -232,14 +243,14 @@
             gap: var(--spacing-lg);
             margin-bottom: var(--spacing-2xl);
         }
-        
+
         @media (max-width: 768px) {
             .method-cards {
                 grid-template-columns: 1fr;
                 gap: var(--spacing-md);
             }
         }
-        
+
         /* Individual Method Card */
         .method-card {
             background: var(--color-surface);
@@ -256,18 +267,18 @@
             justify-content: center;
             position: relative;
         }
-        
+
         .method-card:hover {
             border-color: var(--color-primary);
             transform: translateY(-6px);
             box-shadow: var(--shadow-xl);
         }
-        
+
         .method-card:focus {
             outline: 3px solid var(--color-secondary);
             outline-offset: 3px;
         }
-        
+
         .method-card.active {
             background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
             border-color: var(--color-primary-dark);
@@ -275,35 +286,35 @@
             box-shadow: var(--shadow-xl);
             transform: translateY(-6px);
         }
-        
+
         .method-card.active h3,
         .method-card.active p {
             color: var(--color-secondary);
         }
-        
+
         .method-card.active .method-icon {
             transform: scale(1.1);
         }
-        
+
         .method-icon {
             font-size: 4rem;
             line-height: 1;
             margin-bottom: var(--spacing-md);
             transition: transform var(--transition-base);
         }
-        
+
         .method-card h3 {
             font-size: var(--font-2xl);
             font-weight: var(--font-bold);
             margin-bottom: var(--spacing-xs);
         }
-        
+
         .method-card p {
             font-size: var(--font-base);
             opacity: 0.9;
             margin: 0;
         }
-        
+
         /* Content Area */
         .content-area {
             background: var(--color-surface);
@@ -312,27 +323,28 @@
             box-shadow: var(--shadow-lg);
             min-height: 400px;
         }
-        
+
         .content-section {
             display: none;
             animation: fadeInUp 0.4s ease-out;
         }
-        
+
         .content-section.active {
             display: block;
         }
-        
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
+
         .content-section h2 {
             font-family: Georgia, serif;
             font-size: var(--font-3xl);
@@ -340,17 +352,17 @@
             margin-bottom: var(--spacing-xl);
             text-align: center;
         }
-        
+
         /* Online Payment Form */
         .payment-form {
             max-width: 600px;
             margin: 0 auto;
         }
-        
+
         .form-group {
             margin-bottom: var(--spacing-lg);
         }
-        
+
         .form-label {
             display: block;
             font-size: var(--font-base);
@@ -358,7 +370,7 @@
             color: var(--color-text);
             margin-bottom: var(--spacing-xs);
         }
-        
+
         .form-input,
         .form-select {
             width: 100%;
@@ -368,18 +380,18 @@
             border-radius: var(--radius-md);
             transition: all var(--transition-fast);
         }
-        
+
         .form-input:focus,
         .form-select:focus {
             outline: none;
             border-color: var(--color-primary);
             box-shadow: 0 0 0 4px rgba(30, 58, 95, 0.1);
         }
-        
+
         .amount-wrapper {
             position: relative;
         }
-        
+
         .amount-wrapper::before {
             content: '$';
             position: absolute;
@@ -391,11 +403,11 @@
             color: var(--color-text-light);
             pointer-events: none;
         }
-        
+
         .amount-wrapper input {
             padding-left: 2.5rem;
         }
-        
+
         /* Preset Amount Buttons */
         .preset-amounts {
             display: grid;
@@ -403,13 +415,13 @@
             gap: var(--spacing-sm);
             margin-top: var(--spacing-sm);
         }
-        
+
         @media (max-width: 480px) {
             .preset-amounts {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-        
+
         .preset-btn {
             padding: var(--spacing-md);
             background: var(--color-background);
@@ -420,18 +432,18 @@
             cursor: pointer;
             transition: all var(--transition-fast);
         }
-        
+
         .preset-btn:hover {
             border-color: var(--color-primary);
             background: var(--color-primary);
             color: white;
             transform: translateY(-2px);
         }
-        
+
         .preset-btn:active {
             transform: translateY(0);
         }
-        
+
         /* Payment Buttons */
         .payment-buttons {
             display: flex;
@@ -450,21 +462,21 @@
             gap: var(--spacing-sm);
             width: 100%;
         }
-        
+
         /* QR Code Section */
         .qr-section {
             text-align: center;
             max-width: 500px;
             margin: 0 auto;
         }
-        
+
         .qr-container {
             background: var(--color-background);
             padding: var(--spacing-2xl);
             border-radius: var(--radius-lg);
             margin: var(--spacing-xl) 0;
         }
-        
+
         .qr-code-placeholder {
             width: 280px;
             height: 280px;
@@ -479,19 +491,19 @@
             color: var(--color-text-light);
             font-weight: var(--font-medium);
         }
-        
+
         .qr-instructions {
             font-size: var(--font-lg);
             color: var(--color-text-light);
             line-height: var(--leading-relaxed);
         }
-        
+
         /* Bank Transfer Section */
         .bank-details {
             max-width: 600px;
             margin: 0 auto;
         }
-        
+
         .detail-card {
             background: var(--color-background);
             border: 1px solid var(--color-border);
@@ -499,7 +511,7 @@
             padding: var(--spacing-md);
             margin-bottom: var(--spacing-md);
         }
-        
+
         .detail-row {
             display: flex;
             justify-content: space-between;
@@ -509,11 +521,11 @@
             border-radius: var(--radius-md);
             margin-bottom: var(--spacing-sm);
         }
-        
+
         .detail-row:last-child {
             margin-bottom: 0;
         }
-        
+
         .detail-label {
             font-weight: var(--font-semibold);
             color: var(--color-text);
@@ -521,7 +533,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         .detail-value {
             font-size: var(--font-base);
             color: var(--color-text);
@@ -529,7 +541,7 @@
             align-items: center;
             gap: var(--spacing-sm);
         }
-        
+
         .copy-btn {
             padding: var(--spacing-xs) var(--spacing-sm);
             background: var(--color-secondary);
@@ -541,23 +553,23 @@
             cursor: pointer;
             transition: all var(--transition-fast);
         }
-        
+
         .copy-btn:hover {
             background: var(--color-accent);
             transform: scale(1.05);
         }
-        
+
         .copy-btn.copied {
             background: #22c55e;
         }
-        
+
         /* Check Section */
         .check-section {
             max-width: 600px;
             margin: 0 auto;
             text-align: center;
         }
-        
+
         .mailing-address {
             background: var(--color-background);
             border: 2px solid var(--color-border);
@@ -565,19 +577,19 @@
             padding: var(--spacing-xl);
             margin: var(--spacing-xl) 0;
         }
-        
+
         .mailing-address h3 {
             font-size: var(--font-xl);
             color: var(--color-primary);
             margin-bottom: var(--spacing-md);
         }
-        
+
         .address-text {
             font-size: var(--font-lg);
             line-height: var(--leading-relaxed);
             color: var(--color-text);
         }
-        
+
         .memo-note {
             background: #fef3c7;
             border-left: 4px solid #f59e0b;
@@ -585,11 +597,11 @@
             border-radius: var(--radius-md);
             margin-top: var(--spacing-lg);
         }
-        
+
         .memo-note strong {
             color: #92400e;
         }
-        
+
         /* Trust Section */
         .trust-section {
             background: var(--color-primary);
@@ -597,13 +609,13 @@
             padding: var(--spacing-xl) var(--spacing-md);
             margin-top: var(--spacing-2xl);
         }
-        
+
         .trust-container {
             max-width: var(--container-max-width);
             margin: 0 auto;
             text-align: center;
         }
-        
+
         .trust-badges {
             display: flex;
             justify-content: center;
@@ -611,7 +623,7 @@
             gap: var(--spacing-xl);
             margin-bottom: var(--spacing-lg);
         }
-        
+
         .trust-badge {
             display: flex;
             align-items: center;
@@ -619,11 +631,11 @@
             font-size: var(--font-base);
             font-weight: var(--font-medium);
         }
-        
+
         .trust-icon {
             font-size: var(--font-2xl);
         }
-        
+
         .trust-text {
             max-width: 700px;
             margin: 0 auto;
@@ -631,18 +643,18 @@
             line-height: var(--leading-relaxed);
             opacity: 0.95;
         }
-        
+
         /* FAQ Section */
         .faq-section {
             padding: var(--spacing-2xl) var(--spacing-md);
             background: var(--color-background);
         }
-        
+
         .faq-container {
             max-width: 900px;
             margin: 0 auto;
         }
-        
+
         .faq-item {
             background: var(--color-surface);
             border: 1px solid var(--color-border);
@@ -650,7 +662,7 @@
             margin-bottom: var(--spacing-md);
             overflow: hidden;
         }
-        
+
         .faq-question {
             width: 100%;
             padding: var(--spacing-lg);
@@ -666,59 +678,59 @@
             align-items: center;
             transition: background var(--transition-fast);
         }
-        
+
         .faq-question:hover {
             background: var(--color-background);
         }
-        
+
         .faq-icon {
             font-size: var(--font-2xl);
             transition: transform var(--transition-base);
         }
-        
+
         .faq-item.open .faq-icon {
             transform: rotate(180deg);
         }
-        
+
         .faq-answer {
             max-height: 0;
             overflow: hidden;
             transition: max-height var(--transition-base);
         }
-        
+
         .faq-item.open .faq-answer {
             max-height: 500px;
         }
-        
+
         .faq-answer-content {
             padding: 0 var(--spacing-lg) var(--spacing-lg);
             color: var(--color-text-light);
             line-height: var(--leading-relaxed);
             font-size: var(--font-base);
         }
-        
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .give-hero h1 {
                 font-size: var(--font-4xl);
             }
-            
+
             .give-hero-subtitle {
                 font-size: var(--font-lg);
             }
-            
+
             .verse-text {
                 font-size: var(--font-xl);
             }
-            
+
             .section-title {
                 font-size: var(--font-2xl);
             }
-            
+
             .content-area {
                 padding: var(--spacing-lg);
             }
-            
+
             .detail-row {
                 flex-direction: column;
                 align-items: flex-start;
@@ -727,18 +739,21 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Skip Link -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    
+
     <!-- Header -->
     <header>
         <nav>
             <div class="nav-container">
                 <a href="#home" class="logo">
-                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
+                        class="logo-image" loading="eager" decoding="async">
                 </a>
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
+                    title="Toggle dark mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
@@ -751,9 +766,10 @@
                     <li><a href="#live">LIVE</a></li>
                     <li><a href="index.html">Home</a></li>
                     <li class="nav-dropdown">
-                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span
+                                class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="about.html">About Overview</a></li>
+                            <li><a href="about.html">About Overview</a></li>
                             <li><a href="history.html">Our History</a></li>
                             <li><a href="mission.html">Our Mission</a></li>
                             <li><a href="leadership.html">Our Leadership</a></li>
@@ -765,9 +781,10 @@
                         </ul>
                     </li>
                     <li class="nav-dropdown">
-                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span
+                                class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="ministries.html">Ministries Overview</a></li>
+                            <li><a href="ministries.html">Ministries Overview</a></li>
                             <li><a href="ministries/bible-study.html">Bible Study</a></li>
                             <li><a href="ministries/community-development.html">Community Development</a></li>
                             <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
@@ -786,9 +803,10 @@
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="#prayer">Prayer</a></li>
                     <li class="nav-dropdown">
-                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span
+                                class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
                             <li><a href="couples-devotion.html">Couples Devotion</a></li>
                             <li><a href="family-devotion.html">Family Devotion</a></li>
                             <li><a href="youth-devotion.html">Youth Devotion</a></li>
@@ -813,13 +831,15 @@
             <div class="give-hero-container">
                 <h1>Give</h1>
                 <p class="give-hero-subtitle">
-                    Giving is an act of worship. Your generosity supports our church family and God's work in our community.
+                    Giving is an act of worship. Your generosity supports our church family and God's work in our
+                    community.
                 </p>
-                
+
                 <!-- Bible Verse - Prominently Displayed -->
                 <div class="verse-card">
                     <p class="verse-text">
-                        "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."
+                        "Each of you should give what you have decided in your heart to give, not reluctantly or under
+                        compulsion, for God loves a cheerful giver."
                     </p>
                     <p class="verse-reference">— 2 Corinthians 9:7</p>
                 </div>
@@ -830,56 +850,36 @@
         <section class="method-selection">
             <div class="method-selection-container">
                 <h2 class="section-title">Choose Your Giving Method</h2>
-                
+
                 <!-- Method Cards -->
                 <div class="method-cards">
                     <!-- Online Payment Card -->
-                    <button 
-                        class="method-card active" 
-                        data-method="online"
-                        role="tab"
-                        aria-selected="true"
-                        aria-controls="online-content"
-                        id="tab-online">
+                    <button class="method-card active" data-method="online" role="tab" aria-selected="true"
+                        aria-controls="online-content" id="tab-online">
                         <div class="method-icon" aria-hidden="true">💳</div>
                         <h3>Online Payment</h3>
                         <p>Credit card, PayPal, or Venmo</p>
                     </button>
 
                     <!-- QR Code Card -->
-                    <button 
-                        class="method-card" 
-                        data-method="qr"
-                        role="tab"
-                        aria-selected="false"
-                        aria-controls="qr-content"
-                        id="tab-qr">
+                    <button class="method-card" data-method="qr" role="tab" aria-selected="false"
+                        aria-controls="qr-content" id="tab-qr">
                         <div class="method-icon" aria-hidden="true">📱</div>
                         <h3>QR Code</h3>
                         <p>Scan to give instantly</p>
                     </button>
 
                     <!-- Bank Transfer Card -->
-                    <button 
-                        class="method-card" 
-                        data-method="bank"
-                        role="tab"
-                        aria-selected="false"
-                        aria-controls="bank-content"
-                        id="tab-bank">
+                    <button class="method-card" data-method="bank" role="tab" aria-selected="false"
+                        aria-controls="bank-content" id="tab-bank">
                         <div class="method-icon" aria-hidden="true">🏦</div>
                         <h3>Bank Transfer</h3>
                         <p>Zelle or direct transfer</p>
                     </button>
 
                     <!-- Check Card -->
-                    <button 
-                        class="method-card" 
-                        data-method="check"
-                        role="tab"
-                        aria-selected="false"
-                        aria-controls="check-content"
-                        id="tab-check">
+                    <button class="method-card" data-method="check" role="tab" aria-selected="false"
+                        aria-controls="check-content" id="tab-check">
                         <div class="method-icon" aria-hidden="true">✉️</div>
                         <h3>Check (Mail)</h3>
                         <p>Send by mail</p>
@@ -889,22 +889,15 @@
                 <!-- Content Area -->
                 <div class="content-area">
                     <!-- Online Payment Content -->
-                    <div id="online-content" class="content-section active" role="tabpanel" aria-labelledby="tab-online">
+                    <div id="online-content" class="content-section active" role="tabpanel"
+                        aria-labelledby="tab-online">
                         <h2>Complete Your Gift</h2>
                         <form class="payment-form" onsubmit="return false;">
                             <div class="form-group">
                                 <label for="amount" class="form-label">Amount</label>
                                 <div class="amount-wrapper">
-                                    <input 
-                                        type="number" 
-                                        id="amount" 
-                                        name="amount" 
-                                        class="form-input"
-                                        placeholder="0.00" 
-                                        min="1" 
-                                        step="0.01"
-                                        aria-label="Donation amount in dollars"
-                                        required>
+                                    <input type="number" id="amount" name="amount" class="form-input" placeholder="0.00"
+                                        min="1" step="0.01" aria-label="Donation amount in dollars" required>
                                 </div>
                                 <div class="preset-amounts">
                                     <button type="button" class="preset-btn" data-amount="25">$25</button>
@@ -916,7 +909,8 @@
 
                             <div class="form-group">
                                 <label for="purpose" class="form-label">Purpose (Optional)</label>
-                                <select id="purpose" name="purpose" class="form-select" aria-label="Select donation purpose">
+                                <select id="purpose" name="purpose" class="form-select"
+                                    aria-label="Select donation purpose">
                                     <option value="">General Offering</option>
                                     <option value="tithe">Tithe</option>
                                     <option value="missions">Missions</option>
@@ -930,7 +924,8 @@
                                 <button type="button" class="btn btn-primary" aria-label="Continue with PayPal">
                                     <span>Continue with PayPal</span>
                                 </button>
-                                <button type="button" class="btn btn-primary" aria-label="Continue with credit or debit card">
+                                <button type="button" class="btn btn-primary"
+                                    aria-label="Continue with credit or debit card">
                                     <span>Continue with Card</span>
                                 </button>
                             </div>
@@ -945,7 +940,8 @@
                                 QR Code<br>Here
                             </div>
                             <p class="qr-instructions">
-                                Point your phone camera at the QR code above or use your payment app to scan and give instantly.
+                                Point your phone camera at the QR code above or use your payment app to scan and give
+                                instantly.
                             </p>
                         </div>
                     </div>
@@ -963,9 +959,7 @@
                                     <span class="detail-label">Recipient Email</span>
                                     <span class="detail-value">
                                         <span id="email-value">gracepraisebangladeshichurch@gmail.com</span>
-                                        <button 
-                                            class="copy-btn" 
-                                            onclick="copyToClipboard('email-value', this)"
+                                        <button class="copy-btn" onclick="copyToClipboard('email-value', this)"
                                             aria-label="Copy email address">
                                             Copy
                                         </button>
@@ -984,7 +978,8 @@
                     </div>
 
                     <!-- Check Content -->
-                    <div id="check-content" class="content-section check-section" role="tabpanel" aria-labelledby="tab-check">
+                    <div id="check-content" class="content-section check-section" role="tabpanel"
+                        aria-labelledby="tab-check">
                         <h2>Give by Check</h2>
                         <div class="mailing-address">
                             <h3>Mail Your Check To:</h3>
@@ -1020,7 +1015,9 @@
                     </div>
                 </div>
                 <p class="trust-text">
-                    All contributions are handled with integrity and transparency. Your donation supports worship, ministry, and outreach in our community. We never share your personal information. You will receive a receipt for tax purposes.
+                    All contributions are handled with integrity and transparency. Your donation supports worship,
+                    ministry, and outreach in our community. We never share your personal information. You will receive
+                    a receipt for tax purposes.
                 </p>
             </div>
         </section>
@@ -1029,7 +1026,7 @@
         <section class="faq-section">
             <div class="faq-container">
                 <h2 class="section-title">Frequently Asked Questions</h2>
-                
+
                 <!-- FAQ Item 1 -->
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
@@ -1038,7 +1035,9 @@
                     </button>
                     <div class="faq-answer" id="faq-answer-1">
                         <div class="faq-answer-content">
-                            Yes! Grace and Praise Bangladeshi Church is a registered 501(c)(3) nonprofit organization. All donations are tax-deductible to the full extent allowed by law. You will receive a receipt for your records at the end of each year or upon request.
+                            Yes! Grace and Praise Bangladeshi Church is a registered 501(c)(3) nonprofit organization.
+                            All donations are tax-deductible to the full extent allowed by law. You will receive a
+                            receipt for your records at the end of each year or upon request.
                         </div>
                     </div>
                 </div>
@@ -1051,7 +1050,9 @@
                     </button>
                     <div class="faq-answer" id="faq-answer-2">
                         <div class="faq-answer-content">
-                            Yes! You can set up recurring monthly donations through PayPal, or contact our office to arrange automatic bank transfers. Monthly giving helps us plan and sustain ministry throughout the year and ensures consistent support for our programs.
+                            Yes! You can set up recurring monthly donations through PayPal, or contact our office to
+                            arrange automatic bank transfers. Monthly giving helps us plan and sustain ministry
+                            throughout the year and ensures consistent support for our programs.
                         </div>
                     </div>
                 </div>
@@ -1064,7 +1065,12 @@
                     </button>
                     <div class="faq-answer" id="faq-answer-3">
                         <div class="faq-answer-content">
-                            If you have questions about giving or need assistance, please contact us at <a href="mailto:info@gracepraise.church" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">info@gracepraise.church</a> or <a href="mailto:bangladeshi.church@gmail.com" style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">bangladeshi.church@gmail.com</a>. We're here to help!
+                            If you have questions about giving or need assistance, please contact us at <a
+                                href="mailto:info@gracepraise.church"
+                                style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">info@gracepraise.church</a>
+                            or <a href="mailto:bangladeshi.church@gmail.com"
+                                style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">bangladeshi.church@gmail.com</a>.
+                            We're here to help!
                         </div>
                     </div>
                 </div>
@@ -1073,59 +1079,60 @@
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer>
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="index.html#prayer">Prayer</a></li>
-                <li><a href="daily-devotion.html">Daily Devotion</a></li>
-                <li><a href="give.html">Give</a></li>
-            </ul>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games/index.html">Kids Games</a></li>
+                    <li><a href="youth/games/index.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="footer-section">
-            <h3>Ministries</h3>
-            <ul>
-                <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
-                <li><a href="ministries/bible-study.html">Bible Study</a></li>
-                <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
-                <li><a href="kids/games/index.html">Kids Games</a></li>
-                <li><a href="youth/games/index.html">Youth Games</a></li>
-                <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
-            </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
+                    Conditions</a></p>
         </div>
-
-        <div class="footer-section">
-            <h3>Contact</h3>
-            <address>
-                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
-                <p>1325 Richardson Street, CA 92408</p>
-                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
-                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
-            </address>
-        </div>
-
-        <div class="footer-section">
-            <h3>Connect</h3>
-            <ul class="social-links">
-                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
-                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
-                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
-        <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
-    </div>
-</footer>
+    </footer>
 
 
 
@@ -1138,27 +1145,27 @@
         methodCards.forEach(card => {
             card.addEventListener('click', () => {
                 const method = card.dataset.method;
-                
+
                 // Update cards
                 methodCards.forEach(c => {
                     c.classList.remove('active');
                     c.setAttribute('aria-selected', 'false');
                 });
-                
+
                 card.classList.add('active');
                 card.setAttribute('aria-selected', 'true');
-                
+
                 // Update content
                 contentSections.forEach(section => {
                     section.classList.remove('active');
                 });
-                
+
                 document.getElementById(`${method}-content`).classList.add('active');
-                
+
                 // Smooth scroll to content area
-                document.querySelector('.content-area').scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'nearest' 
+                document.querySelector('.content-area').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
                 });
             });
 
@@ -1194,13 +1201,13 @@
             question.addEventListener('click', () => {
                 const faqItem = question.parentElement;
                 const isOpen = faqItem.classList.contains('open');
-                
+
                 // Close all items
                 document.querySelectorAll('.faq-item').forEach(item => {
                     item.classList.remove('open');
                     item.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
                 });
-                
+
                 // Toggle current item
                 if (!isOpen) {
                     faqItem.classList.add('open');
@@ -1213,12 +1220,12 @@
         function copyToClipboard(elementId, button) {
             const element = document.getElementById(elementId);
             const text = element.textContent;
-            
+
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = button.textContent;
                 button.textContent = '✓ Copied!';
                 button.classList.add('copied');
-                
+
                 setTimeout(() => {
                     button.textContent = originalText;
                     button.classList.remove('copied');
@@ -1234,20 +1241,21 @@
 
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
-            
+
             if (currentScroll > 50) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
             }
-            
+
             lastScroll = currentScroll;
         });
     </script>
-    
+
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>
 </body>
+
 </html>

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Ministries - Grace and Praise Bangladeshi Church</title>
-    <meta name="description" content="Serving God, Building People, Reaching Communities through various ministries at GPBC.">
-    
+    <meta name="description"
+        content="Serving God, Building People, Reaching Communities through various ministries at GPBC.">
+
     <!-- Theme & JS Detection — DO NOT REMOVE -->
     <script>
         (function () {
@@ -21,12 +23,12 @@
             }
         })();
     </script>
-    
+
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css">
-    
+
     <style>
         /* Dark mode toggle (match other pages) */
         .dark-mode-toggle {
@@ -50,21 +52,23 @@
             transform: scale(1.05);
         }
 
-    .dark-mode-toggle .sun-icon,
-    .dark-mode-toggle .moon-icon {
-        position: absolute;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    
-    .dark-mode-toggle .sun-icon {
-        opacity: 1;
-        transform: rotate(0deg);
-    }
-    
-    .dark-mode-toggle .moon-icon {
-        opacity: 0;
-        transform: rotate(-180deg);
-    }        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+        .dark-mode-toggle .sun-icon,
+        .dark-mode-toggle .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dark-mode-toggle .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .dark-mode-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(-180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .sun-icon {
             opacity: 0;
             transform: rotate(180deg);
         }
@@ -78,24 +82,24 @@
         .ministries-hero {
             background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
             color: white;
-            padding: 6rem 2rem 4rem;
+            padding: calc(var(--gpbc-header-total-height) + 2rem) 2rem 4rem;
             text-align: center;
             border-radius: 0 0 2rem 2rem;
         }
-        
+
         .ministries-hero h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
             font-weight: 800;
         }
-        
+
         .ministries-hero p {
             font-size: 1.25rem;
             opacity: 0.95;
             max-width: 600px;
             margin: 0 auto;
         }
-        
+
         .ministries-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -104,7 +108,7 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .ministry-card {
             background: var(--bg-card);
             border-radius: 1rem;
@@ -113,25 +117,25 @@
             transition: all 0.3s ease;
             border: 1px solid var(--border-subtle);
         }
-        
+
         .ministry-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-soft);
         }
-        
+
         .ministry-card h3 {
             color: var(--brand-primary);
             font-size: 1.5rem;
             margin-bottom: 1rem;
             font-weight: 700;
         }
-        
+
         .ministry-card p {
             color: var(--text-body);
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
-        
+
         .ministry-card .btn {
             display: inline-block;
             padding: 0.75rem 1.5rem;
@@ -142,29 +146,29 @@
             transition: all 0.3s ease;
             font-weight: 600;
         }
-        
+
         .ministry-card .btn:hover {
             background: var(--brand-secondary);
             transform: translateX(4px);
         }
-        
+
         [data-theme="dark"] .ministries-hero {
             background: linear-gradient(135deg, #1e40af 0%, #0e7490 100%);
         }
-        
+
         [data-theme="dark"] .ministry-card {
             background: var(--bg-card);
             border-color: rgba(148, 163, 184, 0.2);
         }
-        
+
         [data-theme="dark"] .ministry-card h3 {
             color: #60a5fa;
         }
-        
+
         [data-theme="dark"] .ministry-card p {
             color: var(--text-on-dark-body);
         }
-        
+
         @media (max-width: 768px) {
             .dark-mode-toggle {
                 width: 36px;
@@ -176,11 +180,11 @@
             .ministries-hero h1 {
                 font-size: 2rem;
             }
-            
+
             .ministries-hero p {
                 font-size: 1rem;
             }
-            
+
             .ministries-grid {
                 grid-template-columns: 1fr;
                 padding: 2rem 1rem;
@@ -188,16 +192,18 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Skip to main content for keyboard users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    
+
     <!-- Navigation (aligned with index.html) -->
     <header>
         <nav>
             <div class="nav-container">
                 <a href="index.html#home" class="logo">
-                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
+                        class="logo-image" loading="eager" decoding="async">
                 </a>
                 <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
                     <span class="sun-icon">☀️</span>
@@ -279,19 +285,22 @@
         <section class="ministries-grid">
             <div class="ministry-card">
                 <h3>Men Fellowship</h3>
-                <p>Helping men grow as disciples of Christ through fellowship, accountability, prayer, and godly leadership.</p>
+                <p>Helping men grow as disciples of Christ through fellowship, accountability, prayer, and godly
+                    leadership.</p>
                 <a href="ministries/men-fellowship.html" class="btn">Learn More</a>
             </div>
 
             <div class="ministry-card">
                 <h3>Bible Study</h3>
-                <p>Growing deeper in God's Word through systematic Bible study, discussion, and practical application.</p>
+                <p>Growing deeper in God's Word through systematic Bible study, discussion, and practical application.
+                </p>
                 <a href="ministries/bible-study.html" class="btn">Learn More</a>
             </div>
 
             <div class="ministry-card">
                 <h3>Worship Ministry</h3>
-                <p>Leading God's people into authentic worship through prayer, music, and reverence for His presence.</p>
+                <p>Leading God's people into authentic worship through prayer, music, and reverence for His presence.
+                </p>
                 <a href="ministries/worship-ministry.html" class="btn">Learn More</a>
             </div>
 
@@ -321,7 +330,8 @@
 
             <div class="ministry-card">
                 <h3>Support Missionaries</h3>
-                <p>Partnering through prayer and giving to support those called to share the Gospel around the world.</p>
+                <p>Partnering through prayer and giving to support those called to share the Gospel around the world.
+                </p>
                 <a href="ministries/support-missionaries.html" class="btn">Learn More</a>
             </div>
 
@@ -347,57 +357,58 @@
 
     <!-- Footer (same as index.html) -->
     <footer>
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="index.html#prayer">Prayer</a></li>
-                <li><a href="daily-devotion.html">Daily Devotion</a></li>
-                <li><a href="give.html">Give</a></li>
-            </ul>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games/index.html">Kids Games</a></li>
+                    <li><a href="youth/games/index.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="footer-section">
-            <h3>Ministries</h3>
-            <ul>
-                <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
-                <li><a href="ministries/bible-study.html">Bible Study</a></li>
-                <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
-                <li><a href="kids/games/index.html">Kids Games</a></li>
-                <li><a href="youth/games/index.html">Youth Games</a></li>
-                <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
-            </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
+                    Conditions</a></p>
         </div>
-
-        <div class="footer-section">
-            <h3>Contact</h3>
-            <address>
-                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
-                <p>1325 Richardson Street, CA 92408</p>
-                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
-                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
-            </address>
-        </div>
-
-        <div class="footer-section">
-            <h3>Connect</h3>
-            <ul class="social-links">
-                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
-                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
-                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
-        <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
-    </div>
-</footer>
+    </footer>
 
 
 
@@ -417,4 +428,5 @@
         });
     </script>
 </body>
+
 </html>
