@@ -34,7 +34,7 @@
         successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
         
         // Log form data (remove in production)
-        console.log('Prayer request submitted:', formData);
+        // console.log('Prayer request submitted:', formData); // Removed for production
     });
 })();
 

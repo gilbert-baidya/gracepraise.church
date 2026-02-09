@@ -53,7 +53,7 @@
 
         // CHECK OFFLINE DB FIRST
         if (window.DEVOTIONS_2026_DB && Array.isArray(window.DEVOTIONS_2026_DB) && yearLabel === 2026) {
-            console.log('Using bundled offline devotions DB');
+            // console.log('Using bundled offline devotions DB'); // Removed for production
             devotions = window.DEVOTIONS_2026_DB;
             source = 'devotions-db-2026.js (bundled)';
 
@@ -61,7 +61,7 @@
             window.DEVOTIONS = devotions;
             window.DEVOTIONS_YEAR = yearLabel;
 
-            console.log(`✓ Loaded ${devotions.length} devotions (${source})`);
+            // console.log(`✓ Loaded ${devotions.length} devotions (${source})`); // Removed for production
 
             window.dispatchEvent(new CustomEvent('devotionsLoaded', {
                 detail: { count: devotions.length, source, year: yearLabel }
@@ -118,7 +118,7 @@
         window.DEVOTIONS = devotions;
         window.DEVOTIONS_YEAR = yearLabel;
 
-        console.log(`✓ Loaded ${devotions.length} devotions (${source})`);
+        // console.log(`✓ Loaded ${devotions.length} devotions (${source})`); // Removed for production
 
         window.dispatchEvent(new CustomEvent('devotionsLoaded', {
             detail: { count: devotions.length, source, year: yearLabel }

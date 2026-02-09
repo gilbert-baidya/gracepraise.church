@@ -4,7 +4,7 @@
 // Google Sheets API functions
 async function loadEventsFromGoogleSheets() {
     if (!USE_GOOGLE_SHEETS || !GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL === 'YOUR_WEB_APP_URL_HERE') {
-        console.log('Google Sheets not configured, using localStorage');
+        // console.log('Google Sheets not configured, using localStorage'); // Removed for production
         return false;
     }
 
@@ -67,21 +67,21 @@ async function loadEventsFromGoogleSheets() {
                 }
             });
 
-            console.log(`Loaded ${data.events.length} events from Google Sheets`);
+            // console.log(`Loaded ${data.events.length} events from Google Sheets`); // Removed for production
             return true;
         }
 
         return false;
     } catch (error) {
         console.error('Error loading events from Google Sheets:', error);
-        console.log('Falling back to localStorage');
+        // console.log('Falling back to localStorage'); // Removed for production
         return false;
     }
 }
 
 async function saveEventToGoogleSheets(event) {
     if (!USE_GOOGLE_SHEETS || !GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL === 'YOUR_WEB_APP_URL_HERE') {
-        console.log('Google Sheets not configured, using localStorage');
+        // console.log('Google Sheets not configured, using localStorage'); // Removed for production
         return false;
     }
 
@@ -108,7 +108,7 @@ async function saveEventToGoogleSheets(event) {
         const data = await response.json();
 
         if (data.success) {
-            console.log('Event saved to Google Sheets successfully');
+            // console.log('Event saved to Google Sheets successfully'); // Removed for production
             return true;
         } else {
             console.error('Failed to save event to Google Sheets:', data.message);
@@ -122,7 +122,7 @@ async function saveEventToGoogleSheets(event) {
 
 async function deleteEventFromGoogleSheets(event) {
     if (!USE_GOOGLE_SHEETS || !GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL === 'YOUR_WEB_APP_URL_HERE') {
-        console.log('Google Sheets not configured, using localStorage');
+        // console.log('Google Sheets not configured, using localStorage'); // Removed for production
         return false;
     }
 
@@ -145,7 +145,7 @@ async function deleteEventFromGoogleSheets(event) {
         const data = await response.json();
 
         if (data.success) {
-            console.log('Event deleted from Google Sheets successfully');
+            // console.log('Event deleted from Google Sheets successfully'); // Removed for production
             return true;
         } else {
             console.error('Failed to delete event from Google Sheets:', data.message);

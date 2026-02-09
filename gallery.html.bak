@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Church Gallery - Grace and Praise Bangladeshi Church</title>
+    <meta name="description" content="View photos from our worship services, special events, and community gatherings at Grace and Praise Bangladeshi Church in San Bernardino, CA.">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Church Gallery - GPBC">
+    <meta property="og:description" content="View photos from our worship services, special events, and community gatherings.">
+    
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
+    <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+    
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: hidden !important;
+                position: relative;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe, embed, object {
+            max-width: 100%;
+            height: auto;
+        }
+        
+    section, article, main, .hero, .container {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    /* DARK MODE TOGGLE BUTTON */
+    .dark-mode-toggle {
+        background: rgba(45, 122, 143, 0.1);
+        border: 2px solid rgba(45, 122, 143, 0.3);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        margin-left: 15px;
+        font-size: 20px;
+    }
+    
+    .dark-mode-toggle:hover {
+        background: rgba(45, 122, 143, 0.2);
+        border-color: rgba(45, 122, 143, 0.5);
+        transform: scale(1.05);
+    }
+    
+    .dark-mode-toggle .sun-icon,
+    .dark-mode-toggle .moon-icon {
+        position: absolute;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .dark-mode-toggle .sun-icon {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    
+    .dark-mode-toggle .moon-icon {
+        opacity: 0;
+        transform: rotate(-180deg);
+    }
+    
+    [data-theme="dark"] .dark-mode-toggle .sun-icon {
+        opacity: 0;
+        transform: rotate(180deg);
+    }
+    
+    [data-theme="dark"] .dark-mode-toggle .moon-icon {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    
+    @media (max-width: 768px) {
+        .dark-mode-toggle {
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+    }
+</style>    <style>
+        .gallery-hero {
+            padding: var(--spacing-2xl) 0 var(--spacing-md);
+            background: linear-gradient(135deg, #faf8f5 0%, #f5f1ea 100%);
+        }
+        
+        .gallery-hero .hero-content {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+        
+        .gallery-hero .hero-text {
+            text-align: left;
+        }
+        
+        .gallery-hero h1 {
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-4xl);
+        }
+        
+        .gallery-hero .tagline {
+            font-size: var(--font-lg);
+            color: var(--color-text-light);
+            line-height: var(--leading-relaxed);
+            max-width: none;
+        }
+        
+        .gallery-filters-section {
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid #e8e4dd;
+            background: #ffffff;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-bottom: 0;
+        }
+        
+        .filter-btn {
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: #faf8f5;
+            border: 2px solid #e8e4dd;
+            border-radius: var(--radius-full);
+            font-size: var(--font-sm);
+            font-weight: var(--font-medium);
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        
+        .filter-btn:hover {
+            background: #f5f1ea;
+            border-color: var(--color-secondary);
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active {
+            background: var(--color-primary);
+            color: var(--color-text-inverse);
+            border-color: var(--color-primary);
+        }
+        
+        .gallery-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: var(--spacing-lg) var(--spacing-sm);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .gallery-item {
+            background: var(--color-background);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: 1px solid var(--color-border);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-item-info {
+            padding: var(--spacing-lg);
+        }
+        
+        .gallery-item-title {
+            font-size: var(--font-lg);
+            font-weight: var(--font-bold);
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-xs);
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+        
+        .gallery-item-description {
+            font-size: var(--font-sm);
+            color: var(--color-text);
+            line-height: var(--leading-relaxed);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .gallery-item-category {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: var(--color-text-inverse);
+            border-radius: var(--radius-full);
+            font-size: var(--font-xs);
+            font-weight: var(--font-semibold);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .no-photos {
+            text-align: center;
+            padding: var(--spacing-2xl) var(--spacing-md);
+            color: var(--color-text-light);
+            display: none;
+        }
+        
+        .no-photos h2 {
+            font-size: var(--font-2xl);
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+        
+        .no-photos p {
+            font-size: var(--font-lg);
+        }
+        
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-lg);
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            font-size: 2.5rem;
+            color: white;
+            cursor: pointer;
+            z-index: 10000;
+            transition: transform var(--transition-fast);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .lightbox-info {
+            background: var(--color-surface);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin-top: var(--spacing-md);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .lightbox-info h3 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: var(--font-xl);
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-primary);
+        }
+
+        .lightbox-info p {
+            color: var(--color-text);
+            margin-bottom: var(--spacing-sm);
+            line-height: var(--leading-relaxed);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-hero {
+                padding: var(--spacing-2xl) var(--spacing-md);
+            }
+
+            .gallery-hero h1 {
+                font-size: var(--font-3xl);
+            }
+            
+            .gallery-hero p {
+                font-size: var(--font-base);
+            }
+            
+            .gallery-container {
+                padding: var(--spacing-2xl) var(--spacing-md);
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+            
+            .filter-buttons {
+                gap: var(--spacing-xs);
+            }
+            
+            .filter-btn {
+                padding: var(--spacing-xs) var(--spacing-md);
+                font-size: var(--font-xs);
+            }
+
+            .gallery-item img {
+                height: 200px;
+            }
+            
+            .lightbox-content {
+                max-width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to main content for keyboard users -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Sticky Header/Nav -->
+<header>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html#home" class="logo">
+                <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+            </a>
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+            <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html#live">LIVE</a></li>
+                <li><a href="index.html#home">Home</a></li>
+                <li class="nav-dropdown">
+                    <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="about.html">About Overview</a></li>
+                        <li><a href="history.html">Our History</a></li>
+                        <li><a href="mission.html">Our Mission</a></li>
+                        <li><a href="leadership.html">Our Leadership</a></li>
+                        <li><a href="beliefs.html">Our Beliefs</a></li>
+                        <li><a href="core-values.html">Our Core Values</a></li>
+                        <li><a href="position-papers.html">Position Papers</a></li>
+                        <li><a href="testimonies.html">Testimonies</a></li>
+                        <li><a href="songbook.html">GPBC Song Book</a></li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="ministries.html">Ministries Overview</a></li>
+                        <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                        <li><a href="ministries/community-development.html">Community Development</a></li>
+                        <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                        <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                        <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                        <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                        <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                        <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                        <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                        <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                        <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#next-service">Next Service</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="index.html#prayer">Prayer</a></li>
+                <li class="nav-dropdown">
+                    <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                        <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                        <li><a href="family-devotion.html">Family Devotion</a></li>
+                        <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                        <li><a href="children-devotion.html">Children Devotion</a></li>
+                        <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                        <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                        <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                        <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                    </ul>
+                </li>
+                <li><a href="give.html">Give</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="mobile-overlay"></div>
+</header>
+
+
+
+    <!-- Special Event Inline Countdown Banner -->
+    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="polite" aria-atomic="true">
+        <div class="inline-banner-content">
+            <span class="event-icon" aria-hidden="true">🎉</span>
+            <span class="event-label">
+                <strong>Gratitude & New Year Celebration</strong> starts in
+            </span>
+            <time class="inline-countdown" datetime="2025-12-31T22:30:00">
+                <span class="countdown-value" data-unit="days">01</span><span class="countdown-unit">d</span>
+                <span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span>
+                <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
+                <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
+            </time>
+            <a href="#dynamic-events-container" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
+        </div>
+    </div>
+
+    <main id="main-content">
+        <section class="gallery-hero hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Church Gallery</h1>
+                    <p class="tagline">View photos from our worship services, special events, and community gatherings. Moments that capture our faith journey together.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery-filters-section">
+            <div class="container">
+                <div class="filter-buttons" role="group" aria-label="Gallery category filters">
+                    <button class="filter-btn active" data-category="all">All Photos</button>
+                    <button class="filter-btn" data-category="Worship Service">🙏 Worship Service</button>
+                    <button class="filter-btn" data-category="Special Events">🎉 Special Events</button>
+                    <button class="filter-btn" data-category="Community">👥 Community</button>
+                    <button class="filter-btn" data-category="Youth">✨ Youth</button>
+                    <button class="filter-btn" data-category="Christmas">🎄 Christmas</button>
+                    <button class="filter-btn" data-category="Other">📷 Other</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery-container">
+            <div class="gallery-grid" id="galleryGrid"></div>
+
+            <div class="no-photos" id="noPhotos">
+                <h2>📷 No Photos Yet</h2>
+                <p>Check back soon for photos from our services and events!</p>
+            </div>
+        </section>
+    </main>
+
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="">
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDescription"></p>
+                <span id="lightboxCategory" class="gallery-item-category"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="index.html#prayer">Prayer</a></li>
+                <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                <li><a href="give.html">Give</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Ministries</h3>
+            <ul>
+                <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                <li><a href="kids/games/index.html">Kids Games</a></li>
+                <li><a href="youth/games/index.html">Youth Games</a></li>
+                <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <address>
+                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                <p>1325 Richardson Street, CA 92408</p>
+                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+            </address>
+        </div>
+
+        <div class="footer-section">
+            <h3>Connect</h3>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+        <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
+    </div>
+</footer>
+
+
+
+    <script>
+        const header = document.querySelector('header');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        const mobileOverlay = document.querySelector('.mobile-overlay');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+    
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js?v=20260125c"></script>
+    <script src="countdown.js"></script>
+    <script src="gallery.js"></script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>
+</html>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Give | Grace and Praise Bangladeshi Church</title>
+    <meta name="title" content="Give | Grace and Praise Bangladeshi Church">
+    <meta name="description" content="Support our ministry through secure online giving. Multiple payment options including card, PayPal, QR code, bank transfer, and check. Tax-deductible 501(c)(3) donations.">
+    <meta name="keywords" content="church donations, online giving, GPBC giving, tax-deductible donation, secure payment, church support">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://gracepraise.church/give">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="redesign-styles.css">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gracepraise.church/give">
+    <meta property="og:title" content="Give | Grace and Praise Bangladeshi Church">
+    <meta property="og:description" content="Support our ministry through secure online giving. Tax-deductible 501(c)(3) donations.">
+    <meta property="og:image" content="https://gracepraise.church/images/og-give.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://gracepraise.church/give">
+    <meta property="twitter:title" content="Give | GPBC">
+    <meta property="twitter:description" content="Support our ministry through secure online giving">
+    <meta property="twitter:image" content="https://gracepraise.church/images/og-give.jpg">
+    
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: hidden !important;
+                position: relative;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe { max-width: 100%; height: auto; }
+        section, main, .hero { width: 100%; max-width: 100%; }
+    </style>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a5f',
+                        'primary-dark': '#152b47',
+                        'primary-light': '#2d5a8f',
+                        secondary: '#c9a961',
+                        accent: '#d4af6a',
+                        background: '#faf8f5',
+                        surface: '#ffffff',
+                        text: '#2c2c2c',
+                        'text-light': '#6b6b6b',
+                        border: '#e8e4dd'
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                        serif: ['Georgia', 'Times New Roman', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
+    
+    <!-- Custom Styles (Minimal) -->
+    <style>
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #1e3a5f;
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Focus visible for accessibility */
+        *:focus-visible {
+            outline: 2px solid #c9a961;
+            outline-offset: 2px;
+        }
+        
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Mobile menu styles */
+        .mobile-menu-btn span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: #1e3a5f;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+        
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+        }
+        
+        .mobile-overlay.active {
+            display: block;
+        }
+        
+        .nav-links {
+            transition: transform 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                padding: 80px 20px 20px;
+                z-index: 999;
+                box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.mobile-open {
+                right: 0;
+            }
+        }
+        
+        /* Tab styling */
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8f 100%);
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* QR code container */
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Footer improvements */
+        footer {
+            background: #1e3a5f;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        footer h3 {
+            color: #c9a961;
+        }
+        
+        footer a {
+            color: rgba(255,255,255,0.85);
+            transition: color 0.2s;
+        }
+        
+        footer a:hover {
+            color: #c9a961;
+        }
+    </style>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Grace and Praise Bangladeshi Church",
+        "alternateName": "GPBC",
+        "url": "https://gracepraise.church",
+        "logo": "https://gracepraise.church/images/logo.png",
+        "sameAs": [
+            "https://facebook.com/gpbc",
+            "https://youtube.com/@gpbc"
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1325 Richardson Street",
+            "addressLocality": "San Bernardino",
+            "addressRegion": "CA",
+            "postalCode": "92408",
+            "addressCountry": "US"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "info@gracepraise.church",
+            "contactType": "General Inquiries"
+        }
+    }
+    </script>
+    <link rel="stylesheet" href="logo-styles.css">
+</head>
+<body class="bg-background text-text antialiased">
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="#home" class="logo">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+                </a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#live">LIVE</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="about.html">About Overview</a></li>
+                            <li><a href="history.html">Our History</a></li>
+                            <li><a href="mission.html">Our Mission</a></li>
+                            <li><a href="leadership.html">Our Leadership</a></li>
+                            <li><a href="beliefs.html">Our Beliefs</a></li>
+                            <li><a href="core-values.html">Our Core Values</a></li>
+                            <li><a href="position-papers.html">Position Papers</a></li>
+                            <li><a href="testimonies.html">Testimonies</a></li>
+                            <li><a href="songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="ministries.html">Ministries Overview</a></li>
+                            <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                            <li><a href="ministries/community-development.html">Community Development</a></li>
+                            <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                            <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                            <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                            <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                            <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                            <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                            <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                            <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                            <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#next-service">Next Service</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="#prayer">Prayer</a></li>
+                    <li class="nav-dropdown">
+                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                            <li><a href="family-devotion.html">Family Devotion</a></li>
+                            <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                            <li><a href="children-devotion.html">Children Devotion</a></li>
+                            <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                            <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="give.html" class="active">Give</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="mobile-overlay"></div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section (Compact) -->
+        <section class="bg-gradient-to-br from-primary/5 to-secondary/5 py-12 md:py-16 relative">
+            <!-- Subtle cross watermark -->
+            <div class="absolute top-8 left-1/2 transform -translate-x-1/2 text-6xl text-border/10 pointer-events-none" aria-hidden="true">✝</div>
+            
+            <div class="container mx-auto px-4 text-center relative z-10">
+                <h1 class="font-serif text-4xl md:text-5xl font-bold text-primary mb-4">Give</h1>
+                <p class="text-lg md:text-xl text-text mb-2 max-w-2xl mx-auto">
+                    Giving is an act of worship. Your generosity supports our church family and God's work in our community.
+                </p>
+                <p class="text-sm italic text-text-light mb-6 max-w-xl mx-auto">
+                    "Each of you should give what you have decided in your heart to give…" — 2 Corinthians 9:7
+                </p>
+                <a href="#payment-methods" class="inline-block bg-primary hover:bg-primary-dark text-white font-medium px-8 py-3 rounded-full transition transform hover:scale-105 shadow-lg">
+                    Choose a Giving Method
+                </a>
+            </div>
+        </section>
+
+        <!-- Payment Methods Section -->
+        <section id="payment-methods" class="py-12 md:py-16">
+            <div class="container mx-auto px-4">
+                <div class="max-w-2xl mx-auto">
+                    <!-- Payment Card -->
+                    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 relative">
+                        <!-- Subtle cross icon -->
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-lg text-border/20" aria-hidden="true">✝</div>
+                        
+                        <!-- Method Tabs -->
+                        <div role="tablist" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                            <button role="tab" aria-selected="true" aria-controls="panel-card" data-tab="card" 
+                                    class="tab-button active flex flex-col items-center justify-center p-4 rounded-lg border-2 border-primary text-white bg-primary cursor-pointer">
+                                <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                </svg>
+                                <span class="text-sm font-medium">Card / PayPal</span>
+                            </button>
+                            
+                            <button role="tab" aria-selected="false" aria-controls="panel-qr" data-tab="qr"
+                                    class="tab-button flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-300 text-text-light hover:border-primary hover:text-primary transition cursor-pointer">
+                                <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+                                </svg>
+                                <span class="text-sm font-medium">QR Code</span>
+                            </button>
+                            
+                            <button role="tab" aria-selected="false" aria-controls="panel-bank" data-tab="bank"
+                                    class="tab-button flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-300 text-text-light hover:border-primary hover:text-primary transition cursor-pointer">
+                                <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
+                                </svg>
+                                <span class="text-sm font-medium">Bank Transfer</span>
+                            </button>
+                            
+                            <button role="tab" aria-selected="false" aria-controls="panel-check" data-tab="check"
+                                    class="tab-button flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-300 text-text-light hover:border-primary hover:text-primary transition cursor-pointer">
+                                <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                <span class="text-sm font-medium">Check</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Tab Panels -->
+                        <!-- Panel 1: Card / PayPal -->
+                        <div role="tabpanel" id="panel-card" aria-labelledby="tab-card" class="tab-panel">
+                            <!-- Amount Input -->
+                            <div class="mb-4">
+                                <label for="amount" class="block text-sm font-medium text-text mb-2">Amount (USD)</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-text-light">$</span>
+                                    <input type="number" id="amount" min="1" placeholder="0.00" 
+                                           class="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none text-lg">
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Amount Chips -->
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <button class="amount-chip px-4 py-2 bg-gray-100 hover:bg-primary hover:text-white rounded-full text-sm font-medium transition" data-amount="25">$25</button>
+                                <button class="amount-chip px-4 py-2 bg-gray-100 hover:bg-primary hover:text-white rounded-full text-sm font-medium transition" data-amount="50">$50</button>
+                                <button class="amount-chip px-4 py-2 bg-gray-100 hover:bg-primary hover:text-white rounded-full text-sm font-medium transition" data-amount="100">$100</button>
+                                <button class="amount-chip px-4 py-2 bg-gray-100 hover:bg-primary hover:text-white rounded-full text-sm font-medium transition" data-amount="250">$250</button>
+                                <button class="amount-chip px-4 py-2 bg-gray-100 hover:bg-primary hover:text-white rounded-full text-sm font-medium transition" onclick="document.getElementById('amount').focus()">Custom</button>
+                            </div>
+                            
+                            <!-- Purpose Dropdown -->
+                            <div class="mb-6">
+                                <label for="purpose" class="block text-sm font-medium text-text mb-2">Purpose</label>
+                                <select id="purpose" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none">
+                                    <option value="general">General Offering</option>
+                                    <option value="missions">Missions</option>
+                                    <option value="building">Building Fund</option>
+                                    <option value="benevolence">Benevolence</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Payment Buttons (Placeholders) -->
+                            <div class="space-y-3 mb-4">
+                                <button class="w-full bg-[#0070ba] hover:bg-[#005ea6] text-white font-semibold py-3 rounded-lg transition flex items-center justify-center">
+                                    <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.76-4.852a.932.932 0 0 1 .922-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.718-4.469z"/>
+                                    </svg>
+                                    PayPal
+                                </button>
+                                
+                                <button class="w-full bg-[#3d95ce] hover:bg-[#2d7eb3] text-white font-semibold py-3 rounded-lg transition flex items-center justify-center">
+                                    <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14.75 22.014H9.25c-3.728 0-4.75-1.022-4.75-4.75V6.736c0-3.728 1.022-4.75 4.75-4.75h5.5c3.728 0 4.75 1.022 4.75 4.75v10.528c0 3.728-1.022 4.75-4.75 4.75zM9.25 3.486c-2.9 0-3.25.35-3.25 3.25v10.528c0 2.9.35 3.25 3.25 3.25h5.5c2.9 0 3.25-.35 3.25-3.25V6.736c0-2.9-.35-3.25-3.25-3.25h-5.5z"/>
+                                        <path d="M12 18.764c-1.24 0-2.25-1.01-2.25-2.25s1.01-2.25 2.25-2.25 2.25 1.01 2.25 2.25-1.01 2.25-2.25 2.25z"/>
+                                    </svg>
+                                    Venmo
+                                </button>
+                                
+                                <button class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3 rounded-lg transition">
+                                    Checkout with Card
+                                </button>
+                            </div>
+                            
+                            <p class="text-xs text-center text-text-light bg-gray-50 py-3 px-4 rounded-lg">
+                                🔒 Secure & Tax-deductible (501(c)(3)) • <em>Integrate PayPal/Stripe button here</em>
+                            </p>
+                        </div>
+                        
+                        <!-- Panel 2: QR Code -->
+                        <div role="tabpanel" id="panel-qr" aria-labelledby="tab-qr" class="tab-panel hidden">
+                            <div class="text-center">
+                                <h3 class="text-xl font-semibold text-primary mb-2">Scan to Give</h3>
+                                <p class="text-sm text-text-light mb-6">Use your phone camera or payment app</p>
+                                
+                                <!-- QR Code -->
+                                <div class="bg-white p-6 rounded-xl border-2 border-border inline-block mb-4">
+                                    <div id="qrcode"></div>
+                                </div>
+                                
+                                <!-- URL Info -->
+                                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                                    <p class="text-xs text-text-light mb-2">Unique QR for this page</p>
+                                    <div class="flex items-center justify-center gap-2">
+                                        <code class="text-sm text-primary break-all" id="qr-url">https://gracepraise.church/give?src=qr&utm_campaign=gpbc_give</code>
+                                        <button onclick="copyToClipboard('qr-url')" class="text-secondary hover:text-accent transition" title="Copy link">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="downloadQR()" class="bg-secondary hover:bg-accent text-white px-6 py-2 rounded-lg transition">
+                                    Download QR (PNG)
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Panel 3: Bank Transfer -->
+                        <div role="tabpanel" id="panel-bank" aria-labelledby="tab-bank" class="tab-panel hidden">
+                            <h3 class="text-xl font-semibold text-primary mb-4">Bank Transfer via Zelle</h3>
+                            
+                            <!-- Bank Info Rows -->
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <span class="text-xs text-text-light block mb-1">Recipient Name</span>
+                                        <span class="text-sm font-medium text-text">Grace and Praise Bangladeshi Church</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div class="flex-1">
+                                        <span class="text-xs text-text-light block mb-1">Recipient Email</span>
+                                        <span class="text-sm font-medium text-text" id="bank-email">gracepraisebangladeshichurch@gmail.com</span>
+                                    </div>
+                                    <button onclick="copyToClipboard('bank-email')" class="ml-2 text-secondary hover:text-accent transition" title="Copy email">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <span class="text-xs text-text-light block mb-1">Memo</span>
+                                        <span class="text-sm font-medium text-text">GPBC Giving</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- How To Steps -->
+                            <div class="bg-primary/5 p-4 rounded-lg">
+                                <h4 class="text-sm font-semibold text-primary mb-2">How to Give via Zelle:</h4>
+                                <ol class="text-sm text-text space-y-1 list-decimal list-inside">
+                                    <li>Open your banking app</li>
+                                    <li>Select "Send Money with Zelle"</li>
+                                    <li>Enter the email above and amount</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <!-- Panel 4: Check -->
+                        <div role="tabpanel" id="panel-check" aria-labelledby="tab-check" class="tab-panel hidden">
+                            <h3 class="text-xl font-semibold text-primary mb-4">Mail a Check</h3>
+                            
+                            <div class="bg-gray-50 p-6 rounded-lg mb-4">
+                                <address class="not-italic text-center">
+                                    <p class="font-semibold text-text mb-2">Grace and Praise Bangladeshi Church</p>
+                                    <p class="text-text-light">1325 Richardson Street</p>
+                                    <p class="text-text-light">San Bernardino, CA 92408</p>
+                                </address>
+                            </div>
+                            
+                            <div class="bg-secondary/10 border-l-4 border-secondary p-4 rounded">
+                                <p class="text-sm text-text">
+                                    <strong>Important:</strong> Please write <strong>"GPBC"</strong> in the memo line of your check.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust & FAQ Section (Compact) -->
+        <section class="bg-gray-50 py-12">
+            <div class="container mx-auto px-4">
+                <div class="max-w-2xl mx-auto">
+                    <h2 class="font-serif text-2xl font-bold text-primary text-center mb-8">Frequently Asked Questions</h2>
+                    
+                    <div class="space-y-3">
+                        <!-- FAQ 1 -->
+                        <details class="bg-white p-4 rounded-lg shadow-sm group">
+                            <summary class="font-medium text-text cursor-pointer list-none flex items-center justify-between">
+                                Is my gift tax-deductible?
+                                <svg class="w-5 h-5 text-text-light group-open:rotate-180 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </summary>
+                            <p class="mt-3 text-sm text-text-light">
+                                Yes! GPBC is a registered 501(c)(3) nonprofit organization. All donations are tax-deductible to the full extent allowed by law. You will receive a receipt for your records.
+                            </p>
+                        </details>
+                        
+                        <!-- FAQ 2 -->
+                        <details class="bg-white p-4 rounded-lg shadow-sm group">
+                            <summary class="font-medium text-text cursor-pointer list-none flex items-center justify-between">
+                                Can I give monthly?
+                                <svg class="w-5 h-5 text-text-light group-open:rotate-180 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </summary>
+                            <p class="mt-3 text-sm text-text-light">
+                                Yes! You can set up recurring monthly donations through PayPal or contact our office to arrange automatic bank transfers. Monthly giving helps us plan and sustain ministry throughout the year.
+                            </p>
+                        </details>
+                        
+                        <!-- FAQ 3 -->
+                        <details class="bg-white p-4 rounded-lg shadow-sm group">
+                            <summary class="font-medium text-text cursor-pointer list-none flex items-center justify-between">
+                                Need help?
+                                <svg class="w-5 h-5 text-text-light group-open:rotate-180 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </summary>
+                            <p class="mt-3 text-sm text-text-light">
+                                If you have questions about giving or need assistance, please contact us at <a href="mailto:info@gracepraise.church" class="text-primary underline">info@gracepraise.church</a> or call during office hours.
+                            </p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (Match redesign-mockup.html exactly) -->
+    <footer class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="redesign-mockup.html" class="hover:text-secondary transition text-base">Home</a></li>
+                        <li><a href="about.html" class="hover:text-secondary transition text-base">About</a></li>
+                        <li><a href="calendar.html" class="hover:text-secondary transition text-base">Calendar</a></li>
+                        <li><a href="gallery.html" class="hover:text-secondary transition text-base">Gallery</a></li>
+                        <li><a href="prayer-request.html" class="hover:text-secondary transition text-base">Prayer</a></li>
+                        <li><a href="give-tailwind.html" class="hover:text-secondary transition text-base">Give</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <address class="not-italic space-y-2 text-base">
+                        <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                        <p>1325 Richardson Street, CA 92408</p>
+                        <p>Email: <a href="mailto:info@gracepraise.church" class="hover:text-secondary transition">info@gracepraise.church</a></p>
+                        <p>Email: <a href="mailto:bangladeshi.church@gmail.com" class="hover:text-secondary transition">bangladeshi.church@gmail.com</a></p>
+                    </address>
+                </div>
+                
+                <!-- Connect -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect</h3>
+                    <ul class="flex space-x-4">
+                        <li><a href="#" aria-label="Facebook" class="text-2xl hover:text-secondary transition">📘</a></li>
+                        <li><a href="#" aria-label="YouTube" class="text-2xl hover:text-secondary transition">📺</a></li>
+                        <li><a href="#" aria-label="Instagram" class="text-2xl hover:text-secondary transition">📷</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/20 pt-6 text-center text-sm">
+                <p class="mb-2">&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+                <p>
+                    <a href="privacy-policy.html" class="hover:text-secondary transition">Privacy Policy</a> | 
+                    <a href="terms-conditions.html" class="hover:text-secondary transition"> Terms &amp; Conditions</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Tab Switching
+        const tabButtons = document.querySelectorAll('[role="tab"]');
+        const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.dataset.tab;
+                const targetPanel = document.getElementById(`panel-${targetTab}`);
+                
+                // Reset all tabs and panels
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active', 'bg-primary', 'text-white');
+                    btn.classList.add('border-gray-300', 'text-text-light');
+                    btn.setAttribute('aria-selected', 'false');
+                });
+                
+                tabPanels.forEach(panel => {
+                    panel.classList.add('hidden');
+                });
+                
+                // Activate selected tab and panel
+                button.classList.add('active', 'bg-primary', 'text-white');
+                button.classList.remove('border-gray-300', 'text-text-light');
+                button.setAttribute('aria-selected', 'true');
+                targetPanel?.classList.remove('hidden');
+            });
+            
+            // Keyboard navigation
+            button.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    const currentIndex = Array.from(tabButtons).indexOf(button);
+                    const nextIndex = e.key === 'ArrowRight' 
+                        ? (currentIndex + 1) % tabButtons.length 
+                        : (currentIndex - 1 + tabButtons.length) % tabButtons.length;
+                    tabButtons[nextIndex].focus();
+                    tabButtons[nextIndex].click();
+                }
+            });
+        });
+        
+        // Amount Chips
+        const amountChips = document.querySelectorAll('.amount-chip');
+        const amountInput = document.getElementById('amount');
+        
+        amountChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                const amount = chip.dataset.amount;
+                if (amount) {
+                    amountInput.value = amount;
+                }
+            });
+        });
+        
+        // Generate QR Code
+        let qrCodeInstance;
+        window.addEventListener('DOMContentLoaded', () => {
+            const qrUrl = 'https://gracepraise.church/give?src=qr&utm_campaign=gpbc_give&utm_medium=print&utm_source=site';
+            
+            if (typeof QRCode !== 'undefined') {
+                qrCodeInstance = new QRCode(document.getElementById('qrcode'), {
+                    text: qrUrl,
+                    width: 200,
+                    height: 200,
+                    colorDark: '#1e3a5f',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+        });
+        
+        // Download QR Code
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (canvas) {
+                const link = document.createElement('a');
+                link.download = 'gpbc-give-qr.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            }
+        }
+        
+        // Copy to Clipboard
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent || element.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Show feedback
+                const originalContent = element.nextElementSibling?.innerHTML || '';
+                const button = element.nextElementSibling;
+                if (button) {
+                    button.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                    setTimeout(() => {
+                        button.innerHTML = originalContent;
+                    }, 2000);
+                }
+            }).catch(err => {
+                alert('Could not copy. Please copy manually.');
+            });
+        }
+    </script>
+    
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js?v=20260125c"></script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>
+</html>

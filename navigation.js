@@ -521,7 +521,7 @@
                 const nextTheme = theme === 'dark' ? 'light' : 'dark';
                 applyTheme(nextTheme);
 
-                console.log(`✓ Switched to ${nextTheme} mode`);
+                // console.log(`✓ Switched to ${nextTheme} mode`); // Removed for production
 
                 document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
                 setTimeout(() => {
@@ -607,8 +607,8 @@
         initThemeToggle();
 
         navInitialized = true;
-        console.log('✓ Global navigation system initialized');
-        console.log('✓ Theme toggle initialized');
+        // console.log('✓ Global navigation system initialized'); // Removed for production
+        // console.log('✓ Theme toggle initialized'); // Removed for production
         document.dispatchEvent(new CustomEvent('gpbc:navReady'));
     }
 

@@ -793,7 +793,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.gpbcCountdown = new CountdownSystem();
             // Force an immediate update
             window.gpbcCountdown.init();
-            console.log('Countdown System initialized successfully');
+            // console.log('Countdown System initialized successfully'); // Removed for production
         } catch (e) {
             console.error('Countdown initialization failed:', e);
         }

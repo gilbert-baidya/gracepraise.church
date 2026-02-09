@@ -1,0 +1,356 @@
+<!-- ========================================
+     SHAPE-BASED HOMEPAGE SECTIONS
+     Grace and Praise Bangladeshi Church
+     
+     Page Rhythm: Circle → Trapezoid → Square → Rectangle → Heptagon
+     ======================================== -->
+
+<!-- ========================================
+     SHAPE #1: CIRCLE HERO - Community & Eternity
+     Purpose: Welcome, worship moments, unity
+     ======================================== -->
+
+<section class="shape-circle-container gentle-fade-in" id="circle-hero">
+    <div class="container">
+        <div class="circle-carousel" role="region" aria-label="Church community highlights" tabindex="0">
+            
+            <!-- Slide 1: Sunday Worship -->
+            <div class="circle-carousel-item active">
+                <div class="shape-circle">
+                    <div class="shape-circle-content">
+                        <div class="unity-ring" style="width: 90%; height: 90%; top: 5%; left: 5%;"></div>
+                        <div class="unity-ring" style="width: 95%; height: 95%; top: 2.5%; left: 2.5%;"></div>
+                        
+                        <div class="shape-content-wrapper">
+                            <h2 style="color: white; font-size: 3rem; margin-bottom: 1.5rem;">
+                                Join Us in Worship
+                            </h2>
+                            <p class="shape-scripture" style="color: white; font-size: 1.3rem; margin-bottom: 2rem;">
+                                "Taste and see that the Lord is good; blessed is the one who takes refuge in him."
+                                <br>— Psalm 34:8
+                            </p>
+                            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: rgba(255,255,255,0.95);">
+                                Experience the warmth of fellowship and the joy of worshiping together as one body in Christ.
+                            </p>
+                            <a href="#next-service" class="btn btn-primary" style="background: white; color: #3b82f6; padding: 1rem 2.5rem; font-weight: 600; border-radius: 30px; font-size: 1.1rem;">
+                                Join This Sunday →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 2: Community Prayer -->
+            <div class="circle-carousel-item">
+                <div class="shape-circle">
+                    <div class="shape-circle-content">
+                        <div class="unity-ring" style="width: 90%; height: 90%; top: 5%; left: 5%;"></div>
+                        
+                        <div class="shape-content-wrapper">
+                            <h2 style="color: white; font-size: 3rem; margin-bottom: 1.5rem;">
+                                United in Prayer
+                            </h2>
+                            <p class="shape-scripture" style="color: white; font-size: 1.3rem; margin-bottom: 2rem;">
+                                "Again, truly I tell you that if two of you on earth agree about anything they ask for, it will be done for them by my Father in heaven."
+                                <br>— Matthew 18:19
+                            </p>
+                            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: rgba(255,255,255,0.95);">
+                                Our prayer circle meets every Wednesday to lift up our community's needs to God.
+                            </p>
+                            <a href="prayer-request.html" class="btn btn-primary" style="background: white; color: #3b82f6; padding: 1rem 2.5rem; font-weight: 600; border-radius: 30px; font-size: 1.1rem;">
+                                Share Your Request →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 3: Testimonies -->
+            <div class="circle-carousel-item">
+                <div class="shape-circle">
+                    <div class="shape-circle-content">
+                        <div class="unity-ring" style="width: 90%; height: 90%; top: 5%; left: 5%;"></div>
+                        
+                        <div class="shape-content-wrapper">
+                            <h2 style="color: white; font-size: 3rem; margin-bottom: 1.5rem;">
+                                Stories of Grace
+                            </h2>
+                            <p class="shape-scripture" style="color: white; font-size: 1.3rem; margin-bottom: 2rem;">
+                                "They triumphed over him by the blood of the Lamb and by the word of their testimony."
+                                <br>— Revelation 12:11
+                            </p>
+                            <p style="font-size: 1.1rem; margin-bottom: 2rem; color: rgba(255,255,255,0.95);">
+                                Hear how God is working in the lives of our church family.
+                            </p>
+                            <a href="testimonies.html" class="btn btn-primary" style="background: white; color: #3b82f6; padding: 1rem 2.5rem; font-weight: 600; border-radius: 30px; font-size: 1.1rem;">
+                                Read Testimonies →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Circle Navigation Dots -->
+        <div class="circle-nav-dots" role="tablist" aria-label="Carousel navigation">
+            <button class="circle-dot active" role="tab" aria-label="Go to slide 1" aria-selected="true"></button>
+            <button class="circle-dot" role="tab" aria-label="Go to slide 2" aria-selected="false"></button>
+            <button class="circle-dot" role="tab" aria-label="Go to slide 3" aria-selected="false"></button>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================
+     SHAPE #2: TRAPEZOID YOUTH - Growth & Movement
+     Purpose: Youth ministry, energy, upward calling
+     ======================================== -->
+
+<section class="shape-trapezoid-container gentle-fade-in" id="youth-section">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 3rem; color: #14b8a6; font-size: 2.5rem;">
+            Youth Ministry <span class="growth-arrow">↗</span>
+        </h2>
+        
+        <div class="trapezoid-slider" role="region" aria-label="Youth ministry highlights">
+            
+            <!-- Youth Slide 1 -->
+            <div class="trapezoid-slide" style="display: block;">
+                <div class="shape-trapezoid">
+                    <h3>Friday Night Live</h3>
+                    <p style="font-size: 1.2rem; margin: 1.5rem 0; line-height: 1.8;">
+                        Join us every Friday at 7 PM for worship, games, and powerful messages designed for young hearts seeking God.
+                    </p>
+                    <p class="shape-scripture" style="border-color: white;">
+                        "Don't let anyone look down on you because you are young, but set an example for the believers in speech, in conduct, in love, in faith and in purity."
+                        <br>— 1 Timothy 4:12
+                    </p>
+                    <a href="#youth" class="btn" style="background: white; color: #14b8a6; padding: 0.9rem 2rem; margin-top: 1.5rem; font-weight: 600;">
+                        Get Connected
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Youth Slide 2 -->
+            <div class="trapezoid-slide" style="display: none;">
+                <div class="shape-trapezoid">
+                    <h3>Summer Mission Trip</h3>
+                    <p style="font-size: 1.2rem; margin: 1.5rem 0; line-height: 1.8;">
+                        Experience life-changing service as we reach out to communities in need. Applications open in March.
+                    </p>
+                    <p class="shape-scripture" style="border-color: white;">
+                        "Go into all the world and preach the gospel to all creation."
+                        <br>— Mark 16:15
+                    </p>
+                    <a href="#missions" class="btn" style="background: white; color: #14b8a6; padding: 0.9rem 2rem; margin-top: 1.5rem; font-weight: 600;">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Youth Slide 3 -->
+            <div class="trapezoid-slide" style="display: none;">
+                <div class="shape-trapezoid">
+                    <h3>Youth Discipleship</h3>
+                    <p style="font-size: 1.2rem; margin: 1.5rem 0; line-height: 1.8;">
+                        Small groups where teenagers dive deep into God's Word and build authentic friendships.
+                    </p>
+                    <p class="shape-scripture" style="border-color: white;">
+                        "As iron sharpens iron, so one person sharpens another."
+                        <br>— Proverbs 27:17
+                    </p>
+                    <a href="#discipleship" class="btn" style="background: white; color: #14b8a6; padding: 0.9rem 2rem; margin-top: 1.5rem; font-weight: 600;">
+                        Join a Group
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Navigation Arrows -->
+            <button class="trapezoid-arrow left" aria-label="Previous slide">
+                <span style="font-size: 1.5rem;">‹</span>
+            </button>
+            <button class="trapezoid-arrow right" aria-label="Next slide">
+                <span style="font-size: 1.5rem;">›</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================
+     SHAPE #3: SQUARE GRID - Service & Structure
+     Purpose: Ministries, volunteer opportunities, giving
+     ======================================== -->
+
+<section class="shape-square-container gentle-fade-in" id="service-section">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 3rem; color: #f59e0b; font-size: 2.5rem;">
+            Ways to Serve
+        </h2>
+        
+        <div class="shape-square-grid">
+            
+            <!-- Square 1: Volunteer -->
+            <div class="shape-square worship-hover" tabindex="0" role="button">
+                <div class="shape-square-icon">🙏</div>
+                <h3>Worship Team</h3>
+                <p>
+                    Share your musical gifts to lead our congregation in heartfelt praise and worship every Sunday.
+                </p>
+                <a href="#volunteer" style="color: #f59e0b; font-weight: 600; margin-top: 1rem; display: inline-block;">
+                    Join the Team →
+                </a>
+            </div>
+            
+            <!-- Square 2: Children's Ministry -->
+            <div class="shape-square worship-hover" tabindex="0" role="button">
+                <div class="shape-square-icon">👶</div>
+                <h3>Kids Ministry</h3>
+                <p>
+                    Impact the next generation by teaching Bible stories and leading activities for children ages 4-12.
+                </p>
+                <a href="#kids" style="color: #f59e0b; font-weight: 600; margin-top: 1rem; display: inline-block;">
+                    Get Involved →
+                </a>
+            </div>
+            
+            <!-- Square 3: Hospitality -->
+            <div class="shape-square worship-hover" tabindex="0" role="button">
+                <div class="shape-square-icon">☕</div>
+                <h3>Hospitality</h3>
+                <p>
+                    Welcome guests and help create a warm, inviting atmosphere for everyone who enters our doors.
+                </p>
+                <a href="#hospitality" style="color: #f59e0b; font-weight: 600; margin-top: 1rem; display: inline-block;">
+                    Serve Here →
+                </a>
+            </div>
+            
+            <!-- Square 4: Giving -->
+            <div class="shape-square worship-hover" tabindex="0" role="button">
+                <div class="shape-square-icon">💝</div>
+                <h3>Give</h3>
+                <p>
+                    Support the mission of Grace and Praise through your faithful tithes and offerings.
+                </p>
+                <a href="give.html" style="color: #f59e0b; font-weight: 600; margin-top: 1rem; display: inline-block;">
+                    Give Online →
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- ========================================
+     SHAPE #4: RECTANGLE TEACHING - Stability & Truth
+     Purpose: Sermons, Bible studies, teaching resources
+     ======================================== -->
+
+<section class="shape-rectangle-container gentle-fade-in" id="teaching-section">
+    <div class="container">
+        <div class="rectangle-header">
+            <h2 style="color: white; margin: 0; font-size: 2.2rem;">
+                Grounded in God's Word
+            </h2>
+        </div>
+        
+        <div class="rectangle-grid">
+            
+            <!-- Rectangle 1: Sunday Sermon -->
+            <div class="shape-rectangle">
+                <span style="display: inline-block; background: #1e293b; color: white; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.85rem; margin-bottom: 1rem; font-weight: 600;">
+                    SUNDAY SERMON
+                </span>
+                <h3 style="color: #1e293b; font-size: 1.6rem; margin-bottom: 1rem;">
+                    Living by Faith, Not by Sight
+                </h3>
+                <p style="color: #475569; line-height: 1.7; margin-bottom: 1.5rem;">
+                    Discover what it means to trust God completely, even when circumstances seem impossible. Join us this Sunday as we explore 2 Corinthians 5:7.
+                </p>
+                <a href="#sermons" style="color: #1e293b; font-weight: 600;">
+                    Watch Latest Sermon →
+                </a>
+            </div>
+            
+            <!-- Rectangle 2: Bible Study -->
+            <div class="shape-rectangle">
+                <span style="display: inline-block; background: #475569; color: white; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.85rem; margin-bottom: 1rem; font-weight: 600;">
+                    BIBLE STUDY
+                </span>
+                <h3 style="color: #1e293b; font-size: 1.6rem; margin-bottom: 1rem;">
+                    The Book of Romans
+                </h3>
+                <p style="color: #475569; line-height: 1.7; margin-bottom: 1.5rem;">
+                    Join us every Wednesday at 7 PM for an in-depth study of Paul's letter to the Romans. All ages welcome.
+                </p>
+                <a href="#bible-study" style="color: #1e293b; font-weight: 600;">
+                    Join Bible Study →
+                </a>
+            </div>
+            
+            <!-- Rectangle 3: Daily Devotions -->
+            <div class="shape-rectangle">
+                <span style="display: inline-block; background: #475569; color: white; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.85rem; margin-bottom: 1rem; font-weight: 600;">
+                    DAILY DEVOTION
+                </span>
+                <h3 style="color: #1e293b; font-size: 1.6rem; margin-bottom: 1rem;">
+                    Start Your Day with God
+                </h3>
+                <p style="color: #475569; line-height: 1.7; margin-bottom: 1.5rem;">
+                    Receive daily devotional messages to strengthen your faith and guide your spiritual walk throughout the year.
+                </p>
+                <a href="daily-devotion.html" style="color: #1e293b; font-weight: 600;">
+                    Read Today's Devotion →
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- ========================================
+     SHAPE #5: HEPTAGON - Sacred Focus (2026 Theme)
+     Purpose: Annual theme, special emphasis
+     RULE: MAXIMUM ONE PER PAGE
+     ======================================== -->
+
+<section class="shape-heptagon-container gentle-fade-in" id="annual-theme">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 3rem; color: #7c3aed; font-size: 2.5rem;">
+            2026 Church Theme
+        </h2>
+        
+        <div style="position: relative;">
+            <div class="heptagon-badge">
+                <span class="sacred-number">7</span>
+                Biblical Number of Completeness
+            </div>
+            
+            <div class="shape-heptagon" role="article" aria-labelledby="theme-title">
+                <div class="shape-heptagon-content">
+                    <h2 id="theme-title">
+                        Year of Gratitude
+                    </h2>
+                    <p class="shape-scripture" style="border-color: white; font-size: 1rem; margin: 1.5rem 0;">
+                        "Give thanks in all circumstances; for this is God's will for you in Christ Jesus."
+                        <br>— 1 Thessalonians 5:18
+                    </p>
+                    <p style="font-size: 1.05rem; line-height: 1.7;">
+                        This year, we're focusing on cultivating hearts of gratitude. Join us for a 26-day gratitude fasting journey and special teachings on thankfulness.
+                    </p>
+                    <a href="gratitude-fasting.html" class="btn" style="background: white; color: #7c3aed; padding: 1rem 2rem; margin-top: 2rem; font-weight: 600; border-radius: 25px;">
+                        Join the Journey →
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <p style="text-align: center; margin-top: 3rem; color: #64748b; font-style: italic; font-size: 0.95rem;">
+            Seven days of creation. Seven represents God's perfect work in our lives.
+        </p>
+    </div>
+</section>
+
+<!-- ========================================
+     END OF SHAPE-BASED SECTIONS
+     ======================================== -->

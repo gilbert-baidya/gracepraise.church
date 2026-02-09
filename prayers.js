@@ -120,7 +120,7 @@ async function submitPrayerRequest() {
 
 async function savePrayerRequestToGoogleSheets(prayerRequest) {
     if (!USE_GOOGLE_SHEETS || !GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL === 'YOUR_WEB_APP_URL_HERE') {
-        console.log('Google Sheets not configured');
+        // console.log('Google Sheets not configured'); // Removed for production
         return false;
     }
 
@@ -139,7 +139,7 @@ async function savePrayerRequestToGoogleSheets(prayerRequest) {
         const data = await response.json();
         
         if (data.success) {
-            console.log('Prayer request saved to Google Sheets successfully');
+            // console.log('Prayer request saved to Google Sheets successfully'); // Removed for production
             return true;
         } else {
             console.error('Failed to save prayer request:', data.message);
@@ -154,7 +154,7 @@ async function savePrayerRequestToGoogleSheets(prayerRequest) {
 function sendPrayerNotification(prayer) {
     // Skip if EmailJS is not configured
     if (typeof emailjs === 'undefined' || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
-        console.log('Email notifications not configured.');
+        // console.log('Email notifications not configured.'); // Removed for production
         return;
     }
     
@@ -170,9 +170,9 @@ function sendPrayerNotification(prayer) {
     // Send email using EmailJS (using the same template or create a new one)
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
         .then(function(response) {
-            console.log('Prayer notification sent successfully!', response.status, response.text);
+            // console.log('Prayer notification sent successfully!', response.status, response.text); // Removed for production
         }, function(error) {
-            console.log('Failed to send prayer notification:', error);
+            // console.log('Failed to send prayer notification:', error); // Removed for production
         });
 }
 

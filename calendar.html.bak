@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Calendar 2026 - Grace and Praise Bangladeshi Church | Events & Services</title>
+    <meta name="title" content="Calendar 2026 - Grace and Praise Bangladeshi Church | Events & Services">
+    <meta name="description" content="View GPBC's 2026 calendar with all upcoming events, services, prayer meetings, and special celebrations. Add events, submit prayer requests, and stay connected with our church community.">
+    <meta name="keywords" content="GPBC calendar, church events 2026, prayer meetings, worship services, church activities San Bernardino, Bangladeshi church events, Christmas service, New Year service">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://gilbert-baidya.github.io/gracepraise.church/calendar.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gilbert-baidya.github.io/gracepraise.church/calendar.html">
+    <meta property="og:title" content="Calendar 2026 - Grace and Praise Bangladeshi Church">
+    <meta property="og:description" content="View GPBC's 2026 calendar with all upcoming events, services, and prayer meetings.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://gilbert-baidya.github.io/gracepraise.church/calendar.html">
+    <meta property="twitter:title" content="Calendar 2026 - GPBC">
+    <meta property="twitter:description" content="View GPBC's 2026 calendar with all upcoming events and services.">
+    
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
+    <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="countdown.css">
+    <link rel="stylesheet" href="homepage-responsive-fix.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+    
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: clip !important;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe, embed, object {
+            max-width: 100%;
+            height: auto;
+        }
+        
+    section, article, main, .hero, .container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Calendar: show countdown only on phone view and protect hero spacing */
+    #specialEventBanner {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        #specialEventBanner {
+            display: block;
+        }
+
+        .calendar-page #specialEventBanner .inline-banner-content {
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .calendar-page #specialEventBanner .event-label {
+            flex: 1 1 100%;
+        }
+
+        .calendar-page #specialEventBanner .inline-countdown,
+        .calendar-page #specialEventBanner .banner-link {
+            flex: 0 0 auto;
+        }
+
+        .calendar-page .hero {
+            padding-top: calc(var(--fixed-top-offset) + var(--spacing-md)) !important;
+        }
+    }
+    
+    /* DARK MODE TOGGLE BUTTON */
+    .dark-mode-toggle {
+        background: rgba(45, 122, 143, 0.1);
+        border: 2px solid rgba(45, 122, 143, 0.3);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        margin-left: 15px;
+        font-size: 20px;
+    }
+    
+    .dark-mode-toggle:hover {
+        background: rgba(45, 122, 143, 0.2);
+        border-color: rgba(45, 122, 143, 0.5);
+        transform: scale(1.05);
+    }
+    
+    .dark-mode-toggle .sun-icon,
+    .dark-mode-toggle .moon-icon {
+        position: absolute;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .dark-mode-toggle .sun-icon {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    
+    .dark-mode-toggle .moon-icon {
+        opacity: 0;
+        transform: rotate(-180deg);
+    }
+    
+    [data-theme="dark"] .dark-mode-toggle .sun-icon {
+        opacity: 0;
+        transform: rotate(180deg);
+    }
+    
+    [data-theme="dark"] .dark-mode-toggle .moon-icon {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    
+    @media (max-width: 768px) {
+        .dark-mode-toggle {
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+    }
+</style>    <!-- Cloudinary Upload Widget -->
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    <style>
+        /* Calendar Page Styles - Matching redesign-mockup.html */
+        
+        /* Calendar Grid - Calm and Elegant */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: var(--border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(30, 58, 95, 0.06);
+        }
+
+        .calendar-grid .weekday {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-weight: var(--font-bold);
+            color: var(--color-primary);
+            text-align: center;
+            padding: var(--spacing-md);
+            font-size: var(--font-sm);
+            background: var(--bg-card-surface);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .calendar-grid .day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-sm);
+            cursor: pointer;
+            transition: background var(--transition-base);
+            background: var(--bg-page);
+            border: none;
+            font-size: var(--font-base);
+            color: var(--color-text);
+        }
+
+        .calendar-grid .day:hover {
+            background: var(--bg-section);
+        }
+
+        .calendar-grid .day.other-month {
+            opacity: 0.35;
+            background: var(--bg-card-surface);
+        }
+
+        .calendar-grid .day.today {
+            background: var(--brand-primary);
+            color: var(--text-inverse);
+            font-weight: var(--font-bold);
+        }
+
+        .calendar-grid .day.today:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .calendar-grid .day.has-event {
+            background: linear-gradient(135deg, var(--brand-secondary) 0%, var(--brand-accent) 100%);
+            color: var(--text-inverse);
+            font-weight: var(--font-semibold);
+        }
+
+        .calendar-grid .day.has-event:hover {
+            background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-secondary) 100%);
+        }
+        
+        /* Subtle Sunday highlighting */
+        .calendar-grid .day.sunday:not(.other-month) {
+            background: var(--bg-section);
+        }
+
+        body.dark .calendar-grid .day.other-month,
+        body[data-theme="dark"] .calendar-grid .day.other-month {
+            background: var(--bg-section);
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+        
+        /* Navigation button hover states */
+        #prevMonth:hover, #nextMonth:hover {
+            color: var(--color-secondary);
+            text-decoration: underline;
+        }
+
+        /* Events Sidebar */
+        .events-sidebar {
+            background: #ffffff;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            border: 1px solid #e8e4dd;
+        }
+
+        /* Filter & Actions Card */
+        .calendar-filters-section {
+            background: #ffffff;
+        }
+
+        /* Preset Filters */
+        .preset-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            align-items: center;
+        }
+
+        .preset-filter {
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: #faf8f5;
+            border: 2px solid #e8e4dd;
+            border-radius: var(--radius-full);
+            font-size: var(--font-sm);
+            font-weight: var(--font-medium);
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        .preset-filter:hover {
+            background: #f5f1ea;
+            border-color: var(--color-secondary);
+            transform: translateY(-1px);
+        }
+
+        .preset-filter.active {
+            background: var(--color-primary);
+            color: var(--color-text-inverse);
+            border-color: var(--color-primary);
+        }
+
+        .preset-filter:focus-visible {
+            outline: 3px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        /* Advanced Filters Toggle */
+        .advanced-toggle-container {
+            text-align: center;
+        }
+
+        .advanced-toggle {
+            background: none;
+            border: none;
+            color: var(--color-text-light);
+            font-size: var(--font-xs);
+            cursor: pointer;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            transition: color var(--transition-base);
+            font-family: inherit;
+        }
+
+        .advanced-toggle:hover {
+            color: var(--color-primary);
+        }
+
+        /* Advanced Filters */
+        .advanced-filters {
+            padding: var(--spacing-md);
+            background: #faf8f5;
+            border-radius: var(--radius-md);
+            border: 1px solid #e8e4dd;
+        }
+
+        .calendar-actions-card {
+            background: #ffffff;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            border: 1px solid #e8e4dd;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .calendar-actions-card h3 {
+            text-align: center;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-xl);
+        }
+
+        .filters {
+            border: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        .filters label {
+            display: inline-block;
+            margin: var(--spacing-xs) var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: #ffffff;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            border: 1px solid #e8e4dd;
+            transition: all var(--transition-fast);
+            font-size: var(--font-sm);
+            color: var(--color-text);
+        }
+
+        .filters label:hover {
+            border-color: var(--color-secondary);
+            background: #f5f1ea;
+        }
+
+        .filters input[type="checkbox"] {
+            margin-right: var(--spacing-xs);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            align-items: center;
+        }
+
+        #calendarAccessQR {
+            display: inline-block;
+        }
+
+        /* Recurring Events Grid - kept for compatibility */
+        .recurring-events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+        }
+
+        .recurring-event-card {
+            background: #ffffff;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border: 1px solid #e8e4dd;
+            text-align: center;
+        }
+
+        .recurring-event-card .event-icon {
+            font-size: var(--font-4xl);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .recurring-event-card .event-title {
+            font-size: var(--font-lg);
+            color: var(--color-primary);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .recurring-event-card .event-time {
+            font-size: var(--font-sm);
+            color: var(--color-secondary);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .recurring-event-card .event-description {
+            font-size: var(--font-sm);
+            color: var(--color-text-light);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* Upcoming Events Section */
+        .upcoming-events-section {
+            padding: var(--spacing-2xl) 0;
+            background: #ffffff;
+        }
+
+        .upcoming-events-section h3 {
+            text-align: center;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-2xl);
+        }
+
+        .upcoming-events-section .subtitle {
+            text-align: center;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-xl);
+            font-size: var(--font-base);
+        }
+
+        .upcoming-events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .upcoming-event-card {
+            background: #faf8f5;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            border: 1px solid #e8e4dd;
+            transition: all var(--transition-base);
+        }
+
+        .upcoming-event-card:hover {
+            border-color: var(--color-secondary);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08);
+        }
+
+        .upcoming-event-card .event-date {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: var(--font-sm);
+            color: var(--color-secondary);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .upcoming-event-card .event-title {
+            font-size: var(--font-xl);
+            color: var(--color-primary);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .upcoming-event-card .event-category {
+            font-size: var(--font-sm);
+            color: var(--color-text-light);
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background: #ffffff;
+            border-radius: var(--radius-full);
+            border: 1px solid #e8e4dd;
+        }
+
+        .upcoming-events-empty {
+            text-align: center;
+            color: var(--color-text-light);
+            padding: var(--spacing-2xl);
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: var(--font-3xl);
+            }
+
+            .hero .tagline {
+                font-size: var(--font-base);
+            }
+
+            .preset-filters {
+                flex-direction: column;
+                gap: var(--spacing-xs);
+            }
+
+            .preset-filter {
+                width: 100%;
+                text-align: center;
+            }
+            
+            /* Stack filter and action buttons on mobile */
+            .calendar-filters-section > .container > div:first-child {
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+            
+            .action-buttons {
+                flex-direction: row;
+                justify-content: center;
+                margin-left: 0 !important;
+            }
+
+            .navigation h2 {
+                font-size: var(--font-xl);
+                display: block;
+                margin: var(--spacing-md) 0;
+            }
+
+            .navigation .btn {
+                min-width: 100px;
+                font-size: var(--font-sm);
+            }
+
+            .calendar-grid {
+                gap: 1px;
+            }
+
+            .calendar-grid .weekday {
+                font-size: var(--font-xs);
+                padding: var(--spacing-xs);
+            }
+
+            .calendar-grid .day {
+                padding: var(--spacing-xs);
+                font-size: var(--font-sm);
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .calendar-actions-card {
+                padding: var(--spacing-lg);
+            }
+
+            .upcoming-events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recurring-events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recurring-event-card {
+                padding: var(--spacing-md);
+            }
+        }
+
+        /* Modal Styles - Ensure they're completely hidden */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--color-surface);
+            margin: auto;
+            padding: var(--spacing-2xl);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .modal .close {
+            position: absolute;
+            right: var(--spacing-md);
+            top: var(--spacing-md);
+            font-size: var(--font-3xl);
+            font-weight: var(--font-bold);
+            color: var(--color-text-light);
+            background: none;
+            border: none;
+            cursor: pointer;
+            line-height: 1;
+            transition: color var(--transition-fast);
+        }
+
+        .modal .close:hover {
+            color: var(--color-primary);
+        }
+
+        /* Hero Section - Match redesign-mockup.html */
+        .hero {
+            padding: var(--spacing-3xl) 0 var(--spacing-2xl);
+            background: var(--color-background);
+        }
+
+        .hero-content {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        .hero-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: var(--font-5xl);
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md);
+            font-family: Georgia, 'Times New Roman', serif;
+            font-weight: var(--font-bold);
+        }
+
+        .hero .tagline {
+            font-size: var(--font-lg);
+            color: var(--color-text-light);
+            line-height: var(--leading-relaxed);
+            margin-bottom: 0;
+        }
+
+        /* Calendar Section Container */
+        .calendar-section {
+            padding: var(--spacing-2xl) 0 !important;
+            background: #ffffff !important;
+        }
+
+        .calendar-section .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        /* Month Navigation */
+        .navigation {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .navigation h2 {
+            display: inline-block;
+            margin: 0 var(--spacing-md);
+            color: var(--color-primary);
+            font-size: var(--font-2xl);
+            font-weight: var(--font-bold);
+        }
+
+        .navigation .btn {
+            min-width: 100px;
+            padding: var(--spacing-xs) var(--spacing-md);
+        }
+
+        /* Hide empty components */
+        .modal:empty,
+        .modal-content:empty {
+            display: none !important;
+        }
+
+        /* Ensure footer is always visible and readable */
+        footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        main {
+            min-height: auto;
+            overflow: visible;
+        }
+    </style>
+</head>
+<body class="calendar-page">
+    <!-- Skip to main content for keyboard users -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Sticky Header/Nav -->
+<header>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html#home" class="logo">
+                <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+            </a>
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+            <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html#live">LIVE</a></li>
+                <li><a href="index.html#home">Home</a></li>
+                <li class="nav-dropdown">
+                    <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="about.html">About Overview</a></li>
+                        <li><a href="history.html">Our History</a></li>
+                        <li><a href="mission.html">Our Mission</a></li>
+                        <li><a href="leadership.html">Our Leadership</a></li>
+                        <li><a href="beliefs.html">Our Beliefs</a></li>
+                        <li><a href="core-values.html">Our Core Values</a></li>
+                        <li><a href="position-papers.html">Position Papers</a></li>
+                        <li><a href="testimonies.html">Testimonies</a></li>
+                        <li><a href="songbook.html">GPBC Song Book</a></li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="ministries.html">Ministries Overview</a></li>
+                        <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                        <li><a href="ministries/community-development.html">Community Development</a></li>
+                        <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                        <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                        <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                        <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                        <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                        <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                        <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                        <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                        <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#next-service">Next Service</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="index.html#prayer">Prayer</a></li>
+                <li class="nav-dropdown">
+                    <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                        <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                        <li><a href="family-devotion.html">Family Devotion</a></li>
+                        <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                        <li><a href="children-devotion.html">Children Devotion</a></li>
+                        <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                        <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                        <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                        <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                    </ul>
+                </li>
+                <li><a href="give.html">Give</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="mobile-overlay"></div>
+</header>
+
+
+
+    <!-- Special Event Inline Countdown Banner -->
+    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="polite" aria-atomic="true">
+        <div class="inline-banner-content">
+            <div class="banner-line-1">
+                <span class="event-icon" aria-hidden="true">🎉</span>
+                <span class="event-label">
+                    <strong>Gratitude & New Year Celebration</strong> starts in
+                </span>
+            </div>
+            <div class="banner-line-2">
+                <time class="inline-countdown" datetime="2025-12-31T22:30:00">
+                    <span class="countdown-value" data-unit="days">01</span><span class="countdown-unit">d</span>
+                    <span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span>
+                    <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
+                    <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
+                </time>
+                <a href="#dynamic-events-container" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
+            </div>
+        </div>
+    </div>
+
+    <main id="main-content">
+        <!-- Calendar Hero Section -->
+        <section class="hero" style="padding: var(--spacing-2xl) 0 var(--spacing-md);">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Church Calendar 2026</h1>
+                    <p class="tagline">View all upcoming services, events, prayer meetings, and special celebrations. Stay connected with our church community.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter & Actions Bar - Compact horizontal layout -->
+        <section class="calendar-filters-section" style="padding: var(--spacing-md) 0; border-bottom: 1px solid #e8e4dd;">
+            <div class="container">
+                <!-- Combined Horizontal Layout: Filters left, Actions right -->
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md); margin-bottom: var(--spacing-sm);">
+                    <!-- Preset Filters -->
+                    <div class="preset-filters" role="group" aria-label="Quick filter presets" style="margin-bottom: 0;">
+                        <button class="preset-filter" data-preset="sunday-services" aria-pressed="false">
+                            🙏 Sunday Services
+                        </button>
+                        <button class="preset-filter" data-preset="this-week" aria-pressed="false">
+                            📅 All Events
+                        </button>
+                        <button class="preset-filter" data-preset="prayer-meetings" aria-pressed="false">
+                            ✨ Prayer Meetings
+                        </button>
+                        <button class="preset-filter" data-preset="christian-days" aria-pressed="false">
+                            ✝️ Special Christian Days
+                        </button>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons" role="group" aria-label="Calendar actions" style="width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; margin: 0 auto;">
+                        <button id="printBtn" class="btn btn-secondary" aria-label="Print calendar" style="font-size: var(--font-sm); padding: var(--spacing-xs) var(--spacing-md); margin: 0 auto;">🖨️ Print</button>
+                        <button id="downloadImageBtn" class="btn btn-secondary" aria-label="Download calendar as image" style="font-size: var(--font-sm); padding: var(--spacing-xs) var(--spacing-md); margin: 0 auto;">📸 Download</button>
+                        <button id="shareBtn" class="btn btn-secondary" aria-label="Share calendar events" style="font-size: var(--font-sm); padding: var(--spacing-xs) var(--spacing-md); margin: 0 auto;">📤 Share</button>
+                    </div>
+                </div>
+
+                <!-- Advanced Filters Toggle -->
+                <div class="advanced-toggle-container" style="margin-bottom: 0;">
+                    <button id="advancedFiltersToggle" class="advanced-toggle" aria-expanded="false">
+                        More Filters ▾
+                    </button>
+                </div>
+
+                <!-- Advanced Filters (Collapsed by default) -->
+                <div id="advancedFilters" class="advanced-filters" style="display: none; margin-top: var(--spacing-sm);">
+                    <fieldset class="filters" aria-label="Filter events by category">
+                        <legend class="visually-hidden">Advanced event category filters</legend>
+                        <label><input type="checkbox" class="filter" data-category="gpbc" aria-label="Show GPBC events"> ⛪ GPBC Events</label>
+                        <label><input type="checkbox" class="filter" data-category="christian" aria-label="Show Christian events"> ✝️ Christian</label>
+                        <label><input type="checkbox" class="filter" data-category="bangladeshi" aria-label="Show Bangladeshi events"> 🇧🇩 Bangladeshi</label>
+                        <label><input type="checkbox" class="filter" data-category="american" aria-label="Show American events"> 🇺🇸 American</label>
+                        <label><input type="checkbox" class="filter" data-category="special" aria-label="Show Special Days events"> ❤️ Special Days</label>
+                    </fieldset>
+                </div>
+            </div>
+        </section>
+
+        <!-- Primary Calendar Section -->
+        <section class="calendar-section" style="padding: var(--spacing-lg) 0;">
+            <div class="container" style="max-width: 1100px;">
+                <!-- Month/Year Navigation - Integrated into header -->
+                <div class="navigation" role="navigation" aria-label="Calendar month navigation" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
+                    <button id="prevMonth" class="btn btn-text" aria-label="Go to previous month" style="background: none; border: none; color: var(--color-primary); font-size: var(--font-base); cursor: pointer; padding: var(--spacing-xs) var(--spacing-sm); transition: color var(--transition-fast);">‹ Previous</button>
+                    <h2 id="currentMonth" aria-live="polite" aria-atomic="true" style="font-family: Georgia, 'Times New Roman', serif; color: var(--color-primary); font-size: var(--font-2xl); font-weight: var(--font-bold); margin: 0;">January 2026</h2>
+                    <button id="nextMonth" class="btn btn-text" aria-label="Go to next month" style="background: none; border: none; color: var(--color-primary); font-size: var(--font-base); cursor: pointer; padding: var(--spacing-xs) var(--spacing-sm); transition: color var(--transition-fast);">Next ›</button>
+                </div>
+
+                <!-- Calendar Grid -->
+                <div class="calendar-grid" role="grid" aria-label="Monthly calendar view" style="margin-bottom: var(--spacing-lg);">
+                    <div class="weekday" role="columnheader">Sun</div>
+                    <div class="weekday" role="columnheader">Mon</div>
+                    <div class="weekday" role="columnheader">Tue</div>
+                    <div class="weekday" role="columnheader">Wed</div>
+                    <div class="weekday" role="columnheader">Thu</div>
+                    <div class="weekday" role="columnheader">Fri</div>
+                    <div class="weekday" role="columnheader">Sat</div>
+                    <!-- Calendar days will be inserted here by JavaScript -->
+                </div>
+
+                <!-- Events This Month -->
+                <div class="events-sidebar" style="margin-top: var(--spacing-md); padding: var(--spacing-lg); background: #ffffff; border-radius: var(--radius-lg); border: 1px solid #e8e4dd;">
+                    <h3 style="text-align: center; color: var(--color-primary); margin-bottom: var(--spacing-md); font-size: var(--font-lg); font-family: Georgia, 'Times New Roman', serif;">Events This Month</h3>
+                    <div id="monthEvents"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recurring Weekly Events Section -->
+        <section class="recurring-events-section" style="padding: var(--spacing-xl) 0; background: #ffffff; border-top: 1px solid #e8e4dd;">
+            <div class="container" style="max-width: 900px;">
+                <h3 style="text-align: center; color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: var(--font-xl); font-family: Georgia, 'Times New Roman', serif;">Our Weekly Schedule</h3>
+                <p class="subtitle" style="text-align: center; color: var(--color-text-light); margin-bottom: var(--spacing-lg); font-size: var(--font-base);">Join us for worship, fellowship, and spiritual growth</p>
+                
+                <!-- Compact List Format Grouped by Day -->
+                <div style="background: #faf8f5; border-radius: var(--radius-lg); padding: var(--spacing-lg); border: 1px solid #e8e4dd;">
+                    <div style="display: grid; gap: var(--spacing-md);">
+                        <!-- Sunday -->
+                        <div style="padding: var(--spacing-md); background: #ffffff; border-radius: var(--radius-md); border-left: 4px solid var(--color-primary);">
+                            <div style="font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--spacing-xs); font-size: var(--font-base);">🙏 Sunday</div>
+                            <div style="margin-left: var(--spacing-lg); color: var(--color-text);">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-xs);"><span>Sunday Connection</span><span style="color: var(--color-text-light); font-size: var(--font-sm);">4:30 PM</span></div>
+                                <div style="display: flex; justify-content: space-between;"><span style="font-weight: var(--font-semibold);">Worship Service</span><span style="color: var(--color-primary); font-weight: var(--font-semibold); font-size: var(--font-sm);">5:00 PM</span></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Friday -->
+                        <div style="padding: var(--spacing-md); background: #ffffff; border-radius: var(--radius-md); border-left: 4px solid var(--color-secondary);">
+                            <div style="font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--spacing-xs); font-size: var(--font-base);">✨ Friday</div>
+                            <div style="margin-left: var(--spacing-lg); color: var(--color-text);">
+                                <div style="display: flex; justify-content: space-between;"><span>Friday Connection (Prayer)</span><span style="color: var(--color-text-light); font-size: var(--font-sm);">5:30 PM</span></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Saturday -->
+                        <div style="padding: var(--spacing-md); background: #ffffff; border-radius: var(--radius-md); border-left: 4px solid var(--color-secondary);">
+                            <div style="font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--spacing-xs); font-size: var(--font-base);">🙌 Saturday</div>
+                            <div style="margin-left: var(--spacing-lg); color: var(--color-text);">
+                                <div style="display: flex; justify-content: space-between;"><span>Fasting Prayer</span><span style="color: var(--color-text-light); font-size: var(--font-sm);">12:00 PM</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Annual Special Services -->
+                <div style="margin-top: var(--spacing-lg); text-align: center;">
+                    <h4 style="color: var(--color-primary); font-size: var(--font-base); margin-bottom: var(--spacing-sm); font-family: Georgia, 'Times New Roman', serif; font-weight: var(--font-semibold);">Annual Special Services</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm); justify-content: center;">
+                        <span style="background: #faf8f5; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-full); border: 1px solid #e8e4dd; color: var(--color-text);">🌿 Palm Sunday</span>
+                        <span style="background: #faf8f5; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-full); border: 1px solid #e8e4dd; color: var(--color-text);">✝️ Good Friday</span>
+                        <span style="background: #faf8f5; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-full); border: 1px solid #e8e4dd; color: var(--color-text);">🌅 Easter</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Events Section -->
+        <section class="upcoming-events-section" style="padding: var(--spacing-xl) 0; background: var(--color-background);">
+            <div class="container" style="max-width: 900px;">
+                <h3 style="text-align: center; color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: var(--font-xl); font-family: Georgia, 'Times New Roman', serif;">Upcoming Special Events</h3>
+                <p class="subtitle" style="text-align: center; color: var(--color-text-light); margin-bottom: var(--spacing-lg); font-size: var(--font-base);">Special celebrations and gatherings</p>
+                <div class="upcoming-events-grid" id="upcomingEventsList">
+                    <!-- Events will be inserted here by JavaScript -->
+                    <div class="upcoming-events-empty">Upcoming events will appear here.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QR Code Helper Section -->
+        <section style="padding: var(--spacing-lg) 0; background: #ffffff; border-top: 1px solid #e8e4dd;">
+            <div class="container">
+                <div class="qr-helper-card" style="background: #faf8f5; padding: var(--spacing-md); border-radius: var(--radius-lg); border: 1px solid #e8e4dd; max-width: 280px; margin: 0 auto; text-align: center;">
+                    <h4 style="color: var(--color-primary); font-size: var(--font-sm); margin-bottom: var(--spacing-xs); font-weight: var(--font-semibold);">Mobile Access</h4>
+                    <div id="calendarAccessQR" style="margin: var(--spacing-sm) auto;"></div>
+                    <p style="color: var(--color-text-light); font-size: var(--font-xs); margin-top: var(--spacing-xs); margin-bottom: 0;">Scan to access the GPBC calendar on your phone</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modals -->
+        <div id="reminderModal" class="modal" role="dialog" aria-labelledby="reminderModalTitle" aria-modal="true" style="display: none;">
+            <div class="modal-content">
+                <button class="close" aria-label="Close reminder modal">&times;</button>
+                <h2 id="reminderModalTitle">🔔 Upcoming Event Reminders</h2>
+                <p class="reminder-info">Reminders are shown 2 months before each event</p>
+                <div id="reminderList"></div>
+            </div>
+        </div>
+
+        <div id="eventDetailModal" class="modal" role="dialog" aria-labelledby="eventTitle" aria-modal="true">
+            <div class="modal-content">
+                <button class="close" aria-label="Close event details modal">&times;</button>
+                <h2 id="eventTitle"></h2>
+                <p id="eventDate"></p>
+                <p id="eventDescription"></p>
+                <div id="eventCategory"></div>
+                <div id="deleteButtonContainer" style="margin-top: 20px; display: none;">
+                    <button id="deleteEventBtn" class="btn" style="background: #dc3545; color: white; border-color: #dc3545;">🗑️ Delete Event</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prayer Request Modal -->
+    </main>
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="index.html#prayer">Prayer</a></li>
+                <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                <li><a href="give.html">Give</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Ministries</h3>
+            <ul>
+                <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                <li><a href="kids/games/index.html">Kids Games</a></li>
+                <li><a href="youth/games/index.html">Youth Games</a></li>
+                <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <address>
+                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                <p>1325 Richardson Street, CA 92408</p>
+                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+            </address>
+        </div>
+
+        <div class="footer-section">
+            <h3>Connect</h3>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+        <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
+    </div>
+</footer>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <script src="events.js"></script>
+    <script src="googlesheets.js"></script>
+    <script src="calendar.js"></script>
+    <script src="reminders.js"></script>
+    <script src="members.js"></script>
+    <script src="prayers.js"></script>
+    <script src="donations.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="countdown.js"></script>
+    
+    <!-- Dropdown menu accessibility script -->
+    <script>
+        // Dropdown menu accessibility and keyboard navigation
+        const navDropdown = document.querySelector('.nav-dropdown');
+        if (navDropdown) {
+            const dropdownToggle = navDropdown.querySelector('a[aria-haspopup]');
+            const dropdownMenu = navDropdown.querySelector('.dropdown-menu');
+            const dropdownLinks = dropdownMenu ? dropdownMenu.querySelectorAll('a') : [];
+
+            if (dropdownToggle) {
+                dropdownToggle.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const isExpanded = dropdownToggle.getAttribute('aria-expanded') === 'true';
+                        dropdownToggle.setAttribute('aria-expanded', !isExpanded);
+                        
+                        if (!isExpanded && dropdownLinks.length > 0) {
+                            dropdownLinks[0].focus();
+                        }
+                    } else if (e.key === 'Escape') {
+                        dropdownToggle.setAttribute('aria-expanded', 'false');
+                        dropdownToggle.focus();
+                    }
+                });
+
+                navDropdown.addEventListener('mouseenter', () => {
+                    dropdownToggle.setAttribute('aria-expanded', 'true');
+                });
+
+                navDropdown.addEventListener('mouseleave', () => {
+                    dropdownToggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+
+            dropdownLinks.forEach((link, index) => {
+                link.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (index < dropdownLinks.length - 1) {
+                            dropdownLinks[index + 1].focus();
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (index > 0) {
+                            dropdownLinks[index - 1].focus();
+                        } else {
+                            dropdownToggle.focus();
+                        }
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        dropdownToggle.setAttribute('aria-expanded', 'false');
+                        dropdownToggle.focus();
+                    }
+                });
+            });
+        }
+
+        // Header scroll effect
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+    
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js?v=20260125c"></script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>
+</html>

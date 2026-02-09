@@ -163,7 +163,7 @@ function loadCustomEvents() {
     // Check version and clear old data if outdated
     const savedVersion = localStorage.getItem('gpbcEventsVersion');
     if (savedVersion !== EVENTS_VERSION) {
-        console.log('Events database updated - clearing old localStorage data');
+        // console.log('Events database updated - clearing old localStorage data'); // Removed for production
         localStorage.removeItem('gpbcEvents');
         localStorage.setItem('gpbcEventsVersion', EVENTS_VERSION);
         return;

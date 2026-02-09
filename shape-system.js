@@ -373,7 +373,7 @@
         initParallax();
         initScrollReveal();
         
-        console.log('✨ Shape System initialized - ONE SHAPE = ONE PURPOSE');
+        // console.log('✨ Shape System initialized - ONE SHAPE = ONE PURPOSE'); // Removed for production
     }
 
     // Start initialization

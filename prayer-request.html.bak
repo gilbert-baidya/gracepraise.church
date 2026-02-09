@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Prayer Request | Grace and Praise Bangladeshi Church</title>
+    <meta name="title" content="Prayer Request | Grace and Praise Bangladeshi Church">
+    <meta name="description" content="Share your prayer request with Grace and Praise Bangladeshi Church. We're here to pray with you and support you.">
+    <meta name="keywords" content="prayer request, church prayer, pray with us, prayer support, Christian prayer, GPBC prayer">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://gilbert-baidya.github.io/gracepraise.church/prayer-request.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gilbert-baidya.github.io/gracepraise.church/prayer-request.html">
+    <meta property="og:title" content="Prayer Request | Grace and Praise Bangladeshi Church">
+    <meta property="og:description" content="Share your prayer request with us. We're here to pray with you and support you.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://gilbert-baidya.github.io/gracepraise.church/prayer-request.html">
+    <meta property="twitter:title" content="Prayer Request | GPBC">
+    <meta property="twitter:description" content="Share your prayer request with us. We're here to pray with you.">
+    
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
+    <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+    
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: hidden !important;
+                position: relative;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe, embed, object {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        section, article, main, .hero, .container {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        /* DARK MODE TOGGLE BUTTON */
+        .dark-mode-toggle {
+            background: rgba(45, 122, 143, 0.1);
+            border: 2px solid rgba(45, 122, 143, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-left: 15px;
+            font-size: 20px;
+        }
+        
+        .dark-mode-toggle:hover {
+            background: rgba(45, 122, 143, 0.2);
+            border-color: rgba(45, 122, 143, 0.5);
+            transform: scale(1.05);
+        }
+        
+    .dark-mode-toggle .sun-icon,
+    .dark-mode-toggle .moon-icon {
+        position: absolute;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .dark-mode-toggle .sun-icon {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    
+    .dark-mode-toggle .moon-icon {
+        opacity: 0;
+        transform: rotate(-180deg);
+    }        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg);
+        }
+        
+        [data-theme="dark"] .dark-mode-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+        
+        @media (max-width: 768px) {
+            .dark-mode-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip Link for Accessibility -->
+    <!-- Skip to main content for keyboard users -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Sticky Header/Nav -->
+<header>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html#home" class="logo">
+                <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+            </a>
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+            <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="https://www.youtube.com/@GracePraise.Church" target="_blank" rel="noopener noreferrer">LIVE</a></li>
+                <li><a href="index.html#home">Home</a></li>
+                <li class="nav-dropdown">
+                    <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="about.html">About Overview</a></li>
+                        <li><a href="history.html">Our History</a></li>
+                        <li><a href="mission.html">Our Mission</a></li>
+                        <li><a href="leadership.html">Our Leadership</a></li>
+                        <li><a href="beliefs.html">Our Beliefs</a></li>
+                        <li><a href="core-values.html">Our Core Values</a></li>
+                        <li><a href="position-papers.html">Position Papers</a></li>
+                        <li><a href="testimonies.html">Testimonies</a></li>
+                        <li><a href="songbook.html">GPBC Song Book</a></li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="ministries.html">Ministries Overview</a></li>
+                        <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                        <li><a href="ministries/community-development.html">Community Development</a></li>
+                        <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                        <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                        <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                        <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                        <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                        <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                        <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                        <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                        <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#next-service">Next Service</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="index.html#prayer">Prayer</a></li>
+                <li class="nav-dropdown">
+                    <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                        <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                        <li><a href="family-devotion.html">Family Devotion</a></li>
+                        <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                        <li><a href="children-devotion.html">Children Devotion</a></li>
+                        <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                        <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                        <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                        <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                    </ul>
+                </li>
+                <li><a href="give.html">Give</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="mobile-overlay"></div>
+</header>
+
+
+
+    <!-- Special Event Inline Countdown Banner -->
+    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="polite" aria-atomic="true">
+        <div class="inline-banner-content">
+            <span class="event-icon" aria-hidden="true">🎉</span>
+            <span class="event-label">
+                <strong>Gratitude & New Year Celebration</strong> starts in
+            </span>
+            <time class="inline-countdown" datetime="2025-12-31T22:30:00">
+                <span class="countdown-value" data-unit="days">01</span><span class="countdown-unit">d</span>
+                <span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span>
+                <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
+                <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
+            </time>
+            <a href="#dynamic-events-container" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section - EXACT match to redesign-mockup.html -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>You Are Not Alone</h1>
+                    <p class="tagline">We would be honored to pray for you. Whatever you're walking through, we are here.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Intro Statement - Same pattern as Home "Welcome" intro -->
+        <section class="welcome">
+            <div class="welcome-content">
+                <p class="intro">Your prayer matters. No request is too small, and every request is handled with care and confidentiality.</p>
+            </div>
+        </section>
+
+        <!-- Trust Cards - REUSE "What's Happening" card grid -->
+        <section class="whats-happening">
+            <div class="feature-cards">
+                <article class="feature-card">
+                    <div class="card-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <h3>Your Privacy Matters</h3>
+                    <p>Every prayer request is handled with the utmost care and confidentiality. Shared only with our trusted prayer team.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="card-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </div>
+                    <h3>You Are Heard</h3>
+                    <p>Real people—your church family—will be praying for you by name, believing with you for God's peace, healing, and provision.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Prayer Form - Emotional Centerpiece -->
+        <section class="next-step">
+            <h2>How Can We Pray for You?</h2>
+            <p>Take your time. Even a few words are enough.</p>
+            
+            <div class="prayer-form-container" style="max-width: 700px; margin-left: auto; margin-right: auto; padding: var(--spacing-3xl); background: var(--color-surface); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--color-border);">
+                <form class="prayer-form" id="prayer-form" aria-label="Prayer request form" style="display: flex; flex-direction: column; gap: var(--spacing-xl);">
+                    <div class="form-group">
+                        <label for="prayer-name" style="display: block; margin-bottom: var(--spacing-sm); color: var(--color-text); font-size: var(--font-base); font-weight: var(--font-medium);">Your Name (optional)</label>
+                        <input 
+                            type="text" 
+                            id="prayer-name" 
+                            name="name"
+                            placeholder="You may leave this blank"
+                            autocomplete="name"
+                            style="width: 100%; padding: var(--spacing-md); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-base); transition: all var(--transition-base); background: var(--color-background);"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prayer-email" style="display: block; margin-bottom: var(--spacing-sm); color: var(--color-text); font-size: var(--font-base); font-weight: var(--font-medium);">Your Email (optional)</label>
+                        <input 
+                            type="email" 
+                            id="prayer-email" 
+                            name="email"
+                            placeholder="Only if you'd like us to follow up"
+                            autocomplete="email"
+                            style="width: 100%; padding: var(--spacing-md); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-base); transition: all var(--transition-base); background: var(--color-background);"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prayer-request" style="display: block; margin-bottom: var(--spacing-sm); color: var(--color-text); font-size: var(--font-base); font-weight: var(--font-medium);">Your Prayer <span style="color: var(--color-secondary);">*</span></label>
+                        <textarea 
+                            id="prayer-request" 
+                            name="request"
+                            rows="5"
+                            required
+                            placeholder="You can write just a few words. God understands."
+                            aria-required="true"
+                            style="width: 100%; padding: var(--spacing-md); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-base); line-height: var(--leading-relaxed); transition: all var(--transition-base); background: var(--color-background); resize: vertical; min-height: 140px;"
+                        ></textarea>
+                    </div>
+
+                    <div style="padding: var(--spacing-lg); background: linear-gradient(135deg, rgba(201, 169, 97, 0.06) 0%, rgba(212, 175, 106, 0.06) 100%); border-radius: var(--radius-md); border-left: 3px solid var(--color-secondary);">
+                        <p style="margin: 0 0 var(--spacing-md) 0; font-size: var(--font-sm); color: var(--color-text); line-height: var(--leading-relaxed);">Your prayer is handled with care and confidentiality.</p>
+                        
+                        <label class="checkbox-label" style="display: flex; align-items: flex-start; gap: var(--spacing-sm); cursor: pointer;">
+                            <input 
+                                type="checkbox" 
+                                id="prayer-private" 
+                                name="private"
+                                value="yes"
+                                style="margin-top: 2px; width: 18px; height: 18px; cursor: pointer;"
+                            >
+                            <span style="font-size: var(--font-sm); color: var(--color-text-light); line-height: var(--leading-normal);">Keep my request private (shared only with the prayer team)</span>
+                        </label>
+                    </div>
+
+                    <div class="next-step-cta" style="text-align: center; margin-top: var(--spacing-md);">
+                        <button type="submit" class="btn btn-primary" style="padding: var(--spacing-md) var(--spacing-2xl); font-size: var(--font-lg); min-width: 240px;">Share My Prayer</button>
+                    </div>
+                    
+                    <p style="text-align: center; font-size: var(--font-sm); color: var(--color-text-light); line-height: var(--leading-relaxed); margin: var(--spacing-md) 0 0 0; font-style: italic;">We pray over every request with love and respect.</p>
+                </form>
+
+                <!-- Success Message (hidden by default) -->
+                <div class="prayer-success-message" id="prayer-success" style="display: none;">
+                    <div class="success-icon">✨</div>
+                    <h3>Thank You for Trusting Us with Your Request</h3>
+                    <p class="success-main">We are praying for you right now. You've taken a step of faith by reaching out, and we want you to know that you are deeply cared for.</p>
+                    
+                    <div class="success-assurance">
+                        <p><strong>What happens next:</strong></p>
+                        <p>Our prayer team has received your request and is already bringing your needs before God. You are not forgotten, and you are not alone in this.</p>
+                    </div>
+                    
+                    <div class="peace-verse">
+                        <p class="verse-icon">📖</p>
+                        <p class="verse-text">"Cast all your anxiety on him because he cares for you."</p>
+                        <p class="verse-reference">— 1 Peter 5:7</p>
+                    </div>
+                    
+                    <p class="success-closing">May you feel God's presence and peace in the days ahead. We're here for you.</p>
+                    
+                    <div class="success-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetPrayerForm()">Submit Another Request</button>
+                        <a href="index.html" class="btn btn-outline">Return Home</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Care Process - REUSE "New Here" card grid pattern -->
+        <section class="new-here">
+            <h2>How We Care for Your Prayer Request</h2>
+            <p class="new-here-intro">Your trust means everything to us. Here's how we honor it.</p>
+            
+            <div class="new-here-cards">
+                <div class="new-here-card">
+                    <div class="card-icon">🙏</div>
+                    <h3>We Pray Immediately</h3>
+                    <p>Your request goes directly to our dedicated prayer team. You'll be in our prayers today and in the days to come.</p>
+                </div>
+                
+                <div class="new-here-card">
+                    <div class="card-icon">💝</div>
+                    <h3>We Handle with Care</h3>
+                    <p>Your request is treated with complete confidentiality and respect. We honor your trust by handling every prayer with sensitivity and love.</p>
+                </div>
+                
+                <div class="new-here-card">
+                    <div class="card-icon">🤝</div>
+                    <h3>We Walk with You</h3>
+                    <p>If you've shared contact info, we may reach out to check on you or offer encouragement. You're part of our church family.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bible Verse - EXACT match to Home -->
+        <section class="bible-verse" aria-label="Featured Bible Verse">
+            <blockquote>
+                <p class="verse-text">Cast all your anxiety on him because he cares for you.</p>
+                <cite class="verse-reference">— 1 Peter 5:7</cite>
+            </blockquote>
+        </section>
+
+        <!-- Pastor Contact - REUSE "Next Step" callout -->
+        <section class="next-step">
+            <h2>Need Someone to Talk To?</h2>
+            <p>If you need immediate pastoral care or just want to talk with someone, please don't hesitate to reach out directly.</p>
+            <div class="next-step-cta">
+                <a href="mailto:info@gracepraise.church" class="btn btn-primary">📧 Email a Pastor</a>
+            </div>
+            <p style="margin-top: var(--spacing-md); font-size: var(--font-sm); color: var(--color-text-light);"><strong>Crisis Support:</strong> If you're experiencing a life-threatening emergency, please call 911 or contact the <a href="tel:988" style="color: var(--color-primary); text-decoration: underline;">988 Suicide & Crisis Lifeline</a> (call or text 988).</p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="index.html#prayer">Prayer</a></li>
+                <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                <li><a href="give.html">Give</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Ministries</h3>
+            <ul>
+                <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                <li><a href="kids/games/index.html">Kids Games</a></li>
+                <li><a href="youth/games/index.html">Youth Games</a></li>
+                <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <address>
+                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                <p>1325 Richardson Street, CA 92408</p>
+                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+            </address>
+        </div>
+
+        <div class="footer-section">
+            <h3>Connect</h3>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+        <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
+    </div>
+</footer>
+
+
+
+    <script src="redesign-scripts.js" defer></script>
+    <script src="prayer-form.js" defer></script>
+    
+    <!-- Dropdown menu accessibility script -->
+    <script>
+        // Dropdown menu accessibility and keyboard navigation
+        const navDropdown = document.querySelector('.nav-dropdown');
+        if (navDropdown) {
+            const dropdownToggle = navDropdown.querySelector('a[aria-haspopup]');
+            const dropdownMenu = navDropdown.querySelector('.dropdown-menu');
+            const dropdownLinks = dropdownMenu ? dropdownMenu.querySelectorAll('a') : [];
+
+            if (dropdownToggle) {
+                dropdownToggle.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const isExpanded = dropdownToggle.getAttribute('aria-expanded') === 'true';
+                        dropdownToggle.setAttribute('aria-expanded', !isExpanded);
+                        
+                        if (!isExpanded && dropdownLinks.length > 0) {
+                            dropdownLinks[0].focus();
+                        }
+                    } else if (e.key === 'Escape') {
+                        dropdownToggle.setAttribute('aria-expanded', 'false');
+                        dropdownToggle.focus();
+                    }
+                });
+
+                navDropdown.addEventListener('mouseenter', () => {
+                    dropdownToggle.setAttribute('aria-expanded', 'true');
+                });
+
+                navDropdown.addEventListener('mouseleave', () => {
+                    dropdownToggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+
+            dropdownLinks.forEach((link, index) => {
+                link.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (index < dropdownLinks.length - 1) {
+                            dropdownLinks[index + 1].focus();
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (index > 0) {
+                            dropdownLinks[index - 1].focus();
+                        } else {
+                            dropdownToggle.focus();
+                        }
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        dropdownToggle.setAttribute('aria-expanded', 'false');
+                        dropdownToggle.focus();
+                    }
+                });
+            });
+        }
+
+        // Header scroll effect
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+    
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js?v=20260125c"></script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+    <script src="countdown.js"></script>
+</body>
+</html>

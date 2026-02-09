@@ -23,12 +23,14 @@
 
 :root {
     /* ========= Brand Colors ========= */
-    --brand-primary: #2563eb;
-    /* blue */
+    --brand-primary: #3b82f6;
+    /* softer sky blue (was #2563eb) */
     --brand-secondary: #0ea5a4;
     /* teal */
     --brand-accent: #f59e0b;
     /* gold */
+    --brand-warmth: #f59e0b;
+    /* NEW: warm gold for CTAs and accents */
 
     /* ========= Fixed Layout Heights ========= */
     --header-height: var(--header-total-height, 70px);
@@ -36,11 +38,13 @@
     --fixed-top-offset: var(--header-height);
 
     /* ========= Backgrounds ========= */
-    --bg-page: #ffffff;
+    --bg-page: #fefdfb;
+    /* warm off-white (was #ffffff) */
     --bg-section: #f8fafc;
     --bg-card: #ffffff;
     --bg-card-surface: #ffffff;
-    --bg-hero-soft-gradient: linear-gradient(135deg, #dbeafe 0%, #99f6e4 100%);
+    --bg-hero-soft-gradient: linear-gradient(135deg, #fef3c7 0%, #dbeafe 100%);
+    /* added gold warmth (was #dbeafe 0%, #99f6e4 100%) */
     --bg-header-presentation: var(--brand-primary);
 
     /* ========= Text Colors ========= */
@@ -58,7 +62,8 @@
     --border-highlight: #60a5fa;
 
     /* ========= Buttons ========= */
-    --btn-primary-bg: #2563eb;
+    --btn-primary-bg: #3b82f6;
+    /* matches softer brand-primary */
     --btn-primary-text: #ffffff;
 
     /* ========= Shadows ========= */

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devotion Pages Test Checklist</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            line-height: 1.6;
+        }
+        .test-item {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-left: 4px solid #ddd;
+            background: #f9f9f9;
+        }
+        .test-item.pass {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .test-item.fail {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        .status {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .pass .status { color: #22c55e; }
+        .fail .status { color: #ef4444; }
+        button {
+            padding: 0.75rem 1.5rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            font-size: 1rem;
+            cursor: pointer;
+            border: 2px solid #2d7a8f;
+            background: #2d7a8f;
+            color: white;
+            border-radius: 6px;
+        }
+        button:hover {
+            background: #236271;
+        }
+        .link-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            text-decoration: none;
+            background: #2d7a8f;
+            color: white;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .link-button:hover {
+            background: #236271;
+        }
+        h1 { color: #2d7a8f; }
+        h2 { color: #1e3a8a; margin-top: 2rem; }
+        .success-box {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+    <link rel="stylesheet" href="logo-styles.css">
+</head>
+<body>
+    <h1>📖 Devotion Pages Test Checklist</h1>
+    
+    <div class="success-box">
+        <strong>✅ STRUCTURE VALIDATION PASSED</strong><br>
+        All devotion pages have correct structure matching Home page:
+        <ul>
+            <li>✅ Logo links to Home (/index.html#home)</li>
+            <li>✅ Absolute CSS/JS paths (correct for subpages)</li>
+            <li>✅ Menu closed by default (no active class)</li>
+            <li>✅ Overlay hidden by default</li>
+            <li>✅ Countdown outside header</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <strong>📱 Test Pages:</strong><br>
+        <a href="http://localhost:8000/daily-devotion.html" target="_blank">Daily Devotion</a> |
+        <a href="http://localhost:8000/couples-devotion.html" target="_blank">Couples</a> |
+        <a href="http://localhost:8000/family-devotion.html" target="_blank">Family</a> |
+        <a href="http://localhost:8000/youth-devotion.html" target="_blank">Youth</a> |
+        <a href="http://localhost:8000/children-devotion.html" target="_blank">Children</a>
+    </div>
+
+    <h2>Critical Tests (Must ALL Pass)</h2>
+
+    <div class="test-item" id="test-1">
+        <div class="status">⏹ TEST 1: Menu Closed on Load</div>
+        <p><strong>Expected:</strong> Page loads with NO menu visible, only hamburger icon (≡)</p>
+        <p><strong>Action:</strong> Open devotion page - menu should be hidden</p>
+        <button onclick="setStatus('test-1', true)">✅ PASS</button>
+        <button onclick="setStatus('test-1', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-2">
+        <div class="status">⏹ TEST 2: Logo Links to Home</div>
+        <p><strong>Expected:</strong> Clicking GPBC logo navigates to Home page (index.html)</p>
+        <p><strong>Action:</strong> Click logo, verify URL changes to home</p>
+        <button onclick="setStatus('test-2', true)">✅ PASS</button>
+        <button onclick="setStatus('test-2', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-3">
+        <div class="status">⏹ TEST 3: Burger Menu Opens</div>
+        <p><strong>Expected:</strong> Clicking hamburger (≡) opens menu from right, icon changes to X</p>
+        <p><strong>Action:</strong> Click hamburger icon (mobile view or resize browser)</p>
+        <button onclick="setStatus('test-3', true)">✅ PASS</button>
+        <button onclick="setStatus('test-3', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-4">
+        <div class="status">⏹ TEST 4: Dark Overlay Appears</div>
+        <p><strong>Expected:</strong> When menu opens, dark semi-transparent overlay covers page</p>
+        <p><strong>Action:</strong> Open menu, check for dark background</p>
+        <button onclick="setStatus('test-4', true)">✅ PASS</button>
+        <button onclick="setStatus('test-4', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-5">
+        <div class="status">⏹ TEST 5: Body Scroll Locked</div>
+        <p><strong>Expected:</strong> With menu open, page content does NOT scroll</p>
+        <p><strong>Action:</strong> Open menu, try to scroll - should be locked</p>
+        <button onclick="setStatus('test-5', true)">✅ PASS</button>
+        <button onclick="setStatus('test-5', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-6">
+        <div class="status">⏹ TEST 6: Menu Closes on X</div>
+        <p><strong>Expected:</strong> Clicking X closes menu, icon changes back to ≡</p>
+        <p><strong>Action:</strong> Click X to close</p>
+        <button onclick="setStatus('test-6', true)">✅ PASS</button>
+        <button onclick="setStatus('test-6', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-7">
+        <div class="status">⏹ TEST 7: Menu Closes on Overlay</div>
+        <p><strong>Expected:</strong> Clicking dark overlay closes menu</p>
+        <p><strong>Action:</strong> Open menu, click overlay</p>
+        <button onclick="setStatus('test-7', true)">✅ PASS</button>
+        <button onclick="setStatus('test-7', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-8">
+        <div class="status">⏹ TEST 8: Countdown Visible Below Header</div>
+        <p><strong>Expected:</strong> Yellow countdown banner below header (NOT inside menu)</p>
+        <p><strong>Action:</strong> Check countdown position, scroll to verify it sticks</p>
+        <button onclick="setStatus('test-8', true)">✅ PASS</button>
+        <button onclick="setStatus('test-8', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-9">
+        <div class="status">⏹ TEST 9: Countdown Dynamic (Not Static)</div>
+        <p><strong>Expected:</strong> Countdown updates every second (shows current time)</p>
+        <p><strong>Action:</strong> Watch countdown - numbers should change</p>
+        <button onclick="setStatus('test-9', true)">✅ PASS</button>
+        <button onclick="setStatus('test-9', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-10">
+        <div class="status">⏹ TEST 10: Hero Content Visible</div>
+        <p><strong>Expected:</strong> Devotion title and content not hidden behind header</p>
+        <p><strong>Action:</strong> Check top of page - devotion hero should be fully visible</p>
+        <button onclick="setStatus('test-10', true)">✅ PASS</button>
+        <button onclick="setStatus('test-10', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-11">
+        <div class="status">⏹ TEST 11: Colors Match Home</div>
+        <p><strong>Expected:</strong> Same color scheme as Home page (header, buttons, links)</p>
+        <p><strong>Action:</strong> Compare with Home page visual appearance</p>
+        <button onclick="setStatus('test-11', true)">✅ PASS</button>
+        <button onclick="setStatus('test-11', false)">❌ FAIL</button>
+    </div>
+
+    <div class="test-item" id="test-12">
+        <div class="status">⏹ TEST 12: Dark Mode Toggle Works</div>
+        <p><strong>Expected:</strong> Clicking sun/moon icon toggles dark mode</p>
+        <p><strong>Action:</strong> Click dark mode toggle</p>
+        <button onclick="setStatus('test-12', true)">✅ PASS</button>
+        <button onclick="setStatus('test-12', false)">❌ FAIL</button>
+    </div>
+
+    <h2>Comparison Test</h2>
+
+    <div class="test-item" id="test-13">
+        <div class="status">⏹ TEST 13: Behavior Identical to Home</div>
+        <p><strong>Expected:</strong> Devotion page hamburger menu behaves EXACTLY like Home page</p>
+        <p><strong>Action:</strong> Open Home, test menu. Open Devotion, test menu. Compare behavior.</p>
+        <button onclick="setStatus('test-13', true)">✅ PASS</button>
+        <button onclick="setStatus('test-13', false)">❌ FAIL</button>
+    </div>
+
+    <h2>Results</h2>
+    <div id="results" style="padding: 1rem; background: #f3f4f6; border-radius: 8px; margin-top: 1rem;">
+        <p id="summary"><strong>Complete the tests above to see results</strong></p>
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <a href="http://localhost:8000/" class="link-button" target="_blank">🏠 Home Page</a>
+        <a href="http://localhost:8000/daily-devotion.html" class="link-button" target="_blank">📖 Daily Devotion</a>
+        <a href="http://localhost:8000/couples-devotion.html" class="link-button" target="_blank">💑 Couples</a>
+        <a href="http://localhost:8000/family-devotion.html" class="link-button" target="_blank">👨‍👩‍👧‍👦 Family</a>
+        <a href="http://localhost:8000/youth-devotion.html" class="link-button" target="_blank">🎯 Youth</a>
+        <br>
+        <button onclick="resetAll()" style="margin-top: 1rem;">🔄 Reset All Tests</button>
+    </div>
+
+    <script>
+        function setStatus(testId, pass) {
+            const element = document.getElementById(testId);
+            element.className = pass ? 'test-item pass' : 'test-item fail';
+            element.querySelector('.status').textContent = pass ? '✅ PASS' : '❌ FAIL';
+            updateResults();
+        }
+
+        function resetAll() {
+            document.querySelectorAll('.test-item').forEach(item => {
+                item.className = 'test-item';
+                const statusText = item.querySelector('.status').textContent.split(': ')[1];
+                item.querySelector('.status').textContent = '⏹ TEST ' + item.id.split('-')[1] + ': ' + statusText.replace(/^(✅ PASS|❌ FAIL) /, '');
+            });
+            updateResults();
+        }
+
+        function updateResults() {
+            const total = 13;
+            const passed = document.querySelectorAll('.test-item.pass').length;
+            const failed = document.querySelectorAll('.test-item.fail').length;
+            const pending = total - passed - failed;
+            
+            let summary = `<strong>Test Results:</strong> ${passed} passed, ${failed} failed, ${pending} pending<br>`;
+            
+            if (failed === 0 && pending === 0) {
+                summary += '<span style="color: #22c55e; font-size: 1.2em;">🎉 ALL TESTS PASSED - Devotion pages work correctly!</span><br>';
+                summary += '<span style="font-size: 0.9em;">Devotion pages behave identically to Home page ✅</span>';
+            } else if (failed > 0) {
+                summary += `<span style="color: #ef4444; font-size: 1.2em;">⚠️ ${failed} test(s) failed - Needs fixes</span>`;
+            }
+            
+            document.getElementById('summary').innerHTML = summary;
+        }
+    </script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>
+</html>

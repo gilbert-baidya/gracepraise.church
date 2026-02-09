@@ -60,7 +60,7 @@ function initializeFirebase() {
 function signInWithGoogle() {
   // Prevent multiple popup attempts
   if (isSigningIn) {
-    console.log('Sign in already in progress...');
+    // console.log('Sign in already in progress...'); // Removed for production
     return;
   }
   
@@ -70,7 +70,7 @@ function signInWithGoogle() {
   auth.signInWithPopup(provider)
     .then((result) => {
       const user = result.user;
-      console.log('Signed in as:', user.email);
+      // console.log('Signed in as:', user.email); // Removed for production
       isSigningIn = false;
     })
     .catch((error) => {
@@ -80,7 +80,7 @@ function signInWithGoogle() {
         console.error('Sign in error:', error);
         alert('Sign in failed: ' + error.message);
       } else {
-        console.log('Sign in cancelled by user');
+        // console.log('Sign in cancelled by user'); // Removed for production
       }
     });
 }
@@ -89,7 +89,7 @@ function signInWithGoogle() {
 function signOut() {
   auth.signOut()
     .then(() => {
-      console.log('Signed out successfully');
+      // console.log('Signed out successfully'); // Removed for production
     })
     .catch((error) => {
       console.error('Sign out error:', error);

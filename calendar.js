@@ -646,7 +646,7 @@ function shareEvents() {
             title: `Grace and Praise Bangladeshi Church - ${monthNames[currentMonth]} ${currentYear}`,
             text: shareText
         }).catch(err => {
-            console.log('Share failed:', err);
+            // console.log('Share failed:', err); // Removed for production
             copyToClipboard(shareText);
         });
     } else {
@@ -822,7 +822,7 @@ async function deleteCurrentEvent() {
                 await loadEventsFromGoogleSheets();
             } else {
                 // Fallback to localStorage
-                console.log('Using localStorage fallback for delete');
+                // console.log('Using localStorage fallback for delete'); // Removed for production
                 const index = events.findIndex(e =>
                     e.date === currentEvent.date &&
                     e.name === currentEvent.name &&
@@ -969,7 +969,7 @@ function setupDonationModal() {
                 correctLevel: QRCode.CorrectLevel.H
             });
         } catch (e) {
-            console.log('Error generating Zelle QR code:', e);
+            // console.log('Error generating Zelle QR code:', e); // Removed for production
         }
     }
 
@@ -986,7 +986,7 @@ function setupDonationModal() {
                 correctLevel: QRCode.CorrectLevel.H
             });
         } catch (e) {
-            console.log('Error generating PayPal QR code:', e);
+            // console.log('Error generating PayPal QR code:', e); // Removed for production
         }
     }
 }
@@ -1009,7 +1009,7 @@ function showDonationModal() {
 function sendEventNotification(event) {
     // Skip if EmailJS is not configured
     if (typeof emailjs === 'undefined' || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
-        console.log('Email notifications not configured. Event added successfully without notification.');
+        // console.log('Email notifications not configured. Event added successfully without notification.'); // Removed for production
         return;
     }
 
@@ -1038,9 +1038,9 @@ function sendEventNotification(event) {
     // Send email using EmailJS
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
         .then(function (response) {
-            console.log('Email notification sent successfully!', response.status, response.text);
+            // console.log('Email notification sent successfully!', response.status, response.text); // Removed for production
         }, function (error) {
-            console.log('Failed to send email notification:', error);
+            // console.log('Failed to send email notification:', error); // Removed for production
         });
 }
 

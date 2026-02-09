@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couples Devotion | Grace and Praise Bangladeshi Church</title>
+    
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
+    <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="homepage-responsive-fix.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            overflow-y: auto;
+        }
+
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            overflow-y: visible;
+        }
+
+        /* iOS SAFARI OVERFLOW GUARD — DO NOT use overflow-x: hidden or position: relative */
+        /* These break position: fixed on iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            html {
+                overflow-x: clip !important;
+            }
+
+            body {
+                overflow-x: clip !important;
+            }
+        }
+
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img,
+        video,
+        iframe {
+            max-width: 100%;
+            height: auto;
+        }
+
+        section,
+        main,
+        .hero {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* DARK MODE TOGGLE BUTTON */
+        .dark-mode-toggle {
+            background: rgba(45, 122, 143, 0.1);
+            border: 2px solid rgba(45, 122, 143, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+            font-size: 20px;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(45, 122, 143, 0.2);
+            border-color: rgba(45, 122, 143, 0.5);
+            transform: scale(1.05);
+        }
+
+    .dark-mode-toggle .sun-icon,
+    .dark-mode-toggle .moon-icon {
+        position: absolute;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .dark-mode-toggle .sun-icon {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    
+    .dark-mode-toggle .moon-icon {
+        opacity: 0;
+        transform: rotate(-180deg);
+    }        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        @media (max-width: 768px) {
+            .dark-mode-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="#home" class="logo">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+                </a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
+                    title="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#live">LIVE</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span
+                                class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="about.html">About Overview</a></li>
+                            <li><a href="history.html">Our History</a></li>
+                            <li><a href="mission.html">Our Mission</a></li>
+                            <li><a href="leadership.html">Our Leadership</a></li>
+                            <li><a href="beliefs.html">Our Beliefs</a></li>
+                            <li><a href="core-values.html">Our Core Values</a></li>
+                            <li><a href="position-papers.html">Position Papers</a></li>
+                            <li><a href="testimonies.html">Testimonies</a></li>
+                            <li><a href="songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span
+                                class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="ministries.html">Ministries Overview</a></li>
+                            <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                            <li><a href="ministries/community-development.html">Community Development</a></li>
+                            <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                            <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                            <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                            <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                            <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                            <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                            <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                            <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                            <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#next-service">Next Service</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="#prayer">Prayer</a></li>
+                    <li class="nav-dropdown">
+                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false" class="active">Devotion
+                            <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="couples-devotion.html" class="active">Couples Devotion</a></li>
+                            <li><a href="family-devotion.html">Family Devotion</a></li>
+                            <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                            <li><a href="children-devotion.html">Children Devotion</a></li>
+                            <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                            <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="mobile-overlay"></div>
+    </header>
+
+
+
+    <main id="main-content">
+        <section class="content-page">
+            <div class="content-page-header">
+                <h1>💑 Couples Devotion</h1>
+                <p class="subtitle">Growing Together in Faith and Love</p>
+            </div>
+
+            <div class="content-page-body">
+                <div style="text-align: center; padding: 3rem 0; position: relative;">
+                    <div style="position: relative; max-width: 900px; margin: 0 auto;">
+                        <img src="images/devotions/couples-devotion-hero.png"
+                            alt="Couple with Bible at sunset - Growing together in faith"
+                            style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 20px 60px rgba(197, 139, 118, 0.3); margin-bottom: 2rem; border: 3px solid rgba(197, 139, 118, 0.2);">
+                        <div
+                            style="position: absolute; top: -10px; right: -10px; background: linear-gradient(135deg, #c58b76 0%, #d4a574 100%); color: white; padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 15px rgba(197, 139, 118, 0.4); font-size: 0.9rem;">
+                            💑 For Couples
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="background: linear-gradient(135deg, #fff5f0 0%, #ffe8e0 100%); padding: 2.5rem; border-radius: 16px; border-left: 5px solid #c58b76; margin: 2rem 0; box-shadow: 0 4px 20px rgba(197, 139, 118, 0.15);">
+                    <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1rem;">
+                        <span style="font-size: 3rem; color: #c58b76; line-height: 1;">❝</span>
+                        <p
+                            style="font-family: Georgia, serif; font-size: 1.3rem; font-style: italic; line-height: 1.8; color: #4a2c2a; margin: 0;">
+                            Two are better than one, because they have a good return for their labor: If either of them
+                            falls down, one can help the other up. But pity anyone who falls and has no one to help them
+                            up.
+                        </p>
+                    </div>
+                    <p
+                        style="text-align: right; color: #c58b76; font-weight: 700; font-size: 1.1rem; margin-top: 1.5rem;">
+                        — Ecclesiastes 4:9-10 (NIV)
+                    </p>
+                </div>
+
+                <div
+                    style="text-align: center; padding: 3rem 0; background: linear-gradient(135deg, rgba(197, 139, 118, 0.05) 0%, rgba(212, 165, 116, 0.05) 100%); border-radius: 20px; margin: 2rem 0;">
+                    <div
+                        style="display: inline-block; background: linear-gradient(135deg, #c58b76 0%, #d4a574 100%); padding: 0.5rem 1.5rem; border-radius: 50px; margin-bottom: 1.5rem;">
+                        <h2 style="color: white; font-size: 1.5rem; margin: 0; font-weight: 600;">💕 Launching Soon</h2>
+                    </div>
+                    <p
+                        style="font-size: 1.2rem; color: #4a2c2a; line-height: 1.8; max-width: 650px; margin: 0 auto 2rem; font-weight: 500;">
+                        We're crafting devotional content designed to strengthen your marriage and deepen the spiritual
+                        bond between you and your spouse.
+                    </p>
+                    <p style="font-size: 1.05rem; color: #6b5654; max-width: 650px; margin: 0 auto; line-height: 1.7;">
+                        Discover biblical wisdom for navigating life's challenges together, building intimacy through
+                        prayer, and creating a marriage that reflects God's love.
+                    </p>
+                    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <span
+                            style="background: white; padding: 0.75rem 1.5rem; border-radius: 50px; color: #c58b76; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">❤️
+                            Strengthen Your Bond</span>
+                        <span
+                            style="background: white; padding: 0.75rem 1.5rem; border-radius: 50px; color: #c58b76; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">🙏
+                            Pray Together</span>
+                        <span
+                            style="background: white; padding: 0.75rem 1.5rem; border-radius: 50px; color: #c58b76; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">💑
+                            Grow in Faith</span>
+                    </div>
+                </div>
+
+                <div style="background: #f3f4f6; padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+                    <h3 style="color: #667eea; margin-bottom: 1rem;">What to Expect:</h3>
+                    <ul style="color: #4b5563; line-height: 2; font-size: 1rem;">
+                        <li>📖 Daily scripture readings for couples</li>
+                        <li>💬 Reflection questions to discuss together</li>
+                        <li>🙏 Prayers specifically for married life</li>
+                        <li>💡 Practical applications for your relationship</li>
+                        <li>❤️ Topics covering communication, intimacy, finances, parenting, and more</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; padding: 2rem 0;">
+                    <p style="font-size: 1rem; color: #6b7280; margin-bottom: 1.5rem;">
+                        In the meantime, explore our other devotional resources:
+                    </p>
+                    <a href="daily-devotion.html"
+                        style="display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: transform 0.3s;">
+                        📖 Read Daily Devotion
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games/index.html">Kids Games</a></li>
+                    <li><a href="youth/games/index.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
+                    Conditions</a></p>
+        </div>
+    </footer>
+
+
+
+    <!-- Sticky Header Script -->
+    <script>
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js?v=20260125c"></script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>About GPBC | Grace and Praise Bangladeshi Church</title>
+    <meta name="title" content="About GPBC | Grace and Praise Bangladeshi Church">
+    <meta name="description"
+        content="About Grace and Praise Bangladeshi Church in San Bernardino, CA — our mission, beliefs, leadership, and community.">
+    <meta name="keywords"
+        content="GPBC about, church history, church mission, church leadership, Christian beliefs, church testimonies, Bengali worship songs, Bangladeshi church San Bernardino">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://gilbert-baidya.github.io/gracepraise.church/about.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gilbert-baidya.github.io/gracepraise.church/about.html">
+    <meta property="og:title" content="About GPBC | Grace and Praise Bangladeshi Church">
+    <meta property="og:description"
+        content="About Grace and Praise Bangladeshi Church in San Bernardino, CA — our mission, beliefs, leadership, and community.">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://gilbert-baidya.github.io/gracepraise.church/about.html">
+    <meta property="twitter:title" content="About GPBC | Grace and Praise Bangladeshi Church">
+    <meta property="twitter:description"
+        content="About Grace and Praise Bangladeshi Church in San Bernardino, CA — our mission, beliefs, leadership, and community.">
+
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+        }
+
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: clip !important;
+            }
+        }
+
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img,
+        video,
+        iframe,
+        embed,
+        object {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .hero,
+        .container {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* FIX: Ensure header is visible on this white-background page */
+        header {
+            background: var(--brand-primary) !important;
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-links a {
+            color: #ffffff !important;
+        }
+
+        .logo {
+            color: #ffffff !important;
+        }
+
+        .mobile-menu-btn span {
+            background-color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Inlined for Local Compatibility -->
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="index.html#home" class="logo">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+                </a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
+                    title="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="https://www.youtube.com/@GracePraise.Church" target="_blank"
+                            rel="noopener noreferrer">LIVE</a></li>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false" class="active">About <span
+                                class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="history.html">Our History</a></li>
+                            <li><a href="mission.html">Our Mission</a></li>
+                            <li><a href="leadership.html">Our Leadership</a></li>
+                            <li><a href="beliefs.html">Our Beliefs</a></li>
+                            <li><a href="core-values.html">Our Core Values</a></li>
+                            <li><a href="position-papers.html">Position Papers</a></li>
+                            <li><a href="testimonies.html">Testimonies</a></li>
+                            <li><a href="songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span
+                                class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                            <li><a href="ministries/community-development.html">Community Development</a></li>
+                            <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                            <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                            <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                            <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                            <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                            <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                            <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                            <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                            <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html#next-service">Next Service</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="prayer-request.html">Prayer</a></li>
+                    <li class="nav-dropdown">
+                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span
+                                class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                            <li><a href="family-devotion.html">Family Devotion</a></li>
+                            <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                            <li><a href="children-devotion.html">Children Devotion</a></li>
+                            <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                            <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Header Countdown Overlay Removed for About Page -->
+        <div class="mobile-overlay"></div>
+    </header>
+    <noscript>
+        <span class="dark-mode-fallback" aria-label="Dark mode requires JavaScript"
+            title="JavaScript required for dark mode">☀️</span>
+    </noscript>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="about">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>About Grace and Praise Bangladeshi Church</h1>
+                    <p class="tagline">Discover our story, mission, and values as we worship, grow, and serve together.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="#learn-more" class="btn btn-primary">Explore About</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Introduction -->
+        <section class="new-here">
+            <h2>Welcome to Grace and Praise Bangladeshi Church</h2>
+            <p class="new-here-intro">
+                We are a vibrant Christian community serving the Bangladeshi population and welcoming all who seek
+                to worship God with passion and serve people with compassion. Explore the sections below to learn
+                more about who we are, what we believe, and how we serve.
+            </p>
+        </section>
+
+        <!-- About Topics Grid -->
+        <section class="new-here" id="learn-more" style="background: var(--color-background);">
+            <h2>Learn More About GPBC</h2>
+            <div class="new-here-cards" style="margin-top: var(--spacing-2xl);">
+                <!-- History Card -->
+                <a href="history.html" class="new-here-card"
+                    style="text-decoration: none; transition: all var(--transition-base);">
+                    <div class="card-icon">📖</div>
+                    <h3>Our History</h3>
+                    <p>Discover how our church began and the journey that brought us to where we are today.</p>
+                </a>
+
+                <!-- Mission Card -->
+                <a href="mission.html" class="new-here-card"
+                    style="text-decoration: none; transition: all var(--transition-base);">
+                    <div class="card-icon">🎯</div>
+                    <h3>Our Mission</h3>
+                    <p>Understand our purpose, vision, and commitment to serving God and our community.</p>
+                </a>
+
+                <!-- Leadership Card -->
+                <a href="leadership.html" class="new-here-card"
+                    style="text-decoration: none; transition: all var(--transition-base);">
+                    <div class="card-icon">👥</div>
+                    <h3>Our Leadership</h3>
+                    <p>Meet the pastors and leaders who guide and shepherd our church family.</p>
+                </a>
+
+                <!-- Beliefs Card -->
+                <a href="beliefs.html" class="new-here-card"
+                    style="text-decoration: none; transition: all var(--transition-base);">
+                    <div class="card-icon">✝️</div>
+                    <h3>Our Beliefs</h3>
+                    <p>Explore the core Christian doctrines and biblical truths we hold dear.</p>
+                </a>
+
+                <!-- Core Values Card -->
+                <a href="core-values.html" class="new-here-card"
+                    style="text-decoration: none; transition: all var(--transition-base);">
+                    <div class="card-icon">💎</div>
+                    <h3>Our Core Values</h3>
+                    <p>See the principles that shape how we worship, serve, and live out our faith.</p>
+                </a>
+
+                <!-- Position Papers Card -->
+                <a href="position-papers.html" class="new-here-card"
+                    style="text-decoration: none; transition: all var(--transition-base);">
+                    <div class="card-icon">📄</div>
+                    <h3>Position Papers</h3>
+                    <p>Read our official statements on important theological and ethical matters.</p>
+                </a>
+
+                <!-- Testimonies Card -->
+                <a href="testimonies.html" class="new-here-card"
+                    style="text-decoration: none; transition: all var(--transition-base);">
+                    <div class="card-icon">💬</div>
+                    <h3>Testimonies</h3>
+                    <p>Be inspired by stories of God's faithfulness and transformation in our community.</p>
+                </a>
+
+                <!-- Song Book Card -->
+                <a href="songbook.html" class="new-here-card"
+                    style="text-decoration: none; transition: all var(--transition-base);">
+                    <div class="card-icon">🎵</div>
+                    <h3>GPBC Song Book</h3>
+                    <p>Browse our collection of worship songs in English and Bangla.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="new-here">
+            <div class="new-here-cta">
+                <p class="cta-message">Join Us This Sunday</p>
+                <p class="new-here-intro" style="margin-bottom: var(--spacing-lg);">
+                    We would love to welcome you to our church family. Come experience worship,
+                    fellowship, and God's love in action.
+                </p>
+                <div class="cta-buttons">
+                    <a href="plan-visit.html" class="btn btn-primary">Plan Your Visit</a>
+                    <a href="calendar.html" class="btn btn-secondary">View Calendar</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games/index.html">Kids Games</a></li>
+                    <li><a href="youth/games/index.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
+                    Conditions</a></p>
+        </div>
+    </footer>
+
+
+
+    <!-- Scripts -->
+    <script src="navigation.js?v=20260125c"></script>
+    <!-- partials.js removed (Header inlined) -->
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>
+
+</html>

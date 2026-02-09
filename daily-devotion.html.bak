@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- iOS / Tablet Horizontal Scroll Lock — SAFE FIX -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+    <!-- Primary Meta Tags -->
+    <title>Daily Devotion | Grace and Praise Bangladeshi Church</title>
+    <meta name="title" content="Daily Devotion | Grace and Praise Bangladeshi Church">
+    <meta name="description"
+        content="Read today's Bible-based daily devotion and prayer from Grace and Praise Bangladeshi Church.">
+    <meta name="keywords"
+        content="daily devotion, Bible devotional, Christian devotion, daily prayer, Scripture reading, spiritual reflection, GPBC devotion">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://gilbert-baidya.github.io/gracepraise.church/daily-devotion.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://gilbert-baidya.github.io/gracepraise.church/daily-devotion.html">
+    <meta property="og:title" content="Daily Devotion | Grace and Praise Bangladeshi Church">
+    <meta property="og:description"
+        content="Read today's Bible-based daily devotion and prayer from Grace and Praise Bangladeshi Church.">
+    <meta property="og:image"
+        content="https://gilbert-baidya.github.io/gracepraise.church/images/devotion-placeholder.jpg" id="ogImage">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://gilbert-baidya.github.io/gracepraise.church/daily-devotion.html">
+    <meta property="twitter:title" content="Daily Devotion | Grace and Praise Bangladeshi Church">
+    <meta property="twitter:description"
+        content="Read today's Bible-based daily devotion and prayer from Grace and Praise Bangladeshi Church.">
+    <meta property="twitter:image"
+        content="https://gilbert-baidya.github.io/gracepraise.church/images/devotion-placeholder.jpg" id="twitterImage">
+
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="styles.bundle.css?v=20260208">
+    <link rel="stylesheet" href="daily-devotion.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+
+</head>
+
+<body>
+    <!-- Skip to main content for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Sticky Header/Nav -->
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="#home" class="logo">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
+                        class="logo-image" loading="eager" decoding="async">
+                </a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
+                    title="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="https://www.youtube.com/@GracePraise.Church" target="_blank"
+                            rel="noopener noreferrer">LIVE</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span
+                                class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="history.html">Our History</a></li>
+                            <li><a href="mission.html">Our Mission</a></li>
+                            <li><a href="leadership.html">Our Leadership</a></li>
+                            <li><a href="beliefs.html">Our Beliefs</a></li>
+                            <li><a href="core-values.html">Our Core Values</a></li>
+                            <li><a href="position-papers.html">Position Papers</a></li>
+                            <li><a href="testimonies.html">Testimonies</a></li>
+                            <li><a href="songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span
+                                class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                            <li><a href="ministries/community-development.html">Community Development</a></li>
+                            <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                            <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                            <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                            <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                            <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                            <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                            <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                            <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                            <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#next-service">Next Service</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="prayer-request.html">Prayer</a></li>
+                    <li class="nav-dropdown">
+                        <a href="daily-devotion.html" class="active" aria-haspopup="true" aria-expanded="false">Devotion
+                            <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                            <li><a href="family-devotion.html">Family Devotion</a></li>
+                            <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                            <li><a href="children-devotion.html">Children Devotion</a></li>
+                            <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                            <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="mobile-overlay"></div>
+    </header>
+
+
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="devotion-hero">
+            <h1 id="heroTitle">Daily Devotion</h1>
+            <h2 id="heroSubtitle">A Daily Word from Scripture</h2>
+            <p class="devotion-date" id="devotionDate">Loading...</p>
+        </section>
+
+        <!-- Controls -->
+        <section class="devotion-controls" aria-label="Devotion controls">
+            <div class="devotion-controls-row">
+                <div class="language-toggle" role="group" aria-label="Language toggle">
+                    <button type="button" id="langEn" class="active">English</button>
+                    <button type="button" id="langBn">বাংলা</button>
+                </div>
+                <div class="devotion-meta" id="devotionMeta">
+                    <span id="selectedDateLabel">—</span>
+                </div>
+            </div>
+
+            <div class="devotion-controls-row date-row">
+                <div class="date-strip-wrapper">
+                    <button class="date-nav-btn" id="prevDayBtn" aria-label="Previous day">←</button>
+                    <div class="date-strip" id="dateStrip" aria-label="Choose a date"></div>
+                    <button class="date-nav-btn" id="nextDayBtn" aria-label="Next day">→</button>
+                </div>
+            </div>
+
+            <div class="devotion-controls-row jump-row">
+                <div class="jump-controls" aria-label="Jump to date">
+                    <label class="sr-only" for="monthSelect">Month</label>
+                    <select id="monthSelect" aria-label="Select month"></select>
+                    <label class="sr-only" for="daySelect">Day</label>
+                    <select id="daySelect" aria-label="Select day"></select>
+                    <button type="button" class="primary" id="goToDateBtn">Go</button>
+                    <button type="button" id="todayBtn">Today</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Devotion Content Container -->
+        <div class="devotion-container">
+            <div class="devotion-loading" id="devotionLoading" role="status" aria-live="polite">
+                <span class="loading-spinner" aria-hidden="true"></span>
+                Loading today's devotion…
+            </div>
+            <!-- Content will be dynamically loaded here -->
+            <div id="devotionContent">
+                <!-- Header -->
+                <article class="devotion-section" id="devotionHeader">
+                    <p class="devotion-meta"><span aria-hidden="true">📖</span> <span id="devotionSubtitle">Devotion of
+                            the day</span></p>
+                    <h2 id="devotionTitle" class="devotion-title"></h2>
+                </article>
+
+                <!-- Scripture Section -->
+                <article class="devotion-section scripture-section">
+                    <h3 id="bibleReference">Philippians 4:6-7 (NIV)</h3>
+                    <blockquote class="scripture-text" id="bibleText">
+                        Do not be anxious about anything, but in every situation, by prayer and petition, with
+                        thanksgiving, present your requests to God. And the peace of God, which transcends all
+                        understanding, will guard your hearts and your minds in Christ Jesus.
+                    </blockquote>
+
+                    <!-- Simple Share Section (directly below Scripture) -->
+                    <div class="simple-share-section">
+                        <p id="sharePrompt">Share this devotion:</p>
+                        <div class="simple-share-buttons">
+                            <a href="#" class="simple-share-btn" id="shareSimpleFacebook" aria-label="Share on Facebook"
+                                target="_blank" rel="noopener noreferrer">
+                                <span aria-hidden="true">👥</span> <span id="shareFacebookLabel">Facebook</span>
+                            </a>
+                            <a href="#" class="simple-share-btn" id="shareSimpleWhatsApp" aria-label="Share on WhatsApp"
+                                target="_blank" rel="noopener noreferrer">
+                                <span aria-hidden="true">📱</span> <span id="shareWhatsAppLabel">WhatsApp</span>
+                            </a>
+                            <button class="simple-share-btn" id="copySimpleLink" aria-label="Copy link">
+                                <span aria-hidden="true">🔗</span> <span id="copySimpleLinkText">Copy Link</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Reflection Section -->
+                <article class="devotion-section reflection-section">
+                    <h3 id="reflectionHeading">Reflection</h3>
+                    <div class="devotion-text" id="devotionMessage">
+                        <p>In our fast-paced world, worry and anxiety can easily consume us. Bills to pay, relationships
+                            to maintain, work pressures, health concerns—the list seems endless. Yet God's Word offers
+                            us a powerful antidote: prayer with thanksgiving.</p>
+
+                        <p>Notice that Paul doesn't say "don't worry if everything is going well." He says "in every
+                            situation"—whether you're facing challenges or celebrating victories. The key is to bring
+                            everything to God in prayer, not with complaints, but with thanksgiving.</p>
+
+                        <p>When we choose gratitude in the midst of our struggles, something supernatural happens. God's
+                            peace—a peace that defies human logic—guards our hearts and minds. This isn't about
+                            pretending problems don't exist; it's about acknowledging that God is bigger than any
+                            problem we face.</p>
+
+                        <p>Today, instead of dwelling on what's troubling you, pause and thank God for what He's already
+                            done. Watch how His peace transforms your perspective and protects your heart.</p>
+                    </div>
+                </article>
+
+                <!-- Prayer Section -->
+                <article class="devotion-section prayer-section">
+                    <h3 id="prayerHeading">Prayer</h3>
+                    <div class="devotion-text" id="devotionPrayer">
+                        <p>Heavenly Father, thank You for the promise of Your peace. Today, I choose to bring my worries
+                            and anxieties to You instead of carrying them alone. I acknowledge that You are sovereign
+                            over every situation I face.</p>
+
+                        <p>Help me to cultivate a heart of thanksgiving, even when circumstances are difficult. Teach me
+                            to see Your hand at work in my life, both in the blessings and in the trials. Guard my heart
+                            and mind with Your supernatural peace that surpasses all understanding.</p>
+
+                        <p>When anxiety tries to creep in, remind me to turn to You in prayer. Replace my worry with
+                            worship, my fear with faith, and my anxiety with assurance of Your unfailing love.</p>
+
+                        <p>In Jesus' precious name, Amen.</p>
+                    </div>
+                </article>
+
+                <!-- Devotion Navigation (Previous/Next) -->
+                <nav class="devotion-navigation" aria-label="Navigate between devotions">
+                    <a href="#" class="devotion-nav-btn prev" id="prevDevotionBtn" aria-label="Go to previous devotion">
+                        <span aria-hidden="true">←</span> <span id="prevDevotionLabel">Previous Devotion</span>
+                    </a>
+                    <a href="#" class="devotion-nav-btn next" id="nextDevotionBtn" aria-label="Go to next devotion">
+                        <span id="nextDevotionLabel">Next Devotion</span> <span aria-hidden="true">→</span>
+                    </a>
+                </nav>
+
+                <!-- Action Buttons Section -->
+                <section class="action-buttons-section">
+                    <h3 id="actionSectionTitle">Continue Your Spiritual Journey</h3>
+                    <p id="actionSectionDesc">Explore more ways to connect with God and our church community</p>
+
+                    <div class="action-buttons-grid">
+                        <a href="calendar.html#prayer" class="action-btn" aria-label="Submit a prayer request">
+                            <span class="action-btn-icon" aria-hidden="true">🙏</span>
+                            <span class="action-btn-title" id="actionPrayerTitle">Prayer Requests</span>
+                            <span class="action-btn-desc" id="actionPrayerDesc">Share your prayer needs with our
+                                community</span>
+                        </a>
+
+                        <a href="calendar.html" class="action-btn" aria-label="View upcoming church services">
+                            <span class="action-btn-icon" aria-hidden="true">📅</span>
+                            <span class="action-btn-title" id="actionServicesTitle">Upcoming Services</span>
+                            <span class="action-btn-desc" id="actionServicesDesc">Join us for worship and
+                                fellowship</span>
+                        </a>
+
+                        <a href="testimonies.html" class="action-btn" aria-label="Read testimonies from our members">
+                            <span class="action-btn-icon" aria-hidden="true">💬</span>
+                            <span class="action-btn-title" id="actionTestimoniesTitle">Testimonies</span>
+                            <span class="action-btn-desc" id="actionTestimoniesDesc">Be encouraged by God's work in our
+                                lives</span>
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Fallback Message (hidden by default, shown when content unavailable) -->
+            <div class="devotion-fallback" id="devotionFallback" style="display: none;">
+                <h3>Today's devotion is being prepared</h3>
+                <p>We are prayerfully preparing today's devotional message. Please check back shortly.</p>
+
+                <div class="fallback-scripture">
+                    <p>"Wait for the LORD; be strong and take heart and wait for the LORD."</p>
+                    <p style="margin-top: var(--spacing-xs); font-size: var(--font-sm); opacity: 0.8;">— Psalm 27:14</p>
+                </div>
+
+                <p style="margin-top: var(--spacing-lg);">
+                    While you wait, we invite you to explore other ways to connect with our church community.
+                </p>
+
+                <div class="fallback-links">
+                    <a href="calendar.html#prayer">
+                        <span aria-hidden="true">🙏</span> Prayer Requests
+                    </a>
+                    <a href="calendar.html">
+                        <span aria-hidden="true">📅</span> Upcoming Services
+                    </a>
+                    <a href="testimonies.html">
+                        <span aria-hidden="true">💬</span> Testimonies
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games/index.html">Kids Games</a></li>
+                    <li><a href="youth/games/index.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="https://www.facebook.com/GracePraiseBangladeshiChurch" target="_blank"
+                            rel="noopener noreferrer" aria-label="Facebook">📘 Facebook</a></li>
+                    <li><a href="https://www.youtube.com/@GracePraise.Church" target="_blank" rel="noopener noreferrer"
+                            aria-label="YouTube">📺 YouTube</a></li>
+                    <li><a href="#" aria-label="Instagram">📷 Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
+                    Conditions</a></p>
+        </div>
+    </footer>
+
+
+
+    <!-- Load devotions data from external JSON file -->
+    <script src="devotions-data.js"></script>
+
+    <!-- Scripts -->
+    <script>
+        // Daily Devotion: dynamic navigation, language toggle, date jump, and graceful fallback.
+
+        function initializeDevotions() {
+            // -----------------------------
+            // Data: replace or inject window.DEVOTIONS with your full dataset
+            // -----------------------------
+            let currentDevotions = Array.isArray(window.DEVOTIONS) ? window.DEVOTIONS : [];
+
+            // -----------------------------
+            // Elements
+            // -----------------------------
+            const dateElement = document.getElementById('devotionDate');
+            const metaLabel = document.getElementById('selectedDateLabel') || document.getElementById('devotionMetaText');
+            const headerTitle = document.getElementById('devotionTitle');
+            const headerSubtitle = document.getElementById('devotionSubtitle');
+            const referenceEl = document.getElementById('bibleReference');
+            const verseEl = document.getElementById('bibleText');
+            const reflectionEl = document.getElementById('devotionMessage');
+            const prayerEl = document.getElementById('devotionPrayer');
+            const contentEl = document.getElementById('devotionContent');
+            const fallbackEl = document.getElementById('devotionFallback');
+            const loadingEl = document.getElementById('devotionLoading');
+            const prevBtn = document.getElementById('prevDevotionBtn');
+            const nextBtn = document.getElementById('nextDevotionBtn');
+            const dateStrip = document.getElementById('dateStrip');
+            const prevDayBtn = document.getElementById('prevDayBtn');
+            const nextDayBtn = document.getElementById('nextDayBtn');
+            const monthSelect = document.getElementById('monthSelect');
+            const daySelect = document.getElementById('daySelect');
+            const goToDateBtn = document.getElementById('goToDateBtn');
+            const todayBtn = document.getElementById('todayBtn');
+            const langEnBtn = document.getElementById('langEn');
+            const langBnBtn = document.getElementById('langBn');
+
+            // -----------------------------
+            // State
+            // -----------------------------
+            let currentLang = 'en';
+            const today = new Date();
+            let selectedDate = today;
+
+            // Helper: format dates
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const monthNamesLong = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const uiText = {
+                en: {
+                    heroTitle: 'Daily Devotion',
+                    heroSubtitle: 'A Daily Word from Scripture',
+                    devotionSubtitle: 'Devotion of the day',
+                    sharePrompt: 'Share this devotion:',
+                    prevDevotion: 'Previous Devotion',
+                    nextDevotion: 'Next Devotion',
+                    go: 'Go',
+                    today: 'Today',
+                    facebook: 'Facebook',
+                    whatsapp: 'WhatsApp',
+                    copyLink: 'Copy Link',
+                    copied: 'Copied!',
+                    copyFail: 'Unable to copy',
+                    ariaPrevDay: 'Previous day',
+                    ariaNextDay: 'Next day',
+                    ariaChooseDate: 'Choose a date',
+                    ariaShareFacebook: 'Share on Facebook',
+                    ariaShareWhatsApp: 'Share on WhatsApp',
+                    ariaCopyLink: 'Copy link',
+                    ariaPrevDevotion: 'Go to previous devotion',
+                    ariaNextDevotion: 'Go to next devotion',
+                    reflectionHeading: 'Reflection',
+                    prayerHeading: 'Prayer',
+                    actionSectionTitle: 'Continue Your Spiritual Journey',
+                    actionSectionDesc: 'Explore more ways to connect with God and our church community',
+                    actionPrayerTitle: 'Prayer Requests',
+                    actionPrayerDesc: 'Share your prayer needs with our community',
+                    actionServicesTitle: 'Upcoming Services',
+                    actionServicesDesc: 'Join us for worship and fellowship',
+                    actionTestimoniesTitle: 'Testimonies',
+                    actionTestimoniesDesc: 'Be encouraged by God\'s work in our lives'
+                },
+                bn: {
+                    heroTitle: 'দৈনিক ভক্তি',
+                    heroSubtitle: 'পবিত্র শাস্ত্র থেকে প্রতিদিনের বাক্য',
+                    devotionSubtitle: 'আজকের ভাবনা',
+                    sharePrompt: 'এই ভক্তি শেয়ার করুন:',
+                    prevDevotion: 'আগের ভক্তি',
+                    nextDevotion: 'পরের ভক্তি',
+                    go: 'যান',
+                    today: 'আজ',
+                    facebook: 'ফেসবুক',
+                    whatsapp: 'হোয়াটসঅ্যাপ',
+                    copyLink: 'লিঙ্ক কপি করুন',
+                    copied: 'কপি হয়েছে!',
+                    copyFail: 'কপি করা যায়নি',
+                    ariaPrevDay: 'আগের দিন',
+                    ariaNextDay: 'পরের দিন',
+                    ariaChooseDate: 'তারিখ নির্বাচন করুন',
+                    ariaShareFacebook: 'ফেসবুকে শেয়ার করুন',
+                    ariaShareWhatsApp: 'হোয়াটসঅ্যাপে শেয়ার করুন',
+                    ariaCopyLink: 'লিঙ্ক কপি করুন',
+                    ariaPrevDevotion: 'আগের ভক্তিতে যান',
+                    ariaNextDevotion: 'পরের ভক্তিতে যান',
+                    reflectionHeading: 'ভাবনা',
+                    prayerHeading: 'প্রার্থনা',
+                    actionSectionTitle: 'আপনার আধ্যাত্মিক যাত্রা চালিয়ে যান',
+                    actionSectionDesc: 'ঈশ্বর এবং আমাদের গির্জা সম্প্রদায়ের সাথে যুক্ত হওয়ার আরও উপায় অন্বেষণ করুন',
+                    actionPrayerTitle: 'প্রার্থনার অনুরোধ',
+                    actionPrayerDesc: 'আপনার প্রার্থনার প্রয়োজন আমাদের সাথে ভাগ করুন',
+                    actionServicesTitle: 'আসন্ন উপাসনা',
+                    actionServicesDesc: 'উপাসনা ও সহভাগিতায় অংশ নিন',
+                    actionTestimoniesTitle: 'সাক্ষ্যসমূহ',
+                    actionTestimoniesDesc: 'ঈশ্বর কীভাবে কাজ করছেন তা দেখে উৎসাহিত হন'
+                }
+            };
+
+            function toDateKey(d) {
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                return `${y}-${m}-${day}`;
+            }
+
+            function parseDateKey(key) {
+                const [y, m, d] = key.split('-').map(Number);
+                return new Date(y, m - 1, d);
+            }
+
+            function formatDisplayDate(d) {
+                const locale = currentLang === 'bn' ? 'bn-BD' : 'en-US';
+                return d.toLocaleDateString(locale, { weekday: 'long', month: 'long', day: 'numeric' });
+            }
+
+            function formatMonthDay(d) {
+                return `${monthNames[d.getMonth()]} ${d.getDate()}`;
+            }
+
+            // Build lookup and ensure today has content
+            const devotionByKey = new Map();
+            DEVOTIONS.forEach(item => devotionByKey.set(item.date, item));
+
+            function defaultDevotion(key) {
+                return {
+                    date: key,
+                    title: 'God So Loved',
+                    titleBn: 'ঈশ্বর এত ভালোবাসলেন',
+                    verse: 'John 3:16',
+                    verseText: '“For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.”',
+                    verseTextBn: '“কারণ ঈশ্বর পৃথিবীকে এত ভালোবাসলেন যে তিনি তাঁর একমাত্র পুত্র দিলেন, যেন যে কেউ তাঁর প্রতি বিশ্বাস করে সে বিনাশ না হয় বরং অনন্ত জীবন পায়।”',
+                    reflection: 'Today we rest in the simple, life-changing truth that God loves you personally. His love is proven in Jesus, given so you can live. Whatever else is uncertain, His love is not. Receive it, trust it, and let it shape your steps today.',
+                    reflectionBn: 'আজ আমরা সহজ কিন্তু জীবন-বদলানো সত্যে বিশ্রাম নিই: ঈশ্বর তোমাকে ব্যক্তিগতভাবে ভালোবাসেন। তাঁর ভালোবাসার প্রমাণ যিশু, তোমার জীবনের জন্য দেওয়া। অন্য সব কিছু অনিশ্চিত হলেও তাঁর ভালোবাসা নয়। এটি গ্রহণ করো, বিশ্বাস করো এবং আজ তোমার পদক্ষেপ গড়তে দাও।',
+                    prayer: 'Father, thank You for loving me in Jesus. Help me live from Your love and share it freely today.',
+                    prayerBn: 'পিতা, যিশুতে আমাকে ভালোবাসার জন্য ধন্যবাদ। আপনার ভালোবাসা থেকে বাঁচতে এবং আজ তা উদারভাবে ভাগ করতে আমাকে সাহায্য করুন।'
+                };
+            }
+
+            const todayKey = toDateKey(today);
+            if (!devotionByKey.has(todayKey)) {
+                devotionByKey.set(todayKey, defaultDevotion(todayKey));
+            }
+
+            let availableDates = [...devotionByKey.keys()].sort();
+
+            // Populate month/day selects
+            function populateSelectors() {
+                monthSelect.innerHTML = '';
+                monthNamesLong.forEach((name, idx) => {
+                    const opt = document.createElement('option');
+                    opt.value = idx;
+                    opt.textContent = name;
+                    monthSelect.appendChild(opt);
+                });
+                daySelect.innerHTML = '';
+                for (let d = 1; d <= 31; d++) {
+                    const opt = document.createElement('option');
+                    opt.value = d;
+                    opt.textContent = d;
+                    daySelect.appendChild(opt);
+                }
+                monthSelect.value = selectedDate.getMonth();
+                daySelect.value = selectedDate.getDate();
+            }
+
+            // Render date strip
+            function renderDateStrip() {
+                dateStrip.innerHTML = '';
+                // Show only a 5-day window centered on the selected date
+                const windowKeys = generateRangeKeys(selectedDate, 2);
+
+                windowKeys.forEach(key => {
+                    const d = parseDateKey(key);
+                    const pill = document.createElement('button');
+                    pill.className = 'date-pill';
+                    pill.setAttribute('data-date', key);
+                    pill.innerHTML = `<strong>${monthNames[d.getMonth()]} ${d.getDate()}</strong><span>${d.toLocaleDateString('en-US', { weekday: 'short' })}</span>`;
+                    if (toDateKey(selectedDate) === key) {
+                        pill.classList.add('active');
+                        pill.setAttribute('aria-current', 'date');
+                    }
+                    pill.addEventListener('click', () => {
+                        selectedDate = d;
+                        renderAll();
+                    });
+                    dateStrip.appendChild(pill);
+                });
+            }
+
+            function generateRangeKeys(centerDate, radius) {
+                const keys = [];
+                for (let i = -radius; i <= radius; i++) {
+                    const d = new Date(centerDate.getFullYear(), centerDate.getMonth(), centerDate.getDate() + i);
+                    keys.push(toDateKey(d));
+                }
+                return keys;
+            }
+
+            // Render devotion
+            function renderDevotion() {
+                // Snap selectedDate to an existing key if it was regenerated from string
+                selectedDate = typeof selectedDate === 'string' ? parseDateKey(selectedDate) : new Date(selectedDate);
+                const key = toDateKey(selectedDate);
+                const data = devotionByKey.get(key);
+                const hasData = !!data;
+
+                // Update hero date (no year in display)
+                if (dateElement) dateElement.textContent = formatDisplayDate(selectedDate);
+                if (metaLabel) metaLabel.textContent = formatMonthDay(selectedDate);
+
+                // Hide loading spinner
+                if (loadingEl) loadingEl.style.display = 'none';
+
+                if (!hasData) {
+                    contentEl.style.display = 'none';
+                    fallbackEl.style.display = 'block';
+                    return;
+                }
+
+                contentEl.style.display = 'block';
+                fallbackEl.style.display = 'none';
+
+                const lang = currentLang === 'bn' ? 'Bn' : '';
+                const title = data[`title${lang}`] || data.title || 'Daily Devotion';
+                const verse = data.verse || '';
+                const verseText = data[`verseText${lang}`] || data.verseText || '';
+                const reflection = data[`reflection${lang}`] || data.reflection || '';
+                const prayer = data[`prayer${lang}`] || data.prayer || '';
+
+                headerTitle.textContent = title;
+                headerSubtitle.textContent = `${formatDisplayDate(selectedDate)} — ${verse}`;
+                referenceEl.textContent = verse;
+                verseEl.textContent = verseText;
+                reflectionEl.innerHTML = `<p>${reflection}</p>`;
+                prayerEl.innerHTML = `<p>${prayer}</p>`;
+
+                // Update sharing meta
+                updateSocialMetaTags(title, verse, reflection);
+            }
+
+            // Meta tags update
+            function updateSocialMetaTags(title, verse, reflection) {
+                const shareTitle = `Devotion: ${verse} | Grace and Praise Bangladeshi Church`;
+                const desc = `${title} — ${reflection}`.substring(0, 160);
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                const ogDesc = document.querySelector('meta[property="og:description"]');
+                const twTitle = document.querySelector('meta[property="twitter:title"]');
+                const twDesc = document.querySelector('meta[property="twitter:description"]');
+                if (ogTitle) ogTitle.setAttribute('content', shareTitle);
+                if (ogDesc) ogDesc.setAttribute('content', desc);
+                if (twTitle) twTitle.setAttribute('content', shareTitle);
+                if (twDesc) twDesc.setAttribute('content', desc);
+            }
+
+            // Share handlers
+            const pageUrl = encodeURIComponent(window.location.href);
+            function getShareText() {
+                const ref = referenceEl.textContent || '';
+                const msg = reflectionEl.textContent || '';
+                let excerpt = msg.trim().substring(0, 100);
+                if (msg.length > 100) excerpt += '...';
+                const prefix = currentLang === 'bn' ? 'আজকের ভক্তি' : 'Today\'s Devotion';
+                const readMore = currentLang === 'bn' ? 'আরও পড়ুন' : 'Read more';
+                return `${prefix} – ${ref}\n\n${excerpt}\n\n${readMore}: ${window.location.href}`;
+            }
+            function getShareTextEncoded() {
+                return encodeURIComponent(getShareText());
+            }
+
+            const simpleFbBtn = document.getElementById('shareSimpleFacebook');
+            if (simpleFbBtn) {
+                simpleFbBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`, '_blank', 'noopener,noreferrer,width=600,height=400');
+                });
+            }
+            const simpleWaBtn = document.getElementById('shareSimpleWhatsApp');
+            if (simpleWaBtn) {
+                simpleWaBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    window.open(`https://wa.me/?text=${getShareTextEncoded()}`, '_blank', 'noopener,noreferrer');
+                });
+            }
+            const simpleCopyBtn = document.getElementById('copySimpleLink');
+            const simpleCopyText = document.getElementById('copySimpleLinkText');
+            if (simpleCopyBtn && simpleCopyText) {
+                simpleCopyBtn.addEventListener('click', function () {
+                    navigator.clipboard.writeText(window.location.href).then(function () {
+                        simpleCopyText.textContent = uiText[currentLang].copied;
+                        setTimeout(() => simpleCopyText.textContent = uiText[currentLang].copyLink, 2000);
+                    }).catch(function () {
+                        simpleCopyText.textContent = uiText[currentLang].copyFail;
+                        setTimeout(() => simpleCopyText.textContent = uiText[currentLang].copyLink, 2000);
+                    });
+                });
+            }
+
+            // Navigation day +/- 1
+            function shiftDay(delta) {
+                const d = new Date(selectedDate);
+                d.setDate(selectedDate.getDate() + delta);
+                selectedDate = d;
+                renderAll();
+            }
+            if (prevDayBtn) prevDayBtn.addEventListener('click', () => shiftDay(-1));
+            if (nextDayBtn) nextDayBtn.addEventListener('click', () => shiftDay(1));
+            if (prevBtn) prevBtn.addEventListener('click', e => { e.preventDefault(); shiftDay(-1); });
+            if (nextBtn) nextBtn.addEventListener('click', e => { e.preventDefault(); shiftDay(1); });
+            if (todayBtn) todayBtn.addEventListener('click', () => { selectedDate = today; renderAll(); });
+
+            // Jump controls
+            if (goToDateBtn) {
+                goToDateBtn.addEventListener('click', () => {
+                    const monthIdx = parseInt(monthSelect.value, 10);
+                    const day = parseInt(daySelect.value, 10);
+                    const year = today.getFullYear(); // keep current year; year hidden in UI
+                    const d = new Date(year, monthIdx, day);
+                    if (!isNaN(d)) {
+                        selectedDate = d;
+                        renderAll();
+                    }
+                });
+            }
+
+            // Language toggle
+            function applyUiTranslations(lang) {
+                const t = uiText[lang] || uiText.en;
+                const heroTitle = document.getElementById('heroTitle');
+                const heroSubtitle = document.getElementById('heroSubtitle');
+                const sharePrompt = document.getElementById('sharePrompt');
+                const prevLabel = document.getElementById('prevDevotionLabel');
+                const nextLabel = document.getElementById('nextDevotionLabel');
+                const shareFacebookLabel = document.getElementById('shareFacebookLabel');
+                const shareWhatsAppLabel = document.getElementById('shareWhatsAppLabel');
+                const copyLinkText = document.getElementById('copySimpleLinkText');
+                const shareFacebookBtn = document.getElementById('shareSimpleFacebook');
+                const shareWhatsAppBtn = document.getElementById('shareSimpleWhatsApp');
+                const copyLinkBtn = document.getElementById('copySimpleLink');
+                const reflectionHeading = document.getElementById('reflectionHeading');
+                const prayerHeading = document.getElementById('prayerHeading');
+                const actionSectionTitle = document.getElementById('actionSectionTitle');
+                const actionSectionDesc = document.getElementById('actionSectionDesc');
+                const actionPrayerTitle = document.getElementById('actionPrayerTitle');
+                const actionPrayerDesc = document.getElementById('actionPrayerDesc');
+                const actionServicesTitle = document.getElementById('actionServicesTitle');
+                const actionServicesDesc = document.getElementById('actionServicesDesc');
+                const actionTestimoniesTitle = document.getElementById('actionTestimoniesTitle');
+                const actionTestimoniesDesc = document.getElementById('actionTestimoniesDesc');
+
+                if (heroTitle) heroTitle.textContent = t.heroTitle;
+                if (heroSubtitle) heroSubtitle.textContent = t.heroSubtitle;
+                if (sharePrompt) sharePrompt.textContent = t.sharePrompt;
+                if (prevLabel) prevLabel.textContent = t.prevDevotion;
+                if (nextLabel) nextLabel.textContent = t.nextDevotion;
+                if (goToDateBtn) goToDateBtn.textContent = t.go;
+                if (todayBtn) todayBtn.textContent = t.today;
+                if (shareFacebookLabel) shareFacebookLabel.textContent = t.facebook;
+                if (shareWhatsAppLabel) shareWhatsAppLabel.textContent = t.whatsapp;
+                if (copyLinkText) copyLinkText.textContent = t.copyLink;
+                if (headerSubtitle) headerSubtitle.textContent = t.devotionSubtitle;
+                if (dateStrip) dateStrip.setAttribute('aria-label', t.ariaChooseDate);
+                if (prevDayBtn) prevDayBtn.setAttribute('aria-label', t.ariaPrevDay);
+                if (nextDayBtn) nextDayBtn.setAttribute('aria-label', t.ariaNextDay);
+                if (shareFacebookBtn) shareFacebookBtn.setAttribute('aria-label', t.ariaShareFacebook);
+                if (shareWhatsAppBtn) shareWhatsAppBtn.setAttribute('aria-label', t.ariaShareWhatsApp);
+                if (copyLinkBtn) copyLinkBtn.setAttribute('aria-label', t.ariaCopyLink);
+                if (prevBtn) prevBtn.setAttribute('aria-label', t.ariaPrevDevotion);
+                if (nextBtn) nextBtn.setAttribute('aria-label', t.ariaNextDevotion);
+                if (reflectionHeading) reflectionHeading.textContent = t.reflectionHeading;
+                if (prayerHeading) prayerHeading.textContent = t.prayerHeading;
+                if (actionSectionTitle) actionSectionTitle.textContent = t.actionSectionTitle;
+                if (actionSectionDesc) actionSectionDesc.textContent = t.actionSectionDesc;
+                if (actionPrayerTitle) actionPrayerTitle.textContent = t.actionPrayerTitle;
+                if (actionPrayerDesc) actionPrayerDesc.textContent = t.actionPrayerDesc;
+                if (actionServicesTitle) actionServicesTitle.textContent = t.actionServicesTitle;
+                if (actionServicesDesc) actionServicesDesc.textContent = t.actionServicesDesc;
+                if (actionTestimoniesTitle) actionTestimoniesTitle.textContent = t.actionTestimoniesTitle;
+                if (actionTestimoniesDesc) actionTestimoniesDesc.textContent = t.actionTestimoniesDesc;
+            }
+
+            function setLang(lang) {
+                currentLang = lang;
+                langEnBtn.classList.toggle('active', lang === 'en');
+                langBnBtn.classList.toggle('active', lang === 'bn');
+                applyUiTranslations(lang);
+                renderDevotion();
+            }
+            if (langEnBtn) langEnBtn.addEventListener('click', () => setLang('en'));
+            if (langBnBtn) langBnBtn.addEventListener('click', () => setLang('bn'));
+
+            function renderAll() {
+                populateSelectors();
+                renderDateStrip();
+                applyUiTranslations(currentLang);
+                renderDevotion();
+                highlightSelected();
+            }
+
+            function highlightSelected() {
+                const pills = dateStrip.querySelectorAll('.date-pill');
+                pills.forEach(p => {
+                    const key = p.getAttribute('data-date');
+                    if (key === toDateKey(selectedDate)) {
+                        p.classList.add('active');
+                        p.setAttribute('aria-current', 'date');
+                    } else {
+                        p.classList.remove('active');
+                        p.removeAttribute('aria-current');
+                    }
+                });
+            }
+
+            populateSelectors();
+            renderAll();
+        }
+
+        // Wait for devotions to load (or fail) then initialize once.
+        let initialized = false;
+        function startDevotions() {
+            if (initialized) return;
+            initialized = true;
+            initializeDevotions();
+        }
+
+        if (window.DEVOTIONS && window.DEVOTIONS.length) {
+            startDevotions();
+        } else {
+            window.addEventListener('devotionsLoaded', startDevotions);
+            window.addEventListener('devotionsLoadError', startDevotions);
+            document.addEventListener('DOMContentLoaded', function () {
+                if (window.DEVOTIONS) startDevotions();
+            });
+        }
+    </script>
+
+    <!-- Sticky Header Script (Page-specific) -->
+    <script>
+        // ============================================
+        // NAVIGATION LOCK — All navigation logic moved to navigation.js?v=20260125c
+        // Only sticky header behavior kept here
+        // ============================================
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js?v=20260125c"></script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+    <script src="devotions-db-2026.js"></script>
+    <script src="devotions-data.js"></script>
+</body>
+
+</html>

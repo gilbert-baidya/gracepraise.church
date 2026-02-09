@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .lang-buttons {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #667eea;
+            background: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #667eea;
+            color: white;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+        #google_translate_element {
+            margin: 20px 0;
+        }
+    </style>
+    <link rel="stylesheet" href="logo-styles.css">
+</head>
+<body>
+    <h1>Google Translate Test Page</h1>
+    <p>This is a test page to verify Google Translate functionality works correctly.</p>
+    <p>Welcome to Grace and Praise Bangladeshi Church. We are a vibrant Christian community.</p>
+    
+    <div class="status" id="status">Status: Loading Google Translate...</div>
+    
+    <div id="google_translate_element"></div>
+    
+    <div class="lang-buttons">
+        <button onclick="changeLanguage('en')">🇺🇸 English</button>
+        <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+        <button onclick="changeLanguage('bn')">🇧🇩 বাংলা</button>
+        <button onclick="changeLanguage('hi')">🇮🇳 हिन्दी</button>
+        <button onclick="changeLanguage('ar')">🇸🇦 العربية</button>
+        <button onclick="changeLanguage('zh-CN')">🇨🇳 中文</button>
+    </div>
+    
+    <h2>Test Content</h2>
+    <p>Sunday Service: 5:00 PM - 7:30 PM</p>
+    <p>Location: 1325 Richardson Street, San Bernardino, CA 92408</p>
+    <p>Everyone is welcome to join our worship service.</p>
+    
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,bn,hi,ur,ar,zh-CN,pt,fr',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+        
+        document.getElementById('status').innerHTML = 'Status: Google Translate loaded successfully!';
+        
+        // Check for the select element
+        setTimeout(function() {
+            var select = document.querySelector('.goog-te-combo');
+            if (select) {
+                document.getElementById('status').innerHTML += '<br>Translation widget found! You can now use the buttons below.';
+            } else {
+                document.getElementById('status').innerHTML += '<br>⚠️ Translation widget not found yet. Waiting...';
+            }
+        }, 2000);
+    }
+    
+    function changeLanguage(lang) {
+        var retryCount = 0;
+        var maxRetries = 30;
+        
+        var checkInterval = setInterval(function() {
+            var selectField = document.querySelector('.goog-te-combo');
+            
+            if (selectField) {
+                clearInterval(checkInterval);
+                console.log('Found select field, changing to:', lang);
+                selectField.value = lang;
+                selectField.dispatchEvent(new Event('change'));
+                document.getElementById('status').innerHTML = 'Status: Changed language to ' + lang;
+            } else {
+                retryCount++;
+                if (retryCount >= maxRetries) {
+                    clearInterval(checkInterval);
+                    document.getElementById('status').innerHTML = 'Status: ❌ Could not find translation widget after 3 seconds';
+                    console.error('Google Translate widget not found');
+                }
+            }
+        }, 100);
+    }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>
+</html>

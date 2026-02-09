@@ -80,7 +80,7 @@ async function loadChurchLogo() {
 
     if (!isFileProtocol) {
         try {
-            console.log('Loading logo settings from server...');
+            // console.log('Loading logo settings from server...'); // Removed for production
             // Use correct path based on environment
             const logoConfigPath = `${basePath}content/settings/logo.json`;
             const response = await fetch(logoConfigPath);
@@ -94,10 +94,10 @@ async function loadChurchLogo() {
                     logoFallback: pathPrefix + settings.logoFallback,
                     logoDarkFallback: pathPrefix + settings.logoDarkFallback
                 };
-                console.log('Logo settings loaded from JSON:', logoSettings);
+                // console.log('Logo settings loaded from JSON:', logoSettings); // Removed for production
             }
         } catch (error) {
-            console.log('Using default logo settings:', error.message);
+            // console.log('Using default logo settings:', error.message); // Removed for production
             // Adjust default paths based on directory depth
             logoSettings = {
                 ...logoSettings,
@@ -108,7 +108,7 @@ async function loadChurchLogo() {
             };
         }
     } else {
-        console.log('File protocol detected - using embedded logo settings');
+        // console.log('File protocol detected - using embedded logo settings'); // Removed for production
         // Apply prefix to all paths
         logoSettings = {
             ...logoSettings,
@@ -211,7 +211,7 @@ function updateLogoDisplay() {
                 logo.textContent = logoSettings.abbreviation || 'GPBC';
             };
         } else {
-            console.log('No logo image, using text:', logoSettings.abbreviation);
+            // console.log('No logo image, using text:', logoSettings.abbreviation); // Removed for production
             // No logo - use abbreviation text
             logo.textContent = logoSettings.abbreviation || 'GPBC';
         }

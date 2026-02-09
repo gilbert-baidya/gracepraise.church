@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Give Online - Church Donations | Grace and Praise Bangladeshi Church</title>
+    <meta name="title" content="Give Online - Church Donations | Grace and Praise Bangladeshi Church">
+    <meta name="description" content="Support our Bangladeshi Christian church in San Bernardino through secure online donations. Tax-deductible giving helps fund ministry, worship, community outreach, and nonprofit mission work. Multiple payment options available.">
+    <meta name="keywords" content="church donations, online giving, nonprofit donation, Bangladeshi Christian church, church tithes offerings, tax deductible church donation, San Bernardino church giving, secure online donation, ministry support, community outreach funding">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://gilbert-baidya.github.io/gracepraise.church/give.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gilbert-baidya.github.io/gracepraise.church/give.html">
+    <meta property="og:title" content="Give - Support Grace and Praise Bangladeshi Church">
+    <meta property="og:description" content="Support GPBC through tithes, offerings, and donations. Multiple giving options available to help serve our community.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://gilbert-baidya.github.io/gracepraise.church/give.html">
+    <meta property="twitter:title" content="Give - Support GPBC">
+    <meta property="twitter:description" content="Support GPBC through tithes and offerings. Multiple giving options available.">
+    
+    <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="countdown.css">
+    
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: hidden !important;
+                position: relative;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe { max-width: 100%; height: auto; }
+        section, main, .hero { width: 100%; max-width: 100%; }
+    </style>
+    
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAWMwhMkl8vYEf72tWcWD1YYF7D1LkudwwjyWdOCJBwgvYrJ2uTshXERm7DvP4TkT4rTjMzMLA6rmCK60&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        /* Give Page Specific Styles - Professional & Compact */
+        
+        /* Reduce vertical spacing throughout */
+        .welcome {
+            padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md) var(--spacing-md) !important;
+        }
+        
+        .next-step {
+            padding: var(--spacing-md) var(--spacing-md) var(--spacing-xl) var(--spacing-md) !important;
+        }
+        
+        /* Subtle cross watermark */
+        .welcome-content::before {
+            content: '✝';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: var(--color-border);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        
+        .welcome-content {
+            position: relative;
+        }
+        
+        /* Amount Button Interactions */
+        .amount-btn:hover {
+            background: var(--color-primary) !important;
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.2);
+        }
+        
+        .amount-btn.active {
+            background: var(--color-primary) !important;
+            color: white !important;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            [style*="grid-template-columns: repeat(4"] {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+            
+            [style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+            
+            [style*="grid-template-columns: repeat(auto-fit"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        
+        /* Print friendly */
+        @media print {
+            header, footer, .mobile-overlay {
+                display: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="logo-styles.css">
+</head>
+<body>
+    <!-- Skip to main content for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Sticky Header/Nav -->
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="redesign-mockup.html" class="logo">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+                </a>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="redesign-mockup.html#live">LIVE</a></li>
+                    <li><a href="redesign-mockup.html">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="about.html">About Overview</a></li>
+                            <li><a href="history.html">Our History</a></li>
+                            <li><a href="mission.html">Our Mission</a></li>
+                            <li><a href="leadership.html">Our Leadership</a></li>
+                            <li><a href="beliefs.html">Our Beliefs</a></li>
+                            <li><a href="core-values.html">Our Core Values</a></li>
+                            <li><a href="position-papers.html">Position Papers</a></li>
+                            <li><a href="testimonies.html">Testimonies</a></li>
+                            <li><a href="songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="redesign-mockup.html#next-service">Next Service</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="prayer-request.html">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html" class="active">Give</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="mobile-overlay"></div>
+    </header>
+
+    <main id="main-content">
+
+    <!-- PAGE INTRO (Ultra Compact) -->
+    <section class="welcome">
+        <div class="welcome-content">
+            <h1 style="margin-bottom: var(--spacing-sm);">Give</h1>
+            <p class="intro" style="margin-bottom: var(--spacing-xs);">Giving is an act of worship. Your generosity supports God's work through our church.</p>
+            <p style="font-size: var(--font-xs); color: var(--color-text-light); font-style: italic; margin: 0;">"Each of you should give what you have decided in your heart to give." — 2 Corinthians 9:7</p>
+        </div>
+    </section>
+
+    <!-- PAYMENT METHOD SELECTION (CORE UX) -->
+    <section class="next-step">
+        <div style="max-width: 500px; margin: 0 auto; position: relative;">
+            
+            <!-- Subtle cross icon -->
+            <div style="position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 1rem; color: var(--color-border); opacity: 0.2;" aria-hidden="true">✝</div>
+            
+            <!-- Payment Method Tabs -->
+            <div class="payment-tabs" role="tablist">
+                <button class="payment-tab active" role="tab" aria-selected="true" aria-controls="online-panel" id="online-tab" data-panel="online">
+                    💳 Online Payment
+                </button>
+                <button class="payment-tab" role="tab" aria-selected="false" aria-controls="qr-panel" id="qr-tab" data-panel="qr">
+                    📱 QR Code
+                </button>
+                <button class="payment-tab" role="tab" aria-selected="false" aria-controls="bank-panel" id="bank-tab" data-panel="bank">
+                    🏦 Bank Transfer
+                </button>
+            </div>
+
+            <!-- ONLINE PAYMENT PANEL -->
+            <div id="online-panel" class="payment-panel active" role="tabpanel" aria-labelledby="online-tab">
+                <div style="background: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); border: 1px solid var(--color-border); box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    
+                    <!-- Amount Selection -->
+                    <div class="form-group" style="margin-bottom: var(--spacing-md);">
+                        <label style="margin-bottom: var(--spacing-xs);">Amount</label>
+                        <div class="amount-grid">
+                            <button class="amount-btn" data-amount="25">$25</button>
+                            <button class="amount-btn" data-amount="50">$50</button>
+                            <button class="amount-btn" data-amount="100">$100</button>
+                            <button class="amount-btn" data-amount="custom">Custom</button>
+                        </div>
+                        <input type="number" id="customAmount" class="custom-amount-input" placeholder="Enter amount" style="display: none; margin-top: var(--spacing-xs);" min="1">
+                    </div>
+
+                    <!-- Purpose Selection -->
+                    <div class="form-group" style="margin-bottom: var(--spacing-md);">
+                        <label for="purpose" style="margin-bottom: var(--spacing-xs);">Purpose</label>
+                        <select id="purpose">
+                            <option value="general">Offering</option>
+                            <option value="tithe">Tithe</option>
+                            <option value="missions">Mission</option>
+                        </select>
+                    </div>
+
+                    <!-- PayPal Button Container -->
+                    <div style="margin-top: var(--spacing-md);">
+                        <div id="paypal-container-V3AF32ZHJSAME"></div>
+                        <script>
+                          paypal.HostedButtons({
+                            hostedButtonId: "V3AF32ZHJSAME",
+                          }).render("#paypal-container-V3AF32ZHJSAME")
+                        </script>
+                    </div>
+
+                    <!-- Accepted Payment Methods -->
+                    <div style="text-align: center; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid var(--color-border);">
+                        <p style="font-size: var(--font-xs); color: var(--color-text-light); margin: 0; opacity: 0.7;">Visa • Mastercard • Amex • PayPal</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR CODE PANEL -->
+            <div id="qr-panel" class="payment-panel" role="tabpanel" aria-labelledby="qr-tab">
+                <div class="qr-container">
+                    <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-xs); font-size: var(--font-lg);">Scan to Give</h3>
+                    <p style="color: var(--color-text-light); margin-bottom: var(--spacing-md); font-size: var(--font-sm);">Scan with your phone camera or payment app</p>
+                    
+                    <div class="qr-code" id="paypalQR"></div>
+                    
+                    <div style="margin-top: var(--spacing-md); padding: var(--spacing-sm); background: white; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+                        <p style="font-size: var(--font-xs); color: var(--color-text); margin-bottom: var(--spacing-xs);"><strong>PayPal Email</strong></p>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: var(--spacing-sm); flex-wrap: wrap;">
+                            <code style="font-size: var(--font-sm); color: var(--color-text-light); word-break: break-all;">gracepraisebangladeshichurch@gmail.com</code>
+                            <button class="copy-btn" onclick="copyToClipboard('gracepraisebangladeshichurch@gmail.com')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BANK TRANSFER PANEL -->
+            <div id="bank-panel" class="payment-panel" role="tabpanel" aria-labelledby="bank-tab">
+                <div class="bank-details">
+                    <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-md); text-align: center; font-size: var(--font-lg);">Bank Transfer</h3>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Recipient Email:</span>
+                        <div class="detail-value">
+                            <span id="zelle-email">gracepraisebangladeshichurch@gmail.com</span>
+                            <button class="copy-btn" onclick="copyToClipboard('gracepraisebangladeshichurch@gmail.com')">Copy</button>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Recipient Name:</span>
+                        <div class="detail-value">
+                            <span>Grace and Praise Bangladeshi Church</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: var(--spacing-md); text-align: center;">
+                        <p style="font-size: var(--font-xs); color: var(--color-text-light); line-height: var(--leading-normal);">
+                            Open your banking app, select Zelle, and use the email above.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TRUST & TRANSPARENCY (Ultra Compact) -->
+    <section style="background: var(--color-surface); padding: var(--spacing-md);">
+        <div style="max-width: 500px; margin: 0 auto; text-align: center;">
+            <!-- Compact trust badges row -->
+            <div style="display: flex; justify-content: center; gap: var(--spacing-md); flex-wrap: wrap; margin-bottom: var(--spacing-sm);">
+                <span style="display: inline-flex; align-items: center; gap: 4px; font-size: var(--font-xs); color: var(--color-text-light);">
+                    <span style="font-size: 1rem;">🔒</span> Secure
+                </span>
+                <span style="display: inline-flex; align-items: center; gap: 4px; font-size: var(--font-xs); color: var(--color-text-light);">
+                    <span style="font-size: 1rem;">📋</span> Tax-Deductible
+                </span>
+                <span style="display: inline-flex; align-items: center; gap: 4px; font-size: var(--font-xs); color: var(--color-text-light);">
+                    <span style="font-size: 1rem;">✓</span> Transparent
+                </span>
+            </div>
+            <p style="color: var(--color-text-light); font-size: var(--font-xs); line-height: var(--leading-normal); margin: 0;">
+                501(c)(3) Nonprofit • Questions? <a href="mailto:gracepraisebangladeshichurch@gmail.com" style="color: var(--color-primary); text-decoration: underline;">Contact us</a>
+            </p>
+        </div>
+    </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>Grace and Praise Bangladeshi Church</h3>
+                <address>
+                    1325 Richardson Street<br>
+                    San Bernardino, CA 92408
+                </address>
+                <p>📧 gracepraisebangladeshichurch@gmail.com</p>
+            </div>
+
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="redesign-mockup.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Connect</h3>
+                <ul>
+                    <li><a href="prayer-request.html">Prayer Requests</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                    <li><a href="testimonies.html">Testimonies</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.payment-tab');
+        const panels = document.querySelectorAll('.payment-panel');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and panels
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                panels.forEach(p => p.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding panel
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+                const panelId = tab.getAttribute('data-panel') + '-panel';
+                document.getElementById(panelId).classList.add('active');
+            });
+        });
+
+        // Amount button interactions
+        document.querySelectorAll('.amount-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Show/hide custom amount input
+                const customInput = document.getElementById('customAmount');
+                if (this.dataset.amount === 'custom') {
+                    customInput.style.display = 'block';
+                    customInput.focus();
+                } else {
+                    customInput.style.display = 'none';
+                }
+            });
+        });
+
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    // Show success feedback
+                    const btn = event.target;
+                    const originalText = btn.textContent;
+                    btn.textContent = 'Copied!';
+                    btn.style.background = 'var(--color-secondary)';
+                    btn.style.color = 'white';
+                    
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '';
+                        btn.style.color = '';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Copy failed:', err);
+                    alert('Could not copy to clipboard. Please copy manually.');
+                });
+            } else {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    const btn = event.target;
+                    const originalText = btn.textContent;
+                    btn.textContent = 'Copied!';
+                    setTimeout(() => { btn.textContent = originalText; }, 2000);
+                } catch (err) {
+                    alert('Could not copy to clipboard. Please copy manually.');
+                }
+                document.body.removeChild(textarea);
+            }
+        }
+        
+        // Generate QR code on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const paypalQRDiv = document.getElementById('paypalQR');
+            if (paypalQRDiv && typeof QRCode !== 'undefined') {
+                new QRCode(paypalQRDiv, {
+                    text: 'gracepraisebangladeshichurch@gmail.com',
+                    width: 150,
+                    height: 150,
+                    colorDark: '#1e3a5f',
+                    colorLight: '#ffffff'
+                });
+            }
+        });
+    </script>
+    
+    <!-- Schema.org Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "DonateAction",
+        "name": "Donate to Grace and Praise Bangladeshi Church",
+        "description": "Support our nonprofit ministry through secure online church donations. Tax-deductible giving helps fund worship, community outreach, and missions.",
+        "recipient": {
+            "@type": "NGO",
+            "name": "Grace and Praise Bangladeshi Church",
+            "alternateName": "GPBC",
+            "url": "https://gilbert-baidya.github.io/gracepraise.church/",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "1325 Richardson Street",
+                "addressLocality": "San Bernardino",
+                "addressRegion": "CA",
+                "postalCode": "92408",
+                "addressCountry": "US"
+            },
+            "email": "gracepraisebangladeshichurch@gmail.com"
+        }
+    }
+    </script>
+    
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+    
+    <!-- Dropdown menu accessibility script -->
+    <script>
+        // Dropdown menu accessibility and keyboard navigation
+        const navDropdown = document.querySelector('.nav-dropdown');
+        if (navDropdown) {
+            const dropdownToggle = navDropdown.querySelector('a[aria-haspopup]');
+            const dropdownMenu = navDropdown.querySelector('.dropdown-menu');
+            const dropdownLinks = dropdownMenu ? dropdownMenu.querySelectorAll('a') : [];
+
+            if (dropdownToggle) {
+                dropdownToggle.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const isExpanded = dropdownToggle.getAttribute('aria-expanded') === 'true';
+                        dropdownToggle.setAttribute('aria-expanded', !isExpanded);
+                        
+                        if (!isExpanded && dropdownLinks.length > 0) {
+                            dropdownLinks[0].focus();
+                        }
+                    } else if (e.key === 'Escape') {
+                        dropdownToggle.setAttribute('aria-expanded', 'false');
+                        dropdownToggle.focus();
+                    }
+                });
+
+                navDropdown.addEventListener('mouseenter', () => {
+                    dropdownToggle.setAttribute('aria-expanded', 'true');
+                });
+
+                navDropdown.addEventListener('mouseleave', () => {
+                    dropdownToggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+
+            dropdownLinks.forEach((link, index) => {
+                link.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (index < dropdownLinks.length - 1) {
+                            dropdownLinks[index + 1].focus();
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (index > 0) {
+                            dropdownLinks[index - 1].focus();
+                        } else {
+                            dropdownToggle.focus();
+                        }
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        dropdownToggle.setAttribute('aria-expanded', 'false');
+                        dropdownToggle.focus();
+                    }
+                });
+            });
+        }
+
+        // Header scroll effect
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+    
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js?v=20260125c"></script>
+</body>
+</html>
