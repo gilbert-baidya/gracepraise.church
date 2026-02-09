@@ -10,6 +10,11 @@
         content="Join Grace and Praise Bangladeshi Church in San Bernardino for Sunday worship at 5 PM. A welcoming Bengali Christian community serving families in Bengali and English.">
     <link rel="canonical" href="https://gracepraise.church/">
 
+    <!-- Favicons -->
+    <link rel="icon" href="images/logo/GPBC_Favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+
     <!-- Open Graph Meta Tags for Social Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Grace and Praise Bangladeshi Church — San Bernardino, CA">
@@ -593,8 +598,8 @@
                             width="800" height="600">
                     </div>
                     <div class="bento-card card-3 float-3">
-                        <img loading="lazy" src="images/hero-worship-authentic.png" alt="Sanctuary Atmosphere" class="card-img"
-                            loading="lazy" width="800" height="600">
+                        <img loading="lazy" src="images/hero-worship-authentic.png" alt="Sanctuary Atmosphere"
+                            class="card-img" loading="lazy" width="800" height="600">
                     </div>
                 </div>
             </div>
@@ -4825,17 +4830,7 @@
                         ease: "power4.out"
                     });
 
-                    gsap.from(".bento-item", {
-                        scrollTrigger: {
-                            trigger: ".bento-grid",
-                            start: "top 80%",
-                        },
-                        y: 40,
-                        opacity: 0,
-                        duration: 1,
-                        stagger: 0.1,
-                        ease: "expo.out"
-                    });
+                    /* Removed: bento-grid/bento-item animation (elements no longer in DOM) */
                 }
             }
 
