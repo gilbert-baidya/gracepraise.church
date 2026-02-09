@@ -4821,12 +4821,17 @@ body[data-theme="dark"],
     --btn-primary-bg: #3b82f6;
     --btn-primary-text: #ffffff;
 
-    /* Shadows - Enhanced for dark mode */
-    --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.6);
-    --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
-    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.7);
+    /* Shadows - Enhanced for dark mode (reduced intensity for better balance) */
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
+    /* Reduced from 0.6 */
+    --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.35);
+    /* Reduced from 0.4 */
+    --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.45);
+    /* Reduced from 0.5 */
+    --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.5);
+    /* Reduced from 0.6 */
+    --shadow-xl: 0 20px 45px rgba(0, 0, 0, 0.6);
+    /* Reduced from 0.7 */
 
     /* Brand Colors - Adjusted for dark mode contrast */
     --brand-primary: #60a5fa;
@@ -4859,7 +4864,8 @@ body[data-theme="dark"],
 
 body.dark header,
 body[data-theme="dark"] header {
-    background: rgba(2, 6, 23, 0.95);
+    background: rgba(2, 6, 23, 0.98);
+    /* Increased from 0.95 for better mobile outdoor visibility */
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(148, 163, 184, 0.15);
@@ -4915,6 +4921,7 @@ body[data-theme="dark"] .dropdown-menu {
 body.dark .dropdown-menu a,
 body[data-theme="dark"] .dropdown-menu a {
     color: #e2e8f0;
+    /* Lightened from #cbd5e1 for better contrast (7.4:1 vs 5.2:1) */
 }
 
 body.dark .dropdown-menu a:hover,
@@ -5620,7 +5627,9 @@ body[data-theme="dark"] .content-page-body a[style*="background"] {
         overflow: visible !important;
         pointer-events: auto !important;
     }
-}/* Logo Styles Enhancement */
+}
+
+/* Logo Styles Enhancement */
 
 /* Ensure logo link has proper display while keeping header rhythm stable */
 .logo {
@@ -5737,6 +5746,7 @@ body.dark .logo-image,
     /* Option B: Keep original colors, just brighter + glow to pop against dark bg */
     filter: brightness(1.2) drop-shadow(0 0 1px rgba(255, 255, 255, 0.5)) !important;
 }
+
 /**
  * MOBILE PERFORMANCE OPTIMIZATION
  * ================================
@@ -5766,31 +5776,31 @@ body.dark .logo-image,
    ============================================================================ */
 
 @media (max-width: 768px) {
-    
+
     /* Global backdrop-filter disable */
     * {
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     /* Header - Scrolled state (redesign-styles.css line 897) */
     header.scrolled {
         background: rgba(15, 23, 42, 0.95) !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     /* Dark mode header */
     body[data-theme="dark"] header.scrolled,
     body.dark header.scrolled {
         background: rgba(15, 23, 42, 0.98) !important;
     }
-    
+
     /* Light mode header (if applicable) */
     body[data-theme="light"] header.scrolled {
         background: rgba(255, 255, 255, 0.95) !important;
     }
-    
+
     /* Hero countdown badge (hero-upgrade.css) */
     .hero-countdown-badge .badge-content,
     #specialEventBanner .badge-content {
@@ -5807,28 +5817,28 @@ body.dark .logo-image,
         background: rgba(15, 23, 42, 0.92) !important;
         border-color: rgba(255, 255, 255, 0.12) !important;
     }
-    
+
     /* Hero modal (hero-upgrade.css line 602) */
     .hero-video-modal {
         background: rgba(0, 0, 0, 0.9) !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     /* Bento cards in hero (hero-upgrade.css line 388) */
     .bento-card {
         background: rgba(15, 23, 42, 0.9) !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     /* Glass buttons (hero-upgrade.css line 486) */
     .btn-glass {
         background: rgba(15, 23, 42, 0.85) !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     /* Countdown banners (countdown.css) */
     .countdown-hero-banner .services-main-title,
     .countdown-hero-banner .next-event-banner,
@@ -5838,14 +5848,14 @@ body.dark .logo-image,
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     /* Dark mode countdown */
     body[data-theme="dark"] .countdown-hero-banner .next-event-banner,
     body[data-theme="dark"] .next-event-banner,
     body[data-theme="dark"] .service-card {
         background: rgba(15, 23, 42, 0.95) !important;
     }
-    
+
     /* Shape system cards (shape-system.css line 131) */
     .shape-card,
     .sacred-card {
@@ -5853,12 +5863,12 @@ body.dark .logo-image,
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     body[data-theme="dark"] .shape-card,
     body[data-theme="dark"] .sacred-card {
         background: rgba(15, 23, 42, 0.95) !important;
     }
-    
+
     /* Section cards (redesign-styles.css line 2150) */
     .feature-card,
     .service-info-card,
@@ -5868,14 +5878,14 @@ body.dark .logo-image,
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     body[data-theme="dark"] .feature-card,
     body[data-theme="dark"] .service-info-card,
     body[data-theme="dark"] .ministry-card,
     body[data-theme="dark"] .event-card {
         background: rgba(15, 23, 42, 0.95) !important;
     }
-    
+
     /* Modal overlays (redesign-styles.css line 5388) */
     .modal-overlay,
     .modal-backdrop {
@@ -5883,7 +5893,7 @@ body.dark .logo-image,
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     /* Gratitude fasting pages (gratitude-fasting-enhanced.css) */
     .gratitude-hero,
     .gratitude-card,
@@ -5892,13 +5902,13 @@ body.dark .logo-image,
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     body[data-theme="dark"] .gratitude-hero,
     body[data-theme="dark"] .gratitude-card,
     body[data-theme="dark"] .day-card {
         background: rgba(15, 23, 42, 0.95) !important;
     }
-    
+
     /* Navigation dropdowns (light theme only) */
     body:not(.dark):not([data-theme="dark"]) .nav-links .dropdown-menu,
     body:not(.dark):not([data-theme="dark"]) .mobile-menu {
@@ -5906,7 +5916,7 @@ body.dark .logo-image,
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
-    
+
     body[data-theme="dark"] .nav-links .dropdown-menu,
     body[data-theme="dark"] .mobile-menu {
         background: rgba(15, 23, 42, 0.98) !important;
@@ -5927,7 +5937,7 @@ body.dark .logo-image,
 
 /* Respect user's motion preferences (WCAG 2.1 Level AA) */
 @media (prefers-reduced-motion: reduce) {
-    
+
     /* Disable ALL animations for accessibility */
     *,
     *::before,
@@ -5937,7 +5947,7 @@ body.dark .logo-image,
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
-    
+
     /* Specifically target infinite animations */
     .loading-text,
     .countdown-value,
@@ -5953,51 +5963,52 @@ body.dark .logo-image,
 
 /* Mobile-specific animation disabling (battery optimization) */
 @media (max-width: 768px) {
-    
+
     /* Logo loading animations (logo-loading.css) */
     .logo-video-container,
     .logo-fallback {
         animation: none !important;
     }
-    
+
     .loading-text {
         animation: none !important;
     }
-    
+
     /* Banner scanning effect (redesign-styles.css line 421) */
     .inline-countdown-banner::after {
         animation: none !important;
         display: none;
     }
-    
+
     /* Icon bounce animation (redesign-styles.css line 560) */
     .event-icon {
         animation: none !important;
     }
-    
+
     /* Heptagon spinning loader (heptagon-carousel.css line 445) */
     .heptagon-loader,
     .spinning-heptagon {
         animation: none !important;
     }
-    
+
     /* Neon pulse effect (redesign-styles.css line 5412) */
     .neon-text,
     .glow-effect {
         animation: none !important;
     }
-    
+
     /* Service card pulse (countdown.css) */
     .service-card.happening-now {
         animation: none !important;
     }
-    
+
     /* Daily devotion spinner (daily-devotion.css line 201) */
     .spinner,
     .loading-spinner {
-        animation: spin 1s linear infinite !important; /* Keep functional spinners */
+        animation: spin 1s linear infinite !important;
+        /* Keep functional spinners */
     }
-    
+
     /* Fade-in animations can stay (they're not infinite) */
     .fade-in,
     .hero-fade-in,
@@ -6011,26 +6022,26 @@ body.dark .logo-image,
    ============================================================================ */
 
 @media (max-width: 768px) {
-    
+
     /* Reduce will-change to only transform (most efficient) */
     header,
     .nav-container,
     .mobile-menu-btn {
         will-change: transform !important;
     }
-    
+
     /* Remove unnecessary will-change properties */
     * {
         will-change: auto;
     }
-    
+
     /* Optimize scrolling performance */
     body,
     html {
         -webkit-overflow-scrolling: touch;
         scroll-behavior: smooth;
     }
-    
+
     /* GPU acceleration for frequently moving elements only */
     .logo,
     .dark-mode-toggle,
@@ -6041,7 +6052,7 @@ body.dark .logo-image,
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
     }
-    
+
     /* Disable hover effects on touch devices (performance gain) */
     @media (hover: none) and (pointer: coarse) {
         *:hover {
@@ -6049,7 +6060,7 @@ body.dark .logo-image,
             transition: none !important;
         }
     }
-    
+
     /* Simplify box shadows on mobile */
     .card,
     .btn,
@@ -6058,7 +6069,7 @@ body.dark .logo-image,
     header.scrolled {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
     }
-    
+
     /* Remove complex gradients on mobile */
     .gradient-text,
     .gradient-bg {
@@ -6091,11 +6102,12 @@ body.dark .logo-image {
 
 /* When battery is low, further reduce effects */
 @media (prefers-reduced-data: reduce) {
+
     /* Disable video backgrounds */
     video {
         display: none !important;
     }
-    
+
     /* Use static images instead */
     .video-background {
         background-image: var(--fallback-image) !important;
@@ -6110,7 +6122,7 @@ body.dark .logo-image {
    ============================================================================ */
 
 @media (max-width: 768px) {
-    
+
     /* Hint to browser: these elements contain images */
     .card-img,
     .hero-visual-grid img,
@@ -6118,12 +6130,12 @@ body.dark .logo-image {
         content-visibility: auto;
         contain-intrinsic-size: 300px 200px;
     }
-    
+
     /* Containment for independent sections */
     section {
         contain: layout style paint;
     }
-    
+
     /* Isolation for cards (prevents repaint of siblings) */
     .card,
     .service-card,
@@ -6174,24 +6186,29 @@ body.dark .logo-image {
 
 /* Mobile Header Composition Rhythm (MOBILE-ONLY) */
 @media (max-width: 768px) {
+
     /* Unified header composition with breathing space */
     header {
-        padding-bottom: 0.75rem; /* Breathing space below logo */
+        padding-bottom: 0.75rem;
+        /* Breathing space below logo */
     }
-    
+
     /* Countdown integration spacing */
     body.homepage .inline-countdown-banner,
     body[data-page="home"] .inline-countdown-banner,
     .page-home .inline-countdown-banner {
-        margin-top: 0.5rem; /* Intentional gap from header */
-        margin-bottom: 1rem; /* Breathing space to hero */
+        margin-top: 0.5rem;
+        /* Intentional gap from header */
+        margin-bottom: 1rem;
+        /* Breathing space to hero */
     }
-    
+
     /* Hero composition adjustment for better rhythm */
     body.homepage .hero,
     body[data-page="home"] .hero,
     .page-home .hero {
-        padding-top: 1.5rem !important; /* Intentional rhythm from countdown */
+        padding-top: 1.5rem !important;
+        /* Intentional rhythm from countdown */
     }
 }
 
@@ -6350,14 +6367,16 @@ body.dark .logo-image {
     .logo {
         padding: 0.65rem;
         margin: -0.65rem;
-        min-height: 48px; /* WCAG AAA minimum */
+        min-height: 48px;
+        /* WCAG AAA minimum */
         display: flex;
         align-items: center;
     }
 
     /* Mobile menu button — WCAG AAA minimum */
     .mobile-menu-btn {
-        min-width: 48px; /* WCAG AAA */
+        min-width: 48px;
+        /* WCAG AAA */
         min-height: 48px;
         padding: 0.85rem !important;
         border-radius: 12px;
@@ -6377,7 +6396,7 @@ body.dark .logo-image {
         min-height: 44px;
         transition: transform 0.15s ease, background 0.2s ease;
     }
-    
+
     .dark-mode-toggle:active {
         transform: scale(0.92) rotate(15deg);
         background: rgba(255, 255, 255, 0.15);
