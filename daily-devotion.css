@@ -798,7 +798,7 @@
         /* Action Buttons Section */
         .action-buttons-section {
             max-width: 800px;
-            margin: var(--spacing-xl) auto 0;
+            margin: var(--spacing-2xl) auto 0;
             padding: 0 var(--spacing-md);
             text-align: center;
         }
@@ -806,6 +806,7 @@
         .action-buttons-section h3 {
             color: var(--color-primary);
             font-size: var(--font-xl);
+            margin-top: 1rem;
             margin-bottom: var(--spacing-md);
             font-weight: var(--font-semibold);
         }
@@ -865,15 +866,38 @@
             /* More pronounced lift */
         }
 
-        /* Dark mode action buttons */
-        body[data-theme="dark"] .action-btn {
-            background: #1e293b;
-            border-color: rgba(148, 163, 184, 0.3);
+        /* Dark mode action buttons — Sacred Premium Enhancement */
+        body[data-theme="dark"] .action-btn,
+        body.dark .action-btn {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.4),
+                0 1px 4px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
-        body[data-theme="dark"] .action-btn:hover {
-            background: linear-gradient(to bottom, #1e293b, rgba(255, 255, 0, 0.1));
-            border-color: rgba(148, 163, 184, 0.5);
+        body[data-theme="dark"] .action-btn:hover,
+        body.dark .action-btn:hover {
+            background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 100%);
+            border-color: rgba(212, 160, 23, 0.4);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.5),
+                0 2px 8px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(212, 160, 23, 0.1);
+            transform: translateY(-4px);
+        }
+
+        /* Gold accent for button titles in Dark Mode */
+        body[data-theme="dark"] .action-btn-title,
+        body.dark .action-btn-title {
+            color: #d4a017 !important;
+            text-shadow: 0 0 10px rgba(212, 160, 23, 0.2);
+        }
+
+        body[data-theme="dark"] .action-btn-desc,
+        body.dark .action-btn-desc {
+            color: rgba(148, 163, 184, 0.9);
         }
 
         .action-btn:focus-visible {
@@ -1391,4 +1415,61 @@
                 max-width: 100% !important;
                 height: auto;
             }
+        }
+
+        /* =========================================
+   🌟 DARK MODE ACTION CARDS — SACRED PREMIUM
+   Added at end of file for proper cascade
+   ========================================= */
+
+        /* Dark Mode Action Cards - Structured Depth */
+        body.dark .action-btn,
+        body[data-theme="dark"] .action-btn,
+        html.dark .action-btn {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+            border: 1px solid rgba(148, 163, 184, 0.2) !important;
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.4),
+                0 1px 4px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+        }
+
+        body.dark .action-btn:hover,
+        body[data-theme="dark"] .action-btn:hover,
+        html.dark .action-btn:hover {
+            background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 100%) !important;
+            border-color: rgba(212, 160, 23, 0.5) !important;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.5),
+                0 2px 8px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(212, 160, 23, 0.15) !important;
+            transform: translateY(-4px);
+        }
+
+        /* Gold Sacred Titles in Dark Mode */
+        body.dark .action-btn-title,
+        body[data-theme="dark"] .action-btn-title,
+        html.dark .action-btn-title {
+            color: #d4a017 !important;
+            text-shadow: 0 0 12px rgba(212, 160, 23, 0.25);
+        }
+
+        /* Description text in Dark Mode */
+        body.dark .action-btn-desc,
+        body[data-theme="dark"] .action-btn-desc,
+        html.dark .action-btn-desc {
+            color: rgba(148, 163, 184, 0.9) !important;
+        }
+
+        /* Section header sacred warmth */
+        body.dark .action-buttons-section h3,
+        body[data-theme="dark"] .action-buttons-section h3,
+        html.dark .action-buttons-section h3 {
+            color: #ffffff !important;
+        }
+
+        body.dark .action-buttons-section p,
+        body[data-theme="dark"] .action-buttons-section p,
+        html.dark .action-buttons-section p {
+            color: rgba(148, 163, 184, 0.8) !important;
         }

@@ -12,31 +12,36 @@
 
 :root {
     /* Shape System Colors */
-    --shape-circle-primary: var(--brand-primary); /* Community Blue - Unity */
+    --shape-circle-primary: var(--brand-primary);
+    /* Community Blue - Unity */
     --shape-circle-glow: rgba(59, 130, 246, 0.3);
     --shape-circle-gradient: linear-gradient(135deg, var(--brand-primary) 0%, #6366f1 100%);
-    
-    --shape-rectangle-primary: var(--brand-primary); /* Teaching Gray - Stability */
+
+    --shape-rectangle-primary: var(--brand-primary);
+    /* Teaching Gray - Stability */
     --shape-rectangle-accent: var(--text-muted);
     --shape-rectangle-light: var(--bg-section);
-    
-    --shape-trapezoid-primary: var(--brand-secondary); /* Growth Teal - Movement */
+
+    --shape-trapezoid-primary: var(--brand-secondary);
+    /* Growth Teal - Movement */
     --shape-trapezoid-gradient: linear-gradient(120deg, var(--brand-secondary) 0%, #06b6d4 100%);
     --shape-trapezoid-glow: rgba(20, 184, 166, 0.25);
-    
-    --shape-square-primary: var(--brand-accent); /* Service Gold - Action */
+
+    --shape-square-primary: var(--brand-accent);
+    /* Service Gold - Action */
     --shape-square-shadow: var(--shadow-soft);
     --shape-square-hover: var(--border-highlight);
-    
-    --shape-heptagon-primary: #7c3aed; /* Sacred Purple - Holy */
+
+    --shape-heptagon-primary: #7c3aed;
+    /* Sacred Purple - Holy */
     --shape-heptagon-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
     --shape-heptagon-glow: rgba(124, 58, 237, 0.4);
-    
+
     /* Motion Speeds - Worship-like, Gentle */
     --motion-slow: 1200ms cubic-bezier(0.4, 0, 0.2, 1);
     --motion-medium: 800ms cubic-bezier(0.4, 0, 0.2, 1);
     --motion-gentle: 600ms cubic-bezier(0.33, 1, 0.68, 1);
-    
+
     /* Spiritual Spacing */
     --sacred-space: 4rem;
     --breath-space: 2.5rem;
@@ -48,7 +53,10 @@
    ======================================== */
 
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
@@ -67,7 +75,8 @@
     position: relative;
     width: 100%;
     margin: 0 auto;
-    padding: 0 !important; /* Full bleed potential */
+    padding: 0 !important;
+    /* Full bleed potential */
     overflow: hidden;
 }
 
@@ -87,15 +96,22 @@
     height: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity var(--motion-slow), visibility var(--motion-slow);
+    pointer-events: none;
+    /* FIX: Shorter crossfade (400ms) prevents dual-slide composite overlap */
+    transition: opacity 400ms ease-out, visibility 0ms linear 400ms;
     display: flex;
     align-items: center;
     justify-content: center;
+    /* FIX: Contain each slide to its own layer without over-promoting */
+    contain: layout style paint;
 }
 
 .circle-carousel-item.active {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
+    /* FIX: visibility snaps immediately on IN, opacity fades 400ms */
+    transition: opacity 400ms ease-in, visibility 0ms linear 0ms;
 }
 
 /* Slide Backdrop with authentic imagery */
@@ -104,20 +120,23 @@
     inset: 0;
     background-size: cover;
     background-position: center;
-    transform: scale(1.1); /* Slight zoom for parallax effect */
-    transition: transform 10s ease-out;
+    /* FIX: Removed transform:scale from static state to prevent
+       ancestor-transform + descendant-backdrop-filter conflict on iOS.
+       Ken Burns effect now applied ONLY on active slide. */
 }
 
 .circle-carousel-item.active .slide-backdrop {
-    transform: scale(1);
+    /* FIX: Use a gentler scale to reduce GPU recomposition burden */
+    transform: scale(1.03);
+    transition: transform 8s ease-out;
 }
 
 .slide-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, 
-        rgba(15, 23, 42, 0.4) 0%, 
-        rgba(15, 23, 42, 0.7) 100%);
+    background: linear-gradient(to bottom,
+            rgba(15, 23, 42, 0.4) 0%,
+            rgba(15, 23, 42, 0.7) 100%);
 }
 
 /* The "Halo" Glass Card */
@@ -127,23 +146,55 @@
     width: 90%;
     max-width: 800px;
     padding: 4rem;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    /* FIX: backdrop-filter moved to ::before pseudo-element to isolate
+       it from the slideUpHalo animation (transform + backdrop-filter
+       on same element causes dual GPU composite layers on iOS Safari) */
+    background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 40px; /* Sophisticated soft corners */
+    border-radius: 40px;
     text-align: center;
     color: white;
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
-    animation: slideUpHalo 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    /* FIX: Animation preserved but uses opacity-only entrance
+       (no transform) to avoid promoting this element to a GPU
+       layer that conflicts with ::before backdrop-filter layer */
+    animation: slideUpHalo 1s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+/* FIX: Isolated backdrop-filter on a STATIC pseudo-element.
+   This element has NO transform, NO animation — purely static.
+   Result: single GPU layer for blur, no compositor conflict. */
+.glass-halo-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: -1;
+    /* No transform, no animation, no will-change */
+}
+
+/* FIX: Changed from transform-based to opacity-only animation.
+   Transform during animation on a backdrop-filter parent chain
+   causes iOS Safari to create duplicate composite layers → ghost text.
+   Opacity-only is GPU-efficient and doesn't create layer conflicts. */
 @keyframes slideUpHalo {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-/* Subtle Unity Ring (Internal to card) */
+/* Subtle Unity Ring (Internal to card)
+   FIX: Added isolation:isolate and containment to prevent
+   the infinite rotation from forcing recomposition of the
+   backdrop-filter on the parent glass-halo-card every frame.
+   Also reduced opacity so the ring doesn't fight the blur layer. */
 .unity-ring {
     position: absolute;
     top: 50%;
@@ -151,16 +202,26 @@
     transform: translate(-50%, -50%);
     width: 120%;
     height: 120%;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.15);
     border-radius: 50%;
     pointer-events: none;
-    z-index: -1;
+    z-index: -2;
+    /* FIX: Below the ::before backdrop layer (-1) */
     animation: rotateRing 20s linear infinite;
+    /* FIX: Isolate into own stacking context so rotation
+       doesn't trigger backdrop-filter recomposition */
+    isolation: isolate;
+    contain: layout style;
 }
 
 @keyframes rotateRing {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }
 
 .shape-content-wrapper h2 {
@@ -211,9 +272,18 @@
 }
 
 @media (max-width: 768px) {
-    .circle-carousel { height: 600px; }
-    .glass-halo-card { padding: 2.5rem 1.5rem; border-radius: 30px; }
-    .unity-ring { display: none; }
+    .circle-carousel {
+        height: 600px;
+    }
+
+    .glass-halo-card {
+        padding: 2.5rem 1.5rem;
+        border-radius: 30px;
+    }
+
+    .unity-ring {
+        display: none;
+    }
 }
 
 /* ========================================
@@ -319,6 +389,7 @@
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -467,15 +538,13 @@
     width: 400px;
     height: 400px;
     background: var(--shape-heptagon-gradient);
-    clip-path: polygon(
-        50% 0%,
-        90% 20%,
-        100% 60%,
-        75% 100%,
-        25% 100%,
-        0% 60%,
-        10% 20%
-    );
+    clip-path: polygon(50% 0%,
+            90% 20%,
+            100% 60%,
+            75% 100%,
+            25% 100%,
+            0% 60%,
+            10% 20%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -485,10 +554,13 @@
 }
 
 @keyframes sacredPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         filter: brightness(1);
         transform: scale(1);
     }
+
     50% {
         filter: brightness(1.1);
         transform: scale(1.02);
@@ -580,35 +652,35 @@
         aspect-ratio: 1 / 1;
         max-height: 500px;
     }
-    
+
     .circle-carousel {
         height: 400px;
     }
-    
+
     .shape-trapezoid {
         clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%);
         padding: 2rem 1.5rem;
     }
-    
+
     .shape-square-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
-    
+
     .shape-heptagon {
         width: 300px;
         height: 300px;
     }
-    
+
     .trapezoid-arrow {
         width: 40px;
         height: 40px;
     }
-    
+
     .trapezoid-arrow.left {
         left: 1rem;
     }
-    
+
     .trapezoid-arrow.right {
         right: 1rem;
     }
@@ -618,12 +690,12 @@
     .shape-circle-content {
         padding: 2rem;
     }
-    
+
     .shape-heptagon {
         width: 250px;
         height: 250px;
     }
-    
+
     .shape-heptagon-content h2 {
         font-size: 1.5rem;
     }
@@ -642,6 +714,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -681,9 +754,12 @@
 }
 
 @keyframes upwardCall {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-10px);
     }

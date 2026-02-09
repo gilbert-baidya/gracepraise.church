@@ -7077,3 +7077,436 @@ body.homepage #home {
         gap: 1.5rem !important;
     }
 }
+
+/* =========================================
+   🌟 DAY MODE SACRED BRAND ENHANCEMENTS
+   Fixes from AntiGravity Elite Brand Audit
+   ========================================= */
+
+/* ===== 1. ENHANCED BACKGROUNDS - Warm Undertones ===== */
+body:not(.dark):not([data-theme="dark"]) {
+    --bg-page: #fffcf7;
+    /* Warm cream instead of pure white */
+    --bg-section: #faf8f5;
+    /* Warm off-white */
+    --bg-card: #ffffff;
+    --bg-card-surface: #ffffff;
+
+    /* Enhanced shadows for Day Mode */
+    --shadow-card: 0 8px 32px rgba(15, 23, 42, 0.15), 0 2px 8px rgba(15, 23, 42, 0.08);
+    --shadow-soft: 0 4px 16px rgba(15, 23, 42, 0.12);
+    --shadow-lg: 0 16px 48px rgba(15, 23, 42, 0.18);
+
+    /* Sacred gold with luminance */
+    --gold-sacred: #d4a017;
+    --gold-glow: 0 0 20px rgba(212, 160, 23, 0.3);
+}
+
+/* ===== 2. CARD DEPTH AUTHORITY - Structured Shadows ===== */
+body:not(.dark):not([data-theme="dark"]) .card,
+body:not(.dark):not([data-theme="dark"]) .feature-card,
+body:not(.dark):not([data-theme="dark"]) .stat-card,
+body:not(.dark):not([data-theme="dark"]) .new-here-card,
+body:not(.dark):not([data-theme="dark"]) .ministry-card,
+body:not(.dark):not([data-theme="dark"]) .devotion-card,
+body:not(.dark):not([data-theme="dark"]) .service-detail-item,
+body:not(.dark):not([data-theme="dark"]) .event-card,
+body:not(.dark):not([data-theme="dark"]) .give-card,
+body:not(.dark):not([data-theme="dark"]) .donation-method,
+body:not(.dark):not([data-theme="dark"]) .calendar-event,
+body:not(.dark):not([data-theme="dark"]) .scripture-block,
+body:not(.dark):not([data-theme="dark"]) .reflection-block,
+body:not(.dark):not([data-theme="dark"]) .prayer-block {
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.12),
+        0 1px 4px rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: var(--radius-lg);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+body:not(.dark):not([data-theme="dark"]) .card:hover,
+body:not(.dark):not([data-theme="dark"]) .feature-card:hover,
+body:not(.dark):not([data-theme="dark"]) .ministry-card:hover,
+body:not(.dark):not([data-theme="dark"]) .devotion-card:hover {
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.18),
+        0 2px 8px rgba(15, 23, 42, 0.1);
+    transform: translateY(-2px);
+}
+
+/* ===== 3. HEADER VISUAL AUTHORITY ===== */
+body:not(.dark):not([data-theme="dark"]) header {
+    background: linear-gradient(180deg, rgba(255, 252, 247, 0.98) 0%, rgba(255, 252, 247, 0.95) 100%);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body:not(.dark):not([data-theme="dark"]) header.scrolled {
+    background: rgba(255, 252, 247, 0.97) !important;
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.1);
+}
+
+/* Stronger logo presence in Day Mode */
+body:not(.dark):not([data-theme="dark"]) .logo img,
+body:not(.dark):not([data-theme="dark"]) .logo svg {
+    filter: drop-shadow(0 2px 8px rgba(15, 23, 42, 0.15));
+}
+
+/* Navigation links - more weight */
+body:not(.dark):not([data-theme="dark"]) .nav-links a {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+body:not(.dark):not([data-theme="dark"]) .nav-links a:hover {
+    color: var(--brand-primary);
+}
+
+/* ===== 4. GOLD TYPOGRAPHY LUMINANCE ===== */
+body:not(.dark):not([data-theme="dark"]) .brand-accent,
+body:not(.dark):not([data-theme="dark"]) .gold-text,
+body:not(.dark):not([data-theme="dark"]) .hero-tagline,
+body:not(.dark):not([data-theme="dark"]) .sacred-text {
+    color: #b8860b !important;
+    /* Dark gold for Day Mode visibility */
+    text-shadow: 0 1px 2px rgba(184, 134, 11, 0.2);
+}
+
+/* Hero tagline special treatment */
+body:not(.dark):not([data-theme="dark"]) .hero .tagline,
+body:not(.dark):not([data-theme="dark"]) .hero-tagline {
+    color: #996515 !important;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-shadow: 0 2px 4px rgba(153, 101, 21, 0.15);
+}
+
+/* Section headings with sacred warmth */
+body:not(.dark):not([data-theme="dark"]) h1,
+body:not(.dark):not([data-theme="dark"]) h2 {
+    color: #0f172a;
+}
+
+body:not(.dark):not([data-theme="dark"]) .section-title,
+body:not(.dark):not([data-theme="dark"]) .section-heading {
+    color: #1e3a5f;
+    /* Deep sacred blue */
+}
+
+/* ===== 5. SHARE MODULE INTEGRATION ===== */
+body:not(.dark):not([data-theme="dark"]) .share-section,
+body:not(.dark):not([data-theme="dark"]) .share-links,
+body:not(.dark):not([data-theme="dark"]) .social-share {
+    background: linear-gradient(135deg, #faf8f5 0%, #f5f0e8 100%);
+    border: 1px solid rgba(184, 134, 11, 0.15);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+}
+
+body:not(.dark):not([data-theme="dark"]) .share-section button,
+body:not(.dark):not([data-theme="dark"]) .share-links a,
+body:not(.dark):not([data-theme="dark"]) .social-share a {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(30, 58, 95, 0.2);
+}
+
+body:not(.dark):not([data-theme="dark"]) .share-section button:hover,
+body:not(.dark):not([data-theme="dark"]) .share-links a:hover,
+body:not(.dark):not([data-theme="dark"]) .social-share a:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+}
+
+/* ===== 6. GIVE PAGE PREMIUM TREATMENT ===== */
+body:not(.dark):not([data-theme="dark"]) .give-card.active,
+body:not(.dark):not([data-theme="dark"]) .donation-method.active,
+body:not(.dark):not([data-theme="dark"]) .payment-option.active {
+    border: 2px solid var(--brand-primary);
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15),
+        0 0 0 4px rgba(37, 99, 235, 0.08);
+    /* Subtle halo, not neon */
+}
+
+/* Trust badges - more institutional */
+body:not(.dark):not([data-theme="dark"]) .trust-badge,
+body:not(.dark):not([data-theme="dark"]) .security-badge {
+    background: #f8f6f3;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    color: #475569;
+    font-weight: 500;
+}
+
+/* ===== 7. CALENDAR INTEGRATION ===== */
+body:not(.dark):not([data-theme="dark"]) .calendar-grid,
+body:not(.dark):not([data-theme="dark"]) .fc-theme-standard {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.1);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body:not(.dark):not([data-theme="dark"]) .calendar-day-event,
+body:not(.dark):not([data-theme="dark"]) .fc-event {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%) !important;
+    border: none;
+    box-shadow: 0 2px 8px rgba(30, 58, 95, 0.2);
+}
+
+/* ===== 8. DEVOTION PAGES SACRED WARMTH ===== */
+body:not(.dark):not([data-theme="dark"]) .devotion-container,
+body:not(.dark):not([data-theme="dark"]) .devotion-wrapper {
+    background: linear-gradient(180deg, #fffcf7 0%, #f8f5f0 100%);
+}
+
+body:not(.dark):not([data-theme="dark"]) .scripture-text,
+body:not(.dark):not([data-theme="dark"]) .verse-text,
+body:not(.dark):not([data-theme="dark"]) blockquote {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: #2c3e50;
+    font-style: italic;
+    border-left: 4px solid #b8860b;
+    padding-left: 1.5rem;
+    background: linear-gradient(90deg, rgba(184, 134, 11, 0.05) 0%, transparent 100%);
+}
+
+/* ===== 9. MINISTRIES PAGE DEPTH ===== */
+body:not(.dark):not([data-theme="dark"]) .ministries-grid .ministry-card {
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1),
+        0 1px 4px rgba(15, 23, 42, 0.06);
+    border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+body:not(.dark):not([data-theme="dark"]) .ministry-card:hover {
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15),
+        0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+/* ===== 10. BUTTONS - SACRED PREMIUM ===== */
+body:not(.dark):not([data-theme="dark"]) .btn,
+body:not(.dark):not([data-theme="dark"]) .button,
+body:not(.dark):not([data-theme="dark"]) button.primary {
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+    transition: all 0.3s ease;
+}
+
+body:not(.dark):not([data-theme="dark"]) .btn:hover,
+body:not(.dark):not([data-theme="dark"]) .button:hover {
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.25);
+    transform: translateY(-1px);
+}
+
+/* ===== 11. FOOTER DAY MODE ADAPTATION ===== */
+body:not(.dark):not([data-theme="dark"]) footer {
+    background: linear-gradient(180deg, #1e3a5f 0%, #0f172a 100%);
+}
+
+/* ===== 12. PAGE BACKGROUNDS - WARM GRADIENTS ===== */
+body:not(.dark):not([data-theme="dark"]) .page-hero,
+body:not(.dark):not([data-theme="dark"]) .hero-section {
+    background: linear-gradient(135deg, #f0f7ff 0%, #fff8f0 50%, #f5f0ff 100%);
+}
+
+body:not(.dark):not([data-theme="dark"]) section:nth-child(even) {
+    background: #faf8f5;
+}
+
+body:not(.dark):not([data-theme="dark"]) section:nth-child(odd) {
+    background: #fffcf7;
+}
+
+/* ===== 13. DROPDOWN & MEGA MENU DEPTH ===== */
+body:not(.dark):not([data-theme="dark"]) .dropdown-menu,
+body:not(.dark):not([data-theme="dark"]) .mega-menu,
+body:not(.dark):not([data-theme="dark"]) .dropdown-content,
+body:not(.dark):not([data-theme="dark"]) .dropdown-menu-nested {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12),
+        0 2px 8px rgba(15, 23, 42, 0.06);
+    border-radius: var(--radius-lg);
+}
+
+body:not(.dark):not([data-theme="dark"]) .dropdown-menu a,
+body:not(.dark):not([data-theme="dark"]) .mega-menu a,
+body:not(.dark):not([data-theme="dark"]) .dropdown-menu-nested a {
+    color: #334155;
+    transition: all 0.2s ease;
+}
+
+body:not(.dark):not([data-theme="dark"]) .dropdown-menu a:hover,
+body:not(.dark):not([data-theme="dark"]) .mega-menu a:hover,
+body:not(.dark):not([data-theme="dark"]) .dropdown-menu-nested a:hover {
+    background: rgba(37, 99, 235, 0.06);
+    color: var(--brand-primary);
+}
+
+/* ===== 14. DEVOTION VISUAL PAUSES & SACRED EMPHASIS ===== */
+body:not(.dark):not([data-theme="dark"]) .devotion-section+.devotion-section,
+body:not(.dark):not([data-theme="dark"]) .scripture-block+.reflection-block,
+body:not(.dark):not([data-theme="dark"]) .reflection-block+.prayer-block {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(184, 134, 11, 0.12);
+}
+
+/* Scripture emphasis hierarchy */
+body:not(.dark):not([data-theme="dark"]) .scripture-block,
+body:not(.dark):not([data-theme="dark"]) .verse-container {
+    position: relative;
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
+    background: linear-gradient(135deg, rgba(255, 248, 240, 0.8) 0%, rgba(255, 252, 247, 0.9) 100%);
+    border-radius: var(--radius-lg);
+    border-left: 5px solid #b8860b;
+}
+
+/* Reflection block - slightly different tone */
+body:not(.dark):not([data-theme="dark"]) .reflection-block,
+body:not(.dark):not([data-theme="dark"]) .reflection-section {
+    background: linear-gradient(135deg, rgba(240, 247, 255, 0.6) 0%, #ffffff 100%);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--brand-primary);
+}
+
+/* Prayer block - warm sacred tone */
+body:not(.dark):not([data-theme="dark"]) .prayer-block,
+body:not(.dark):not([data-theme="dark"]) .prayer-section {
+    background: linear-gradient(135deg, rgba(255, 245, 235, 0.7) 0%, #fffcf7 100%);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border-left: 4px solid #d4a017;
+}
+
+/* ===== 15. SUBPAGE HEADER CONSISTENCY ===== */
+body:not(.dark):not([data-theme="dark"]) .subpage-hero,
+body:not(.dark):not([data-theme="dark"]) .ministry-hero,
+body:not(.dark):not([data-theme="dark"]) .page-header-section {
+    background: linear-gradient(180deg, #f0f7ff 0%, #fffcf7 100%);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+/* ===== 16. GIVE PAGE SACRED CONTEXT ===== */
+body:not(.dark):not([data-theme="dark"]) .give-section,
+body:not(.dark):not([data-theme="dark"]) .donation-section {
+    background: linear-gradient(180deg, #fffcf7 0%, #f8f5f0 100%);
+}
+
+body:not(.dark):not([data-theme="dark"]) .give-header,
+body:not(.dark):not([data-theme="dark"]) .give-intro {
+    border-bottom: 1px solid rgba(184, 134, 11, 0.1);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* ===== 17. CALENDAR ACTION MODULES ===== */
+body:not(.dark):not([data-theme="dark"]) .calendar-actions,
+body:not(.dark):not([data-theme="dark"]) .action-buttons-group {
+    background: #faf8f5;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+body:not(.dark):not([data-theme="dark"]) .calendar-actions button,
+body:not(.dark):not([data-theme="dark"]) .action-buttons-group button {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(30, 58, 95, 0.15);
+    transition: all 0.2s ease;
+}
+
+body:not(.dark):not([data-theme="dark"]) .calendar-actions button:hover,
+body:not(.dark):not([data-theme="dark"]) .action-buttons-group button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* ===== 18. BRAND PARITY - SACRED GOLD AUTHORITY ===== */
+body:not(.dark):not([data-theme="dark"]) .cta-primary,
+body:not(.dark):not([data-theme="dark"]) .hero-cta,
+body:not(.dark):not([data-theme="dark"]) .action-cta {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.25);
+}
+
+body:not(.dark):not([data-theme="dark"]) .cta-secondary,
+body:not(.dark):not([data-theme="dark"]) .outline-cta {
+    background: transparent;
+    color: #1e3a5f;
+    border: 2px solid #1e3a5f;
+}
+
+body:not(.dark):not([data-theme="dark"]) .cta-secondary:hover,
+body:not(.dark):not([data-theme="dark"]) .outline-cta:hover {
+    background: #1e3a5f;
+    color: #ffffff;
+}
+
+/* Gold accent elements */
+body:not(.dark):not([data-theme="dark"]) .accent-badge,
+body:not(.dark):not([data-theme="dark"]) .highlight-label,
+body:not(.dark):not([data-theme="dark"]) .special-tag {
+    background: linear-gradient(135deg, #d4a017 0%, #b8860b 100%);
+    color: #ffffff;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ===== 19. HOMEPAGE CARDS EXTRA POLISH ===== */
+body:not(.dark):not([data-theme="dark"]) .welcome-card,
+body:not(.dark):not([data-theme="dark"]) .info-card,
+body:not(.dark):not([data-theme="dark"]) .community-card {
+    background: #ffffff;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.1),
+        0 1px 4px rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(15, 23, 42, 0.05);
+    border-radius: var(--radius-lg);
+}
+
+body:not(.dark):not([data-theme="dark"]) .welcome-card:hover,
+body:not(.dark):not([data-theme="dark"]) .info-card:hover,
+body:not(.dark):not([data-theme="dark"]) .community-card:hover {
+    box-shadow: 0 8px 36px rgba(15, 23, 42, 0.14),
+        0 2px 8px rgba(15, 23, 42, 0.07);
+    transform: translateY(-2px);
+}
+
+/* ===== 20. GLOBAL WARM ACCENT LINES ===== */
+body:not(.dark):not([data-theme="dark"]) hr,
+body:not(.dark):not([data-theme="dark"]) .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(184, 134, 11, 0.2) 50%, transparent 100%);
+    margin: 2rem 0;
+}
+
+/* Section dividers with sacred tone */
+body:not(.dark):not([data-theme="dark"]) .section-divider {
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(30, 58, 95, 0.1) 20%,
+            rgba(184, 134, 11, 0.2) 50%,
+            rgba(30, 58, 95, 0.1) 80%,
+            transparent 100%);
+}
