@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- Primary Meta Tags -->
     <title>Calendar 2026 - Grace and Praise Bangladeshi Church | Events & Services</title>
     <meta name="title" content="Calendar 2026 - Grace and Praise Bangladeshi Church | Events & Services">
-    <meta name="description" content="View GPBC's 2026 calendar with all upcoming events, services, prayer meetings, and special celebrations. Add events, submit prayer requests, and stay connected with our church community.">
-    <meta name="keywords" content="GPBC calendar, church events 2026, prayer meetings, worship services, church activities San Bernardino, Bangladeshi church events, Christmas service, New Year service">
+    <meta name="description"
+        content="View GPBC's 2026 calendar with all upcoming events, services, prayer meetings, and special celebrations. Add events, submit prayer requests, and stay connected with our church community.">
+    <meta name="keywords"
+        content="GPBC calendar, church events 2026, prayer meetings, worship services, church activities San Bernardino, Bangladeshi church events, Christmas service, New Year service">
     <meta name="robots" content="index, follow">
-    
+
     <!-- Canonical URL -->
     <link rel="canonical" href="https://gilbert-baidya.github.io/gracepraise.church/calendar.html">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gilbert-baidya.github.io/gracepraise.church/calendar.html">
     <meta property="og:title" content="Calendar 2026 - Grace and Praise Bangladeshi Church">
-    <meta property="og:description" content="View GPBC's 2026 calendar with all upcoming events, services, and prayer meetings.">
-    
+    <meta property="og:description"
+        content="View GPBC's 2026 calendar with all upcoming events, services, and prayer meetings.">
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary">
     <meta property="twitter:url" content="https://gilbert-baidya.github.io/gracepraise.church/calendar.html">
     <meta property="twitter:title" content="Calendar 2026 - GPBC">
     <meta property="twitter:description" content="View GPBC's 2026 calendar with all upcoming events and services.">
-    
+
     <!-- Theme & JS Detection — DO NOT REMOVE -->
     <script>
         (function () {
@@ -41,14 +45,14 @@
             }
         })();
     </script>
-    
+
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css">
     <link rel="stylesheet" href="countdown.css">
     <link rel="stylesheet" href="homepage-responsive-fix.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css">
-    
+
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -56,124 +60,132 @@
         *::after {
             box-sizing: border-box;
         }
-        
+
         html,
         body {
             width: 100%;
             max-width: 100%;
             overflow-x: clip;
         }
-        
+
         /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
         @supports (-webkit-touch-callout: none) {
             body {
                 overflow-x: clip !important;
             }
         }
-        
+
         /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
-        img, video, iframe, embed, object {
+        img,
+        video,
+        iframe,
+        embed,
+        object {
             max-width: 100%;
             height: auto;
         }
-        
-    section, article, main, .hero, .container {
-        width: 100%;
-        max-width: 100%;
-    }
 
-    /* Calendar: show countdown only on phone view and protect hero spacing */
-    #specialEventBanner {
-        display: none;
-    }
+        section,
+        article,
+        main,
+        .hero,
+        .container {
+            width: 100%;
+            max-width: 100%;
+        }
 
-    @media (max-width: 768px) {
+        /* Calendar: show countdown only on phone view and protect hero spacing */
         #specialEventBanner {
-            display: block;
+            display: none;
         }
 
-        .calendar-page #specialEventBanner .inline-banner-content {
-            flex-wrap: wrap;
-            justify-content: center;
-            text-align: center;
+        @media (max-width: 768px) {
+            #specialEventBanner {
+                display: block;
+            }
+
+            .calendar-page #specialEventBanner .inline-banner-content {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .calendar-page #specialEventBanner .event-label {
+                flex: 1 1 100%;
+            }
+
+            .calendar-page #specialEventBanner .inline-countdown,
+            .calendar-page #specialEventBanner .banner-link {
+                flex: 0 0 auto;
+            }
+
+            .calendar-page .hero {
+                padding-top: calc(var(--fixed-top-offset) + var(--spacing-md)) !important;
+            }
         }
 
-        .calendar-page #specialEventBanner .event-label {
-            flex: 1 1 100%;
-        }
-
-        .calendar-page #specialEventBanner .inline-countdown,
-        .calendar-page #specialEventBanner .banner-link {
-            flex: 0 0 auto;
-        }
-
-        .calendar-page .hero {
-            padding-top: calc(var(--fixed-top-offset) + var(--spacing-md)) !important;
-        }
-    }
-    
-    /* DARK MODE TOGGLE BUTTON */
-    .dark-mode-toggle {
-        background: rgba(45, 122, 143, 0.1);
-        border: 2px solid rgba(45, 122, 143, 0.3);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        margin-left: 15px;
-        font-size: 20px;
-    }
-    
-    .dark-mode-toggle:hover {
-        background: rgba(45, 122, 143, 0.2);
-        border-color: rgba(45, 122, 143, 0.5);
-        transform: scale(1.05);
-    }
-    
-    .dark-mode-toggle .sun-icon,
-    .dark-mode-toggle .moon-icon {
-        position: absolute;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    
-    .dark-mode-toggle .sun-icon {
-        opacity: 1;
-        transform: rotate(0deg);
-    }
-    
-    .dark-mode-toggle .moon-icon {
-        opacity: 0;
-        transform: rotate(-180deg);
-    }
-    
-    [data-theme="dark"] .dark-mode-toggle .sun-icon {
-        opacity: 0;
-        transform: rotate(180deg);
-    }
-    
-    [data-theme="dark"] .dark-mode-toggle .moon-icon {
-        opacity: 1;
-        transform: rotate(0deg);
-    }
-    
-    @media (max-width: 768px) {
+        /* DARK MODE TOGGLE BUTTON */
         .dark-mode-toggle {
-            width: 36px;
-            height: 36px;
-            font-size: 18px;
-            margin-left: 10px;
+            background: rgba(45, 122, 143, 0.1);
+            border: 2px solid rgba(45, 122, 143, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-left: 15px;
+            font-size: 20px;
         }
-    }
-</style>    <!-- Cloudinary Upload Widget -->
+
+        .dark-mode-toggle:hover {
+            background: rgba(45, 122, 143, 0.2);
+            border-color: rgba(45, 122, 143, 0.5);
+            transform: scale(1.05);
+        }
+
+        .dark-mode-toggle .sun-icon,
+        .dark-mode-toggle .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dark-mode-toggle .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .dark-mode-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(-180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        @media (max-width: 768px) {
+            .dark-mode-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+        }
+    </style> <!-- Cloudinary Upload Widget -->
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     <style>
         /* Calendar Page Styles - Matching redesign-mockup.html */
-        
+
         /* Calendar Grid - Calm and Elegant */
         .calendar-grid {
             display: grid;
@@ -240,7 +252,7 @@
         .calendar-grid .day.has-event:hover {
             background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-secondary) 100%);
         }
-        
+
         /* Subtle Sunday highlighting */
         .calendar-grid .day.sunday:not(.other-month) {
             background: var(--bg-section);
@@ -252,9 +264,10 @@
             color: var(--text-muted);
             opacity: 0.5;
         }
-        
+
         /* Navigation button hover states */
-        #prevMonth:hover, #nextMonth:hover {
+        #prevMonth:hover,
+        #nextMonth:hover {
             color: var(--color-secondary);
             text-decoration: underline;
         }
@@ -530,13 +543,13 @@
                 width: 100%;
                 text-align: center;
             }
-            
+
             /* Stack filter and action buttons on mobile */
-            .calendar-filters-section > .container > div:first-child {
+            .calendar-filters-section>.container>div:first-child {
                 flex-direction: column;
                 align-items: stretch !important;
             }
-            
+
             .action-buttons {
                 flex-direction: row;
                 justify-content: center;
@@ -556,6 +569,8 @@
 
             .calendar-grid {
                 gap: 1px;
+                min-width: 500px;
+                overflow-x: auto;
             }
 
             .calendar-grid .weekday {
@@ -720,84 +735,90 @@
         }
     </style>
 </head>
+
 <body class="calendar-page">
     <!-- Skip to main content for keyboard users -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<!-- Sticky Header/Nav -->
-<header>
-    <nav>
-        <div class="nav-container">
-            <a href="index.html#home" class="logo">
-                <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
-            </a>
-            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-                <span class="sun-icon">☀️</span>
-                <span class="moon-icon">🌙</span>
-            </button>
-            <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links">
-                <li><a href="index.html#live">LIVE</a></li>
-                <li><a href="index.html#home">Home</a></li>
-                <li class="nav-dropdown">
-                    <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="about.html">About Overview</a></li>
-                        <li><a href="history.html">Our History</a></li>
-                        <li><a href="mission.html">Our Mission</a></li>
-                        <li><a href="leadership.html">Our Leadership</a></li>
-                        <li><a href="beliefs.html">Our Beliefs</a></li>
-                        <li><a href="core-values.html">Our Core Values</a></li>
-                        <li><a href="position-papers.html">Position Papers</a></li>
-                        <li><a href="testimonies.html">Testimonies</a></li>
-                        <li><a href="songbook.html">GPBC Song Book</a></li>
-                    </ul>
-                </li>
-                <li class="nav-dropdown">
-                    <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="ministries.html">Ministries Overview</a></li>
-                        <li><a href="ministries/bible-study.html">Bible Study</a></li>
-                        <li><a href="ministries/community-development.html">Community Development</a></li>
-                        <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
-                        <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
-                        <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
-                        <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
-                        <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
-                        <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
-                        <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
-                        <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
-                        <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
-                    </ul>
-                </li>
-                <li><a href="index.html#next-service">Next Service</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="index.html#prayer">Prayer</a></li>
-                <li class="nav-dropdown">
-                    <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
-                        <li><a href="couples-devotion.html">Couples Devotion</a></li>
-                        <li><a href="family-devotion.html">Family Devotion</a></li>
-                        <li><a href="youth-devotion.html">Youth Devotion</a></li>
-                        <li><a href="children-devotion.html">Children Devotion</a></li>
-                        <li><a href="fasting-21days.html">21 Days Fasting</a></li>
-                        <li><a href="fasting-30days.html">30 Days Fasting</a></li>
-                        <li><a href="fasting-40days.html">40 Days Fasting</a></li>
-                        <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
-                    </ul>
-                </li>
-                <li><a href="give.html">Give</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="mobile-overlay"></div>
-</header>
+    <!-- Sticky Header/Nav -->
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="index.html#home" class="logo">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
+                        class="logo-image" loading="eager" decoding="async">
+                </a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
+                    title="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="index.html#live">LIVE</a></li>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span
+                                class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="about.html">About Overview</a></li>
+                            <li><a href="history.html">Our History</a></li>
+                            <li><a href="mission.html">Our Mission</a></li>
+                            <li><a href="leadership.html">Our Leadership</a></li>
+                            <li><a href="beliefs.html">Our Beliefs</a></li>
+                            <li><a href="core-values.html">Our Core Values</a></li>
+                            <li><a href="position-papers.html">Position Papers</a></li>
+                            <li><a href="testimonies.html">Testimonies</a></li>
+                            <li><a href="songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span
+                                class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="ministries.html">Ministries Overview</a></li>
+                            <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                            <li><a href="ministries/community-development.html">Community Development</a></li>
+                            <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                            <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                            <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                            <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                            <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                            <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                            <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                            <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                            <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html#next-service">Next Service</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li class="nav-dropdown">
+                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span
+                                class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                            <li><a href="family-devotion.html">Family Devotion</a></li>
+                            <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                            <li><a href="children-devotion.html">Children Devotion</a></li>
+                            <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                            <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="mobile-overlay"></div>
+    </header>
 
 
 
@@ -817,7 +838,8 @@
                     <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
                     <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
                 </time>
-                <a href="#dynamic-events-container" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
+                <a href="#dynamic-events-container" class="banner-link"
+                    aria-label="View Gratitude & New Year Celebration details">Details →</a>
             </div>
         </div>
     </div>
@@ -828,18 +850,22 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>Church Calendar 2026</h1>
-                    <p class="tagline">View all upcoming services, events, prayer meetings, and special celebrations. Stay connected with our church community.</p>
+                    <p class="tagline">View all upcoming services, events, prayer meetings, and special celebrations.
+                        Stay connected with our church community.</p>
                 </div>
             </div>
         </section>
 
         <!-- Filter & Actions Bar - Compact horizontal layout -->
-        <section class="calendar-filters-section" style="padding: var(--spacing-md) 0; border-bottom: 1px solid #e8e4dd;">
+        <section class="calendar-filters-section"
+            style="padding: var(--spacing-md) 0; border-bottom: 1px solid #e8e4dd;">
             <div class="container">
                 <!-- Combined Horizontal Layout: Filters left, Actions right -->
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md); margin-bottom: var(--spacing-sm);">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md); margin-bottom: var(--spacing-sm);">
                     <!-- Preset Filters -->
-                    <div class="preset-filters" role="group" aria-label="Quick filter presets" style="margin-bottom: 0;">
+                    <div class="preset-filters" role="group" aria-label="Quick filter presets"
+                        style="margin-bottom: 0;">
                         <button class="preset-filter" data-preset="sunday-services" aria-pressed="false">
                             🙏 Sunday Services
                         </button>
@@ -855,10 +881,17 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="action-buttons" role="group" aria-label="Calendar actions" style="width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; margin: 0 auto;">
-                        <button id="printBtn" class="btn btn-secondary" aria-label="Print calendar" style="font-size: var(--font-sm); padding: var(--spacing-xs) var(--spacing-md); margin: 0 auto;">🖨️ Print</button>
-                        <button id="downloadImageBtn" class="btn btn-secondary" aria-label="Download calendar as image" style="font-size: var(--font-sm); padding: var(--spacing-xs) var(--spacing-md); margin: 0 auto;">📸 Download</button>
-                        <button id="shareBtn" class="btn btn-secondary" aria-label="Share calendar events" style="font-size: var(--font-sm); padding: var(--spacing-xs) var(--spacing-md); margin: 0 auto;">📤 Share</button>
+                    <div class="action-buttons" role="group" aria-label="Calendar actions"
+                        style="width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; margin: 0 auto;">
+                        <button id="printBtn" class="btn btn-secondary" aria-label="Print calendar"
+                            style="font-size: var(--font-sm); padding: var(--spacing-xs) var(--spacing-md); margin: 0 auto;">🖨️
+                            Print</button>
+                        <button id="downloadImageBtn" class="btn btn-secondary" aria-label="Download calendar as image"
+                            style="font-size: var(--font-sm); padding: var(--spacing-xs) var(--spacing-md); margin: 0 auto;">📸
+                            Download</button>
+                        <button id="shareBtn" class="btn btn-secondary" aria-label="Share calendar events"
+                            style="font-size: var(--font-sm); padding: var(--spacing-xs) var(--spacing-md); margin: 0 auto;">📤
+                            Share</button>
                     </div>
                 </div>
 
@@ -870,14 +903,20 @@
                 </div>
 
                 <!-- Advanced Filters (Collapsed by default) -->
-                <div id="advancedFilters" class="advanced-filters" style="display: none; margin-top: var(--spacing-sm);">
+                <div id="advancedFilters" class="advanced-filters"
+                    style="display: none; margin-top: var(--spacing-sm);">
                     <fieldset class="filters" aria-label="Filter events by category">
                         <legend class="visually-hidden">Advanced event category filters</legend>
-                        <label><input type="checkbox" class="filter" data-category="gpbc" aria-label="Show GPBC events"> ⛪ GPBC Events</label>
-                        <label><input type="checkbox" class="filter" data-category="christian" aria-label="Show Christian events"> ✝️ Christian</label>
-                        <label><input type="checkbox" class="filter" data-category="bangladeshi" aria-label="Show Bangladeshi events"> 🇧🇩 Bangladeshi</label>
-                        <label><input type="checkbox" class="filter" data-category="american" aria-label="Show American events"> 🇺🇸 American</label>
-                        <label><input type="checkbox" class="filter" data-category="special" aria-label="Show Special Days events"> ❤️ Special Days</label>
+                        <label><input type="checkbox" class="filter" data-category="gpbc" aria-label="Show GPBC events">
+                            ⛪ GPBC Events</label>
+                        <label><input type="checkbox" class="filter" data-category="christian"
+                                aria-label="Show Christian events"> ✝️ Christian</label>
+                        <label><input type="checkbox" class="filter" data-category="bangladeshi"
+                                aria-label="Show Bangladeshi events"> 🇧🇩 Bangladeshi</label>
+                        <label><input type="checkbox" class="filter" data-category="american"
+                                aria-label="Show American events"> 🇺🇸 American</label>
+                        <label><input type="checkbox" class="filter" data-category="special"
+                                aria-label="Show Special Days events"> ❤️ Special Days</label>
                     </fieldset>
                 </div>
             </div>
@@ -887,14 +926,22 @@
         <section class="calendar-section" style="padding: var(--spacing-lg) 0;">
             <div class="container" style="max-width: 1100px;">
                 <!-- Month/Year Navigation - Integrated into header -->
-                <div class="navigation" role="navigation" aria-label="Calendar month navigation" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
-                    <button id="prevMonth" class="btn btn-text" aria-label="Go to previous month" style="background: none; border: none; color: var(--color-primary); font-size: var(--font-base); cursor: pointer; padding: var(--spacing-xs) var(--spacing-sm); transition: color var(--transition-fast);">‹ Previous</button>
-                    <h2 id="currentMonth" aria-live="polite" aria-atomic="true" style="font-family: Georgia, 'Times New Roman', serif; color: var(--color-primary); font-size: var(--font-2xl); font-weight: var(--font-bold); margin: 0;">January 2026</h2>
-                    <button id="nextMonth" class="btn btn-text" aria-label="Go to next month" style="background: none; border: none; color: var(--color-primary); font-size: var(--font-base); cursor: pointer; padding: var(--spacing-xs) var(--spacing-sm); transition: color var(--transition-fast);">Next ›</button>
+                <div class="navigation" role="navigation" aria-label="Calendar month navigation"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
+                    <button id="prevMonth" class="btn btn-text" aria-label="Go to previous month"
+                        style="background: none; border: none; color: var(--color-primary); font-size: var(--font-base); cursor: pointer; padding: var(--spacing-xs) var(--spacing-sm); transition: color var(--transition-fast);">‹
+                        Previous</button>
+                    <h2 id="currentMonth" aria-live="polite" aria-atomic="true"
+                        style="font-family: Georgia, 'Times New Roman', serif; color: var(--color-primary); font-size: var(--font-2xl); font-weight: var(--font-bold); margin: 0;">
+                        January 2026</h2>
+                    <button id="nextMonth" class="btn btn-text" aria-label="Go to next month"
+                        style="background: none; border: none; color: var(--color-primary); font-size: var(--font-base); cursor: pointer; padding: var(--spacing-xs) var(--spacing-sm); transition: color var(--transition-fast);">Next
+                        ›</button>
                 </div>
 
                 <!-- Calendar Grid -->
-                <div class="calendar-grid" role="grid" aria-label="Monthly calendar view" style="margin-bottom: var(--spacing-lg);">
+                <div class="calendar-grid" role="grid" aria-label="Monthly calendar view"
+                    style="margin-bottom: var(--spacing-lg);">
                     <div class="weekday" role="columnheader">Sun</div>
                     <div class="weekday" role="columnheader">Mon</div>
                     <div class="weekday" role="columnheader">Tue</div>
@@ -906,44 +953,75 @@
                 </div>
 
                 <!-- Events This Month -->
-                <div class="events-sidebar" style="margin-top: var(--spacing-md); padding: var(--spacing-lg); background: #ffffff; border-radius: var(--radius-lg); border: 1px solid #e8e4dd;">
-                    <h3 style="text-align: center; color: var(--color-primary); margin-bottom: var(--spacing-md); font-size: var(--font-lg); font-family: Georgia, 'Times New Roman', serif;">Events This Month</h3>
+                <div class="events-sidebar"
+                    style="margin-top: var(--spacing-md); padding: var(--spacing-lg); background: #ffffff; border-radius: var(--radius-lg); border: 1px solid #e8e4dd;">
+                    <h3
+                        style="text-align: center; color: var(--color-primary); margin-bottom: var(--spacing-md); font-size: var(--font-lg); font-family: Georgia, 'Times New Roman', serif;">
+                        Events This Month</h3>
                     <div id="monthEvents"></div>
                 </div>
             </div>
         </section>
 
         <!-- Recurring Weekly Events Section -->
-        <section class="recurring-events-section" style="padding: var(--spacing-xl) 0; background: #ffffff; border-top: 1px solid #e8e4dd;">
+        <section class="recurring-events-section"
+            style="padding: var(--spacing-xl) 0; background: #ffffff; border-top: 1px solid #e8e4dd;">
             <div class="container" style="max-width: 900px;">
-                <h3 style="text-align: center; color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: var(--font-xl); font-family: Georgia, 'Times New Roman', serif;">Our Weekly Schedule</h3>
-                <p class="subtitle" style="text-align: center; color: var(--color-text-light); margin-bottom: var(--spacing-lg); font-size: var(--font-base);">Join us for worship, fellowship, and spiritual growth</p>
-                
+                <h3
+                    style="text-align: center; color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: var(--font-xl); font-family: Georgia, 'Times New Roman', serif;">
+                    Our Weekly Schedule</h3>
+                <p class="subtitle"
+                    style="text-align: center; color: var(--color-text-light); margin-bottom: var(--spacing-lg); font-size: var(--font-base);">
+                    Join us for worship, fellowship, and spiritual growth</p>
+
                 <!-- Compact List Format Grouped by Day -->
-                <div style="background: #faf8f5; border-radius: var(--radius-lg); padding: var(--spacing-lg); border: 1px solid #e8e4dd;">
+                <div
+                    style="background: #faf8f5; border-radius: var(--radius-lg); padding: var(--spacing-lg); border: 1px solid #e8e4dd;">
                     <div style="display: grid; gap: var(--spacing-md);">
                         <!-- Sunday -->
-                        <div style="padding: var(--spacing-md); background: #ffffff; border-radius: var(--radius-md); border-left: 4px solid var(--color-primary);">
-                            <div style="font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--spacing-xs); font-size: var(--font-base);">🙏 Sunday</div>
+                        <div
+                            style="padding: var(--spacing-md); background: #ffffff; border-radius: var(--radius-md); border-left: 4px solid var(--color-primary);">
+                            <div
+                                style="font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--spacing-xs); font-size: var(--font-base);">
+                                🙏 Sunday</div>
                             <div style="margin-left: var(--spacing-lg); color: var(--color-text);">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-xs);"><span>Sunday Connection</span><span style="color: var(--color-text-light); font-size: var(--font-sm);">4:30 PM</span></div>
-                                <div style="display: flex; justify-content: space-between;"><span style="font-weight: var(--font-semibold);">Worship Service</span><span style="color: var(--color-primary); font-weight: var(--font-semibold); font-size: var(--font-sm);">5:00 PM</span></div>
+                                <div
+                                    style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-xs);">
+                                    <span>Sunday Connection</span><span
+                                        style="color: var(--color-text-light); font-size: var(--font-sm);">4:30
+                                        PM</span></div>
+                                <div style="display: flex; justify-content: space-between;"><span
+                                        style="font-weight: var(--font-semibold);">Worship Service</span><span
+                                        style="color: var(--color-primary); font-weight: var(--font-semibold); font-size: var(--font-sm);">5:00
+                                        PM</span></div>
                             </div>
                         </div>
-                        
+
                         <!-- Friday -->
-                        <div style="padding: var(--spacing-md); background: #ffffff; border-radius: var(--radius-md); border-left: 4px solid var(--color-secondary);">
-                            <div style="font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--spacing-xs); font-size: var(--font-base);">✨ Friday</div>
+                        <div
+                            style="padding: var(--spacing-md); background: #ffffff; border-radius: var(--radius-md); border-left: 4px solid var(--color-secondary);">
+                            <div
+                                style="font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--spacing-xs); font-size: var(--font-base);">
+                                ✨ Friday</div>
                             <div style="margin-left: var(--spacing-lg); color: var(--color-text);">
-                                <div style="display: flex; justify-content: space-between;"><span>Friday Connection (Prayer)</span><span style="color: var(--color-text-light); font-size: var(--font-sm);">5:30 PM</span></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Friday Connection
+                                        (Prayer)</span><span
+                                        style="color: var(--color-text-light); font-size: var(--font-sm);">5:30
+                                        PM</span></div>
                             </div>
                         </div>
-                        
+
                         <!-- Saturday -->
-                        <div style="padding: var(--spacing-md); background: #ffffff; border-radius: var(--radius-md); border-left: 4px solid var(--color-secondary);">
-                            <div style="font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--spacing-xs); font-size: var(--font-base);">🙌 Saturday</div>
+                        <div
+                            style="padding: var(--spacing-md); background: #ffffff; border-radius: var(--radius-md); border-left: 4px solid var(--color-secondary);">
+                            <div
+                                style="font-weight: var(--font-bold); color: var(--color-primary); margin-bottom: var(--spacing-xs); font-size: var(--font-base);">
+                                🙌 Saturday</div>
                             <div style="margin-left: var(--spacing-lg); color: var(--color-text);">
-                                <div style="display: flex; justify-content: space-between;"><span>Fasting Prayer</span><span style="color: var(--color-text-light); font-size: var(--font-sm);">12:00 PM</span></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Fasting
+                                        Prayer</span><span
+                                        style="color: var(--color-text-light); font-size: var(--font-sm);">12:00
+                                        PM</span></div>
                             </div>
                         </div>
                     </div>
@@ -951,21 +1029,34 @@
 
                 <!-- Annual Special Services -->
                 <div style="margin-top: var(--spacing-lg); text-align: center;">
-                    <h4 style="color: var(--color-primary); font-size: var(--font-base); margin-bottom: var(--spacing-sm); font-family: Georgia, 'Times New Roman', serif; font-weight: var(--font-semibold);">Annual Special Services</h4>
+                    <h4
+                        style="color: var(--color-primary); font-size: var(--font-base); margin-bottom: var(--spacing-sm); font-family: Georgia, 'Times New Roman', serif; font-weight: var(--font-semibold);">
+                        Annual Special Services</h4>
                     <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm); justify-content: center;">
-                        <span style="background: #faf8f5; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-full); border: 1px solid #e8e4dd; color: var(--color-text);">🌿 Palm Sunday</span>
-                        <span style="background: #faf8f5; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-full); border: 1px solid #e8e4dd; color: var(--color-text);">✝️ Good Friday</span>
-                        <span style="background: #faf8f5; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-full); border: 1px solid #e8e4dd; color: var(--color-text);">🌅 Easter</span>
+                        <span
+                            style="background: #faf8f5; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-full); border: 1px solid #e8e4dd; color: var(--color-text);">🌿
+                            Palm Sunday</span>
+                        <span
+                            style="background: #faf8f5; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-full); border: 1px solid #e8e4dd; color: var(--color-text);">✝️
+                            Good Friday</span>
+                        <span
+                            style="background: #faf8f5; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-full); border: 1px solid #e8e4dd; color: var(--color-text);">🌅
+                            Easter</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Upcoming Events Section -->
-        <section class="upcoming-events-section" style="padding: var(--spacing-xl) 0; background: var(--color-background);">
+        <section class="upcoming-events-section"
+            style="padding: var(--spacing-xl) 0; background: var(--color-background);">
             <div class="container" style="max-width: 900px;">
-                <h3 style="text-align: center; color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: var(--font-xl); font-family: Georgia, 'Times New Roman', serif;">Upcoming Special Events</h3>
-                <p class="subtitle" style="text-align: center; color: var(--color-text-light); margin-bottom: var(--spacing-lg); font-size: var(--font-base);">Special celebrations and gatherings</p>
+                <h3
+                    style="text-align: center; color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: var(--font-xl); font-family: Georgia, 'Times New Roman', serif;">
+                    Upcoming Special Events</h3>
+                <p class="subtitle"
+                    style="text-align: center; color: var(--color-text-light); margin-bottom: var(--spacing-lg); font-size: var(--font-base);">
+                    Special celebrations and gatherings</p>
                 <div class="upcoming-events-grid" id="upcomingEventsList">
                     <!-- Events will be inserted here by JavaScript -->
                     <div class="upcoming-events-empty">Upcoming events will appear here.</div>
@@ -976,16 +1067,22 @@
         <!-- QR Code Helper Section -->
         <section style="padding: var(--spacing-lg) 0; background: #ffffff; border-top: 1px solid #e8e4dd;">
             <div class="container">
-                <div class="qr-helper-card" style="background: #faf8f5; padding: var(--spacing-md); border-radius: var(--radius-lg); border: 1px solid #e8e4dd; max-width: 280px; margin: 0 auto; text-align: center;">
-                    <h4 style="color: var(--color-primary); font-size: var(--font-sm); margin-bottom: var(--spacing-xs); font-weight: var(--font-semibold);">Mobile Access</h4>
+                <div class="qr-helper-card"
+                    style="background: #faf8f5; padding: var(--spacing-md); border-radius: var(--radius-lg); border: 1px solid #e8e4dd; max-width: 280px; margin: 0 auto; text-align: center;">
+                    <h4
+                        style="color: var(--color-primary); font-size: var(--font-sm); margin-bottom: var(--spacing-xs); font-weight: var(--font-semibold);">
+                        Mobile Access</h4>
                     <div id="calendarAccessQR" style="margin: var(--spacing-sm) auto;"></div>
-                    <p style="color: var(--color-text-light); font-size: var(--font-xs); margin-top: var(--spacing-xs); margin-bottom: 0;">Scan to access the GPBC calendar on your phone</p>
+                    <p
+                        style="color: var(--color-text-light); font-size: var(--font-xs); margin-top: var(--spacing-xs); margin-bottom: 0;">
+                        Scan to access the GPBC calendar on your phone</p>
                 </div>
             </div>
         </section>
 
         <!-- Modals -->
-        <div id="reminderModal" class="modal" role="dialog" aria-labelledby="reminderModalTitle" aria-modal="true" style="display: none;">
+        <div id="reminderModal" class="modal" role="dialog" aria-labelledby="reminderModalTitle" aria-modal="true"
+            style="display: none;">
             <div class="modal-content">
                 <button class="close" aria-label="Close reminder modal">&times;</button>
                 <h2 id="reminderModalTitle">🔔 Upcoming Event Reminders</h2>
@@ -1002,7 +1099,8 @@
                 <p id="eventDescription"></p>
                 <div id="eventCategory"></div>
                 <div id="deleteButtonContainer" style="margin-top: 20px; display: none;">
-                    <button id="deleteEventBtn" class="btn" style="background: #dc3545; color: white; border-color: #dc3545;">🗑️ Delete Event</button>
+                    <button id="deleteEventBtn" class="btn"
+                        style="background: #dc3545; color: white; border-color: #dc3545;">🗑️ Delete Event</button>
                 </div>
             </div>
         </div>
@@ -1013,57 +1111,58 @@
     <!-- Footer -->
     <!-- Footer -->
     <footer>
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="calendar.html">Calendar</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="index.html#prayer">Prayer</a></li>
-                <li><a href="daily-devotion.html">Daily Devotion</a></li>
-                <li><a href="give.html">Give</a></li>
-            </ul>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games/index.html">Kids Games</a></li>
+                    <li><a href="youth/games/index.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="footer-section">
-            <h3>Ministries</h3>
-            <ul>
-                <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
-                <li><a href="ministries/bible-study.html">Bible Study</a></li>
-                <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
-                <li><a href="kids/games/index.html">Kids Games</a></li>
-                <li><a href="youth/games/index.html">Youth Games</a></li>
-                <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
-            </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
+                    Conditions</a></p>
         </div>
-
-        <div class="footer-section">
-            <h3>Contact</h3>
-            <address>
-                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
-                <p>1325 Richardson Street, CA 92408</p>
-                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
-                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
-            </address>
-        </div>
-
-        <div class="footer-section">
-            <h3>Connect</h3>
-            <ul class="social-links">
-                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
-                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
-                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
-        <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
-    </div>
-</footer>
+    </footer>
 
 
 
@@ -1079,7 +1178,7 @@
     <script src="donations.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="countdown.js"></script>
-    
+
     <!-- Dropdown menu accessibility script -->
     <script>
         // Dropdown menu accessibility and keyboard navigation
@@ -1095,7 +1194,7 @@
                         e.preventDefault();
                         const isExpanded = dropdownToggle.getAttribute('aria-expanded') === 'true';
                         dropdownToggle.setAttribute('aria-expanded', !isExpanded);
-                        
+
                         if (!isExpanded && dropdownLinks.length > 0) {
                             dropdownLinks[0].focus();
                         }
@@ -1148,10 +1247,11 @@
             }
         });
     </script>
-    
+
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>
 </body>
+
 </html>

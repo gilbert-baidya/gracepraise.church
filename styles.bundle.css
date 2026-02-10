@@ -23,12 +23,14 @@
 
 :root {
     /* ========= Brand Colors ========= */
-    --brand-primary: #2563eb;
-    /* blue */
+    --brand-primary: #3b82f6;
+    /* softer sky blue (unified with redesign-styles.css) */
     --brand-secondary: #0ea5a4;
     /* teal */
     --brand-accent: #f59e0b;
     /* gold */
+    --brand-warmth: #f59e0b;
+    /* warm gold for CTAs and accents */
 
     /* ========= Fixed Layout Heights ========= */
     --header-height: var(--header-total-height, 70px);
@@ -36,11 +38,13 @@
     --fixed-top-offset: var(--header-height);
 
     /* ========= Backgrounds ========= */
-    --bg-page: #ffffff;
+    --bg-page: #fefdfb;
+    /* warm off-white */
     --bg-section: #f8fafc;
     --bg-card: #ffffff;
     --bg-card-surface: #ffffff;
-    --bg-hero-soft-gradient: linear-gradient(135deg, #dbeafe 0%, #99f6e4 100%);
+    --bg-hero-soft-gradient: linear-gradient(135deg, #fef3c7 0%, #dbeafe 100%);
+    /* gold warmth gradient */
     --bg-header-presentation: var(--brand-primary);
 
     /* ========= Text Colors ========= */
@@ -58,7 +62,8 @@
     --border-highlight: #60a5fa;
 
     /* ========= Buttons ========= */
-    --btn-primary-bg: #2563eb;
+    --btn-primary-bg: #3b82f6;
+    /* matches softer brand-primary */
     --btn-primary-text: #ffffff;
 
     /* ========= Shadows ========= */
@@ -491,7 +496,7 @@ a:hover {
     align-items: center;
     gap: 0.5rem;
     background: rgba(56, 189, 248, 0.1);
-    padding: 0.15rem 0.6rem;
+    padding: 0.25rem 0.6rem;
     border-radius: 6px;
     /* Squarer/Professional */
     border: 1px solid rgba(56, 189, 248, 0.2);
@@ -500,7 +505,7 @@ a:hover {
 .unit-group {
     display: flex;
     align-items: baseline;
-    gap: 1px;
+    gap: 3px;
 }
 
 .countdown-value {
@@ -522,7 +527,7 @@ a:hover {
     color: #ffffff;
     text-decoration: none;
     font-weight: 700;
-    padding: 0.2rem 0.75rem;
+    padding: 0.35rem 0.85rem;
     background: rgba(56, 189, 248, 0.15);
     border-radius: 6px;
     border: 1px solid rgba(56, 189, 248, 0.3);
@@ -559,7 +564,7 @@ a:hover {
 
     .inline-countdown {
         gap: 0.4rem;
-        padding: 0.15rem 0.5rem;
+        padding: 0.25rem 0.6rem;
     }
 }
 
@@ -1055,7 +1060,7 @@ nav {
     font-size: 0.65rem;
     transition: transform var(--transition-fast);
     display: inline-block;
-    padding: 10px;
+    padding: var(--spacing-xs);
     margin: -10px;
     cursor: pointer;
 }
@@ -1073,7 +1078,7 @@ nav {
     background: var(--color-surface);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-xl);
-    padding: var(--spacing-xs);
+    padding: var(--spacing-sm);
     list-style: none;
     opacity: 0;
     visibility: hidden;
@@ -1630,7 +1635,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
 
 .service-location-card {
     background: var(--bg-section);
-    padding: 1.5rem;
+    padding: 2rem;
     border-radius: 12px;
     margin-bottom: 1rem;
 }
@@ -2131,7 +2136,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
 
 .new-here-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-lg);
     max-width: 1000px;
     margin: 0 auto;
@@ -4364,7 +4369,7 @@ footer {
    ======================================== */
 
 .about-intro-section {
-    padding: 60px 20px;
+    padding: var(--spacing-2xl) var(--spacing-md);
     background: var(--color-background);
 }
 
@@ -4395,11 +4400,11 @@ footer {
 
 .about-topics-section {
     background: #f8f9fa;
-    padding: 60px 20px;
+    padding: var(--spacing-2xl) var(--spacing-md);
 }
 
 .about-cta-section {
-    padding: 60px 20px;
+    padding: var(--spacing-2xl) var(--spacing-md);
 }
 
 .about-cta-section .container {
@@ -4427,7 +4432,7 @@ footer {
 }
 
 .cta-btn {
-    padding: 15px 30px;
+    padding: var(--spacing-sm) var(--spacing-lg);
     border-radius: 25px;
     text-decoration: none;
     font-weight: 600;
@@ -6729,7 +6734,7 @@ body.dark .logo-image {
         width: 100%;
         max-width: 280px;
         text-align: center;
-        padding: 14px 32px !important;
+        padding: var(--spacing-sm) var(--spacing-lg) !important;
         font-size: 1rem !important;
     }
 }
@@ -6753,13 +6758,13 @@ body.dark .logo-image {
     body.homepage .block-the-loop .container,
     body[data-page="home"] .block-the-loop .container,
     .page-home .block-the-loop .container {
-        padding: 0 1rem !important;
+        padding: 0 var(--spacing-sm) !important;
     }
 
     body.homepage .block-the-loop .button,
     body[data-page="home"] .block-the-loop .button,
     .page-home .block-the-loop .button {
-        padding: 12px 28px !important;
+        padding: var(--spacing-sm) var(--spacing-lg) !important;
         font-size: 0.95rem !important;
     }
 }

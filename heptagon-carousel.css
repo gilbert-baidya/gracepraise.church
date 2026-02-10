@@ -23,12 +23,17 @@
 
 :root {
   /* Sacred Color Palette */
-  --heptagon-primary: #7c3aed;      /* Violet — spiritual authority */
-  --heptagon-text: #1e293b;         /* Slate — readable, grounded */
-  --heptagon-light: #f1f5f9;        /* Near-white */
-  --heptagon-accent: #3b82f6;       /* Blue — trustworthy */
-  --heptagon-watermark: #7c3aed;    /* Violet for background */
-  
+  --heptagon-primary: #7c3aed;
+  /* Violet — spiritual authority */
+  --heptagon-text: #1e293b;
+  /* Slate — readable, grounded */
+  --heptagon-light: #f1f5f9;
+  /* Near-white */
+  --heptagon-accent: #3b82f6;
+  /* Blue — trustworthy */
+  --heptagon-watermark: #7c3aed;
+  /* Violet for background */
+
   /* Timing — Worship-paced (not gaming-paced) */
   --heptagon-transition: 800ms cubic-bezier(0.4, 0, 0.2, 1);
   --heptagon-rotation: 1200ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -45,7 +50,7 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
-  padding: 80px 40px;
+  padding: var(--spacing-3xl) var(--spacing-lg);
   overflow: hidden;
 }
 
@@ -56,8 +61,8 @@
 .heptagon-layout {
   display: grid;
   grid-template-columns: 400px 1fr;
-  gap: 80px;
-  max-width: 1400px;
+  gap: var(--spacing-3xl);
+  max-width: var(--container-max-width);
   width: 100%;
   align-items: center;
   position: relative;
@@ -66,7 +71,7 @@
 
 /* LEFT PANEL — Static Theological Context */
 .heptagon-left-panel {
-  padding: 40px;
+  padding: var(--spacing-lg);
   max-width: 400px;
 }
 
@@ -75,7 +80,7 @@
   font-weight: 800;
   color: var(--heptagon-primary);
   line-height: 1.1;
-  margin: 0 0 24px;
+  margin: 0 0 var(--spacing-md);
   letter-spacing: -0.03em;
 }
 
@@ -100,18 +105,18 @@
 @media (max-width: 1024px) {
   .heptagon-layout {
     grid-template-columns: 1fr;
-    gap: 60px;
+    gap: var(--spacing-xl);
   }
-  
+
   .heptagon-left-panel {
     text-align: center;
     max-width: 100%;
   }
-  
+
   .heptagon-left-panel h1 {
     font-size: 36px;
   }
-  
+
   .heptagon-left-panel .theological-intro {
     font-size: 16px;
   }
@@ -145,7 +150,8 @@
   fill: none;
   stroke: var(--heptagon-watermark);
   stroke-width: 2;
-  stroke-linejoin: miter; /* NOT round — keeps geometry sharp */
+  stroke-linejoin: miter;
+  /* NOT round — keeps geometry sharp */
   vector-effect: non-scaling-stroke;
 }
 
@@ -188,7 +194,8 @@
   top: 0;
   left: 0;
   transition: transform var(--heptagon-rotation);
-  transform-origin: center center; /* LOCKED to prevent drift */
+  transform-origin: center center;
+  /* LOCKED to prevent drift */
   will-change: transform;
   z-index: 2;
 }
@@ -209,7 +216,8 @@
   fill: #ffffff;
   stroke: var(--heptagon-primary);
   stroke-width: 3;
-  stroke-linejoin: miter; /* NOT round — preserves angles */
+  stroke-linejoin: miter;
+  /* NOT round — preserves angles */
   vector-effect: non-scaling-stroke;
   transition: fill var(--heptagon-transition);
 }
@@ -265,7 +273,7 @@
     width: 18px;
     height: 18px;
   }
-  
+
   .heptagon-vertex-dot.active {
     width: 24px;
     height: 24px;
@@ -294,7 +302,7 @@
   width: 100%;
   max-width: 320px;
   text-align: center;
-  padding: 40px;
+  padding: var(--spacing-xl);
   /* Content is ALWAYS centered, never translates */
   position: relative;
 }
@@ -351,21 +359,21 @@
 @media (max-width: 768px) {
   .heptagon-content-inner {
     max-width: 260px;
-    padding: 30px;
+    padding: var(--spacing-lg);
   }
-  
+
   .heptagon-content-item {
     max-width: 260px;
   }
-  
+
   .heptagon-content-item h2 {
     font-size: 22px;
   }
-  
+
   .heptagon-content-item .scripture {
     font-size: 12px;
   }
-  
+
   .heptagon-content-item p {
     font-size: 14px;
   }
@@ -377,9 +385,9 @@
 
 @media (max-width: 768px) {
   .heptagon-carousel-section {
-    padding: 60px 20px;
+    padding: var(--spacing-2xl) var(--spacing-md);
   }
-  
+
   .heptagon-wheel-container {
     width: 340px;
     height: 340px;
@@ -398,6 +406,7 @@
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
+
   .heptagon-rotating-layer,
   .heptagon-watermark,
   .heptagon-content-item,
@@ -414,7 +423,7 @@
   .heptagon-rotating-layer polygon {
     stroke-width: 4;
   }
-  
+
   .heptagon-content-item h2,
   .heptagon-content-item p {
     color: #000000;
@@ -447,5 +456,7 @@
 }
 
 @keyframes heptagonSpin {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
