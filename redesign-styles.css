@@ -453,7 +453,7 @@ a:hover {
 }
 
 .inline-banner-content {
-    max-width: 1200px;
+    max-width: var(--container-max-width);
     /* Reduced to bring info closer */
     margin: 0 auto;
     padding: 0 1rem;
@@ -496,7 +496,7 @@ a:hover {
     align-items: center;
     gap: 0.5rem;
     background: rgba(56, 189, 248, 0.1);
-    padding: 0.15rem 0.6rem;
+    padding: 0.25rem 0.6rem;
     border-radius: 6px;
     /* Squarer/Professional */
     border: 1px solid rgba(56, 189, 248, 0.2);
@@ -505,7 +505,7 @@ a:hover {
 .unit-group {
     display: flex;
     align-items: baseline;
-    gap: 1px;
+    gap: 3px;
 }
 
 .countdown-value {
@@ -527,7 +527,7 @@ a:hover {
     color: #ffffff;
     text-decoration: none;
     font-weight: 700;
-    padding: 0.2rem 0.75rem;
+    padding: 0.35rem 0.85rem;
     background: rgba(56, 189, 248, 0.15);
     border-radius: 6px;
     border: 1px solid rgba(56, 189, 248, 0.3);
@@ -564,7 +564,7 @@ a:hover {
 
     .inline-countdown {
         gap: 0.4rem;
-        padding: 0.15rem 0.5rem;
+        padding: 0.25rem 0.6rem;
     }
 }
 
@@ -935,11 +935,9 @@ header.scrolled nav {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 1400px;
-    /* Wider for premium feel */
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 2rem;
-    /* Safety padding from screen edges */
+    padding: 0 var(--container-padding);
 }
 
 header {
@@ -951,11 +949,7 @@ nav {
     flex: 0 0 auto;
 }
 
-@media (max-width: 1024px) {
-    .nav-container {
-        padding: 0 1.5rem;
-    }
-}
+
 
 .logo {
     font-size: var(--font-2xl);
@@ -1060,7 +1054,7 @@ nav {
     font-size: 0.65rem;
     transition: transform var(--transition-fast);
     display: inline-block;
-    padding: 10px;
+    padding: var(--spacing-xs);
     margin: -10px;
     cursor: pointer;
 }
@@ -1078,7 +1072,7 @@ nav {
     background: var(--color-surface);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-xl);
-    padding: var(--spacing-xs);
+    padding: var(--spacing-sm);
     list-style: none;
     opacity: 0;
     visibility: hidden;
@@ -1635,7 +1629,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
 
 .service-location-card {
     background: var(--bg-section);
-    padding: 1.5rem;
+    padding: 2rem;
     border-radius: 12px;
     margin-bottom: 1rem;
 }
@@ -1720,7 +1714,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-3xl) var(--spacing-lg);
+    padding: var(--spacing-3xl) var(--container-padding);
     overflow: hidden;
     animation: hero-fade-in 0.9s ease both;
     z-index: 1;
@@ -1917,7 +1911,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
 @media (max-width: 768px) {
     .hero {
         min-height: auto;
-        padding: var(--spacing-3xl) var(--spacing-lg) var(--spacing-2xl);
+        padding: var(--spacing-3xl) var(--container-padding) var(--spacing-2xl);
         padding-top: calc(var(--fixed-top-offset) + var(--spacing-md));
     }
 
@@ -1966,7 +1960,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
 
 .next-service {
     background: linear-gradient(135deg, #f8f9fb 0%, #ffffff 100%);
-    padding: var(--spacing-3xl) var(--spacing-sm);
+    padding: var(--spacing-3xl) var(--container-padding);
     text-align: center;
 }
 
@@ -2088,7 +2082,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
    ======================================== */
 
 .new-here {
-    padding: var(--spacing-3xl) var(--spacing-lg);
+    padding: var(--spacing-3xl) var(--container-padding);
     background: var(--color-surface);
     text-align: center;
 }
@@ -2136,7 +2130,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
 
 .new-here-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-lg);
     max-width: 1000px;
     margin: 0 auto;
@@ -2207,7 +2201,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
 }
 
 .event-details-content {
-    max-width: 1200px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
 }
 
@@ -2522,7 +2516,7 @@ body[data-theme="dark"] .next-service-section::before {
 }
 
 .whats-happening-macro #dynamic-events-container {
-    max-width: 1200px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
     width: 100%;
 }
@@ -2547,7 +2541,7 @@ body[data-theme="dark"] .next-service-section::before {
    ======================================== */
 
 .welcome {
-    padding: var(--spacing-3xl) var(--spacing-lg);
+    padding: var(--spacing-3xl) var(--container-padding);
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fb 100%);
     text-align: center;
 }
@@ -2607,7 +2601,7 @@ body[data-theme="dark"] .next-service-section::before {
    ======================================== */
 
 .page-hero {
-    padding: var(--spacing-3xl) var(--spacing-sm) var(--spacing-2xl);
+    padding: var(--spacing-3xl) var(--container-padding) var(--spacing-2xl);
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fb 100%);
     text-align: center;
 }
@@ -2626,7 +2620,7 @@ body[data-theme="dark"] .next-service-section::before {
 }
 
 .visit-section {
-    padding: var(--spacing-2xl) var(--spacing-sm);
+    padding: var(--spacing-2xl) var(--container-padding);
     background: var(--color-surface);
 }
 
@@ -2761,7 +2755,7 @@ body[data-theme="dark"] .next-service-section::before {
 }
 
 .need-help {
-    padding: var(--spacing-3xl) var(--spacing-sm);
+    padding: var(--spacing-3xl) var(--container-padding);
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, rgba(20, 184, 166, 0.06) 100%);
     text-align: center;
 }
@@ -2790,7 +2784,7 @@ body[data-theme="dark"] .next-service-section::before {
 .prayer-request-section {
     max-width: 800px;
     margin: 0 auto;
-    padding: var(--spacing-3xl) var(--spacing-sm);
+    padding: var(--spacing-3xl) var(--container-padding);
 }
 
 .prayer-header {
@@ -3076,7 +3070,7 @@ body[data-theme="dark"] .next-service-section::before {
    ======================================== */
 
 .whats-happening {
-    padding: var(--spacing-3xl) var(--spacing-sm);
+    padding: var(--spacing-3xl) var(--container-padding);
     background: var(--color-surface);
     text-align: center;
 }
@@ -3190,7 +3184,7 @@ body[data-theme="dark"] .next-service-section::before {
    ======================================== */
 
 .bible-verse {
-    padding: var(--spacing-3xl) var(--spacing-sm);
+    padding: var(--spacing-3xl) var(--container-padding);
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(20, 184, 166, 0.08) 100%);
     text-align: center;
     position: relative;
@@ -3264,7 +3258,7 @@ body[data-theme="dark"] .next-service-section::before {
    ======================================== */
 
 .daily-devotion-promo {
-    padding: var(--spacing-3xl) var(--spacing-sm);
+    padding: var(--spacing-3xl) var(--container-padding);
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fb 100%);
 }
 
@@ -3341,7 +3335,7 @@ body[data-theme="dark"] .next-service-section::before {
    ======================================== */
 
 .next-step {
-    padding: var(--spacing-2xl) var(--spacing-sm) var(--spacing-xl);
+    padding: var(--spacing-2xl) var(--container-padding) var(--spacing-xl);
     text-align: center;
     background: var(--color-surface);
 }
@@ -3376,7 +3370,7 @@ body[data-theme="dark"] .next-service-section::before {
 footer {
     background: linear-gradient(135deg, #1e3a8a, #0f766e);
     color: #f8fafc;
-    padding: var(--spacing-3xl) var(--spacing-sm) var(--spacing-xl);
+    padding: var(--spacing-3xl) var(--container-padding) var(--spacing-xl);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -3486,6 +3480,8 @@ footer {
 .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     padding-top: var(--spacing-lg);
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
     text-align: center;
     color: #e5e7eb;
     max-width: var(--container-max-width);
@@ -4297,7 +4293,7 @@ footer {
 
     /* Prayer Request Mobile Styles */
     .prayer-request-section {
-        padding: var(--spacing-2xl) var(--spacing-sm);
+        padding: var(--spacing-2xl) var(--container-padding);
     }
 
     .prayer-icon-header {
@@ -4369,7 +4365,7 @@ footer {
    ======================================== */
 
 .about-intro-section {
-    padding: 60px 20px;
+    padding: var(--spacing-2xl) var(--spacing-md);
     background: var(--color-background);
 }
 
@@ -4400,11 +4396,11 @@ footer {
 
 .about-topics-section {
     background: #f8f9fa;
-    padding: 60px 20px;
+    padding: var(--spacing-2xl) var(--spacing-md);
 }
 
 .about-cta-section {
-    padding: 60px 20px;
+    padding: var(--spacing-2xl) var(--spacing-md);
 }
 
 .about-cta-section .container {
@@ -4432,7 +4428,7 @@ footer {
 }
 
 .cta-btn {
-    padding: 15px 30px;
+    padding: var(--spacing-sm) var(--spacing-lg);
     border-radius: 25px;
     text-decoration: none;
     font-weight: 600;
@@ -4624,12 +4620,12 @@ footer p.footer-links {
 
     /* Hero sections - better spacing on desktop */
     .hero {
-        padding: var(--spacing-3xl) var(--spacing-lg);
+        padding: var(--spacing-3xl) var(--container-padding);
     }
 
     .hero-content {
-        padding-left: var(--spacing-xl);
-        padding-right: var(--spacing-xl);
+        padding-left: var(--container-padding);
+        padding-right: var(--container-padding);
     }
 
     /* Main content sections - optimized desktop spacing */
