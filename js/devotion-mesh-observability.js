@@ -31,7 +31,7 @@
             CRITICAL: 30
         },
         DEV_MODE: false, // Set to true for console logging
-        ENABLE_BEACON: true,
+        ENABLE_BEACON: false, // Disabled for local dev (enable in production)
         CACHE_HIT_WINDOW: 100 // Track last 100 loads for cache hit rate
     };
 
