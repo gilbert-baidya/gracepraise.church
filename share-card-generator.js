@@ -734,17 +734,80 @@
     }
 
     // ============================================================================
-    // PRODUCTION HOTFIX — Direct Binding with Retry (Always Clickable)
+    // PRODUCTION CRITICAL — Safe Bind Bootstrap (Mutation-Safe, DOM-Ready)
     // ============================================================================
 
-    // DOM ready initialization with retry
-    document.addEventListener('DOMContentLoaded', () => {
-        const tryBind = () => {
-            if (ensureShareModalBindings()) return;
-            setTimeout(tryBind, 250);
-        };
-        setTimeout(tryBind, 50);
-    });
+    /**
+     * Safe binding bootstrap with MutationObserver fallback
+     * Prevents infinite retry loop and handles late DOM rendering
+     */
+    function bootstrapShareBindingsSafe() {
+        let modalObserver = null;
+        let observerTries = 0;
+        const MAX_OBSERVER_TRIES = 50;
+
+        function attemptBind() {
+            if (ensureShareModalBindings()) {
+                window.__SHARE_GENERATOR_READY__ = true;
+                console.log('[Share Card] ✅ SAFE BIND SUCCESS — Generator Ready');
+                
+                // Cleanup observer if it exists
+                if (modalObserver) {
+                    modalObserver.disconnect();
+                    modalObserver = null;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        function startModalObserver() {
+            console.log('[Share Card] 🔍 Starting MutationObserver for modal detection');
+            
+            modalObserver = new MutationObserver(() => {
+                observerTries++;
+                
+                if (attemptBind()) {
+                    console.log(`[Share Card] ✅ Modal detected via MutationObserver (attempt ${observerTries})`);
+                    return;
+                }
+                
+                if (observerTries > MAX_OBSERVER_TRIES) {
+                    modalObserver.disconnect();
+                    modalObserver = null;
+                    console.warn(`[Share Card] ⚠️ Observer stopped after ${MAX_OBSERVER_TRIES} attempts`);
+                }
+            });
+
+            // Watch for modal insertion in DOM
+            modalObserver.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        // Bootstrap logic
+        if (document.readyState === 'loading') {
+            // DOM still loading - wait for DOMContentLoaded
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('[Share Card] 🚀 DOMContentLoaded fired, attempting bind...');
+                if (!attemptBind()) {
+                    // Modal not ready yet, start observer
+                    startModalObserver();
+                }
+            });
+        } else {
+            // DOM already loaded - try immediate bind
+            console.log('[Share Card] 🚀 DOM already loaded, attempting bind...');
+            if (!attemptBind()) {
+                // Modal not ready yet, start observer
+                startModalObserver();
+            }
+        }
+    }
+
+    // Execute safe bootstrap
+    bootstrapShareBindingsSafe();
 
     // Debug telemetry helper
     window.debugShareClickability = function () {
