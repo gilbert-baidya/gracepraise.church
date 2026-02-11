@@ -18,6 +18,14 @@
         return;
     }
 
+    // GPBC WATERMARK SPEC VERSION
+    const GPBC_WATERMARK_SPEC_VERSION = "GPBC-WM-V4";
+
+    // Watermark Logo Cache
+    let watermarkLogo = null;
+    let watermarkLogoReady = false;
+    let watermarkLoadAttempted = false;
+
     // Configuration
     const CONFIG = {
         formats: {
@@ -68,6 +76,145 @@
     let canvas = null;
     let ctx = null;
 
+    // ========================================
+    // GPBC LOGO WATERMARK PRELOAD UTILITY
+    // ========================================
+
+    /**
+     * Preload GPBC logo for watermark rendering
+     * Primary: SVG, Fallback: PNG
+     * Caches in memory for reuse
+     */
+    function preloadWatermarkLogo() {
+        if (watermarkLoadAttempted) return;
+        watermarkLoadAttempted = true;
+
+        const primarySrc = 'images/new-gpbc-logo-final.svg';
+        const fallbackSrc = 'images/new-gpbc-logo-final.svg'; // Use same SVG as fallback
+
+        const img = new Image();
+        
+        img.onload = () => {
+            watermarkLogo = img;
+            watermarkLogoReady = true;
+            window.__GPBC_WATERMARK_LOGO_READY__ = true;
+            console.log('[GPBC Watermark] ✅ Logo loaded successfully');
+        };
+
+        img.onerror = () => {
+            console.warn('[GPBC Watermark] ⚠️ Primary logo failed, trying fallback...');
+            
+            const fallbackImg = new Image();
+            fallbackImg.onload = () => {
+                watermarkLogo = fallbackImg;
+                watermarkLogoReady = true;
+                window.__GPBC_WATERMARK_LOGO_READY__ = true;
+                console.log('[GPBC Watermark] ✅ Fallback logo loaded');
+            };
+            
+            fallbackImg.onerror = () => {
+                console.error('[GPBC Watermark] ❌ Logo load failed — continuing without watermark');
+                watermarkLogoReady = false;
+                window.__GPBC_WATERMARK_LOGO_READY__ = false;
+            };
+            
+            fallbackImg.src = fallbackSrc;
+        };
+
+        img.src = primarySrc;
+    }
+
+    /**
+     * Render GPBC logo watermark on canvas
+     * SPEC V4: Theme-adaptive, smart placement, fail-safe
+     */
+    function renderWatermarkLogo(ctx, canvas, format, theme) {
+        if (!watermarkLogoReady || !watermarkLogo) {
+            return; // Fail gracefully
+        }
+
+        const startTime = performance.now();
+
+        // === SIZE SYSTEM (RELATIVE) ===
+        const aspectRatio = canvas.width / canvas.height;
+        const isSquare = Math.abs(aspectRatio - 1.0) < 0.1;
+        
+        let logoWidthRatio = isSquare ? 0.18 : 0.16;
+        logoWidthRatio = Math.max(0.14, Math.min(0.22, logoWidthRatio));
+        
+        const logoWidth = canvas.width * logoWidthRatio;
+        const logoHeight = logoWidth * (watermarkLogo.height / watermarkLogo.width);
+
+        // === OPACITY SYSTEM (THEME ADAPTIVE) ===
+        const currentTheme = document.documentElement.dataset.theme || 'light';
+        let baseOpacity = currentTheme === 'dark' ? 0.055 : 0.065;
+        
+        // Clamp opacity to allowed range
+        if (currentTheme === 'dark') {
+            baseOpacity = Math.max(0.045, Math.min(0.065, baseOpacity));
+        } else {
+            baseOpacity = Math.max(0.055, Math.min(0.08, baseOpacity));
+        }
+
+        // === SMART CONTRAST PROTECTION ===
+        // Sample background brightness at center
+        const sampleX = Math.floor(canvas.width / 2);
+        const sampleY = Math.floor(canvas.height / 2);
+        const sampleData = ctx.getImageData(sampleX, sampleY, 1, 1).data;
+        const brightness = (sampleData[0] + sampleData[1] + sampleData[2]) / 3;
+        const brightnessPercent = brightness / 255;
+
+        let finalOpacity = baseOpacity;
+        if (brightnessPercent > 0.7) {
+            finalOpacity *= 0.85; // Reduce on bright backgrounds
+        } else if (brightnessPercent < 0.3) {
+            finalOpacity *= 1.1; // Increase on dark backgrounds
+            finalOpacity = Math.min(finalOpacity, currentTheme === 'dark' ? 0.065 : 0.08);
+        }
+
+        // === PLACEMENT SYSTEM ===
+        // Default: CENTER GHOST MARK
+        let drawX = canvas.width / 2;
+        let drawY = canvas.height / 2;
+        let placement = 'center';
+
+        // Check if verse text would overlap (simple heuristic)
+        // If center area is likely text-heavy, move to lower-right
+        const centerAreaBusy = brightnessPercent > 0.4 && brightnessPercent < 0.6;
+        
+        if (centerAreaBusy) {
+            drawX = canvas.width * 0.82;
+            drawY = canvas.height * 0.86;
+            placement = 'lower-right';
+        }
+
+        // === RENDER WITH BLEND MODE ===
+        ctx.save();
+        ctx.globalAlpha = finalOpacity;
+        ctx.globalCompositeOperation = 'source-over';
+        
+        // Draw centered on position
+        ctx.drawImage(
+            watermarkLogo,
+            drawX - (logoWidth / 2),
+            drawY - (logoHeight / 2),
+            logoWidth,
+            logoHeight
+        );
+        
+        ctx.restore();
+
+        // === DEBUG TELEMETRY ===
+        const renderTime = performance.now() - startTime;
+        window.__GPBC_WATERMARK_DEBUG__ = {
+            version: GPBC_WATERMARK_SPEC_VERSION,
+            logoLoaded: watermarkLogoReady,
+            lastOpacity: finalOpacity,
+            lastPlacement: placement,
+            lastRenderTime: renderTime
+        };
+    }
+
     /**
      * Initialize the share card generator
      */
@@ -82,8 +229,16 @@
 
         if (!triggerBtn || !modal || !overlay) return;
 
-        // Open modal
+        // PHASE 2: Reset ready flag at init start
+        window.__SHARE_GENERATOR_READY__ = false;
+
+        // Open modal - primary trigger
         triggerBtn.addEventListener('click', openModal);
+
+        // Bind secondary triggers (data-attribute based)
+        document.querySelectorAll('[data-share-trigger]').forEach(btn => {
+            btn.addEventListener('click', openModal);
+        });
 
         // Close modal
         closeBtn.addEventListener('click', closeModal);
@@ -104,6 +259,15 @@
         document.getElementById('downloadCardBtn')?.addEventListener('click', downloadCard);
         document.getElementById('shareCardBtn')?.addEventListener('click', shareCard);
         document.getElementById('copyCaptionBtn')?.addEventListener('click', copyCaptionToClipboard);
+
+        // Bind secondary copy triggers
+        document.querySelectorAll('[data-copy-trigger]').forEach(btn => {
+            btn.addEventListener('click', copyCaptionToClipboard);
+        });
+
+        // PHASE 2: Mark generator as ready after all listeners bound
+        window.__SHARE_GENERATOR_READY__ = true;
+        console.log('[Share Card] ✅ INIT COMPLETE — Controls Bound');
 
         // ESC key logic
         document.addEventListener('keydown', (e) => {
@@ -209,6 +373,14 @@
      * Called by orchestrator or direct invocation
      */
     function generateShareCardImage(devotionData) {
+        // PHASE 3: Safe open gate - block if generator not ready
+        if (window.__SHARE_GENERATOR_READY__ !== true) {
+            console.error('[Share Card] ❌ BLOCKED: Generator not initialized. Modal open prevented.');
+            return false;
+        }
+
+        // PHASE 5: Debug telemetry
+        console.log('[Share Card] 🎬 Trigger Request — Ready State:', window.__SHARE_GENERATOR_READY__);
         console.log('[ShareCard] 🎨 Generating share card...', devotionData);
         
         // Open modal and generate card
@@ -225,6 +397,9 @@
        window.__GPBC_SHARE_GENERATOR_READY__ = true;
 
        console.log("[GPBC Share] ✅ Generator attached to window");
+
+       // Initialize watermark logo preload
+       preloadWatermarkLogo();
 
        window.dispatchEvent(
           new CustomEvent("GPBC_SHARE_GENERATOR_READY")
@@ -268,7 +443,10 @@
         ctx.fillStyle = rayGradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 3. Watermark (GPBC)
+        // 3. GPBC Logo Watermark (SPEC V4)
+        renderWatermarkLogo(ctx, canvas, format, theme);
+
+        // 4. Legacy Text Watermark (Deprecated - keeping for fallback)
         ctx.save();
         ctx.translate(canvas.width / 2, canvas.height / 2);
         ctx.rotate(-Math.PI / 12); // -15 deg rotate
@@ -279,7 +457,7 @@
         ctx.fillText('GPBC', 0, 0);
         ctx.restore();
 
-        // 4. Content Logic
+        // 5. Content Logic
         const padding = config.padding;
         const availableWidth = canvas.width - (padding * 2);
         const centerY = canvas.height / 2;
@@ -310,13 +488,13 @@
             ctx.fillText(line, canvas.width / 2, startY + (i * lineHeight));
         });
 
-        // 5. Reference (Bottom of text)
+        // 6. Reference (Bottom of text)
         const refY = startY + totalTextHeight + 60;
         ctx.fillStyle = theme.reference;
         ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
         ctx.fillText(`— ${data.reference} —`, canvas.width / 2, refY);
 
-        // 6. Footer (Fixed Bottom)
+        // 7. Footer (Fixed Bottom)
         const footerY = canvas.height - padding;
         ctx.fillStyle = theme.text;
         ctx.globalAlpha = 0.5;

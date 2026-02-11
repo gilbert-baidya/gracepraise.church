@@ -92,6 +92,12 @@
             
             const devotionData = window.__CURRENT_DEVOTION__;
             
+            // PHASE 4: Check generator ready state before routing
+            if (window.__SHARE_GENERATOR_READY__ !== true) {
+                console.warn('[Share Orchestrator] ⏸️ Generator not ready — aborting open request');
+                return;
+            }
+            
             // STEP 4 — ORCHESTRATOR WAIT MODE
             if (window.generateShareCardImage) {
                 window.generateShareCardImage(devotionData);
@@ -102,7 +108,7 @@
                     'GPBC_SHARE_GENERATOR_READY',
                     () => {
                         console.log('[ShareCard] ✅ Generator ready — executing');
-                        if (window.generateShareCardImage) {
+                        if (window.__SHARE_GENERATOR_READY__ === true && window.generateShareCardImage) {
                             window.generateShareCardImage(devotionData);
                         }
                     },
