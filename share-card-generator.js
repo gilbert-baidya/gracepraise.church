@@ -76,6 +76,15 @@
         img.src = "images/new-gpbc-logo-final.svg";
     });
 
+    // ============================================================================
+    // PRODUCTION HOTFIX — Legacy Watermark State Variables
+    // Required for backward compatibility with old preload system
+    // ============================================================================
+    let watermarkLoadAttempted = false;
+    let watermarkLogoImage = null;
+    let watermarkLogoReady = false;
+    let watermarkLogo = null;
+
     // Configuration
     const CONFIG = {
         formats: {
@@ -132,53 +141,29 @@
 
     /**
      * Preload GPBC logo for watermark rendering
-     * Primary: SVG, Fallback: PNG
+     * Single source with safe state management
      * Caches in memory for reuse
      */
     function preloadWatermarkLogo() {
         if (watermarkLoadAttempted) return;
         watermarkLoadAttempted = true;
 
-        // Priority order: SVG no-bg → PNG → SVG with bg
-        const logoSources = [
-            'images/logo/gpbc-logo-no-bg.svg',
-            'images/logo/gpBC-logo.png',
-            'images/logo/new-gpbc-logo-final.svg',
-            'images/new-gpbc-logo-final.svg' // Fallback to current path
-        ];
+        const img = new Image();
+        img.crossOrigin = "anonymous";
 
-        let currentSourceIndex = 0;
+        img.onload = () => {
+            console.log("[GPBC Watermark] ✅ Logo loaded:", img.src);
+            watermarkLogoImage = img;
+            watermarkLogo = img;
+            watermarkLogoReady = true;
+        };
 
-        function tryLoadLogo() {
-            if (currentSourceIndex >= logoSources.length) {
-                console.error('[GPBC Watermark] ❌ All logo sources failed — continuing without watermark');
-                watermarkLogoReady = false;
-                window.__GPBC_WATERMARK_LOGO_READY__ = false;
-                window.__GPBC_LOGO_IMG__ = null;
-                return;
-            }
+        img.onerror = () => {
+            console.warn("[GPBC Watermark] ⚠️ Failed to load:", img.src);
+            watermarkLogoReady = false;
+        };
 
-            const img = new Image();
-            const currentSrc = logoSources[currentSourceIndex];
-
-            img.onload = () => {
-                watermarkLogo = img;
-                watermarkLogoReady = true;
-                window.__GPBC_WATERMARK_LOGO_READY__ = true;
-                window.__GPBC_LOGO_IMG__ = img; // Global cache for reuse
-                console.log(`[GPBC Watermark] ✅ Logo loaded from: ${currentSrc}`);
-            };
-
-            img.onerror = () => {
-                console.warn(`[GPBC Watermark] ⚠️ Failed to load: ${currentSrc}`);
-                currentSourceIndex++;
-                tryLoadLogo(); // Try next source
-            };
-
-            img.src = currentSrc;
-        }
-
-        tryLoadLogo();
+        img.src = "images/new-gpbc-logo-final.svg";
     }
 
     /**
@@ -708,6 +693,20 @@
             const size = canvas.width * 0.18;
             ctx.drawImage(
                 logoImg,
+                canvas.width / 2 - size / 2,
+                canvas.height / 2 - size / 2,
+                size,
+                size
+            );
+            ctx.globalAlpha = 1;
+            ctx.restore();
+        } else if (watermarkLogoImage) {
+            // HOTFIX FALLBACK — Use legacy preloaded image if available
+            ctx.save();
+            ctx.globalAlpha = 0.06;
+            const size = canvas.width * 0.18;
+            ctx.drawImage(
+                watermarkLogoImage,
                 canvas.width / 2 - size / 2,
                 canvas.height / 2 - size / 2,
                 size,
