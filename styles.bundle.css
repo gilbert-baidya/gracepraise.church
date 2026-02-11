@@ -3792,15 +3792,16 @@ footer {
         position: fixed;
         inset: 0;
         width: 100vw;
-        height: 100vh;
+        height: 100dvh;
+        height: 100vh; /* fallback */
         background: rgba(15, 23, 42, 0.98);
         /* Deep navy glassmorphism */
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
         padding: var(--spacing-3xl) var(--spacing-lg);
-        padding-top: calc(var(--gpbc-header-total-height, 100px) + 20px);
-        padding-bottom: env(safe-area-inset-bottom, 20px);
+        padding-top: max(env(safe-area-inset-top, 0px), 60px);
+        padding-bottom: max(env(safe-area-inset-bottom, 0px), 20px);
         box-shadow: none;
         transform: translateX(100%);
         transition: transform var(--transition-base);
