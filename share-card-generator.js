@@ -82,8 +82,16 @@
 
         if (!triggerBtn || !modal || !overlay) return;
 
-        // Open modal
+        // PHASE 2: Reset ready flag at init start
+        window.__SHARE_GENERATOR_READY__ = false;
+
+        // Open modal - primary trigger
         triggerBtn.addEventListener('click', openModal);
+
+        // Bind secondary triggers (data-attribute based)
+        document.querySelectorAll('[data-share-trigger]').forEach(btn => {
+            btn.addEventListener('click', openModal);
+        });
 
         // Close modal
         closeBtn.addEventListener('click', closeModal);
@@ -104,6 +112,15 @@
         document.getElementById('downloadCardBtn')?.addEventListener('click', downloadCard);
         document.getElementById('shareCardBtn')?.addEventListener('click', shareCard);
         document.getElementById('copyCaptionBtn')?.addEventListener('click', copyCaptionToClipboard);
+
+        // Bind secondary copy triggers
+        document.querySelectorAll('[data-copy-trigger]').forEach(btn => {
+            btn.addEventListener('click', copyCaptionToClipboard);
+        });
+
+        // PHASE 2: Mark generator as ready after all listeners bound
+        window.__SHARE_GENERATOR_READY__ = true;
+        console.log('[Share Card] ✅ INIT COMPLETE — Controls Bound');
 
         // ESC key logic
         document.addEventListener('keydown', (e) => {
@@ -209,6 +226,14 @@
      * Called by orchestrator or direct invocation
      */
     function generateShareCardImage(devotionData) {
+        // PHASE 3: Safe open gate - block if generator not ready
+        if (window.__SHARE_GENERATOR_READY__ !== true) {
+            console.error('[Share Card] ❌ BLOCKED: Generator not initialized. Modal open prevented.');
+            return false;
+        }
+
+        // PHASE 5: Debug telemetry
+        console.log('[Share Card] 🎬 Trigger Request — Ready State:', window.__SHARE_GENERATOR_READY__);
         console.log('[ShareCard] 🎨 Generating share card...', devotionData);
         
         // Open modal and generate card
