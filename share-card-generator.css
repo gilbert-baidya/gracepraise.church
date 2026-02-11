@@ -1,0 +1,398 @@
+/* ========================================
+   SHARE CARD GENERATOR STYLES
+   Daily Devotion Page Only
+   Scoped: body.page-daily-devotion
+   ======================================== */
+
+/* Modal Overlay */
+body.page-daily-devotion .share-card-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    animation: fadeIn 0.3s ease;
+}
+
+body.page-daily-devotion .share-card-overlay.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Modal Container */
+body.page-daily-devotion .share-card-modal {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-2xl);
+    animation: slideUp 0.3s ease;
+    position: relative;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal Header */
+body.page-daily-devotion .share-card-header {
+    padding: var(--spacing-xl);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+body.page-daily-devotion .share-card-title {
+    font-size: var(--font-xl);
+    font-weight: var(--font-semibold);
+    color: var(--color-text);
+    margin: 0;
+}
+
+body.page-daily-devotion .share-card-close {
+    background: transparent;
+    border: none;
+    font-size: var(--font-2xl);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    line-height: 1;
+    transition: all var(--transition-base);
+    border-radius: var(--radius-sm);
+}
+
+body.page-daily-devotion .share-card-close:hover {
+    background: var(--color-border);
+    color: var(--color-text);
+}
+
+/* Modal Body */
+body.page-daily-devotion .share-card-body {
+    padding: var(--spacing-xl);
+}
+
+/* Format Toggle */
+body.page-daily-devotion .format-toggle-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+body.page-daily-devotion .format-toggle-label {
+    display: block;
+    font-size: var(--font-sm);
+    font-weight: var(--font-semibold);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+body.page-daily-devotion .format-toggle {
+    display: flex;
+    gap: var(--spacing-sm);
+    background: var(--color-border);
+    padding: 4px;
+    border-radius: var(--radius-md);
+}
+
+body.page-daily-devotion .format-btn {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-base);
+    font-weight: var(--font-medium);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+body.page-daily-devotion .format-btn:hover {
+    color: var(--color-text);
+}
+
+body.page-daily-devotion .format-btn.active {
+    background: var(--color-surface);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+body.page-daily-devotion .format-icon {
+    font-size: var(--font-lg);
+}
+
+/* Canvas Preview */
+body.page-daily-devotion .share-card-preview-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+body.page-daily-devotion .share-card-preview {
+    background: var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    position: relative;
+}
+
+body.page-daily-devotion .share-card-canvas {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+}
+
+body.page-daily-devotion .preview-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-text-secondary);
+    font-size: var(--font-sm);
+}
+
+/* Action Buttons */
+body.page-daily-devotion .card-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+body.page-daily-devotion .card-action-btn {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    font-size: var(--font-base);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+body.page-daily-devotion .card-action-btn.primary {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: var(--color-text-inverse);
+    border-color: var(--color-primary);
+}
+
+body.page-daily-devotion .card-action-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+body.page-daily-devotion .card-action-btn.secondary {
+    background: transparent;
+    color: var(--color-primary);
+}
+
+body.page-daily-devotion .card-action-btn.secondary:hover {
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+}
+
+body.page-daily-devotion .card-action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Share Card Button (Trigger) */
+body.page-daily-devotion .share-card-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    border: 2px solid #7c3aed;
+    border-radius: var(--radius-lg);
+    font-size: var(--font-base);
+    font-weight: var(--font-semibold);
+    color: white;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+}
+
+body.page-daily-devotion .share-card-trigger:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+body.page-daily-devotion .share-card-trigger-icon {
+    font-size: var(--font-xl);
+}
+
+/* Dark Mode Overrides */
+body.page-daily-devotion.dark .share-card-modal,
+body.page-daily-devotion[data-theme="dark"] .share-card-modal,
+html.dark body.page-daily-devotion .share-card-modal {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+body.page-daily-devotion.dark .share-card-header,
+body.page-daily-devotion[data-theme="dark"] .share-card-header,
+html.dark body.page-daily-devotion .share-card-header {
+    border-bottom-color: rgba(148, 163, 184, 0.2);
+}
+
+body.page-daily-devotion.dark .share-card-title,
+body.page-daily-devotion[data-theme="dark"] .share-card-title,
+html.dark body.page-daily-devotion .share-card-title {
+    color: #ffffff;
+}
+
+body.page-daily-devotion.dark .format-toggle,
+body.page-daily-devotion[data-theme="dark"] .format-toggle,
+html.dark body.page-daily-devotion .format-toggle {
+    background: rgba(148, 163, 184, 0.1);
+}
+
+body.page-daily-devotion.dark .format-btn.active,
+body.page-daily-devotion[data-theme="dark"] .format-btn.active,
+html.dark body.page-daily-devotion .format-btn.active {
+    background: rgba(212, 160, 23, 0.2);
+    color: #d4a017;
+}
+
+body.page-daily-devotion.dark .share-card-preview,
+body.page-daily-devotion[data-theme="dark"] .share-card-preview,
+html.dark body.page-daily-devotion .share-card-preview {
+    background: rgba(148, 163, 184, 0.1);
+}
+
+/* Share Card Button (Trigger) */
+body.page-daily-devotion .share-card-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    border: 2px solid #7c3aed;
+    border-radius: var(--radius-lg);
+    font-size: var(--font-base);
+    font-weight: var(--font-semibold);
+    color: white;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+}
+
+body.page-daily-devotion .share-card-trigger:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+body.page-daily-devotion .share-card-trigger-icon {
+    font-size: var(--font-xl);
+}
+
+/* Share button wrapper - display buttons side by side */
+body.page-daily-devotion .share-today-wrapper {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: var(--spacing-xl) 0;
+}
+
+/* Responsive Mobile Styles */
+@media (max-width: 768px) {
+    body.page-daily-devotion .share-card-modal {
+        max-height: 95vh;
+        margin: var(--spacing-sm);
+    }
+
+    body.page-daily-devotion .share-card-header,
+    body.page-daily-devotion .share-card-body {
+        padding: var(--spacing-md);
+    }
+
+    body.page-daily-devotion .share-card-title {
+        font-size: var(--font-lg);
+    }
+
+    body.page-daily-devotion .card-actions {
+        grid-template-columns: 1fr;
+    }
+
+    body.page-daily-devotion .share-card-preview {
+        min-height: 300px;
+        padding: var(--spacing-md);
+    }
+
+    body.page-daily-devotion .format-toggle {
+        flex-direction: column;
+    }
+
+    body.page-daily-devotion .format-btn {
+        width: 100%;
+    }
+}
+
+/* Accessibility */
+body.page-daily-devotion .card-action-btn:focus-visible,
+body.page-daily-devotion .format-btn:focus-visible,
+body.page-daily-devotion .share-card-close:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Loading State */
+body.page-daily-devotion .share-card-preview.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
