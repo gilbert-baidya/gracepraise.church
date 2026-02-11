@@ -221,7 +221,6 @@
         if (isOpening) {
             // Save current scroll position before locking
             scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-            document.body.style.top = `-${scrollPosition}px`;
 
             // Phase 4: Update ARIA expanded BEFORE visual transition
             mobileMenuBtn.setAttribute('aria-expanded', 'true');
@@ -235,12 +234,9 @@
             navLinks.setAttribute('aria-hidden', 'true');
             navLinks.setAttribute('inert', '');
             
-            // Restore scroll position after unlocking
-            document.body.style.top = '';
-            
             // Only restore scroll if NOT navigating to anchor
             if (!isNavigatingToAnchor) {
-                window.scrollTo(0, scrollPosition);
+                window.scrollTo({ top: scrollPosition, left: 0, behavior: 'auto' });
             }
             
             // Reset flag after restoration
