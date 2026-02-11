@@ -532,7 +532,7 @@
     // ========================================================================
 
     function prefetchNextMonth(year) {
-        setTimeout(() => {
+        setTimeout(async () => {
             const nextMonth = new Date();
             nextMonth.setMonth(nextMonth.getMonth() + 1);
             const nextMonthName = nextMonth.toLocaleString('en', { month: 'long' }).toLowerCase();
@@ -540,11 +540,15 @@
             
             const url = `${window.location.origin}/devotions-data/${year}/${nextMonthNum}-${nextMonthName}.json`;
             
-            fetch(url, { cache: 'force-cache' }).catch(() => {
-                // Silent prefetch, don't care if it fails
-            });
-            
-            log(`Prefetching next month: ${nextMonthName}`);
+            try {
+                const response = await fetch(url, { cache: 'force-cache' });
+                if (response.ok) {
+                    log(`✅ Prefetched next month: ${nextMonthName}`);
+                }
+                // Silently ignore 404s - file may not exist yet
+            } catch (e) {
+                // Silent prefetch failure - expected if file doesn't exist
+            }
         }, 2000);
     }
 
