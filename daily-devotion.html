@@ -1092,6 +1092,13 @@
                 // Show only a 5-day window centered on the selected date
                 const windowKeys = generateRangeKeys(selectedDate, 2);
 
+                // STEP 4 — CALENDAR FAIL-SAFE: If no keys generated, create at least today
+                if (windowKeys.length === 0) {
+                    console.warn("[Devotion] Calendar fail-safe: Generating at least current day pill");
+                    const todayKey = toDateKey(selectedDate);
+                    windowKeys.push(todayKey);
+                }
+
                 windowKeys.forEach(key => {
                     const d = parseDateKey(key);
                     const pill = document.createElement('button');
@@ -1108,6 +1115,8 @@
                     });
                     dateStrip.appendChild(pill);
                 });
+                
+                console.log("[Devotion] CALENDAR PILLS BUILT:", windowKeys.length);
             }
 
             function generateRangeKeys(centerDate, radius) {
@@ -1196,6 +1205,10 @@
                 };
 
                 const devotionData = window.__CURRENT_DEVOTION_DATA__;
+
+                // STEP 3 — Cache for share card generator
+                window.__CURRENT_DEVOTION__ = devotionData;
+                console.log('[Devotion] ✅ Current devotion cached globally for share generator');
 
                 contentEl.style.display = 'block';
                 fallbackEl.style.display = 'none';
@@ -1709,6 +1722,9 @@
                     window.__DEVOTION_LOADED__ = true;
                     
                     console.log("[Devotion] Fallback render complete");
+                    
+                    // STEP 5 — CRITICAL: Fallback must NOT block renderAll()
+                    // Calendar and UI state should still render even with fallback content
                 } catch (err) {
                     console.error("[Devotion] Fallback render failed:", err);
                     hideDevotionLoader(); // STEP 4 — Hide even on error
@@ -1795,7 +1811,8 @@
         function startDevotions() {
             if (initialized) return;
             initialized = true;
-            console.log("[Devotion] Initializing devotions system");
+            console.log("[Devotion] DEVOTION RENDER PIPELINE START");
+            console.log("[Devotion] DEVOTION DATA LENGTH:", window.DEVOTIONS?.length);
             initializeDevotions();
         }
 
@@ -1887,8 +1904,25 @@
     <!-- Safe Engine Loader (Handles Discipleship & Share Engines) -->
     <script src="safe-engine-loader.js"></script>
 
+    <!-- Share Card Generator (Load directly before orchestrator) -->
+    <script src="share-card-generator.js"></script>
+
+    <!-- Share Card Orchestrator (YouVersion-Level Experience) -->
+    <script src="js/share-card-orchestrator.js"></script>
+
+    <!-- Share Panel Surface Verification -->
+    <script src="share-panel-verification.js"></script>
+
     <!-- SEO Manager (Can remain standalone or be managed, keeping standalone for meta tags) -->
     <script src="seo-manager.js"></script>
+
+    <!-- STEP 5 — Runtime Debug for Share Generator -->
+    <script>
+        setTimeout(() => {
+            console.log('[DEBUG] Global Share Generator:', window.generateShareCardImage);
+            console.log('[DEBUG] Current Devotion:', window.__CURRENT_DEVOTION__);
+        }, 1500);
+    </script>
 </body>
 
 </html>

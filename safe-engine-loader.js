@@ -139,24 +139,27 @@
         STATE.enginesLoaded = true;
         log('info', '🚀 Initializing Apostolic Discipleship Engines...');
 
-        // Performance Guardrail: requestIdleCallback (Step 3)
-        const idleCallback = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+        // STEP 6 — ENGINE LOADER SAFETY: Wrap in requestAnimationFrame so render happens first
+        requestAnimationFrame(() => {
+            // Performance Guardrail: requestIdleCallback (Step 3)
+            const idleCallback = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
 
-        idleCallback(async () => {
-            try {
-                // Load critical modules first or in parallel?
-                // Parallel is faster, but we wrap in try/catch block concept
-                const promises = CONFIG.modules.map(src => loadScript(src));
-                const results = await Promise.allSettled(promises);
+            idleCallback(async () => {
+                try {
+                    // Load critical modules first or in parallel?
+                    // Parallel is faster, but we wrap in try/catch block concept
+                    const promises = CONFIG.modules.map(src => loadScript(src));
+                    const results = await Promise.allSettled(promises);
 
-                log('info', '✅ All engines initialization sequence complete.');
+                    log('info', '✅ All engines initialization sequence complete.');
 
-                // Trigger an event for other scripts to know engines are ready
-                window.dispatchEvent(new CustomEvent('gpbc-engines-ready'));
+                    // Trigger an event for other scripts to know engines are ready
+                    window.dispatchEvent(new CustomEvent('gpbc-engines-ready'));
 
-            } catch (e) {
-                log('error', 'Critical Loader Failure', e);
-            }
+                } catch (e) {
+                    log('error', 'Critical Loader Failure', e);
+                }
+            });
         });
     }
 
