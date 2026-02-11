@@ -93,6 +93,14 @@
         return Math.floor(age / (1000 * 60 * 60 * 24)); // Days
     }
 
+    function emitTelemetryEvent(eventName, detail) {
+        try {
+            window.dispatchEvent(new CustomEvent(eventName, { detail }));
+        } catch (e) {
+            // Telemetry must never break mesh functionality
+        }
+    }
+
     function isValidDevotionArray(data) {
         if (!Array.isArray(data)) return false;
         if (data.length === 0) return false;
@@ -225,6 +233,14 @@
             log(`${layerName} SUCCESS - ${data.length} devotions loaded`);
             STATE.lastLayerUsed = 1;
             
+            // Emit telemetry
+            emitTelemetryEvent('GPBC_DEVOTION_LAYER_SUCCESS', {
+                layer: 1,
+                source: 'primary-github',
+                loadTime: Date.now() - STATE.lastLoadTime,
+                dataCount: data.length
+            });
+            
             // Save to cache for future failures
             saveToCache(year, data);
             
@@ -232,6 +248,14 @@
         } catch (e) {
             error(`${layerName} FAILED → ${e.message}`);
             STATE.lastError = e.message;
+            
+            // Emit telemetry
+            emitTelemetryEvent('GPBC_DEVOTION_LAYER_FAIL', {
+                layer: 1,
+                reason: e.message,
+                error: e.toString()
+            });
+            
             return { success: false, error: e.message };
         }
     }
@@ -277,6 +301,14 @@
             log(`${layerName} SUCCESS - ${monthData.length} devotions from ${results.filter(r => r.status === 'fulfilled' && r.value).length} months`);
             STATE.lastLayerUsed = 2;
             
+            // Emit telemetry
+            emitTelemetryEvent('GPBC_DEVOTION_LAYER_SUCCESS', {
+                layer: 2,
+                source: 'monthly-fallback',
+                loadTime: Date.now() - STATE.lastLoadTime,
+                dataCount: monthData.length
+            });
+            
             // Save to cache
             saveToCache(year, monthData);
             
@@ -284,6 +316,14 @@
         } catch (e) {
             error(`${layerName} FAILED → ${e.message}`);
             STATE.lastError = e.message;
+            
+            // Emit telemetry
+            emitTelemetryEvent('GPBC_DEVOTION_LAYER_FAIL', {
+                layer: 2,
+                reason: e.message,
+                error: e.toString()
+            });
+            
             return { success: false, error: e.message };
         }
     }
@@ -313,6 +353,14 @@
             log(`${layerName} SUCCESS - ${data.length} devotions loaded`);
             STATE.lastLayerUsed = 3;
             
+            // Emit telemetry
+            emitTelemetryEvent('GPBC_DEVOTION_LAYER_SUCCESS', {
+                layer: 3,
+                source: 'cdn-backup',
+                loadTime: Date.now() - STATE.lastLoadTime,
+                dataCount: data.length
+            });
+            
             // Save to cache
             saveToCache(year, data);
             
@@ -320,6 +368,14 @@
         } catch (e) {
             error(`${layerName} FAILED → ${e.message}`);
             STATE.lastError = e.message;
+            
+            // Emit telemetry
+            emitTelemetryEvent('GPBC_DEVOTION_LAYER_FAIL', {
+                layer: 3,
+                reason: e.message,
+                error: e.toString()
+            });
+            
             return { success: false, error: e.message };
         }
     }
@@ -342,10 +398,26 @@
             log(`${layerName} SUCCESS - ${cached.length} devotions from cache`);
             STATE.lastLayerUsed = 4;
             
+            // Emit telemetry
+            emitTelemetryEvent('GPBC_DEVOTION_LAYER_SUCCESS', {
+                layer: 4,
+                source: 'local-cache',
+                loadTime: Date.now() - STATE.lastLoadTime,
+                dataCount: cached.length
+            });
+            
             return { success: true, data: cached, source: 'local-cache' };
         } catch (e) {
             error(`${layerName} FAILED → ${e.message}`);
             STATE.lastError = e.message;
+            
+            // Emit telemetry
+            emitTelemetryEvent('GPBC_DEVOTION_LAYER_FAIL', {
+                layer: 4,
+                reason: e.message,
+                error: e.toString()
+            });
+            
             return { success: false, error: e.message };
         }
     }
@@ -362,6 +434,14 @@
         
         log(`${layerName} SUCCESS - Emergency devotion loaded`);
         STATE.lastLayerUsed = 5;
+        
+        // Emit telemetry
+        emitTelemetryEvent('GPBC_DEVOTION_LAYER_SUCCESS', {
+            layer: 5,
+            source: 'emergency-fallback',
+            loadTime: Date.now() - STATE.lastLoadTime,
+            dataCount: emergency.length
+        });
         
         return { success: true, data: emergency, source: 'emergency-fallback' };
     }
@@ -423,6 +503,15 @@
                 if (STATE.loadHistory.length > 10) {
                     STATE.loadHistory.shift();
                 }
+                
+                // Emit mesh complete telemetry
+                emitTelemetryEvent('GPBC_DEVOTION_MESH_COMPLETE', {
+                    layer: STATE.lastLayerUsed,
+                    source: result.source,
+                    loadTime,
+                    dataCount: result.data.length,
+                    year
+                });
                 
                 // Prefetch next month if enabled
                 if (CONFIG.ENABLE_PREFETCH && STATE.lastLayerUsed <= 2) {
