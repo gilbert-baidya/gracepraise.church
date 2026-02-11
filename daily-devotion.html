@@ -922,6 +922,24 @@
             const langEnBtn = document.getElementById('langEn');
             const langBnBtn = document.getElementById('langBn');
 
+            // STEP 2 — HARD SAFE HIDE FUNCTION (Smooth fade-out)
+            function hideDevotionLoader() {
+                const loader = document.getElementById('devotionLoading');
+                if (!loader) {
+                    console.warn("[Devotion] Loader element not found");
+                    return;
+                }
+
+                // Smooth fade-out animation
+                loader.style.opacity = "0";
+                loader.style.transition = "opacity 0.3s ease";
+                
+                setTimeout(() => {
+                    loader.style.display = "none";
+                    console.log("[Devotion] ✅ Loader hidden (smooth fade-out)");
+                }, 300);
+            }
+
             // -----------------------------
             // State
             // -----------------------------
@@ -1145,7 +1163,7 @@
                     console.log("[Devotion] Fetch Success: No data for date — triggering fallback");
                     contentEl.style.display = 'none';
                     fallbackEl.style.display = 'block';
-                    if (loadingEl) loadingEl.style.display = 'none';
+                    hideDevotionLoader(); // STEP 3 — Use safe hide function
                     window.SkeletonEngine.hide();
                     window.__DEVOTION_RENDER_STARTED__ = false;
                     window.ResurrectionLock.release();
@@ -1154,6 +1172,16 @@
 
                 console.log("[Devotion] Fetch Success");
                 console.log("[Devotion] Data Validated");
+                
+                // STEP 1 — Log devotion data for debugging
+                console.log("[Devotion] Loaded data:", {
+                    date: key,
+                    title: data.title,
+                    verse: data.verse,
+                    verseText: data.verseText?.substring(0, 50) + '...',
+                    hasReflection: !!data.reflection,
+                    hasPrayer: !!data.prayer
+                });
 
                 // PHASE 2 — Set Global Devotion Data (Single Source of Truth)
                 const lang = currentLang === 'bn' ? 'Bn' : '';
@@ -1204,11 +1232,9 @@
                 }
                 console.log("[Devotion] Share Engine Ready");
 
-                // STEP 7: Hide Loader
-                if (loadingEl) {
-                    loadingEl.style.display = 'none';
-                    console.log("[Devotion] Loader Hidden");
-                }
+                // STEP 7: Hide Loader (smooth fade-out)
+                hideDevotionLoader();
+                console.log("[Devotion] Loader Hidden");
                 window.SkeletonEngine.hide();
 
                 // RESURRECTION — Prefetch Adjacent Dates
@@ -1229,14 +1255,39 @@
 
             // Update Sacred Quote Card
             function updateSacredQuoteCard(date, reference, verseText) {
+                console.log("[Devotion] Updating Sacred Quote:", { date, reference, verseText });
+                
+                // STEP 2 — Direct ID-based updates (reliable)
+                const dateEl = document.getElementById('sacredQuoteDate');
+                const refEl = document.getElementById('sacredQuoteRefText');
+                const verseEl = document.getElementById('sacredQuoteVerseText');
+
+                if (dateEl) {
+                    dateEl.textContent = date || 'Loading...';
+                    console.log("[Devotion] ✅ Sacred Quote Date updated:", date);
+                } else {
+                    console.warn("[Devotion] ❌ sacredQuoteDate element not found");
+                }
+
+                if (refEl) {
+                    refEl.textContent = reference || '—';
+                    console.log("[Devotion] ✅ Sacred Quote Reference updated:", reference);
+                } else {
+                    console.warn("[Devotion] ❌ sacredQuoteRefText element not found");
+                }
+
+                if (verseEl) {
+                    verseEl.textContent = verseText || 'Loading today\'s word...';
+                    console.log("[Devotion] ✅ Sacred Quote Verse updated:", verseText?.substring(0, 50) + '...');
+                } else {
+                    console.warn("[Devotion] ❌ sacredQuoteVerseText element not found");
+                }
+
+                // Try window.safeSetText if available (bonus, but not required)
                 if (window.safeSetText) {
                     window.safeSetText('#sacredQuoteDate', date || 'Loading...');
                     window.safeSetText('#sacredQuoteRefText', reference || '—');
                     window.safeSetText('#sacredQuoteVerseText', verseText || 'Loading today\'s word...');
-                } else {
-                    // Fallback if safe-engine-loader hasn't run (rare)
-                    const dateEl = document.getElementById('sacredQuoteDate');
-                    if (dateEl) dateEl.textContent = date || 'Loading...';
                 }
             }
 
@@ -1625,15 +1676,17 @@
                     verse: "Psalm 46:1",
                     verseText: "God is our refuge and strength, an ever-present help in trouble.",
                     reflection: "Even when systems fail, God never fails. His strength is available to you right now, in this very moment. Trust Him today.",
-                    prayer: "Lord, be our strength today. When technology fails, You remain faithful. Help us to trust You completely. Amen."
+                    prayer: "Lord, be our strength today. When technology fails, You remain faithful. Help us to trust You completely. Amen.",
+                    date: formatDisplayDate(selectedDate || new Date())
                 };
 
                 try {
                     if (contentEl) contentEl.style.display = 'block';
                     if (fallbackEl) fallbackEl.style.display = 'none';
                     
+                    // STEP 3 — Populate main devotion
                     safeSetTextById('devotionTitle', fallback.title);
-                    safeSetTextById('devotionSubtitle', `${formatDisplayDate(selectedDate)} — ${fallback.verse}`);
+                    safeSetTextById('devotionSubtitle', `${fallback.date} — ${fallback.verse}`);
                     safeSetTextById('bibleReference', fallback.verse);
                     
                     const verseEl = document.querySelector('[data-devotion-scripture]');
@@ -1645,12 +1698,20 @@
                     const prayerEl = document.querySelector('[data-devotion-prayer]');
                     if (prayerEl) prayerEl.innerHTML = `<p>${fallback.prayer}</p>`;
 
-                    updateSacredQuoteCard(formatDisplayDate(selectedDate), fallback.verse, fallback.verseText);
+                    // STEP 3 — CRITICAL: Populate Sacred Quote Card
+                    updateSacredQuoteCard(fallback.date, fallback.verse, fallback.verseText);
+                    console.log("[Devotion] ✅ Fallback Sacred Quote populated");
+
+                    // STEP 4 — Hide loader in fallback path
+                    hideDevotionLoader();
 
                     window.__DEVOTION_RENDER_COMPLETED__ = true;
                     window.__DEVOTION_LOADED__ = true;
+                    
+                    console.log("[Devotion] Fallback render complete");
                 } catch (err) {
                     console.error("[Devotion] Fallback render failed:", err);
+                    hideDevotionLoader(); // STEP 4 — Hide even on error
                 }
             }
 
@@ -1678,13 +1739,16 @@
                     
                     highlightSelected();
                     
-                    // PHASE 3 — ABSOLUTE RULE: Loader must always exit
-                    if (loadingEl) {
-                        loadingEl.style.display = 'none';
-                    }
+                    // STEP 4 — ABSOLUTE RULE: Loader must ALWAYS hide
+                    hideDevotionLoader();
+                    console.log("[Devotion] ✅ Loader hidden (renderAll)");
+                    window.SkeletonEngine.hide();
                 } catch (err) {
                     console.error("[Devotion] renderAll failed:", err);
-                    if (loadingEl) loadingEl.style.display = 'none';
+                    // STEP 4 — Even on error, hide loader
+                    hideDevotionLoader();
+                    console.log("[Devotion] ✅ Loader hidden (error path)");
+                    window.SkeletonEngine.hide();
                     showFallbackDevotion();
                 }
             }
@@ -1705,11 +1769,20 @@
 
             populateSelectors();
             
+            // STEP 5 — EMERGENCY KILL SWITCH: Force loader hide after 4 seconds
+            setTimeout(() => {
+                if (!window.__DEVOTION_LOADED__) {
+                    console.warn("[Devotion] ⏰ Loader forced hide (timeout)");
+                    hideDevotionLoader();
+                    window.SkeletonEngine.hide();
+                }
+            }, 4000);
+            
             // PHASE 3 — WATCHDOG: Force loader hide after 4000ms if not completed
             setTimeout(() => {
                 if (!window.__DEVOTION_RENDER_COMPLETED__) {
                     console.warn("[Devotion] Loader timeout fallback activated (4000ms expired)");
-                    if (loadingEl) loadingEl.style.display = 'none';
+                    hideDevotionLoader();
                     showFallbackDevotion();
                 }
             }, 4000);
