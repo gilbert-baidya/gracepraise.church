@@ -399,8 +399,14 @@
      * STEP 1 — Generate Share Card (Global API)
      * Called by orchestrator or direct invocation
      */
-    function generateShareCardImage(devotionData) {
-        // PHASE 3: Safe open gate - block if generator not ready
+    async function generateShareCardImage(devotionData) {
+        // Self-healing: Attempt recovery init if generator not ready
+        if (window.__SHARE_GENERATOR_READY__ !== true) {
+            console.warn('[Share Card] 🔄 Generator not ready — attempting recovery init');
+            await safeInitShareGenerator();
+        }
+
+        // PHASE 3: Safe open gate - block if generator still not ready after recovery
         if (window.__SHARE_GENERATOR_READY__ !== true) {
             console.error('[Share Card] ❌ BLOCKED: Generator not initialized. Modal open prevented.');
             return false;
@@ -612,29 +618,92 @@
         }
     }
 
-    // Init with retry logic
-    let initAttempts = 0;
-    const MAX_INIT_ATTEMPTS = 3;
+    // ============================================================================
+    // INIT RECOVERY SYSTEM — Production Fix for Share Card Not Clickable
+    // ============================================================================
+    
+    // Global init state tracking
+    if (typeof window.__SHARE_GENERATOR_READY__ === 'undefined') {
+        window.__SHARE_GENERATOR_READY__ = false;
+    }
+    window.__SHARE_INIT_ATTEMPTS__ = 0;
+    window.__SHARE_INIT_MAX_ATTEMPTS__ = 5;
 
-    function attemptInit() {
-        initAttempts++;
-        console.log(`[Share Card] Init attempt ${initAttempts}/${MAX_INIT_ATTEMPTS}`);
-        
-        const success = initShareCardGenerator();
-        
-        if (!success && initAttempts < MAX_INIT_ATTEMPTS) {
-            console.warn(`[Share Card] ⚠️ Init attempt ${initAttempts} failed, retrying in 500ms...`);
-            setTimeout(attemptInit, 500);
-        } else if (!success) {
-            console.error('[Share Card] ❌ All init attempts failed - generator not available');
+    // Async safe init with retry
+    async function safeInitShareGenerator() {
+        // Early exit if already initialized
+        if (window.__SHARE_GENERATOR_READY__ === true) {
+            console.log('[Share Card] Already initialized — skipping');
+            return true;
+        }
+
+        window.__SHARE_INIT_ATTEMPTS__++;
+        console.log(`[Share Card] 🔧 Init Attempt: ${window.__SHARE_INIT_ATTEMPTS__}/${window.__SHARE_INIT_MAX_ATTEMPTS__}`);
+
+        // Check all required DOM elements
+        const modal = document.getElementById('shareCardModal');
+        const overlay = document.getElementById('shareCardOverlay');
+        const shareRoot = document.getElementById('shareCardRoot');
+        const triggerBtn = document.getElementById('shareCardTrigger');
+        const closeBtn = document.getElementById('shareModalClose');
+
+        const allElementsPresent = modal && overlay && shareRoot && triggerBtn && closeBtn;
+
+        if (!allElementsPresent) {
+            console.warn('[Share Card] ⚠️ DOM not ready — retry scheduled', {
+                modal: !!modal,
+                overlay: !!overlay,
+                shareRoot: !!shareRoot,
+                triggerBtn: !!triggerBtn,
+                closeBtn: !!closeBtn
+            });
+
+            // Schedule retry if under attempt limit
+            if (window.__SHARE_INIT_ATTEMPTS__ < window.__SHARE_INIT_MAX_ATTEMPTS__) {
+                setTimeout(() => safeInitShareGenerator(), 400);
+            } else {
+                console.error('[Share Card] ❌ Max init attempts reached — generator unavailable');
+            }
+            return false;
+        }
+
+        // Attempt initialization
+        try {
+            const initSuccess = initShareCardGenerator();
+            if (initSuccess) {
+                window.__SHARE_GENERATOR_READY__ = true;
+                console.log('[Share Card] ✅ INIT COMPLETE — Controls Bound');
+                return true;
+            } else {
+                throw new Error('initShareCardGenerator returned false');
+            }
+        } catch (err) {
+            console.error('[Share Card] ❌ Init failed:', err);
+            
+            // Retry on error if under attempt limit
+            if (window.__SHARE_INIT_ATTEMPTS__ < window.__SHARE_INIT_MAX_ATTEMPTS__) {
+                setTimeout(() => safeInitShareGenerator(), 400);
+            }
+            return false;
         }
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', attemptInit);
-    } else {
-        attemptInit();
-    }
+    // DOM ready initialization with delay
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => safeInitShareGenerator(), 100);
+    });
+
+    // Debug telemetry helper
+    window.debugShareInit = function () {
+        return {
+            ready: window.__SHARE_GENERATOR_READY__,
+            attempts: window.__SHARE_INIT_ATTEMPTS__,
+            maxAttempts: window.__SHARE_INIT_MAX_ATTEMPTS__,
+            modalExists: !!document.getElementById('shareCardModal'),
+            overlayExists: !!document.getElementById('shareCardOverlay'),
+            triggerExists: !!document.getElementById('shareCardTrigger')
+        };
+    };
 
     // STEP 3 — Verify generator loads after script load
     console.log('[ShareCard] ✅ File loaded');
