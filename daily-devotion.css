@@ -2038,13 +2038,15 @@
 
         /* Premium Share Panel */
         body.page-daily-devotion .devotion-share-panel {
-            position: relative;
-            margin-top: var(--dd-space-xl);
+            position: relative !important;
+            transform: none !important;
+            margin-top: 20px;
             padding: var(--dd-space-lg);
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(250, 248, 245, 0.95));
             border-radius: var(--dd-radius-card);
             border: 2px solid rgba(30, 58, 138, 0.1);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            z-index: auto;
         }
 
         body.page-daily-devotion .devotion-share-panel h4 {
@@ -3001,12 +3003,278 @@
             /* Ensure no bleed-through */
         }
 
-        /* MICRO-FIX: Sticky Jump Bar Stacking */
-        .devotion-jump-bar {
-            position: sticky !important;
-            /* Ensure sticky behavior */
-            top: 80px !important;
-            /* Safe offset below header (approx 70-80px) */
-            z-index: 90 !important;
-            /* Ensure it sits BELOW the main header (usually 100+) */
+        /* =========================================================================
+           FINAL PHASE: SACRED PREMIUM MICRO POLISH
+           Scope: Optical Spacing, Light & Depth, Typography, Emotion
+           ========================================================================= */
+
+        /* PHASE 1: OPTICAL SPACING POLISH */
+        body.page-daily-devotion {
+            /* Increase breathing room for 'Sacred' feel */
+            --space-hero-calendar: 52px;
+            /* +4px */
+            --space-calendar-verse: 36px;
+            /* +4px */
+            --space-verse-share: 32px;
+            /* +4px */
+            --space-share-tabs: 36px;
+            /* +4px */
+            --space-tabs-scripture: 28px;
+            /* Maintain connection */
+            --space-prayer-invite: 56px;
+            /* +8px (Major separation) */
+            --space-invite-nav: 48px;
+            /* +8px */
+        }
+
+        /* Share Section - "Offering Plate" Feel */
+        body.page-daily-devotion .devotion-share-panel {
+            padding: 32px !important;
+            /* Increased from 20px */
+            /* PHASE 2: SACRED LIGHT & DEPTH - Day Mode (Warm Parchment) */
+            background: linear-gradient(135deg, #FFFCF5, #F9F5EB) !important;
+            /* Warm parchment */
+            border: 1px solid rgba(139, 115, 85, 0.15) !important;
+            /* Soft Gold/Brown trace */
+            box-shadow:
+                0 4px 6px -1px rgba(0, 0, 0, 0.02),
+                0 12px 24px -4px rgba(60, 50, 40, 0.04) !important;
+            /* Soft ambient depth */
+        }
+
+        .devotion-share-panel h4 {
+            margin-top: 0 !important;
+            letter-spacing: -0.025em !important;
+            /* Elegant tight */
+        }
+
+        /* PHASE 2: SACRED LIGHT & DEPTH - General */
+        /* Reduce Tech Glow, Increase Ambient Depth */
+        body.page-daily-devotion .share-action-btn {
+            box-shadow: 0 2px 4px rgba(60, 50, 40, 0.03) !important;
+            background: #FFFFFF !important;
+            border-color: rgba(139, 115, 85, 0.15) !important;
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+            /* Gentle ease */
+        }
+
+        body.page-daily-devotion .share-action-btn:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 12px 24px rgba(60, 50, 40, 0.08) !important;
+            /* Soft architectural shadow */
+            border-color: var(--brand-primary) !important;
+        }
+
+        /* Primary Button - Sacred Purple Gradient (De-Neonized) */
+        body.page-daily-devotion .share-action-btn.primary {
+            background: linear-gradient(135deg, #7c3aed, #5b21b6) !important;
+            /* Slightly deeper */
+            box-shadow: 0 4px 12px rgba(91, 33, 182, 0.15) !important;
+            /* Reduced heavy glow */
+        }
+
+        body.page-daily-devotion .share-action-btn.primary:hover {
+            background: linear-gradient(135deg, #6d28d9, #4c1d95) !important;
+            /* Deepest purple */
+            box-shadow: 0 12px 24px rgba(91, 33, 182, 0.2) !important;
+            /* Ambient, not neon */
+        }
+
+        /* PHASE 3: TYPOGRAPHY SACRED AUTHORITY */
+        /* Scripture Text */
+        body.page-daily-devotion .sacred-quote-verse {
+            font-weight: 550 !important;
+            /* Heavier than normal body */
+            letter-spacing: -0.01em !important;
+            /* Tighten slightly */
+            color: #1a1a1a !important;
+            /* Deepest grey/black */
+        }
+
+        /* Headings - Ministry Led */
+        body.page-daily-devotion h2,
+        body.page-daily-devotion h3 {
+            letter-spacing: -0.025em !important;
+            /* Modern elegant tight */
+        }
+
+        /* PHASE 4: SHARE EXPERIENCE EMOTION */
+        body.page-daily-devotion .jump-link,
+        body.page-daily-devotion .date-pill {
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+            /* Slow ease-out "Gentle" */
+        }
+
+        /* PHASE 2: DARK MODE OVERRIDES (Candle-lit Chapel) */
+        @media (prefers-color-scheme: dark) {
+            body.page-daily-devotion .devotion-share-panel {
+                background: linear-gradient(135deg, #1e1e24, #18181b) !important;
+                /* Deep warm black */
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+                /* Deep shadow */
+            }
+
+            body.page-daily-devotion .share-action-btn {
+                background: rgba(255, 255, 255, 0.03) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+
+            body.page-daily-devotion .share-action-btn:hover {
+                background: rgba(255, 255, 255, 0.08) !important;
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5) !important;
+            }
+
+            body.page-daily-devotion .sacred-quote-verse {
+                color: rgba(255, 255, 255, 0.95) !important;
+            }
+        }
+
+        [data-theme="dark"] body.page-daily-devotion .devotion-share-panel {
+            background: linear-gradient(135deg, #1e1e24, #18181b) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        [data-theme="dark"] body.page-daily-devotion .share-action-btn {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        [data-theme="dark"] body.page-daily-devotion .share-action-btn:hover {
+            background: rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        [data-theme="dark"] body.page-daily-devotion .sacred-quote-verse {
+            color: rgba(255, 255, 255, 0.95) !important;
+        }
+        /* =========================================================================
+           FINAL PHASE: SACRED PREMIUM MICRO POLISH
+           Scope: Optical Spacing, Light & Depth, Typography, Emotion
+           ========================================================================= */
+
+        /* PHASE 1: OPTICAL SPACING POLISH */
+        body.page-daily-devotion {
+            /* Increase breathing room for 'Sacred' feel */
+            --space-hero-calendar: 52px !important;   /* +4px */
+            --space-calendar-verse: 36px !important;  /* +4px */
+            --space-verse-share: 32px !important;     /* +4px */
+            --space-share-tabs: 36px !important;      /* +4px */
+            --space-tabs-scripture: 28px !important;  /* Maintain connection */
+            --space-prayer-invite: 56px !important;   /* +8px (Major separation) */
+            --space-invite-nav: 48px !important;      /* +8px */
+        }
+
+        /* Share Section - "Offering Plate" Feel */
+        body.page-daily-devotion .devotion-share-panel {
+            padding: 32px !important; /* Increased from 20px */
+            /* PHASE 2: SACRED LIGHT & DEPTH - Day Mode (Warm Parchment) */
+            background: linear-gradient(135deg, #FFFCF5, #F9F5EB) !important; /* Warm parchment */
+            border: 1px solid rgba(139, 115, 85, 0.15) !important; /* Soft Gold/Brown trace */
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.02), 
+                0 12px 24px -4px rgba(60, 50, 40, 0.04) !important; /* Soft ambient depth */
+        }
+
+        .devotion-share-panel h4 {
+            margin-top: 0 !important;
+            letter-spacing: -0.025em !important; /* Elegant tight */
+        }
+
+        /* PHASE 2: SACRED LIGHT & DEPTH - General */
+        /* Reduce Tech Glow, Increase Ambient Depth */
+        body.page-daily-devotion .share-action-btn {
+            box-shadow: 0 2px 4px rgba(60, 50, 40, 0.03) !important;
+            background: #FFFFFF !important;
+            border-color: rgba(139, 115, 85, 0.15) !important;
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important; /* Gentle ease */
+            border-radius: 12px !important; /* Ensure soft rounding */
+        }
+
+        body.page-daily-devotion .share-action-btn:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 12px 24px rgba(60, 50, 40, 0.08) !important; /* Soft architectural shadow */
+            border-color: var(--brand-primary) !important;
+        }
+
+        /* Primary Button - Sacred Purple Gradient (De-Neonized) */
+        body.page-daily-devotion .share-action-btn.primary {
+            background: linear-gradient(135deg, #7c3aed, #5b21b6) !important; /* Slightly deeper */
+            box-shadow: 0 4px 12px rgba(91, 33, 182, 0.15) !important; /* Reduced heavy glow */
+            border: none !important;
+        }
+
+        body.page-daily-devotion .share-action-btn.primary:hover {
+            background: linear-gradient(135deg, #6d28d9, #4c1d95) !important; /* Deepest purple */
+            box-shadow: 0 12px 24px rgba(91, 33, 182, 0.2) !important; /* Ambient, not neon */
+        }
+
+        /* PHASE 3: TYPOGRAPHY SACRED AUTHORITY */
+        /* Scripture Text */
+        body.page-daily-devotion .sacred-quote-verse {
+            font-weight: 550 !important; /* Heavier than normal body */
+            letter-spacing: -0.01em !important; /* Tighten slightly */
+            color: #1a1a1a !important; /* Deepest grey/black */
+        }
+
+        /* Headings - Ministry Led */
+        body.page-daily-devotion h2, 
+        body.page-daily-devotion h3 {
+            letter-spacing: -0.025em !important; /* Modern elegant tight */
+        }
+
+        /* PHASE 4: SHARE EXPERIENCE EMOTION */
+        body.page-daily-devotion .jump-link,
+        body.page-daily-devotion .date-pill {
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important; /* Slow ease-out "Gentle" */
+        }
+
+        /* PHASE 2: DARK MODE OVERRIDES (Candle-lit Chapel) */
+        @media (prefers-color-scheme: dark) {
+            body.page-daily-devotion .devotion-share-panel {
+                background: linear-gradient(135deg, #1e1e24, #18181b) !important; /* Deep warm black */
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important; /* Deep shadow */
+            }
+
+            body.page-daily-devotion .share-action-btn {
+                background: rgba(255, 255, 255, 0.03) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+            
+            body.page-daily-devotion .share-action-btn:hover {
+                background: rgba(255, 255, 255, 0.08) !important;
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5) !important;
+                border-color: rgba(255, 255, 255, 0.3) !important;
+            }
+            
+            body.page-daily-devotion .sacred-quote-verse {
+                color: rgba(255, 255, 255, 0.95) !important;
+            }
+        }
+        
+        [data-theme="dark"] body.page-daily-devotion .devotion-share-panel {
+             background: linear-gradient(135deg, #1e1e24, #18181b) !important;
+             border: 1px solid rgba(255, 255, 255, 0.08) !important;
+             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        [data-theme="dark"] body.page-daily-devotion .share-action-btn {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        [data-theme="dark"] body.page-daily-devotion .share-action-btn:hover {
+             background: rgba(255, 255, 255, 0.08) !important;
+             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5) !important;
+             border-color: rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        [data-theme="dark"] body.page-daily-devotion .sacred-quote-verse {
+            color: rgba(255, 255, 255, 0.95) !important;
         }

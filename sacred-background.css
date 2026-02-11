@@ -1,0 +1,63 @@
+/**
+ * Sacred Background Engine - DOM Styles
+ * Handles the Hero Section and Overlay Animations
+ */
+
+:root {
+    --sacred-bg-gradient-start: #fafafa;
+    --sacred-bg-gradient-end: #f4f4f5;
+    --sacred-accent-color: rgba(0, 0, 0, 0.05);
+    --sacred-text-color: #18181b;
+}
+
+/* Hero Section Enhancement */
+.daily-devotion-hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--sacred-bg-gradient-start), var(--sacred-bg-gradient-end)) !important;
+    color: var(--sacred-text-color) !important;
+    transition: background 1s ease, color 1s ease;
+    overflow: hidden;
+    /* Contain rays */
+}
+
+/* Light Ray Overlay */
+.daily-devotion-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 0%, var(--sacred-accent-color), transparent 70%);
+    opacity: 0;
+    animation: sacred-light-breathe 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Activate Overlay */
+.daily-devotion-hero.sacred-active::after {
+    opacity: 1;
+}
+
+/* Animations */
+@keyframes sacred-light-breathe {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .daily-devotion-hero::after {
+        animation: none;
+        opacity: 0.4;
+    }
+}

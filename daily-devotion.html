@@ -15,6 +15,12 @@
         content="daily devotion, Bible devotional, Christian devotion, daily prayer, Scripture reading, spiritual reflection, GPBC devotion">
     <meta name="robots" content="index, follow">
 
+    <!-- Favicon System -->
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+
     <!-- Canonical URL -->
     <link rel="canonical" href="https://gilbert-baidya.github.io/gracepraise.church/daily-devotion.html">
 
@@ -56,6 +62,7 @@
 
     <link rel="stylesheet" href="styles.bundle.css?v=20260208">
     <link rel="stylesheet" href="daily-devotion.css">
+    <link rel="stylesheet" href="mobile-performance-optimization.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css">
     <link rel="stylesheet" href="share-card-generator.css">
 
@@ -605,9 +612,249 @@
 
     <!-- Scripts -->
     <script>
+        // ═══════════════════════════════════════════════════════════════
+        // RESURRECTION DEVOTION RENDERING ARCHITECTURE
+        // Zero Loader • Instant Render • Offline Safe • Cache Powered
+        // ═══════════════════════════════════════════════════════════════
+
+        (function() {
+            'use strict';
+
+            // ─────────────────────────────────────────────────────────
+            // CACHE MANAGER — LocalStorage Powered Instant Resurrection
+            // ─────────────────────────────────────────────────────────
+            window.DevotionCache = {
+                CACHE_KEY: 'gpbc_devotion_cache_v1',
+                CACHE_TIMESTAMP_KEY: 'gpbc_devotion_cache_timestamp',
+                MAX_CACHE_AGE: 24 * 60 * 60 * 1000, // 24 hours
+
+                save(devotionsArray) {
+                    try {
+                        localStorage.setItem(this.CACHE_KEY, JSON.stringify(devotionsArray));
+                        localStorage.setItem(this.CACHE_TIMESTAMP_KEY, Date.now().toString());
+                        console.log('[Resurrection] ✅ Cache saved:', devotionsArray.length, 'devotions');
+                    } catch (e) {
+                        console.warn('[Resurrection] Cache save failed:', e.message);
+                    }
+                },
+
+                load() {
+                    try {
+                        const cached = localStorage.getItem(this.CACHE_KEY);
+                        const timestamp = localStorage.getItem(this.CACHE_TIMESTAMP_KEY);
+                        
+                        if (!cached || !timestamp) return null;
+
+                        const age = Date.now() - parseInt(timestamp, 10);
+                        if (age > this.MAX_CACHE_AGE) {
+                            console.log('[Resurrection] Cache expired (age:', Math.floor(age / 1000 / 60), 'min)');
+                            this.clear();
+                            return null;
+                        }
+
+                        const data = JSON.parse(cached);
+                        console.log('[Resurrection] ⚡ Cache hit:', data.length, 'devotions (age:', Math.floor(age / 1000), 's)');
+                        return data;
+                    } catch (e) {
+                        console.warn('[Resurrection] Cache load failed:', e.message);
+                        return null;
+                    }
+                },
+
+                clear() {
+                    localStorage.removeItem(this.CACHE_KEY);
+                    localStorage.removeItem(this.CACHE_TIMESTAMP_KEY);
+                }
+            };
+
+            // ─────────────────────────────────────────────────────────
+            // SKELETON ENGINE — Instant Visual Feedback
+            // ─────────────────────────────────────────────────────────
+            window.SkeletonEngine = {
+                show() {
+                    const loadingEl = document.getElementById('devotionLoading');
+                    if (loadingEl) {
+                        loadingEl.style.display = 'flex';
+                        loadingEl.style.opacity = '0.6';
+                    }
+                },
+
+                hide() {
+                    const loadingEl = document.getElementById('devotionLoading');
+                    if (loadingEl) {
+                        loadingEl.style.display = 'none';
+                    }
+                }
+            };
+
+            // ─────────────────────────────────────────────────────────
+            // PREFETCH ENGINE — Adjacent Dates Preloading
+            // ─────────────────────────────────────────────────────────
+            window.PrefetchEngine = {
+                prefetched: new Set(),
+
+                prefetchAdjacent(selectedDate, devotionByKey) {
+                    const dates = [
+                        new Date(selectedDate.getTime() - 86400000), // Yesterday
+                        new Date(selectedDate.getTime() + 86400000), // Tomorrow
+                        new Date(selectedDate.getTime() + 2 * 86400000) // Day after
+                    ];
+
+                    dates.forEach(date => {
+                        const key = this.toDateKey(date);
+                        if (!this.prefetched.has(key) && devotionByKey.has(key)) {
+                            this.prefetched.add(key);
+                            // Data already in Map, just mark as prefetched
+                        }
+                    });
+
+                    if (this.prefetched.size > 0) {
+                        console.log('[Resurrection] 🚀 Prefetched', this.prefetched.size, 'adjacent dates');
+                    }
+                },
+
+                toDateKey(date) {
+                    const y = date.getFullYear();
+                    const m = String(date.getMonth() + 1).padStart(2, '0');
+                    const d = String(date.getDate()).padStart(2, '0');
+                    return `${y}-${m}-${d}`;
+                }
+            };
+
+            // ─────────────────────────────────────────────────────────
+            // BACKGROUND REFRESH SYSTEM — Silent Cache Update
+            // ─────────────────────────────────────────────────────────
+            window.BackgroundRefresh = {
+                refreshInProgress: false,
+
+                start() {
+                    if (this.refreshInProgress) return;
+                    this.refreshInProgress = true;
+
+                    console.log('[Resurrection] 🔄 Background refresh started');
+                    
+                    // Simulate refresh delay (in production, this would fetch new data)
+                    setTimeout(() => {
+                        if (window.DEVOTIONS && Array.isArray(window.DEVOTIONS)) {
+                            window.DevotionCache.save(window.DEVOTIONS);
+                            console.log('[Resurrection] ✅ Background refresh complete');
+                        }
+                        this.refreshInProgress = false;
+                    }, 2000);
+                }
+            };
+
+            // ─────────────────────────────────────────────────────────
+            // RESURRECTION RENDER LOCK — Zero Dual Render
+            // ─────────────────────────────────────────────────────────
+            window.ResurrectionLock = {
+                renderStarted: false,
+                renderCompleted: false,
+                firstPaintTime: null,
+                devotionVisibleTime: null,
+
+                acquire() {
+                    if (this.renderStarted) {
+                        console.warn('[Resurrection] ⚠️ Render already in progress');
+                        return false;
+                    }
+                    this.renderStarted = true;
+                    console.log('[Resurrection] 🔒 Render lock acquired');
+                    return true;
+                },
+
+                release() {
+                    this.renderStarted = false;
+                    this.renderCompleted = true;
+                    if (!this.devotionVisibleTime) {
+                        this.devotionVisibleTime = performance.now();
+                        console.log('[Resurrection] ⚡ Devotion visible at:', Math.round(this.devotionVisibleTime), 'ms');
+                    }
+                    console.log('[Resurrection] 🔓 Render lock released');
+                },
+
+                reset() {
+                    this.renderStarted = false;
+                    this.renderCompleted = false;
+                }
+            };
+
+            // ─────────────────────────────────────────────────────────
+            // INSTANT RESURRECTION — Load from Cache First
+            // ─────────────────────────────────────────────────────────
+            window.ResurrectionEngine = {
+                init() {
+                    const perfStart = performance.now();
+                    console.log('[Resurrection] 🏁 Initialization started');
+
+                    // STEP 1: Try cache first (instant resurrection)
+                    const cached = window.DevotionCache.load();
+                    if (cached && cached.length > 0) {
+                        window.DEVOTIONS = cached;
+                        window.SkeletonEngine.hide();
+                        console.log('[Resurrection] ⚡ Instant resurrection from cache!');
+                        
+                        // Trigger render immediately
+                        if (typeof startDevotions === 'function') {
+                            startDevotions();
+                        }
+
+                        // Background refresh for next time
+                        setTimeout(() => window.BackgroundRefresh.start(), 1000);
+                        
+                        const perfEnd = performance.now();
+                        console.log('[Resurrection] 📊 First Meaningful Paint:', Math.round(perfEnd - perfStart), 'ms');
+                        return;
+                    }
+
+                    // STEP 2: No cache — show skeleton and wait for data
+                    console.log('[Resurrection] 💀 No cache — waiting for data load');
+                    window.SkeletonEngine.show();
+
+                    // STEP 3: Save to cache when data loads
+                    const originalDevotionsLoaded = window.devotionsLoaded || function() {};
+                    window.devotionsLoaded = function() {
+                        if (window.DEVOTIONS && window.DEVOTIONS.length > 0) {
+                            window.DevotionCache.save(window.DEVOTIONS);
+                        }
+                        originalDevotionsLoaded();
+                    };
+                }
+            };
+
+            // ─────────────────────────────────────────────────────────
+            // AUTO-START RESURRECTION ON DOM READY
+            // ─────────────────────────────────────────────────────────
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    window.ResurrectionEngine.init();
+                });
+            } else {
+                window.ResurrectionEngine.init();
+            }
+
+        })();
+
+        // ═══════════════════════════════════════════════════════════════
+        // MAIN DEVOTION SYSTEM (Enhanced with Resurrection Architecture)
+        // ═══════════════════════════════════════════════════════════════
+
         // Daily Devotion: dynamic navigation, language toggle, date jump, and graceful fallback.
 
         function initializeDevotions() {
+            // -----------------------------
+            // RESURRECTION INTEGRATION
+            // -----------------------------
+            const perfStart = performance.now();
+            window.ResurrectionLock.reset(); // Reset for new session
+
+            // -----------------------------
+            // PHASE 1 — GLOBAL RENDER LOCK (Prevent Dual Render)
+            // -----------------------------
+            window.__DEVOTION_RENDER_STARTED__ = false;
+            window.__DEVOTION_RENDER_COMPLETED__ = false;
+            window.__CURRENT_DEVOTION_DATA__ = null;
+
             // -----------------------------
             // DEBUG MODE & UTILS
             // -----------------------------
@@ -624,6 +871,25 @@
             function safeSetHTML(el, html) {
                 if (!el) return;
                 el.innerHTML = html;
+            }
+
+            // STEP 4 — Safe DOM Setter
+            function safeSetHTMLById(id, value) {
+                const el = document.getElementById(id);
+                if (!el) {
+                    console.warn("[Devotion] Missing element:", id);
+                    return;
+                }
+                el.innerHTML = value;
+            }
+
+            function safeSetTextById(id, value) {
+                const el = document.getElementById(id);
+                if (!el) {
+                    console.warn("[Devotion] Missing element:", id);
+                    return;
+                }
+                el.textContent = value;
             }
             // -----------------------------
             // Data: replace or inject window.DEVOTIONS with your full dataset
@@ -835,75 +1101,143 @@
                 return keys;
             }
 
-            // Render devotion
+            // PHASE 5 — RENDER ORDER GUARANTEE: Fetch → Validate → Set Global → Render Hero → Render Main → Hide Loader
             function renderDevotion() {
+                // RESURRECTION — Acquire Render Lock
+                if (!window.ResurrectionLock.acquire()) {
+                    console.warn("[Devotion] Render blocked by Resurrection Lock");
+                    return;
+                }
+
+                // PHASE 1 — Render Lock Check (Legacy)
+                if (window.__DEVOTION_RENDER_STARTED__) {
+                    console.warn("[Devotion] Render already in progress — preventing dual render");
+                    window.ResurrectionLock.release();
+                    return;
+                }
+
+                window.__DEVOTION_RENDER_STARTED__ = true;
+                console.log("[Devotion] Render Lock Acquired");
+
                 const root = document.getElementById("devotion-root");
                 if (!root) {
                     console.warn("Devotion root missing — skipping render");
+                    window.__DEVOTION_RENDER_STARTED__ = false;
+                    window.ResurrectionLock.release();
                     return;
                 }
 
                 const container = safeSelect('#devotionContent');
                 if (!container) {
                     console.warn("Skipping renderDevotion — container missing");
+                    window.__DEVOTION_RENDER_STARTED__ = false;
+                    window.ResurrectionLock.release();
                     return;
                 }
-                // Snap selectedDate to an existing key if it was regenerated from string
+
+                // STEP 1: Fetch & Validate Data
                 selectedDate = typeof selectedDate === 'string' ? parseDateKey(selectedDate) : new Date(selectedDate);
                 const key = toDateKey(selectedDate);
                 const data = devotionByKey.get(key);
                 const hasData = !!data;
 
-                // Update hero date (no year in display)
-                if (dateElement) dateElement.textContent = formatDisplayDate(selectedDate);
-                if (metaLabel) metaLabel.textContent = formatMonthDay(selectedDate);
-
-                // Hide loading spinner
-                if (loadingEl) loadingEl.style.display = 'none';
-
                 if (!hasData) {
+                    console.log("[Devotion] Fetch Success: No data for date — triggering fallback");
                     contentEl.style.display = 'none';
                     fallbackEl.style.display = 'block';
+                    if (loadingEl) loadingEl.style.display = 'none';
+                    window.SkeletonEngine.hide();
+                    window.__DEVOTION_RENDER_STARTED__ = false;
+                    window.ResurrectionLock.release();
                     return;
                 }
+
+                console.log("[Devotion] Fetch Success");
+                console.log("[Devotion] Data Validated");
+
+                // PHASE 2 — Set Global Devotion Data (Single Source of Truth)
+                const lang = currentLang === 'bn' ? 'Bn' : '';
+                window.__CURRENT_DEVOTION_DATA__ = {
+                    title: data[`title${lang}`] || data.title || 'Daily Devotion',
+                    verse: data.verse || '',
+                    verseText: data[`verseText${lang}`] || data.verseText || '',
+                    reflection: data[`reflection${lang}`] || data.reflection || '',
+                    prayer: data[`prayer${lang}`] || data.prayer || '',
+                    date: formatDisplayDate(selectedDate),
+                    dateShort: formatMonthDay(selectedDate)
+                };
+
+                const devotionData = window.__CURRENT_DEVOTION_DATA__;
 
                 contentEl.style.display = 'block';
                 fallbackEl.style.display = 'none';
 
-                const lang = currentLang === 'bn' ? 'Bn' : '';
-                const title = data[`title${lang}`] || data.title || 'Daily Devotion';
-                const verse = data.verse || '';
-                const verseText = data[`verseText${lang}`] || data.verseText || '';
-                const reflection = data[`reflection${lang}`] || data.reflection || '';
-                const prayer = data[`prayer${lang}`] || data.prayer || '';
+                // STEP 4: Render Hero Card (Sacred Quote)
+                if (dateElement) dateElement.textContent = devotionData.date;
+                if (metaLabel) metaLabel.textContent = devotionData.dateShort;
+                updateSacredQuoteCard(devotionData.date, devotionData.verse, devotionData.verseText);
+                console.log("[Devotion] Hero Rendered");
 
-                headerTitle.textContent = title;
-                headerSubtitle.textContent = `${formatDisplayDate(selectedDate)} — ${verse}`;
-                if (referenceEl) referenceEl.textContent = verse;
-                if (verseEl) verseEl.textContent = verseText;
-                const rEl = safeSelect('[data-devotion-reflection]');
-                safeSetHTML(rEl, `<p>${reflection}</p>`);
-                const pEl = safeSelect('[data-devotion-prayer]');
-                safeSetHTML(pEl, `<p>${prayer}</p>`);
+                // STEP 5: Render Main Card
+                if (window.safeSetText && window.safeSetHTML) {
+                    window.safeSetText('#devotionTitle', devotionData.title);
+                    window.safeSetText('#devotionSubtitle', `${devotionData.date} — ${devotionData.verse}`);
+                    window.safeSetText('#bibleReference', devotionData.verse);
+                    window.safeSetText('#bibleText', devotionData.verseText);
+                    window.safeSetHTML('[data-devotion-reflection]', `<p>${devotionData.reflection}</p>`);
+                    window.safeSetHTML('[data-devotion-prayer]', `<p>${devotionData.prayer}</p>`);
+                } else {
+                    if (headerTitle) headerTitle.textContent = devotionData.title;
+                    if (headerSubtitle) headerSubtitle.textContent = `${devotionData.date} — ${devotionData.verse}`;
+                    if (referenceEl) referenceEl.textContent = devotionData.verse;
+                    if (verseEl) verseEl.textContent = devotionData.verseText;
+                    const rEl = safeSelect('[data-devotion-reflection]');
+                    if (rEl) rEl.innerHTML = `<p>${devotionData.reflection}</p>`;
+                    const pEl = safeSelect('[data-devotion-prayer]');
+                    if (pEl) pEl.innerHTML = `<p>${devotionData.prayer}</p>`;
+                }
+                console.log("[Devotion] Main Rendered");
 
-                // Update Sacred Quote Card
-                updateSacredQuoteCard(formatDisplayDate(selectedDate), verse, verseText);
-
-                // Update sharing meta
+                // STEP 6: Initialize Share Engine
                 if (window.SeoManager) {
                     window.SeoManager.update(data, selectedDate);
                 }
+                console.log("[Devotion] Share Engine Ready");
+
+                // STEP 7: Hide Loader
+                if (loadingEl) {
+                    loadingEl.style.display = 'none';
+                    console.log("[Devotion] Loader Hidden");
+                }
+                window.SkeletonEngine.hide();
+
+                // RESURRECTION — Prefetch Adjacent Dates
+                if (window.PrefetchEngine) {
+                    window.PrefetchEngine.prefetchAdjacent(selectedDate, devotionByKey);
+                }
+
+                // STEP 8: Mark Render Completed
+                window.__DEVOTION_RENDER_COMPLETED__ = true;
+                window.__DEVOTION_LOADED__ = true;
+                window.ResurrectionLock.release();
+                console.log("[Devotion] Render Completed");
+
+                // RESURRECTION — Performance Metrics
+                const perfEnd = performance.now();
+                console.log('[Resurrection] 📊 Total Render Time:', Math.round(perfEnd - (window.ResurrectionLock.firstPaintTime || perfEnd)), 'ms');
             }
 
             // Update Sacred Quote Card
             function updateSacredQuoteCard(date, reference, verseText) {
-                const dateEl = document.getElementById('sacredQuoteDate');
-                const refEl = document.getElementById('sacredQuoteRefText');
-                const verseEl = document.getElementById('sacredQuoteVerseText');
-
-                if (dateEl) dateEl.textContent = date || 'Loading...';
-                if (refEl) refEl.textContent = reference || '—';
-                if (verseEl) verseEl.textContent = verseText || 'Loading today\'s word...';
+                if (window.safeSetText) {
+                    window.safeSetText('#sacredQuoteDate', date || 'Loading...');
+                    window.safeSetText('#sacredQuoteRefText', reference || '—');
+                    window.safeSetText('#sacredQuoteVerseText', verseText || 'Loading today\'s word...');
+                } else {
+                    // Fallback if safe-engine-loader hasn't run (rare)
+                    const dateEl = document.getElementById('sacredQuoteDate');
+                    if (dateEl) dateEl.textContent = date || 'Loading...';
+                }
             }
 
 
@@ -1273,17 +1607,86 @@
                 langEnBtn.classList.toggle('active', lang === 'en');
                 langBnBtn.classList.toggle('active', lang === 'bn');
                 applyUiTranslations(lang);
-                renderDevotion();
+                renderAll(); // renderAll() handles lock reset
             }
             if (langEnBtn) langEnBtn.addEventListener('click', () => setLang('en'));
             if (langBnBtn) langBnBtn.addEventListener('click', () => setLang('bn'));
 
+            // PHASE 6 — FAIL SAFE (Only if data fails — render once)
+            function showFallbackDevotion() {
+                if (window.__DEVOTION_RENDER_COMPLETED__) {
+                    console.warn("[Devotion] Fallback skipped — render already completed");
+                    return;
+                }
+
+                console.warn("[Devotion] Showing fallback devotion (Psalm 46:1)");
+                const fallback = {
+                    title: "God is our Refuge",
+                    verse: "Psalm 46:1",
+                    verseText: "God is our refuge and strength, an ever-present help in trouble.",
+                    reflection: "Even when systems fail, God never fails. His strength is available to you right now, in this very moment. Trust Him today.",
+                    prayer: "Lord, be our strength today. When technology fails, You remain faithful. Help us to trust You completely. Amen."
+                };
+
+                try {
+                    if (contentEl) contentEl.style.display = 'block';
+                    if (fallbackEl) fallbackEl.style.display = 'none';
+                    
+                    safeSetTextById('devotionTitle', fallback.title);
+                    safeSetTextById('devotionSubtitle', `${formatDisplayDate(selectedDate)} — ${fallback.verse}`);
+                    safeSetTextById('bibleReference', fallback.verse);
+                    
+                    const verseEl = document.querySelector('[data-devotion-scripture]');
+                    if (verseEl) verseEl.textContent = fallback.verseText;
+                    
+                    const reflectionEl = document.querySelector('[data-devotion-reflection]');
+                    if (reflectionEl) reflectionEl.innerHTML = `<p>${fallback.reflection}</p>`;
+                    
+                    const prayerEl = document.querySelector('[data-devotion-prayer]');
+                    if (prayerEl) prayerEl.innerHTML = `<p>${fallback.prayer}</p>`;
+
+                    updateSacredQuoteCard(formatDisplayDate(selectedDate), fallback.verse, fallback.verseText);
+
+                    window.__DEVOTION_RENDER_COMPLETED__ = true;
+                    window.__DEVOTION_LOADED__ = true;
+                } catch (err) {
+                    console.error("[Devotion] Fallback render failed:", err);
+                }
+            }
+
             function renderAll() {
-                populateSelectors();
-                renderDateStrip();
-                applyUiTranslations(currentLang);
-                renderDevotion();
-                highlightSelected();
+                try {
+                    // Reset render lock for legitimate re-render (date change, language change, etc.)
+                    window.__DEVOTION_RENDER_STARTED__ = false;
+                    window.__DEVOTION_RENDER_COMPLETED__ = false;
+
+                    populateSelectors();
+                    renderDateStrip();
+                    applyUiTranslations(currentLang);
+                    
+                    // PHASE 3 — Loader control (only visible if NOT completed)
+                    if (loadingEl && !window.__DEVOTION_RENDER_COMPLETED__) {
+                        loadingEl.style.display = 'block';
+                    }
+
+                    try {
+                        renderDevotion();
+                    } catch (error) {
+                        console.error("[Devotion] Render failed:", error);
+                        showFallbackDevotion();
+                    }
+                    
+                    highlightSelected();
+                    
+                    // PHASE 3 — ABSOLUTE RULE: Loader must always exit
+                    if (loadingEl) {
+                        loadingEl.style.display = 'none';
+                    }
+                } catch (err) {
+                    console.error("[Devotion] renderAll failed:", err);
+                    if (loadingEl) loadingEl.style.display = 'none';
+                    showFallbackDevotion();
+                }
             }
 
             function highlightSelected() {
@@ -1301,6 +1704,16 @@
             }
 
             populateSelectors();
+            
+            // PHASE 3 — WATCHDOG: Force loader hide after 4000ms if not completed
+            setTimeout(() => {
+                if (!window.__DEVOTION_RENDER_COMPLETED__) {
+                    console.warn("[Devotion] Loader timeout fallback activated (4000ms expired)");
+                    if (loadingEl) loadingEl.style.display = 'none';
+                    showFallbackDevotion();
+                }
+            }, 4000);
+            
             renderAll();
         }
 
@@ -1309,6 +1722,7 @@
         function startDevotions() {
             if (initialized) return;
             initialized = true;
+            console.log("[Devotion] Initializing devotions system");
             initializeDevotions();
         }
 
@@ -1328,6 +1742,44 @@
             } else {
                 if (window.DEVOTIONS) startDevotions();
             }
+        }
+
+        // --- SACRED BACKGROUND DOM OBSERVER ---
+        // Watches for Bible Text changes to update the Hero Section Background dynamically.
+        setTimeout(() => {
+            const heroObserver = new MutationObserver((mutations) => {
+                const verseEl = document.getElementById('bibleText');
+                if (verseEl && verseEl.textContent.trim()) {
+                    applySacredHeroBackground(verseEl.textContent);
+                }
+            });
+
+            const heroNode = document.querySelector('.daily-devotion-hero');
+            if (heroNode) {
+                // Apply immediately if content exists
+                const verseEl = document.getElementById('bibleText');
+                if (verseEl && verseEl.textContent.trim()) applySacredHeroBackground(verseEl.textContent);
+
+                // Observe for future changes
+                heroObserver.observe(heroNode, { subtree: true, childList: true, characterData: true });
+            }
+        }, 1000); // Slight delay to ensure DOM is ready
+
+        function applySacredHeroBackground(text) {
+            if (!text || !window.SacredBackgroundEngine) return;
+
+            const config = window.SacredBackgroundEngine.generate(text);
+            const hero = document.querySelector('.daily-devotion-hero');
+            if (!hero) return;
+
+            // Apply CSS Variables
+            hero.style.setProperty('--sacred-bg-gradient-start', config.gradient[0]);
+            hero.style.setProperty('--sacred-bg-gradient-end', config.gradient[1]);
+            hero.style.setProperty('--sacred-accent-color', config.accent);
+            hero.style.setProperty('--sacred-text-color', config.text);
+
+            // Activate animation
+            hero.classList.add('sacred-active');
         }
     </script>
 
@@ -1354,7 +1806,15 @@
     <script src="logo-loader.js"></script>
     <script src="devotions-db-2026.js"></script>
     <script src="devotions-data.js"></script>
-    <script src="share-card-generator.js"></script>
+
+    <!-- Sacred Background Engine -->
+    <link rel="stylesheet" href="sacred-background.css">
+    <script src="sacred-background-engine.js"></script>
+
+    <!-- Safe Engine Loader (Handles Discipleship & Share Engines) -->
+    <script src="safe-engine-loader.js"></script>
+
+    <!-- SEO Manager (Can remain standalone or be managed, keeping standalone for meta tags) -->
     <script src="seo-manager.js"></script>
 </body>
 
