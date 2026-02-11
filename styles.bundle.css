@@ -3807,6 +3807,10 @@ footer {
         align-items: flex-start;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        /* Native Mobile Scroll Physics */
+        overscroll-behavior: contain;
+        touch-action: pan-y;
+        scroll-behavior: smooth;
     }
 
     .nav-links.mobile-open {
