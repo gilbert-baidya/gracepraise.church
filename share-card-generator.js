@@ -219,15 +219,40 @@
      * Initialize the share card generator
      */
     function initShareCardGenerator() {
+        console.log('[Share Card] 🔧 Initializing generator...');
+        
         const shareRoot = document.querySelector("[data-share-card-root]");
-        if (!shareRoot) return;
+        if (!shareRoot) {
+            console.error('[Share Card] ❌ INIT FAILED: [data-share-card-root] not found');
+            return false;
+        }
 
         const triggerBtn = document.getElementById('shareCardTrigger');
         const modal = document.getElementById('shareCardModal');
         const overlay = document.getElementById('shareCardOverlay');
         const closeBtn = document.getElementById('shareCardClose');
 
-        if (!triggerBtn || !modal || !overlay) return;
+        // Detailed diagnostic logging
+        console.log('[Share Card] Element check:', {
+            shareRoot: !!shareRoot,
+            triggerBtn: !!triggerBtn,
+            modal: !!modal,
+            overlay: !!overlay,
+            closeBtn: !!closeBtn
+        });
+
+        if (!triggerBtn) {
+            console.error('[Share Card] ❌ INIT FAILED: #shareCardTrigger not found');
+            return false;
+        }
+        if (!modal) {
+            console.error('[Share Card] ❌ INIT FAILED: #shareCardModal not found');
+            return false;
+        }
+        if (!overlay) {
+            console.error('[Share Card] ❌ INIT FAILED: #shareCardOverlay not found');
+            return false;
+        }
 
         // PHASE 2: Reset ready flag at init start
         window.__SHARE_GENERATOR_READY__ = false;
@@ -275,6 +300,8 @@
                 closeModal();
             }
         });
+
+        return true; // Init successful
 
         // Invite Copy Buttons
         const inviteTemplates = {
@@ -585,11 +612,28 @@
         }
     }
 
-    // Init
+    // Init with retry logic
+    let initAttempts = 0;
+    const MAX_INIT_ATTEMPTS = 3;
+
+    function attemptInit() {
+        initAttempts++;
+        console.log(`[Share Card] Init attempt ${initAttempts}/${MAX_INIT_ATTEMPTS}`);
+        
+        const success = initShareCardGenerator();
+        
+        if (!success && initAttempts < MAX_INIT_ATTEMPTS) {
+            console.warn(`[Share Card] ⚠️ Init attempt ${initAttempts} failed, retrying in 500ms...`);
+            setTimeout(attemptInit, 500);
+        } else if (!success) {
+            console.error('[Share Card] ❌ All init attempts failed - generator not available');
+        }
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initShareCardGenerator);
+        document.addEventListener('DOMContentLoaded', attemptInit);
     } else {
-        initShareCardGenerator();
+        attemptInit();
     }
 
     // STEP 3 — Verify generator loads after script load
