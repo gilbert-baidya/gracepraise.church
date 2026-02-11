@@ -3690,16 +3690,13 @@ footer {
         pointer-events: none;
     }
 
-    .nav-dropdown.mobile-dropdown-open .dropdown-menu {
-        pointer-events: auto;
-    }
-
     /* Show dropdown menu when parent has mobile-dropdown-open class */
     .nav-dropdown.mobile-dropdown-open .dropdown-menu {
         display: block;
         max-height: 800px;
         padding: var(--spacing-xs) 0;
         margin-top: var(--spacing-xs);
+        pointer-events: auto;
     }
 
     /* Rotate arrow when dropdown is open */
@@ -3797,15 +3794,16 @@ footer {
         position: fixed;
         inset: 0;
         width: 100vw;
-        height: 100vh;
+        height: 100dvh;
+        height: 100vh; /* fallback */
         background: rgba(15, 23, 42, 0.98);
         /* Deep navy glassmorphism */
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
         padding: var(--spacing-3xl) var(--spacing-lg);
-        padding-top: calc(var(--gpbc-header-total-height, 100px) + 20px);
-        padding-bottom: env(safe-area-inset-bottom, 20px);
+        padding-top: max(env(safe-area-inset-top, 0px), 60px);
+        padding-bottom: max(env(safe-area-inset-bottom, 0px), 20px);
         box-shadow: none;
         transform: translateX(100%);
         transition: transform var(--transition-base);
@@ -3814,6 +3812,10 @@ footer {
         align-items: flex-start;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        /* Native Mobile Scroll Physics */
+        overscroll-behavior: contain;
+        touch-action: pan-y;
+        scroll-behavior: smooth;
     }
 
     .nav-links.mobile-open {
@@ -3894,11 +3896,8 @@ footer {
     /* Prevent body scroll when mobile menu is open */
     body.menu-open {
         overflow: hidden;
-        position: fixed;
         width: 100%;
-        height: 100%;
         left: 0;
-        z-index: 1000;
     }
 
     /* FIX: Prevent header from creating a new containing block for fixed menu.

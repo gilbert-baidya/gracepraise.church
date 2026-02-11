@@ -221,7 +221,6 @@
         if (isOpening) {
             // Save current scroll position before locking
             scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-            document.body.style.top = `-${scrollPosition}px`;
 
             // Phase 4: Update ARIA expanded BEFORE visual transition
             mobileMenuBtn.setAttribute('aria-expanded', 'true');
@@ -235,12 +234,9 @@
             navLinks.setAttribute('aria-hidden', 'true');
             navLinks.setAttribute('inert', '');
             
-            // Restore scroll position after unlocking
-            document.body.style.top = '';
-            
             // Only restore scroll if NOT navigating to anchor
             if (!isNavigatingToAnchor) {
-                window.scrollTo(0, scrollPosition);
+                window.scrollTo({ top: scrollPosition, left: 0, behavior: 'auto' });
             }
             
             // Reset flag after restoration
@@ -338,57 +334,30 @@
             if (dropdown.dataset.mobileDropdownInit === 'true') return;
             dropdown.dataset.mobileDropdownInit = 'true';
 
-            // Tablet/mobile: tap-to-toggle regardless of touch detection
+            // Mobile: tap entire row to toggle (320-1024px)
             if (isTabletOrMobile()) {
                 toggle.addEventListener('click', (e) => {
-                    const clickedArrow = e.target && e.target.closest && e.target.closest('.dropdown-arrow');
+                    // Only handle when mobile menu is open
+                    if (!isMobileMenuOpen()) return;
 
-                    // iPad/tablet: allow link navigation, use arrow to toggle
-                    if (isTablet()) {
-                        if (!clickedArrow) {
-                            return; // Allow navigation to About/Ministries
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const isOpen = dropdown.classList.contains('mobile-dropdown-open');
+
+                    // Close all dropdowns (accordion behavior)
+                    navDropdowns.forEach(otherDropdown => {
+                        otherDropdown.classList.remove('mobile-dropdown-open');
+                        const otherToggle = otherDropdown.querySelector('a');
+                        if (otherToggle) {
+                            otherToggle.setAttribute('aria-expanded', 'false');
                         }
-                        e.preventDefault();
-                        e.stopPropagation();
+                    });
 
-                        // Close other dropdowns (accordion behavior)
-                        navDropdowns.forEach(otherDropdown => {
-                            if (otherDropdown !== dropdown) {
-                                otherDropdown.classList.remove('mobile-dropdown-open');
-                                const otherToggle = otherDropdown.querySelector('a');
-                                if (otherToggle) {
-                                    otherToggle.setAttribute('aria-expanded', 'false');
-                                }
-                            }
-                        });
-
-                        const isOpen = dropdown.classList.toggle('mobile-dropdown-open');
-                        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                        return;
-                    }
-
-                    if (isMobileViewport() && isMobileMenuOpen()) {
-                        const isOpen = dropdown.classList.contains('mobile-dropdown-open');
-
-                        if (!isOpen) {
-                            e.preventDefault();
-                            e.stopPropagation();
-
-                            // Close other dropdowns (accordion behavior)
-                            navDropdowns.forEach(otherDropdown => {
-                                if (otherDropdown !== dropdown) {
-                                    otherDropdown.classList.remove('mobile-dropdown-open');
-                                    const otherToggle = otherDropdown.querySelector('a');
-                                    if (otherToggle) {
-                                        otherToggle.setAttribute('aria-expanded', 'false');
-                                    }
-                                }
-                            });
-
-                            dropdown.classList.add('mobile-dropdown-open');
-                            toggle.setAttribute('aria-expanded', 'true');
-                            return;
-                        }
+                    // Open this dropdown if it was closed
+                    if (!isOpen) {
+                        dropdown.classList.add('mobile-dropdown-open');
+                        toggle.setAttribute('aria-expanded', 'true');
                     }
                 });
             }
