@@ -126,39 +126,46 @@
         if (watermarkLoadAttempted) return;
         watermarkLoadAttempted = true;
 
-        const primarySrc = 'images/new-gpbc-logo-final.svg';
-        const fallbackSrc = 'images/new-gpbc-logo-final.svg'; // Use same SVG as fallback
+        // Priority order: SVG no-bg → PNG → SVG with bg
+        const logoSources = [
+            'images/logo/gpbc-logo-no-bg.svg',
+            'images/logo/gpBC-logo.png',
+            'images/logo/new-gpbc-logo-final.svg',
+            'images/new-gpbc-logo-final.svg' // Fallback to current path
+        ];
 
-        const img = new Image();
-        
-        img.onload = () => {
-            watermarkLogo = img;
-            watermarkLogoReady = true;
-            window.__GPBC_WATERMARK_LOGO_READY__ = true;
-            console.log('[GPBC Watermark] ✅ Logo loaded successfully');
-        };
+        let currentSourceIndex = 0;
 
-        img.onerror = () => {
-            console.warn('[GPBC Watermark] ⚠️ Primary logo failed, trying fallback...');
-            
-            const fallbackImg = new Image();
-            fallbackImg.onload = () => {
-                watermarkLogo = fallbackImg;
-                watermarkLogoReady = true;
-                window.__GPBC_WATERMARK_LOGO_READY__ = true;
-                console.log('[GPBC Watermark] ✅ Fallback logo loaded');
-            };
-            
-            fallbackImg.onerror = () => {
-                console.error('[GPBC Watermark] ❌ Logo load failed — continuing without watermark');
+        function tryLoadLogo() {
+            if (currentSourceIndex >= logoSources.length) {
+                console.error('[GPBC Watermark] ❌ All logo sources failed — continuing without watermark');
                 watermarkLogoReady = false;
                 window.__GPBC_WATERMARK_LOGO_READY__ = false;
-            };
-            
-            fallbackImg.src = fallbackSrc;
-        };
+                window.__GPBC_LOGO_IMG__ = null;
+                return;
+            }
 
-        img.src = primarySrc;
+            const img = new Image();
+            const currentSrc = logoSources[currentSourceIndex];
+
+            img.onload = () => {
+                watermarkLogo = img;
+                watermarkLogoReady = true;
+                window.__GPBC_WATERMARK_LOGO_READY__ = true;
+                window.__GPBC_LOGO_IMG__ = img; // Global cache for reuse
+                console.log(`[GPBC Watermark] ✅ Logo loaded from: ${currentSrc}`);
+            };
+
+            img.onerror = () => {
+                console.warn(`[GPBC Watermark] ⚠️ Failed to load: ${currentSrc}`);
+                currentSourceIndex++;
+                tryLoadLogo(); // Try next source
+            };
+
+            img.src = currentSrc;
+        }
+
+        tryLoadLogo();
     }
 
     /**
@@ -183,15 +190,19 @@
         const logoHeight = logoWidth * (watermarkLogo.height / watermarkLogo.width);
 
         // === OPACITY SYSTEM (THEME ADAPTIVE) ===
+        // Default: 0.06 with range 0.04 - 0.10
         const currentTheme = document.documentElement.dataset.theme || 'light';
-        let baseOpacity = currentTheme === 'dark' ? 0.055 : 0.065;
+        let baseOpacity = 0.06; // Production default
         
-        // Clamp opacity to allowed range
+        // Theme-specific adjustments (subtle)
         if (currentTheme === 'dark') {
-            baseOpacity = Math.max(0.045, Math.min(0.065, baseOpacity));
+            baseOpacity = 0.055; // Slightly lower for dark backgrounds
         } else {
-            baseOpacity = Math.max(0.055, Math.min(0.08, baseOpacity));
+            baseOpacity = 0.065; // Slightly higher for light backgrounds
         }
+        
+        // Clamp to allowed range (0.04 - 0.10)
+        baseOpacity = Math.max(0.04, Math.min(0.10, baseOpacity));
 
         // === SMART CONTRAST PROTECTION ===
         // Sample background brightness at center
@@ -228,7 +239,14 @@
         // === RENDER WITH BLEND MODE ===
         ctx.save();
         ctx.globalAlpha = finalOpacity;
-        ctx.globalCompositeOperation = 'source-over';
+        
+        // Blend mode: soft-light (with multiply fallback)
+        try {
+            ctx.globalCompositeOperation = 'soft-light';
+        } catch (e) {
+            // Fallback to multiply if soft-light not supported
+            ctx.globalCompositeOperation = 'multiply';
+        }
         
         // Draw centered on position
         ctx.drawImage(
