@@ -204,6 +204,36 @@
 
     // --- Sacred Rendering Engine ---
 
+    /**
+     * STEP 1 — Generate Share Card (Global API)
+     * Called by orchestrator or direct invocation
+     */
+    function generateShareCardImage(devotionData) {
+        console.log('[ShareCard] 🎨 Generating share card...', devotionData);
+        
+        // Open modal and generate card
+        openModal();
+        
+        return true;
+    }
+
+    // STEP 1 — FORCE GLOBAL EXPORT
+    if (typeof window !== "undefined") {
+
+       window.generateShareCardImage = generateShareCardImage;
+
+       window.__GPBC_SHARE_GENERATOR_READY__ = true;
+
+       console.log("[GPBC Share] ✅ Generator attached to window");
+
+       window.dispatchEvent(
+          new CustomEvent("GPBC_SHARE_GENERATOR_READY")
+       );
+
+       console.log("[GPBC Share] 🚀 READY EVENT FIRED");
+
+    }
+
     function renderCardToCanvas(format) {
         const config = CONFIG.formats[format];
         const theme = getSacredTheme();
@@ -383,5 +413,74 @@
     } else {
         initShareCardGenerator();
     }
+
+    // STEP 3 — Verify generator loads after script load
+    console.log('[ShareCard] ✅ File loaded');
+
+    // STEP 6 — ADD DEBUG VERIFY
+    console.log(
+        '[GPBC Share] Generator Status:',
+        typeof window.generateShareCardImage
+    );
+
+})();
+
+// STEP 1 — HARD GLOBAL REGISTER & READY EVENT DISPATCH
+// This runs AFTER the IIFE completes, ensuring generator is fully initialized
+(function registerGPBCGenerator() {
+
+   if (typeof window === "undefined") return;
+
+   if (typeof window.generateShareCardImage === "function") {
+
+      console.log("[GPBC Share] ✅ Generator function confirmed");
+
+      window.__GPBC_SHARE_GENERATOR_READY__ = true;
+
+      // STEP 3 — DISPATCH READY EVENT
+      window.dispatchEvent(
+         new CustomEvent("GPBC_SHARE_GENERATOR_READY")
+      );
+
+      console.log("[GPBC Share] 🚀 READY EVENT DISPATCHED");
+
+   } else {
+
+      console.error("[GPBC Share] ❌ Generator function missing at register time");
+      console.error("[GPBC Share] window.generateShareCardImage:", typeof window.generateShareCardImage);
+
+   }
+
+})();
+
+// STEP 2 — FINAL GLOBAL BIND VERIFICATION AT VERY BOTTOM OF FILE
+(function GPBC_SHARE_GLOBAL_BIND() {
+
+   try {
+
+      if (typeof window.generateShareCardImage === "function") {
+
+         // Already bound, just dispatch event
+         window.__GPBC_SHARE_GENERATOR_READY__ = true;
+
+         console.log("[GPBC Share] ✅ Generator bound to window");
+
+         window.dispatchEvent(
+            new CustomEvent("GPBC_SHARE_GENERATOR_READY")
+         );
+
+         console.log("[GPBC Share] 🚀 READY EVENT FIRED");
+
+      } else {
+
+         console.error("[GPBC Share] ❌ generateShareCardImage NOT FOUND");
+
+      }
+
+   } catch (e) {
+
+      console.error("[GPBC Share] ❌ Generator bind crash", e);
+
+   }
 
 })();
