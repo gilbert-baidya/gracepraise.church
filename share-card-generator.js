@@ -58,10 +58,23 @@
     // GPBC WATERMARK SPEC VERSION
     const GPBC_WATERMARK_SPEC_VERSION = "GPBC-WM-V4";
 
-    // Watermark Logo Cache
-    let watermarkLogo = null;
-    let watermarkLogoReady = false;
-    let watermarkLoadAttempted = false;
+    // ============================================================================
+    // PRODUCTION FIX — Global Preloaded Image Promise (Single Source)
+    // Guarantees logo ready before canvas render
+    // ============================================================================
+    window.__GPBC_LOGO_READY__ = new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+            console.log('[GPBC Watermark] ✅ Logo loaded: images/new-gpbc-logo-final.svg');
+            resolve(img);
+        };
+        img.onerror = () => {
+            console.warn('[GPBC Watermark] ⚠️ Logo load failed — continuing without watermark');
+            resolve(null);
+        };
+        img.src = "images/new-gpbc-logo-final.svg";
+    });
 
     // Configuration
     const CONFIG = {
@@ -540,11 +553,11 @@
         return CONFIG.palettes.evening;
     }
 
-    function openModal() {
+    function openModal(logoImg = null) {
         const overlay = document.getElementById('shareCardOverlay');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
-        setTimeout(() => renderCardToCanvas(currentFormat), 100);
+        setTimeout(() => renderCardToCanvas(currentFormat, logoImg), 100);
     }
 
     function closeModal() {
@@ -553,12 +566,14 @@
         document.body.style.overflow = '';
     }
 
-    function setFormat(format) {
+    async function setFormat(format) {
         currentFormat = format;
         document.querySelectorAll('.format-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.format === format);
         });
-        renderCardToCanvas(format);
+        // Wait for logo before re-rendering
+        const logoImg = await window.__GPBC_LOGO_READY__;
+        renderCardToCanvas(format, logoImg);
     }
 
     function getVerseData() {
@@ -612,12 +627,21 @@
             return false;
         }
 
+        // PRODUCTION FIX: Wait for logo to be ready before rendering
+        console.log('[Share Card] ⏳ Waiting for logo...');
+        const logoImg = await window.__GPBC_LOGO_READY__;
+        if (logoImg) {
+            console.log('[Share Card] ✅ Logo ready, rendering card...');
+        } else {
+            console.log('[Share Card] ⚠️ No logo available, rendering without watermark...');
+        }
+
         // PHASE 5: Debug telemetry
         console.log('[Share Card] 🎬 Trigger Request — Ready State:', window.__SHARE_GENERATOR_READY__);
         console.log('[ShareCard] 🎨 Generating share card...', devotionData);
         
-        // Open modal and generate card
-        openModal();
+        // Open modal and generate card with logo
+        openModal(logoImg);
         
         return true;
     }
@@ -643,7 +667,7 @@
 
     }
 
-    function renderCardToCanvas(format) {
+    function renderCardToCanvas(format, logoImg = null) {
         const config = CONFIG.formats[format];
         const theme = getSacredTheme();
         const data = getVerseData();
@@ -677,8 +701,21 @@
         ctx.fillStyle = rayGradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 3. GPBC Logo Watermark (SPEC V4)
-        renderWatermarkLogo(ctx, canvas, format, theme);
+        // 3. GPBC Logo Watermark (PRODUCTION FIX: Direct render if available)
+        if (logoImg) {
+            ctx.save();
+            ctx.globalAlpha = 0.06;
+            const size = canvas.width * 0.18;
+            ctx.drawImage(
+                logoImg,
+                canvas.width / 2 - size / 2,
+                canvas.height / 2 - size / 2,
+                size,
+                size
+            );
+            ctx.globalAlpha = 1;
+            ctx.restore();
+        }
 
         // 4. Legacy Text Watermark (Deprecated - keeping for fallback)
         ctx.save();
