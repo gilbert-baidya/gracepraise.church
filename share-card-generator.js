@@ -18,6 +18,43 @@
         return;
     }
 
+    // ============================================================================
+    // PRODUCTION HOTFIX — Init Flags for Always-Clickable Share Modal
+    // ============================================================================
+    window.__SHARE_GENERATOR_READY__ = false;
+    window.__SHARE_BINDINGS_DONE__ = false;
+
+    // ============================================================================
+    // PRODUCTION HOTFIX — Safe Binding State Initialization
+    // Prevents "Cannot read properties of undefined" runtime crashes
+    // ============================================================================
+    if (typeof window.__SHARE_BIND_STATE__ === 'undefined') {
+        window.__SHARE_BIND_STATE__ = {
+            boundEscClose: false,
+            boundOverlayClose: false,
+            boundModalButtons: false,
+            bindAttemptCount: 0,
+            lastBindAttemptTs: 0
+        };
+    }
+
+    /**
+     * Safe state accessor - guarantees state object exists
+     * @returns {Object} Binding state object
+     */
+    function getBindState() {
+        if (!window.__SHARE_BIND_STATE__) {
+            window.__SHARE_BIND_STATE__ = {
+                boundEscClose: false,
+                boundOverlayClose: false,
+                boundModalButtons: false,
+                bindAttemptCount: 0,
+                lastBindAttemptTs: 0
+            };
+        }
+        return window.__SHARE_BIND_STATE__;
+    }
+
     // GPBC WATERMARK SPEC VERSION
     const GPBC_WATERMARK_SPEC_VERSION = "GPBC-WM-V4";
 
@@ -216,18 +253,188 @@
     }
 
     /**
+     * ============================================================================
+     * PRODUCTION HOTFIX — ensureShareModalBindings
+     * Binds modal controls DIRECTLY and idempotently (independent of init guards)
+     * ============================================================================
+     */
+    function ensureShareModalBindings() {
+        // Safe state tracking
+        const bindState = getBindState();
+        bindState.bindAttemptCount++;
+        bindState.lastBindAttemptTs = Date.now();
+
+        if (window.__SHARE_BINDINGS_DONE__ === true) {
+            console.log('[Share Card] Bindings already done — skipping');
+            return true;
+        }
+
+        const modal = document.getElementById('shareCardModal');
+        const overlay = document.getElementById('shareCardOverlay');
+        const closeBtn = document.getElementById('shareCardClose');
+        const downloadBtn = document.getElementById('downloadCardBtn');
+        const shareBtn = document.getElementById('shareCardBtn');
+        const copyBtn = document.getElementById('copyCaptionBtn');
+        const formatBtns = document.querySelectorAll('.format-btn');
+
+        if (!modal || !overlay || !closeBtn || !downloadBtn || !shareBtn || !copyBtn || !formatBtns.length) {
+            console.warn('[Share Card] ensureShareModalBindings: missing DOM nodes', {
+                modal: !!modal,
+                overlay: !!overlay,
+                closeBtn: !!closeBtn,
+                downloadBtn: !!downloadBtn,
+                shareBtn: !!shareBtn,
+                copyBtn: !!copyBtn,
+                formatBtns: formatBtns.length
+            });
+            return false;
+        }
+
+        // IMPORTANT: bind handlers ONLY ONCE (no duplicates)
+        // Use dataset markers to prevent double-binding
+        // PRODUCTION SAFE: Never crashes on missing state
+        const once = (el, key, fn, evt = 'click') => {
+            if (!el) return;
+            
+            try {
+                // Safe state access - never throw
+                const bindState = getBindState();
+                
+                // Check if already bound via dataset
+                if (el.dataset && el.dataset[key] === '1') {
+                    return;
+                }
+                
+                // Bind event listener
+                el.addEventListener(evt, fn);
+                
+                // Mark as bound via dataset
+                if (el.dataset) {
+                    el.dataset[key] = '1';
+                }
+                
+                // Update state tracker (telemetry only, not critical)
+                if (bindState && typeof bindState[key] !== 'undefined') {
+                    bindState[key] = true;
+                }
+            } catch (err) {
+                // Telemetry-safe logging - never crash generator
+                console.warn(`[Share Card] Bind warning for key "${key}":`, err.message);
+                // Still attempt bind even if state tracking fails
+                try {
+                    if (el && el.addEventListener) {
+                        el.addEventListener(evt, fn);
+                    }
+                } catch (bindErr) {
+                    console.warn('[Share Card] Bind fallback failed:', bindErr.message);
+                }
+            }
+        };
+
+        // Close handlers
+        once(closeBtn, 'boundClose', () => closeModal());
+        once(overlay, 'boundOverlayClose', (e) => {
+            // click outside modal content closes
+            if (e.target === overlay) closeModal();
+        });
+
+        // ESC key close
+        once(document, 'boundEscClose', (e) => {
+            if (e.key === 'Escape') {
+                const overlayEl = document.getElementById('shareCardOverlay');
+                if (overlayEl && overlayEl.classList.contains('active')) {
+                    closeModal();
+                }
+            }
+        }, 'keydown');
+
+        // Format buttons
+        formatBtns.forEach(btn => {
+            once(btn, 'boundFormat', () => {
+                const fmt = btn.dataset.format;
+                if (!fmt) return;
+                // Call existing setFormat function
+                if (typeof setFormat === 'function') {
+                    setFormat(fmt);
+                } else {
+                    formatBtns.forEach(b => b.classList.toggle('active', b === btn));
+                    currentFormat = fmt;
+                    renderCardToCanvas(fmt);
+                }
+            });
+        });
+
+        // Download
+        once(downloadBtn, 'boundDownload', async () => {
+            if (typeof downloadCard === 'function') return downloadCard();
+        });
+
+        // Share
+        once(shareBtn, 'boundShare', async () => {
+            if (typeof shareCard === 'function') return shareCard();
+        });
+
+        // Copy caption
+        once(copyBtn, 'boundCopy', async () => {
+            if (typeof copyCaptionToClipboard === 'function') return copyCaptionToClipboard();
+        });
+
+        // Bind secondary copy triggers
+        document.querySelectorAll('[data-copy-trigger]').forEach(btn => {
+            once(btn, 'boundCopySecondary', () => {
+                if (typeof copyCaptionToClipboard === 'function') copyCaptionToClipboard();
+            });
+        });
+
+        // Bind secondary share triggers
+        document.querySelectorAll('[data-share-trigger]').forEach(btn => {
+            once(btn, 'boundShareSecondary', () => openModal());
+        });
+
+        window.__SHARE_BINDINGS_DONE__ = true;
+        window.__SHARE_GENERATOR_READY__ = true;
+        console.log('[Share Card] ✅ READY — Modal controls bound via ensureShareModalBindings');
+        return true;
+    }
+
+    /**
      * Initialize the share card generator
      */
     function initShareCardGenerator() {
+        console.log('[Share Card] 🔧 Initializing generator...');
+        
         const shareRoot = document.querySelector("[data-share-card-root]");
-        if (!shareRoot) return;
+        if (!shareRoot) {
+            console.error('[Share Card] ❌ INIT FAILED: [data-share-card-root] not found');
+            return false;
+        }
 
         const triggerBtn = document.getElementById('shareCardTrigger');
         const modal = document.getElementById('shareCardModal');
         const overlay = document.getElementById('shareCardOverlay');
         const closeBtn = document.getElementById('shareCardClose');
 
-        if (!triggerBtn || !modal || !overlay) return;
+        // Detailed diagnostic logging
+        console.log('[Share Card] Element check:', {
+            shareRoot: !!shareRoot,
+            triggerBtn: !!triggerBtn,
+            modal: !!modal,
+            overlay: !!overlay,
+            closeBtn: !!closeBtn
+        });
+
+        if (!triggerBtn) {
+            console.error('[Share Card] ❌ INIT FAILED: #shareCardTrigger not found');
+            return false;
+        }
+        if (!modal) {
+            console.error('[Share Card] ❌ INIT FAILED: #shareCardModal not found');
+            return false;
+        }
+        if (!overlay) {
+            console.error('[Share Card] ❌ INIT FAILED: #shareCardOverlay not found');
+            return false;
+        }
 
         // PHASE 2: Reset ready flag at init start
         window.__SHARE_GENERATOR_READY__ = false;
@@ -275,6 +482,8 @@
                 closeModal();
             }
         });
+
+        return true; // Init successful
 
         // Invite Copy Buttons
         const inviteTemplates = {
@@ -372,8 +581,14 @@
      * STEP 1 — Generate Share Card (Global API)
      * Called by orchestrator or direct invocation
      */
-    function generateShareCardImage(devotionData) {
-        // PHASE 3: Safe open gate - block if generator not ready
+    async function generateShareCardImage(devotionData) {
+        // PRODUCTION HOTFIX: Try direct binding before blocking
+        if (window.__SHARE_GENERATOR_READY__ !== true) {
+            console.warn('[Share Card] 🔄 Generator not ready — attempting ensureShareModalBindings');
+            ensureShareModalBindings();
+        }
+
+        // PHASE 3: Safe open gate - block if generator still not ready after binding attempt
         if (window.__SHARE_GENERATOR_READY__ !== true) {
             console.error('[Share Card] ❌ BLOCKED: Generator not initialized. Modal open prevented.');
             return false;
@@ -393,6 +608,7 @@
     if (typeof window !== "undefined") {
 
        window.generateShareCardImage = generateShareCardImage;
+       window.ensureShareModalBindings = ensureShareModalBindings;
 
        window.__GPBC_SHARE_GENERATOR_READY__ = true;
 
@@ -585,12 +801,98 @@
         }
     }
 
-    // Init
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initShareCardGenerator);
-    } else {
-        initShareCardGenerator();
+    // ============================================================================
+    // PRODUCTION CRITICAL — Safe Bind Bootstrap (Mutation-Safe, DOM-Ready)
+    // ============================================================================
+
+    /**
+     * Safe binding bootstrap with MutationObserver fallback
+     * Prevents infinite retry loop and handles late DOM rendering
+     */
+    function bootstrapShareBindingsSafe() {
+        let modalObserver = null;
+        let observerTries = 0;
+        const MAX_OBSERVER_TRIES = 50;
+
+        function attemptBind() {
+            if (ensureShareModalBindings()) {
+                window.__SHARE_GENERATOR_READY__ = true;
+                console.log('[Share Card] ✅ SAFE BIND SUCCESS — Generator Ready');
+                
+                // Cleanup observer if it exists
+                if (modalObserver) {
+                    modalObserver.disconnect();
+                    modalObserver = null;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        function startModalObserver() {
+            console.log('[Share Card] 🔍 Starting MutationObserver for modal detection');
+            
+            modalObserver = new MutationObserver(() => {
+                observerTries++;
+                
+                if (attemptBind()) {
+                    console.log(`[Share Card] ✅ Modal detected via MutationObserver (attempt ${observerTries})`);
+                    return;
+                }
+                
+                if (observerTries > MAX_OBSERVER_TRIES) {
+                    modalObserver.disconnect();
+                    modalObserver = null;
+                    console.warn(`[Share Card] ⚠️ Observer stopped after ${MAX_OBSERVER_TRIES} attempts`);
+                }
+            });
+
+            // Watch for modal insertion in DOM
+            modalObserver.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        // Bootstrap logic
+        if (document.readyState === 'loading') {
+            // DOM still loading - wait for DOMContentLoaded
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('[Share Card] 🚀 DOMContentLoaded fired, attempting bind...');
+                if (!attemptBind()) {
+                    // Modal not ready yet, start observer
+                    startModalObserver();
+                }
+            });
+        } else {
+            // DOM already loaded - try immediate bind
+            console.log('[Share Card] 🚀 DOM already loaded, attempting bind...');
+            if (!attemptBind()) {
+                // Modal not ready yet, start observer
+                startModalObserver();
+            }
+        }
     }
+
+    // Execute safe bootstrap
+    bootstrapShareBindingsSafe();
+
+    // Debug telemetry helper
+    window.debugShareClickability = function () {
+        const bindState = getBindState();
+        return {
+            ready: window.__SHARE_GENERATOR_READY__,
+            bound: window.__SHARE_BINDINGS_DONE__,
+            bindState: bindState,
+            modal: !!document.getElementById('shareCardModal'),
+            overlay: !!document.getElementById('shareCardOverlay'),
+            closeBtn: !!document.getElementById('shareCardClose'),
+            downloadBtn: !!document.getElementById('downloadCardBtn'),
+            shareBtn: !!document.getElementById('shareCardBtn'),
+            copyBtn: !!document.getElementById('copyCaptionBtn'),
+            formatBtns: document.querySelectorAll('.format-btn').length
+        };
+    };
 
     // STEP 3 — Verify generator loads after script load
     console.log('[ShareCard] ✅ File loaded');

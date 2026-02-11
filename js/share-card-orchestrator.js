@@ -93,6 +93,11 @@
             const devotionData = window.__CURRENT_DEVOTION__;
             
             // PHASE 4: Check generator ready state before routing
+            // PRODUCTION HOTFIX: Try ensureShareModalBindings before blocking
+            if (window.__SHARE_GENERATOR_READY__ !== true && typeof window.ensureShareModalBindings === 'function') {
+                window.ensureShareModalBindings();
+            }
+            
             if (window.__SHARE_GENERATOR_READY__ !== true) {
                 console.warn('[Share Orchestrator] ⏸️ Generator not ready — aborting open request');
                 return;
