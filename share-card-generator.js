@@ -89,8 +89,8 @@
         if (watermarkLoadAttempted) return;
         watermarkLoadAttempted = true;
 
-        const primarySrc = 'assets/logo/new-gpbc-logo-final.svg';
-        const fallbackSrc = 'assets/logo/logo-gpbc-test-no-bg.png';
+        const primarySrc = 'images/new-gpbc-logo-final.svg';
+        const fallbackSrc = 'images/new-gpbc-logo-final.svg'; // Use same SVG as fallback
 
         const img = new Image();
         
