@@ -88,51 +88,68 @@
             return;
         }
 
-        // STEP 4 — Try safe fetch with relative paths
+        // STEP 4 — DATA MESH INTEGRATION: Use 5-layer fallback cascade
         console.log("[GPBC] Loading devotions for year:", yearLabel);
         
         try {
-            // Try primary devotions file with safe relative paths
-            let data = await fetchJsonSafe(`devotions-${yearLabel}.json`);
-            
-            if (data && Array.isArray(data)) {
-                devotions = data;
-                source = `devotions-${yearLabel}.json`;
-                console.log("[GPBC] ✅ Loaded primary devotions:", devotions.length);
+            // Use Data Mesh if available, otherwise fall back to legacy loader
+            if (typeof window.loadDevotionsWithMesh === 'function') {
+                devotions = await window.loadDevotionsWithMesh(yearLabel);
+                source = 'data-mesh-loader (5-layer cascade)';
+                console.log("[GPBC] ✅ Data Mesh loaded:", devotions.length, "devotions");
             } else {
-                throw new Error("Primary devotions file not found or invalid");
-            }
-        } catch (primaryError) {
-            console.warn('[GPBC] Primary devotion fetch failed, trying monthly files:', primaryError);
-            window.dispatchEvent(new CustomEvent('devotionsLoadError', {
-                detail: { error: primaryError.message, stage: 'primary', year: yearLabel }
-            }));
-
-            try {
-                const months = [
-                    '01-january', '02-february', '03-march', '04-april', '05-may', '06-june',
-                    '07-july', '08-august', '09-september', '10-october', '11-november', '12-december'
-                ];
+                // LEGACY FALLBACK: Original 2-layer fetch logic
+                console.warn("[GPBC] Data Mesh not available, using legacy loader");
                 
-                // Try fetching monthly files
-                const monthPromises = months.map(name => 
-                    fetchJsonSafe(`devotions-data/${yearLabel}/${name}.json`)
-                );
+                try {
+                    // Try primary devotions file with safe relative paths
+                    let data = await fetchJsonSafe(`devotions-${yearLabel}.json`);
+                    
+                    if (data && Array.isArray(data)) {
+                        devotions = data;
+                        source = `devotions-${yearLabel}.json`;
+                        console.log("[GPBC] ✅ Loaded primary devotions:", devotions.length);
+                    } else {
+                        throw new Error("Primary devotions file not found or invalid");
+                    }
+                } catch (primaryError) {
+                    console.warn('[GPBC] Primary devotion fetch failed, trying monthly files:', primaryError);
+                    window.dispatchEvent(new CustomEvent('devotionsLoadError', {
+                        detail: { error: primaryError.message, stage: 'primary', year: yearLabel }
+                    }));
 
-                const results = await Promise.allSettled(monthPromises);
-                const monthData = results
-                    .filter(result => result.status === 'fulfilled' && result.value)
-                    .map(result => result.value);
+                    try {
+                        const months = [
+                            '01-january', '02-february', '03-march', '04-april', '05-may', '06-june',
+                            '07-july', '08-august', '09-september', '10-october', '11-november', '12-december'
+                        ];
+                        
+                        // Try fetching monthly files
+                        const monthPromises = months.map(name => 
+                            fetchJsonSafe(`devotions-data/${yearLabel}/${name}.json`)
+                        );
 
-                devotions = monthData.flat();
-                source = `devotions-data/*.json (${monthData.length} months loaded)`;
-                console.log("[GPBC] ✅ Loaded monthly devotions:", devotions.length);
-            } catch (fallbackError) {
-                console.error('[GPBC] Monthly devotions fetch failed:', fallbackError);
-                window.dispatchEvent(new CustomEvent('devotionsLoadError', {
-                    detail: { error: fallbackError.message, stage: 'fallback', year: yearLabel }
-                }));
+                        const results = await Promise.allSettled(monthPromises);
+                        const monthData = results
+                            .filter(result => result.status === 'fulfilled' && result.value)
+                            .map(result => result.value);
+
+                        devotions = monthData.flat();
+                        source = `devotions-data/*.json (${monthData.length} months loaded)`;
+                        console.log("[GPBC] ✅ Loaded monthly devotions:", devotions.length);
+                    } catch (fallbackError) {
+                        console.error('[GPBC] Monthly devotions fetch failed:', fallbackError);
+                        window.dispatchEvent(new CustomEvent('devotionsLoadError', {
+                            detail: { error: fallbackError.message, stage: 'fallback', year: yearLabel }
+                        }));
+                    }
+                }
             }
+        } catch (meshError) {
+            console.error('[GPBC] Data Mesh error:', meshError);
+            window.dispatchEvent(new CustomEvent('devotionsLoadError', {
+                detail: { error: meshError.message, stage: 'mesh', year: yearLabel }
+            }));
         }
 
         if (!Array.isArray(devotions)) {
