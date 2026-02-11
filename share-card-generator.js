@@ -686,46 +686,46 @@
         ctx.fillStyle = rayGradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 3. GPBC Logo Watermark (PRODUCTION FIX: Direct render if available)
-        if (logoImg) {
+        // 3. GPBC Logo Watermark (PRODUCTION FIX: Visible and elegant)
+        if (watermarkLogoImage) {
             ctx.save();
-            ctx.globalAlpha = 0.06;
-            const size = canvas.width * 0.18;
-            ctx.drawImage(
-                logoImg,
-                canvas.width / 2 - size / 2,
-                canvas.height / 2 - size / 2,
-                size,
-                size
-            );
-            ctx.globalAlpha = 1;
-            ctx.restore();
-        } else if (watermarkLogoImage) {
-            // HOTFIX FALLBACK — Use legacy preloaded image if available
-            ctx.save();
-            ctx.globalAlpha = 0.06;
-            const size = canvas.width * 0.18;
+            ctx.globalAlpha = 0.08;   // Production visible but elegant
+            const size = canvas.width * 0.22;
             ctx.drawImage(
                 watermarkLogoImage,
-                canvas.width / 2 - size / 2,
-                canvas.height / 2 - size / 2,
+                (canvas.width - size) / 2,
+                (canvas.height - size) / 2,
                 size,
                 size
             );
-            ctx.globalAlpha = 1;
             ctx.restore();
+            console.log("[GPBC Watermark] 🎨 Drawn to canvas");
+        } else if (logoImg) {
+            // Promise-based fallback
+            ctx.save();
+            ctx.globalAlpha = 0.08;
+            const size = canvas.width * 0.22;
+            ctx.drawImage(
+                logoImg,
+                (canvas.width - size) / 2,
+                (canvas.height - size) / 2,
+                size,
+                size
+            );
+            ctx.restore();
+            console.log("[GPBC Watermark] 🎨 Drawn to canvas (Promise)");
         }
 
-        // 4. Legacy Text Watermark (Deprecated - keeping for fallback)
-        ctx.save();
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate(-Math.PI / 12); // -15 deg rotate
-        ctx.font = 'bold 200px serif';
-        ctx.fillStyle = theme.watermark;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('GPBC', 0, 0);
-        ctx.restore();
+        // 4. Legacy Text Watermark (Deprecated - DISABLED in favor of logo)
+        // ctx.save();
+        // ctx.translate(canvas.width / 2, canvas.height / 2);
+        // ctx.rotate(-Math.PI / 12); // -15 deg rotate
+        // ctx.font = 'bold 200px serif';
+        // ctx.fillStyle = theme.watermark;
+        // ctx.textAlign = 'center';
+        // ctx.textBaseline = 'middle';
+        // ctx.fillText('GPBC', 0, 0);
+        // ctx.restore();
 
         // 5. Content Logic
         const padding = config.padding;
