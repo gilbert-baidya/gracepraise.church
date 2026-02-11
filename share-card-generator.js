@@ -24,6 +24,37 @@
     window.__SHARE_GENERATOR_READY__ = false;
     window.__SHARE_BINDINGS_DONE__ = false;
 
+    // ============================================================================
+    // PRODUCTION HOTFIX — Safe Binding State Initialization
+    // Prevents "Cannot read properties of undefined" runtime crashes
+    // ============================================================================
+    if (typeof window.__SHARE_BIND_STATE__ === 'undefined') {
+        window.__SHARE_BIND_STATE__ = {
+            boundEscClose: false,
+            boundOverlayClose: false,
+            boundModalButtons: false,
+            bindAttemptCount: 0,
+            lastBindAttemptTs: 0
+        };
+    }
+
+    /**
+     * Safe state accessor - guarantees state object exists
+     * @returns {Object} Binding state object
+     */
+    function getBindState() {
+        if (!window.__SHARE_BIND_STATE__) {
+            window.__SHARE_BIND_STATE__ = {
+                boundEscClose: false,
+                boundOverlayClose: false,
+                boundModalButtons: false,
+                bindAttemptCount: 0,
+                lastBindAttemptTs: 0
+            };
+        }
+        return window.__SHARE_BIND_STATE__;
+    }
+
     // GPBC WATERMARK SPEC VERSION
     const GPBC_WATERMARK_SPEC_VERSION = "GPBC-WM-V4";
 
@@ -228,6 +259,11 @@
      * ============================================================================
      */
     function ensureShareModalBindings() {
+        // Safe state tracking
+        const bindState = getBindState();
+        bindState.bindAttemptCount++;
+        bindState.lastBindAttemptTs = Date.now();
+
         if (window.__SHARE_BINDINGS_DONE__ === true) {
             console.log('[Share Card] Bindings already done — skipping');
             return true;
@@ -256,11 +292,43 @@
 
         // IMPORTANT: bind handlers ONLY ONCE (no duplicates)
         // Use dataset markers to prevent double-binding
+        // PRODUCTION SAFE: Never crashes on missing state
         const once = (el, key, fn, evt = 'click') => {
             if (!el) return;
-            if (el.dataset[key] === '1') return;
-            el.addEventListener(evt, fn);
-            el.dataset[key] = '1';
+            
+            try {
+                // Safe state access - never throw
+                const bindState = getBindState();
+                
+                // Check if already bound via dataset
+                if (el.dataset && el.dataset[key] === '1') {
+                    return;
+                }
+                
+                // Bind event listener
+                el.addEventListener(evt, fn);
+                
+                // Mark as bound via dataset
+                if (el.dataset) {
+                    el.dataset[key] = '1';
+                }
+                
+                // Update state tracker (telemetry only, not critical)
+                if (bindState && typeof bindState[key] !== 'undefined') {
+                    bindState[key] = true;
+                }
+            } catch (err) {
+                // Telemetry-safe logging - never crash generator
+                console.warn(`[Share Card] Bind warning for key "${key}":`, err.message);
+                // Still attempt bind even if state tracking fails
+                try {
+                    if (el && el.addEventListener) {
+                        el.addEventListener(evt, fn);
+                    }
+                } catch (bindErr) {
+                    console.warn('[Share Card] Bind fallback failed:', bindErr.message);
+                }
+            }
         };
 
         // Close handlers
@@ -811,9 +879,11 @@
 
     // Debug telemetry helper
     window.debugShareClickability = function () {
+        const bindState = getBindState();
         return {
             ready: window.__SHARE_GENERATOR_READY__,
             bound: window.__SHARE_BINDINGS_DONE__,
+            bindState: bindState,
             modal: !!document.getElementById('shareCardModal'),
             overlay: !!document.getElementById('shareCardOverlay'),
             closeBtn: !!document.getElementById('shareCardClose'),
