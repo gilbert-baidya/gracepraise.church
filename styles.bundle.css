@@ -3685,16 +3685,13 @@ footer {
         pointer-events: none;
     }
 
-    .nav-dropdown.mobile-dropdown-open .dropdown-menu {
-        pointer-events: auto;
-    }
-
     /* Show dropdown menu when parent has mobile-dropdown-open class */
     .nav-dropdown.mobile-dropdown-open .dropdown-menu {
         display: block;
         max-height: 800px;
         padding: var(--spacing-xs) 0;
         margin-top: var(--spacing-xs);
+        pointer-events: auto;
     }
 
     /* Rotate arrow when dropdown is open */
