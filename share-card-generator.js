@@ -686,35 +686,7 @@
         ctx.fillStyle = rayGradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 3. GPBC Logo Watermark (PRODUCTION FIX: Visible and elegant)
-        if (watermarkLogoImage) {
-            ctx.save();
-            ctx.globalAlpha = 0.08;   // Production visible but elegant
-            const size = canvas.width * 0.22;
-            ctx.drawImage(
-                watermarkLogoImage,
-                (canvas.width - size) / 2,
-                (canvas.height - size) / 2,
-                size,
-                size
-            );
-            ctx.restore();
-            console.log("[GPBC Watermark] 🎨 Drawn to canvas");
-        } else if (logoImg) {
-            // Promise-based fallback
-            ctx.save();
-            ctx.globalAlpha = 0.08;
-            const size = canvas.width * 0.22;
-            ctx.drawImage(
-                logoImg,
-                (canvas.width - size) / 2,
-                (canvas.height - size) / 2,
-                size,
-                size
-            );
-            ctx.restore();
-            console.log("[GPBC Watermark] 🎨 Drawn to canvas (Promise)");
-        }
+        // 3. Watermark removed from center - signature placed after text render
 
         // 4. Legacy Text Watermark (Deprecated - DISABLED in favor of logo)
         // ctx.save();
@@ -774,6 +746,66 @@
         ctx.font = '20px sans-serif';
         ctx.fillText('gracepraise.church', canvas.width / 2, footerY);
         ctx.globalAlpha = 1;
+
+        // 8. GPBC Brand Signature (YouVersion Style - Bottom Right)
+        if (watermarkLogoImage) {
+            ctx.save();
+
+            // Format-adaptive styling
+            if (format === 'story') {
+                ctx.globalAlpha = 0.10;  // Subtle for story format
+            } else {
+                ctx.globalAlpha = 0.14;  // Elegant signature opacity
+            }
+
+            // Signature size (social safe)
+            const logoSize = format === 'story' ? canvas.width * 0.10 : canvas.width * 0.12;
+
+            // Padding safe from IG / WhatsApp compression
+            const logoPadding = canvas.width * 0.05;
+
+            const x = canvas.width - logoSize - logoPadding;
+            const y = canvas.height - logoSize - logoPadding;
+
+            ctx.drawImage(
+                watermarkLogoImage,
+                x,
+                y,
+                logoSize,
+                logoSize
+            );
+
+            ctx.restore();
+
+            console.log("[GPBC Signature] ✨ YouVersion style signature placed");
+        } else if (logoImg) {
+            // Promise-based fallback
+            ctx.save();
+
+            if (format === 'story') {
+                ctx.globalAlpha = 0.10;
+            } else {
+                ctx.globalAlpha = 0.14;
+            }
+
+            const logoSize = format === 'story' ? canvas.width * 0.10 : canvas.width * 0.12;
+            const logoPadding = canvas.width * 0.05;
+
+            const x = canvas.width - logoSize - logoPadding;
+            const y = canvas.height - logoSize - logoPadding;
+
+            ctx.drawImage(
+                logoImg,
+                x,
+                y,
+                logoSize,
+                logoSize
+            );
+
+            ctx.restore();
+
+            console.log("[GPBC Signature] ✨ YouVersion style signature placed (Promise)");
+        }
 
         // Preview Render
         previewContainer.innerHTML = '';
