@@ -3831,3 +3831,185 @@ html.dark .share-action-btn.is-generating {
         background: rgba(255, 255, 255, 0.9) !important;
     }
 }
+
+/* ========================================
+   SAFE VISUAL AUTHORITY PASS
+   Principal Front-End Architect + Liturgical UI/UX
+   February 11, 2026
+   ======================================== */
+
+/* ------------------------------------------------
+   PHASE 1 — CONTAINER AUTHORITY CONTRACT
+   ------------------------------------------------ */
+
+:root {
+    /* Canonical devotion reading rhythm */
+    --devotion-reading-max: 880px;
+    --devotion-reading-padding-desktop: 40px;
+    --devotion-reading-padding-tablet: 28px;
+    --devotion-reading-padding-mobile: 20px;
+    
+    /* Sacred typography weight authority */
+    --sacred-verse-weight: 600;
+    --sacred-reference-weight: 500;
+    --sacred-body-weight: 400;
+    
+    /* Sacred surface gradients */
+    --sacred-surface-light: linear-gradient(135deg, #fffdf7, #f6f1e6);
+    --sacred-surface-dark: linear-gradient(135deg, #141414, #1c1c1c);
+}
+
+/* Dark mode depth ladder tokens */
+[data-theme="dark"],
+html.dark,
+body.dark {
+    --sacred-depth-1: #0f0f0f;
+    --sacred-depth-2: #161616;
+    --sacred-depth-3: #1d1d1d;
+}
+
+/* ------------------------------------------------
+   Container Authority Overrides (Safe Cascade)
+   ------------------------------------------------ */
+
+/* Main devotion container - unified reading max-width */
+.devotion-container,
+body.page-daily-devotion .devotion-container {
+    max-width: var(--devotion-reading-max);
+}
+
+/* Sacred quote card container - consistent with reading rhythm */
+body.page-daily-devotion .sacred-quote-card {
+    max-width: var(--devotion-reading-max);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Share panel container - aligned with sacred system */
+body.page-daily-devotion .devotion-share-panel,
+.devotion-share-panel {
+    max-width: var(--devotion-reading-max);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Tablet responsive padding authority */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .devotion-container,
+    body.page-daily-devotion .sacred-quote-card,
+    body.page-daily-devotion .devotion-share-panel {
+        padding-left: var(--devotion-reading-padding-tablet);
+        padding-right: var(--devotion-reading-padding-tablet);
+    }
+}
+
+/* Mobile responsive padding authority */
+@media (max-width: 767px) {
+    .devotion-container,
+    body.page-daily-devotion .sacred-quote-card,
+    body.page-daily-devotion .devotion-share-panel {
+        padding-left: var(--devotion-reading-padding-mobile);
+        padding-right: var(--devotion-reading-padding-mobile);
+    }
+}
+
+/* ------------------------------------------------
+   PHASE 2 — SACRED TYPOGRAPHY AUTHORITY LOCK
+   ------------------------------------------------ */
+
+/* Verse text hierarchy - premium weight */
+body.page-daily-devotion .sacred-quote-verse {
+    font-weight: var(--sacred-verse-weight);
+}
+
+/* Reference hierarchy - balanced authority */
+body.page-daily-devotion .sacred-quote-reference {
+    font-weight: var(--sacred-reference-weight);
+}
+
+/* Body text hierarchy - readable flow */
+body.page-daily-devotion .sacred-quote-content,
+body.page-daily-devotion .devotion-text,
+body.page-daily-devotion .reflection-body,
+body.page-daily-devotion .prayer-body {
+    font-weight: var(--sacred-body-weight);
+}
+
+/* Dark mode typography consistency */
+body.page-daily-devotion.dark .sacred-quote-verse,
+body.page-daily-devotion[data-theme="dark"] .sacred-quote-verse,
+html.dark body.page-daily-devotion .sacred-quote-verse {
+    font-weight: var(--sacred-verse-weight);
+}
+
+body.page-daily-devotion.dark .sacred-quote-reference,
+body.page-daily-devotion[data-theme="dark"] .sacred-quote-reference,
+html.dark body.page-daily-devotion .sacred-quote-reference {
+    font-weight: var(--sacred-reference-weight);
+}
+
+/* ------------------------------------------------
+   PHASE 3 — SHARE PANEL VISUAL COLLISION REDUCTION
+   ------------------------------------------------ */
+
+/* Unified border radius authority */
+body.page-daily-devotion .devotion-share-panel,
+.devotion-share-panel,
+.share-card,
+.share-card-modal {
+    border-radius: 18px;
+}
+
+/* Sacred surface gradient (safe override for gradient-based backgrounds) */
+body.page-daily-devotion .sacred-quote-card {
+    background: var(--sacred-surface-light);
+}
+
+[data-theme="dark"] body.page-daily-devotion .sacred-quote-card,
+html.dark body.page-daily-devotion .sacred-quote-card,
+body.page-daily-devotion.dark .sacred-quote-card {
+    background: var(--sacred-surface-dark);
+}
+
+/* ------------------------------------------------
+   PHASE 4 — DARK MODE DEPTH LADDER (SAFE)
+   ------------------------------------------------ */
+
+/* Section containers - layered depth */
+[data-theme="dark"] .devotion-container,
+html.dark .devotion-container {
+    background-color: var(--sacred-depth-1);
+}
+
+/* Card containers - elevated depth */
+[data-theme="dark"] body.page-daily-devotion .sacred-quote-card,
+html.dark body.page-daily-devotion .sacred-quote-card {
+    background: var(--sacred-depth-2);
+}
+
+/* Share panel - top layer depth */
+[data-theme="dark"] body.page-daily-devotion .devotion-share-panel,
+html.dark body.page-daily-devotion .devotion-share-panel {
+    background: var(--sacred-depth-3);
+}
+
+/* ------------------------------------------------
+   PHASE 5 — MOBILE PERFORMANCE COEXISTENCE
+   ------------------------------------------------ */
+
+/* Soft gradient alternative when blur is disabled */
+@media (max-width: 768px) {
+    .devotion-share-panel {
+        /* Coexists with mobile-performance-optimization.css */
+        /* Uses soft gradient + subtle border instead of heavy blur */
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    [data-theme="light"] .devotion-share-panel {
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+}
+
+/* ================================================
+   END SAFE VISUAL AUTHORITY PASS
+   ================================================ */
