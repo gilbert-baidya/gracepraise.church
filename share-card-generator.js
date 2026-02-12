@@ -736,22 +736,13 @@
         ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
         ctx.fillText(`— ${data.reference} —`, canvas.width / 2, refY);
 
-        // 7. Footer (Fixed Bottom)
-        const footerY = canvas.height - padding;
-        ctx.fillStyle = theme.text;
-        ctx.globalAlpha = 0.5;
-        ctx.font = '24px sans-serif';
-        ctx.fillText('Grace and Praise Bangladeshi Church', canvas.width / 2, footerY - 40);
+        // 7. Footer removed - signature handles branding
 
-        ctx.font = '20px sans-serif';
-        ctx.fillText('gracepraise.church', canvas.width / 2, footerY);
-        ctx.globalAlpha = 1;
-
-        // 8. GPBC Horizontal Signature Row (Bottom Right)
+        // 8. GPBC Clean Signature (Logo + Domain Only)
         if (watermarkLogoImage) {
             ctx.save();
 
-            const padding = canvas.width * 0.05;
+            const padding = canvas.width * 0.055;
 
             // =================
             // GOLD DIVIDER LINE
@@ -760,9 +751,9 @@
             ctx.strokeStyle = "#C9A24F";
             ctx.lineWidth = canvas.width * 0.0018;
 
-            const dividerWidth = canvas.width * 0.42;
+            const dividerWidth = canvas.width * 0.40;
             const dividerX = canvas.width - dividerWidth - padding;
-            const dividerY = canvas.height - (canvas.width * 0.16);
+            const dividerY = canvas.height - (canvas.width * 0.14);
 
             ctx.beginPath();
             ctx.moveTo(dividerX, dividerY);
@@ -770,13 +761,16 @@
             ctx.stroke();
 
             // =================
-            // HORIZONTAL SIGNATURE ROW
+            // SIGNATURE ROW SAFE ZONE
             // =================
-            const logoSize = canvas.width * 0.12;
+            const logoSize = canvas.width * 0.115;
             const gap = canvas.width * 0.018;
 
+            // push safely below divider
+            const signatureTop = dividerY + canvas.width * 0.03;
+
             const logoX = canvas.width - padding - logoSize;
-            const logoY = dividerY + canvas.width * 0.028;
+            const logoY = signatureTop;
 
             ctx.globalAlpha = 0.95;
             ctx.drawImage(
@@ -788,8 +782,8 @@
             );
 
             // DOMAIN TEXT
-            ctx.globalAlpha = 0.80;
-            ctx.fillStyle = "#C9A24F";
+            ctx.globalAlpha = 0.85;
+            ctx.fillStyle = "#D4AF37";
 
             ctx.font = `600 ${canvas.width * 0.034}px Inter, -apple-system, BlinkMacSystemFont, Arial`;
             ctx.textAlign = "right";
@@ -806,33 +800,35 @@
 
             ctx.restore();
 
-            console.log("[GPBC Sacred] ✨ Horizontal Logo + Domain Signature Applied");
+            console.log("[GPBC Sacred] ✨ Clean Logo + Domain Signature (No Church Text)");
         } else if (logoImg) {
             // Promise-based fallback
             ctx.save();
 
-            const padding = canvas.width * 0.05;
+            const padding = canvas.width * 0.055;
 
             // GOLD DIVIDER LINE
             ctx.globalAlpha = 0.35;
             ctx.strokeStyle = "#C9A24F";
             ctx.lineWidth = canvas.width * 0.0018;
 
-            const dividerWidth = canvas.width * 0.42;
+            const dividerWidth = canvas.width * 0.40;
             const dividerX = canvas.width - dividerWidth - padding;
-            const dividerY = canvas.height - (canvas.width * 0.16);
+            const dividerY = canvas.height - (canvas.width * 0.14);
 
             ctx.beginPath();
             ctx.moveTo(dividerX, dividerY);
             ctx.lineTo(dividerX + dividerWidth, dividerY);
             ctx.stroke();
 
-            // HORIZONTAL SIGNATURE ROW
-            const logoSize = canvas.width * 0.12;
+            // SIGNATURE ROW SAFE ZONE
+            const logoSize = canvas.width * 0.115;
             const gap = canvas.width * 0.018;
 
+            const signatureTop = dividerY + canvas.width * 0.03;
+
             const logoX = canvas.width - padding - logoSize;
-            const logoY = dividerY + canvas.width * 0.028;
+            const logoY = signatureTop;
 
             ctx.globalAlpha = 0.95;
             ctx.drawImage(
@@ -844,8 +840,8 @@
             );
 
             // DOMAIN TEXT
-            ctx.globalAlpha = 0.80;
-            ctx.fillStyle = "#C9A24F";
+            ctx.globalAlpha = 0.85;
+            ctx.fillStyle = "#D4AF37";
 
             ctx.font = `600 ${canvas.width * 0.034}px Inter, -apple-system, BlinkMacSystemFont, Arial`;
             ctx.textAlign = "right";
@@ -862,7 +858,7 @@
 
             ctx.restore();
 
-            console.log("[GPBC Sacred] ✨ Horizontal Logo + Domain Signature Applied (Promise)");
+            console.log("[GPBC Sacred] ✨ Clean Logo + Domain Signature (No Church Text - Promise)");
         }
 
         // Preview Render
