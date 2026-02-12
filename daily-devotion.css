@@ -1,3 +1,52 @@
+        /* ========================================
+           SACRED SURFACE TOKEN SYSTEM
+           Ministry UI/UX Design Authority
+           February 11, 2026
+           ======================================== */
+
+        :root {
+            /* LIGHT MODE — SACRED PARCHMENT */
+            --sacred-bg-primary: #FBF8F2;
+            --sacred-bg-secondary: #F3EDE2;
+            --sacred-bg-elevated: #FFFFFF;
+            
+            --sacred-surface-light: rgba(255, 255, 255, 0.78);
+            --sacred-surface-border-light: rgba(212, 185, 120, 0.22);
+            
+            --sacred-text-primary: #1F2A37;
+            --sacred-text-secondary: #5B6B7A;
+            --sacred-text-scripture: #223E5A;
+            
+            --sacred-accent-gold: #C9A96E;
+            --sacred-accent-gold-glow: rgba(201, 169, 110, 0.35);
+            
+            --sacred-shadow-soft-light: 0 10px 30px rgba(30, 60, 90, 0.08);
+            
+            /* SHARED */
+            --sacred-blur-desktop: blur(14px);
+        }
+
+        /* DARK MODE */
+        [data-theme="dark"],
+        html.dark,
+        body.dark {
+            --sacred-bg-primary: #070E1A;
+            --sacred-bg-secondary: #0B1626;
+            --sacred-bg-elevated: #111E31;
+            
+            --sacred-surface-dark: rgba(17, 30, 49, 0.72);
+            --sacred-surface-border-dark: rgba(201, 169, 110, 0.18);
+            
+            --sacred-text-primary: #E6EDF5;
+            --sacred-text-secondary: #9FB2C7;
+            --sacred-text-scripture: #F0F6FF;
+            
+            --sacred-accent-gold: #D4B878;
+            --sacred-accent-gold-glow: rgba(212, 184, 120, 0.40);
+            
+            --sacred-shadow-soft-dark: 0 18px 48px rgba(0, 0, 0, 0.55);
+        }
+
         /* ===== iOS Safari Fixed Position Fix ===== */
         /* Global box-sizing */
         *,
@@ -4007,6 +4056,103 @@ html.dark body.page-daily-devotion .devotion-share-panel {
     
     [data-theme="light"] .devotion-share-panel {
         border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+}
+
+/* ================================================
+   SACRED SURFACE TOKEN IMPLEMENTATION
+   Ministry UI/UX Design Systems Authority
+   ================================================ */
+
+/* ------------------------------------------------
+   GLOBAL BODY SURFACE NORMALIZATION
+   ------------------------------------------------ */
+
+body.page-daily-devotion {
+    background: var(--sacred-bg-primary);
+    color: var(--sacred-text-primary);
+}
+
+/* ------------------------------------------------
+   DEVOTION CARD AUTHORITY SURFACE
+   ------------------------------------------------ */
+
+body.page-daily-devotion .sacred-quote-card,
+body.page-daily-devotion .devotion-card,
+body.page-daily-devotion .scripture-card,
+body.page-daily-devotion .reflection-card,
+body.page-daily-devotion .prayer-card {
+    background: var(--sacred-bg-elevated);
+    border: 1px solid var(--sacred-surface-border-light);
+    box-shadow: var(--sacred-shadow-soft-light);
+}
+
+/* DARK MODE OVERRIDE */
+[data-theme="dark"] body.page-daily-devotion .sacred-quote-card,
+[data-theme="dark"] body.page-daily-devotion .devotion-card,
+[data-theme="dark"] body.page-daily-devotion .scripture-card,
+[data-theme="dark"] body.page-daily-devotion .reflection-card,
+[data-theme="dark"] body.page-daily-devotion .prayer-card,
+html.dark body.page-daily-devotion .sacred-quote-card,
+html.dark body.page-daily-devotion .devotion-card,
+html.dark body.page-daily-devotion .scripture-card,
+html.dark body.page-daily-devotion .reflection-card,
+html.dark body.page-daily-devotion .prayer-card {
+    background: var(--sacred-bg-elevated);
+    border: 1px solid var(--sacred-surface-border-dark);
+    box-shadow: var(--sacred-shadow-soft-dark);
+}
+
+/* ------------------------------------------------
+   SHARE PANEL PREMIUM SURFACE (SAFE)
+   ------------------------------------------------ */
+
+body.page-daily-devotion .devotion-share-panel,
+body.page-daily-devotion .share-panel,
+body.page-daily-devotion .share-container {
+    background: linear-gradient(
+        145deg,
+        rgba(22, 34, 54, 0.95),
+        rgba(12, 20, 36, 0.95)
+    );
+    border: 1px solid var(--sacred-surface-border-dark);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+/* LIGHT MODE SHARE */
+[data-theme="light"] body.page-daily-devotion .devotion-share-panel,
+[data-theme="light"] body.page-daily-devotion .share-panel,
+[data-theme="light"] body.page-daily-devotion .share-container {
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.95),
+        rgba(248, 242, 230, 0.95)
+    );
+    border: 1px solid var(--sacred-surface-border-light);
+    box-shadow: var(--sacred-shadow-soft-light);
+}
+
+/* ------------------------------------------------
+   GOLD DIVIDER AUTHORITY
+   ------------------------------------------------ */
+
+body.page-daily-devotion .scripture-divider,
+body.page-daily-devotion .gold-divider,
+body.page-daily-devotion .sacred-divider {
+    background: var(--sacred-accent-gold);
+    box-shadow: 0 0 18px var(--sacred-accent-gold-glow);
+}
+
+/* ------------------------------------------------
+   MOBILE PERFORMANCE PROTECTION
+   ------------------------------------------------ */
+
+@media (max-width: 768px) {
+    body.page-daily-devotion .devotion-card,
+    body.page-daily-devotion .scripture-card,
+    body.page-daily-devotion .share-panel,
+    body.page-daily-devotion .devotion-share-panel {
+        backdrop-filter: none !important;
     }
 }
 
