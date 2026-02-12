@@ -1,0 +1,126 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-02-12",
+  "sacredStylePrefix": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. ",
+  "themes": {
+    "fruit-of-the-spirit": {
+      "description": "Nine biblical fruits of the Spirit from Galatians 5:22-23",
+      "prompts": {
+        "love": "blooming rose garden with morning dew, soft pink and cream tones",
+        "joy": "sunflower field in golden sunlight, bright yellow and warm tones",
+        "peace": "still mountain lake reflection, misty blue and silver tones",
+        "patience": "growing green vine with new buds, soft green and earth tones",
+        "kindness": "gentle rain on flower petals, soft pastels and light blues",
+        "goodness": "ripe wheat field swaying in breeze, golden harvest tones",
+        "faithfulness": "ancient olive tree grove, warm Mediterranean light",
+        "gentleness": "soft white clouds drifting in blue sky, peaceful atmosphere",
+        "self-control": "calm bamboo forest path, zen green and natural tones"
+      },
+      "variationsPerFruit": 4
+    },
+    "calm-creation": {
+      "description": "Natural scenes inspired by God's creation for contemplative devotion",
+      "prompts": {
+        "ocean": "peaceful ocean horizon at sunrise, soft coral and blue gradient",
+        "mountain-lake": "alpine lake with mountain reflection, crisp blue and white",
+        "stars": "night sky with milky way galaxy, deep blue and silver stars",
+        "aurora": "northern lights over snowy landscape, ethereal green and blue",
+        "forest-mist": "misty forest with light rays through trees, soft green fog",
+        "cloudscape": "soft cloud formations in golden hour, warm pink and orange",
+        "hills": "rolling green hills in morning light, fresh pastoral tones",
+        "river-valley": "winding river through peaceful valley, soft earth tones"
+      }
+    },
+    "sms-readable": {
+      "description": "High-readability backgrounds optimized for text overlay on mobile SMS",
+      "prompts": {
+        "sky-gradient": "simple sky gradient from light blue to white, minimal detail",
+        "parchment": "soft natural parchment texture, cream and beige tones",
+        "fog-minimal": "minimal fog landscape, soft gray and white blur",
+        "sand-shore": "soft sand beach minimal, warm neutral tones",
+        "cloud-soft": "soft white clouds on pale blue, high readability"
+      },
+      "designPrinciples": [
+        "Low visual complexity",
+        "High contrast ratio for text",
+        "Minimal distractions",
+        "Neutral color palettes"
+      ]
+    },
+    "liturgical-seasons": {
+      "description": "Sacred imagery aligned with church calendar and spiritual seasons",
+      "prompts": {
+        "lent": {
+          "prompt": "quiet desert landscape at dawn, dusty purple and gold tones, reflective mood",
+          "season": "Lent (40 days before Easter)",
+          "symbolism": "Wilderness, reflection, preparation"
+        },
+        "easter": {
+          "prompt": "brilliant sunrise breaking through clouds, resurrection light, golden white rays",
+          "season": "Easter Sunday",
+          "symbolism": "Resurrection, new life, victory over death"
+        },
+        "advent": {
+          "prompt": "starry night with single bright star, deep blue with warm candlelight glow",
+          "season": "Advent (4 weeks before Christmas)",
+          "symbolism": "Hope, anticipation, light in darkness"
+        },
+        "communion": {
+          "prompt": "vineyard rows in golden light, sacred harvest, deep purple and gold",
+          "season": "Communion/Eucharist",
+          "symbolism": "Body and blood, covenant, sacred table"
+        },
+        "pentecost": {
+          "prompt": "sky with subtle fiery light glow, holy spirit atmosphere, warm orange and gold",
+          "season": "Pentecost (50 days after Easter)",
+          "symbolism": "Holy Spirit, fire, wind, power from on high"
+        }
+      }
+    },
+    "dark-mode-sacred": {
+      "description": "Deep, peaceful backgrounds optimized for dark mode user interfaces",
+      "prompts": {
+        "starfield": "deep space starfield with nebula, dark blue and purple tones",
+        "moon-water": "moonlight reflecting on calm water, dark blue and silver",
+        "night-forest": "dark forest with moon rays, mysterious peaceful atmosphere",
+        "twilight-sky": "deep twilight gradient, navy to dark purple peaceful tones"
+      },
+      "technicalSpecs": {
+        "brightness": "Low luminance (20-40%)",
+        "contrast": "Optimized for white text overlay",
+        "blueLightFilter": "Reduced blue spectrum for night viewing"
+      }
+    }
+  },
+  "qualityStandards": {
+    "resolution": "1536x1536px (ministry publishing grade)",
+    "format": "PNG (lossless)",
+    "aspectRatio": "1:1 (square, optimized for cropping to 9:16 or 16:9)",
+    "lighting": "Cinematic natural lighting with soft depth of field",
+    "composition": "Negative space for scripture text overlay",
+    "mood": "Calm, reverent, contemplative, peaceful",
+    "restrictions": [
+      "No people or faces",
+      "No text or watermarks",
+      "No logos or branding",
+      "Not stock photo aesthetic",
+      "Avoid overly busy compositions"
+    ]
+  },
+  "usageGuidelines": {
+    "dailyDevotion": "Use calm-creation or fruit-of-the-spirit for general daily content",
+    "smsSharing": "Use sms-readable for text-heavy mobile sharing",
+    "socialMedia": "Use fruit-of-the-spirit for Instagram/Facebook stories",
+    "shareCards": "Use any theme based on devotion content and season",
+    "churchCalendar": "Use liturgical-seasons for special holy days",
+    "darkModeUI": "Use dark-mode-sacred when user has dark theme enabled"
+  },
+  "generationSettings": {
+    "model": "dall-e-3",
+    "quality": "standard",
+    "size": "1536x1536",
+    "batchDelay": "1500ms (prevent rate limiting)",
+    "maxRetries": 2,
+    "skipExisting": true
+  }
+}

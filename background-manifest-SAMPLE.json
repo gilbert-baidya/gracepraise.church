@@ -1,0 +1,106 @@
+{
+  "generatedAt": "2026-02-12T10:30:00.000Z",
+  "version": "1.0.0",
+  "totalImages": 92,
+  "themes": {
+    "fruit-of-the-spirit": [
+      {
+        "filename": "fruit-love-01.png",
+        "path": "fruit-of-the-spirit/fruit-love-01.png",
+        "status": "generated",
+        "prompt": "blooming rose garden with morning dew, soft pink and cream tones",
+        "fullPrompt": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. blooming rose garden with morning dew, soft pink and cream tones",
+        "generatedAt": "2026-02-12T10:32:15.123Z"
+      },
+      {
+        "filename": "fruit-love-02.png",
+        "path": "fruit-of-the-spirit/fruit-love-02.png",
+        "status": "generated",
+        "prompt": "blooming rose garden with morning dew, soft pink and cream tones",
+        "fullPrompt": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. blooming rose garden with morning dew, soft pink and cream tones",
+        "generatedAt": "2026-02-12T10:33:45.456Z"
+      },
+      {
+        "filename": "fruit-peace-01.png",
+        "path": "fruit-of-the-spirit/fruit-peace-01.png",
+        "status": "generated",
+        "prompt": "still mountain lake reflection, misty blue and silver tones",
+        "fullPrompt": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. still mountain lake reflection, misty blue and silver tones",
+        "generatedAt": "2026-02-12T10:35:12.789Z"
+      }
+    ],
+    "calm-creation": [
+      {
+        "filename": "calm-ocean-01.png",
+        "path": "calm-creation/calm-ocean-01.png",
+        "status": "generated",
+        "prompt": "peaceful ocean horizon at sunrise, soft coral and blue gradient",
+        "fullPrompt": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. peaceful ocean horizon at sunrise, soft coral and blue gradient",
+        "generatedAt": "2026-02-12T10:38:45.234Z"
+      },
+      {
+        "filename": "calm-mountain-lake-01.png",
+        "path": "calm-creation/calm-mountain-lake-01.png",
+        "status": "generated",
+        "prompt": "alpine lake with mountain reflection, crisp blue and white",
+        "fullPrompt": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. alpine lake with mountain reflection, crisp blue and white",
+        "generatedAt": "2026-02-12T10:40:18.567Z"
+      }
+    ],
+    "sms-readable": [
+      {
+        "filename": "sms-sky-gradient-01.png",
+        "path": "sms-readable/sms-sky-gradient-01.png",
+        "status": "generated",
+        "prompt": "simple sky gradient from light blue to white, minimal detail",
+        "fullPrompt": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. simple sky gradient from light blue to white, minimal detail",
+        "generatedAt": "2026-02-12T10:42:33.890Z"
+      }
+    ],
+    "liturgical-seasons": [
+      {
+        "filename": "lent-desert-01.png",
+        "path": "liturgical-seasons/lent-desert-01.png",
+        "status": "generated",
+        "prompt": "quiet desert landscape at dawn, dusty purple and gold tones, reflective mood",
+        "fullPrompt": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. quiet desert landscape at dawn, dusty purple and gold tones, reflective mood",
+        "generatedAt": "2026-02-12T10:45:22.123Z"
+      },
+      {
+        "filename": "easter-sunrise-01.png",
+        "path": "liturgical-seasons/easter-sunrise-01.png",
+        "status": "generated",
+        "prompt": "brilliant sunrise breaking through clouds, resurrection light, golden white rays",
+        "fullPrompt": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. brilliant sunrise breaking through clouds, resurrection light, golden white rays",
+        "generatedAt": "2026-02-12T10:47:55.456Z"
+      },
+      {
+        "filename": "pentecost-fire-sky-01.png",
+        "path": "liturgical-seasons/pentecost-fire-sky-01.png",
+        "status": "generated",
+        "prompt": "sky with subtle fiery light glow, holy spirit atmosphere, warm orange and gold",
+        "fullPrompt": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. sky with subtle fiery light glow, holy spirit atmosphere, warm orange and gold",
+        "generatedAt": "2026-02-12T10:50:12.789Z"
+      }
+    ],
+    "dark-mode-sacred": [
+      {
+        "filename": "dark-starfield-01.png",
+        "path": "dark-mode-sacred/dark-starfield-01.png",
+        "status": "generated",
+        "prompt": "deep space starfield with nebula, dark blue and purple tones",
+        "fullPrompt": "Calm sacred Christian devotional background, inspired by God's creation, peaceful, reverent, cinematic natural lighting, soft depth of field, no people, no text, no watermark, no logo, negative space for scripture overlay, ministry publishing quality, not stock photo. deep space starfield with nebula, dark blue and purple tones",
+        "generatedAt": "2026-02-12T10:52:45.234Z"
+      }
+    ]
+  },
+  "stats": {
+    "total": 92,
+    "generated": 89,
+    "skipped": 2,
+    "failed": 1,
+    "startTime": 1707734400000,
+    "endTime": 1707738000000,
+    "durationMinutes": 60
+  }
+}

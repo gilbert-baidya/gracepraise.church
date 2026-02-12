@@ -1,0 +1,250 @@
+/**
+ * ============================================================================
+ * GPBC SACRED SURFACE TOKENS
+ * ============================================================================
+ * Light and Dark mode liturgical surface design tokens
+ * For devotional content, share cards, and sacred UI surfaces
+ * ============================================================================
+ */
+
+:root {
+    /* Light Mode Sacred Surfaces */
+    --sacred-surface-parchment-warm: #fdfbf7;
+    --sacred-surface-light-stone: #f5f1eb;
+    --sacred-surface-cream: #faf8f3;
+    --sacred-surface-warm-white: #fffef9;
+    
+    /* Light Mode Sacred Overlays */
+    --sacred-overlay-light: rgba(255, 255, 255, 0.92);
+    --sacred-overlay-soft: rgba(253, 251, 247, 0.88);
+    --sacred-overlay-translucent: rgba(255, 255, 255, 0.75);
+    
+    /* Light Mode Dividers */
+    --sacred-divider-soft-gold: rgba(201, 162, 79, 0.25);
+    --sacred-divider-warm-grey: rgba(139, 127, 107, 0.15);
+    --sacred-divider-light: rgba(0, 0, 0, 0.08);
+    
+    /* Light Mode Text on Sacred Surfaces */
+    --sacred-text-primary: #2c2416;
+    --sacred-text-secondary: #5a5241;
+    --sacred-text-muted: #8b7f6b;
+    --sacred-text-gold-accent: #c9a24f;
+    
+    /* Light Mode Shadows */
+    --sacred-shadow-soft: 0 2px 8px rgba(44, 36, 22, 0.08);
+    --sacred-shadow-medium: 0 4px 16px rgba(44, 36, 22, 0.12);
+    --sacred-shadow-deep: 0 8px 24px rgba(44, 36, 22, 0.16);
+    
+    /* Light Mode Glows */
+    --sacred-glow-gold: 0 0 8px rgba(201, 162, 79, 0.25);
+    --sacred-glow-warm: 0 0 12px rgba(255, 247, 230, 0.5);
+}
+
+[data-theme="dark"] {
+    /* Dark Mode Sacred Surfaces */
+    --sacred-surface-candle-navy: #1a1f2e;
+    --sacred-surface-midnight-blue: #0f1419;
+    --sacred-surface-deep-slate: #252a38;
+    --sacred-surface-charcoal-warm: #2a2520;
+    
+    /* Dark Mode Sacred Overlays */
+    --sacred-overlay-dark: rgba(26, 31, 46, 0.92);
+    --sacred-overlay-deep: rgba(15, 20, 25, 0.88);
+    --sacred-overlay-translucent: rgba(37, 42, 56, 0.75);
+    
+    /* Dark Mode Dividers */
+    --sacred-divider-soft-gold: rgba(201, 162, 79, 0.35);
+    --sacred-divider-warm-grey: rgba(139, 127, 107, 0.25);
+    --sacred-divider-subtle: rgba(255, 255, 255, 0.12);
+    
+    /* Dark Mode Text on Sacred Surfaces */
+    --sacred-text-primary: #f5f1eb;
+    --sacred-text-secondary: #d4cfc5;
+    --sacred-text-muted: #a39d91;
+    --sacred-text-gold-accent: #d4af6a;
+    
+    /* Dark Mode Shadows */
+    --sacred-shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --sacred-shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --sacred-shadow-deep: 0 8px 24px rgba(0, 0, 0, 0.5);
+    
+    /* Dark Mode Glows */
+    --sacred-glow-gold: 0 0 12px rgba(212, 175, 106, 0.35);
+    --sacred-glow-warm: 0 0 16px rgba(201, 162, 79, 0.25);
+}
+
+/* ============================================================================
+   SACRED SURFACE UTILITY CLASSES
+   ============================================================================ */
+
+.sacred-surface-parchment {
+    background-color: var(--sacred-surface-parchment-warm);
+    color: var(--sacred-text-primary);
+}
+
+[data-theme="dark"] .sacred-surface-parchment {
+    background-color: var(--sacred-surface-candle-navy);
+}
+
+.sacred-surface-overlay {
+    background-color: var(--sacred-overlay-light);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+[data-theme="dark"] .sacred-surface-overlay {
+    background-color: var(--sacred-overlay-dark);
+}
+
+.sacred-divider {
+    border-color: var(--sacred-divider-soft-gold);
+}
+
+.sacred-text-primary {
+    color: var(--sacred-text-primary);
+}
+
+.sacred-text-secondary {
+    color: var(--sacred-text-secondary);
+}
+
+.sacred-text-muted {
+    color: var(--sacred-text-muted);
+}
+
+.sacred-text-gold {
+    color: var(--sacred-text-gold-accent);
+}
+
+.sacred-shadow-soft {
+    box-shadow: var(--sacred-shadow-soft);
+}
+
+.sacred-shadow-medium {
+    box-shadow: var(--sacred-shadow-medium);
+}
+
+.sacred-shadow-deep {
+    box-shadow: var(--sacred-shadow-deep);
+}
+
+.sacred-glow-gold {
+    box-shadow: var(--sacred-glow-gold);
+}
+
+/* ============================================================================
+   DEVOTION CONTAINER WITH SACRED BACKGROUND
+   ============================================================================ */
+
+.devotion-container-with-background {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.devotion-container-with-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--sacred-overlay-soft);
+    pointer-events: none;
+    z-index: 0;
+}
+
+[data-theme="dark"] .devotion-container-with-background::before {
+    background: var(--sacred-overlay-deep);
+    opacity: 0.9;
+}
+
+.devotion-container-with-background > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================================================
+   SHARE CARD SACRED SURFACES
+   ============================================================================ */
+
+.share-card-sacred-surface {
+    background: linear-gradient(
+        135deg,
+        var(--sacred-surface-parchment-warm) 0%,
+        var(--sacred-surface-cream) 100%
+    );
+    box-shadow: var(--sacred-shadow-medium);
+}
+
+[data-theme="dark"] .share-card-sacred-surface {
+    background: linear-gradient(
+        135deg,
+        var(--sacred-surface-candle-navy) 0%,
+        var(--sacred-surface-deep-slate) 100%
+    );
+}
+
+/* ============================================================================
+   ACCESSIBILITY - TEXT CONTRAST GUARANTEES
+   ============================================================================ */
+
+.sacred-ensure-contrast-light {
+    color: var(--sacred-text-primary);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="dark"] .sacred-ensure-contrast-light {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.sacred-ensure-contrast-dark {
+    color: var(--sacred-text-primary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .sacred-ensure-contrast-dark {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* ============================================================================
+   BACKGROUND IMAGE DIM FOR DARK MODE
+   ============================================================================ */
+
+[data-theme="dark"] .devotion-background-image {
+    filter: brightness(0.9) contrast(1.1);
+}
+
+/* ============================================================================
+   NO BRIGHT CENTER HIGHLIGHTS RULE
+   ============================================================================ */
+
+.sacred-background-safe-center {
+    position: relative;
+}
+
+.sacred-background-safe-center::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(
+        circle,
+        var(--sacred-overlay-translucent) 0%,
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+[data-theme="dark"] .sacred-background-safe-center::after {
+    background: radial-gradient(
+        circle,
+        rgba(26, 31, 46, 0.6) 0%,
+        transparent 70%
+    );
+}

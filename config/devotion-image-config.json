@@ -1,0 +1,194 @@
+{
+  "version": "1.0.0",
+  "system": "GPBC Ultra Devotion Image System",
+  "outputDirectory": "daily-devotion/images/backgrounds",
+  "manifestFile": "background-manifest.json",
+  "imageSize": "1024x1024",
+  "fallbackSize": "1024x1024",
+  "imageFormat": "png",
+  "safeZonePercent": 60,
+  "batchDelayMs": 1500,
+  "maxRetries": 2,
+  
+  "folders": [
+    "fruits",
+    "nature",
+    "calm",
+    "light",
+    "dark"
+  ],
+  
+  "promptTemplate": {
+    "prefix": "Ultra realistic calm nature photography, soft natural light, peaceful, spiritually reflective mood, inspired by God's creation, no humans, no animals, no buildings, no text, no symbols, safe for Christian devotion background, soft depth of field, high dynamic range natural color, center area visually quiet for scripture text overlay, liturgical calm tone, premium photography quality.",
+    "suffix": "Theme:"
+  },
+  
+  "themes": {
+    "fruit-love": {
+      "folder": "fruits",
+      "count": 4,
+      "prompts": [
+        "Soft pink rose petals with morning dew, gentle bokeh, romantic warmth",
+        "Intertwined flowering vines, delicate blooms, tender natural connection",
+        "Heart-shaped leaves with golden light filtering through, peaceful affection",
+        "Cherry blossom branches over still water, reflection of care and devotion"
+      ]
+    },
+    "fruit-joy": {
+      "folder": "fruits",
+      "count": 4,
+      "prompts": [
+        "Sunflower field at golden hour, bright uplifting warmth, celebratory light",
+        "Rainbow spectrum in water mist over green meadow, hopeful radiance",
+        "Bright yellow wildflowers dancing in gentle breeze, cheerful abundance",
+        "Sunrise breaking through clouds with warm rays, triumphant new day"
+      ]
+    },
+    "fruit-peace": {
+      "folder": "fruits",
+      "count": 4,
+      "prompts": [
+        "Perfectly still mountain lake with mirror reflection, absolute tranquility",
+        "Misty forest clearing with soft green moss, serene quietness",
+        "Calm ocean at dawn with pastel sky, soothing stillness",
+        "Zen garden with smooth stones and raked sand, meditative peace"
+      ]
+    },
+    "fruit-patience": {
+      "folder": "fruits",
+      "count": 4,
+      "prompts": [
+        "Ancient oak tree with deep roots visible, timeless endurance",
+        "Slow waterfall over smooth stones, steady persistent flow",
+        "Single seedling pushing through rich soil, gradual growth beginning",
+        "Desert landscape at dusk with patient stillness, enduring presence"
+      ]
+    },
+    "fruit-kindness": {
+      "folder": "fruits",
+      "count": 4,
+      "prompts": [
+        "Gentle morning light on soft lavender flowers, tender compassion",
+        "Delicate white blossoms with dewdrops, caring gentleness",
+        "Smooth river stones with water flowing gently around, nurturing touch",
+        "Soft moss embracing old wood, gentle care and support"
+      ]
+    },
+    "fruit-goodness": {
+      "folder": "fruits",
+      "count": 4,
+      "prompts": [
+        "Abundant fruit tree with ripe harvest, generous provision",
+        "Golden wheat field ready for harvest, wholesome abundance",
+        "Overflowing garden with vegetables and herbs, natural goodness",
+        "Honeycomb with golden honey flowing, sweet pure goodness"
+      ]
+    },
+    "fruit-faithfulness": {
+      "folder": "fruits",
+      "count": 4,
+      "prompts": [
+        "Lighthouse beam cutting through fog, steadfast guidance",
+        "Ancient redwood forest standing tall, enduring commitment",
+        "Mountain peak rising above clouds, unwavering strength",
+        "North star shining bright in clear night sky, constant reliable light"
+      ]
+    },
+    "fruit-gentleness": {
+      "folder": "fruits",
+      "count": 4,
+      "prompts": [
+        "Soft pink and purple morning sky, delicate tender atmosphere",
+        "Butterfly landing on flower petal, light graceful touch",
+        "Feather floating on still pond water, soft gentle presence",
+        "Dandelion seeds floating in calm air, weightless tender motion"
+      ]
+    },
+    "fruit-self-control": {
+      "folder": "fruits",
+      "count": 4,
+      "prompts": [
+        "Balanced rock formation in perfect equilibrium, disciplined harmony",
+        "Single candle flame burning steady and focused, controlled energy",
+        "River flowing smoothly within its banks, channeled strength",
+        "Pruned grapevine showing careful cultivation, intentional growth"
+      ]
+    },
+    "nature-ocean": {
+      "folder": "nature",
+      "count": 4,
+      "prompts": [
+        "Ocean sunrise with soft orange and pink sky, peaceful horizon",
+        "Gentle waves on sandy beach at dawn, calm coastal serenity",
+        "Turquoise shallow water over white sand, crystal clarity",
+        "Ocean sunset with golden light on water, tranquil evening"
+      ]
+    },
+    "nature-mountain": {
+      "folder": "nature",
+      "count": 4,
+      "prompts": [
+        "Misty mountain peaks at sunrise, majestic peaceful heights",
+        "Snow-capped mountains with alpine meadow, pristine beauty",
+        "Mountain range with morning fog in valley, ethereal calm",
+        "Single mountain peak with clear blue sky, steadfast presence"
+      ]
+    },
+    "calm-forest": {
+      "folder": "calm",
+      "count": 4,
+      "prompts": [
+        "Sun rays piercing through forest canopy, mystical light beams",
+        "Quiet forest path with soft moss, peaceful woodland walk",
+        "Autumn forest with golden leaves on ground, seasonal tranquility",
+        "Pine forest with soft morning mist, evergreen serenity"
+      ]
+    },
+    "calm-river": {
+      "folder": "calm",
+      "count": 4,
+      "prompts": [
+        "Calm river with perfect sky reflection, mirrored peace",
+        "Flowing stream over smooth stones, gentle water movement",
+        "River bend with overhanging trees, sheltered tranquility",
+        "Crystal clear creek with visible pebbles, pure transparency"
+      ]
+    },
+    "light-sky": {
+      "folder": "light",
+      "count": 4,
+      "prompts": [
+        "Soft blue sky with wispy clouds, airy lightness",
+        "Golden hour sky with warm glow, radiant illumination",
+        "Dawn sky with pastel colors, new day hope",
+        "Clear sky with single white cloud, pure spaciousness"
+      ]
+    },
+    "light-meadow": {
+      "folder": "light",
+      "count": 4,
+      "prompts": [
+        "Green meadow with wildflowers, bright natural carpet",
+        "Rolling hills with morning light, gentle landscape",
+        "Grass field with wind patterns visible, living movement",
+        "Spring meadow with fresh growth, renewal and life"
+      ]
+    },
+    "dark-night": {
+      "folder": "dark",
+      "count": 2,
+      "prompts": [
+        "Starry night sky with milky way visible, cosmic wonder",
+        "Night sky with crescent moon over silhouette mountains, peaceful darkness"
+      ]
+    },
+    "dark-dusk": {
+      "folder": "dark",
+      "count": 2,
+      "prompts": [
+        "Deep blue dusk sky after sunset, twilight calm",
+        "Evening sky with first stars appearing, day's end peace"
+      ]
+    }
+  }
+}

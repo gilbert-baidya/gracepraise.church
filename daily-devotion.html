@@ -1221,6 +1221,13 @@
                 window.__CURRENT_DEVOTION__ = devotionData;
                 console.log('[Devotion] ✅ Current devotion cached globally for share generator');
 
+                // INTELLIGENT BACKGROUND APPLICATION
+                if (typeof window.applyDevotionBackground === 'function') {
+                    window.applyDevotionBackground(devotionData).catch(err => {
+                        console.warn('[Devotion] Background application failed:', err);
+                    });
+                }
+
                 contentEl.style.display = 'block';
                 fallbackEl.style.display = 'none';
 
@@ -1459,11 +1466,32 @@
             }
 
             if (shareWhatsAppBtn) {
-                shareWhatsAppBtn.addEventListener('click', shareToWhatsApp);
+                shareWhatsAppBtn.addEventListener('click', () => {
+                    // Use one-tap share if available
+                    if (window.oneTapDevotionShare) {
+                        window.oneTapDevotionShare({ channel: 'whatsapp' });
+                    } else {
+                        shareToWhatsApp();
+                    }
+                });
             }
 
             if (shareFacebookBtn) {
-                shareFacebookBtn.addEventListener('click', shareToFacebook);
+                shareFacebookBtn.addEventListener('click', () => {
+                    // Use one-tap share if available
+                    if (window.oneTapDevotionShare) {
+            if (shareInstagramBtn) {
+                shareInstagramBtn.addEventListener('click', () => {
+                    // Use one-tap share if available
+                    if (window.oneTapDevotionShare) {
+                        window.oneTapDevotionShare({ channel: 'instagram' });
+                    } else {
+                        shareToInstagram();
+                    }
+                });
+            }           shareToFacebook();
+                    }
+                });
             }
 
             if (shareInstagramBtn) {
@@ -1476,11 +1504,16 @@
 
             if (shareTodayBtn) {
                 shareTodayBtn.addEventListener('click', () => {
-                    // Scroll to share panel
-                    const sharePanel = document.querySelector('.devotion-share-panel');
-                    if (sharePanel) {
-                        sharePanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        showToast('Scroll down to choose how to share!');
+                    // Use one-tap share if available
+                    if (window.oneTapDevotionShare) {
+                        window.oneTapDevotionShare();
+                    } else {
+                        // Fallback: Scroll to share panel
+                        const sharePanel = document.querySelector('.devotion-share-panel');
+                        if (sharePanel) {
+                            sharePanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            showToast('Scroll down to choose how to share!');
+                        }
                     }
                 });
             }
@@ -1911,6 +1944,18 @@
     <!-- Sacred Background Engine -->
     <link rel="stylesheet" href="sacred-background.css">
     <script src="sacred-background-engine.js"></script>
+
+    <!-- Sacred Surface Tokens (Light + Dark Mode) -->
+    <link rel="stylesheet" href="css/sacred-surface-tokens.css">
+
+    <!-- Devotion Background Intelligence -->
+    <script src="js/devotion-background-intelligence.js"></script>
+
+    <!-- SMS Share Optimizer -->
+    <script src="js/sms-share-optimizer.js"></script>
+
+    <!-- One-Tap Share Controller -->
+    <script src="js/share-one-tap-controller.js"></script>
 
     <!-- Safe Engine Loader (Handles Discipleship & Share Engines) -->
     <script src="safe-engine-loader.js"></script>

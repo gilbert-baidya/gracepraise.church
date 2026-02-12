@@ -946,6 +946,10 @@
        // TRUE ONE-TAP SHARE — Export core functions
        window.setShareFormat = setFormat;
        window.shareCard = shareCard;
+       window.renderCardToCanvas = renderCardToCanvas; // Expose for one-tap controller
+       
+       // Export CONFIG for validation
+       window.GPBC_SHARE_CONFIG = CONFIG;
 
        window.__GPBC_SHARE_GENERATOR_READY__ = true;
 
@@ -989,12 +993,58 @@
         canvas.height = config.height;
         ctx = canvas.getContext('2d');
 
-        // 1. Background (Gradient)
-        const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height); // Top to Bottom
-        gradient.addColorStop(0, theme.gradient[0]);
-        gradient.addColorStop(1, theme.gradient[1]);
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // ====================================================================
+        // INTELLIGENT BACKGROUND SYNC — Draw devotion background first
+        // ====================================================================
+        let backgroundDrawn = false;
+        
+        if (typeof window.getShareBackgroundForCurrentDevotion === 'function') {
+            try {
+                const bgData = await window.getShareBackgroundForCurrentDevotion();
+                
+                if (bgData && bgData.path) {
+                    const bgImg = window.DevotionBackgroundIntelligence?.getCachedBackground(bgData.path);
+                    
+                    if (bgImg) {
+                        ctx.save();
+                        
+                        // Draw background image covering entire canvas
+                        ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+                        
+                        // Apply sacred overlay for text readability
+                        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+                        const overlayGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                        
+                        if (isDarkMode) {
+                            overlayGradient.addColorStop(0, 'rgba(26, 31, 46, 0.85)');
+                            overlayGradient.addColorStop(1, 'rgba(15, 20, 25, 0.92)');
+                        } else {
+                            overlayGradient.addColorStop(0, 'rgba(253, 251, 247, 0.88)');
+                            overlayGradient.addColorStop(1, 'rgba(255, 255, 255, 0.92)');
+                        }
+                        
+                        ctx.fillStyle = overlayGradient;
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        
+                        ctx.restore();
+                        backgroundDrawn = true;
+                        
+                        console.log('[GPBC Share Card] ✅ Synced devotion background:', bgData.filename);
+                    }
+                }
+            } catch (error) {
+                console.warn('[GPBC Share Card] Background sync failed, using gradient fallback:', error);
+            }
+        }
+
+        // 1. Background (Gradient Fallback if no intelligent background)
+        if (!backgroundDrawn) {
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, theme.gradient[0]);
+            gradient.addColorStop(1, theme.gradient[1]);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
 
         // 2. Sacred Light Rays (Radial Gradient from Top Center)
         const rayGradient = ctx.createRadialGradient(
