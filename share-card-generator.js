@@ -747,57 +747,38 @@
         ctx.fillText('gracepraise.church', canvas.width / 2, footerY);
         ctx.globalAlpha = 1;
 
-        // 8. GPBC Sacred Gold Liturgical Signature (Bottom Right)
+        // 8. GPBC Horizontal Signature Row (Bottom Right)
         if (watermarkLogoImage) {
             ctx.save();
 
             const padding = canvas.width * 0.05;
 
-            // =========================
-            // SACRED GOLD DIVIDER
-            // =========================
-            ctx.globalAlpha = 0.6;
+            // =================
+            // GOLD DIVIDER LINE
+            // =================
+            ctx.globalAlpha = 0.35;
             ctx.strokeStyle = "#C9A24F";
-            ctx.lineWidth = canvas.width * 0.002;
+            ctx.lineWidth = canvas.width * 0.0018;
 
-            const dividerY = canvas.height - (canvas.width * 0.14);
+            const dividerWidth = canvas.width * 0.42;
+            const dividerX = canvas.width - dividerWidth - padding;
+            const dividerY = canvas.height - (canvas.width * 0.16);
 
             ctx.beginPath();
-            ctx.moveTo(padding, dividerY);
-            ctx.lineTo(canvas.width - padding, dividerY);
+            ctx.moveTo(dividerX, dividerY);
+            ctx.lineTo(dividerX + dividerWidth, dividerY);
             ctx.stroke();
 
-            // =========================
-            // GOLD HALO BEHIND LOGO
-            // =========================
-            ctx.globalAlpha = 0.12;
+            // =================
+            // HORIZONTAL SIGNATURE ROW
+            // =================
+            const logoSize = canvas.width * 0.12;
+            const gap = canvas.width * 0.018;
 
-            const haloRadius = canvas.width * 0.09;
-            const haloX = canvas.width - padding - haloRadius;
-            const haloY = canvas.height - padding - haloRadius;
+            const logoX = canvas.width - padding - logoSize;
+            const logoY = dividerY + canvas.width * 0.028;
 
-            const haloGradient = ctx.createRadialGradient(
-                haloX, haloY, 0,
-                haloX, haloY, haloRadius
-            );
-
-            haloGradient.addColorStop(0, "#E6C878");
-            haloGradient.addColorStop(1, "transparent");
-
-            ctx.fillStyle = haloGradient;
-            ctx.beginPath();
-            ctx.arc(haloX, haloY, haloRadius, 0, Math.PI * 2);
-            ctx.fill();
-
-            // =========================
-            // LOGO SACRED PLACEMENT
-            // =========================
-            ctx.globalAlpha = 0.92;
-
-            const logoSize = canvas.width * 0.11;
-            const logoX = canvas.width - logoSize - padding;
-            const logoY = canvas.height - logoSize - padding;
-
+            ctx.globalAlpha = 0.95;
             ctx.drawImage(
                 watermarkLogoImage,
                 logoX,
@@ -806,69 +787,54 @@
                 logoSize
             );
 
-            // =========================
-            // LITURGICAL MINISTRY TEXT
-            // =========================
-            ctx.globalAlpha = 0.75;
+            // DOMAIN TEXT
+            ctx.globalAlpha = 0.80;
             ctx.fillStyle = "#C9A24F";
 
-            ctx.font = `${canvas.width * 0.03}px Inter, -apple-system, BlinkMacSystemFont, Arial, sans-serif`;
+            ctx.font = `600 ${canvas.width * 0.034}px Inter, -apple-system, BlinkMacSystemFont, Arial`;
             ctx.textAlign = "right";
+            ctx.textBaseline = "middle";
 
-            const textX = canvas.width - padding;
-            const textY = logoY - canvas.width * 0.015;
+            const domainX = logoX - gap;
+            const domainY = logoY + (logoSize / 2);
 
-            ctx.fillText("Grace & Praise", textX, textY);
-            ctx.fillText("Bangladeshi Church", textX, textY + canvas.width * 0.032);
+            ctx.fillText(
+                "www.gracepraise.church",
+                domainX,
+                domainY
+            );
 
             ctx.restore();
 
-            console.log("[GPBC Sacred] ✨ Liturgical gold signature rendered");
+            console.log("[GPBC Sacred] ✨ Horizontal Logo + Domain Signature Applied");
         } else if (logoImg) {
             // Promise-based fallback
             ctx.save();
 
             const padding = canvas.width * 0.05;
 
-            // SACRED GOLD DIVIDER
-            ctx.globalAlpha = 0.6;
+            // GOLD DIVIDER LINE
+            ctx.globalAlpha = 0.35;
             ctx.strokeStyle = "#C9A24F";
-            ctx.lineWidth = canvas.width * 0.002;
+            ctx.lineWidth = canvas.width * 0.0018;
 
-            const dividerY = canvas.height - (canvas.width * 0.14);
+            const dividerWidth = canvas.width * 0.42;
+            const dividerX = canvas.width - dividerWidth - padding;
+            const dividerY = canvas.height - (canvas.width * 0.16);
 
             ctx.beginPath();
-            ctx.moveTo(padding, dividerY);
-            ctx.lineTo(canvas.width - padding, dividerY);
+            ctx.moveTo(dividerX, dividerY);
+            ctx.lineTo(dividerX + dividerWidth, dividerY);
             ctx.stroke();
 
-            // GOLD HALO BEHIND LOGO
-            ctx.globalAlpha = 0.12;
+            // HORIZONTAL SIGNATURE ROW
+            const logoSize = canvas.width * 0.12;
+            const gap = canvas.width * 0.018;
 
-            const haloRadius = canvas.width * 0.09;
-            const haloX = canvas.width - padding - haloRadius;
-            const haloY = canvas.height - padding - haloRadius;
+            const logoX = canvas.width - padding - logoSize;
+            const logoY = dividerY + canvas.width * 0.028;
 
-            const haloGradient = ctx.createRadialGradient(
-                haloX, haloY, 0,
-                haloX, haloY, haloRadius
-            );
-
-            haloGradient.addColorStop(0, "#E6C878");
-            haloGradient.addColorStop(1, "transparent");
-
-            ctx.fillStyle = haloGradient;
-            ctx.beginPath();
-            ctx.arc(haloX, haloY, haloRadius, 0, Math.PI * 2);
-            ctx.fill();
-
-            // LOGO SACRED PLACEMENT
-            ctx.globalAlpha = 0.92;
-
-            const logoSize = canvas.width * 0.11;
-            const logoX = canvas.width - logoSize - padding;
-            const logoY = canvas.height - logoSize - padding;
-
+            ctx.globalAlpha = 0.95;
             ctx.drawImage(
                 logoImg,
                 logoX,
@@ -877,22 +843,26 @@
                 logoSize
             );
 
-            // LITURGICAL MINISTRY TEXT
-            ctx.globalAlpha = 0.75;
+            // DOMAIN TEXT
+            ctx.globalAlpha = 0.80;
             ctx.fillStyle = "#C9A24F";
 
-            ctx.font = `${canvas.width * 0.03}px Inter, -apple-system, BlinkMacSystemFont, Arial, sans-serif`;
+            ctx.font = `600 ${canvas.width * 0.034}px Inter, -apple-system, BlinkMacSystemFont, Arial`;
             ctx.textAlign = "right";
+            ctx.textBaseline = "middle";
 
-            const textX = canvas.width - padding;
-            const textY = logoY - canvas.width * 0.015;
+            const domainX = logoX - gap;
+            const domainY = logoY + (logoSize / 2);
 
-            ctx.fillText("Grace & Praise", textX, textY);
-            ctx.fillText("Bangladeshi Church", textX, textY + canvas.width * 0.032);
+            ctx.fillText(
+                "www.gracepraise.church",
+                domainX,
+                domainY
+            );
 
             ctx.restore();
 
-            console.log("[GPBC Sacred] ✨ Liturgical gold signature rendered (Promise)");
+            console.log("[GPBC Sacred] ✨ Horizontal Logo + Domain Signature Applied (Promise)");
         }
 
         // Preview Render
