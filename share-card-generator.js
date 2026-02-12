@@ -939,148 +939,120 @@
         // 7. Footer removed - signature handles branding
 
         // ============================================================================
-        // 8. MINISTRY SIGNATURE POLISH LAYER
-        // Domain-First Identity: Larger Logo + Glowing Presence
-        // SMS Preview Safe + Light/Dark Adaptive
+        // 8. PREMIUM MINISTRY PUBLISHING BRAND SIGNATURE
+        // YouVersion-Level Branding: [ LOGO ] www.gracepraise.church
+        // Format-Aware Scaling + Dark Mode Glow + SMS Safe
         // ============================================================================
         
         const logoSource = watermarkLogoImage || logoImg;
         
         if (logoSource) {
-            console.log('[Share Brand] Rendering Ministry Signature (Polished)');
+            console.log('[Share Brand] Rendering Premium Ministry Signature');
+            
+            // ====================================================================
+            // STEP 1 — FORMAT AWARE LOGO SIZE
+            // ====================================================================
+            function getBrandLogoSize(canvas) {
+                const isStory = canvas.height > canvas.width * 1.2;
+                
+                if (isStory) {
+                    return canvas.width * 0.125; // Bigger visual presence for story
+                }
+                
+                return canvas.width * 0.14; // Premium square presence
+            }
+            
+            const logoSize = getBrandLogoSize(canvas);
+            console.log('[Share Brand] Logo size:', logoSize);
+            
+            // ====================================================================
+            // STEP 2 — BRIGHTNESS BOOST FOR DARK MODE
+            // ====================================================================
+            const isDark = 
+                document.documentElement.getAttribute('data-theme') === 'dark' ||
+                theme.name === 'night' || 
+                theme.name === 'twilight';
             
             ctx.save();
             
-            // ========================================================================
-            // STEP 1 — FORMAT AWARE LOGO SIZE (Larger & Brighter)
-            // ========================================================================
-            const isStory = canvas.height > canvas.width;
+            if (isDark) {
+                ctx.shadowColor = 'rgba(212,175,55,0.55)';
+                ctx.shadowBlur = 18;
+                ctx.globalAlpha = 1.0; // Keep at 1.0 (no over-brightening)
+            } else {
+                ctx.shadowColor = 'rgba(0,0,0,0.12)';
+                ctx.shadowBlur = 8;
+            }
             
-            const logoSize = isStory
-                ? canvas.width * 0.16   // 16% for story format
-                : canvas.width * 0.13;  // 13% for square format
+            // ====================================================================
+            // STEP 7 — LAYOUT POSITION (RIGHT SAFE ZONE)
+            // ====================================================================
+            const paddingX = canvas.width * 0.06;
+            const paddingY = canvas.height * 0.055;
             
-            console.log('[Share Brand] Logo size:', logoSize, '| Format:', isStory ? '9:16' : '1:1');
-            
-            // ========================================================================
-            // STEP 3 — SMS SAFE POSITIONING
-            // ========================================================================
-            const brandY = isStory
-                ? canvas.height * 0.80  // Story: 80% down
-                : canvas.height - (canvas.width * 0.09); // Square: 9% from bottom
+            const logoX = canvas.width - paddingX - logoSize;
+            const logoY = canvas.height - paddingY - logoSize;
             
             // Safety check - never overlap content
-            const safetyMargin = 60;
-            const finalBrandY = Math.max(brandY, contentBottomY + safetyMargin);
+            const minLogoY = contentBottomY + 50;
+            const finalLogoY = Math.max(logoY, minLogoY);
             
-            // ========================================================================
-            // DETECT DARK MODE (from background theme)
-            // ========================================================================
-            const isDarkMode = theme.name === 'night' || theme.name === 'twilight';
-            
-            // ========================================================================
-            // STEP 8 — LIGHT/DARK MICRO POLISH (Dark mode radial vignette)
-            // ========================================================================
-            if (isDarkMode) {
-                const gradient = ctx.createRadialGradient(
-                    canvas.width / 2,
-                    finalBrandY,
-                    0,
-                    canvas.width / 2,
-                    finalBrandY,
-                    canvas.width
-                );
-                
-                gradient.addColorStop(0, 'rgba(201,162,79,0.05)');
-                gradient.addColorStop(1, 'rgba(0,0,0,0)');
-                
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, finalBrandY - 60, canvas.width, 140);
-            }
-            
-            // ========================================================================
-            // STEP 5 — GOLD DIVIDER LINE (Liturgical Touch)
-            // ========================================================================
-            const dividerY = finalBrandY - 40;
-            const dividerWidth = canvas.width * 0.25;
-            const dividerX = (canvas.width - dividerWidth) / 2;
-            
-            ctx.strokeStyle = isDarkMode
-                ? 'rgba(201,162,79,0.7)'
-                : 'rgba(180,150,60,0.6)';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(dividerX, dividerY);
-            ctx.lineTo(dividerX + dividerWidth, dividerY);
-            ctx.stroke();
-            
-            // ========================================================================
-            // STEP 2 — SMART BRIGHTNESS BOOST (Adaptive Glow)
-            // ========================================================================
-            ctx.save();
-            
-            if (isDarkMode) {
-                ctx.shadowColor = 'rgba(201,162,79,0.45)';
-                ctx.shadowBlur = 18;
-            } else {
-                ctx.shadowColor = 'rgba(0,0,0,0.18)';
-                ctx.shadowBlur = 10;
-            }
-            
-            // ========================================================================
-            // STEP 6 — DRAW ORDER: Logo (left aligned)
-            // ========================================================================
-            const centerX = canvas.width / 2;
-            const logoX = centerX - (logoSize * 1.2);
-            const logoY = finalBrandY - (logoSize / 2);
-            
-            ctx.globalAlpha = 0.98;
-            ctx.drawImage(
-                logoSource,
-                logoX,
-                logoY,
-                logoSize,
-                logoSize
-            );
+            // ====================================================================
+            // STEP 8 — DRAW LOGO
+            // ====================================================================
+            ctx.drawImage(logoSource, logoX, finalLogoY, logoSize, logoSize);
             
             ctx.restore();
             
-            console.log('[Share Brand] Logo rendered with glow');
+            console.log('[Share Brand] Logo rendered at:', { x: logoX, y: finalLogoY });
             
-            // ========================================================================
-            // STEP 4 — DOMAIN FIRST SIGNATURE (No church name text)
-            // ========================================================================
-            const domainText = "www.gracepraise.church";
+            // ====================================================================
+            // STEP 3 — DOMAIN SIGNATURE (NO CHURCH NAME)
+            // ====================================================================
+            const brandText = "www.gracepraise.church";
             
-            ctx.font = isStory
-                ? `${canvas.width * 0.038}px Inter, system-ui, -apple-system, sans-serif`
-                : `${canvas.width * 0.032}px Inter, system-ui, -apple-system, sans-serif`;
+            // ====================================================================
+            // STEP 4 — PREMIUM TYPOGRAPHY
+            // ====================================================================
+            ctx.font = `${Math.round(canvas.width * 0.032)}px Inter, system-ui, -apple-system, sans-serif`;
             
-            ctx.fillStyle = isDarkMode
-                ? 'rgba(240,225,185,0.92)'
-                : 'rgba(40,40,40,0.85)';
+            // ====================================================================
+            // STEP 5 — GOLD TOKEN COLOR
+            // ====================================================================
+            const brandColorLight = "#8B6F2A";
+            const brandColorDark  = "#E6C76A";
             
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'middle';
+            ctx.fillStyle = isDark ? brandColorDark : brandColorLight;
             
-            // Position text to right of logo centerline
-            const textX = centerX + (logoSize * 0.3);
+            // ====================================================================
+            // STEP 6 — SPACING RULE
+            // ====================================================================
+            const spacing = logoSize * 0.45;
             
-            // ========================================================================
-            // STEP 6 — DRAW ORDER: Domain text (right aligned to logo)
-            // ========================================================================
+            // ====================================================================
+            // STEP 9 — DRAW DOMAIN TEXT
+            // ====================================================================
+            ctx.textAlign = "right";
+            ctx.textBaseline = "middle";
             
-            // Subtle shadow for depth
-            ctx.shadowColor = isDarkMode ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.15)';
-            ctx.shadowBlur = 4;
+            // Subtle text shadow for depth
+            ctx.shadowColor = isDark ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.15)';
+            ctx.shadowBlur = 3;
             ctx.shadowOffsetY = 1;
             
-            ctx.fillText(domainText, textX, finalBrandY);
+            ctx.fillText(
+                brandText,
+                logoX - spacing,
+                finalLogoY + logoSize / 2
+            );
             
+            // ====================================================================
+            // STEP 10 — RESTORE CONTEXT
+            // ====================================================================
             ctx.restore();
             
-            console.log('[Share Brand] ✅ Ministry Signature Polish Complete');
-            console.log('[Share Brand] Dark mode:', isDarkMode, '| Logo size:', logoSize);
+            console.log('[Share Brand] ✅ Premium Ministry Publishing Complete');
+            console.log('[Share Brand] Dark mode:', isDark, '| Logo size:', logoSize);
         }
 
         // ========================================================================
