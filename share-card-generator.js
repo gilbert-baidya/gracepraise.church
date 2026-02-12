@@ -91,6 +91,12 @@
             square: { width: 1080, height: 1080, name: 'Square', padding: 80 },
             story: { width: 1080, height: 1920, name: 'Story', padding: 100 }
         },
+        // Sacred Gold Tokens - Ultra Ministry Publishing
+        brandGold: {
+            primary: '#D4AF37',      // Primary Sacred Gold
+            highlight: '#F2D16B',    // Highlight Gold
+            shadow: 'rgba(212, 175, 55, 0.35)' // Shadow Gold (subtle premium)
+        },
         // Sacred Palettes
         palettes: {
             morning: { // 5AM - 11AM: Warm Gold/Peach
@@ -131,9 +137,14 @@
         }
     };
 
-    let currentFormat = 'square';
+    let currentFormat = '9:16'; // Ministry UX: Default to story format (social/SMS friendly)
     let canvas = null;
     let ctx = null;
+
+    // ============================================================================
+    // SINGLE-TAP MINISTRY SHARE UX — Render Ready State
+    // ============================================================================
+    window.__SHARE_RENDER_READY__ = false;
 
     // ========================================
     // GPBC LOGO WATERMARK PRELOAD UTILITY
@@ -538,11 +549,34 @@
         return CONFIG.palettes.evening;
     }
 
-    function openModal(logoImg = null) {
+    async function openModal(logoImg = null) {
+        console.log('[Share UX] Opening modal → default 9:16');
+        
         const overlay = document.getElementById('shareCardOverlay');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
-        setTimeout(() => renderCardToCanvas(currentFormat, logoImg), 100);
+        
+        // Ministry UX: Default to 9:16 and auto-render
+        window.__SHARE_RENDER_READY__ = false;
+        disableActionButtons();
+        showLoadingState();
+        
+        // Set format to story (9:16)
+        currentFormat = '9:16';
+        document.querySelectorAll('.format-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.format === '9:16');
+        });
+        
+        // Wait for logo and render
+        const logo = logoImg || await window.__GPBC_LOGO_READY__;
+        console.log('[Share UX] Rendering started');
+        await renderCardToCanvas('9:16', logo);
+        
+        // Enable buttons after render complete
+        window.__SHARE_RENDER_READY__ = true;
+        enableActionButtons();
+        hideLoadingState();
+        console.log('[Share UX] Rendering complete → Ready');
     }
 
     function closeModal() {
@@ -552,13 +586,27 @@
     }
 
     async function setFormat(format) {
+        console.log('[Share UX] Format switch requested:', format);
+        
+        // Disable buttons and set render state to false
+        window.__SHARE_RENDER_READY__ = false;
+        disableActionButtons();
+        showLoadingState();
+        
         currentFormat = format;
         document.querySelectorAll('.format-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.format === format);
         });
+        
         // Wait for logo before re-rendering
         const logoImg = await window.__GPBC_LOGO_READY__;
-        renderCardToCanvas(format, logoImg);
+        await renderCardToCanvas(format, logoImg);
+        
+        // Re-enable buttons after render
+        window.__SHARE_RENDER_READY__ = true;
+        enableActionButtons();
+        hideLoadingState();
+        console.log('[Share UX] Format switch complete → Ready');
     }
 
     function getVerseData() {
@@ -652,7 +700,7 @@
 
     }
 
-    function renderCardToCanvas(format, logoImg = null) {
+    async function renderCardToCanvas(format, logoImg = null) {
         const config = CONFIG.formats[format];
         const theme = getSacredTheme();
         const data = getVerseData();
@@ -735,142 +783,186 @@
         ctx.fillStyle = theme.reference;
         ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
         ctx.fillText(`— ${data.reference} —`, canvas.width / 2, refY);
+        
+        const contentBottomY = refY + 36; // Track content boundary
 
         // 7. Footer removed - signature handles branding
 
-        // 8. GPBC Clean Signature (Logo + Domain Only)
-        if (watermarkLogoImage) {
+        // ============================================================================
+        // 8. ULTRA MINISTRY PUBLISHING BRAND SIGNATURE
+        // Bottom Center: [ LOGO ] www.gracepraise.church
+        // Format-Aware Scaling + Sacred Gold Premium Glow
+        // ============================================================================
+        
+        const logoSource = watermarkLogoImage || logoImg;
+        
+        if (logoSource) {
+            console.log('[Share Brand] Rendering Ultra Ministry Signature');
+            console.log('[Share Brand] Format:', format);
+            
             ctx.save();
-
-            const padding = canvas.width * 0.055;
-
-            // =================
-            // GOLD DIVIDER LINE
-            // =================
-            ctx.globalAlpha = 0.35;
-            ctx.strokeStyle = "#C9A24F";
-            ctx.lineWidth = canvas.width * 0.0018;
-
-            const dividerWidth = canvas.width * 0.40;
-            const dividerX = canvas.width - dividerWidth - padding;
-            const dividerY = canvas.height - (canvas.width * 0.14);
-
-            ctx.beginPath();
-            ctx.moveTo(dividerX, dividerY);
-            ctx.lineTo(dividerX + dividerWidth, dividerY);
-            ctx.stroke();
-
-            // =================
-            // SIGNATURE ROW SAFE ZONE
-            // =================
-            const logoSize = canvas.width * 0.115;
-            const gap = canvas.width * 0.018;
-
-            // push safely below divider
-            const signatureTop = dividerY + canvas.width * 0.03;
-
-            const logoX = canvas.width - padding - logoSize;
-            const logoY = signatureTop;
-
-            ctx.globalAlpha = 0.95;
+            
+            // A) FORMAT-AWARE SIZING
+            const isStory = format === '9:16' || format === 'story';
+            const logoWidth = isStory 
+                ? canvas.width * 0.18   // Larger for story (9:16)
+                : canvas.width * 0.14;  // Smaller for square (1:1)
+            const logoHeight = logoWidth; // Keep square aspect
+            
+            const textSize = isStory
+                ? canvas.width * 0.042  // Larger text for story
+                : canvas.width * 0.036; // Smaller text for square
+            
+            console.log('[Share Brand] Logo size applied:', logoWidth);
+            
+            // B) POSITIONING - Bottom Center Layout
+            const signatureY = canvas.height - (canvas.height * 0.07);
+            const centerX = canvas.width / 2;
+            
+            // C) SAFETY CHECK - Never overlap content
+            const safetyMargin = 60;
+            let finalSignatureY = signatureY;
+            
+            if (contentBottomY > signatureY - safetyMargin) {
+                finalSignatureY = contentBottomY + safetyMargin + (logoHeight / 2);
+                console.log('[Share Brand] ⚠️ Content overlap detected - adjusting signature position');
+            }
+            
+            // D) BACKGROUND BRIGHTNESS DETECTION (for adaptive glow)
+            const bgBrightness = 0.5; // Simplified - could sample actual gradient
+            const isDarkBg = bgBrightness < 0.35;
+            const isLightBg = bgBrightness > 0.7;
+            
+            // E) LOGO POSITIONING (Left of center)
+            const logoX = centerX - (logoWidth * 0.7);
+            const logoY = finalSignatureY - (logoHeight / 2);
+            
+            // F) PREMIUM SACRED GOLD GLOW
+            ctx.shadowColor = CONFIG.brandGold.shadow;
+            ctx.shadowBlur = isDarkBg 
+                ? canvas.width * 0.014  // 20% more glow for dark backgrounds
+                : canvas.width * 0.012;
+            
+            // Draw Logo
+            ctx.globalAlpha = 0.98;
             ctx.drawImage(
-                watermarkLogoImage,
+                logoSource,
                 logoX,
                 logoY,
-                logoSize,
-                logoSize
+                logoWidth,
+                logoHeight
             );
-
-            // DOMAIN TEXT
-            ctx.globalAlpha = 0.85;
-            ctx.fillStyle = "#D4AF37";
-
-            ctx.font = `600 ${canvas.width * 0.034}px Inter, -apple-system, BlinkMacSystemFont, Arial`;
-            ctx.textAlign = "right";
-            ctx.textBaseline = "middle";
-
-            const domainX = logoX - gap;
-            const domainY = logoY + (logoSize / 2);
-
-            ctx.fillText(
-                "www.gracepraise.church",
-                domainX,
-                domainY
-            );
-
+            
+            console.log('[Share Brand] Logo rendered at:', { x: logoX, y: logoY });
+            
+            // G) DOMAIN TEXT POSITIONING (Right of logo)
+            const textX = centerX + (logoWidth * 0.35);
+            
+            // H) DOMAIN TEXT RENDER
+            ctx.font = `600 ${textSize}px Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif`;
+            ctx.fillStyle = CONFIG.brandGold.primary;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            
+            // I) ADAPTIVE STROKE FOR LIGHT BACKGROUNDS
+            if (isLightBg) {
+                ctx.strokeStyle = 'rgba(0, 0, 0, 0.25)';
+                ctx.lineWidth = 2;
+                ctx.strokeText('www.gracepraise.church', textX, finalSignatureY);
+            }
+            
+            // J) FILL TEXT (main render)
+            ctx.shadowColor = CONFIG.brandGold.shadow;
+            ctx.shadowBlur = canvas.width * 0.008; // Subtle text glow
+            ctx.fillText('www.gracepraise.church', textX, finalSignatureY);
+            
             ctx.restore();
-
-            console.log("[GPBC Sacred] ✨ Clean Logo + Domain Signature (No Church Text)");
-        } else if (logoImg) {
-            // Promise-based fallback
-            ctx.save();
-
-            const padding = canvas.width * 0.055;
-
-            // GOLD DIVIDER LINE
-            ctx.globalAlpha = 0.35;
-            ctx.strokeStyle = "#C9A24F";
-            ctx.lineWidth = canvas.width * 0.0018;
-
-            const dividerWidth = canvas.width * 0.40;
-            const dividerX = canvas.width - dividerWidth - padding;
-            const dividerY = canvas.height - (canvas.width * 0.14);
-
-            ctx.beginPath();
-            ctx.moveTo(dividerX, dividerY);
-            ctx.lineTo(dividerX + dividerWidth, dividerY);
-            ctx.stroke();
-
-            // SIGNATURE ROW SAFE ZONE
-            const logoSize = canvas.width * 0.115;
-            const gap = canvas.width * 0.018;
-
-            const signatureTop = dividerY + canvas.width * 0.03;
-
-            const logoX = canvas.width - padding - logoSize;
-            const logoY = signatureTop;
-
-            ctx.globalAlpha = 0.95;
-            ctx.drawImage(
-                logoImg,
-                logoX,
-                logoY,
-                logoSize,
-                logoSize
-            );
-
-            // DOMAIN TEXT
-            ctx.globalAlpha = 0.85;
-            ctx.fillStyle = "#D4AF37";
-
-            ctx.font = `600 ${canvas.width * 0.034}px Inter, -apple-system, BlinkMacSystemFont, Arial`;
-            ctx.textAlign = "right";
-            ctx.textBaseline = "middle";
-
-            const domainX = logoX - gap;
-            const domainY = logoY + (logoSize / 2);
-
-            ctx.fillText(
-                "www.gracepraise.church",
-                domainX,
-                domainY
-            );
-
-            ctx.restore();
-
-            console.log("[GPBC Sacred] ✨ Clean Logo + Domain Signature (No Church Text - Promise)");
+            
+            console.log('[Share Brand] Signature placed safely');
+            console.log('[Share Brand] ✅ Ultra Ministry Publishing Mode Complete');
         }
 
-        // Preview Render
-        previewContainer.innerHTML = '';
-        previewContainer.appendChild(canvas);
+        // Preview Render - Update DOM
+        const previewContainer = document.getElementById('shareCardPreview');
+        if (previewContainer) {
+            previewContainer.innerHTML = '';
+            previewContainer.appendChild(canvas);
+        }
 
         // Remove loading state if present
-        const loading = previewContainer.querySelector('.preview-loading');
+        const loading = document.querySelector('.preview-loading');
         if (loading) loading.remove();
+        
+        // Return promise for async/await support
+        return Promise.resolve();
     }
 
     // --- Action Handlers ---
+
+    // ============================================================================
+    // SINGLE-TAP MINISTRY SHARE UX — Button & Loading State Control
+    // ============================================================================
+    
+    function disableActionButtons() {
+        const shareBtn = document.getElementById('shareCardBtn');
+        const downloadBtn = document.getElementById('downloadCardBtn');
+        
+        if (shareBtn) {
+            shareBtn.disabled = true;
+            shareBtn.style.opacity = '0.6';
+            shareBtn.style.cursor = 'not-allowed';
+        }
+        if (downloadBtn) {
+            downloadBtn.disabled = true;
+            downloadBtn.style.opacity = '0.6';
+            downloadBtn.style.cursor = 'not-allowed';
+        }
+    }
+    
+    function enableActionButtons() {
+        const shareBtn = document.getElementById('shareCardBtn');
+        const downloadBtn = document.getElementById('downloadCardBtn');
+        
+        if (shareBtn) {
+            shareBtn.disabled = false;
+            shareBtn.style.opacity = '1';
+            shareBtn.style.cursor = 'pointer';
+        }
+        if (downloadBtn) {
+            downloadBtn.disabled = false;
+            downloadBtn.style.opacity = '1';
+            downloadBtn.style.cursor = 'pointer';
+        }
+    }
+    
+    function showLoadingState() {
+        let loadingEl = document.getElementById('shareCardLoadingState');
+        if (!loadingEl) {
+            loadingEl = document.createElement('div');
+            loadingEl.id = 'shareCardLoadingState';
+            loadingEl.style.cssText = `
+                text-align: center;
+                padding: 20px;
+                color: #666;
+                font-size: 14px;
+                font-weight: 500;
+            `;
+            loadingEl.textContent = 'Preparing your share card…';
+            
+            const preview = document.getElementById('shareCardPreview');
+            if (preview && preview.parentNode) {
+                preview.parentNode.insertBefore(loadingEl, preview);
+            }
+        }
+        loadingEl.style.display = 'block';
+    }
+    
+    function hideLoadingState() {
+        const loadingEl = document.getElementById('shareCardLoadingState');
+        if (loadingEl) {
+            loadingEl.style.display = 'none';
+        }
+    }
 
     function getFormattedCaption() {
         const data = getVerseData();
@@ -878,6 +970,14 @@
     }
 
     function downloadCard() {
+        // Ministry UX: Prevent early export
+        if (!window.__SHARE_RENDER_READY__) {
+            console.warn('[Share UX] Render not ready yet');
+            showToast('⏳ Please wait for preview to finish rendering...');
+            return;
+        }
+        
+        console.log('[Share UX] Download invoked');
         if (!canvas) return;
         const formatName = currentFormat;
         const date = new Date().toISOString().split('T')[0];
@@ -897,6 +997,14 @@
     }
 
     async function shareCard() {
+        // Ministry UX: Prevent early share
+        if (!window.__SHARE_RENDER_READY__) {
+            console.warn('[Share UX] Render not ready yet');
+            showToast('⏳ Please wait for preview to finish rendering...');
+            return;
+        }
+        
+        console.log('[Share UX] Share invoked');
         if (!canvas) return;
         const caption = getFormattedCaption();
 
