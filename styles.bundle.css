@@ -140,6 +140,48 @@
     --transition-fast: 150ms ease;
     --transition-base: 300ms ease;
     --transition-slow: 500ms ease;
+
+    /* ========= SACRED SURFACE TOKEN SYSTEM ========= */
+    /* LIGHT MODE — SACRED PARCHMENT */
+    --sacred-bg-primary: #FBF8F2;
+    --sacred-bg-secondary: #F3EDE2;
+    --sacred-bg-elevated: #FFFFFF;
+
+    --sacred-surface-light: rgba(255, 255, 255, 0.78);
+    --sacred-surface-border-light: rgba(212, 185, 120, 0.22);
+
+    --sacred-text-primary: #1F2A37;
+    --sacred-text-secondary: #5B6B7A;
+    --sacred-text-scripture: #223E5A;
+
+    --sacred-accent-gold: #C9A96E;
+    --sacred-accent-gold-glow: rgba(201, 169, 110, 0.35);
+
+    --sacred-shadow-soft-light: 0 10px 30px rgba(30, 60, 90, 0.08);
+
+    /* SHARED */
+    --sacred-blur-desktop: blur(14px);
+}
+
+/* DARK MODE — SACRED DEPTH */
+[data-theme="dark"],
+html.dark,
+body.dark {
+    --sacred-bg-primary: #070E1A;
+    --sacred-bg-secondary: #0B1626;
+    --sacred-bg-elevated: #111E31;
+
+    --sacred-surface-dark: rgba(17, 30, 49, 0.72);
+    --sacred-surface-border-dark: rgba(201, 169, 110, 0.18);
+
+    --sacred-text-primary: #E6EDF5;
+    --sacred-text-secondary: #9FB2C7;
+    --sacred-text-scripture: #F0F6FF;
+
+    --sacred-accent-gold: #D4B878;
+    --sacred-accent-gold-glow: rgba(212, 184, 120, 0.40);
+
+    --sacred-shadow-soft-dark: 0 18px 48px rgba(0, 0, 0, 0.55);
 }
 
 /* ========================================
@@ -3306,12 +3348,23 @@ body[data-theme="dark"] .next-service-section::before {
 }
 
 .devotion-card {
-    background: var(--color-surface);
+    background: var(--sacred-bg-elevated);
     padding: var(--spacing-xl);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--sacred-shadow-soft-light);
+    border: 1px solid var(--sacred-surface-border-light);
     border-left: 4px solid var(--color-secondary);
     max-width: 450px;
+}
+
+/* DARK MODE DEVOTION CARD */
+[data-theme="dark"] .devotion-card,
+html.dark .devotion-card,
+body.dark .devotion-card {
+    background: var(--sacred-bg-elevated);
+    border: 1px solid var(--sacred-surface-border-dark);
+    box-shadow: var(--sacred-shadow-soft-dark);
+    border-left: 4px solid var(--color-secondary);
 }
 
 .devotion-card h3 {
@@ -7513,4 +7566,77 @@ body:not(.dark):not([data-theme="dark"]) .section-divider {
             rgba(184, 134, 11, 0.2) 50%,
             rgba(30, 58, 95, 0.1) 80%,
             transparent 100%);
+}
+
+/* ========================================
+   SACRED SURFACE SYSTEM — MOBILE PERFORMANCE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .devotion-card,
+    .scripture-card,
+    .reflection-card,
+    .prayer-card,
+    .share-panel,
+    .share-container {
+        backdrop-filter: none !important;
+    }
+}
+
+/* SCRIPTURE DIVIDER AUTHORITY */
+.scripture-divider,
+.gold-divider {
+    background: var(--sacred-accent-gold);
+    box-shadow: 0 0 18px var(--sacred-accent-gold-glow);
+}
+
+/* DEVOTION CARD FAMILY \u2014 SCRIPTURE, REFLECTION, PRAYER */
+.scripture-card,
+.reflection-card,
+.prayer-card {
+    background: var(--sacred-bg-elevated);
+    border: 1px solid var(--sacred-surface-border-light);
+    box-shadow: var(--sacred-shadow-soft-light);
+}
+
+[data-theme="dark"] .scripture-card,
+[data-theme="dark"] .reflection-card,
+[data-theme="dark"] .prayer-card,
+html.dark .scripture-card,
+html.dark .reflection-card,
+html.dark .prayer-card,
+body.dark .scripture-card,
+body.dark .reflection-card,
+body.dark .prayer-card {
+    background: var(--sacred-bg-elevated);
+    border: 1px solid var(--sacred-surface-border-dark);
+    box-shadow: var(--sacred-shadow-soft-dark);
+}
+
+/* SHARE PANEL PREMIUM SURFACE */
+.devotion-share-panel,
+.share-card-modal,
+.share-panel,
+.share-container {
+    background: linear-gradient(145deg,
+            rgba(22, 34, 54, 0.95),
+            rgba(12, 20, 36, 0.95));
+    border: 1px solid var(--sacred-surface-border-dark);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+/* LIGHT MODE SHARE PANEL */
+[data-theme="light"] .devotion-share-panel,
+[data-theme="light"] .share-card-modal,
+[data-theme="light"] .share-panel,
+[data-theme="light"] .share-container,
+body:not(.dark):not([data-theme="dark"]) .devotion-share-panel,
+body:not(.dark):not([data-theme="dark"]) .share-card-modal,
+body:not(.dark):not([data-theme="dark"]) .share-panel,
+body:not(.dark):not([data-theme="dark"]) .share-container {
+    background: linear-gradient(145deg,
+            rgba(255, 255, 255, 0.95),
+            rgba(248, 242, 230, 0.95));
+    border: 1px solid var(--sacred-surface-border-light);
+    box-shadow: var(--sacred-shadow-soft-light);
 }
