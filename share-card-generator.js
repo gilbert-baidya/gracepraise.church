@@ -1526,8 +1526,15 @@
                 showToast('⚠️ Share API not available. Caption copied! Please download image.');
             }
         } catch (error) {
-            console.error('Share failed:', error);
-            if (error.name !== 'AbortError') showToast('⚠️ Share failed. Try downloading.');
+            // AbortError = user canceled share dialog (expected behavior, not an error)
+            if (error.name === 'AbortError') {
+                console.log('[Share UX] Share canceled by user');
+                return; // Silent exit - user intentionally canceled
+            }
+            
+            // Real errors - log and show feedback
+            console.error('[Share UX] Share failed:', error);
+            showToast('⚠️ Share failed. Try downloading.');
         }
     }
 
