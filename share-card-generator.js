@@ -1204,8 +1204,7 @@
         // STEP 8 — AUTO ENABLE ACTION BUTTONS
         document.querySelectorAll('.share-action-btn').forEach(btn => btn.disabled = false);
 
-        // Preview Render - Update DOM
-        const previewContainer = document.getElementById('shareCardPreview');
+        // Preview Render - Update DOM (reuse previewContainer from line 980)
         if (previewContainer) {
             previewContainer.innerHTML = '';
             previewContainer.appendChild(canvas);
