@@ -146,6 +146,12 @@
     // ============================================================================
     window.__SHARE_RENDER_READY__ = false;
 
+    // ============================================================================
+    // SHARE RELIABILITY LOCK — Production Stability Layer
+    // ============================================================================
+    let __SHARE_ACTIVE__ = false;
+    let __SHARE_LAST_FORMAT__ = null;
+
     // ========================================
     // GPBC LOGO WATERMARK PRELOAD UTILITY
     // ========================================
@@ -649,6 +655,33 @@
      * Supports ZERO FRICTION SHARE with auto-share mode
      */
     async function generateShareCardImage(devotionDataOrOptions) {
+        // ========================================================================
+        // STEP 2 — HARD LOCK GENERATION ENTRY
+        // ========================================================================
+        if (__SHARE_ACTIVE__) {
+            console.warn('[Share Lock] Share already active — ignoring duplicate trigger');
+            return;
+        }
+        
+        __SHARE_ACTIVE__ = true;
+        window.__SHARE_RENDER_READY__ = false;
+        
+        // Emit telemetry
+        window.dispatchEvent(new CustomEvent('gpbc:share-start'));
+        
+        // ========================================================================
+        // STEP 4 — TIMEOUT RECOVERY (4 second safety unlock)
+        // ========================================================================
+        const timeoutId = setTimeout(() => {
+            if (!window.__SHARE_RENDER_READY__) {
+                console.warn('[Share Lock] Render timeout → emergency unlock');
+                __SHARE_ACTIVE__ = false;
+                window.dispatchEvent(new CustomEvent('gpbc:share-error', {
+                    detail: { reason: 'render-timeout' }
+                }));
+            }
+        }, 4000);
+        
         // Support both legacy (devotionData) and new (options object) calls
         let devotionData, format, autoShare, source;
         
@@ -674,6 +707,8 @@
         // PHASE 3: Safe open gate - block if generator still not ready after binding attempt
         if (window.__SHARE_GENERATOR_READY__ !== true) {
             console.error('[Share Card] ❌ BLOCKED: Generator not initialized. Modal open prevented.');
+            clearTimeout(timeoutId);
+            __SHARE_ACTIVE__ = false;
             return false;
         }
 
@@ -690,27 +725,59 @@
         console.log('[Share Card] 🎬 Trigger Request — Ready State:', window.__SHARE_GENERATOR_READY__);
         console.log('[ShareCard] 🎨 Generating share card...', { format, autoShare, source });
         
-        // ZERO FRICTION SHARE: Auto-share path
-        if (autoShare) {
-            console.log('[Share UX] Format Auto Selected:', format);
+        try {
+            // ZERO FRICTION SHARE: Auto-share path
+            if (autoShare) {
+                console.log('[Share UX] Format Auto Selected:', format);
+                
+                // Set format without opening modal
+                await setFormat(format);
+                
+                // Wait for render stability
+                await waitForRenderStable();
+                
+                window.__SHARE_RENDER_READY__ = true;
+                __SHARE_LAST_FORMAT__ = format;
+                clearTimeout(timeoutId);
+                
+                // Emit ready telemetry
+                window.dispatchEvent(new CustomEvent('gpbc:share-ready', {
+                    detail: { format, autoShare }
+                }));
+                
+                // Execute auto-share
+                console.log('[Share UX] Auto Share Path Executed');
+                await safeAutoShare();
+                
+                return true;
+            }
             
-            // Set format without opening modal
+            // Standard modal path
             await setFormat(format);
-            
-            // Wait for render stability
             await waitForRenderStable();
             
-            // Execute auto-share
-            console.log('[Share UX] Auto Share Path Executed');
-            await safeAutoShare();
+            window.__SHARE_RENDER_READY__ = true;
+            __SHARE_LAST_FORMAT__ = format;
+            clearTimeout(timeoutId);
+            
+            window.dispatchEvent(new CustomEvent('gpbc:share-ready', {
+                detail: { format, autoShare: false }
+            }));
+            
+            openModal(logoImg);
             
             return true;
+            
+        } catch (error) {
+            console.error('[Share Lock] Generation error:', error);
+            clearTimeout(timeoutId);
+            window.dispatchEvent(new CustomEvent('gpbc:share-error', {
+                detail: { error: error.message }
+            }));
+            fallbackDownload();
+        } finally {
+            __SHARE_ACTIVE__ = false;
         }
-        
-        // Standard modal path
-        openModal(logoImg);
-        
-        return true;
     }
 
     // STEP 1 — FORCE GLOBAL EXPORT
@@ -953,7 +1020,16 @@
      * Safe auto-share engine with native share API and fallback
      * Tries native share first, falls back to download if unavailable
      */
+    // ========================================================================
+    // STEP 5 — SAFE AUTO SHARE (UPGRADED WITH RELIABILITY LOCK)
+    // ========================================================================
     async function safeAutoShare() {
+        if (!window.__SHARE_RENDER_READY__) {
+            console.warn('[Share Lock] Attempted share before ready');
+            showToast('⏳ Share card still preparing...');
+            return;
+        }
+        
         if (!canvas) {
             console.error('[Share UX] Canvas not ready for auto-share');
             showToast('⚠️ Unable to generate share card');
@@ -961,44 +1037,103 @@
         }
         
         try {
-            // Generate blob at full quality
-            const blob = await new Promise(r => 
-                canvas.toBlob(r, 'image/png', 1.0)
-            );
-            
-            const file = new File([blob], 'gpbc-devotion.png', {
-                type: 'image/png'
-            });
-            
-            // Try native share API first
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                    files: [file],
-                    title: 'Daily Devotion',
-                    text: 'Today\'s Devotion — Grace & Praise Bangladeshi Church'
-                });
-                showToast('✓ Shared successfully!');
+            // STEP 5A — OFFLINE DETECTION
+            if (!navigator.onLine) {
+                console.warn('[Share Lock] Offline detected → immediate download fallback');
+                fallbackDownload();
+                window.dispatchEvent(new CustomEvent('gpbc:share-fallback', {
+                    detail: { reason: 'offline' }
+                }));
                 return;
             }
             
-            // Fallback to download
-            console.log('[Share UX] Native share not available, downloading instead');
-            downloadBlob(blob);
-            showToast('✓ Image downloaded! Ready to share manually.');
+            // STEP 6 — SAFE CANVAS EXPORT
+            const { file, shareData } = await canvasToBlobSafe();
+            
+            // Try native share API first
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share(shareData);
+                console.log('[Share UX] Native share completed');
+                showToast('✓ Shared successfully!');
+                window.dispatchEvent(new CustomEvent('gpbc:share-success', {
+                    detail: { method: 'native-api' }
+                }));
+                return;
+            }
+            
+            // Fallback to download if share API not available
+            console.log('[Share Lock] Share API unavailable → download fallback');
+            fallbackDownload();
             
         } catch (error) {
-            // User cancelled or error occurred
+            // User canceled or error occurred
             if (error.name === 'AbortError') {
-                console.log('[Share UX] User cancelled share');
-            } else {
-                console.error('[Share UX] Auto-share failed:', error);
-                showToast('⚠️ Share failed. Try again or use download.');
+                console.log('[Share UX] User canceled share');
+                showToast('Share canceled');
+                return;
             }
+            
+            console.warn('[Share Lock] Native share failed → fallback');
+            fallbackDownload();
         }
     }
     
+    // ========================================================================
+    // STEP 6 — SAFE CANVAS EXPORT
+    // ========================================================================
+    async function canvasToBlobSafe() {
+        return new Promise(resolve => {
+            canvas.toBlob(blob => {
+                const file = new File([blob], 'gpbc-devotion.png', {
+                    type: 'image/png'
+                });
+                
+                resolve({
+                    file,
+                    shareData: {
+                        files: [file],
+                        title: 'Daily Devotion',
+                        text: 'Grace & Praise Bangladeshi Church'
+                    }
+                });
+            }, 'image/png', 1.0);
+        });
+    }
+    
+    // ========================================================================
+    // STEP 7 — FALLBACK DOWNLOAD (NEVER FAIL PATH)
+    // ========================================================================
+    function fallbackDownload() {
+        console.warn('[Share Lock] Using download fallback');
+        try {
+            downloadCurrentCanvas();
+            showToast('✓ Image downloaded! Ready to share manually.');
+            window.dispatchEvent(new CustomEvent('gpbc:share-fallback', {
+                detail: { reason: 'no-share-api' }
+            }));
+        } catch (error) {
+            console.error('[Share Lock] Download fallback failed:', error);
+            showToast('❌ Unable to download. Please try again.');
+            window.dispatchEvent(new CustomEvent('gpbc:share-error', {
+                detail: { error: error.message, stage: 'download-fallback' }
+            }));
+        }
+    }
+    
+    function downloadCurrentCanvas() {
+        const date = new Date().toISOString().split('T')[0];
+        const filename = `GPBC-Devotion-${date}-${__SHARE_LAST_FORMAT__ || currentFormat}.png`;
+        const url = canvas.toDataURL('image/png', 1.0);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
     /**
-     * Download blob as file
+     * Download blob as file (legacy compatibility)
      */
     function downloadBlob(blob) {
         const date = new Date().toISOString().split('T')[0];
@@ -1085,9 +1220,11 @@
     }
 
     function downloadCard() {
-        // Ministry UX: Prevent early export
+        // ========================================================================
+        // STEP 3 — ACTION BUTTON GUARD
+        // ========================================================================
         if (!window.__SHARE_RENDER_READY__) {
-            console.warn('[Share UX] Render not ready yet');
+            console.warn('[Share Lock] Download attempted before ready');
             showToast('⏳ Please wait for preview to finish rendering...');
             return;
         }
