@@ -163,6 +163,16 @@
     window.__SHARE_CARD_RENDER_READY__ = false;
 
     // ============================================================================
+    // PERCEIVED INSTANT SHARE PREVIEW — Skeleton Shimmer State
+    // ============================================================================
+    
+    /**
+     * STEP 1 — SKELETON PREVIEW ACTIVE FLAG
+     * Tracks if skeleton preview is currently showing during render
+     */
+    window.__SHARE_PREVIEW_ACTIVE__ = false;
+
+    // ============================================================================
     // TRUE ONE-TAP SHARE — Global Ready Promise System
     // ============================================================================
     
@@ -640,6 +650,27 @@
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
         
+        // ====================================================================
+        // STEP 4 — SHOW SKELETON ON MODAL OPEN (Instant Perceived Performance)
+        // ====================================================================
+        const skeleton = document.getElementById("sharePreviewSkeleton");
+        if (skeleton) {
+            skeleton.style.display = "flex";
+            window.__SHARE_PREVIEW_ACTIVE__ = true;
+            console.log('[Share UX] Skeleton preview displayed');
+        }
+        
+        // ====================================================================
+        // STEP 6 — SAFETY FAIL TIMEOUT (Ensure skeleton always hides)
+        // ====================================================================
+        setTimeout(() => {
+            const skel = document.getElementById("sharePreviewSkeleton");
+            if (skel && skel.style.display !== "none") {
+                skel.style.display = "none";
+                console.warn('[Share UX] Skeleton timeout triggered (safety fallback)');
+            }
+        }, 2500);
+        
         // Ministry UX: Disable buttons during initial render
         window.__SHARE_RENDER_READY__ = false;
         window.__SHARE_CARD_RENDER_READY__ = false;
@@ -691,6 +722,25 @@
         // STEP 4 — TRACK LAST USER FORMAT
         // ====================================================================
         window.__LAST_SHARE_FORMAT__ = format;
+        
+        // ====================================================================
+        // SHOW SKELETON ON FORMAT SWITCH (Quick perceived performance)
+        // ====================================================================
+        const skeleton = document.getElementById("sharePreviewSkeleton");
+        if (skeleton) {
+            skeleton.style.display = "flex";
+            window.__SHARE_PREVIEW_ACTIVE__ = true;
+            console.log('[Share UX] Skeleton preview displayed (format switch)');
+        }
+        
+        // Safety timeout for skeleton hide
+        setTimeout(() => {
+            const skel = document.getElementById("sharePreviewSkeleton");
+            if (skel && skel.style.display !== "none") {
+                skel.style.display = "none";
+                console.warn('[Share UX] Skeleton timeout on format switch');
+            }
+        }, 2500);
         
         // Disable buttons and set render state to false
         window.__SHARE_RENDER_READY__ = false;
@@ -1139,6 +1189,18 @@
         // ====================================================================
         window.__SHARE_CARD_RENDER_READY__ = true;
         
+        // ====================================================================
+        // STEP 5 — HIDE SKELETON AFTER RENDER COMPLETE
+        // ====================================================================
+        if (window.__SHARE_PREVIEW_ACTIVE__) {
+            const skel = document.getElementById("sharePreviewSkeleton");
+            if (skel) {
+                skel.style.display = "none";
+                window.__SHARE_PREVIEW_ACTIVE__ = false;
+                console.log('[Share UX] Skeleton preview hidden (canvas ready)');
+            }
+        }
+        
         // STEP 8 — AUTO ENABLE ACTION BUTTONS
         document.querySelectorAll('.share-action-btn').forEach(btn => btn.disabled = false);
 
@@ -1147,6 +1209,18 @@
         if (previewContainer) {
             previewContainer.innerHTML = '';
             previewContainer.appendChild(canvas);
+            
+            // ================================================================
+            // SACRED MOTION MICRO-ANIMATION — Safe JS Hook
+            // ================================================================
+            // Apply render-ready class for CSS fade-in animation
+            // This creates premium liturgical-grade motion without affecting timing
+            requestAnimationFrame(() => {
+                if (canvas && canvas.classList) {
+                    canvas.classList.add('render-ready');
+                    console.log('[Sacred Motion] Canvas fade-in triggered');
+                }
+            });
         }
 
         // Remove loading state if present
