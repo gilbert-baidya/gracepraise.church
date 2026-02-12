@@ -137,7 +137,7 @@
         }
     };
 
-    let currentFormat = '9:16'; // Ministry UX: Default to story format (social/SMS friendly)
+    let currentFormat = 'story'; // Ministry UX: Default to story format (9:16 social/SMS friendly)
     let canvas = null;
     let ctx = null;
 
@@ -224,12 +224,12 @@
         const ua = navigator.userAgent || "";
         
         if (/iPhone|Android/i.test(ua)) {
-            console.log('[Share UX] Auto format: 9:16 (mobile detected)');
-            return "9:16"; // SMS + phone optimized
+            console.log('[Share UX] Auto format: story (9:16 - mobile detected)');
+            return "story"; // SMS + phone optimized (9:16)
         }
         
-        console.log('[Share UX] Auto format: 1:1 (desktop detected)');
-        return "1:1"; // Desktop / web default
+        console.log('[Share UX] Auto format: square (1:1 - desktop detected)');
+        return "square"; // Desktop / web default (1:1)
     }
     
     /**
