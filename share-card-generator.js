@@ -153,6 +153,16 @@
     let __SHARE_LAST_FORMAT__ = null;
 
     // ============================================================================
+    // SMART AUTO SHARE UX LAYER — Render Ready Gate
+    // ============================================================================
+    
+    /**
+     * STEP 1 — ADD GLOBAL RENDER READY FLAG
+     * Tracks when canvas render is complete and safe to share/download
+     */
+    window.__SHARE_CARD_RENDER_READY__ = false;
+
+    // ============================================================================
     // TRUE ONE-TAP SHARE — Global Ready Promise System
     // ============================================================================
     
@@ -191,6 +201,34 @@
             setTimeout(resolve, 1200);
         });
     };
+
+    // ============================================================================
+    // SMART AUTO SHARE UX — Format Detection & User Feedback
+    // ============================================================================
+    
+    /**
+     * STEP 2 — SMART FORMAT DETECTOR
+     * Auto-detect best format based on device type
+     */
+    function detectBestShareFormat() {
+        const ua = navigator.userAgent || "";
+        
+        if (/iPhone|Android/i.test(ua)) {
+            console.log('[Share UX] Auto format: 9:16 (mobile detected)');
+            return "9:16"; // SMS + phone optimized
+        }
+        
+        console.log('[Share UX] Auto format: 1:1 (desktop detected)');
+        return "1:1"; // Desktop / web default
+    }
+    
+    /**
+     * STEP 7 — MICRO UX FEEDBACK
+     * Console-safe feedback (no UI overlay)
+     */
+    function showShareToast(msg) {
+        console.log("[Share UX Toast]", msg);
+    }
 
     // ========================================
     // GPBC LOGO WATERMARK PRELOAD UTILITY
@@ -596,30 +634,45 @@
     }
 
     async function openModal(logoImg = null) {
-        console.log('[Share UX] Opening modal → default 9:16');
+        console.log('[Share UX] Opening modal');
         
         const overlay = document.getElementById('shareCardOverlay');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        // Ministry UX: Default to 9:16 and auto-render
+        // Ministry UX: Disable buttons during initial render
         window.__SHARE_RENDER_READY__ = false;
+        window.__SHARE_CARD_RENDER_READY__ = false;
         disableActionButtons();
         showLoadingState();
         
-        // Set format to story (9:16)
-        currentFormat = '9:16';
+        // ====================================================================
+        // STEP 3 — AUTO APPLY FORMAT ON MODAL OPEN
+        // ====================================================================
+        const smartFormat = detectBestShareFormat();
+        
+        // Only auto-apply if user hasn't manually selected a format yet
+        if (!window.__LAST_SHARE_FORMAT__) {
+            console.log('[Share UX] Auto-applying format:', smartFormat);
+            currentFormat = smartFormat;
+        } else {
+            console.log('[Share UX] Using last user format:', window.__LAST_SHARE_FORMAT__);
+            currentFormat = window.__LAST_SHARE_FORMAT__;
+        }
+        
+        // Update format button active state
         document.querySelectorAll('.format-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.format === '9:16');
+            btn.classList.toggle('active', btn.dataset.format === currentFormat);
         });
         
         // Wait for logo and render
         const logo = logoImg || await window.__GPBC_LOGO_READY__;
-        console.log('[Share UX] Rendering started');
-        await renderCardToCanvas('9:16', logo);
+        console.log('[Share UX] Rendering started with format:', currentFormat);
+        await renderCardToCanvas(currentFormat, logo);
         
         // Enable buttons after render complete
         window.__SHARE_RENDER_READY__ = true;
+        window.__SHARE_CARD_RENDER_READY__ = true;
         enableActionButtons();
         hideLoadingState();
         console.log('[Share UX] Rendering complete → Ready');
@@ -634,10 +687,19 @@
     async function setFormat(format) {
         console.log('[Share UX] Format switch requested:', format);
         
+        // ====================================================================
+        // STEP 4 — TRACK LAST USER FORMAT
+        // ====================================================================
+        window.__LAST_SHARE_FORMAT__ = format;
+        
         // Disable buttons and set render state to false
         window.__SHARE_RENDER_READY__ = false;
+        window.__SHARE_CARD_RENDER_READY__ = false; // SMART AUTO SHARE UX
         disableActionButtons();
         showLoadingState();
+        
+        // STEP 9 — DISABLE BUTTONS DURING RENDER
+        document.querySelectorAll('.share-action-btn').forEach(btn => btn.disabled = true);
         
         currentFormat = format;
         document.querySelectorAll('.format-btn').forEach(btn => {
@@ -650,8 +712,13 @@
         
         // Re-enable buttons after render
         window.__SHARE_RENDER_READY__ = true;
+        window.__SHARE_CARD_RENDER_READY__ = true; // SMART AUTO SHARE UX
         enableActionButtons();
         hideLoadingState();
+        
+        // STEP 8 — AUTO ENABLE ACTION BUTTONS
+        document.querySelectorAll('.share-action-btn').forEach(btn => btn.disabled = false);
+        
         console.log('[Share UX] Format switch complete → Ready');
     }
 
@@ -851,6 +918,11 @@
     }
 
     async function renderCardToCanvas(format, logoImg = null) {
+        // ====================================================================
+        // STEP 5 — RENDER READY GATE (Start of render)
+        // ====================================================================
+        window.__SHARE_CARD_RENDER_READY__ = false;
+        
         const config = CONFIG.formats[format];
         const theme = getSacredTheme();
         const data = getVerseData();
@@ -1061,6 +1133,14 @@
         window.__LAST_SHARE_RENDER__ = Date.now();
         window.dispatchEvent(new CustomEvent('gpbc:share-render-complete'));
         console.log('[Share Render] ✅ Render complete signal emitted');
+        
+        // ====================================================================
+        // STEP 5 — RENDER READY GATE (End of successful render)
+        // ====================================================================
+        window.__SHARE_CARD_RENDER_READY__ = true;
+        
+        // STEP 8 — AUTO ENABLE ACTION BUTTONS
+        document.querySelectorAll('.share-action-btn').forEach(btn => btn.disabled = false);
 
         // Preview Render - Update DOM
         const previewContainer = document.getElementById('shareCardPreview');
@@ -1300,7 +1380,16 @@
 
     function downloadCard() {
         // ========================================================================
-        // STEP 3 — ACTION BUTTON GUARD
+        // STEP 6 — LOCK ACTION BUTTONS UNTIL READY
+        // ========================================================================
+        if (!window.__SHARE_CARD_RENDER_READY__) {
+            console.warn("[Share UX] Waiting for render ready");
+            showShareToast("Preparing share card...");
+            return;
+        }
+        
+        // ========================================================================
+        // STEP 3 — ACTION BUTTON GUARD (Legacy compatibility)
         // ========================================================================
         if (!window.__SHARE_RENDER_READY__) {
             console.warn('[Share Lock] Download attempted before ready');
@@ -1328,7 +1417,16 @@
     }
 
     async function shareCard() {
-        // Ministry UX: Prevent early share
+        // ========================================================================
+        // STEP 6 — LOCK ACTION BUTTONS UNTIL READY
+        // ========================================================================
+        if (!window.__SHARE_CARD_RENDER_READY__) {
+            console.warn("[Share UX] Waiting for render ready");
+            showShareToast("Preparing share card...");
+            return;
+        }
+        
+        // Ministry UX: Prevent early share (Legacy compatibility)
         if (!window.__SHARE_RENDER_READY__) {
             console.warn('[Share UX] Render not ready yet');
             showToast('⏳ Please wait for preview to finish rendering...');
