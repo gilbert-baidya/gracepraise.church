@@ -5622,3 +5622,42 @@ body[data-theme="dark"] .content-page-body a[style*="background"] {
         pointer-events: auto !important;
     }
 }
+
+/* ========================================
+   HEADER BRAND AUTHORITY UPGRADE
+   Safe CSS-only enhancement for logo images
+   ======================================== */
+
+/* Logo image styling - enhances existing <img class="logo-image"> */
+.logo-image {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    transition: transform var(--transition-fast), filter var(--transition-fast);
+    display: block;
+    will-change: transform;
+}
+
+/* Logo link hover effect - premium brand feel */
+.logo:hover .logo-image {
+    transform: scale(1.08);
+}
+
+/* Dark mode enhancement - sacred glow effect */
+body[data-theme="dark"] .logo-image {
+    filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.35)) 
+            drop-shadow(0 0 12px rgba(212, 175, 55, 0.2));
+}
+
+body[data-theme="dark"] .logo:hover .logo-image {
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.45)) 
+            drop-shadow(0 0 16px rgba(212, 175, 55, 0.3));
+}
+
+/* Mobile responsive - smaller logo on small screens */
+@media (max-width: 768px) {
+    .logo-image {
+        width: 28px;
+        height: 28px;
+    }
+}
