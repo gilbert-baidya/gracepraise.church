@@ -32,10 +32,26 @@
      * Initialize orchestrator after DOM ready
      */
     function init() {
-        // Wait for share card generator to load first
-        setTimeout(() => {
+        // Check if generator is already ready
+        if (window.__SHARE_GENERATOR_READY__ === true) {
+            console.log('[GPBC Share] Generator ready, orchestrator binding now...');
             setupOrchestrator();
-        }, 100);
+        } else {
+            console.log('[GPBC Share] Orchestrator waiting for generator...');
+            // Listen for generator readiness event
+            window.addEventListener('gpbc:share-generator-ready', () => {
+                console.log('[GPBC Share] Generator ready, orchestrator binding now...');
+                setupOrchestrator();
+            }, { once: true });
+            
+            // Fallback timeout in case event missed (safety net)
+            setTimeout(() => {
+                if (window.__SHARE_GENERATOR_READY__ === true && buttonElement === null) {
+                    console.log('[GPBC Share] Fallback init triggered');
+                    setupOrchestrator();
+                }
+            }, 3000);
+        }
     }
 
     /**
