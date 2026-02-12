@@ -152,6 +152,46 @@
     let __SHARE_ACTIVE__ = false;
     let __SHARE_LAST_FORMAT__ = null;
 
+    // ============================================================================
+    // TRUE ONE-TAP SHARE — Global Ready Promise System
+    // ============================================================================
+    
+    /**
+     * STEP 2 — GENERATOR READY PROMISE
+     * Wait for share generator to be fully initialized
+     */
+    window.waitForShareGeneratorReady = function() {
+        return new Promise(resolve => {
+            if (window.__SHARE_GENERATOR_READY__ === true) {
+                resolve();
+                return;
+            }
+            
+            window.addEventListener(
+                'gpbc:share-generator-ready',
+                () => resolve(),
+                { once: true }
+            );
+        });
+    };
+    
+    /**
+     * STEP 4 — WAIT FOR RENDER HELPER
+     * Wait for canvas render to complete with timeout safety
+     */
+    window.waitForShareRenderComplete = function() {
+        return new Promise(resolve => {
+            window.addEventListener(
+                'gpbc:share-render-complete',
+                () => resolve(),
+                { once: true }
+            );
+            
+            // Safety timeout: resolve after 1200ms regardless
+            setTimeout(resolve, 1200);
+        });
+    };
+
     // ========================================
     // GPBC LOGO WATERMARK PRELOAD UTILITY
     // ========================================
@@ -785,6 +825,10 @@
 
        window.generateShareCardImage = generateShareCardImage;
        window.ensureShareModalBindings = ensureShareModalBindings;
+       
+       // TRUE ONE-TAP SHARE — Export core functions
+       window.setShareFormat = setFormat;
+       window.shareCard = shareCard;
 
        window.__GPBC_SHARE_GENERATOR_READY__ = true;
 
@@ -795,6 +839,11 @@
 
        window.dispatchEvent(
           new CustomEvent("GPBC_SHARE_GENERATOR_READY")
+       );
+       
+       // TRUE ONE-TAP SHARE — Emit standardized ready event
+       window.dispatchEvent(
+          new CustomEvent("gpbc:share-generator-ready")
        );
 
        console.log("[GPBC Share] 🚀 READY EVENT FIRED");
@@ -1033,6 +1082,13 @@
             console.log('[Share Brand] ✅ Ministry Signature Polish Complete');
             console.log('[Share Brand] Dark mode:', isDarkMode, '| Logo size:', logoSize);
         }
+
+        // ========================================================================
+        // STEP 3 — CANVAS RENDER COMPLETE SIGNAL
+        // ========================================================================
+        window.__LAST_SHARE_RENDER__ = Date.now();
+        window.dispatchEvent(new CustomEvent('gpbc:share-render-complete'));
+        console.log('[Share Render] ✅ Render complete signal emitted');
 
         // Preview Render - Update DOM
         const previewContainer = document.getElementById('shareCardPreview');

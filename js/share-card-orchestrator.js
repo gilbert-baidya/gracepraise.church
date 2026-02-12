@@ -28,9 +28,28 @@
     // ============================================================================
     
     /**
-     * Get smart default format based on device screen ratio
-     * Tall screens (ratio > 1.75) → 9:16 story format (safe for mobile sharing)
-     * Everything else → 1:1 square format (SMS + universal safe)
+     * STEP 1 — DEVICE FORMAT AUTO SELECT
+     * Get auto share format based on device type
+     */
+    function getAutoShareFormat() {
+        const isMobile = window.innerWidth < 768;
+        const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
+        
+        if (isMobile) {
+            console.log('[Share UX] Auto Format: 9:16 (mobile detected)');
+            return '9:16';
+        }
+        if (isTablet) {
+            console.log('[Share UX] Auto Format: 1:1 (tablet detected)');
+            return '1:1';
+        }
+        
+        console.log('[Share UX] Auto Format: 1:1 (desktop detected)');
+        return '1:1';
+    }
+    
+    /**
+     * Get smart default format based on device screen ratio (LEGACY - kept for compatibility)
      */
     function getSmartDefaultFormat() {
         const h = window.innerHeight;
@@ -46,6 +65,65 @@
         // Everything else → SMS safe default
         console.log('[Share UX] Smart Format: 1:1 (universal/SMS safe)');
         return '1:1';
+    }
+    
+    // ============================================================================
+    // TRUE ONE-TAP SHARE PIPELINE
+    // ============================================================================
+    
+    /**
+     * STEP 5 — ONE TAP SHARE PIPELINE
+     * Complete share flow without modal interaction
+     */
+    async function oneTapShare(devotionData) {
+        console.log('[One-Tap Share] 🚀 Pipeline initiated');
+        
+        try {
+            // Wait for generator ready
+            await window.waitForShareGeneratorReady();
+            console.log('[One-Tap Share] ✅ Generator ready');
+            
+            // Get optimal format for device
+            const format = getAutoShareFormat();
+            
+            // Load devotion data first
+            if (window.loadDevotion && typeof window.loadDevotion === 'function') {
+                await window.loadDevotion(devotionData);
+            }
+            
+            // Set format and render
+            if (window.setShareFormat) {
+                console.log('[One-Tap Share] 🎨 Rendering format:', format);
+                await window.setShareFormat(format);
+            }
+            
+            // Wait for render complete
+            await window.waitForShareRenderComplete();
+            console.log('[One-Tap Share] ✅ Render complete');
+            
+            // Execute share
+            if (window.shareCard) {
+                console.log('[One-Tap Share] 📤 Initiating share...');
+                await window.shareCard();
+            } else {
+                // STEP 8 — FAIL SAFE: Fallback to download
+                console.warn('[One-Tap Share] ⚠️ shareCard not available, falling back to download');
+                if (window.downloadCard) {
+                    window.downloadCard();
+                }
+            }
+            
+            console.log('[One-Tap Share] ✅ Pipeline complete');
+            
+        } catch (error) {
+            console.error('[One-Tap Share] ❌ Pipeline failed:', error);
+            
+            // STEP 8 — FAIL SAFE: Try download on any error
+            if (window.downloadCard) {
+                console.log('[One-Tap Share] 🔄 Attempting download fallback');
+                window.downloadCard();
+            }
+        }
     }
 
     // State
@@ -126,73 +204,57 @@
         // Apply instant loading state (<100ms)
         applyLoadingState();
 
-        // ZERO FRICTION SHARE: Check if advanced mode requested
+        // ========================================================================
+        // TRUE ONE-TAP SHARE ROUTING
+        // ========================================================================
         const btn = event.target.closest('.share-card-trigger, #shareCardTrigger');
         const isAdvancedMode = btn?.dataset?.shareMode === 'advanced';
         
         if (btn) {
-            console.log('[GPBC Share] 🔀 Routed from PreClick');
-            
             const devotionData = window.__CURRENT_DEVOTION__;
             
-            // PHASE 4: Check generator ready state before routing
-            // PRODUCTION HOTFIX: Try ensureShareModalBindings before blocking
+            // Check generator ready state before routing
             if (window.__SHARE_GENERATOR_READY__ !== true && typeof window.ensureShareModalBindings === 'function') {
                 window.ensureShareModalBindings();
             }
             
             if (window.__SHARE_GENERATOR_READY__ !== true) {
-                console.warn('[Share Orchestrator] ⏸️ Generator not ready — aborting open request');
+                console.warn('[Share Orchestrator] ⏸️ Generator not ready — aborting');
                 removeLoadingState();
                 isGenerating = false;
                 return;
             }
             
-            // ZERO FRICTION PATH: Auto-generate and share
-            if (!isAdvancedMode) {
-                console.log('[Share UX] Quick Share Triggered');
-                const format = getSmartDefaultFormat();
+            // STEP 7 — KEEP MODAL FOR POWER USERS
+            // Advanced mode opens format selection modal
+            if (isAdvancedMode) {
+                console.log('[Share UX] 🎛️ Advanced Mode: Opening format selection modal');
                 
                 if (window.generateShareCardImage) {
-                    window.generateShareCardImage({
-                        format: format,
-                        autoShare: true,
-                        source: 'quick-share',
-                        devotionData: devotionData
-                    }).then(() => {
-                        removeLoadingState();
-                        isGenerating = false;
-                    }).catch(err => {
-                        console.error('[Share UX] Auto-share failed:', err);
-                        removeLoadingState();
-                        isGenerating = false;
-                    });
+                    window.generateShareCardImage(devotionData);
                 } else {
                     console.warn('[Share UX] Generator not available');
-                    removeLoadingState();
-                    isGenerating = false;
                 }
+                
+                setTimeout(() => removeLoadingState(), 500);
                 return;
             }
             
-            // ADVANCED MODE: Open format selection modal
-            console.log('[Share UX] Modal Fallback Used');
-            if (window.generateShareCardImage) {
-                window.generateShareCardImage(devotionData);
-            } else {
-                console.warn('[ShareCard] ⏳ Waiting for generator ready event...');
-                
-                window.addEventListener(
-                    'GPBC_SHARE_GENERATOR_READY',
-                    () => {
-                        console.log('[ShareCard] ✅ Generator ready — executing');
-                        if (window.__SHARE_GENERATOR_READY__ === true && window.generateShareCardImage) {
-                            window.generateShareCardImage(devotionData);
-                        }
-                    },
-                    { once: true }
-                );
-            }
+            // STEP 6 — ORCHESTRATOR HOOK: Default to one-tap share
+            console.log('[Share UX] ⚡ One-Tap Share: Initiating direct share flow');
+            
+            // Use TRUE ONE-TAP SHARE PIPELINE
+            oneTapShare(devotionData).then(() => {
+                removeLoadingState();
+                isGenerating = false;
+                console.log('[Share UX] ✅ One-tap share complete');
+            }).catch(err => {
+                console.error('[Share UX] ❌ One-tap share failed:', err);
+                removeLoadingState();
+                isGenerating = false;
+            });
+            
+            return;
         }
 
         // Auto-remove loading state after modal opens (or timeout)
