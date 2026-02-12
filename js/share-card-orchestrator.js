@@ -23,6 +23,31 @@
 
     console.log('[GPBC Share] Orchestrator initializing...');
 
+    // ============================================================================
+    // ZERO FRICTION SHARE — Smart Default Format Detection
+    // ============================================================================
+    
+    /**
+     * Get smart default format based on device screen ratio
+     * Tall screens (ratio > 1.75) → 9:16 story format (safe for mobile sharing)
+     * Everything else → 1:1 square format (SMS + universal safe)
+     */
+    function getSmartDefaultFormat() {
+        const h = window.innerHeight;
+        const w = window.innerWidth;
+        const ratio = h / w;
+        
+        // Tall screens → story safe
+        if (ratio > 1.75) {
+            console.log('[Share UX] Smart Format: 9:16 (tall screen detected)');
+            return '9:16';
+        }
+        
+        // Everything else → SMS safe default
+        console.log('[Share UX] Smart Format: 1:1 (universal/SMS safe)');
+        return '1:1';
+    }
+
     // State
     let isGenerating = false;
     let buttonElement = null;
@@ -82,6 +107,7 @@
 
     /**
      * Pre-click handler - adds instant feedback
+     * Supports both quick share (default) and advanced modal (optional)
      */
     function handlePreClick(event) {
         // Prevent double-tap
@@ -100,8 +126,9 @@
         // Apply instant loading state (<100ms)
         applyLoadingState();
 
-        // STEP 2 — Route to share card generator
+        // ZERO FRICTION SHARE: Check if advanced mode requested
         const btn = event.target.closest('.share-card-trigger, #shareCardTrigger');
+        const isAdvancedMode = btn?.dataset?.shareMode === 'advanced';
         
         if (btn) {
             console.log('[GPBC Share] 🔀 Routed from PreClick');
@@ -116,10 +143,40 @@
             
             if (window.__SHARE_GENERATOR_READY__ !== true) {
                 console.warn('[Share Orchestrator] ⏸️ Generator not ready — aborting open request');
+                removeLoadingState();
+                isGenerating = false;
                 return;
             }
             
-            // STEP 4 — ORCHESTRATOR WAIT MODE
+            // ZERO FRICTION PATH: Auto-generate and share
+            if (!isAdvancedMode) {
+                console.log('[Share UX] Quick Share Triggered');
+                const format = getSmartDefaultFormat();
+                
+                if (window.generateShareCardImage) {
+                    window.generateShareCardImage({
+                        format: format,
+                        autoShare: true,
+                        source: 'quick-share',
+                        devotionData: devotionData
+                    }).then(() => {
+                        removeLoadingState();
+                        isGenerating = false;
+                    }).catch(err => {
+                        console.error('[Share UX] Auto-share failed:', err);
+                        removeLoadingState();
+                        isGenerating = false;
+                    });
+                } else {
+                    console.warn('[Share UX] Generator not available');
+                    removeLoadingState();
+                    isGenerating = false;
+                }
+                return;
+            }
+            
+            // ADVANCED MODE: Open format selection modal
+            console.log('[Share UX] Modal Fallback Used');
             if (window.generateShareCardImage) {
                 window.generateShareCardImage(devotionData);
             } else {

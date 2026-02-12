@@ -646,8 +646,25 @@
     /**
      * STEP 1 — Generate Share Card (Global API)
      * Called by orchestrator or direct invocation
+     * Supports ZERO FRICTION SHARE with auto-share mode
      */
-    async function generateShareCardImage(devotionData) {
+    async function generateShareCardImage(devotionDataOrOptions) {
+        // Support both legacy (devotionData) and new (options object) calls
+        let devotionData, format, autoShare, source;
+        
+        if (devotionDataOrOptions && typeof devotionDataOrOptions === 'object') {
+            if (devotionDataOrOptions.format || devotionDataOrOptions.autoShare) {
+                // New options object format
+                ({ devotionData, format = '1:1', autoShare = false, source = 'manual' } = devotionDataOrOptions);
+            } else {
+                // Legacy devotionData object
+                devotionData = devotionDataOrOptions;
+                format = '1:1';
+                autoShare = false;
+                source = 'legacy';
+            }
+        }
+        
         // PRODUCTION HOTFIX: Try direct binding before blocking
         if (window.__SHARE_GENERATOR_READY__ !== true) {
             console.warn('[Share Card] 🔄 Generator not ready — attempting ensureShareModalBindings');
@@ -671,9 +688,26 @@
 
         // PHASE 5: Debug telemetry
         console.log('[Share Card] 🎬 Trigger Request — Ready State:', window.__SHARE_GENERATOR_READY__);
-        console.log('[ShareCard] 🎨 Generating share card...', devotionData);
+        console.log('[ShareCard] 🎨 Generating share card...', { format, autoShare, source });
         
-        // Open modal and generate card with logo
+        // ZERO FRICTION SHARE: Auto-share path
+        if (autoShare) {
+            console.log('[Share UX] Format Auto Selected:', format);
+            
+            // Set format without opening modal
+            await setFormat(format);
+            
+            // Wait for render stability
+            await waitForRenderStable();
+            
+            // Execute auto-share
+            console.log('[Share UX] Auto Share Path Executed');
+            await safeAutoShare();
+            
+            return true;
+        }
+        
+        // Standard modal path
         openModal(logoImg);
         
         return true;
@@ -898,6 +932,87 @@
     }
 
     // --- Action Handlers ---
+
+    // ============================================================================
+    // ZERO FRICTION SHARE — Render Stability & Auto-Share Engine
+    // ============================================================================
+    
+    /**
+     * Wait for render stability before auto-sharing
+     * Ensures canvas is fully painted and ready
+     */
+    async function waitForRenderStable() {
+        return new Promise(resolve => {
+            requestAnimationFrame(() => {
+                setTimeout(resolve, 60);
+            });
+        });
+    }
+    
+    /**
+     * Safe auto-share engine with native share API and fallback
+     * Tries native share first, falls back to download if unavailable
+     */
+    async function safeAutoShare() {
+        if (!canvas) {
+            console.error('[Share UX] Canvas not ready for auto-share');
+            showToast('⚠️ Unable to generate share card');
+            return;
+        }
+        
+        try {
+            // Generate blob at full quality
+            const blob = await new Promise(r => 
+                canvas.toBlob(r, 'image/png', 1.0)
+            );
+            
+            const file = new File([blob], 'gpbc-devotion.png', {
+                type: 'image/png'
+            });
+            
+            // Try native share API first
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    files: [file],
+                    title: 'Daily Devotion',
+                    text: 'Today\'s Devotion — Grace & Praise Bangladeshi Church'
+                });
+                showToast('✓ Shared successfully!');
+                return;
+            }
+            
+            // Fallback to download
+            console.log('[Share UX] Native share not available, downloading instead');
+            downloadBlob(blob);
+            showToast('✓ Image downloaded! Ready to share manually.');
+            
+        } catch (error) {
+            // User cancelled or error occurred
+            if (error.name === 'AbortError') {
+                console.log('[Share UX] User cancelled share');
+            } else {
+                console.error('[Share UX] Auto-share failed:', error);
+                showToast('⚠️ Share failed. Try again or use download.');
+            }
+        }
+    }
+    
+    /**
+     * Download blob as file
+     */
+    function downloadBlob(blob) {
+        const date = new Date().toISOString().split('T')[0];
+        const filename = `GPBC-Devotion-${date}-${currentFormat}.png`;
+        
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
 
     // ============================================================================
     // SINGLE-TAP MINISTRY SHARE UX — Button & Loading State Control
