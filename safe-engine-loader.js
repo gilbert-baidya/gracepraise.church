@@ -153,6 +153,16 @@
 
                     log('info', '✅ All engines initialization sequence complete.');
 
+                    // Check if share-card-generator.js loaded successfully
+                    const shareGeneratorIndex = CONFIG.modules.indexOf('share-card-generator.js');
+                    if (shareGeneratorIndex !== -1 && results[shareGeneratorIndex]?.value) {
+                        // Set readiness flag
+                        window.__SHARE_GENERATOR_READY__ = true;
+                        // Dispatch share-specific readiness event
+                        window.dispatchEvent(new CustomEvent('gpbc:share-generator-ready'));
+                        log('info', '🎨 Share Card Generator ready');
+                    }
+
                     // Trigger an event for other scripts to know engines are ready
                     window.dispatchEvent(new CustomEvent('gpbc-engines-ready'));
 

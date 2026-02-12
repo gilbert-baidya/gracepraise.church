@@ -396,3 +396,51 @@ body.page-daily-devotion .share-card-preview.loading::after {
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
+
+/* ============================================================================
+   PERCEIVED INSTANT SHARE PREVIEW — Skeleton Shimmer
+   ============================================================================
+   Instant-feeling modal with premium skeleton animation while canvas renders
+   ========================================================================= */
+
+body.page-daily-devotion .share-preview-skeleton {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+body.page-daily-devotion .skeleton-card {
+    width: 82%;
+    height: 82%;
+    border-radius: 24px;
+    background: linear-gradient(
+        110deg,
+        rgba(255, 255, 255, 0.08) 8%,
+        rgba(255, 255, 255, 0.18) 18%,
+        rgba(255, 255, 255, 0.08) 33%
+    );
+    background-size: 200% 100%;
+    animation: shareSkeleton 1.2s linear infinite;
+}
+
+@keyframes shareSkeleton {
+    to {
+        background-position-x: -200%;
+    }
+}
+
+/* Dark Mode Skeleton */
+body.page-daily-devotion.dark .skeleton-card,
+body.page-daily-devotion[data-theme="dark"] .skeleton-card,
+html.dark body.page-daily-devotion .skeleton-card {
+    background: linear-gradient(
+        110deg,
+        rgba(255, 255, 255, 0.04) 8%,
+        rgba(255, 255, 255, 0.12) 18%,
+        rgba(255, 255, 255, 0.04) 33%
+    );
+}

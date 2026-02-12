@@ -91,6 +91,12 @@
             square: { width: 1080, height: 1080, name: 'Square', padding: 80 },
             story: { width: 1080, height: 1920, name: 'Story', padding: 100 }
         },
+        // Sacred Gold Tokens - Ultra Ministry Publishing
+        brandGold: {
+            primary: '#D4AF37',      // Primary Sacred Gold
+            highlight: '#F2D16B',    // Highlight Gold
+            shadow: 'rgba(212, 175, 55, 0.35)' // Shadow Gold (subtle premium)
+        },
         // Sacred Palettes
         palettes: {
             morning: { // 5AM - 11AM: Warm Gold/Peach
@@ -131,9 +137,108 @@
         }
     };
 
-    let currentFormat = 'square';
+    let currentFormat = 'story'; // Ministry UX: Default to story format (9:16 social/SMS friendly)
     let canvas = null;
     let ctx = null;
+
+    // ============================================================================
+    // SINGLE-TAP MINISTRY SHARE UX — Render Ready State
+    // ============================================================================
+    window.__SHARE_RENDER_READY__ = false;
+
+    // ============================================================================
+    // SHARE RELIABILITY LOCK — Production Stability Layer
+    // ============================================================================
+    let __SHARE_ACTIVE__ = false;
+    let __SHARE_LAST_FORMAT__ = null;
+
+    // ============================================================================
+    // SMART AUTO SHARE UX LAYER — Render Ready Gate
+    // ============================================================================
+    
+    /**
+     * STEP 1 — ADD GLOBAL RENDER READY FLAG
+     * Tracks when canvas render is complete and safe to share/download
+     */
+    window.__SHARE_CARD_RENDER_READY__ = false;
+
+    // ============================================================================
+    // PERCEIVED INSTANT SHARE PREVIEW — Skeleton Shimmer State
+    // ============================================================================
+    
+    /**
+     * STEP 1 — SKELETON PREVIEW ACTIVE FLAG
+     * Tracks if skeleton preview is currently showing during render
+     */
+    window.__SHARE_PREVIEW_ACTIVE__ = false;
+
+    // ============================================================================
+    // TRUE ONE-TAP SHARE — Global Ready Promise System
+    // ============================================================================
+    
+    /**
+     * STEP 2 — GENERATOR READY PROMISE
+     * Wait for share generator to be fully initialized
+     */
+    window.waitForShareGeneratorReady = function() {
+        return new Promise(resolve => {
+            if (window.__SHARE_GENERATOR_READY__ === true) {
+                resolve();
+                return;
+            }
+            
+            window.addEventListener(
+                'gpbc:share-generator-ready',
+                () => resolve(),
+                { once: true }
+            );
+        });
+    };
+    
+    /**
+     * STEP 4 — WAIT FOR RENDER HELPER
+     * Wait for canvas render to complete with timeout safety
+     */
+    window.waitForShareRenderComplete = function() {
+        return new Promise(resolve => {
+            window.addEventListener(
+                'gpbc:share-render-complete',
+                () => resolve(),
+                { once: true }
+            );
+            
+            // Safety timeout: resolve after 1200ms regardless
+            setTimeout(resolve, 1200);
+        });
+    };
+
+    // ============================================================================
+    // SMART AUTO SHARE UX — Format Detection & User Feedback
+    // ============================================================================
+    
+    /**
+     * STEP 2 — SMART FORMAT DETECTOR
+     * Auto-detect best format based on device type
+     */
+    function detectBestShareFormat() {
+        const ua = navigator.userAgent || "";
+        
+        if (/iPhone|Android/i.test(ua)) {
+            console.log('[Share UX] Auto format: story (9:16 - mobile detected)');
+            return "story"; // SMS + phone optimized (9:16)
+        }
+        
+        console.log('[Share UX] Auto format: square (1:1 - desktop detected)');
+        return "square"; // Desktop / web default (1:1)
+    }
+    
+    /**
+     * STEP 7 — MICRO UX FEEDBACK
+     * Console-safe feedback (no UI overlay)
+     */
+    function showShareToast(msg) {
+        console.log("[Share UX Toast]", msg);
+    }
 
     // ========================================
     // GPBC LOGO WATERMARK PRELOAD UTILITY
@@ -538,11 +643,70 @@
         return CONFIG.palettes.evening;
     }
 
-    function openModal(logoImg = null) {
+    async function openModal(logoImg = null) {
+        console.log('[Share UX] Opening modal');
+        
         const overlay = document.getElementById('shareCardOverlay');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
-        setTimeout(() => renderCardToCanvas(currentFormat, logoImg), 100);
+        
+        // ====================================================================
+        // STEP 4 — SHOW SKELETON ON MODAL OPEN (Instant Perceived Performance)
+        // ====================================================================
+        const skeleton = document.getElementById("sharePreviewSkeleton");
+        if (skeleton) {
+            skeleton.style.display = "flex";
+            window.__SHARE_PREVIEW_ACTIVE__ = true;
+            console.log('[Share UX] Skeleton preview displayed');
+        }
+        
+        // ====================================================================
+        // STEP 6 — SAFETY FAIL TIMEOUT (Ensure skeleton always hides)
+        // ====================================================================
+        setTimeout(() => {
+            const skel = document.getElementById("sharePreviewSkeleton");
+            if (skel && skel.style.display !== "none") {
+                skel.style.display = "none";
+                console.warn('[Share UX] Skeleton timeout triggered (safety fallback)');
+            }
+        }, 2500);
+        
+        // Ministry UX: Disable buttons during initial render
+        window.__SHARE_RENDER_READY__ = false;
+        window.__SHARE_CARD_RENDER_READY__ = false;
+        disableActionButtons();
+        showLoadingState();
+        
+        // ====================================================================
+        // STEP 3 — AUTO APPLY FORMAT ON MODAL OPEN
+        // ====================================================================
+        const smartFormat = detectBestShareFormat();
+        
+        // Only auto-apply if user hasn't manually selected a format yet
+        if (!window.__LAST_SHARE_FORMAT__) {
+            console.log('[Share UX] Auto-applying format:', smartFormat);
+            currentFormat = smartFormat;
+        } else {
+            console.log('[Share UX] Using last user format:', window.__LAST_SHARE_FORMAT__);
+            currentFormat = window.__LAST_SHARE_FORMAT__;
+        }
+        
+        // Update format button active state
+        document.querySelectorAll('.format-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.format === currentFormat);
+        });
+        
+        // Wait for logo and render
+        const logo = logoImg || await window.__GPBC_LOGO_READY__;
+        console.log('[Share UX] Rendering started with format:', currentFormat);
+        await renderCardToCanvas(currentFormat, logo);
+        
+        // Enable buttons after render complete
+        window.__SHARE_RENDER_READY__ = true;
+        window.__SHARE_CARD_RENDER_READY__ = true;
+        enableActionButtons();
+        hideLoadingState();
+        console.log('[Share UX] Rendering complete → Ready');
     }
 
     function closeModal() {
@@ -552,13 +716,60 @@
     }
 
     async function setFormat(format) {
+        console.log('[Share UX] Format switch requested:', format);
+        
+        // ====================================================================
+        // STEP 4 — TRACK LAST USER FORMAT
+        // ====================================================================
+        window.__LAST_SHARE_FORMAT__ = format;
+        
+        // ====================================================================
+        // SHOW SKELETON ON FORMAT SWITCH (Quick perceived performance)
+        // ====================================================================
+        const skeleton = document.getElementById("sharePreviewSkeleton");
+        if (skeleton) {
+            skeleton.style.display = "flex";
+            window.__SHARE_PREVIEW_ACTIVE__ = true;
+            console.log('[Share UX] Skeleton preview displayed (format switch)');
+        }
+        
+        // Safety timeout for skeleton hide
+        setTimeout(() => {
+            const skel = document.getElementById("sharePreviewSkeleton");
+            if (skel && skel.style.display !== "none") {
+                skel.style.display = "none";
+                console.warn('[Share UX] Skeleton timeout on format switch');
+            }
+        }, 2500);
+        
+        // Disable buttons and set render state to false
+        window.__SHARE_RENDER_READY__ = false;
+        window.__SHARE_CARD_RENDER_READY__ = false; // SMART AUTO SHARE UX
+        disableActionButtons();
+        showLoadingState();
+        
+        // STEP 9 — DISABLE BUTTONS DURING RENDER
+        document.querySelectorAll('.share-action-btn').forEach(btn => btn.disabled = true);
+        
         currentFormat = format;
         document.querySelectorAll('.format-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.format === format);
         });
+        
         // Wait for logo before re-rendering
         const logoImg = await window.__GPBC_LOGO_READY__;
-        renderCardToCanvas(format, logoImg);
+        await renderCardToCanvas(format, logoImg);
+        
+        // Re-enable buttons after render
+        window.__SHARE_RENDER_READY__ = true;
+        window.__SHARE_CARD_RENDER_READY__ = true; // SMART AUTO SHARE UX
+        enableActionButtons();
+        hideLoadingState();
+        
+        // STEP 8 — AUTO ENABLE ACTION BUTTONS
+        document.querySelectorAll('.share-action-btn').forEach(btn => btn.disabled = false);
+        
+        console.log('[Share UX] Format switch complete → Ready');
     }
 
     function getVerseData() {
@@ -598,8 +809,52 @@
     /**
      * STEP 1 — Generate Share Card (Global API)
      * Called by orchestrator or direct invocation
+     * Supports ZERO FRICTION SHARE with auto-share mode
      */
-    async function generateShareCardImage(devotionData) {
+    async function generateShareCardImage(devotionDataOrOptions) {
+        // ========================================================================
+        // STEP 2 — HARD LOCK GENERATION ENTRY
+        // ========================================================================
+        if (__SHARE_ACTIVE__) {
+            console.warn('[Share Lock] Share already active — ignoring duplicate trigger');
+            return;
+        }
+        
+        __SHARE_ACTIVE__ = true;
+        window.__SHARE_RENDER_READY__ = false;
+        
+        // Emit telemetry
+        window.dispatchEvent(new CustomEvent('gpbc:share-start'));
+        
+        // ========================================================================
+        // STEP 4 — TIMEOUT RECOVERY (4 second safety unlock)
+        // ========================================================================
+        const timeoutId = setTimeout(() => {
+            if (!window.__SHARE_RENDER_READY__) {
+                console.warn('[Share Lock] Render timeout → emergency unlock');
+                __SHARE_ACTIVE__ = false;
+                window.dispatchEvent(new CustomEvent('gpbc:share-error', {
+                    detail: { reason: 'render-timeout' }
+                }));
+            }
+        }, 4000);
+        
+        // Support both legacy (devotionData) and new (options object) calls
+        let devotionData, format, autoShare, source;
+        
+        if (devotionDataOrOptions && typeof devotionDataOrOptions === 'object') {
+            if (devotionDataOrOptions.format || devotionDataOrOptions.autoShare) {
+                // New options object format
+                ({ devotionData, format = '1:1', autoShare = false, source = 'manual' } = devotionDataOrOptions);
+            } else {
+                // Legacy devotionData object
+                devotionData = devotionDataOrOptions;
+                format = '1:1';
+                autoShare = false;
+                source = 'legacy';
+            }
+        }
+        
         // PRODUCTION HOTFIX: Try direct binding before blocking
         if (window.__SHARE_GENERATOR_READY__ !== true) {
             console.warn('[Share Card] 🔄 Generator not ready — attempting ensureShareModalBindings');
@@ -609,6 +864,8 @@
         // PHASE 3: Safe open gate - block if generator still not ready after binding attempt
         if (window.__SHARE_GENERATOR_READY__ !== true) {
             console.error('[Share Card] ❌ BLOCKED: Generator not initialized. Modal open prevented.');
+            clearTimeout(timeoutId);
+            __SHARE_ACTIVE__ = false;
             return false;
         }
 
@@ -623,12 +880,61 @@
 
         // PHASE 5: Debug telemetry
         console.log('[Share Card] 🎬 Trigger Request — Ready State:', window.__SHARE_GENERATOR_READY__);
-        console.log('[ShareCard] 🎨 Generating share card...', devotionData);
+        console.log('[ShareCard] 🎨 Generating share card...', { format, autoShare, source });
         
-        // Open modal and generate card with logo
-        openModal(logoImg);
-        
-        return true;
+        try {
+            // ZERO FRICTION SHARE: Auto-share path
+            if (autoShare) {
+                console.log('[Share UX] Format Auto Selected:', format);
+                
+                // Set format without opening modal
+                await setFormat(format);
+                
+                // Wait for render stability
+                await waitForRenderStable();
+                
+                window.__SHARE_RENDER_READY__ = true;
+                __SHARE_LAST_FORMAT__ = format;
+                clearTimeout(timeoutId);
+                
+                // Emit ready telemetry
+                window.dispatchEvent(new CustomEvent('gpbc:share-ready', {
+                    detail: { format, autoShare }
+                }));
+                
+                // Execute auto-share
+                console.log('[Share UX] Auto Share Path Executed');
+                await safeAutoShare();
+                
+                return true;
+            }
+            
+            // Standard modal path
+            await setFormat(format);
+            await waitForRenderStable();
+            
+            window.__SHARE_RENDER_READY__ = true;
+            __SHARE_LAST_FORMAT__ = format;
+            clearTimeout(timeoutId);
+            
+            window.dispatchEvent(new CustomEvent('gpbc:share-ready', {
+                detail: { format, autoShare: false }
+            }));
+            
+            openModal(logoImg);
+            
+            return true;
+            
+        } catch (error) {
+            console.error('[Share Lock] Generation error:', error);
+            clearTimeout(timeoutId);
+            window.dispatchEvent(new CustomEvent('gpbc:share-error', {
+                detail: { error: error.message }
+            }));
+            fallbackDownload();
+        } finally {
+            __SHARE_ACTIVE__ = false;
+        }
     }
 
     // STEP 1 — FORCE GLOBAL EXPORT
@@ -636,6 +942,14 @@
 
        window.generateShareCardImage = generateShareCardImage;
        window.ensureShareModalBindings = ensureShareModalBindings;
+       
+       // TRUE ONE-TAP SHARE — Export core functions
+       window.setShareFormat = setFormat;
+       window.shareCard = shareCard;
+       window.renderCardToCanvas = renderCardToCanvas; // Expose for one-tap controller
+       
+       // Export CONFIG for validation
+       window.GPBC_SHARE_CONFIG = CONFIG;
 
        window.__GPBC_SHARE_GENERATOR_READY__ = true;
 
@@ -647,12 +961,22 @@
        window.dispatchEvent(
           new CustomEvent("GPBC_SHARE_GENERATOR_READY")
        );
+       
+       // TRUE ONE-TAP SHARE — Emit standardized ready event
+       window.dispatchEvent(
+          new CustomEvent("gpbc:share-generator-ready")
+       );
 
        console.log("[GPBC Share] 🚀 READY EVENT FIRED");
 
     }
 
-    function renderCardToCanvas(format, logoImg = null) {
+    async function renderCardToCanvas(format, logoImg = null) {
+        // ====================================================================
+        // STEP 5 — RENDER READY GATE (Start of render)
+        // ====================================================================
+        window.__SHARE_CARD_RENDER_READY__ = false;
+        
         const config = CONFIG.formats[format];
         const theme = getSacredTheme();
         const data = getVerseData();
@@ -669,12 +993,58 @@
         canvas.height = config.height;
         ctx = canvas.getContext('2d');
 
-        // 1. Background (Gradient)
-        const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height); // Top to Bottom
-        gradient.addColorStop(0, theme.gradient[0]);
-        gradient.addColorStop(1, theme.gradient[1]);
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // ====================================================================
+        // INTELLIGENT BACKGROUND SYNC — Draw devotion background first
+        // ====================================================================
+        let backgroundDrawn = false;
+        
+        if (typeof window.getShareBackgroundForCurrentDevotion === 'function') {
+            try {
+                const bgData = await window.getShareBackgroundForCurrentDevotion();
+                
+                if (bgData && bgData.path) {
+                    const bgImg = window.DevotionBackgroundIntelligence?.getCachedBackground(bgData.path);
+                    
+                    if (bgImg) {
+                        ctx.save();
+                        
+                        // Draw background image covering entire canvas
+                        ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+                        
+                        // Apply sacred overlay for text readability
+                        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+                        const overlayGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                        
+                        if (isDarkMode) {
+                            overlayGradient.addColorStop(0, 'rgba(26, 31, 46, 0.85)');
+                            overlayGradient.addColorStop(1, 'rgba(15, 20, 25, 0.92)');
+                        } else {
+                            overlayGradient.addColorStop(0, 'rgba(253, 251, 247, 0.88)');
+                            overlayGradient.addColorStop(1, 'rgba(255, 255, 255, 0.92)');
+                        }
+                        
+                        ctx.fillStyle = overlayGradient;
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        
+                        ctx.restore();
+                        backgroundDrawn = true;
+                        
+                        console.log('[GPBC Share Card] ✅ Synced devotion background:', bgData.filename);
+                    }
+                }
+            } catch (error) {
+                console.warn('[GPBC Share Card] Background sync failed, using gradient fallback:', error);
+            }
+        }
+
+        // 1. Background (Gradient Fallback if no intelligent background)
+        if (!backgroundDrawn) {
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, theme.gradient[0]);
+            gradient.addColorStop(1, theme.gradient[1]);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
 
         // 2. Sacred Light Rays (Radial Gradient from Top Center)
         const rayGradient = ctx.createRadialGradient(
@@ -735,142 +1105,396 @@
         ctx.fillStyle = theme.reference;
         ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
         ctx.fillText(`— ${data.reference} —`, canvas.width / 2, refY);
+        
+        const contentBottomY = refY + 36; // Track content boundary
 
         // 7. Footer removed - signature handles branding
 
-        // 8. GPBC Clean Signature (Logo + Domain Only)
-        if (watermarkLogoImage) {
+        // ============================================================================
+        // 8. PREMIUM MINISTRY PUBLISHING BRAND SIGNATURE
+        // YouVersion-Level Branding: [ LOGO ] www.gracepraise.church
+        // Format-Aware Scaling + Dark Mode Glow + SMS Safe
+        // ============================================================================
+        
+        const logoSource = watermarkLogoImage || logoImg;
+        
+        if (logoSource) {
+            console.log('[Share Brand] Rendering Premium Ministry Signature');
+            
+            // ====================================================================
+            // STEP 1 — FORMAT AWARE LOGO SIZE
+            // ====================================================================
+            function getBrandLogoSize(canvas) {
+                const isStory = canvas.height > canvas.width * 1.2;
+                
+                if (isStory) {
+                    return canvas.width * 0.125; // Bigger visual presence for story
+                }
+                
+                return canvas.width * 0.14; // Premium square presence
+            }
+            
+            const logoSize = getBrandLogoSize(canvas);
+            console.log('[Share Brand] Logo size:', logoSize);
+            
+            // ====================================================================
+            // STEP 2 — BRIGHTNESS BOOST FOR DARK MODE
+            // ====================================================================
+            const isDark = 
+                document.documentElement.getAttribute('data-theme') === 'dark' ||
+                theme.name === 'night' || 
+                theme.name === 'twilight';
+            
             ctx.save();
-
-            const padding = canvas.width * 0.055;
-
-            // =================
-            // GOLD DIVIDER LINE
-            // =================
-            ctx.globalAlpha = 0.35;
-            ctx.strokeStyle = "#C9A24F";
-            ctx.lineWidth = canvas.width * 0.0018;
-
-            const dividerWidth = canvas.width * 0.40;
-            const dividerX = canvas.width - dividerWidth - padding;
-            const dividerY = canvas.height - (canvas.width * 0.14);
-
-            ctx.beginPath();
-            ctx.moveTo(dividerX, dividerY);
-            ctx.lineTo(dividerX + dividerWidth, dividerY);
-            ctx.stroke();
-
-            // =================
-            // SIGNATURE ROW SAFE ZONE
-            // =================
-            const logoSize = canvas.width * 0.115;
-            const gap = canvas.width * 0.018;
-
-            // push safely below divider
-            const signatureTop = dividerY + canvas.width * 0.03;
-
-            const logoX = canvas.width - padding - logoSize;
-            const logoY = signatureTop;
-
-            ctx.globalAlpha = 0.95;
-            ctx.drawImage(
-                watermarkLogoImage,
-                logoX,
-                logoY,
-                logoSize,
-                logoSize
-            );
-
-            // DOMAIN TEXT
-            ctx.globalAlpha = 0.85;
-            ctx.fillStyle = "#D4AF37";
-
-            ctx.font = `600 ${canvas.width * 0.034}px Inter, -apple-system, BlinkMacSystemFont, Arial`;
+            
+            if (isDark) {
+                ctx.shadowColor = 'rgba(212,175,55,0.55)';
+                ctx.shadowBlur = 18;
+                ctx.globalAlpha = 1.0; // Keep at 1.0 (no over-brightening)
+            } else {
+                ctx.shadowColor = 'rgba(0,0,0,0.12)';
+                ctx.shadowBlur = 8;
+            }
+            
+            // ====================================================================
+            // STEP 7 — LAYOUT POSITION (RIGHT SAFE ZONE)
+            // ====================================================================
+            const paddingX = canvas.width * 0.06;
+            const paddingY = canvas.height * 0.055;
+            
+            const logoX = canvas.width - paddingX - logoSize;
+            const logoY = canvas.height - paddingY - logoSize;
+            
+            // Safety check - never overlap content
+            const minLogoY = contentBottomY + 50;
+            const finalLogoY = Math.max(logoY, minLogoY);
+            
+            // ====================================================================
+            // STEP 8 — DRAW LOGO
+            // ====================================================================
+            ctx.drawImage(logoSource, logoX, finalLogoY, logoSize, logoSize);
+            
+            ctx.restore();
+            
+            console.log('[Share Brand] Logo rendered at:', { x: logoX, y: finalLogoY });
+            
+            // ====================================================================
+            // STEP 3 — DOMAIN SIGNATURE (NO CHURCH NAME)
+            // ====================================================================
+            const brandText = "www.gracepraise.church";
+            
+            // ====================================================================
+            // STEP 4 — PREMIUM TYPOGRAPHY
+            // ====================================================================
+            ctx.font = `${Math.round(canvas.width * 0.032)}px Inter, system-ui, -apple-system, sans-serif`;
+            
+            // ====================================================================
+            // STEP 5 — GOLD TOKEN COLOR
+            // ====================================================================
+            const brandColorLight = "#8B6F2A";
+            const brandColorDark  = "#E6C76A";
+            
+            ctx.fillStyle = isDark ? brandColorDark : brandColorLight;
+            
+            // ====================================================================
+            // STEP 6 — SPACING RULE
+            // ====================================================================
+            const spacing = logoSize * 0.45;
+            
+            // ====================================================================
+            // STEP 9 — DRAW DOMAIN TEXT
+            // ====================================================================
             ctx.textAlign = "right";
             ctx.textBaseline = "middle";
-
-            const domainX = logoX - gap;
-            const domainY = logoY + (logoSize / 2);
-
+            
+            // Subtle text shadow for depth
+            ctx.shadowColor = isDark ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.15)';
+            ctx.shadowBlur = 3;
+            ctx.shadowOffsetY = 1;
+            
             ctx.fillText(
-                "www.gracepraise.church",
-                domainX,
-                domainY
+                brandText,
+                logoX - spacing,
+                finalLogoY + logoSize / 2
             );
-
+            
+            // ====================================================================
+            // STEP 10 — RESTORE CONTEXT
+            // ====================================================================
             ctx.restore();
-
-            console.log("[GPBC Sacred] ✨ Clean Logo + Domain Signature (No Church Text)");
-        } else if (logoImg) {
-            // Promise-based fallback
-            ctx.save();
-
-            const padding = canvas.width * 0.055;
-
-            // GOLD DIVIDER LINE
-            ctx.globalAlpha = 0.35;
-            ctx.strokeStyle = "#C9A24F";
-            ctx.lineWidth = canvas.width * 0.0018;
-
-            const dividerWidth = canvas.width * 0.40;
-            const dividerX = canvas.width - dividerWidth - padding;
-            const dividerY = canvas.height - (canvas.width * 0.14);
-
-            ctx.beginPath();
-            ctx.moveTo(dividerX, dividerY);
-            ctx.lineTo(dividerX + dividerWidth, dividerY);
-            ctx.stroke();
-
-            // SIGNATURE ROW SAFE ZONE
-            const logoSize = canvas.width * 0.115;
-            const gap = canvas.width * 0.018;
-
-            const signatureTop = dividerY + canvas.width * 0.03;
-
-            const logoX = canvas.width - padding - logoSize;
-            const logoY = signatureTop;
-
-            ctx.globalAlpha = 0.95;
-            ctx.drawImage(
-                logoImg,
-                logoX,
-                logoY,
-                logoSize,
-                logoSize
-            );
-
-            // DOMAIN TEXT
-            ctx.globalAlpha = 0.85;
-            ctx.fillStyle = "#D4AF37";
-
-            ctx.font = `600 ${canvas.width * 0.034}px Inter, -apple-system, BlinkMacSystemFont, Arial`;
-            ctx.textAlign = "right";
-            ctx.textBaseline = "middle";
-
-            const domainX = logoX - gap;
-            const domainY = logoY + (logoSize / 2);
-
-            ctx.fillText(
-                "www.gracepraise.church",
-                domainX,
-                domainY
-            );
-
-            ctx.restore();
-
-            console.log("[GPBC Sacred] ✨ Clean Logo + Domain Signature (No Church Text - Promise)");
+            
+            console.log('[Share Brand] ✅ Premium Ministry Publishing Complete');
+            console.log('[Share Brand] Dark mode:', isDark, '| Logo size:', logoSize);
         }
 
-        // Preview Render
-        previewContainer.innerHTML = '';
-        previewContainer.appendChild(canvas);
+        // ========================================================================
+        // STEP 3 — CANVAS RENDER COMPLETE SIGNAL
+        // ========================================================================
+        window.__LAST_SHARE_RENDER__ = Date.now();
+        window.dispatchEvent(new CustomEvent('gpbc:share-render-complete'));
+        console.log('[Share Render] ✅ Render complete signal emitted');
+        
+        // ====================================================================
+        // STEP 5 — RENDER READY GATE (End of successful render)
+        // ====================================================================
+        window.__SHARE_CARD_RENDER_READY__ = true;
+        
+        // ====================================================================
+        // STEP 5 — HIDE SKELETON AFTER RENDER COMPLETE
+        // ====================================================================
+        if (window.__SHARE_PREVIEW_ACTIVE__) {
+            const skel = document.getElementById("sharePreviewSkeleton");
+            if (skel) {
+                skel.style.display = "none";
+                window.__SHARE_PREVIEW_ACTIVE__ = false;
+                console.log('[Share UX] Skeleton preview hidden (canvas ready)');
+            }
+        }
+        
+        // STEP 8 — AUTO ENABLE ACTION BUTTONS
+        document.querySelectorAll('.share-action-btn').forEach(btn => btn.disabled = false);
+
+        // Preview Render - Update DOM (reuse previewContainer from line 980)
+        if (previewContainer) {
+            previewContainer.innerHTML = '';
+            previewContainer.appendChild(canvas);
+            
+            // ================================================================
+            // SACRED MOTION MICRO-ANIMATION — Safe JS Hook
+            // ================================================================
+            // Apply render-ready class for CSS fade-in animation
+            // This creates premium liturgical-grade motion without affecting timing
+            requestAnimationFrame(() => {
+                if (canvas && canvas.classList) {
+                    canvas.classList.add('render-ready');
+                    console.log('[Sacred Motion] Canvas fade-in triggered');
+                }
+            });
+        }
 
         // Remove loading state if present
-        const loading = previewContainer.querySelector('.preview-loading');
+        const loading = document.querySelector('.preview-loading');
         if (loading) loading.remove();
+        
+        // Return promise for async/await support
+        return Promise.resolve();
     }
 
     // --- Action Handlers ---
+
+    // ============================================================================
+    // ZERO FRICTION SHARE — Render Stability & Auto-Share Engine
+    // ============================================================================
+    
+    /**
+     * Wait for render stability before auto-sharing
+     * Ensures canvas is fully painted and ready
+     */
+    async function waitForRenderStable() {
+        return new Promise(resolve => {
+            requestAnimationFrame(() => {
+                setTimeout(resolve, 60);
+            });
+        });
+    }
+    
+    /**
+     * Safe auto-share engine with native share API and fallback
+     * Tries native share first, falls back to download if unavailable
+     */
+    // ========================================================================
+    // STEP 5 — SAFE AUTO SHARE (UPGRADED WITH RELIABILITY LOCK)
+    // ========================================================================
+    async function safeAutoShare() {
+        if (!window.__SHARE_RENDER_READY__) {
+            console.warn('[Share Lock] Attempted share before ready');
+            showToast('⏳ Share card still preparing...');
+            return;
+        }
+        
+        if (!canvas) {
+            console.error('[Share UX] Canvas not ready for auto-share');
+            showToast('⚠️ Unable to generate share card');
+            return;
+        }
+        
+        try {
+            // STEP 5A — OFFLINE DETECTION
+            if (!navigator.onLine) {
+                console.warn('[Share Lock] Offline detected → immediate download fallback');
+                fallbackDownload();
+                window.dispatchEvent(new CustomEvent('gpbc:share-fallback', {
+                    detail: { reason: 'offline' }
+                }));
+                return;
+            }
+            
+            // STEP 6 — SAFE CANVAS EXPORT
+            const { file, shareData } = await canvasToBlobSafe();
+            
+            // Try native share API first
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share(shareData);
+                console.log('[Share UX] Native share completed');
+                showToast('✓ Shared successfully!');
+                window.dispatchEvent(new CustomEvent('gpbc:share-success', {
+                    detail: { method: 'native-api' }
+                }));
+                return;
+            }
+            
+            // Fallback to download if share API not available
+            console.log('[Share Lock] Share API unavailable → download fallback');
+            fallbackDownload();
+            
+        } catch (error) {
+            // User canceled or error occurred
+            if (error.name === 'AbortError') {
+                console.log('[Share UX] User canceled share');
+                showToast('Share canceled');
+                return;
+            }
+            
+            console.warn('[Share Lock] Native share failed → fallback');
+            fallbackDownload();
+        }
+    }
+    
+    // ========================================================================
+    // STEP 6 — SAFE CANVAS EXPORT
+    // ========================================================================
+    async function canvasToBlobSafe() {
+        return new Promise(resolve => {
+            canvas.toBlob(blob => {
+                const file = new File([blob], 'gpbc-devotion.png', {
+                    type: 'image/png'
+                });
+                
+                resolve({
+                    file,
+                    shareData: {
+                        files: [file],
+                        title: 'Daily Devotion',
+                        text: 'Grace & Praise Bangladeshi Church'
+                    }
+                });
+            }, 'image/png', 1.0);
+        });
+    }
+    
+    // ========================================================================
+    // STEP 7 — FALLBACK DOWNLOAD (NEVER FAIL PATH)
+    // ========================================================================
+    function fallbackDownload() {
+        console.warn('[Share Lock] Using download fallback');
+        try {
+            downloadCurrentCanvas();
+            showToast('✓ Image downloaded! Ready to share manually.');
+            window.dispatchEvent(new CustomEvent('gpbc:share-fallback', {
+                detail: { reason: 'no-share-api' }
+            }));
+        } catch (error) {
+            console.error('[Share Lock] Download fallback failed:', error);
+            showToast('❌ Unable to download. Please try again.');
+            window.dispatchEvent(new CustomEvent('gpbc:share-error', {
+                detail: { error: error.message, stage: 'download-fallback' }
+            }));
+        }
+    }
+    
+    function downloadCurrentCanvas() {
+        const date = new Date().toISOString().split('T')[0];
+        const filename = `GPBC-Devotion-${date}-${__SHARE_LAST_FORMAT__ || currentFormat}.png`;
+        const url = canvas.toDataURL('image/png', 1.0);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+    /**
+     * Download blob as file (legacy compatibility)
+     */
+    function downloadBlob(blob) {
+        const date = new Date().toISOString().split('T')[0];
+        const filename = `GPBC-Devotion-${date}-${currentFormat}.png`;
+        
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+
+    // ============================================================================
+    // SINGLE-TAP MINISTRY SHARE UX — Button & Loading State Control
+    // ============================================================================
+    
+    function disableActionButtons() {
+        const shareBtn = document.getElementById('shareCardBtn');
+        const downloadBtn = document.getElementById('downloadCardBtn');
+        
+        if (shareBtn) {
+            shareBtn.disabled = true;
+            shareBtn.style.opacity = '0.6';
+            shareBtn.style.cursor = 'not-allowed';
+        }
+        if (downloadBtn) {
+            downloadBtn.disabled = true;
+            downloadBtn.style.opacity = '0.6';
+            downloadBtn.style.cursor = 'not-allowed';
+        }
+    }
+    
+    function enableActionButtons() {
+        const shareBtn = document.getElementById('shareCardBtn');
+        const downloadBtn = document.getElementById('downloadCardBtn');
+        
+        if (shareBtn) {
+            shareBtn.disabled = false;
+            shareBtn.style.opacity = '1';
+            shareBtn.style.cursor = 'pointer';
+        }
+        if (downloadBtn) {
+            downloadBtn.disabled = false;
+            downloadBtn.style.opacity = '1';
+            downloadBtn.style.cursor = 'pointer';
+        }
+    }
+    
+    function showLoadingState() {
+        let loadingEl = document.getElementById('shareCardLoadingState');
+        if (!loadingEl) {
+            loadingEl = document.createElement('div');
+            loadingEl.id = 'shareCardLoadingState';
+            loadingEl.style.cssText = `
+                text-align: center;
+                padding: 20px;
+                color: #666;
+                font-size: 14px;
+                font-weight: 500;
+            `;
+            loadingEl.textContent = 'Preparing your share card…';
+            
+            const preview = document.getElementById('shareCardPreview');
+            if (preview && preview.parentNode) {
+                preview.parentNode.insertBefore(loadingEl, preview);
+            }
+        }
+        loadingEl.style.display = 'block';
+    }
+    
+    function hideLoadingState() {
+        const loadingEl = document.getElementById('shareCardLoadingState');
+        if (loadingEl) {
+            loadingEl.style.display = 'none';
+        }
+    }
 
     function getFormattedCaption() {
         const data = getVerseData();
@@ -878,6 +1502,25 @@
     }
 
     function downloadCard() {
+        // ========================================================================
+        // STEP 6 — LOCK ACTION BUTTONS UNTIL READY
+        // ========================================================================
+        if (!window.__SHARE_CARD_RENDER_READY__) {
+            console.warn("[Share UX] Waiting for render ready");
+            showShareToast("Preparing share card...");
+            return;
+        }
+        
+        // ========================================================================
+        // STEP 3 — ACTION BUTTON GUARD (Legacy compatibility)
+        // ========================================================================
+        if (!window.__SHARE_RENDER_READY__) {
+            console.warn('[Share Lock] Download attempted before ready');
+            showToast('⏳ Please wait for preview to finish rendering...');
+            return;
+        }
+        
+        console.log('[Share UX] Download invoked');
         if (!canvas) return;
         const formatName = currentFormat;
         const date = new Date().toISOString().split('T')[0];
@@ -897,6 +1540,23 @@
     }
 
     async function shareCard() {
+        // ========================================================================
+        // STEP 6 — LOCK ACTION BUTTONS UNTIL READY
+        // ========================================================================
+        if (!window.__SHARE_CARD_RENDER_READY__) {
+            console.warn("[Share UX] Waiting for render ready");
+            showShareToast("Preparing share card...");
+            return;
+        }
+        
+        // Ministry UX: Prevent early share (Legacy compatibility)
+        if (!window.__SHARE_RENDER_READY__) {
+            console.warn('[Share UX] Render not ready yet');
+            showToast('⏳ Please wait for preview to finish rendering...');
+            return;
+        }
+        
+        console.log('[Share UX] Share invoked');
         if (!canvas) return;
         const caption = getFormattedCaption();
 
@@ -916,8 +1576,15 @@
                 showToast('⚠️ Share API not available. Caption copied! Please download image.');
             }
         } catch (error) {
-            console.error('Share failed:', error);
-            if (error.name !== 'AbortError') showToast('⚠️ Share failed. Try downloading.');
+            // AbortError = user canceled share dialog (expected behavior, not an error)
+            if (error.name === 'AbortError') {
+                console.log('[Share UX] Share canceled by user');
+                return; // Silent exit - user intentionally canceled
+            }
+            
+            // Real errors - log and show feedback
+            console.error('[Share UX] Share failed:', error);
+            showToast('⚠️ Share failed. Try downloading.');
         }
     }
 

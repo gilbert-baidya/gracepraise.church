@@ -1,0 +1,632 @@
+{
+    "generatedAt": "2026-02-12T19:37:34.654Z",
+    "version": "1.0.0",
+    "totalImages": 92,
+    "themes": {
+        "fruit-of-the-spirit": [
+            {
+                "filename": "fruit-love-01.png",
+                "path": "fruit-of-the-spirit/fruit-love-01.png",
+                "status": "success",
+                "prompt": "blooming rose garden with morning dew, soft pink and cream tones"
+            },
+            {
+                "filename": "fruit-love-02.png",
+                "path": "fruit-of-the-spirit/fruit-love-02.png",
+                "status": "success",
+                "prompt": "blooming rose garden with morning dew, soft pink and cream tones"
+            },
+            {
+                "filename": "fruit-love-03.png",
+                "path": "fruit-of-the-spirit/fruit-love-03.png",
+                "status": "success",
+                "prompt": "blooming rose garden with morning dew, soft pink and cream tones"
+            },
+            {
+                "filename": "fruit-love-04.png",
+                "path": "fruit-of-the-spirit/fruit-love-04.png",
+                "status": "success",
+                "prompt": "blooming rose garden with morning dew, soft pink and cream tones"
+            },
+            {
+                "filename": "fruit-joy-01.png",
+                "path": "fruit-of-the-spirit/fruit-joy-01.png",
+                "status": "success",
+                "prompt": "sunflower field in golden sunlight, bright yellow and warm tones"
+            },
+            {
+                "filename": "fruit-joy-02.png",
+                "path": "fruit-of-the-spirit/fruit-joy-02.png",
+                "status": "success",
+                "prompt": "sunflower field in golden sunlight, bright yellow and warm tones"
+            },
+            {
+                "filename": "fruit-joy-03.png",
+                "path": "fruit-of-the-spirit/fruit-joy-03.png",
+                "status": "success",
+                "prompt": "sunflower field in golden sunlight, bright yellow and warm tones"
+            },
+            {
+                "filename": "fruit-joy-04.png",
+                "path": "fruit-of-the-spirit/fruit-joy-04.png",
+                "status": "success",
+                "prompt": "sunflower field in golden sunlight, bright yellow and warm tones"
+            },
+            {
+                "filename": "fruit-peace-01.png",
+                "path": "fruit-of-the-spirit/fruit-peace-01.png",
+                "status": "success",
+                "prompt": "still mountain lake reflection, misty blue and silver tones"
+            },
+            {
+                "filename": "fruit-peace-02.png",
+                "path": "fruit-of-the-spirit/fruit-peace-02.png",
+                "status": "success",
+                "prompt": "still mountain lake reflection, misty blue and silver tones"
+            },
+            {
+                "filename": "fruit-peace-03.png",
+                "path": "fruit-of-the-spirit/fruit-peace-03.png",
+                "status": "success",
+                "prompt": "still mountain lake reflection, misty blue and silver tones"
+            },
+            {
+                "filename": "fruit-peace-04.png",
+                "path": "fruit-of-the-spirit/fruit-peace-04.png",
+                "status": "success",
+                "prompt": "still mountain lake reflection, misty blue and silver tones"
+            },
+            {
+                "filename": "fruit-patience-01.png",
+                "path": "fruit-of-the-spirit/fruit-patience-01.png",
+                "status": "success",
+                "prompt": "growing green vine with new buds, soft green and earth tones"
+            },
+            {
+                "filename": "fruit-patience-02.png",
+                "path": "fruit-of-the-spirit/fruit-patience-02.png",
+                "status": "success",
+                "prompt": "growing green vine with new buds, soft green and earth tones"
+            },
+            {
+                "filename": "fruit-patience-03.png",
+                "path": "fruit-of-the-spirit/fruit-patience-03.png",
+                "status": "success",
+                "prompt": "growing green vine with new buds, soft green and earth tones"
+            },
+            {
+                "filename": "fruit-patience-04.png",
+                "path": "fruit-of-the-spirit/fruit-patience-04.png",
+                "status": "success",
+                "prompt": "growing green vine with new buds, soft green and earth tones"
+            },
+            {
+                "filename": "fruit-kindness-01.png",
+                "path": "fruit-of-the-spirit/fruit-kindness-01.png",
+                "status": "success",
+                "prompt": "gentle rain on flower petals, soft pastels and light blues"
+            },
+            {
+                "filename": "fruit-kindness-02.png",
+                "path": "fruit-of-the-spirit/fruit-kindness-02.png",
+                "status": "success",
+                "prompt": "gentle rain on flower petals, soft pastels and light blues"
+            },
+            {
+                "filename": "fruit-kindness-03.png",
+                "path": "fruit-of-the-spirit/fruit-kindness-03.png",
+                "status": "success",
+                "prompt": "gentle rain on flower petals, soft pastels and light blues"
+            },
+            {
+                "filename": "fruit-kindness-04.png",
+                "path": "fruit-of-the-spirit/fruit-kindness-04.png",
+                "status": "success",
+                "prompt": "gentle rain on flower petals, soft pastels and light blues"
+            },
+            {
+                "filename": "fruit-goodness-01.png",
+                "path": "fruit-of-the-spirit/fruit-goodness-01.png",
+                "status": "success",
+                "prompt": "ripe wheat field swaying in breeze, golden harvest tones"
+            },
+            {
+                "filename": "fruit-goodness-02.png",
+                "path": "fruit-of-the-spirit/fruit-goodness-02.png",
+                "status": "success",
+                "prompt": "ripe wheat field swaying in breeze, golden harvest tones"
+            },
+            {
+                "filename": "fruit-goodness-03.png",
+                "path": "fruit-of-the-spirit/fruit-goodness-03.png",
+                "status": "success",
+                "prompt": "ripe wheat field swaying in breeze, golden harvest tones"
+            },
+            {
+                "filename": "fruit-goodness-04.png",
+                "path": "fruit-of-the-spirit/fruit-goodness-04.png",
+                "status": "success",
+                "prompt": "ripe wheat field swaying in breeze, golden harvest tones"
+            },
+            {
+                "filename": "fruit-faithfulness-01.png",
+                "path": "fruit-of-the-spirit/fruit-faithfulness-01.png",
+                "status": "success",
+                "prompt": "ancient olive tree grove, warm Mediterranean light"
+            },
+            {
+                "filename": "fruit-faithfulness-02.png",
+                "path": "fruit-of-the-spirit/fruit-faithfulness-02.png",
+                "status": "success",
+                "prompt": "ancient olive tree grove, warm Mediterranean light"
+            },
+            {
+                "filename": "fruit-faithfulness-03.png",
+                "path": "fruit-of-the-spirit/fruit-faithfulness-03.png",
+                "status": "success",
+                "prompt": "ancient olive tree grove, warm Mediterranean light"
+            },
+            {
+                "filename": "fruit-faithfulness-04.png",
+                "path": "fruit-of-the-spirit/fruit-faithfulness-04.png",
+                "status": "success",
+                "prompt": "ancient olive tree grove, warm Mediterranean light"
+            },
+            {
+                "filename": "fruit-gentleness-01.png",
+                "path": "fruit-of-the-spirit/fruit-gentleness-01.png",
+                "status": "success",
+                "prompt": "soft white clouds drifting in blue sky, peaceful atmosphere"
+            },
+            {
+                "filename": "fruit-gentleness-02.png",
+                "path": "fruit-of-the-spirit/fruit-gentleness-02.png",
+                "status": "success",
+                "prompt": "soft white clouds drifting in blue sky, peaceful atmosphere"
+            },
+            {
+                "filename": "fruit-gentleness-03.png",
+                "path": "fruit-of-the-spirit/fruit-gentleness-03.png",
+                "status": "success",
+                "prompt": "soft white clouds drifting in blue sky, peaceful atmosphere"
+            },
+            {
+                "filename": "fruit-gentleness-04.png",
+                "path": "fruit-of-the-spirit/fruit-gentleness-04.png",
+                "status": "success",
+                "prompt": "soft white clouds drifting in blue sky, peaceful atmosphere"
+            },
+            {
+                "filename": "fruit-self-control-01.png",
+                "path": "fruit-of-the-spirit/fruit-self-control-01.png",
+                "status": "success",
+                "prompt": "calm bamboo forest path, zen green and natural tones"
+            },
+            {
+                "filename": "fruit-self-control-02.png",
+                "path": "fruit-of-the-spirit/fruit-self-control-02.png",
+                "status": "success",
+                "prompt": "calm bamboo forest path, zen green and natural tones"
+            },
+            {
+                "filename": "fruit-self-control-03.png",
+                "path": "fruit-of-the-spirit/fruit-self-control-03.png",
+                "status": "success",
+                "prompt": "calm bamboo forest path, zen green and natural tones"
+            },
+            {
+                "filename": "fruit-self-control-04.png",
+                "path": "fruit-of-the-spirit/fruit-self-control-04.png",
+                "status": "success",
+                "prompt": "calm bamboo forest path, zen green and natural tones"
+            }
+        ],
+        "calm-creation": [
+            {
+                "filename": "calm-ocean-01.png",
+                "path": "calm-creation/calm-ocean-01.png",
+                "status": "failed",
+                "prompt": "peaceful ocean horizon at sunrise, soft coral and blue gradient",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-ocean-02.png",
+                "path": "calm-creation/calm-ocean-02.png",
+                "status": "failed",
+                "prompt": "peaceful ocean horizon at sunrise, soft coral and blue gradient",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-ocean-03.png",
+                "path": "calm-creation/calm-ocean-03.png",
+                "status": "failed",
+                "prompt": "peaceful ocean horizon at sunrise, soft coral and blue gradient",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-mountain-lake-01.png",
+                "path": "calm-creation/calm-mountain-lake-01.png",
+                "status": "failed",
+                "prompt": "alpine lake with mountain reflection, crisp blue and white",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-mountain-lake-02.png",
+                "path": "calm-creation/calm-mountain-lake-02.png",
+                "status": "failed",
+                "prompt": "alpine lake with mountain reflection, crisp blue and white",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-mountain-lake-03.png",
+                "path": "calm-creation/calm-mountain-lake-03.png",
+                "status": "failed",
+                "prompt": "alpine lake with mountain reflection, crisp blue and white",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-stars-01.png",
+                "path": "calm-creation/calm-stars-01.png",
+                "status": "failed",
+                "prompt": "night sky with milky way galaxy, deep blue and silver stars",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-stars-02.png",
+                "path": "calm-creation/calm-stars-02.png",
+                "status": "failed",
+                "prompt": "night sky with milky way galaxy, deep blue and silver stars",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-stars-03.png",
+                "path": "calm-creation/calm-stars-03.png",
+                "status": "failed",
+                "prompt": "night sky with milky way galaxy, deep blue and silver stars",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-aurora-01.png",
+                "path": "calm-creation/calm-aurora-01.png",
+                "status": "failed",
+                "prompt": "northern lights over snowy landscape, ethereal green and blue",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-aurora-02.png",
+                "path": "calm-creation/calm-aurora-02.png",
+                "status": "failed",
+                "prompt": "northern lights over snowy landscape, ethereal green and blue",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-forest-mist-01.png",
+                "path": "calm-creation/calm-forest-mist-01.png",
+                "status": "failed",
+                "prompt": "misty forest with light rays through trees, soft green fog",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-forest-mist-02.png",
+                "path": "calm-creation/calm-forest-mist-02.png",
+                "status": "failed",
+                "prompt": "misty forest with light rays through trees, soft green fog",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-forest-mist-03.png",
+                "path": "calm-creation/calm-forest-mist-03.png",
+                "status": "failed",
+                "prompt": "misty forest with light rays through trees, soft green fog",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-cloudscape-01.png",
+                "path": "calm-creation/calm-cloudscape-01.png",
+                "status": "failed",
+                "prompt": "soft cloud formations in golden hour, warm pink and orange",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-cloudscape-02.png",
+                "path": "calm-creation/calm-cloudscape-02.png",
+                "status": "failed",
+                "prompt": "soft cloud formations in golden hour, warm pink and orange",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-hills-01.png",
+                "path": "calm-creation/calm-hills-01.png",
+                "status": "failed",
+                "prompt": "rolling green hills in morning light, fresh pastoral tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-hills-02.png",
+                "path": "calm-creation/calm-hills-02.png",
+                "status": "failed",
+                "prompt": "rolling green hills in morning light, fresh pastoral tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-hills-03.png",
+                "path": "calm-creation/calm-hills-03.png",
+                "status": "failed",
+                "prompt": "rolling green hills in morning light, fresh pastoral tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-river-valley-01.png",
+                "path": "calm-creation/calm-river-valley-01.png",
+                "status": "failed",
+                "prompt": "winding river through peaceful valley, soft earth tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-river-valley-02.png",
+                "path": "calm-creation/calm-river-valley-02.png",
+                "status": "failed",
+                "prompt": "winding river through peaceful valley, soft earth tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "calm-river-valley-03.png",
+                "path": "calm-creation/calm-river-valley-03.png",
+                "status": "failed",
+                "prompt": "winding river through peaceful valley, soft earth tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            }
+        ],
+        "sms-readable": [
+            {
+                "filename": "sms-sky-gradient-01.png",
+                "path": "sms-readable/sms-sky-gradient-01.png",
+                "status": "failed",
+                "prompt": "simple sky gradient from light blue to white, minimal detail",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "sms-sky-gradient-02.png",
+                "path": "sms-readable/sms-sky-gradient-02.png",
+                "status": "failed",
+                "prompt": "simple sky gradient from light blue to white, minimal detail",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "sms-parchment-01.png",
+                "path": "sms-readable/sms-parchment-01.png",
+                "status": "failed",
+                "prompt": "soft natural parchment texture, cream and beige tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "sms-parchment-02.png",
+                "path": "sms-readable/sms-parchment-02.png",
+                "status": "failed",
+                "prompt": "soft natural parchment texture, cream and beige tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "sms-fog-minimal-01.png",
+                "path": "sms-readable/sms-fog-minimal-01.png",
+                "status": "failed",
+                "prompt": "minimal fog landscape, soft gray and white blur",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "sms-fog-minimal-02.png",
+                "path": "sms-readable/sms-fog-minimal-02.png",
+                "status": "failed",
+                "prompt": "minimal fog landscape, soft gray and white blur",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "sms-sand-shore-01.png",
+                "path": "sms-readable/sms-sand-shore-01.png",
+                "status": "failed",
+                "prompt": "soft sand beach minimal, warm neutral tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "sms-sand-shore-02.png",
+                "path": "sms-readable/sms-sand-shore-02.png",
+                "status": "failed",
+                "prompt": "soft sand beach minimal, warm neutral tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "sms-cloud-soft-01.png",
+                "path": "sms-readable/sms-cloud-soft-01.png",
+                "status": "failed",
+                "prompt": "soft white clouds on pale blue, high readability",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "sms-cloud-soft-02.png",
+                "path": "sms-readable/sms-cloud-soft-02.png",
+                "status": "failed",
+                "prompt": "soft white clouds on pale blue, high readability",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            }
+        ],
+        "liturgical-seasons": [
+            {
+                "filename": "lent-desert-01.png",
+                "path": "liturgical-seasons/lent-desert-01.png",
+                "status": "failed",
+                "prompt": "quiet desert landscape at dawn, dusty purple and gold tones, reflective mood",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "lent-desert-02.png",
+                "path": "liturgical-seasons/lent-desert-02.png",
+                "status": "failed",
+                "prompt": "quiet desert landscape at dawn, dusty purple and gold tones, reflective mood",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "lent-desert-03.png",
+                "path": "liturgical-seasons/lent-desert-03.png",
+                "status": "failed",
+                "prompt": "quiet desert landscape at dawn, dusty purple and gold tones, reflective mood",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "easter-sunrise-01.png",
+                "path": "liturgical-seasons/easter-sunrise-01.png",
+                "status": "failed",
+                "prompt": "brilliant sunrise breaking through clouds, resurrection light, golden white rays",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "easter-sunrise-02.png",
+                "path": "liturgical-seasons/easter-sunrise-02.png",
+                "status": "failed",
+                "prompt": "brilliant sunrise breaking through clouds, resurrection light, golden white rays",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "easter-sunrise-03.png",
+                "path": "liturgical-seasons/easter-sunrise-03.png",
+                "status": "failed",
+                "prompt": "brilliant sunrise breaking through clouds, resurrection light, golden white rays",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "easter-sunrise-04.png",
+                "path": "liturgical-seasons/easter-sunrise-04.png",
+                "status": "failed",
+                "prompt": "brilliant sunrise breaking through clouds, resurrection light, golden white rays",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "advent-night-hope-01.png",
+                "path": "liturgical-seasons/advent-night-hope-01.png",
+                "status": "failed",
+                "prompt": "starry night with single bright star, deep blue with warm candlelight glow",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "advent-night-hope-02.png",
+                "path": "liturgical-seasons/advent-night-hope-02.png",
+                "status": "failed",
+                "prompt": "starry night with single bright star, deep blue with warm candlelight glow",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "advent-night-hope-03.png",
+                "path": "liturgical-seasons/advent-night-hope-03.png",
+                "status": "failed",
+                "prompt": "starry night with single bright star, deep blue with warm candlelight glow",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "communion-vineyard-01.png",
+                "path": "liturgical-seasons/communion-vineyard-01.png",
+                "status": "failed",
+                "prompt": "vineyard rows in golden light, sacred harvest, deep purple and gold",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "communion-vineyard-02.png",
+                "path": "liturgical-seasons/communion-vineyard-02.png",
+                "status": "failed",
+                "prompt": "vineyard rows in golden light, sacred harvest, deep purple and gold",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "communion-vineyard-03.png",
+                "path": "liturgical-seasons/communion-vineyard-03.png",
+                "status": "failed",
+                "prompt": "vineyard rows in golden light, sacred harvest, deep purple and gold",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "pentecost-fire-sky-01.png",
+                "path": "liturgical-seasons/pentecost-fire-sky-01.png",
+                "status": "failed",
+                "prompt": "sky with subtle fiery light glow, holy spirit atmosphere, warm orange and gold",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "pentecost-fire-sky-02.png",
+                "path": "liturgical-seasons/pentecost-fire-sky-02.png",
+                "status": "failed",
+                "prompt": "sky with subtle fiery light glow, holy spirit atmosphere, warm orange and gold",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "pentecost-fire-sky-03.png",
+                "path": "liturgical-seasons/pentecost-fire-sky-03.png",
+                "status": "failed",
+                "prompt": "sky with subtle fiery light glow, holy spirit atmosphere, warm orange and gold",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            }
+        ],
+        "dark-mode-sacred": [
+            {
+                "filename": "dark-starfield-01.png",
+                "path": "dark-mode-sacred/dark-starfield-01.png",
+                "status": "failed",
+                "prompt": "deep space starfield with nebula, dark blue and purple tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "dark-starfield-02.png",
+                "path": "dark-mode-sacred/dark-starfield-02.png",
+                "status": "failed",
+                "prompt": "deep space starfield with nebula, dark blue and purple tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "dark-moon-water-01.png",
+                "path": "dark-mode-sacred/dark-moon-water-01.png",
+                "status": "failed",
+                "prompt": "moonlight reflecting on calm water, dark blue and silver",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "dark-moon-water-02.png",
+                "path": "dark-mode-sacred/dark-moon-water-02.png",
+                "status": "failed",
+                "prompt": "moonlight reflecting on calm water, dark blue and silver",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "dark-night-forest-01.png",
+                "path": "dark-mode-sacred/dark-night-forest-01.png",
+                "status": "failed",
+                "prompt": "dark forest with moon rays, mysterious peaceful atmosphere",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "dark-night-forest-02.png",
+                "path": "dark-mode-sacred/dark-night-forest-02.png",
+                "status": "failed",
+                "prompt": "dark forest with moon rays, mysterious peaceful atmosphere",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "dark-twilight-sky-01.png",
+                "path": "dark-mode-sacred/dark-twilight-sky-01.png",
+                "status": "failed",
+                "prompt": "deep twilight gradient, navy to dark purple peaceful tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            },
+            {
+                "filename": "dark-twilight-sky-02.png",
+                "path": "dark-mode-sacred/dark-twilight-sky-02.png",
+                "status": "failed",
+                "prompt": "deep twilight gradient, navy to dark purple peaceful tones",
+                "error": "400 Invalid value: '1536x1536'. Supported values are: '1024x1024', '1024x1792', and '1792x1024'."
+            }
+        ]
+    },
+    "stats": {
+        "total": 92,
+        "generated": 0,
+        "skipped": 0,
+        "failed": 92,
+        "startTime": 1770925054654
+    }
+}

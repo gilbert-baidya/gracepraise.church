@@ -1,0 +1,343 @@
+/* ============================================================================
+   SACRED MOTION MICRO-ANIMATION LAYER
+   ============================================================================
+   Premium, reverent, liturgical-grade animations for Share Card modal
+   and Devotion surface. Pure CSS with optional safe JS hooks.
+   
+   PRINCIPLES:
+   - Calm and reverent motion
+   - Premium non-app-like feel
+   - Zero layout shift
+   - GPU-friendly (transform + opacity only)
+   - Respects prefers-reduced-motion
+   
+   PERFORMANCE CONSTRAINTS:
+   ✔ Transform + opacity only
+   ✔ No layout-affecting properties
+   ✔ No box-shadow/blur animation changes
+   ✔ No height/width animation
+   ========================================================================= */
+
+/* ============================================================================
+   SACRED MOTION DESIGN TOKENS
+   ========================================================================= */
+
+:root {
+    /* Sacred Easing Curves */
+    --sacred-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --sacred-ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+    --sacred-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    
+    /* Sacred Duration Scale */
+    --sacred-duration-instant: 100ms;
+    --sacred-duration-fast: 160ms;
+    --sacred-duration-normal: 240ms;
+    --sacred-duration-slow: 420ms;
+    --sacred-duration-reverent: 680ms;
+    
+    /* Sacred Glow Effects */
+    --sacred-glow-gold:
+        0 0 8px rgba(201, 162, 79, 0.25),
+        0 0 18px rgba(201, 162, 79, 0.18);
+    
+    --sacred-glow-gold-intense:
+        0 0 12px rgba(201, 162, 79, 0.35),
+        0 0 24px rgba(201, 162, 79, 0.22),
+        0 0 36px rgba(201, 162, 79, 0.12);
+    
+    --sacred-glow-subtle:
+        0 0 6px rgba(255, 255, 255, 0.15),
+        0 0 12px rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================================
+   MODAL OPEN SACRED FADE REVEAL
+   ========================================================================= */
+
+body.page-daily-devotion .share-card-modal {
+    animation: sacredModalReveal var(--sacred-duration-normal) var(--sacred-ease);
+    animation-fill-mode: backwards;
+}
+
+@keyframes sacredModalReveal {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.995);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+    }
+}
+
+/* Modal Overlay Fade */
+body.page-daily-devotion .share-card-overlay {
+    transition: backdrop-filter var(--sacred-duration-normal) var(--sacred-ease);
+}
+
+/* ============================================================================
+   FORMAT BUTTON SACRED TOUCH FEEDBACK
+   ========================================================================= */
+
+body.page-daily-devotion .format-btn {
+    transition:
+        transform var(--sacred-duration-fast) var(--sacred-ease),
+        background-color var(--sacred-duration-fast) var(--sacred-ease),
+        box-shadow var(--sacred-duration-normal) var(--sacred-ease);
+    will-change: transform;
+}
+
+body.page-daily-devotion .format-btn:active {
+    transform: scale(0.96);
+    transition-duration: var(--sacred-duration-instant);
+}
+
+body.page-daily-devotion .format-btn.active {
+    box-shadow: var(--sacred-glow-gold);
+}
+
+body.page-daily-devotion .format-btn:hover:not(:active):not(.active) {
+    transform: scale(1.02);
+}
+
+/* ============================================================================
+   ACTION BUTTON SACRED PRESS FEEDBACK
+   ========================================================================= */
+
+body.page-daily-devotion .card-action-btn,
+body.page-daily-devotion .share-action-btn {
+    transition:
+        transform var(--sacred-duration-fast) var(--sacred-ease),
+        background-color var(--sacred-duration-fast) var(--sacred-ease),
+        box-shadow var(--sacred-duration-normal) var(--sacred-ease);
+    will-change: transform;
+}
+
+body.page-daily-devotion .card-action-btn:active,
+body.page-daily-devotion .share-action-btn:active {
+    transform: scale(0.97);
+    transition-duration: var(--sacred-duration-instant);
+}
+
+body.page-daily-devotion .card-action-btn.primary,
+body.page-daily-devotion .share-action-btn.primary {
+    transition: all var(--sacred-duration-fast) var(--sacred-ease);
+}
+
+body.page-daily-devotion .card-action-btn.primary:hover:not(:disabled),
+body.page-daily-devotion .share-action-btn.primary:hover:not(:disabled) {
+    box-shadow: var(--sacred-glow-gold);
+}
+
+/* ============================================================================
+   CANVAS FADE IN AFTER RENDER READY (Safe JS Hook)
+   ========================================================================= */
+
+body.page-daily-devotion .share-card-preview canvas {
+    opacity: 0;
+    transform: scale(0.995);
+    transition:
+        opacity var(--sacred-duration-slow) var(--sacred-ease),
+        transform var(--sacred-duration-slow) var(--sacred-ease);
+    will-change: opacity, transform;
+}
+
+body.page-daily-devotion .share-card-preview canvas.render-ready {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ============================================================================
+   SKELETON SHIMMER ENHANCEMENT (Smoother Animation)
+   ========================================================================= */
+
+body.page-daily-devotion .skeleton-card {
+    animation: shareSkeleton 1.2s ease-in-out infinite;
+}
+
+@keyframes shareSkeleton {
+    0% {
+        background-position-x: 200%;
+    }
+    100% {
+        background-position-x: -200%;
+    }
+}
+
+/* ============================================================================
+   CLOSE BUTTON SACRED HOVER
+   ========================================================================= */
+
+body.page-daily-devotion .share-card-close {
+    transition:
+        transform var(--sacred-duration-fast) var(--sacred-ease),
+        opacity var(--sacred-duration-fast) var(--sacred-ease);
+    will-change: transform;
+}
+
+body.page-daily-devotion .share-card-close:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+body.page-daily-devotion .share-card-close:active {
+    transform: scale(0.95);
+    transition-duration: var(--sacred-duration-instant);
+}
+
+/* ============================================================================
+   DEVOTION CARD SACRED ENTRANCE (Daily Devotion Page)
+   ========================================================================= */
+
+.devotion-card {
+    animation: sacredDevotionEntrance var(--sacred-duration-reverent) var(--sacred-ease);
+    animation-fill-mode: backwards;
+}
+
+@keyframes sacredDevotionEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+    }
+}
+
+/* ============================================================================
+   SACRED SCRIPTURE TEXT FADE IN
+   ========================================================================= */
+
+.devotion-verse,
+.devotion-scripture,
+.verse-text {
+    animation: sacredTextReveal var(--sacred-duration-slow) var(--sacred-ease) 0.2s backwards;
+}
+
+@keyframes sacredTextReveal {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+/* ============================================================================
+   SACRED BUTTON RIPPLE EFFECT (Premium Touch Feedback)
+   ========================================================================= */
+
+body.page-daily-devotion .card-action-btn,
+body.page-daily-devotion .format-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+body.page-daily-devotion .card-action-btn::after,
+body.page-daily-devotion .format-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    transform: translate(-50%, -50%);
+    transition: width var(--sacred-duration-slow) var(--sacred-ease),
+                height var(--sacred-duration-slow) var(--sacred-ease),
+                opacity var(--sacred-duration-slow) var(--sacred-ease);
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.page-daily-devotion .card-action-btn:active::after,
+body.page-daily-devotion .format-btn:active::after {
+    width: 200%;
+    height: 200%;
+    opacity: 1;
+    transition-duration: 0s;
+}
+
+/* ============================================================================
+   TOAST NOTIFICATION SACRED SLIDE IN
+   ========================================================================= */
+
+#shareToast {
+    transition:
+        transform var(--sacred-duration-normal) var(--sacred-ease),
+        opacity var(--sacred-duration-normal) var(--sacred-ease);
+}
+
+#shareToast.show {
+    animation: sacredToastSlide var(--sacred-duration-normal) var(--sacred-ease);
+}
+
+@keyframes sacredToastSlide {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+/* ============================================================================
+   ACCESSIBILITY + PERFORMANCE SAFETY
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    /* Preserve essential opacity transitions for accessibility */
+    body.page-daily-devotion .share-card-modal,
+    body.page-daily-devotion .share-card-overlay {
+        transition: opacity 0.15s ease !important;
+    }
+}
+
+/* ============================================================================
+   DARK MODE SACRED GLOW ENHANCEMENT
+   ========================================================================= */
+
+body.page-daily-devotion.dark .format-btn.active,
+body.page-daily-devotion[data-theme="dark"] .format-btn.active,
+html.dark body.page-daily-devotion .format-btn.active {
+    box-shadow: var(--sacred-glow-gold-intense);
+}
+
+body.page-daily-devotion.dark .card-action-btn.primary:hover:not(:disabled),
+body.page-daily-devotion[data-theme="dark"] .card-action-btn.primary:hover:not(:disabled),
+html.dark body.page-daily-devotion .card-action-btn.primary:hover:not(:disabled) {
+    box-shadow: var(--sacred-glow-gold-intense);
+}
+
+/* ============================================================================
+   PERFORMANCE OPTIMIZATION HINTS
+   ========================================================================= */
+
+body.page-daily-devotion .share-card-modal,
+body.page-daily-devotion .format-btn,
+body.page-daily-devotion .card-action-btn,
+body.page-daily-devotion .share-card-preview canvas {
+    /* GPU acceleration for smoother animations */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* ============================================================================
+   END SACRED MOTION LAYER
+   ========================================================================= */
