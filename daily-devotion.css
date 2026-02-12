@@ -4067,6 +4067,43 @@ html.dark body.page-daily-devotion .devotion-share-panel {
 @media (min-width: 430px) and (max-width: 480px) {
     body.page-daily-devotion .sacred-quote-card {
         width: 100%;
-        max-width: 396px;
+        max-width: 377px;
     }
+}
+
+/* Remove sacred quote card surface while preserving inner content */
+body.page-daily-devotion .sacred-quote-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Force white text/icon for primary Share Card action button */
+body.page-daily-devotion .share-action-btn.primary,
+body.page-daily-devotion .share-action-btn.primary .btn-label,
+body.page-daily-devotion .share-action-btn.primary .btn-icon {
+    color: #ffffff !important;
+}
+
+body.page-daily-devotion .share-action-btn.primary .btn-icon {
+    stroke: #ffffff !important;
+}
+
+/* Center share panel content inside the card */
+body.page-daily-devotion #shareSection {
+    text-align: center;
+}
+
+body.page-daily-devotion #shareSection .share-actions-grid {
+    width: min(100%, 720px);
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-items: center;
+    align-items: center;
+    justify-content: center !important;
+}
+
+body.page-daily-devotion #shareSection .share-action-btn {
+    margin-left: auto;
+    margin-right: auto;
 }
