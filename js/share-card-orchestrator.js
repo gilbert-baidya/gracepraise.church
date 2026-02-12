@@ -36,16 +36,16 @@
         const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
         
         if (isMobile) {
-            console.log('[Share UX] Auto Format: 9:16 (mobile detected)');
-            return '9:16';
+            console.log('[Share UX] Auto Format: story (9:16 - mobile detected)');
+            return 'story';
         }
         if (isTablet) {
-            console.log('[Share UX] Auto Format: 1:1 (tablet detected)');
-            return '1:1';
+            console.log('[Share UX] Auto Format: square (1:1 - tablet detected)');
+            return 'square';
         }
         
-        console.log('[Share UX] Auto Format: 1:1 (desktop detected)');
-        return '1:1';
+        console.log('[Share UX] Auto Format: square (1:1 - desktop detected)');
+        return 'square';
     }
     
     /**
