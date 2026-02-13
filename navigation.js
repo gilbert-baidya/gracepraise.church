@@ -64,10 +64,6 @@
     let initAttempts = 0;
     const MAX_INIT_ATTEMPTS = 3;
     const root = document.documentElement;
-    let isNavigatingToAnchor = false; // Flag to skip scroll restoration for anchor links
-    let isAnimating = false; // Animation lock to prevent interaction during transitions
-    let lastDropdownToggleTime = 0; // Fast tap protection timestamp
-    const DEBOUNCE_MS = 300; // Debounce delay for dropdown toggles
 
     function refreshNavElements() {
         header = document.querySelector('header');
