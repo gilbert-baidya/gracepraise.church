@@ -78,6 +78,19 @@
     .nav-dropdown.mobile-dropdown-open .dropdown-menu {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
+        margin-top: 0.5rem !important;
+        padding: 0.5rem 0 !important;
+        gap: 0.25rem !important;
+        width: 100% !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-radius: 4px !important;
+    }
+    
+    .nav-dropdown.mobile-dropdown-open .dropdown-menu a {
+        background: rgba(255, 255, 255, 0.1) !important;
+        padding: 0.6rem !important;
+        border-radius: 4px !important;
+        color: rgba(255, 255, 255, 0.95) !important;
     }
 
     /* Overlay guaranteed ownership */
