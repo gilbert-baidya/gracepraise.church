@@ -53,6 +53,12 @@
     let orientationListenerAdded = false;
     let headerHeightListenerAdded = false;
     let scrollListenerAdded = false;
+    
+    // Animation lock variables for deterministic tap handling
+    let isAnimating = false;
+    let lastDropdownToggleTime = 0;
+    const DEBOUNCE_MS = 300;
+    let isNavigatingToAnchor = false;
     let outsideClickListenerAdded = false;
     let retryTimeout = null;
     let initAttempts = 0;
@@ -245,8 +251,25 @@
             navLinks.removeAttribute('aria-hidden');
             navLinks.removeAttribute('inert');
 
-            // Set animation lock
+            // Set animation lock - reduce for tablet (150ms vs 300ms)
+            const isTabletWidth = window.innerWidth >= 769 && window.innerWidth <= 1024;
+            const lockDuration = isTabletWidth ? 150 : 300;
             isAnimating = true;
+            
+            // Release animation lock after transition completes
+            const releaseAnimationLock = () => {
+                isAnimating = false;
+                navLinks.removeEventListener('transitionend', releaseAnimationLock);
+            };
+            navLinks.addEventListener('transitionend', releaseAnimationLock);
+            
+            // Fallback timeout in case transitionend doesn't fire
+            setTimeout(() => {
+                if (isAnimating) {
+                    isAnimating = false;
+                    navLinks.removeEventListener('transitionend', releaseAnimationLock);
+                }
+            }, lockDuration + 100);
         } else {
             // Phase 4: Update ARIA expanded BEFORE visual transition
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
@@ -279,13 +302,18 @@
             navLinks.removeEventListener('transitionend', releaseAnimationLock);
         };
         navLinks.addEventListener('transitionend', releaseAnimationLock);
-        // Fallback: force release after 400ms if transitionend doesn't fire
+        
+        // TABLET DETERMINISTIC: Reduced lock duration for faster interaction
+        const isTabletWidth = window.innerWidth >= 769 && window.innerWidth <= 1024;
+        const lockDuration = isTabletWidth ? 150 : 400;
+        
+        // Fallback: force release after duration if transitionend doesn't fire
         setTimeout(() => {
             if (isAnimating) {
                 isAnimating = false;
-                NAV_TELEMETRY.log('ANIMATION_LOCK_FALLBACK', '400ms timeout');
+                NAV_TELEMETRY.log('ANIMATION_LOCK_FALLBACK', `${lockDuration}ms timeout`);
             }
-        }, 400);
+        }, lockDuration);
 
         if (isOpening) {
             // Phase 5: Focus first link for keyboard users

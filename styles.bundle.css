@@ -1311,7 +1311,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
     border: none;
     cursor: pointer;
     padding: var(--spacing-xs);
-    z-index: 1003;
+    z-index: 1005;
     position: relative;
     min-width: 44px;
     min-height: 44px;
@@ -3711,6 +3711,8 @@ footer {
     /* Mobile menu button */
     .mobile-menu-btn {
         display: flex;
+        z-index: 1005 !important;
+        position: relative;
     }
 
     /* ===== MOBILE NAVIGATION ACCORDION DROPDOWN ===== */
@@ -3862,7 +3864,9 @@ footer {
         transition: transform var(--transition-base);
         z-index: 1005;
         gap: var(--spacing-sm);
-        align-items: flex-start;
+        /* DETERMINISTIC LAYOUT: Force top alignment, prevent desktop inheritance */
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         /* Native Mobile Scroll Physics */
@@ -3873,6 +3877,14 @@ footer {
 
     .nav-links.mobile-open {
         transform: translateX(0);
+    }
+
+    /* TABLET DETERMINISTIC OVERRIDE: Force top alignment on coarse pointer tablets */
+    @media (min-width: 769px) and (max-width: 1024px) and (pointer: coarse) {
+        .nav-links {
+            justify-content: flex-start !important;
+            align-items: flex-start !important;
+        }
     }
 
     /* NO-JS FALLBACK: Show navigation links in vertical layout */

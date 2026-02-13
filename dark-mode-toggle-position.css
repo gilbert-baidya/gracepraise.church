@@ -154,3 +154,11 @@ header.scrolled .dark-mode-toggle {
         transform: translateY(0) scale(1.05) !important;
     }
 }
+
+/* TABLET DETERMINISTIC HITBOX: Offset dark mode to prevent burger collision */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .dark-mode-toggle {
+        right: 70px !important;
+        z-index: 1001 !important;
+    }
+}
