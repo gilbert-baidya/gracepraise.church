@@ -29,6 +29,72 @@
 
 @media (max-width: 1024px) {
 
+    /* ========================================
+       TABLET EXPLICIT LAYOUT RESET
+       NO CASCADE RELIANCE - FORCE OWNERSHIP
+       ======================================== */
+    
+    /* Force mobile menu display on tablet band (769-1024px) */
+    .mobile-menu-btn {
+        display: flex !important;
+        z-index: 1003 !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        /* Guaranteed hit zone separation from dark mode toggle */
+        margin-right: 1rem !important;
+    }
+
+    /* Force navigation accordion mode */
+    .nav-links {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        width: 320px !important;
+        max-width: 85vw !important;
+        height: 100dvh !important;
+        transform: translateX(100%) !important;
+        z-index: 1005 !important;
+    }
+
+    .nav-links.mobile-open {
+        transform: translateX(0) !important;
+    }
+
+    /* Force dropdown accordion behavior */
+    .dropdown-menu {
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: none !important;
+    }
+
+    .nav-dropdown.mobile-dropdown-open .dropdown-menu {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    /* Overlay guaranteed ownership */
+    .mobile-overlay {
+        z-index: 1001 !important;
+        pointer-events: none !important;
+    }
+
+    .mobile-overlay.active {
+        z-index: 1004 !important;
+        pointer-events: all !important;
+    }
+
+    /* Dark mode toggle separation from burger */
+    .dark-mode-toggle {
+        z-index: 1006 !important;
+        /* Minimum 3rem gap from burger to prevent tap collision */
+        right: calc(var(--container-padding) + 3rem) !important;
+    }
+
+    /* ========================================
+       BACKDROP-FILTER PERFORMANCE DISABLE
+       ======================================== */
+
     /* Global backdrop-filter disable */
     * {
         backdrop-filter: none !important;

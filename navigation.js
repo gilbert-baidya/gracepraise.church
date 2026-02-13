@@ -371,47 +371,52 @@
 
             // Mobile: tap entire row to toggle (<=1024px)
             if (isTabletOrMobile()) {
-                let tapCount = 0;
-                let tapTimer = null;
-
                 toggle.addEventListener('click', (e) => {
-                    // Only handle when mobile menu is open
-                    if (!isMobileMenuOpen()) return;
+                    // ============================================
+                    // HARD CONTRACT — ALWAYS PREVENT FIRST
+                    // NO EARLY RETURNS BEFORE THESE TWO LINES
+                    // ============================================
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                    // Block interaction during animation
-                    if (isAnimating) {
-                        e.preventDefault();
+                    // SAFE STATE READS AFTER PREVENTION
+                    const menuOpen = isMobileMenuOpen();
+                    const isOpen = dropdown.classList.contains('mobile-dropdown-open');
+                    const parentHref = toggle.getAttribute('href');
+                    const now = Date.now();
+                    const isWithinDebounce = (now - lastDropdownToggleTime) < DEBOUNCE_MS;
+
+                    // GATE 1: Menu must be open (safe after preventDefault)
+                    if (!menuOpen) {
+                        NAV_TELEMETRY.log('GATE_BLOCK', 'Menu not open');
+                        return;
+                    }
+
+                    // GATE 2: Animation lock blocks TOGGLE SPAM only, NOT navigation taps
+                    const isNavigationIntent = isOpen && parentHref && parentHref !== '#' && !parentHref.startsWith('javascript:');
+                    if (isAnimating && !isNavigationIntent) {
                         NAV_TELEMETRY.fastTapBlocks++;
                         NAV_TELEMETRY.log('FAST_TAP_BLOCKED', 'Animation in progress');
                         return;
                     }
 
-                    // Fast tap protection: debounce rapid taps
-                    const now = Date.now();
-                    if (now - lastDropdownToggleTime < DEBOUNCE_MS) {
+                    // GATE 3: Debounce blocks rapid toggle spam only, NOT navigation
+                    if (isWithinDebounce && !isNavigationIntent) {
                         NAV_TELEMETRY.fastTapBlocks++;
                         NAV_TELEMETRY.log('FAST_TAP_BLOCKED', `${now - lastDropdownToggleTime}ms since last tap`);
                         return;
                     }
-                    lastDropdownToggleTime = now;
 
-                    const isOpen = dropdown.classList.contains('mobile-dropdown-open');
-                    const parentHref = toggle.getAttribute('href');
-
-                    // Double-tap navigation fallback:
-                    // First tap: Open dropdown
-                    // Second tap: Navigate to parent href if valid
-                    if (isOpen && parentHref && parentHref !== '#' && !parentHref.startsWith('javascript:')) {
-                        // Dropdown already open, second tap = navigate
+                    // DETERMINISTIC ROUTING
+                    // Route 1: Second tap on open dropdown = NAVIGATE
+                    if (isNavigationIntent) {
                         NAV_TELEMETRY.log('DOUBLE_TAP_NAVIGATE', parentHref);
                         window.location.href = parentHref;
                         return;
                     }
 
-                    // First tap or closed dropdown: Toggle accordion
-                    e.preventDefault();
-                    e.stopPropagation();
-
+                    // Route 2: First tap or closed dropdown = TOGGLE
+                    lastDropdownToggleTime = now;
                     NAV_TELEMETRY.dropdownToggles++;
 
                     // Close all dropdowns (accordion behavior)
