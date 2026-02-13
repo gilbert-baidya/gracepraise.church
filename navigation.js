@@ -22,6 +22,20 @@
     // NAVIGATION LOCK — DO NOT MODIFY WITHOUT REVIEW
     // ============================================
 
+    // Canonical breakpoint constant (unified across all files)
+    const NAV_BREAKPOINT = 1024;
+
+    // Telemetry markers (console only, no external calls)
+    const NAV_TELEMETRY = {
+        navReadyTime: null,
+        firstNavClick: null,
+        dropdownToggles: 0,
+        fastTapBlocks: 0,
+        log(event, data) {
+            console.log(`[NAV] ${event}`, data || '');
+        }
+    };
+
     // Enable JS-dependent features (disables no-JS fallbacks)
     document.documentElement.classList.add('js-enabled');
 
@@ -45,6 +59,9 @@
     const MAX_INIT_ATTEMPTS = 3;
     const root = document.documentElement;
     let isNavigatingToAnchor = false; // Flag to skip scroll restoration for anchor links
+    let isAnimating = false; // Animation lock to prevent interaction during transitions
+    let lastDropdownToggleTime = 0; // Fast tap protection timestamp
+    const DEBOUNCE_MS = 300; // Debounce delay for dropdown toggles
 
     function refreshNavElements() {
         header = document.querySelector('header');
@@ -227,6 +244,9 @@
             // Phase 5: Ensure menu is visible to accessibility tree
             navLinks.removeAttribute('aria-hidden');
             navLinks.removeAttribute('inert');
+
+            // Set animation lock
+            isAnimating = true;
         } else {
             // Phase 4: Update ARIA expanded BEFORE visual transition
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
@@ -243,12 +263,29 @@
             isNavigatingToAnchor = false;
             
             closeAllDropdowns();
+
+            // Set animation lock
+            isAnimating = true;
         }
 
         // THEN toggle visual state
         navLinks.classList.toggle('mobile-open');
         mobileOverlay.classList.toggle('active');
         document.body.classList.toggle('menu-open');
+
+        // Release animation lock after transition completes
+        const releaseAnimationLock = () => {
+            isAnimating = false;
+            navLinks.removeEventListener('transitionend', releaseAnimationLock);
+        };
+        navLinks.addEventListener('transitionend', releaseAnimationLock);
+        // Fallback: force release after 400ms if transitionend doesn't fire
+        setTimeout(() => {
+            if (isAnimating) {
+                isAnimating = false;
+                NAV_TELEMETRY.log('ANIMATION_LOCK_FALLBACK', '400ms timeout');
+            }
+        }, 400);
 
         if (isOpening) {
             // Phase 5: Focus first link for keyboard users
@@ -320,10 +357,8 @@
 
         const isMobileMenuOpen = () => navLinks && navLinks.classList.contains('mobile-open');
         const isCoarsePointer = () => window.matchMedia('(pointer: coarse)').matches;
-        const isTablet = () => isCoarsePointer() && window.innerWidth >= 769;
-        const isMobileViewport = () => window.innerWidth <= 768;
-        const isHandheldViewport = () => window.innerWidth <= 1024;
-        const isTabletOrMobile = () => isTablet() || isMobileViewport() || isHandheldViewport();
+        const isHandheldViewport = () => window.innerWidth <= NAV_BREAKPOINT;
+        const isTabletOrMobile = () => isHandheldViewport();
 
         navDropdowns.forEach(dropdown => {
             const toggle = dropdown.querySelector('a');
@@ -334,16 +369,50 @@
             if (dropdown.dataset.mobileDropdownInit === 'true') return;
             dropdown.dataset.mobileDropdownInit = 'true';
 
-            // Mobile: tap entire row to toggle (320-1024px)
+            // Mobile: tap entire row to toggle (<=1024px)
             if (isTabletOrMobile()) {
+                let tapCount = 0;
+                let tapTimer = null;
+
                 toggle.addEventListener('click', (e) => {
                     // Only handle when mobile menu is open
                     if (!isMobileMenuOpen()) return;
 
+                    // Block interaction during animation
+                    if (isAnimating) {
+                        e.preventDefault();
+                        NAV_TELEMETRY.fastTapBlocks++;
+                        NAV_TELEMETRY.log('FAST_TAP_BLOCKED', 'Animation in progress');
+                        return;
+                    }
+
+                    // Fast tap protection: debounce rapid taps
+                    const now = Date.now();
+                    if (now - lastDropdownToggleTime < DEBOUNCE_MS) {
+                        NAV_TELEMETRY.fastTapBlocks++;
+                        NAV_TELEMETRY.log('FAST_TAP_BLOCKED', `${now - lastDropdownToggleTime}ms since last tap`);
+                        return;
+                    }
+                    lastDropdownToggleTime = now;
+
+                    const isOpen = dropdown.classList.contains('mobile-dropdown-open');
+                    const parentHref = toggle.getAttribute('href');
+
+                    // Double-tap navigation fallback:
+                    // First tap: Open dropdown
+                    // Second tap: Navigate to parent href if valid
+                    if (isOpen && parentHref && parentHref !== '#' && !parentHref.startsWith('javascript:')) {
+                        // Dropdown already open, second tap = navigate
+                        NAV_TELEMETRY.log('DOUBLE_TAP_NAVIGATE', parentHref);
+                        window.location.href = parentHref;
+                        return;
+                    }
+
+                    // First tap or closed dropdown: Toggle accordion
                     e.preventDefault();
                     e.stopPropagation();
 
-                    const isOpen = dropdown.classList.contains('mobile-dropdown-open');
+                    NAV_TELEMETRY.dropdownToggles++;
 
                     // Close all dropdowns (accordion behavior)
                     navDropdowns.forEach(otherDropdown => {
@@ -358,6 +427,7 @@
                     if (!isOpen) {
                         dropdown.classList.add('mobile-dropdown-open');
                         toggle.setAttribute('aria-expanded', 'true');
+                        NAV_TELEMETRY.log('DROPDOWN_OPENED', toggle.textContent.trim());
                     }
                 });
             }
@@ -560,7 +630,7 @@
         if (navLinks) {
             // Phase 5: Initial accessibility tree state
             navLinks.setAttribute('id', 'nav-links');
-            if (window.innerWidth <= 1024) {
+            if (window.innerWidth <= NAV_BREAKPOINT) {
                 navLinks.setAttribute('aria-hidden', 'true');
                 navLinks.setAttribute('inert', '');
             }
@@ -576,13 +646,36 @@
         initThemeToggle();
 
         navInitialized = true;
-        // console.log('✓ Global navigation system initialized'); // Removed for production
-        // console.log('✓ Theme toggle initialized'); // Removed for production
+        
+        // Telemetry: Record nav ready time
+        NAV_TELEMETRY.navReadyTime = Date.now();
+        NAV_TELEMETRY.log('NAV_READY', {
+            timestamp: NAV_TELEMETRY.navReadyTime,
+            viewport: `${window.innerWidth}x${window.innerHeight}`,
+            isMobile: window.innerWidth <= NAV_BREAKPOINT
+        });
+        
+        // Track first navigation click
+        if (!NAV_TELEMETRY.firstNavClick) {
+            document.querySelector('.nav-links')?.addEventListener('click', (e) => {
+                if (!NAV_TELEMETRY.firstNavClick && e.target.tagName === 'A') {
+                    NAV_TELEMETRY.firstNavClick = {
+                        timestamp: Date.now(),
+                        target: e.target.textContent.trim(),
+                        href: e.target.getAttribute('href'),
+                        timeSinceReady: Date.now() - NAV_TELEMETRY.navReadyTime
+                    };
+                    NAV_TELEMETRY.log('FIRST_NAV_CLICK', NAV_TELEMETRY.firstNavClick);
+                }
+            });
+        }
+        
         document.dispatchEvent(new CustomEvent('gpbc:navReady'));
     }
 
     if (typeof window !== 'undefined') {
         window.GPBC_initNav = initializeNavigationSystem;
+        window.GPBC_NAV_TELEMETRY = NAV_TELEMETRY; // Expose telemetry for debugging
     }
 
     initializeNavigationSystem();

@@ -15,7 +15,7 @@
  */
 
 /* ============================================================================
-   1. BACKDROP-FILTER OPTIMIZATION FOR MOBILE
+   1. BACKDROP-FILTER OPTIMIZATION FOR MOBILE + TABLET
    ============================================================================
    
    backdrop-filter is GPU-intensive and causes:
@@ -23,10 +23,11 @@
    - Increased battery consumption (30-40% more)
    - Laggy animations and transitions
    
-   Solution: Replace with solid semi-transparent backgrounds on mobile
+   Solution: Replace with solid semi-transparent backgrounds on mobile/tablet
+   Extended to 1024px to include full tablet band (iPad Portrait/Landscape)
    ============================================================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
     /* Global backdrop-filter disable */
     * {
