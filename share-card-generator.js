@@ -971,6 +971,63 @@
 
     }
 
+    /**
+     * PHASE 2 — ADAPTIVE OVERLAY ENGINE
+     * Samples background luminance and returns adaptive overlay opacity
+     * Prevents over-darkening of already-dark backgrounds
+     */
+    async function getAdaptiveOverlayOpacity(imageElement) {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        
+        canvas.width = imageElement.naturalWidth || imageElement.width;
+        canvas.height = imageElement.naturalHeight || imageElement.height;
+        
+        ctx.drawImage(imageElement, 0, 0);
+        
+        const samplePoints = [
+            [10, 10],
+            [canvas.width - 10, 10],
+            [canvas.width / 2, canvas.height / 2],
+            [10, canvas.height - 10],
+            [canvas.width - 10, canvas.height - 10]
+        ];
+        
+        let totalLuminance = 0;
+        
+        samplePoints.forEach(([x, y]) => {
+            const data = ctx.getImageData(x, y, 1, 1).data;
+            const r = data[0] / 255;
+            const g = data[1] / 255;
+            const b = data[2] / 255;
+            
+            // WCAG relative luminance formula
+            const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            totalLuminance += lum;
+        });
+        
+        const avgLum = totalLuminance / samplePoints.length;
+        
+        // Adaptive range tuned for devotion readability
+        // Aggressive reduction for dark backgrounds to preserve image depth
+        const MIN = 0.20; // very dark images (minimal overlay, maximum depth)
+        const MAX = 0.85; // very bright images (moderate overlay for readability)
+        
+        return MIN + avgLum * (MAX - MIN);
+    }
+    
+    /**
+     * PHASE 3 — WCAG SAFE TEXT FALLBACK (LIGHTWEIGHT)
+     * Returns safe text color based on background luminance
+     * Ensures WCAG AA minimum contrast (4.5:1)
+     */
+    function getSafeTextColor(bgLum) {
+        const contrastWhite = 1.05 / (bgLum + 0.05);
+        const contrastBlack = (bgLum + 0.05) / 0.05;
+        
+        return contrastWhite >= contrastBlack ? "#F0F6FF" : "#0B1220";
+    }
+
     async function renderCardToCanvas(format, logoImg = null) {
         // ====================================================================
         // STEP 5 — RENDER READY GATE (Start of render)
@@ -998,29 +1055,79 @@
         // ====================================================================
         let backgroundDrawn = false;
         
-        if (typeof window.getShareBackgroundForCurrentDevotion === 'function') {
+        // STEP 1: Check if devotion data is available
+        if (!window.__CURRENT_DEVOTION__) {
+            console.warn('[GPBC Share Card] ⚠️ No __CURRENT_DEVOTION__ set, using fallback gradient');
+        } else if (typeof window.getShareBackgroundForCurrentDevotion === 'function') {
             try {
                 const bgData = await window.getShareBackgroundForCurrentDevotion();
+                console.log('[GPBC Share Card] Background data received:', bgData);
                 
-                if (bgData && bgData.path) {
-                    const bgImg = window.DevotionBackgroundIntelligence?.getCachedBackground(bgData.path);
+                if (!bgData) {
+                    console.warn('[GPBC Share Card] ⚠️ getShareBackgroundForCurrentDevotion returned null');
+                } else if (!bgData.path) {
+                    console.warn('[GPBC Share Card] ⚠️ Background data missing path:', bgData);
+                } else {
+                    // STEP 2: Try to get cached image first
+                    let bgImg = window.DevotionBackgroundIntelligence?.getCachedBackground?.(bgData.path);
+                    console.log('[GPBC Share Card] Cached image:', bgImg ? 'Found' : 'Not found');
                     
-                    if (bgImg) {
+                    // STEP 3: If not in cache, load it now
+                    if (!bgImg || !bgImg.complete || !bgImg.naturalWidth) {
+                        console.log('[GPBC Share Card] Loading background image:', bgData.path);
+                        try {
+                            bgImg = await new Promise((resolve, reject) => {
+                                const img = new Image();
+                                img.crossOrigin = 'anonymous';
+                                
+                                img.onload = () => {
+                                    console.log('[GPBC Share Card] ✅ Image loaded successfully:', img.width, 'x', img.height);
+                                    // Cache the loaded image in the background intelligence system
+                                    if (window.DevotionBackgroundIntelligence?.backgroundCache) {
+                                        window.DevotionBackgroundIntelligence.backgroundCache.set(bgData.path, img);
+                                        console.log('[GPBC Share Card] Image cached for future use');
+                                    }
+                                    resolve(img);
+                                };
+                                
+                                img.onerror = (err) => {
+                                    console.error('[GPBC Share Card] ❌ Image load error:', err);
+                                    reject(new Error('Image load failed: ' + bgData.path));
+                                };
+                                
+                                img.src = bgData.path;
+                            });
+                        } catch (imgErr) {
+                            console.error('[GPBC Share Card] Image loading exception:', imgErr);
+                            bgImg = null;
+                        }
+                    }
+                    
+                    // STEP 4: Draw image to canvas if we have it
+                    if (bgImg && bgImg.complete && bgImg.naturalWidth > 0) {
                         ctx.save();
                         
                         // Draw background image covering entire canvas
+                        console.log('[GPBC Share Card] Drawing image to canvas...');
                         ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+                        console.log('[GPBC Share Card] ✅ Image drawn to canvas');
                         
-                        // Apply sacred overlay for text readability
+                        // ====================================================================
+                        // PHASE 2 — ADAPTIVE OVERLAY BASED ON LUMINANCE
+                        // ====================================================================
                         const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+                        const adaptiveOpacity = await getAdaptiveOverlayOpacity(bgImg);
+                        
                         const overlayGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
                         
                         if (isDarkMode) {
-                            overlayGradient.addColorStop(0, 'rgba(26, 31, 46, 0.85)');
-                            overlayGradient.addColorStop(1, 'rgba(15, 20, 25, 0.92)');
+                            // Dark mode: adaptive opacity prevents over-darkening
+                            overlayGradient.addColorStop(0, `rgba(26, 31, 46, ${adaptiveOpacity * 0.9})`);
+                            overlayGradient.addColorStop(1, `rgba(15, 20, 25, ${adaptiveOpacity})`);
                         } else {
-                            overlayGradient.addColorStop(0, 'rgba(253, 251, 247, 0.88)');
-                            overlayGradient.addColorStop(1, 'rgba(255, 255, 255, 0.92)');
+                            // Light mode: adaptive opacity for balanced readability
+                            overlayGradient.addColorStop(0, `rgba(253, 251, 247, ${adaptiveOpacity * 0.95})`);
+                            overlayGradient.addColorStop(1, `rgba(255, 255, 255, ${adaptiveOpacity})`);
                         }
                         
                         ctx.fillStyle = overlayGradient;
@@ -1029,12 +1136,20 @@
                         ctx.restore();
                         backgroundDrawn = true;
                         
-                        console.log('[GPBC Share Card] ✅ Synced devotion background:', bgData.filename);
+                        console.log('[GPBC Share Card] ✅ Synced devotion background with adaptive overlay:', bgData.filename, 'opacity:', adaptiveOpacity.toFixed(2));
+                    } else {
+                        console.warn('[GPBC Share Card] ⚠️ Image not valid for drawing:', {
+                            hasImage: !!bgImg,
+                            complete: bgImg?.complete,
+                            naturalWidth: bgImg?.naturalWidth
+                        });
                     }
                 }
             } catch (error) {
-                console.warn('[GPBC Share Card] Background sync failed, using gradient fallback:', error);
+                console.error('[GPBC Share Card] ❌ Background sync failed:', error);
             }
+        } else {
+            console.warn('[GPBC Share Card] ⚠️ getShareBackgroundForCurrentDevotion function not available');
         }
 
         // 1. Background (Gradient Fallback if no intelligent background)
@@ -1044,17 +1159,18 @@
             gradient.addColorStop(1, theme.gradient[1]);
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 2. Sacred Light Rays (Radial Gradient from Top Center) - ONLY for fallback gradient
+            const rayGradient = ctx.createRadialGradient(
+                canvas.width / 2, 0, 0,
+                canvas.width / 2, canvas.height / 2, canvas.height
+            );
+            rayGradient.addColorStop(0, theme.accent);
+            rayGradient.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = rayGradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
-
-        // 2. Sacred Light Rays (Radial Gradient from Top Center)
-        const rayGradient = ctx.createRadialGradient(
-            canvas.width / 2, 0, 0,
-            canvas.width / 2, canvas.height / 2, canvas.height
-        );
-        rayGradient.addColorStop(0, theme.accent);
-        rayGradient.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = rayGradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // If backgroundDrawn is true, skip the radial gradient overlay to preserve image clarity
 
         // 3. Watermark removed from center - signature placed after text render
 

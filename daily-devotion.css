@@ -30,9 +30,9 @@
         [data-theme="dark"],
         html.dark,
         body.dark {
-            --sacred-bg-primary: #070E1A;
-            --sacred-bg-secondary: #0B1626;
-            --sacred-bg-elevated: #111E31;
+            --sacred-bg-primary: #0B1220;
+            --sacred-bg-secondary: #0F1829;
+            --sacred-bg-elevated: #131F36;
             
             --sacred-surface-dark: rgba(17, 30, 49, 0.72);
             --sacred-surface-border-dark: rgba(201, 169, 110, 0.18);
@@ -304,8 +304,8 @@
         body[data-theme="dark"] .devotion-section,
         body[data-theme="dark"] .simple-share-section,
         body[data-theme="dark"] .share-section {
-            background: #1e293b;
-            /* Lighter than #0f172a for better contrast */
+            background: transparent;
+            /* Transparent to prevent double darkening - image + overlay provide dark tone */
             color: #e2e8f0;
             /* Brighter than #cbd5e1 */
             border: 1px solid rgba(148, 163, 184, 0.3);
