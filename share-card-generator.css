@@ -12,7 +12,7 @@ body.page-daily-devotion .share-card-overlay {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(5, 10, 20, 0.45);
     backdrop-filter: blur(8px);
     z-index: 9999;
     animation: fadeIn 0.3s ease;
@@ -262,8 +262,11 @@ body.page-daily-devotion .share-card-trigger-icon {
 body.page-daily-devotion.dark .share-card-modal,
 body.page-daily-devotion[data-theme="dark"] .share-card-modal,
 html.dark body.page-daily-devotion .share-card-modal {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(20, 30, 50, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 }
 
 body.page-daily-devotion.dark .share-card-header,
