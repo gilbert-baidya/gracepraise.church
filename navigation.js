@@ -53,7 +53,7 @@
     let orientationListenerAdded = false;
     let headerHeightListenerAdded = false;
     let scrollListenerAdded = false;
-    
+
     // Animation lock variables for deterministic tap handling
     let isAnimating = false;
     let lastDropdownToggleTime = 0;
@@ -64,6 +64,68 @@
     let initAttempts = 0;
     const MAX_INIT_ATTEMPTS = 3;
     const root = document.documentElement;
+
+    // FORCE CSS OVERRIDE FOR MOBILE DROPDOWN CONTRAST
+    // This ensures white text regardless of theme or other CSS files
+    const mobileContrastStyle = document.createElement('style');
+    mobileContrastStyle.innerHTML = `
+        /* Nuclear Option for Mobile Dropdown Text Visibility */
+        body .nav-links.mobile-open .nav-dropdown .dropdown-menu a,
+        body .nav-links.mobile-open .nav-dropdown .dropdown-menu a:visited,
+        body .nav-links.mobile-open .nav-dropdown .dropdown-menu a:hover {
+            color: #ffffff !important;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
+            font-weight: 500 !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+    `;
+    document.head.appendChild(mobileContrastStyle);
+
+    // Phase 4: Deterministic State Machine
+    let currentNavMode = 'UNKNOWN'; // 'MOBILE' | 'DESKTOP'
+    let lastModeChangeTime = 0;
+
+    function getNavMode() {
+        return window.innerWidth <= NAV_BREAKPOINT ? 'MOBILE' : 'DESKTOP';
+    }
+
+    function applyNavModeIfChanged() {
+        const newMode = getNavMode();
+        if (newMode === currentNavMode) return;
+
+        // console.log(`[NAV] Mode transition: ${currentNavMode} -> ${newMode}`);
+        currentNavMode = newMode;
+        lastModeChangeTime = Date.now();
+
+        // RECONCILE UI STATE
+        if (newMode === 'DESKTOP') {
+            // Switching to Desktop: Clean up mobile mess
+            if (navLinks.classList.contains('mobile-open')) {
+                toggleMobileMenu(); // Close menu
+            }
+            closeAllDropdowns(); // Reset dropdowns
+            navLinks.style.transition = 'none'; // Prevent layout thrashing animation
+            setTimeout(() => { navLinks.style.transition = ''; }, 50);
+        } else {
+            // Switching to Mobile: Reset state
+            closeAllDropdowns();
+            // Ensure proper ARIA state
+            if (navLinks) {
+                navLinks.setAttribute('aria-hidden', 'true');
+                navLinks.setAttribute('inert', '');
+            }
+        }
+
+        // Expose diagnostics
+        if (typeof window !== 'undefined') {
+            window.__NAV_DIAG__ = {
+                mode: currentNavMode,
+                lastChange: lastModeChangeTime,
+                width: window.innerWidth
+            };
+        }
+    }
 
     function refreshNavElements() {
         header = document.querySelector('header');
@@ -139,7 +201,7 @@
     function GPBC_updateHeaderTotalHeight() {
         const headerEl = document.querySelector('header');
         if (!headerEl) return;
-        
+
         clearTimeout(headerStabilityTimer);
         headerStabilityTimer = setTimeout(() => {
             const height = headerEl.getBoundingClientRect().height;
@@ -147,7 +209,7 @@
                 getComputedStyle(document.documentElement)
                     .getPropertyValue('--gpbc-header-total-height') || '0'
             );
-            
+
             // Only update if height actually changed by more than 2px
             if (Math.abs(height - currentHeight) > 2) {
                 document.documentElement.style.setProperty('--gpbc-header-total-height', `${height}px`);
@@ -251,14 +313,14 @@
             const isTabletWidth = window.innerWidth >= 769 && window.innerWidth <= 1024;
             const lockDuration = isTabletWidth ? 150 : 300;
             isAnimating = true;
-            
+
             // Release animation lock after transition completes
             const releaseAnimationLock = () => {
                 isAnimating = false;
                 navLinks.removeEventListener('transitionend', releaseAnimationLock);
             };
             navLinks.addEventListener('transitionend', releaseAnimationLock);
-            
+
             // Fallback timeout in case transitionend doesn't fire
             setTimeout(() => {
                 if (isAnimating) {
@@ -272,15 +334,15 @@
             // Phase 5: Hide menu from accessibility tree when closed
             navLinks.setAttribute('aria-hidden', 'true');
             navLinks.setAttribute('inert', '');
-            
+
             // Only restore scroll if NOT navigating to anchor
             if (!isNavigatingToAnchor) {
                 window.scrollTo({ top: scrollPosition, left: 0, behavior: 'auto' });
             }
-            
+
             // Reset flag after restoration
             isNavigatingToAnchor = false;
-            
+
             closeAllDropdowns();
 
             // Set animation lock
@@ -298,11 +360,11 @@
             navLinks.removeEventListener('transitionend', releaseAnimationLock);
         };
         navLinks.addEventListener('transitionend', releaseAnimationLock);
-        
+
         // TABLET DETERMINISTIC: Reduced lock duration for faster interaction
         const isTabletWidth = window.innerWidth >= 769 && window.innerWidth <= 1024;
         const lockDuration = isTabletWidth ? 150 : 400;
-        
+
         // Fallback: force release after duration if transitionend doesn't fire
         setTimeout(() => {
             if (isAnimating) {
@@ -365,6 +427,9 @@
     function closeAllDropdowns() {
         navDropdowns.forEach(dropdown => {
             dropdown.classList.remove('mobile-dropdown-open');
+            const menu = dropdown.querySelector('.dropdown-menu');
+            if (menu) menu.style.display = '';
+
             const toggle = dropdown.querySelector('a');
             if (toggle) {
                 toggle.setAttribute('aria-expanded', 'false');
@@ -372,117 +437,130 @@
         });
     }
 
-    function initMobileDropdowns() {
-        const isTouchDevice = () => (
-            window.matchMedia('(hover: none)').matches ||
-            window.matchMedia('(pointer: coarse)').matches ||
-            'ontouchstart' in window
-        );
+    function initDelegatedNavigation() {
+        if (navLinks.dataset.delegatedInit === 'true') return;
+        navLinks.dataset.delegatedInit = 'true';
 
-        const isMobileMenuOpen = () => navLinks && navLinks.classList.contains('mobile-open');
-        const isCoarsePointer = () => window.matchMedia('(pointer: coarse)').matches;
-        const isHandheldViewport = () => window.innerWidth <= NAV_BREAKPOINT;
-        const isTabletOrMobile = () => isHandheldViewport();
+        // SINGLE DELEGATED HANDLER FOR ALL NAV INTERACTIONS
+        navLinks.addEventListener('click', (e) => {
+            const target = e.target;
+            const link = target.closest('a');
 
-        navDropdowns.forEach(dropdown => {
-            const toggle = dropdown.querySelector('a');
-            const arrow = toggle ? toggle.querySelector('.dropdown-arrow') : null;
-            const menu = dropdown.querySelector('.dropdown-menu');
+            // 1. If not a link/toggle, ignore
+            if (!link) return;
 
-            if (!toggle || !menu || !arrow) return;
-            if (dropdown.dataset.mobileDropdownInit === 'true') return;
-            dropdown.dataset.mobileDropdownInit = 'true';
+            // DEBUG
+            // updateDebugLog(`Click: ${link.textContent.trim().substring(0, 15)}... Class: ${link.className}`);
 
-            // Mobile: tap entire row to toggle (<=1024px)
-            if (isTabletOrMobile()) {
-                toggle.addEventListener('click', (e) => {
-                    // ============================================
-                    // HARD CONTRACT — ALWAYS PREVENT FIRST
-                    // NO EARLY RETURNS BEFORE THESE TWO LINES
-                    // ============================================
+            // 2. Check Mode - dynamic runtime check
+            const mode = getNavMode();
+
+            // 3. Identification
+            const parentDropdown = link.closest('.nav-dropdown');
+            const isToggle = parentDropdown && link.parentNode === parentDropdown;
+            const isNestedToggle = link.closest('.nav-dropdown-nested') && link.classList.contains('dropdown-arrow'); // Nested arrows often handle click
+
+            // ============================================
+            // MOBILE / TABLET INTERACTION MODEL
+            // ============================================
+            if (mode === 'MOBILE') {
+                // Handle Top-Level Dropdown Toggles
+                if (isToggle) {
                     e.preventDefault();
                     e.stopPropagation();
 
-                    // SAFE STATE READS AFTER PREVENTION
-                    const menuOpen = isMobileMenuOpen();
-                    const isOpen = dropdown.classList.contains('mobile-dropdown-open');
-                    const parentHref = toggle.getAttribute('href');
-                    const now = Date.now();
-                    const isWithinDebounce = (now - lastDropdownToggleTime) < DEBOUNCE_MS;
+                    // GATE 1: Menu must be open
+                    if (!navLinks.classList.contains('mobile-open')) return;
 
-                    // GATE 1: Menu must be open (safe after preventDefault)
-                    if (!menuOpen) {
-                        NAV_TELEMETRY.log('GATE_BLOCK', 'Menu not open');
-                        return;
-                    }
-
-                    // GATE 2: Animation lock blocks TOGGLE SPAM only, NOT navigation taps
+                    // GATE 2: Animation Lock
+                    const parentHref = link.getAttribute('href');
+                    const isOpen = parentDropdown.classList.contains('mobile-dropdown-open');
                     const isNavigationIntent = isOpen && parentHref && parentHref !== '#' && !parentHref.startsWith('javascript:');
+
                     if (isAnimating && !isNavigationIntent) {
                         NAV_TELEMETRY.fastTapBlocks++;
-                        NAV_TELEMETRY.log('FAST_TAP_BLOCKED', 'Animation in progress');
                         return;
                     }
 
-                    // GATE 3: Debounce blocks rapid toggle spam only, NOT navigation
-                    if (isWithinDebounce && !isNavigationIntent) {
-                        NAV_TELEMETRY.fastTapBlocks++;
-                        NAV_TELEMETRY.log('FAST_TAP_BLOCKED', `${now - lastDropdownToggleTime}ms since last tap`);
+                    // GATE 3: Debounce
+                    const now = Date.now();
+                    // updateDebugLog(`DEBOUNCE: ${now - lastDropdownToggleTime}ms`); 
+
+                    if ((now - lastDropdownToggleTime) < DEBOUNCE_MS && !isNavigationIntent) {
+                        // updateDebugLog(`BLOCKED: Debounce`);
                         return;
                     }
 
-                    // DETERMINISTIC ROUTING
-                    // Route 1: Second tap on open dropdown = NAVIGATE
+                    // ROUTING: Double Tap
                     if (isNavigationIntent) {
                         NAV_TELEMETRY.log('DOUBLE_TAP_NAVIGATE', parentHref);
                         window.location.href = parentHref;
                         return;
                     }
 
-                    // Route 2: First tap or closed dropdown = TOGGLE
+                    // TOGGLE LOGIC
                     lastDropdownToggleTime = now;
                     NAV_TELEMETRY.dropdownToggles++;
 
-                    // Close all dropdowns (accordion behavior)
-                    navDropdowns.forEach(otherDropdown => {
-                        otherDropdown.classList.remove('mobile-dropdown-open');
-                        const otherToggle = otherDropdown.querySelector('a');
-                        if (otherToggle) {
-                            otherToggle.setAttribute('aria-expanded', 'false');
+                    // Accordion: Close others
+                    navDropdowns.forEach(d => {
+                        if (d !== parentDropdown) {
+                            d.classList.remove('mobile-dropdown-open');
+                            // Hammer Fix cleanup
+                            const m = d.querySelector('.dropdown-menu');
+                            if (m) m.style.display = '';
+                            d.querySelector('a')?.setAttribute('aria-expanded', 'false');
                         }
                     });
 
-                    // Open this dropdown if it was closed
-                    if (!isOpen) {
-                        dropdown.classList.add('mobile-dropdown-open');
-                        toggle.setAttribute('aria-expanded', 'true');
-                        NAV_TELEMETRY.log('DROPDOWN_OPENED', toggle.textContent.trim());
+                    // Toggle Current
+                    parentDropdown.classList.toggle('mobile-dropdown-open');
+                    const newState = parentDropdown.classList.contains('mobile-dropdown-open');
+
+                    // Hammer Fix: Force Display
+                    const thisMenu = parentDropdown.querySelector('.dropdown-menu');
+                    if (thisMenu) {
+                        thisMenu.style.display = newState ? 'grid' : '';
                     }
-                });
+
+                    link.setAttribute('aria-expanded', newState);
+                    return;
+                }
+
+                // Handle Nested Dropdowns (Ministries, etc)
+                // Note: The original code attached listener to the arrow. 
+                // We need to detect if the click is on the arrow or the link acting as toggle.
+                // Assuming nested structure: .nav-dropdown-nested > a > .dropdown-arrow
+                if (target.classList.contains('dropdown-arrow') || link.closest('.nav-dropdown-nested a')) {
+                    const nestedDropdown = link.closest('.nav-dropdown-nested');
+                    if (nestedDropdown) {
+                        // Only trap if it's strictly a toggle action (often defined by arrow click on nested)
+                        // Or if the design dictates the link itself is the toggle.
+                        // Looking at previous code: "arrow.addEventListener('click'...)"
+                        if (target.classList.contains('dropdown-arrow')) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            nestedDropdown.classList.toggle('mobile-dropdown-open');
+                            const expanded = nestedDropdown.classList.contains('mobile-dropdown-open');
+                            link.setAttribute('aria-expanded', expanded);
+                            return;
+                        }
+                    }
+                }
             }
-        });
 
-        // Handle nested dropdowns (Ministries submenu)
-        navNestedDropdowns.forEach(nestedDropdown => {
-            const toggle = nestedDropdown.querySelector('a');
-            const arrow = toggle ? toggle.querySelector('.dropdown-arrow') : null;
-            const menu = nestedDropdown.querySelector('.dropdown-menu-nested');
-
-            if (!toggle || !menu || !arrow) return;
-            if (nestedDropdown.dataset.nestedDropdownInit === 'true') return;
-            nestedDropdown.dataset.nestedDropdownInit = 'true';
-
-            if (isTabletOrMobile()) {
-                arrow.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    // Toggle nested dropdown
-                    const isOpen = nestedDropdown.classList.toggle('mobile-dropdown-open');
-                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                });
+            // ============================================
+            // SHARED / DESKTOP / LINK CLICK
+            // ============================================
+            // If we are here, it's a standard link click or desktop hover interaction (handled by CSS)
+            // Just need to handle Mobile Menu Auto-Close for anchors
+            if (mode === 'MOBILE') {
+                const href = link.getAttribute('href');
+                if (href && (href.startsWith('#') || href.includes('#'))) {
+                    isNavigatingToAnchor = true;
+                    toggleMobileMenu();
+                }
             }
-
         });
     }
 
@@ -563,6 +641,20 @@
         });
     });
 
+    // 🆕 CRITICAL FIX: Close Mobile Menu when clicking Logo
+    // The logo is outside .nav-links so it needs its own listener
+    const projectLogo = document.querySelector('.logo');
+    if (projectLogo) {
+        projectLogo.addEventListener('click', (e) => {
+            if (navLinks && navLinks.classList.contains('mobile-open')) {
+                // If menu is open, this click acts as "Home" navigation AND "Close Menu"
+                // If href is just #home, we toggle closed.
+                isNavigatingToAnchor = true;
+                toggleMobileMenu();
+            }
+        });
+    }
+
     // ============================================
     // DARK MODE THEME TOGGLE
     // ============================================
@@ -618,11 +710,24 @@
 
         updateScrollPadding();
         if (!resizeListenerAdded) {
-            window.addEventListener('resize', debouncedUpdateScrollPadding);
+            window.addEventListener('resize', () => {
+                debouncedUpdateScrollPadding();
+                // Phase 4: Debounced Mode Check
+                debounce(applyNavModeIfChanged, 150)();
+            });
             resizeListenerAdded = true;
         }
         if (!orientationListenerAdded) {
-            window.addEventListener('orientationchange', updateScrollPadding);
+            window.addEventListener('orientationchange', () => {
+                // FORCE LAYOUT REFLOW
+                document.body.style.display = 'none';
+                document.body.offsetHeight; // force reflow
+                document.body.style.display = '';
+
+                updateScrollPadding();
+                applyNavModeIfChanged(); // Immediate check on orientation
+                setTimeout(applyNavModeIfChanged, 300); // Safety check after rotation animation
+            });
             orientationListenerAdded = true;
         }
         if (!scrollListenerAdded) {
@@ -639,10 +744,10 @@
                     GPBC_updateHeaderTotalHeight();
                 }, 150);
             });
-            bannerObserver.observe(countdownBanner, { 
-                attributes: true, 
+            bannerObserver.observe(countdownBanner, {
+                attributes: true,
                 attributeFilter: ['style', 'class'],
-                childList: true 
+                childList: true
             });
         }
 
@@ -670,12 +775,12 @@
             outsideClickListenerAdded = true;
         }
 
-        initMobileDropdowns();
+        initDelegatedNavigation();
         initKeyboardNavigation();
         initThemeToggle();
 
         navInitialized = true;
-        
+
         // Telemetry: Record nav ready time
         NAV_TELEMETRY.navReadyTime = Date.now();
         NAV_TELEMETRY.log('NAV_READY', {
@@ -683,7 +788,7 @@
             viewport: `${window.innerWidth}x${window.innerHeight}`,
             isMobile: window.innerWidth <= NAV_BREAKPOINT
         });
-        
+
         // Track first navigation click
         if (!NAV_TELEMETRY.firstNavClick) {
             document.querySelector('.nav-links')?.addEventListener('click', (e) => {
@@ -698,7 +803,7 @@
                 }
             });
         }
-        
+
         document.dispatchEvent(new CustomEvent('gpbc:navReady'));
     }
 
