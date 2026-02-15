@@ -305,6 +305,26 @@ A: Open http://localhost:8003 in your browser. See [PREVIEW_GUIDE.md](./PREVIEW_
 
 ---
 
+## 🧪 QA Automation (Playwright + POM)
+
+The repository includes generated Page Object Model coverage for every `.html` file.
+
+### Automation Files
+- Guide: [docs/PLAYWRIGHT_POM_AUTOMATION.md](./docs/PLAYWRIGHT_POM_AUTOMATION.md)
+- Base class: [pages/base-page.ts](./pages/base-page.ts)
+- Registry: [pages/page-registry.ts](./pages/page-registry.ts)
+- Generated POMs: `pages/generated/**`
+- Smoke suite: [tests/all-pages.pom.spec.ts](./tests/all-pages.pom.spec.ts)
+- HTML inventory: [tests/data/html-pages-inventory.md](./tests/data/html-pages-inventory.md)
+
+### Commands
+- `npm run pom:generate`
+- `npm run test:e2e`
+- `npm run test:e2e:headed`
+- `BASE_URL=http://127.0.0.1:8080 npm run test:e2e`
+
+---
+
 ## 🙏 FINAL ENCOURAGEMENT
 
 You have everything you need to create a beautiful, spiritually meaningful church website that:

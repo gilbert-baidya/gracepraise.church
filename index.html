@@ -621,7 +621,7 @@
 
             <!-- Video Modal Structure -->
             <div id="heroVideoModal" class="hero-video-modal" role="dialog" aria-modal="true"
-                aria-label="Our Story Video" aria-hidden="true" tabindex="-1">
+                aria-label="Our Story Video" tabindex="-1">
                 <button class="close-modal" onclick="closeVideoModal()" aria-label="Close modal">✕</button>
                 <div class="video-modal-content">
                     <div class="video-player-wrapper">
@@ -4733,6 +4733,7 @@
                 try {
                     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
                 } catch (error) {
+                    console.log('WebGL not supported, using fallback');
                     initFallbackCross();
                     return;
                 }

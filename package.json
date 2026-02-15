@@ -1,9 +1,32 @@
 {
+  "scripts": {
+    "pom:generate": "node scripts/generate-playwright-poms.js",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ui": "playwright test --ui",
+    "test:dashboard": "./open-dashboard.sh && playwright test",
+    "test:smoke": "playwright test tests/smoke",
+    "test:devotion": "playwright test tests/devotion",
+    "test:visual": "playwright test tests/visual",
+    "test:navigation": "playwright test tests/navigation",
+    "test:accessibility": "playwright test tests/accessibility",
+    "test:desktop": "playwright test --project='Desktop Chrome'",
+    "test:tablet": "playwright test --project='iPad Pro 11 Portrait'",
+    "test:mobile": "playwright test --project='iPhone 14'",
+    "test:report": "playwright show-report",
+    "test:debug": "playwright test --debug",
+    "dashboard": "./open-dashboard.sh"
+  },
   "dependencies": {
     "axios": "^1.13.5",
     "dotenv": "^17.2.4",
     "fs-extra": "^11.3.3",
     "openai": "^6.21.0",
     "p-limit": "^7.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
   }
 }
