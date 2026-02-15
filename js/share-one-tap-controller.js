@@ -362,6 +362,8 @@
 
     /**
      * ONE-TAP DEVOTION SHARE (Main Export)
+     * Enterprise-grade multi-tier sharing with fallback ladder
+     * Supports modes: "image" (default), "url", "text"
      */
     window.oneTapDevotionShare = async function(options = {}) {
         // Prevent concurrent shares
@@ -376,8 +378,150 @@
         console.log('[GPBC One Tap Share] 🚀 Starting one-tap share flow...');
         console.log('[GPBC One Tap Share] Options:', options);
 
+        const shareMode = options.mode || 'image';
+        const devotionData = window.__CURRENT_DEVOTION__ || window.__CURRENT_DEVOTION_DATA__ || {};
+        
         let feedbackEl = null;
 
+        // ========================================
+        // SHARE MODE: SMS (Image + Link for MMS)
+        // ========================================
+        if (shareMode === 'sms') {
+            try {
+                feedbackEl = showSacredFeedback('Preparing SMS share…');
+                
+                // Generate SMS-optimized card
+                const generatorReady = await ensureGeneratorReady();
+                if (!generatorReady) {
+                    throw new Error('Share generator not ready');
+                }
+
+                const format = 'story'; // 9:16 works best for SMS
+                const canvas = await generateCardSilently(format, { channel: 'sms' });
+                
+                // Create SMS-optimized file
+                const smsFile = await canvasToSMSFile(canvas);
+                
+                const verseText = devotionData.verseText || '';
+                const verse = devotionData.verse || '';
+                const reflectionUrl = window.location.href;
+                
+                const smsText = `${verseText}\n\n${verse}\n\nRead reflection: ${reflectionUrl}\n\nGrace & Praise Bangladeshi Church`;
+                
+                // Try to share with image + text
+                if (navigator.share) {
+                    if (navigator.canShare && navigator.canShare({ files: [smsFile] })) {
+                        await navigator.share({
+                            title: devotionData.title || 'Daily Devotion',
+                            text: smsText,
+                            files: [smsFile]
+                        });
+                    } else {
+                        // Fallback: share text + download image
+                        await navigator.share({
+                            title: devotionData.title || 'Daily Devotion',
+                            text: smsText
+                        });
+                        downloadImage(canvas, 'gpbc-devotion-sms.jpg');
+                    }
+                    
+                    hideSacredFeedback();
+                    showSuccessToast('✓ Ready to send via SMS');
+                    ShareState.isSharing = false;
+                    return { success: true, method: 'sms-share', mode: 'sms' };
+                } else {
+                    throw new Error('Web Share API not available');
+                }
+            } catch (error) {
+                console.log('[GPBC One Tap Share] SMS share failed:', error.message);
+                hideSacredFeedback();
+                
+                if (error.name !== 'AbortError') {
+                    showSuccessToast('✗ SMS share not available');
+                }
+                
+                ShareState.isSharing = false;
+                return { success: false, reason: error.name === 'AbortError' ? 'user-canceled' : 'not-supported' };
+            }
+        }
+
+        // ========================================
+        // SHARE MODE: TEXT ONLY
+        // ========================================
+        if (shareMode === 'text') {
+            try {
+                feedbackEl = showSacredFeedback('Preparing text share…');
+                
+                const verseText = devotionData.verseText || '';
+                const verse = devotionData.verse || '';
+                const reflectionUrl = window.location.href;
+                
+                const textPayload = `${verseText}\n\n${verse}\n\nRead full reflection: ${reflectionUrl}\n\nGrace & Praise Bangladeshi Church`;
+                
+                if (navigator.share) {
+                    await navigator.share({
+                        title: devotionData.title || 'Daily Devotion',
+                        text: textPayload
+                    });
+                    
+                    hideSacredFeedback();
+                    showSuccessToast('✓ Text shared successfully');
+                    ShareState.isSharing = false;
+                    return { success: true, method: 'text-share', mode: 'text' };
+                } else {
+                    throw new Error('Web Share API not available');
+                }
+            } catch (error) {
+                console.log('[GPBC One Tap Share] Text share failed:', error.message);
+                hideSacredFeedback();
+                
+                if (error.name !== 'AbortError') {
+                    showSuccessToast('✗ Text share not available');
+                }
+                
+                ShareState.isSharing = false;
+                return { success: false, reason: error.name === 'AbortError' ? 'user-canceled' : 'not-supported' };
+            }
+        }
+
+        // ========================================
+        // SHARE MODE: URL ONLY
+        // ========================================
+        if (shareMode === 'url') {
+            try {
+                feedbackEl = showSacredFeedback('Preparing link share…');
+                
+                if (navigator.share) {
+                    await navigator.share({
+                        title: devotionData.title || 'Daily Devotion',
+                        text: `${devotionData.verse || 'Daily Devotion'}`,
+                        url: window.location.href
+                    });
+                    
+                    hideSacredFeedback();
+                    showSuccessToast('✓ Link shared successfully');
+                    ShareState.isSharing = false;
+                    return { success: true, method: 'url-share', mode: 'url' };
+                } else {
+                    throw new Error('Web Share API not available');
+                }
+            } catch (error) {
+                console.log('[GPBC One Tap Share] URL share failed:', error.message);
+                hideSacredFeedback();
+                
+                if (error.name !== 'AbortError') {
+                    showSuccessToast('✗ Link share not available');
+                }
+                
+                ShareState.isSharing = false;
+                return { success: false, reason: error.name === 'AbortError' ? 'user-canceled' : 'not-supported' };
+            }
+        }
+
+        // ========================================
+        // SHARE MODE: IMAGE (DEFAULT)
+        // Multi-tier fallback ladder implementation
+        // ========================================
         try {
             // STEP 1: Show feedback
             feedbackEl = showSacredFeedback('Generating Sacred Card…');
@@ -397,13 +541,10 @@
             // STEP 5: Generate card silently
             const canvas = await generateCardSilently(format, options);
 
-            // STEP 6: Get devotion data
-            const devotionData = window.__CURRENT_DEVOTION__ || window.__CURRENT_DEVOTION_DATA__ || {};
-
-            // STEP 7: Update feedback
+            // STEP 6: Update feedback
             if (feedbackEl) feedbackEl.textContent = 'Ready to Share';
 
-            // STEP 8: Create share file
+            // STEP 7: Create share file
             let shareFile;
             if (options.channel === 'sms') {
                 shareFile = await canvasToSMSFile(canvas);
@@ -414,71 +555,125 @@
             // Cache for reuse
             ShareState.lastShareCard = { canvas, file: shareFile, timestamp: Date.now() };
 
-            // STEP 9: Attempt native share
+            // ========================================
+            // TIER 1: Web Share API with Image File Blob
+            // ========================================
             try {
-                await nativeShare(shareFile, devotionData);
-                
-                hideSacredFeedback();
-                showSuccessToast('✓ Shared successfully');
-                
-                ShareState.isSharing = false;
-                return { success: true, method: 'native-share' };
-            } catch (shareError) {
-                console.log('[GPBC One Tap Share] Native share failed, trying fallbacks:', shareError.message);
-
-                // FALLBACK 1: Copy to clipboard
-                if (shareError.name !== 'AbortError') {
-                    try {
-                        await copyToClipboard(canvas);
-                        hideSacredFeedback();
-                        showSuccessToast('✓ Image copied to clipboard');
-                        
-                        ShareState.isSharing = false;
-                        return { success: true, method: 'clipboard' };
-                    } catch (clipboardError) {
-                        console.log('[GPBC One Tap Share] Clipboard failed, downloading:', clipboardError.message);
-                        
-                        // FALLBACK 2: Download
-                        downloadImage(canvas, options.channel === 'sms' ? 'gpbc-devotion-sms.jpg' : 'gpbc-devotion.png');
-                        hideSacredFeedback();
-                        showSuccessToast('✓ Image downloaded');
-                        
-                        ShareState.isSharing = false;
-                        return { success: true, method: 'download' };
-                    }
-                } else {
-                    // User canceled share
-                    console.log('[GPBC One Tap Share] Share canceled by user');
-                    hideSacredFeedback();
+                if (navigator.canShare && navigator.canShare({ files: [shareFile] })) {
+                    console.log('[GPBC One Tap Share] Tier 1: Attempting Web Share with image file');
                     
+                    await navigator.share({
+                        title: devotionData.title || 'Daily Devotion',
+                        text: `${devotionData.verse || ''}\n\nGrace & Praise Bangladeshi Church`,
+                        files: [shareFile]
+                    });
+                    
+                    hideSacredFeedback();
+                    showSuccessToast('✓ Shared successfully');
+                    ShareState.isSharing = false;
+                    return { success: true, method: 'native-share-file', tier: 1 };
+                } else {
+                    throw new Error('File sharing not supported');
+                }
+            } catch (tier1Error) {
+                console.log('[GPBC One Tap Share] Tier 1 failed:', tier1Error.message);
+                
+                // User canceled - stop here
+                if (tier1Error.name === 'AbortError') {
+                    hideSacredFeedback();
                     ShareState.isSharing = false;
                     return { success: false, reason: 'user-canceled' };
+                }
+                
+                // ========================================
+                // TIER 2: Web Share API with URL + Text
+                // ========================================
+                try {
+                    if (navigator.share) {
+                        console.log('[GPBC One Tap Share] Tier 2: Attempting Web Share with URL');
+                        
+                        await navigator.share({
+                            title: devotionData.title || 'Daily Devotion',
+                            text: `${devotionData.verse || ''}\n\nGrace & Praise Bangladeshi Church`,
+                            url: window.location.href
+                        });
+                        
+                        hideSacredFeedback();
+                        showSuccessToast('✓ Link shared (image downloaded)');
+                        
+                        // Also download the image for user convenience
+                        downloadImage(canvas, options.channel === 'sms' ? 'gpbc-devotion-sms.jpg' : 'gpbc-devotion.png');
+                        
+                        ShareState.isSharing = false;
+                        return { success: true, method: 'native-share-url', tier: 2 };
+                    } else {
+                        throw new Error('Web Share API not available');
+                    }
+                } catch (tier2Error) {
+                    console.log('[GPBC One Tap Share] Tier 2 failed:', tier2Error.message);
+                    
+                    // User canceled - stop here
+                    if (tier2Error.name === 'AbortError') {
+                        hideSacredFeedback();
+                        ShareState.isSharing = false;
+                        return { success: false, reason: 'user-canceled' };
+                    }
+                    
+                    // ========================================
+                    // TIER 3: Text-only Share
+                    // ========================================
+                    try {
+                        if (navigator.share) {
+                            console.log('[GPBC One Tap Share] Tier 3: Attempting text-only share');
+                            
+                            const textPayload = `${devotionData.title || 'Daily Devotion'}\n\n${devotionData.verse || ''}\n${devotionData.verseText || ''}\n\nRead more: ${window.location.href}\n\nGrace & Praise Bangladeshi Church`;
+                            
+                            await navigator.share({ text: textPayload });
+                            
+                            hideSacredFeedback();
+                            showSuccessToast('✓ Text shared (image downloaded)');
+                            
+                            // Also download the image for user convenience
+                            downloadImage(canvas, options.channel === 'sms' ? 'gpbc-devotion-sms.jpg' : 'gpbc-devotion.png');
+                            
+                            ShareState.isSharing = false;
+                            return { success: true, method: 'text-share', tier: 3 };
+                        } else {
+                            throw new Error('Web Share API not available');
+                        }
+                    } catch (tier3Error) {
+                        console.log('[GPBC One Tap Share] Tier 3 failed:', tier3Error.message);
+                        
+                        // Final fallback chain
+                        if (tier3Error.name !== 'AbortError') {
+                            // Try clipboard
+                            try {
+                                await copyToClipboard(canvas);
+                                hideSacredFeedback();
+                                showSuccessToast('✓ Image copied to clipboard');
+                                ShareState.isSharing = false;
+                                return { success: true, method: 'clipboard', tier: 4 };
+                            } catch (clipboardError) {
+                                // Final: Download
+                                downloadImage(canvas, options.channel === 'sms' ? 'gpbc-devotion-sms.jpg' : 'gpbc-devotion.png');
+                                hideSacredFeedback();
+                                showSuccessToast('✓ Image downloaded');
+                                ShareState.isSharing = false;
+                                return { success: true, method: 'download', tier: 5 };
+                            }
+                        } else {
+                            hideSacredFeedback();
+                            ShareState.isSharing = false;
+                            return { success: false, reason: 'user-canceled' };
+                        }
+                    }
                 }
             }
 
         } catch (error) {
-            console.error('[GPBC One Tap Share] ❌ Share failed:', error);
+            console.error('[GPBC One Tap Share] ❌ Share failed catastrophically:', error);
             hideSacredFeedback();
-
-            // FALLBACK 3: Text share
-            const devotionData = window.__CURRENT_DEVOTION__ || window.__CURRENT_DEVOTION_DATA__ || {};
-            const textToShare = `${devotionData.title || 'Daily Devotion'}\n\n${devotionData.verse || ''}\n${devotionData.verseText || ''}\n\nGrace & Praise Bangladeshi Church\nhttps://gracepraise.church`;
-
-            if (navigator.share) {
-                try {
-                    await navigator.share({ text: textToShare });
-                    showSuccessToast('✓ Text shared');
-                    
-                    ShareState.isSharing = false;
-                    return { success: true, method: 'text-fallback' };
-                } catch (textError) {
-                    console.error('[GPBC One Tap Share] Text share failed:', textError);
-                }
-            }
-
-            // Show error feedback
             showSuccessToast('✗ Share failed. Please try again.');
-            
             ShareState.isSharing = false;
             return { success: false, error: error.message };
         }

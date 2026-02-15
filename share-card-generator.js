@@ -586,6 +586,17 @@
         // Action buttons
         document.getElementById('downloadCardBtn')?.addEventListener('click', downloadCard);
         document.getElementById('shareCardBtn')?.addEventListener('click', shareCard);
+        document.getElementById('shareSMSBtn')?.addEventListener('click', async () => {
+            console.log('[Share Card] Share via SMS clicked');
+            if (typeof window.oneTapDevotionShare === 'function') {
+                const result = await window.oneTapDevotionShare({ mode: 'sms' });
+                if (result.success) {
+                    closeModal();
+                }
+            } else {
+                console.error('[Share Card] oneTapDevotionShare not available');
+            }
+        });
         document.getElementById('copyCaptionBtn')?.addEventListener('click', copyCaptionToClipboard);
 
         // Bind secondary copy triggers
@@ -647,8 +658,18 @@
         console.log('[Share UX] Opening modal');
         
         const overlay = document.getElementById('shareCardOverlay');
+        const modal = document.getElementById('shareCardModal');
+        
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        // ====================================================================
+        // FORCE LIGHT MODE ON SHARE MODAL (Isolated from Global Theme)
+        // ====================================================================
+        if (modal) {
+            modal.setAttribute('data-theme', 'light');
+            console.log('[Share UX] Modal forced to light mode');
+        }
         
         // ====================================================================
         // STEP 4 — SHOW SKELETON ON MODAL OPEN (Instant Perceived Performance)
@@ -1114,21 +1135,15 @@
                         
                         // ====================================================================
                         // PHASE 2 — ADAPTIVE OVERLAY BASED ON LUMINANCE
+                        // FORCE LIGHT MODE: Share cards always use light overlay for clarity
                         // ====================================================================
-                        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
                         const adaptiveOpacity = await getAdaptiveOverlayOpacity(bgImg);
                         
                         const overlayGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
                         
-                        if (isDarkMode) {
-                            // Dark mode: adaptive opacity prevents over-darkening
-                            overlayGradient.addColorStop(0, `rgba(26, 31, 46, ${adaptiveOpacity * 0.9})`);
-                            overlayGradient.addColorStop(1, `rgba(15, 20, 25, ${adaptiveOpacity})`);
-                        } else {
-                            // Light mode: adaptive opacity for balanced readability
-                            overlayGradient.addColorStop(0, `rgba(253, 251, 247, ${adaptiveOpacity * 0.95})`);
-                            overlayGradient.addColorStop(1, `rgba(255, 255, 255, ${adaptiveOpacity})`);
-                        }
+                        // Always use light mode overlay for share cards (forced light theme)
+                        overlayGradient.addColorStop(0, `rgba(253, 251, 247, ${adaptiveOpacity * 0.95})`);
+                        overlayGradient.addColorStop(1, `rgba(255, 255, 255, ${adaptiveOpacity})`);
                         
                         ctx.fillStyle = overlayGradient;
                         ctx.fillRect(0, 0, canvas.width, canvas.height);

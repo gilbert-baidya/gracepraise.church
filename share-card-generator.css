@@ -18,6 +18,14 @@ body.page-daily-devotion .share-card-overlay {
     animation: fadeIn 0.3s ease;
 }
 
+/* Dark mode overlay - solid color instead of rgba to prevent double dark stack */
+body.page-daily-devotion.dark .share-card-overlay,
+body.page-daily-devotion[data-theme="dark"] .share-card-overlay,
+html.dark body.page-daily-devotion .share-card-overlay {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+}
+
 body.page-daily-devotion .share-card-overlay.active {
     display: flex;
     align-items: center;
@@ -259,45 +267,101 @@ body.page-daily-devotion .share-card-trigger-icon {
 }
 
 /* Dark Mode Overrides */
-body.page-daily-devotion.dark .share-card-modal,
-body.page-daily-devotion[data-theme="dark"] .share-card-modal,
-html.dark body.page-daily-devotion .share-card-modal {
-    background: rgba(20, 30, 50, 0.75);
+body.page-daily-devotion.dark .share-card-modal:not([data-theme="light"]),
+body.page-daily-devotion[data-theme="dark"] .share-card-modal:not([data-theme="light"]),
+html.dark body.page-daily-devotion .share-card-modal:not([data-theme="light"]) {
+    background: rgb(20, 30, 50);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 }
 
-body.page-daily-devotion.dark .share-card-header,
-body.page-daily-devotion[data-theme="dark"] .share-card-header,
-html.dark body.page-daily-devotion .share-card-header {
+body.page-daily-devotion.dark .share-card-header:not([data-theme="light"] *),
+body.page-daily-devotion[data-theme="dark"] .share-card-header:not([data-theme="light"] *),
+html.dark body.page-daily-devotion .share-card-header:not([data-theme="light"] *) {
     border-bottom-color: rgba(148, 163, 184, 0.2);
 }
 
-body.page-daily-devotion.dark .share-card-title,
-body.page-daily-devotion[data-theme="dark"] .share-card-title,
-html.dark body.page-daily-devotion .share-card-title {
+body.page-daily-devotion.dark .share-card-title:not([data-theme="light"] *),
+body.page-daily-devotion[data-theme="dark"] .share-card-title:not([data-theme="light"] *),
+html.dark body.page-daily-devotion .share-card-title:not([data-theme="light"] *) {
     color: #ffffff;
 }
 
-body.page-daily-devotion.dark .format-toggle,
-body.page-daily-devotion[data-theme="dark"] .format-toggle,
-html.dark body.page-daily-devotion .format-toggle {
+body.page-daily-devotion.dark .format-toggle:not([data-theme="light"] *),
+body.page-daily-devotion[data-theme="dark"] .format-toggle:not([data-theme="light"] *),
+html.dark body.page-daily-devotion .format-toggle:not([data-theme="light"] *) {
     background: rgba(148, 163, 184, 0.1);
 }
 
-body.page-daily-devotion.dark .format-btn.active,
-body.page-daily-devotion[data-theme="dark"] .format-btn.active,
-html.dark body.page-daily-devotion .format-btn.active {
+body.page-daily-devotion.dark .format-btn.active:not([data-theme="light"] *),
+body.page-daily-devotion[data-theme="dark"] .format-btn.active:not([data-theme="light"] *),
+html.dark body.page-daily-devotion .format-btn.active:not([data-theme="light"] *) {
     background: rgba(212, 160, 23, 0.2);
     color: #d4a017;
 }
 
-body.page-daily-devotion.dark .share-card-preview,
-body.page-daily-devotion[data-theme="dark"] .share-card-preview,
-html.dark body.page-daily-devotion .share-card-preview {
+body.page-daily-devotion.dark .share-card-preview:not([data-theme="light"] *),
+body.page-daily-devotion[data-theme="dark"] .share-card-preview:not([data-theme="light"] *),
+html.dark body.page-daily-devotion .share-card-preview:not([data-theme="light"] *) {
     background: rgba(148, 163, 184, 0.1);
+}
+
+/* ============================================================================
+   FORCE LIGHT MODE — Modal Theme Isolation
+   Explicit light mode enforcement when data-theme="light" is set on modal
+   ============================================================================ */
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .share-card-header {
+    border-bottom-color: #e5e7eb !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .share-card-title {
+    color: #1a1a1a !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .share-card-close {
+    color: #6b7280 !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .share-card-close:hover {
+    background: #f3f4f6 !important;
+    color: #1a1a1a !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .format-toggle-label {
+    color: #6b7280 !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .format-toggle {
+    background: #f3f4f6 !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .format-btn {
+    color: #6b7280 !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .format-btn:hover {
+    color: #1a1a1a !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .format-btn.active {
+    background: #ffffff !important;
+    color: #7c3aed !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .share-card-preview {
+    background: #f9fafb !important;
+}
+
+body.page-daily-devotion .share-card-modal[data-theme="light"] .preview-loading {
+    color: #6b7280 !important;
 }
 
 /* Share Card Button (Trigger) */
