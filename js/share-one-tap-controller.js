@@ -7,7 +7,7 @@
  * ============================================================================
  */
 
-(function(window) {
+(function (window) {
     'use strict';
 
     // ============================================================================
@@ -57,7 +57,7 @@
 
         // Device-based selection
         const isMobile = /iPhone|iPad|iPod|Android/i.test(userAgent) || window.innerWidth < 768;
-        
+
         if (isMobile) {
             console.log('[GPBC One Tap Share] Mobile device → story (9:16)');
             return 'story';
@@ -72,7 +72,7 @@
      */
     function showSacredFeedback(message) {
         let feedbackEl = document.getElementById('gpbc-share-feedback');
-        
+
         if (!feedbackEl) {
             feedbackEl = document.createElement('div');
             feedbackEl.id = 'gpbc-share-feedback';
@@ -112,7 +112,7 @@
 
         // Sacred gold shimmer animation
         feedbackEl.style.animation = 'sacred-shimmer 2s ease-in-out infinite';
-        
+
         // Add shimmer keyframes if not already present
         if (!document.getElementById('sacred-shimmer-keyframes')) {
             const style = document.createElement('style');
@@ -199,7 +199,7 @@
 
         // Get current devotion data
         const devotionData = window.__CURRENT_DEVOTION__ || window.__CURRENT_DEVOTION_DATA__;
-        
+
         if (!devotionData) {
             throw new Error('No devotion data available');
         }
@@ -226,7 +226,7 @@
             // Use existing render function with correct format
             await window.renderCardToCanvas(generatorFormat, logoImg);
             console.log('[GPBC One Tap Share] ✅ Card rendered via renderCardToCanvas');
-            
+
             const canvas = document.getElementById('shareCardCanvas');
             if (!canvas) {
                 throw new Error('Canvas not found after render');
@@ -302,7 +302,7 @@
 
         const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
         const item = new ClipboardItem({ 'image/png': blob });
-        
+
         await navigator.clipboard.write([item]);
         console.log('[GPBC One Tap Share] ✅ Image copied to clipboard');
     }
@@ -319,6 +319,64 @@
         a.click();
         document.body.removeChild(a);
         console.log('[GPBC One Tap Share] ✅ Image downloaded');
+    }
+
+    /**
+     * Copy text payload to clipboard with legacy fallback
+     */
+    async function copyTextToClipboard(text) {
+        if (!text) return false;
+
+        try {
+            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                await navigator.clipboard.writeText(text);
+                return true;
+            }
+        } catch (error) {
+            console.warn('[GPBC One Tap Share] Clipboard API failed:', error.message);
+        }
+
+        try {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            const copied = document.execCommand('copy');
+            document.body.removeChild(textarea);
+            return copied;
+        } catch (error) {
+            console.warn('[GPBC One Tap Share] Legacy clipboard fallback failed:', error.message);
+            return false;
+        }
+    }
+
+    /**
+     * Open SMS composer using platform-safe URI format
+     */
+    function openSMSComposer(textPayload = '') {
+        const encoded = encodeURIComponent(textPayload);
+        const ua = navigator.userAgent || '';
+        const isIOS = /iPhone|iPad|iPod/i.test(ua);
+        const href = isIOS ? `sms:&body=${encoded}` : `sms:?body=${encoded}`;
+
+        console.log('[GPBC One Tap Share] 📱 Opening SMS Composer:', href.substring(0, 50) + '...');
+
+        try {
+            const anchor = document.createElement('a');
+            anchor.href = href;
+            anchor.style.display = 'none';
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+            console.log('[GPBC One Tap Share] ✅ SMS Composer triggered');
+            return true;
+        } catch (error) {
+            console.warn('[GPBC One Tap Share] ❌ SMS URI open failed:', error.message);
+            return false;
+        }
     }
 
     /**
@@ -365,7 +423,7 @@
      * Enterprise-grade multi-tier sharing with fallback ladder
      * Supports modes: "image" (default), "url", "text"
      */
-    window.oneTapDevotionShare = async function(options = {}) {
+    window.oneTapDevotionShare = async function (options = {}) {
         // Prevent concurrent shares
         if (ShareState.isSharing) {
             console.warn('[GPBC One Tap Share] Share already in progress');
@@ -374,13 +432,13 @@
 
         ShareState.isSharing = true;
         ShareState.shareCount++;
-        
+
         console.log('[GPBC One Tap Share] 🚀 Starting one-tap share flow...');
         console.log('[GPBC One Tap Share] Options:', options);
 
         const shareMode = options.mode || 'image';
         const devotionData = window.__CURRENT_DEVOTION__ || window.__CURRENT_DEVOTION_DATA__ || {};
-        
+
         let feedbackEl = null;
 
         // ========================================
@@ -389,7 +447,7 @@
         if (shareMode === 'sms') {
             try {
                 feedbackEl = showSacredFeedback('Preparing SMS share…');
-                
+
                 // Generate SMS-optimized card
                 const generatorReady = await ensureGeneratorReady();
                 if (!generatorReady) {
@@ -398,16 +456,16 @@
 
                 const format = 'story'; // 9:16 works best for SMS
                 const canvas = await generateCardSilently(format, { channel: 'sms' });
-                
+
                 // Create SMS-optimized file
                 const smsFile = await canvasToSMSFile(canvas);
-                
+
                 const verseText = devotionData.verseText || '';
                 const verse = devotionData.verse || '';
                 const reflectionUrl = window.location.href;
-                
+
                 const smsText = `${verseText}\n\n${verse}\n\nRead reflection: ${reflectionUrl}\n\nGrace & Praise Bangladeshi Church`;
-                
+
                 // Try to share with image + text
                 if (navigator.share) {
                     if (navigator.canShare && navigator.canShare({ files: [smsFile] })) {
@@ -424,22 +482,47 @@
                         });
                         downloadImage(canvas, 'gpbc-devotion-sms.jpg');
                     }
-                    
+
                     hideSacredFeedback();
                     showSuccessToast('✓ Ready to send via SMS');
                     ShareState.isSharing = false;
                     return { success: true, method: 'sms-share', mode: 'sms' };
                 } else {
-                    throw new Error('Web Share API not available');
+                    console.log('[GPBC One Tap Share] ⚠️ Native Share unavailable, using SMS fallback');
+                    const openedComposer = openSMSComposer(smsText);
+                    const copiedText = await copyTextToClipboard(smsText);
+
+                    if (typeof window.downloadSMSCard === 'function') {
+                        await window.downloadSMSCard(canvas);
+                    } else {
+                        downloadImage(canvas, 'gpbc-devotion-sms.jpg');
+                    }
+
+                    hideSacredFeedback();
+                    if (openedComposer) {
+                        showSuccessToast('✓ SMS opened. Image downloaded.');
+                    } else if (copiedText) {
+                        showSuccessToast('✓ SMS text copied. Image downloaded.');
+                    } else {
+                        showSuccessToast('✓ Image downloaded for SMS.');
+                    }
+
+                    ShareState.isSharing = false;
+                    return {
+                        success: true,
+                        method: openedComposer ? 'sms-uri-fallback' : 'sms-download-fallback',
+                        mode: 'sms',
+                        copiedText
+                    };
                 }
             } catch (error) {
                 console.log('[GPBC One Tap Share] SMS share failed:', error.message);
                 hideSacredFeedback();
-                
+
                 if (error.name !== 'AbortError') {
                     showSuccessToast('✗ SMS share not available');
                 }
-                
+
                 ShareState.isSharing = false;
                 return { success: false, reason: error.name === 'AbortError' ? 'user-canceled' : 'not-supported' };
             }
@@ -451,19 +534,19 @@
         if (shareMode === 'text') {
             try {
                 feedbackEl = showSacredFeedback('Preparing text share…');
-                
+
                 const verseText = devotionData.verseText || '';
                 const verse = devotionData.verse || '';
                 const reflectionUrl = window.location.href;
-                
+
                 const textPayload = `${verseText}\n\n${verse}\n\nRead full reflection: ${reflectionUrl}\n\nGrace & Praise Bangladeshi Church`;
-                
+
                 if (navigator.share) {
                     await navigator.share({
                         title: devotionData.title || 'Daily Devotion',
                         text: textPayload
                     });
-                    
+
                     hideSacredFeedback();
                     showSuccessToast('✓ Text shared successfully');
                     ShareState.isSharing = false;
@@ -474,11 +557,11 @@
             } catch (error) {
                 console.log('[GPBC One Tap Share] Text share failed:', error.message);
                 hideSacredFeedback();
-                
+
                 if (error.name !== 'AbortError') {
                     showSuccessToast('✗ Text share not available');
                 }
-                
+
                 ShareState.isSharing = false;
                 return { success: false, reason: error.name === 'AbortError' ? 'user-canceled' : 'not-supported' };
             }
@@ -490,14 +573,14 @@
         if (shareMode === 'url') {
             try {
                 feedbackEl = showSacredFeedback('Preparing link share…');
-                
+
                 if (navigator.share) {
                     await navigator.share({
                         title: devotionData.title || 'Daily Devotion',
                         text: `${devotionData.verse || 'Daily Devotion'}`,
                         url: window.location.href
                     });
-                    
+
                     hideSacredFeedback();
                     showSuccessToast('✓ Link shared successfully');
                     ShareState.isSharing = false;
@@ -508,11 +591,11 @@
             } catch (error) {
                 console.log('[GPBC One Tap Share] URL share failed:', error.message);
                 hideSacredFeedback();
-                
+
                 if (error.name !== 'AbortError') {
                     showSuccessToast('✗ Link share not available');
                 }
-                
+
                 ShareState.isSharing = false;
                 return { success: false, reason: error.name === 'AbortError' ? 'user-canceled' : 'not-supported' };
             }
@@ -526,20 +609,29 @@
             // STEP 1: Show feedback
             feedbackEl = showSacredFeedback('Generating Sacred Card…');
 
-            // STEP 2: Ensure generator ready
-            const generatorReady = await ensureGeneratorReady();
-            if (!generatorReady) {
-                throw new Error('Share generator not ready');
+            let canvas;
+
+            // Check if we should use existing canvas (from modal)
+            if (options.useExistingCanvas) {
+                console.log('[GPBC One Tap Share] Using existing canvas from modal');
+                canvas = options.useExistingCanvas;
+                if (feedbackEl) feedbackEl.textContent = 'Blessing Image Ready…';
+            } else {
+                // STEP 2: Ensure generator ready
+                const generatorReady = await ensureGeneratorReady();
+                if (!generatorReady) {
+                    throw new Error('Share generator not ready');
+                }
+
+                // STEP 3: Select best format
+                const format = selectBestFormat(options);
+
+                // STEP 4: Update feedback
+                if (feedbackEl) feedbackEl.textContent = 'Blessing Image Prepared…';
+
+                // STEP 5: Generate card silently
+                canvas = await generateCardSilently(format, options);
             }
-
-            // STEP 3: Select best format
-            const format = selectBestFormat(options);
-
-            // STEP 4: Update feedback
-            if (feedbackEl) feedbackEl.textContent = 'Blessing Image Prepared…';
-
-            // STEP 5: Generate card silently
-            const canvas = await generateCardSilently(format, options);
 
             // STEP 6: Update feedback
             if (feedbackEl) feedbackEl.textContent = 'Ready to Share';
@@ -561,13 +653,13 @@
             try {
                 if (navigator.canShare && navigator.canShare({ files: [shareFile] })) {
                     console.log('[GPBC One Tap Share] Tier 1: Attempting Web Share with image file');
-                    
+
                     await navigator.share({
                         title: devotionData.title || 'Daily Devotion',
                         text: `${devotionData.verse || ''}\n\nGrace & Praise Bangladeshi Church`,
                         files: [shareFile]
                     });
-                    
+
                     hideSacredFeedback();
                     showSuccessToast('✓ Shared successfully');
                     ShareState.isSharing = false;
@@ -577,33 +669,33 @@
                 }
             } catch (tier1Error) {
                 console.log('[GPBC One Tap Share] Tier 1 failed:', tier1Error.message);
-                
+
                 // User canceled - stop here
                 if (tier1Error.name === 'AbortError') {
                     hideSacredFeedback();
                     ShareState.isSharing = false;
                     return { success: false, reason: 'user-canceled' };
                 }
-                
+
                 // ========================================
                 // TIER 2: Web Share API with URL + Text
                 // ========================================
                 try {
                     if (navigator.share) {
                         console.log('[GPBC One Tap Share] Tier 2: Attempting Web Share with URL');
-                        
+
                         await navigator.share({
                             title: devotionData.title || 'Daily Devotion',
                             text: `${devotionData.verse || ''}\n\nGrace & Praise Bangladeshi Church`,
                             url: window.location.href
                         });
-                        
+
                         hideSacredFeedback();
                         showSuccessToast('✓ Link shared (image downloaded)');
-                        
+
                         // Also download the image for user convenience
                         downloadImage(canvas, options.channel === 'sms' ? 'gpbc-devotion-sms.jpg' : 'gpbc-devotion.png');
-                        
+
                         ShareState.isSharing = false;
                         return { success: true, method: 'native-share-url', tier: 2 };
                     } else {
@@ -611,31 +703,31 @@
                     }
                 } catch (tier2Error) {
                     console.log('[GPBC One Tap Share] Tier 2 failed:', tier2Error.message);
-                    
+
                     // User canceled - stop here
                     if (tier2Error.name === 'AbortError') {
                         hideSacredFeedback();
                         ShareState.isSharing = false;
                         return { success: false, reason: 'user-canceled' };
                     }
-                    
+
                     // ========================================
                     // TIER 3: Text-only Share
                     // ========================================
                     try {
                         if (navigator.share) {
                             console.log('[GPBC One Tap Share] Tier 3: Attempting text-only share');
-                            
+
                             const textPayload = `${devotionData.title || 'Daily Devotion'}\n\n${devotionData.verse || ''}\n${devotionData.verseText || ''}\n\nRead more: ${window.location.href}\n\nGrace & Praise Bangladeshi Church`;
-                            
+
                             await navigator.share({ text: textPayload });
-                            
+
                             hideSacredFeedback();
                             showSuccessToast('✓ Text shared (image downloaded)');
-                            
+
                             // Also download the image for user convenience
                             downloadImage(canvas, options.channel === 'sms' ? 'gpbc-devotion-sms.jpg' : 'gpbc-devotion.png');
-                            
+
                             ShareState.isSharing = false;
                             return { success: true, method: 'text-share', tier: 3 };
                         } else {
@@ -643,7 +735,7 @@
                         }
                     } catch (tier3Error) {
                         console.log('[GPBC One Tap Share] Tier 3 failed:', tier3Error.message);
-                        
+
                         // Final fallback chain
                         if (tier3Error.name !== 'AbortError') {
                             // Try clipboard
@@ -682,14 +774,14 @@
     /**
      * Check if one-tap share is available
      */
-    window.isOneTapShareAvailable = function() {
+    window.isOneTapShareAvailable = function () {
         return !!(navigator.share || navigator.clipboard);
     };
 
     /**
      * Get share statistics
      */
-    window.getShareStats = function() {
+    window.getShareStats = function () {
         return {
             totalShares: ShareState.shareCount,
             lastShareTimestamp: ShareState.lastShareTimestamp,
@@ -701,9 +793,9 @@
     /**
      * Preload share resources
      */
-    window.preloadShareResources = async function() {
+    window.preloadShareResources = async function () {
         console.log('[GPBC One Tap Share] Preloading share resources...');
-        
+
         // Preload background for current devotion
         if (typeof window.getShareBackgroundForCurrentDevotion === 'function') {
             try {
