@@ -218,7 +218,8 @@
                         <span class="share-icon" aria-hidden="true">↗</span>
                         <span>Share Today's Devotion</span>
                     </button>
-                    <button class="share-card-trigger" id="shareCardTrigger" aria-label="Generate share card">
+                    <button class="share-card-trigger" id="shareCardTrigger" aria-label="Generate share card"
+                        data-share-mode="advanced">
                         <span class="share-card-trigger-icon" aria-hidden="true">🖼️</span>
                         <span>Share Card</span>
                     </button>
@@ -621,7 +622,7 @@
 
     <!-- Load Data Mesh Loader (5-layer fallback system) -->
     <script src="js/devotion-data-mesh-loader.js"></script>
-    
+
     <!-- Load devotions data from external JSON file -->
     <script src="devotions-data.js"></script>
 
@@ -632,7 +633,7 @@
         // Zero Loader • Instant Render • Offline Safe • Cache Powered
         // ═══════════════════════════════════════════════════════════════
 
-        (function() {
+        (function () {
             'use strict';
 
             // ─────────────────────────────────────────────────────────
@@ -657,7 +658,7 @@
                     try {
                         const cached = localStorage.getItem(this.CACHE_KEY);
                         const timestamp = localStorage.getItem(this.CACHE_TIMESTAMP_KEY);
-                        
+
                         if (!cached || !timestamp) return null;
 
                         const age = Date.now() - parseInt(timestamp, 10);
@@ -747,7 +748,7 @@
                     this.refreshInProgress = true;
 
                     console.log('[Resurrection] 🔄 Background refresh started');
-                    
+
                     // Simulate refresh delay (in production, this would fetch new data)
                     setTimeout(() => {
                         if (window.DEVOTIONS && Array.isArray(window.DEVOTIONS)) {
@@ -808,7 +809,7 @@
                         window.DEVOTIONS = cached;
                         window.SkeletonEngine.hide();
                         console.log('[Resurrection] ⚡ Instant resurrection from cache!');
-                        
+
                         // Trigger render immediately
                         if (typeof startDevotions === 'function') {
                             startDevotions();
@@ -816,7 +817,7 @@
 
                         // Background refresh for next time
                         setTimeout(() => window.BackgroundRefresh.start(), 1000);
-                        
+
                         const perfEnd = performance.now();
                         console.log('[Resurrection] 📊 First Meaningful Paint:', Math.round(perfEnd - perfStart), 'ms');
                         return;
@@ -827,8 +828,8 @@
                     window.SkeletonEngine.show();
 
                     // STEP 3: Save to cache when data loads
-                    const originalDevotionsLoaded = window.devotionsLoaded || function() {};
-                    window.devotionsLoaded = function() {
+                    const originalDevotionsLoaded = window.devotionsLoaded || function () { };
+                    window.devotionsLoaded = function () {
                         if (window.DEVOTIONS && window.DEVOTIONS.length > 0) {
                             window.DevotionCache.save(window.DEVOTIONS);
                         }
@@ -948,7 +949,7 @@
                 // Smooth fade-out animation
                 loader.style.opacity = "0";
                 loader.style.transition = "opacity 0.3s ease";
-                
+
                 setTimeout(() => {
                     loader.style.display = "none";
                     console.log("[Devotion] ✅ Loader hidden (smooth fade-out)");
@@ -1130,7 +1131,7 @@
                     });
                     dateStrip.appendChild(pill);
                 });
-                
+
                 console.log("[Devotion] CALENDAR PILLS BUILT:", windowKeys.length);
             }
 
@@ -1196,7 +1197,7 @@
 
                 console.log("[Devotion] Fetch Success");
                 console.log("[Devotion] Data Validated");
-                
+
                 // STEP 1 — Log devotion data for debugging
                 console.log("[Devotion] Loaded data:", {
                     date: key,
@@ -1291,7 +1292,7 @@
             // Update Sacred Quote Card
             function updateSacredQuoteCard(date, reference, verseText) {
                 console.log("[Devotion] Updating Sacred Quote:", { date, reference, verseText });
-                
+
                 // STEP 2 — Direct ID-based updates (reliable)
                 const dateEl = document.getElementById('sacredQuoteDate');
                 const refEl = document.getElementById('sacredQuoteRefText');
@@ -1484,16 +1485,16 @@
                 shareFacebookBtn.addEventListener('click', () => {
                     // Use one-tap share if available
                     if (window.oneTapDevotionShare) {
-            if (shareInstagramBtn) {
-                shareInstagramBtn.addEventListener('click', () => {
-                    // Use one-tap share if available
-                    if (window.oneTapDevotionShare) {
-                        window.oneTapDevotionShare({ channel: 'instagram' });
-                    } else {
-                        shareToInstagram();
-                    }
-                });
-            }           shareToFacebook();
+                        if (shareInstagramBtn) {
+                            shareInstagramBtn.addEventListener('click', () => {
+                                // Use one-tap share if available
+                                if (window.oneTapDevotionShare) {
+                                    window.oneTapDevotionShare({ channel: 'instagram' });
+                                } else {
+                                    shareToInstagram();
+                                }
+                            });
+                        } shareToFacebook();
                     }
                 });
             }
@@ -1744,18 +1745,18 @@
                 try {
                     if (contentEl) contentEl.style.display = 'block';
                     if (fallbackEl) fallbackEl.style.display = 'none';
-                    
+
                     // STEP 3 — Populate main devotion
                     safeSetTextById('devotionTitle', fallback.title);
                     safeSetTextById('devotionSubtitle', `${fallback.date} — ${fallback.verse}`);
                     safeSetTextById('bibleReference', fallback.verse);
-                    
+
                     const verseEl = document.querySelector('[data-devotion-scripture]');
                     if (verseEl) verseEl.textContent = fallback.verseText;
-                    
+
                     const reflectionEl = document.querySelector('[data-devotion-reflection]');
                     if (reflectionEl) reflectionEl.innerHTML = `<p>${fallback.reflection}</p>`;
-                    
+
                     const prayerEl = document.querySelector('[data-devotion-prayer]');
                     if (prayerEl) prayerEl.innerHTML = `<p>${fallback.prayer}</p>`;
 
@@ -1768,9 +1769,9 @@
 
                     window.__DEVOTION_RENDER_COMPLETED__ = true;
                     window.__DEVOTION_LOADED__ = true;
-                    
+
                     console.log("[Devotion] Fallback render complete");
-                    
+
                     // STEP 5 — CRITICAL: Fallback must NOT block renderAll()
                     // Calendar and UI state should still render even with fallback content
                 } catch (err) {
@@ -1788,7 +1789,7 @@
                     populateSelectors();
                     renderDateStrip();
                     applyUiTranslations(currentLang);
-                    
+
                     // PHASE 3 — Loader control (only visible if NOT completed)
                     if (loadingEl && !window.__DEVOTION_RENDER_COMPLETED__) {
                         loadingEl.style.display = 'block';
@@ -1800,9 +1801,9 @@
                         console.error("[Devotion] Render failed:", error);
                         showFallbackDevotion();
                     }
-                    
+
                     highlightSelected();
-                    
+
                     // STEP 4 — ABSOLUTE RULE: Loader must ALWAYS hide
                     hideDevotionLoader();
                     console.log("[Devotion] ✅ Loader hidden (renderAll)");
@@ -1832,7 +1833,7 @@
             }
 
             populateSelectors();
-            
+
             // STEP 5 — EMERGENCY KILL SWITCH: Force loader hide after 4 seconds
             setTimeout(() => {
                 if (!window.__DEVOTION_LOADED__) {
@@ -1841,7 +1842,7 @@
                     window.SkeletonEngine.hide();
                 }
             }, 4000);
-            
+
             // PHASE 3 — WATCHDOG: Force loader hide after 4000ms if not completed
             setTimeout(() => {
                 if (!window.__DEVOTION_RENDER_COMPLETED__) {
@@ -1850,7 +1851,7 @@
                     showFallbackDevotion();
                 }
             }, 4000);
-            
+
             renderAll();
         }
 
@@ -1957,6 +1958,18 @@
 
     <!-- SMS Share Optimizer -->
     <script src="js/sms-share-optimizer.js"></script>
+
+    <!-- Smart Share AI V1 (Legacy) -->
+    <script src="js/smart-share-ai.js"></script>
+
+    <!-- Smart Share AI V2 - Predictive Ministry Engine -->
+    <script type="module" src="js/smart-share-ai-v2/capability-detector.js"></script>
+    <script type="module" src="js/smart-share-ai-v2/profile-store.js"></script>
+    <script type="module" src="js/smart-share-ai-v2/predictor.js"></script>
+    <script type="module" src="js/smart-share-ai-v2/pregen-engine.js"></script>
+    <script type="module" src="js/smart-share-ai-v2/strategy-engine.js"></script>
+    <script type="module" src="js/smart-share-ai-v2/ministry-insights.js"></script>
+    <script type="module" src="js/smart-share-ai-v2/index.js"></script>
 
     <!-- One-Tap Share Controller -->
     <script src="js/share-one-tap-controller.js"></script>
