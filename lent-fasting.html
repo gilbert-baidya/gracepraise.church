@@ -3,12 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="platform-runtime.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church</title>
     <meta name="description"
         content="Join us for 40 days of prayer and fasting. Daily devotions with Bible verses, reflections, and prayers in English and Bengali.">
-    <link rel="icon" type="image/svg+xml" href="images/new-gpbc-logo-final.svg">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="images/logo/GPBC_Favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicons/android-chrome-192x192.png">
+    <link rel="apple-touch-icon" href="images/favicons/apple-touch-icon.png">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -264,6 +267,27 @@
     <script src="devotions-data.js?v=dev"></script>
 
     <script>
+        // ══════════════════════════════════════════════════════════
+        // GLOBAL UNLOCK CONFIGURATION
+        // Set this flag to true to unlock all devotion days
+        // ══════════════════════════════════════════════════════════
+        window.FORCE_DEVOTION_UNLOCK = false; // Set to true to unlock all days
+
+        // Auto-enable unlock if devUnlockAllDays is true in JSON
+        async function checkDevUnlockFlag() {
+            try {
+                const response = await fetch('lent-fasting-devotions.json');
+                const data = await response.json();
+                if (data.devUnlockAllDays === true) {
+                    window.FORCE_DEVOTION_UNLOCK = true;
+                    console.log('[Lent] devUnlockAllDays=true detected - all days unlocked');
+                }
+            } catch (e) {
+                console.warn('[Lent] Could not check devUnlockAllDays flag:', e);
+            }
+        }
+        checkDevUnlockFlag();
+
         document.addEventListener('DOMContentLoaded', () => {
 
             /* ── Weekly Theme Map ─────────────────────────────────── */
@@ -677,10 +701,11 @@
                 },
 
                 updateContent(devotion) {
-                    // Title
-                    const titleEn = devotion.title || devotion.topic || `Day ${devotion.day}`;
-                    const titleBn = devotion.titleBn || devotion.topicBn || '';
-                    this.elements.devotionTopic.textContent = titleEn;
+                    // Title with language support
+                    const lang = this.currentLang;
+                    const titleEn = devotion.topic || devotion.title || `Day ${devotion.day}`;
+                    const titleBn = devotion.topicBn || devotion.titleBn || '';
+                    this.elements.devotionTopic.textContent = (lang === 'bn' && titleBn) ? titleBn : titleEn;
                     this.elements.devotionTopicBn.textContent = titleBn;
 
                     // Date
@@ -718,21 +743,37 @@
                         linkBn.setAttribute('aria-label', `Read ${vRefBn || vRefEn} on Bible Gateway (Bengali)`);
                     }
 
-                    // Reflection
-                    const refEn = (devotion.reflection || '').replace(/\\n/g, '<br>');
-                    const refBn = (devotion.reflectionBn || '').replace(/\\n/g, '<br>');
-                    this.elements.reflectionText.innerHTML = refEn;
-                    this.elements.reflectionTextBn.innerHTML = refBn;
+                    // Reflection - remove backslash escapes and handle both languages with fallbacks
+                    const refEn = devotion.reflection || '';
+                    const refBn = devotion.reflectionBn || '';
+                    this.elements.reflectionText.innerHTML = refEn.replace(/\n/g, '<br>');
+                    this.elements.reflectionTextBn.innerHTML = refBn.replace(/\n/g, '<br>');
+                    
+                    // If one language is missing, show note in that language
+                    if (!refEn && refBn) {
+                        this.elements.reflectionText.innerHTML = '<em>(English translation not available)</em>';
+                    }
+                    if (!refBn && refEn) {
+                        this.elements.reflectionTextBn.innerHTML = '<em>(বাংলা অনুবাদ উপলব্ধ নেই)</em>';
+                    }
 
                     // Show/hide read more based on content length
-                    const textLen = (devotion.reflection || '').length + (devotion.reflectionBn || '').length;
+                    const textLen = refEn.length + refBn.length;
                     this.elements.readMoreBtn.style.display = textLen > 200 ? '' : 'none';
 
-                    // Prayer
-                    const prayerEn = (devotion.prayer || '').replace(/\\n/g, '<br>');
-                    const prayerBn = (devotion.prayerBn || '').replace(/\\n/g, '<br>');
-                    this.elements.prayerText.innerHTML = prayerEn;
-                    this.elements.prayerTextBn.innerHTML = prayerBn;
+                    // Prayer - remove backslash escapes and handle both languages with fallbacks
+                    const prayerEn = devotion.prayer || '';
+                    const prayerBn = devotion.prayerBn || '';
+                    this.elements.prayerText.innerHTML = prayerEn.replace(/\n/g, '<br>');
+                    this.elements.prayerTextBn.innerHTML = prayerBn.replace(/\n/g, '<br>');
+                    
+                    // If one language is missing, show note in that language
+                    if (!prayerEn && prayerBn) {
+                        this.elements.prayerText.innerHTML = '<em>(English translation not available)</em>';
+                    }
+                    if (!prayerBn && prayerEn) {
+                        this.elements.prayerTextBn.innerHTML = '<em>(বাংলা অনুবাদ উপলব্ধ নেই)</em>';
+                    }
 
                     // Bible Promise (optional)
                     if (devotion.biblePromise) {

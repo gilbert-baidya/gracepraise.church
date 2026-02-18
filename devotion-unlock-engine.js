@@ -35,6 +35,25 @@ const DevotionUnlockEngine = (() => {
     const TOTAL_LENT_DAYS = 40;
     const UNLOCK_CACHE_KEY = 'gpbc-unlock-state';
 
+    // ══════════════════════════════════════════════════
+    // GLOBAL UNLOCK OVERRIDE
+    // Set window.FORCE_DEVOTION_UNLOCK = true to bypass date-gating
+    // ══════════════════════════════════════════════════
+    function shouldForceUnlock() {
+        // Check global override flag
+        if (typeof window !== 'undefined' && window.FORCE_DEVOTION_UNLOCK === true) {
+            return true;
+        }
+        // Check query parameter ?unlock=1
+        if (typeof window !== 'undefined' && window.location) {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('unlock') === '1') {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // ══════════════════════════════════════════════════
     // DATE UTILITIES
@@ -83,6 +102,12 @@ const DevotionUnlockEngine = (() => {
     function getUnlockState(today) {
         const d = _stripTime(today || new Date());
         const year = d.getFullYear();
+
+        // Check if force unlock is enabled
+        if (shouldForceUnlock()) {
+            console.log('[DevotionUnlock] Force unlock enabled - all days unlocked');
+            return _allUnlocked();
+        }
 
         // Get Ash Wednesday from the Liturgical Calendar Engine
         let ashWednesday;
@@ -516,7 +541,7 @@ const DevotionUnlockEngine = (() => {
     // ══════════════════════════════════════════════════
     function init(today) {
         _injectStyles();
-        const state = getUnlockState(today);
+        const state = getPublicUnlockState(today);
 
         console.log(
             `[DevotionUnlock] Phase: ${state.phase} | ` +
@@ -533,6 +558,34 @@ const DevotionUnlockEngine = (() => {
     // ══════════════════════════════════════════════════
     let _forceUnlock = false;
 
+    function isForcedUnlockActive() {
+        return _forceUnlock || (typeof window !== 'undefined' && window.FORCE_DEVOTION_UNLOCK === true);
+    }
+
+    function buildForcedUnlockState(today) {
+        const state = getUnlockState(today);
+        return {
+            ...state,
+            phase: 'after-lent',
+            currentLentDay: TOTAL_LENT_DAYS,
+            maxUnlockedDay: TOTAL_LENT_DAYS,
+            progress: 1,
+            days: state.days.map(d => ({
+                ...d,
+                unlocked: true,
+                isToday: false,
+                isNew: false
+            }))
+        };
+    }
+
+    function getPublicUnlockState(today) {
+        if (isForcedUnlockActive()) {
+            return buildForcedUnlockState(today);
+        }
+        return getUnlockState(today);
+    }
+
     function forceUnlockAll() {
         _forceUnlock = true;
         console.log('[DevotionUnlock] 🔓 DEV MODE: All days unlocked');
@@ -542,21 +595,15 @@ const DevotionUnlockEngine = (() => {
     // PUBLIC API
     // ══════════════════════════════════════════════════
     return Object.freeze({
-        getUnlockState: (today) => {
-            const state = getUnlockState(today);
-            if (_forceUnlock) {
-                return { ...state, phase: 'after-lent', currentLentDay: TOTAL_LENT_DAYS, maxUnlockedDay: TOTAL_LENT_DAYS, progress: 1, days: state.days.map(d => ({ ...d, unlocked: true })) };
-            }
-            return state;
-        },
+        getUnlockState: getPublicUnlockState,
         forceUnlockAll,
         // Core
         init,
         getAshWednesday,
         getDaysSinceAshWednesday,
         getUnlockedDevotionDays,
-        isDayUnlocked: (day, today) => _forceUnlock ? true : isDayUnlocked(day, today),
-        canAccessDay: (day, today) => _forceUnlock ? true : canAccessDay(day, today),
+        isDayUnlocked: (day, today) => isForcedUnlockActive() ? true : isDayUnlocked(day, today),
+        canAccessDay: (day, today) => isForcedUnlockActive() ? true : canAccessDay(day, today),
 
         // UI components
         applyToSelector,
