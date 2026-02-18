@@ -1,0 +1,244 @@
+/* ==========================================================================
+   LITURGICAL TOKENS — Season-Driven CSS Variables
+   ==========================================================================
+   Applied via [data-season] attribute set by liturgical-theme-engine.js.
+   Works alongside [data-theme] (light/dark) independently.
+   
+   Tokens:
+     --season-primary     → Primary UI color
+     --season-accent      → Accents, CTAs, highlights
+     --season-bg-gradient → Hero/page gradient
+     --season-glow        → Ambient glow for cards, headers
+     --season-divider     → Divider/border accent
+     --season-btn-bg      → Primary button fill
+     --season-focus       → Focus ring (a11y)
+   ========================================================================== */
+
+
+/* ──────────────────────────────────────────────
+   DEFAULT: Ordinary Time (Green — Growth, Discipleship)
+   Fallback when no data-season is set or JS fails
+   ────────────────────────────────────────────── */
+:root {
+    --season-primary: #16a34a;
+    --season-accent: #65a30d;
+    --season-bg-gradient: linear-gradient(135deg, #064e3b 0%, #0f2a1d 100%);
+    --season-glow: rgba(22, 163, 74, 0.10);
+    --season-divider: rgba(101, 163, 13, 0.25);
+    --season-btn-bg: #16a34a;
+    --season-focus: #4ade80;
+    --season-surface: rgba(22, 163, 74, 0.06);
+}
+
+
+/* ──────────────────────────────────────────────
+   LENT — Purple (Reflection, Repentance)
+   Ash Wednesday → Easter Eve
+   ────────────────────────────────────────────── */
+[data-season="lent"] {
+    --season-primary: #6b21a8;
+    --season-accent: #d4a846;
+    --season-bg-gradient: linear-gradient(135deg, #2d1b69 0%, #1a0e3e 100%);
+    --season-glow: rgba(107, 33, 168, 0.15);
+    --season-divider: rgba(212, 168, 70, 0.40);
+    --season-btn-bg: #7c3aed;
+    --season-focus: #a78bfa;
+    --season-surface: rgba(107, 33, 168, 0.06);
+}
+
+[data-season="lent"][data-theme="dark"] {
+    --season-primary: #a855f7;
+    --season-accent: #fbbf24;
+    --season-bg-gradient: linear-gradient(135deg, #1e1145 0%, #0f0825 100%);
+    --season-glow: rgba(168, 85, 247, 0.20);
+    --season-divider: rgba(251, 191, 36, 0.35);
+    --season-btn-bg: #9333ea;
+    --season-focus: #c084fc;
+    --season-surface: rgba(168, 85, 247, 0.08);
+}
+
+
+/* ──────────────────────────────────────────────
+   EASTER — White / Gold (Victory, Resurrection)
+   Easter Sunday → Pentecost Eve
+   ────────────────────────────────────────────── */
+[data-season="easter"] {
+    --season-primary: #ca8a04;
+    --season-accent: #f5f0e0;
+    --season-bg-gradient: linear-gradient(135deg, #fef9c3 0%, #fde68a 50%, #fef3c7 100%);
+    --season-glow: rgba(202, 138, 4, 0.12);
+    --season-divider: rgba(202, 138, 4, 0.30);
+    --season-btn-bg: #ca8a04;
+    --season-focus: #fbbf24;
+    --season-surface: rgba(202, 138, 4, 0.06);
+}
+
+[data-season="easter"][data-theme="dark"] {
+    --season-primary: #facc15;
+    --season-accent: #fef3c7;
+    --season-bg-gradient: linear-gradient(135deg, #422006 0%, #1c1004 100%);
+    --season-glow: rgba(250, 204, 21, 0.15);
+    --season-divider: rgba(250, 204, 21, 0.30);
+    --season-btn-bg: #eab308;
+    --season-focus: #fde68a;
+    --season-surface: rgba(250, 204, 21, 0.08);
+}
+
+
+/* ──────────────────────────────────────────────
+   PENTECOST — Red (Holy Spirit Fire, Power)
+   Pentecost Sunday + Octave
+   ────────────────────────────────────────────── */
+[data-season="pentecost"] {
+    --season-primary: #dc2626;
+    --season-accent: #f97316;
+    --season-bg-gradient: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+    --season-glow: rgba(220, 38, 38, 0.15);
+    --season-divider: rgba(249, 115, 22, 0.35);
+    --season-btn-bg: #dc2626;
+    --season-focus: #f87171;
+    --season-surface: rgba(220, 38, 38, 0.06);
+}
+
+[data-season="pentecost"][data-theme="dark"] {
+    --season-primary: #f87171;
+    --season-accent: #fb923c;
+    --season-bg-gradient: linear-gradient(135deg, #4c0519 0%, #1c0208 100%);
+    --season-glow: rgba(248, 113, 113, 0.20);
+    --season-divider: rgba(251, 146, 60, 0.35);
+    --season-btn-bg: #ef4444;
+    --season-focus: #fca5a5;
+    --season-surface: rgba(248, 113, 113, 0.08);
+}
+
+
+/* ──────────────────────────────────────────────
+   ORDINARY TIME — Green (Growth, Discipleship)
+   Epiphany → Ash Wednesday & Post-Pentecost → Advent
+   ────────────────────────────────────────────── */
+[data-season="ordinary"] {
+    --season-primary: #16a34a;
+    --season-accent: #65a30d;
+    --season-bg-gradient: linear-gradient(135deg, #064e3b 0%, #0f2a1d 100%);
+    --season-glow: rgba(22, 163, 74, 0.10);
+    --season-divider: rgba(101, 163, 13, 0.25);
+    --season-btn-bg: #16a34a;
+    --season-focus: #4ade80;
+    --season-surface: rgba(22, 163, 74, 0.06);
+}
+
+[data-season="ordinary"][data-theme="dark"] {
+    --season-primary: #4ade80;
+    --season-accent: #84cc16;
+    --season-bg-gradient: linear-gradient(135deg, #052e16 0%, #021408 100%);
+    --season-glow: rgba(74, 222, 128, 0.15);
+    --season-divider: rgba(132, 204, 22, 0.25);
+    --season-btn-bg: #22c55e;
+    --season-focus: #86efac;
+    --season-surface: rgba(74, 222, 128, 0.08);
+}
+
+
+/* ──────────────────────────────────────────────
+   ADVENT — Deep Purple / Blue (Preparation, Hope)
+   4th Sunday before Christmas → Christmas Eve
+   ────────────────────────────────────────────── */
+[data-season="advent"] {
+    --season-primary: #1e3a8a;
+    --season-accent: #7c3aed;
+    --season-bg-gradient: linear-gradient(135deg, #1e1b4b 0%, #0c0a2a 100%);
+    --season-glow: rgba(30, 58, 138, 0.12);
+    --season-divider: rgba(124, 58, 237, 0.30);
+    --season-btn-bg: #4338ca;
+    --season-focus: #818cf8;
+    --season-surface: rgba(30, 58, 138, 0.06);
+}
+
+[data-season="advent"][data-theme="dark"] {
+    --season-primary: #818cf8;
+    --season-accent: #a78bfa;
+    --season-bg-gradient: linear-gradient(135deg, #0f0e29 0%, #050415 100%);
+    --season-glow: rgba(129, 140, 248, 0.18);
+    --season-divider: rgba(167, 139, 250, 0.30);
+    --season-btn-bg: #6366f1;
+    --season-focus: #a5b4fc;
+    --season-surface: rgba(129, 140, 248, 0.08);
+}
+
+
+/* ──────────────────────────────────────────────
+   CHRISTMAS — White / Gold (Incarnation, Joy)
+   Christmas Day → Epiphany
+   ────────────────────────────────────────────── */
+[data-season="christmas"] {
+    --season-primary: #ca8a04;
+    --season-accent: #ffffff;
+    --season-bg-gradient: linear-gradient(135deg, #fef9c3 0%, #fffbeb 50%, #fef3c7 100%);
+    --season-glow: rgba(202, 138, 4, 0.12);
+    --season-divider: rgba(202, 138, 4, 0.30);
+    --season-btn-bg: #b45309;
+    --season-focus: #fbbf24;
+    --season-surface: rgba(202, 138, 4, 0.06);
+}
+
+[data-season="christmas"][data-theme="dark"] {
+    --season-primary: #fbbf24;
+    --season-accent: #fef3c7;
+    --season-bg-gradient: linear-gradient(135deg, #422006 0%, #1c1004 100%);
+    --season-glow: rgba(251, 191, 36, 0.18);
+    --season-divider: rgba(254, 243, 199, 0.25);
+    --season-btn-bg: #d97706;
+    --season-focus: #fde68a;
+    --season-surface: rgba(251, 191, 36, 0.08);
+}
+
+
+/* ==========================================================================
+   SMOOTH TRANSITIONS — Season color changes
+   Only color/gradient properties, never layout
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+    html[data-season] {
+        transition:
+            background-color 0.6s ease;
+    }
+
+    html[data-season] header,
+    html[data-season] footer,
+    html[data-season] .btn,
+    html[data-season] .btn-primary,
+    html[data-season] .feature-card,
+    html[data-season] .card-link {
+        transition:
+            color 0.5s ease,
+            background-color 0.5s ease,
+            border-color 0.5s ease,
+            box-shadow 0.5s ease;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    html[data-season],
+    html[data-season] * {
+        transition: none !important;
+    }
+}
+
+
+/* ==========================================================================
+   BRIDGE: Season tokens → Existing design system tokens
+   
+   This ensures every component using --brand-primary, --color-primary, etc.
+   automatically picks up seasonal colors with ZERO existing CSS changes.
+   ========================================================================== */
+html[data-season] {
+    --brand-primary: var(--season-primary);
+    --brand-accent: var(--season-accent);
+    --btn-primary-bg: var(--season-btn-bg);
+    --border-highlight: var(--season-focus);
+
+    /* Legacy mapping */
+    --color-primary: var(--season-primary);
+    --color-accent: var(--season-accent);
+}

@@ -30,9 +30,16 @@
     }
 
     async function loadPartials() {
+        const basePath = getBasePath();
+
         try {
-            const basePath = getBasePath();
             await injectPartial('#site-header', basePath + 'partials/header.html');
+        } catch (error) {
+            console.error(error);
+        }
+
+        try {
+            await injectPartial('#site-footer', basePath + 'partials/footer.html');
         } catch (error) {
             console.error(error);
         }

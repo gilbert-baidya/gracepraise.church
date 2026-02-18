@@ -1,0 +1,1088 @@
+/* ===================================================================
+   SACRED WAYMARKS — Lent Devotion Design System
+   Grace and Praise Bangladeshi Church · 2026
+   =================================================================== */
+
+/* ── Design Tokens ──────────────────────────────────────────────── */
+:root {
+    /* Sacred Palette */
+    --lent-indigo-950: #0f0a24;
+    --lent-indigo-900: #1e1042;
+    --lent-indigo-800: #2d1b69;
+    --lent-indigo-700: #4c1d95;
+    --lent-indigo-600: #5b21b6;
+    --lent-indigo-500: #6366f1;
+    --lent-violet-400: #8b5cf6;
+    --lent-violet-300: #a78bfa;
+    --lent-gold-600: #b8941e;
+    --lent-gold-500: #d4a846;
+    --lent-gold-400: #e5c06e;
+    --lent-gold-300: #fde68a;
+    --lent-gold-200: #fef3c7;
+    --lent-warm-50: #fffbeb;
+    --lent-text-primary: #120828;
+    --lent-text-secondary: #2d1b52;
+    --lent-text-muted: #5a4a75;
+    --lent-bg-page: #f5f0ff;
+    --lent-bg-card: rgba(255, 255, 255, 0.95);
+    --lent-glass-blur: blur(8px) saturate(120%);
+    --lent-glass-border: rgba(99, 102, 241, 0.25);
+
+    /* Typography */
+    --font-sacred: 'Playfair Display', Georgia, 'Noto Serif Bengali', serif;
+    --font-body: 'Inter', -apple-system, 'Noto Sans Bengali', sans-serif;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Radii */
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+
+    /* Shadows */
+    --shadow-card: 0 8px 32px rgba(76, 29, 149, 0.15);
+    --shadow-card-hover: 0 16px 48px rgba(76, 29, 149, 0.25);
+    --shadow-glow-gold: 0 0 24px rgba(212, 168, 70, 0.25);
+
+    /* Motion (will be overridden by prefers-reduced-motion) */
+    --ease-sacred: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --duration-fast: 0.2s;
+    --duration-normal: 0.4s;
+    --duration-slow: 0.8s;
+
+    /* Ambient gradient (set dynamically by JS) */
+    --ambient-from: #f5f0ff;
+    --ambient-via: #ede4ff;
+    --ambient-to: #ffffff;
+}
+
+/* ── Dark Mode Tokens ───────────────────────────────────────────── */
+[data-theme="dark"] {
+    --lent-text-primary: #ede4ff;
+    --lent-text-secondary: #c4b5e0;
+    --lent-text-muted: #8b7fb0;
+    --lent-bg-page: #0f0a24;
+    --lent-bg-card: rgba(30, 16, 66, 0.95);
+    --lent-glass-border: rgba(139, 92, 246, 0.25);
+    --ambient-from: #0f0a24;
+    --ambient-via: #1a1040;
+    --ambient-to: #0d0820;
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+/* ── High Contrast Mode (Light) ─────────────────────────────────── */
+body[data-contrast="high"] {
+    --lent-bg-card: rgba(255, 255, 255, 1);
+    --lent-text-primary: #0a061a;
+    --lent-text-secondary: #1a1240;
+    --lent-text-muted: #3a2f5a;
+    --lent-glass-blur: blur(0px);
+    --lent-glass-border: rgba(76, 29, 149, 0.4);
+    --shadow-card: 0 4px 16px rgba(76, 29, 149, 0.2);
+    --shadow-card-hover: 0 8px 24px rgba(76, 29, 149, 0.3);
+}
+
+body[data-contrast="high"] .scripture-text-bn,
+body[data-contrast="high"] .reflection-text-bn,
+body[data-contrast="high"] .prayer-text-bn {
+    border-top-color: rgba(76, 29, 149, 0.35);
+}
+
+body[data-contrast="high"] .progress-container,
+body[data-contrast="high"] .sticky-action-bar {
+    background: rgba(255, 255, 255, 1);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: rgba(76, 29, 149, 0.4);
+    box-shadow: 0 2px 12px rgba(76, 29, 149, 0.15);
+}
+
+body[data-contrast="high"] .devotion-section {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* ── High Contrast Mode (Dark) ──────────────────────────────────── */
+[data-theme="dark"][data-contrast="high"] {
+    --lent-text-primary: #ffffff;
+    --lent-text-secondary: #e5d9ff;
+    --lent-text-muted: #b8a8d9;
+    --lent-bg-card: rgba(15, 10, 36, 1);
+    --lent-glass-blur: blur(0px);
+    --lent-glass-border: rgba(167, 139, 250, 0.5);
+    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.5);
+    --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"][data-contrast="high"] .scripture-text-bn,
+[data-theme="dark"][data-contrast="high"] .reflection-text-bn,
+[data-theme="dark"][data-contrast="high"] .prayer-text-bn {
+    border-top-color: rgba(167, 139, 250, 0.4);
+}
+
+[data-theme="dark"][data-contrast="high"] .progress-container,
+[data-theme="dark"][data-contrast="high"] .sticky-action-bar {
+    background: rgba(15, 10, 36, 1);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: rgba(167, 139, 250, 0.5);
+}
+
+/* ── Reduced Motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --duration-fast: 0s;
+        --duration-normal: 0s;
+        --duration-slow: 0s;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ── Base Page ──────────────────────────────────────────────────── */
+body {
+    background: linear-gradient(180deg, var(--ambient-from) 0%, var(--ambient-via) 40%, var(--ambient-to) 100%) !important;
+    font-family: var(--font-body) !important;
+    color: var(--lent-text-primary);
+    transition: background 2s ease;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* ===================================================================
+   HERO — Lent Journey Landing
+   =================================================================== */
+.devotion-hero {
+    background: linear-gradient(160deg, #2d1b69 0%, #4c1d95 40%, #5b21b6 100%) !important;
+    color: #fff;
+    padding: 7rem 1.5rem 3.5rem !important;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cross watermark */
+.devotion-hero::before {
+    content: '✝';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(180px, 30vw, 320px);
+    color: rgba(212, 168, 70, 0.05);
+    pointer-events: none;
+    line-height: 1;
+    z-index: 0;
+}
+
+/* Radial glow */
+.devotion-hero::after {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(212, 168, 70, 0.09) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.devotion-hero>* {
+    position: relative;
+    z-index: 1;
+}
+
+.devotion-hero h1 {
+    font-family: var(--font-sacred) !important;
+    font-size: clamp(2rem, 5vw, 3.5rem) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.025em !important;
+    color: #fff !important;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+    margin-bottom: var(--space-sm);
+    line-height: 1.15;
+}
+
+.devotion-hero p {
+    font-weight: 300 !important;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.hero-subtitle {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: var(--space-sm);
+}
+
+#lentDatesBanner {
+    margin-top: var(--space-lg) !important;
+    font-size: 0.9rem !important;
+    opacity: 0.85;
+    line-height: 1.7;
+}
+
+#lentDatesBanner strong {
+    color: var(--lent-gold-300);
+}
+
+.hero-theme-badge {
+    display: inline-block;
+    margin-top: var(--space-lg);
+    padding: 0.5rem 1.25rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(212, 168, 70, 0.3);
+    border-radius: 100px;
+    background: rgba(212, 168, 70, 0.08);
+    color: var(--lent-gold-300);
+    backdrop-filter: blur(8px);
+}
+
+/* ===================================================================
+   PROGRESS BAR — Spiritual Journey Progress
+   =================================================================== */
+.progress-container {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(8px) saturate(130%);
+    -webkit-backdrop-filter: blur(8px) saturate(130%);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 20px rgba(76, 29, 149, 0.12);
+}
+
+.progress-wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.progress-label {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--lent-indigo-600);
+    white-space: nowrap;
+    min-width: fit-content;
+}
+
+[data-theme="dark"] .progress-label {
+    color: var(--lent-violet-300);
+}
+
+[data-theme="dark"] .progress-container,
+[data-theme="dark"] .sticky-action-bar {
+    background: rgba(30, 16, 66, 0.98);
+}
+
+.progress-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: rgba(139, 92, 246, 0.20);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--lent-indigo-500), var(--lent-violet-400), var(--lent-gold-500));
+    background-size: 200% 100%;
+    border-radius: 10px;
+    transition: width 0.6s var(--ease-sacred);
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+    animation: progressShimmer 3s ease infinite;
+}
+
+@keyframes progressShimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.progress-milestone {
+    font-size: 0.75rem;
+    color: var(--lent-text-muted);
+    white-space: nowrap;
+}
+
+/* ===================================================================
+   CONTROLS — Day Nav + Language Toggle
+   =================================================================== */
+.devotion-controls {
+    max-width: 720px;
+    margin: var(--space-lg) auto;
+    padding: var(--space-md) var(--space-lg) !important;
+    background: var(--lent-bg-card) !important;
+    backdrop-filter: var(--lent-glass-blur) !important;
+    -webkit-backdrop-filter: var(--lent-glass-blur) !important;
+    border-radius: var(--radius-md) !important;
+    border: 1px solid var(--lent-glass-border) !important;
+    box-shadow: var(--shadow-card) !important;
+}
+
+.controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.day-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.day-nav button,
+.lang-toggle button {
+    font-family: var(--font-body) !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem;
+    border: 1px solid var(--lent-glass-border) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: 0.5rem 1rem !important;
+    background: transparent;
+    color: var(--lent-text-primary);
+    cursor: pointer;
+    transition: all var(--duration-fast) ease !important;
+    box-shadow: none !important;
+    min-height: 44px;
+    min-width: 44px;
+}
+
+.day-nav button:hover:not(:disabled),
+.lang-toggle button:hover {
+    background: rgba(139, 92, 246, 0.06) !important;
+    border-color: var(--lent-violet-400) !important;
+    transform: translateY(-1px);
+}
+
+.day-nav button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.day-nav select {
+    font-family: var(--font-body) !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem;
+    border: 1px solid var(--lent-glass-border) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: 0.5rem 0.75rem !important;
+    background: transparent;
+    color: var(--lent-text-primary);
+    min-height: 44px;
+}
+
+.lang-toggle {
+    display: flex;
+    background: rgba(139, 92, 246, 0.08) !important;
+    padding: 3px !important;
+    border-radius: var(--radius-sm) !important;
+    gap: 2px;
+}
+
+.lang-toggle button {
+    border: none !important;
+    padding: 0.4rem 0.9rem !important;
+    border-radius: 10px !important;
+    font-size: 0.8125rem;
+    min-height: 44px;
+}
+
+.lang-toggle button.active {
+    background: linear-gradient(135deg, var(--lent-indigo-500), var(--lent-violet-400)) !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25) !important;
+}
+
+/* ===================================================================
+   DEVOTION CONTAINER — Content Area
+   =================================================================== */
+.devotion-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-md) 6rem !important;
+    /* extra bottom for sticky bar */
+}
+
+/* ===================================================================
+   DEVOTION SECTIONS — Glassmorphic Cards
+   =================================================================== */
+.devotion-section {
+    background: var(--lent-bg-card) !important;
+    backdrop-filter: var(--lent-glass-blur) !important;
+    -webkit-backdrop-filter: var(--lent-glass-blur) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: var(--space-xl) !important;
+    margin-bottom: var(--space-lg) !important;
+    border: 1px solid var(--lent-glass-border) !important;
+    box-shadow: var(--shadow-card) !important;
+    transition: box-shadow var(--duration-normal) ease, transform var(--duration-normal) ease !important;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    /* scroll reveal */
+    opacity: 0;
+    transform: translateY(24px);
+}
+
+.devotion-section.revealed {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s var(--ease-sacred), transform 0.6s var(--ease-sacred),
+        box-shadow var(--duration-normal) ease !important;
+}
+
+.devotion-section:hover {
+    box-shadow: var(--shadow-card-hover) !important;
+}
+
+/* Section headings */
+.devotion-section h3 {
+    font-family: var(--font-sacred) !important;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: var(--lent-indigo-600);
+    margin-bottom: var(--space-lg) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+}
+
+[data-theme="dark"] .devotion-section h3 {
+    color: var(--lent-violet-300);
+}
+
+/* ── Topic Header ─────────────────────────────────────────────── */
+.topic-section {
+    text-align: center;
+    border: none !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    padding: var(--space-md) var(--space-lg) !important;
+    /* reveal immediately */
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+#devotionTopic {
+    font-family: var(--font-sacred) !important;
+    font-size: clamp(1.5rem, 4vw, 2.25rem) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--lent-indigo-600) !important;
+    line-height: 1.25;
+    margin-bottom: var(--space-xs);
+}
+
+[data-theme="dark"] #devotionTopic {
+    color: var(--lent-gold-400) !important;
+}
+
+#devotionTopicBn {
+    font-family: 'Noto Serif Bengali', var(--font-sacred);
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    color: var(--lent-text-secondary);
+    font-weight: 600;
+    margin-top: var(--space-xs);
+    line-height: 1.5;
+}
+
+#devotionDate {
+    font-family: var(--font-body) !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    color: var(--lent-text-muted);
+    margin-top: var(--space-sm);
+}
+
+/* ── Completion badge ─────────────────────────────────────────── */
+.completed-badge {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: var(--space-sm);
+    padding: 0.35rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--lent-gold-600);
+    background: var(--lent-gold-200);
+    border-radius: 100px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.completed-badge.show {
+    display: inline-flex;
+}
+
+[data-theme="dark"] .completed-badge {
+    background: rgba(212, 168, 70, 0.15);
+    color: var(--lent-gold-400);
+}
+
+/* ===================================================================
+   SCRIPTURE SECTION — Premium Bible Verse Card
+   =================================================================== */
+.scripture-section {
+    background: linear-gradient(135deg, rgba(224, 231, 255, 0.6) 0%, rgba(219, 234, 254, 0.4) 100%) !important;
+    border: 1px solid rgba(139, 92, 246, 0.2) !important;
+    border-left: 3px solid var(--lent-gold-500) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+[data-theme="dark"] .scripture-section {
+    background: rgba(45, 27, 105, 0.4) !important;
+    border-left-color: var(--lent-gold-500) !important;
+}
+
+/* Giant decorative quotation mark */
+.scripture-section::before {
+    content: '"' !important;
+    position: absolute !important;
+    top: -24px !important;
+    left: 16px !important;
+    font-size: 180px !important;
+    font-family: var(--font-sacred) !important;
+    color: rgba(139, 92, 246, 0.06) !important;
+    line-height: 1 !important;
+    pointer-events: none !important;
+    z-index: 0;
+}
+
+.scripture-text {
+    font-family: var(--font-sacred) !important;
+    font-size: 1.2rem !important;
+    line-height: 1.9 !important;
+    font-weight: 500 !important;
+    color: var(--lent-text-primary);
+    position: relative;
+    z-index: 1;
+    margin-bottom: var(--space-sm);
+}
+
+.scripture-text-bn {
+    font-family: 'Noto Serif Bengali', var(--font-sacred);
+    font-size: 1.1rem;
+    line-height: 2.1;
+    color: var(--lent-text-secondary);
+    position: relative;
+    z-index: 1;
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(139, 92, 246, 0.18);
+    letter-spacing: 0.01em;
+}
+
+.scripture-ref {
+    font-family: var(--font-body) !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    color: #5b21b6 !important;
+    position: relative;
+    z-index: 1;
+    margin-top: var(--space-sm);
+}
+
+.scripture-ref-bn {
+    font-family: 'Noto Sans Bengali', var(--font-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--lent-text-muted);
+    margin-top: var(--space-xs);
+}
+
+/* ===================================================================
+   REFLECTION + PRAYER — Body Text Sections
+   =================================================================== */
+.reflection-text,
+.prayer-text {
+    font-family: var(--font-body) !important;
+    font-size: 1.0625rem !important;
+    line-height: 1.85 !important;
+    color: var(--lent-text-primary);
+}
+
+.reflection-text-bn,
+.prayer-text-bn {
+    font-family: 'Noto Sans Bengali', var(--font-body);
+    font-size: 1rem;
+    line-height: 2.0;
+    color: var(--lent-text-secondary);
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(139, 92, 246, 0.18);
+    letter-spacing: 0.01em;
+}
+
+/* Collapsible reflection */
+.reflection-content {
+    max-height: 6.5em;
+    /* ~3.5 lines */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.5s var(--ease-sacred);
+}
+
+.reflection-content.expanded {
+    max-height: 2000px;
+}
+
+.reflection-content:not(.expanded)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3em;
+    background: linear-gradient(to bottom, transparent, var(--lent-bg-card));
+    pointer-events: none;
+}
+
+.read-more-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    margin-top: var(--space-sm);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--lent-violet-400);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 16px;
+    min-height: 44px;
+    min-width: 44px;
+    transition: color var(--duration-fast) ease;
+}
+
+.read-more-btn:hover {
+    color: var(--lent-indigo-500);
+}
+
+.read-more-btn .chevron {
+    transition: transform var(--duration-fast) ease;
+    display: inline-block;
+}
+
+.reflection-content.expanded~.read-more-btn .chevron {
+    transform: rotate(180deg);
+}
+
+/* Prayer section warm accent */
+.prayer-section {
+    background: linear-gradient(135deg, var(--lent-bg-card), rgba(212, 168, 70, 0.04)) !important;
+}
+
+/* ── Bible Promise ────────────────────────────────────────────── */
+.promise-section {
+    border-left: 3px solid var(--lent-gold-500) !important;
+    background: linear-gradient(135deg, var(--lent-gold-200) 0%, rgba(254, 243, 199, 0.5) 100%) !important;
+}
+
+[data-theme="dark"] .promise-section {
+    background: rgba(212, 168, 70, 0.08) !important;
+}
+
+.promise-text {
+    font-family: var(--font-sacred);
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.8;
+    color: var(--lent-indigo-700);
+}
+
+[data-theme="dark"] .promise-text {
+    color: var(--lent-gold-300);
+}
+
+.promise-text-bn {
+    font-family: 'Noto Serif Bengali', var(--font-sacred);
+    font-size: 1rem;
+    line-height: 2.0;
+    color: var(--lent-text-secondary);
+    margin-top: var(--space-sm);
+}
+
+/* ===================================================================
+   STICKY BOTTOM ACTION BAR
+   =================================================================== */
+.sticky-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(8px) saturate(130%);
+    -webkit-backdrop-filter: blur(8px) saturate(130%);
+    border-top: 1px solid rgba(99, 102, 241, 0.3);
+    padding: 0.75rem 1rem;
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 20px rgba(76, 29, 149, 0.12);
+    transform: translateY(0);
+    transition: transform var(--duration-normal) ease;
+}
+
+.sticky-action-bar.hidden {
+    transform: translateY(100%);
+}
+
+.action-bar-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.btn-complete {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem var(--space-lg);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #0f0a24;
+    background: linear-gradient(135deg, #e5c06e, #d4a846);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    min-height: 48px;
+    transition: all var(--duration-fast) ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-complete:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow-gold);
+}
+
+.btn-complete:active {
+    transform: scale(0.97);
+}
+
+.btn-complete.completed {
+    background: linear-gradient(135deg, #34d399, #10b981);
+    color: #fff;
+}
+
+/* Golden ripple on complete */
+.btn-complete .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(0);
+    animation: rippleOut 0.6s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes rippleOut {
+    to {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+.btn-share {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--lent-glass-border);
+    background: transparent;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: var(--lent-text-primary);
+    transition: all var(--duration-fast) ease;
+}
+
+.btn-share:hover {
+    background: rgba(139, 92, 246, 0.06);
+    border-color: var(--lent-violet-400);
+}
+
+/* ===================================================================
+   SCROLL REVEAL ANIMATIONS
+   =================================================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===================================================================
+   FIRST VISIT WELCOME OVERLAY
+   =================================================================== */
+.welcome-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(15, 10, 36, 0.88);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl);
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.welcome-card {
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    background: var(--lent-bg-card);
+    backdrop-filter: var(--lent-glass-blur);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--lent-glass-border);
+    padding: var(--space-2xl) var(--space-xl);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-card .cross-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-md);
+    opacity: 0.7;
+}
+
+.welcome-card h2 {
+    font-family: var(--font-sacred);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--lent-indigo-600);
+    margin-bottom: var(--space-sm);
+}
+
+[data-theme="dark"] .welcome-card h2 {
+    color: var(--lent-gold-400);
+}
+
+.welcome-card p {
+    font-size: 0.95rem;
+    color: var(--lent-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--space-xl);
+}
+
+.welcome-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--lent-indigo-900);
+    background: linear-gradient(135deg, var(--lent-gold-400), var(--lent-gold-500));
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all var(--duration-fast) ease;
+    box-shadow: var(--shadow-glow-gold);
+    min-height: 48px;
+}
+
+.welcome-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 32px rgba(212, 168, 70, 0.4);
+}
+
+/* ===================================================================
+   DAY COMPLETION CONFETTI
+   =================================================================== */
+.confetti-particle {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    z-index: 300;
+    pointer-events: none;
+    animation: confettiFall 1.5s ease forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(120px) rotate(720deg);
+    }
+}
+
+/* ===================================================================
+   LOADING & ERROR STATES
+   =================================================================== */
+#loadingMsg,
+#errorMsg {
+    font-family: var(--font-body) !important;
+    text-align: center;
+    padding: var(--space-2xl);
+}
+
+#loadingMsg {
+    color: var(--lent-text-muted);
+    font-size: 1rem;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(139, 92, 246, 0.15);
+    border-top-color: var(--lent-violet-400);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: var(--space-md);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#errorMsg {
+    color: #dc2626;
+    font-size: 1rem;
+}
+
+/* ===================================================================
+   RESPONSIVE — Mobile First Refinements
+   =================================================================== */
+@media (max-width: 640px) {
+    .devotion-hero {
+        padding: 5.5rem 1.25rem 2.5rem !important;
+    }
+
+    .controls-row {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .day-nav {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .lang-toggle {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .devotion-section {
+        padding: var(--space-lg) !important;
+        border-radius: var(--radius-md) !important;
+    }
+
+    .devotion-container {
+        padding: var(--space-md) 0.75rem 6rem !important;
+    }
+
+    .scripture-text {
+        font-size: 1.1rem !important;
+    }
+
+    .action-bar-inner {
+        padding: 0 0.25rem;
+    }
+}
+
+@media (min-width: 641px) {
+    .devotion-container {
+        padding: var(--space-xl) var(--space-lg) 6rem !important;
+    }
+}
+
+/* ===================================================================
+   ACCESSIBILITY — Focus styles
+   =================================================================== */
+*:focus-visible {
+    outline: 3px solid var(--lent-violet-400);
+    outline-offset: 2px;
+}
+
+body[data-contrast="high"] *:focus-visible {
+    outline: 3px solid #4c1d95;
+    outline-offset: 3px;
+}
+
+[data-theme="dark"][data-contrast="high"] *:focus-visible {
+    outline: 3px solid #a78bfa;
+    outline-offset: 3px;
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

@@ -1,176 +1,208 @@
 /**
- * Devotions Data Loader for Daily Devotion Page
+ * Devotions Data Loader for Daily Devotion and Event Devotion Pages.
  *
- * Loads devotions for a specific year and exposes them on window.DEVOTIONS.
+ * Exposes:
+ * - window.loadDevotionsForYear(year)
+ * - window.loadDevotionsForEvent(eventName)
+ * - window.devotionLoader.load(eventName)
+ *
  * Dispatches:
- * - devotionsLoading { year }
- * - devotionsLoaded { count, source, year }
- * - devotionsLoadError { error, stage, year }
+ * - devotionsLoading { year, event? }
+ * - devotionsLoaded { count, source, year, event? }
+ * - devotionsLoadError { error, stage, year, event? }
  */
 
 (function () {
     'use strict';
 
-    // STEP 2 — SAFE FETCH BASE PATH (relative to current origin)
-    const GPBC_DATA_BASE = window.location.origin + "/";
+    // Resolve data URLs relative to this script path, not window.location.origin.
+    // This keeps loading working on GitHub Pages subpaths.
+    const scriptSrc = (document.currentScript && document.currentScript.src)
+        ? document.currentScript.src
+        : window.location.href;
+    const GPBC_DATA_BASE = new URL('.', scriptSrc).toString();
 
-    const scriptBase = (function () {
-        try {
-            if (document.currentScript && document.currentScript.src) {
-                return new URL('.', document.currentScript.src).toString();
-            }
-        } catch (err) { }
-        return new URL('.', window.location.href).toString();
-    })();
+    // Backward compatibility aliases for legacy event IDs.
+    const EVENT_SOURCE_ALIASES = {
+        'lent-40days': 'lent-fasting'
+    };
 
-    // STEP 3 — SAFE FETCH FUNCTION
+    function normalizeDevotionArray(data) {
+        if (Array.isArray(data)) return data;
+        if (data && Array.isArray(data.devotions)) return data.devotions;
+        return null;
+    }
+
+    function resolveDataUrl(path) {
+        const cleanPath = String(path || '').replace(/^\/+/, '');
+        return new URL(cleanPath, GPBC_DATA_BASE).toString();
+    }
+
+    function dispatchEventSafe(name, detail) {
+        window.dispatchEvent(new CustomEvent(name, { detail }));
+    }
+
     async function fetchJsonSafe(path) {
+        const url = resolveDataUrl(path);
         try {
-            // Remove leading slashes and construct relative URL
-            const cleanPath = path.replace(/^\/+/, "");
-            const url = GPBC_DATA_BASE + cleanPath;
-            console.log("[GPBC] Fetching:", url);
-            
+            console.log('[GPBC] Fetching:', url);
             const response = await fetch(url, { cache: 'no-store' });
             if (!response.ok) {
                 throw new Error(`Fetch failed: ${path} (${response.status})`);
             }
             return await response.json();
-        } catch (e) {
-            console.warn("[GPBC] JSON Load Failed:", path, e.message);
+        } catch (error) {
+            console.warn('[GPBC] JSON load failed:', path, error.message);
             return null;
         }
     }
 
-    // Legacy fetch helper (kept for backward compatibility)
-    async function fetchJson(url) {
-        const response = await fetch(url, { cache: 'no-store' });
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status} for ${url}`);
-        }
-        return response.json();
-    }
-
-    async function fetchFromCandidates(candidates) {
-        let lastError = null;
-        for (const url of candidates) {
-            try {
-                return await fetchJson(url);
-            } catch (err) {
-                lastError = err;
+    const devotionLoader = {
+        async load(eventName) {
+            const requestedEvent = String(eventName || '').trim();
+            if (!requestedEvent) {
+                throw new Error('Event name is required for event devotion loading.');
             }
-        }
-        if (lastError) throw lastError;
-        throw new Error('No fetch candidates provided');
-    }
 
-    // Attempt to load the consolidated file first; if it fails, fall back to month files.
+            const normalizedEvent = EVENT_SOURCE_ALIASES[requestedEvent] || requestedEvent;
+            const source = `${normalizedEvent}-devotions.json`;
+            const data = await fetchJsonSafe(source);
+            const devotions = normalizeDevotionArray(data);
+
+            if (!devotions) {
+                throw new Error(`Event devotions file '${source}' is not in a recognized format.`);
+            }
+
+            // Pass through dev flag if present
+            if (data && data.devUnlockAllDays) {
+                devotions.devUnlockAllDays = data.devUnlockAllDays;
+            }
+
+            if (normalizedEvent !== requestedEvent) {
+                console.log(`[GPBC] Event alias applied: '${requestedEvent}' -> '${normalizedEvent}'`);
+            }
+            console.log(`[GPBC] ✅ Loaded event devotions: ${devotions.length} from ${source}`);
+            return devotions;
+        }
+    };
+
+    window.devotionLoader = devotionLoader;
+
     async function loadDevotionsForYear(year) {
-        const normalizedYear = Number(year);
-        const yearLabel = Number.isFinite(normalizedYear) ? normalizedYear : new Date().getFullYear();
-        window.dispatchEvent(new CustomEvent('devotionsLoading', { detail: { year: yearLabel } }));
+        const targetYear = Number.isFinite(Number(year))
+            ? Number(year)
+            : new Date().getFullYear();
 
-        let devotions = [];
-        let source = `devotions-${yearLabel}.json`;
+        dispatchEventSafe('devotionsLoading', { year: targetYear });
 
-        // CHECK OFFLINE DB FIRST
-        if (window.DEVOTIONS_2026_DB && Array.isArray(window.DEVOTIONS_2026_DB) && yearLabel === 2026) {
-            devotions = window.DEVOTIONS_2026_DB;
-            source = 'devotions-db-2026.js (bundled)';
-
-            // Skip all fetch logic
-            window.DEVOTIONS = devotions;
-            window.DEVOTIONS_YEAR = yearLabel;
-
-            window.dispatchEvent(new CustomEvent('devotionsLoaded', {
-                detail: { count: devotions.length, source, year: yearLabel }
-            }));
-            return;
-        }
-
-        // STEP 4 — DATA MESH INTEGRATION: Use 5-layer fallback cascade
-        console.log("[GPBC] Loading devotions for year:", yearLabel);
-        
         try {
-            // Use Data Mesh if available, otherwise fall back to legacy loader
-            if (typeof window.loadDevotionsWithMesh === 'function') {
-                devotions = await window.loadDevotionsWithMesh(yearLabel);
-                source = 'data-mesh-loader (5-layer cascade)';
-                console.log("[GPBC] ✅ Data Mesh loaded:", devotions.length, "devotions");
-            } else {
-                // LEGACY FALLBACK: Original 2-layer fetch logic
-                console.warn("[GPBC] Data Mesh not available, using legacy loader");
-                
-                try {
-                    // Try primary devotions file with safe relative paths
-                    let data = await fetchJsonSafe(`devotions-${yearLabel}.json`);
-                    
-                    if (data && Array.isArray(data)) {
-                        devotions = data;
-                        source = `devotions-${yearLabel}.json`;
-                        console.log("[GPBC] ✅ Loaded primary devotions:", devotions.length);
-                    } else {
-                        throw new Error("Primary devotions file not found or invalid");
-                    }
-                } catch (primaryError) {
-                    console.warn('[GPBC] Primary devotion fetch failed, trying monthly files:', primaryError);
-                    window.dispatchEvent(new CustomEvent('devotionsLoadError', {
-                        detail: { error: primaryError.message, stage: 'primary', year: yearLabel }
-                    }));
+            const primarySource = `devotions-${targetYear}.json`;
+            let devotions = normalizeDevotionArray(await fetchJsonSafe(primarySource));
+            let sourceUsed = primarySource;
 
-                    try {
-                        const months = [
-                            '01-january', '02-february', '03-march', '04-april', '05-may', '06-june',
-                            '07-july', '08-august', '09-september', '10-october', '11-november', '12-december'
-                        ];
-                        
-                        // Try fetching monthly files
-                        const monthPromises = months.map(name => 
-                            fetchJsonSafe(`devotions-data/${yearLabel}/${name}.json`)
-                        );
-
-                        const results = await Promise.allSettled(monthPromises);
-                        const monthData = results
-                            .filter(result => result.status === 'fulfilled' && result.value)
-                            .map(result => result.value);
-
-                        devotions = monthData.flat();
-                        source = `devotions-data/*.json (${monthData.length} months loaded)`;
-                        console.log("[GPBC] ✅ Loaded monthly devotions:", devotions.length);
-                    } catch (fallbackError) {
-                        console.error('[GPBC] Monthly devotions fetch failed:', fallbackError);
-                        window.dispatchEvent(new CustomEvent('devotionsLoadError', {
-                            detail: { error: fallbackError.message, stage: 'fallback', year: yearLabel }
-                        }));
-                    }
+            if (!devotions || devotions.length === 0) {
+                const bundledKey = `DEVOTIONS_${targetYear}_DB`;
+                const bundledDevotions = window[bundledKey] || window.DEVOTIONS_2026_DB;
+                if (Array.isArray(bundledDevotions) && bundledDevotions.length > 0) {
+                    devotions = bundledDevotions;
+                    sourceUsed = bundledKey;
                 }
             }
-        } catch (meshError) {
-            console.error('[GPBC] Data Mesh error:', meshError);
-            window.dispatchEvent(new CustomEvent('devotionsLoadError', {
-                detail: { error: meshError.message, stage: 'mesh', year: yearLabel }
-            }));
+
+            if (!devotions || devotions.length === 0) {
+                throw new Error(`No devotion data available for year ${targetYear}.`);
+            }
+
+            window.DEVOTIONS = devotions;
+            window.DEVOTIONS_YEAR = targetYear;
+
+            console.log(`[GPBC] ✅ Final: ${devotions.length} devotions loaded for year ${targetYear} from ${sourceUsed}`);
+            dispatchEventSafe('devotionsLoaded', {
+                count: devotions.length,
+                source: sourceUsed,
+                year: targetYear
+            });
+            return devotions;
+        } catch (error) {
+            console.error(`[GPBC] Year devotion fetch failed for '${targetYear}':`, error);
+            dispatchEventSafe('devotionsLoadError', {
+                error: error.message,
+                stage: 'year',
+                year: targetYear
+            });
+            return [];
         }
+    }
 
-        if (!Array.isArray(devotions)) {
-            devotions = [];
+    async function loadDevotionsForEvent(eventName) {
+        const event = String(eventName || '').trim();
+        const year = new Date().getFullYear();
+
+        dispatchEventSafe('devotionsLoading', { year: year, event: event });
+
+        try {
+            const devotions = await devotionLoader.load(event);
+            const normalizedEvent = EVENT_SOURCE_ALIASES[event] || event;
+
+            window.DEVOTIONS = devotions;
+            window.DEVOTIONS_YEAR = year;
+
+            console.log(`[GPBC] ✅ Final: ${devotions.length} devotions loaded for event '${event}'`);
+            dispatchEventSafe('devotionsLoaded', {
+                count: devotions.length,
+                source: `${normalizedEvent}-devotions.json`,
+                year: year,
+                event: event
+            });
+            return devotions;
+        } catch (error) {
+            console.error(`[GPBC] Event devotion fetch failed for '${event}':`, error);
+            dispatchEventSafe('devotionsLoadError', {
+                error: error.message,
+                stage: 'event',
+                year: year,
+                event: event
+            });
+            return [];
         }
-
-        // STEP 5 — CALENDAR FAIL SAFE: Ensure at least today's date is available
-        if (devotions.length === 0) {
-            console.warn("[GPBC] ⚠️ No devotions loaded - calendar will use fallback");
-        }
-
-        window.DEVOTIONS = devotions;
-        window.DEVOTIONS_YEAR = yearLabel;
-
-        console.log(`[GPBC] ✅ Final: ${devotions.length} devotions loaded (${source})`);
-
-        window.dispatchEvent(new CustomEvent('devotionsLoaded', {
-            detail: { count: devotions.length, source, year: yearLabel }
-        }));
     }
 
     window.loadDevotionsForYear = loadDevotionsForYear;
-    loadDevotionsForYear(new Date().getFullYear());
+    window.loadDevotionsForEvent = loadDevotionsForEvent;
+
+    function isDailyDevotionPage() {
+        return document.body?.classList.contains('page-daily-devotion')
+            || /\/daily-devotion\.html$/i.test(window.location.pathname)
+            || /\/daily-devotion$/i.test(window.location.pathname);
+    }
+
+    function autoBootstrapDailyDevotions() {
+        if (!isDailyDevotionPage()) return;
+        if (window.__GPBC_DEVOTIONS_BOOTSTRAPPING__) return;
+        if (Array.isArray(window.DEVOTIONS) && window.DEVOTIONS.length > 0) return;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventName = (urlParams.get('event') || '').trim();
+        window.__GPBC_DEVOTIONS_BOOTSTRAPPING__ = true;
+
+        const finalize = () => {
+            window.__GPBC_DEVOTIONS_BOOTSTRAPPING__ = false;
+        };
+
+        if (eventName) {
+            console.log(`[GPBC] Auto-bootstrap: event '${eventName}'`);
+            loadDevotionsForEvent(eventName).finally(finalize);
+            return;
+        }
+
+        const year = new Date().getFullYear();
+        console.log(`[GPBC] Auto-bootstrap: year '${year}'`);
+        loadDevotionsForYear(year).finally(finalize);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', autoBootstrapDailyDevotions, { once: true });
+    } else {
+        autoBootstrapDailyDevotions();
+    }
 })();

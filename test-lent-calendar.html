@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lent Calendar Calculator - Test Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 4px solid #6d28d9;
+        }
+        
+        .test-section h2 {
+            color: #4c1d95;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .result-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .result-card.success {
+            border-left: 4px solid #10b981;
+        }
+        
+        .result-card.error {
+            border-left: 4px solid #ef4444;
+        }
+        
+        .result-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .result-card p {
+            color: #6b7280;
+            margin: 0.25rem 0;
+            line-height: 1.6;
+        }
+        
+        .result-card strong {
+            color: #4c1d95;
+        }
+        
+        .console-output {
+            background: #1f2937;
+            color: #10b981;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .console-output .error {
+            color: #ef4444;
+        }
+        
+        .console-output .success {
+            color: #10b981;
+        }
+        
+        .console-output .info {
+            color: #60a5fa;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        .status-badge.pass {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-badge.fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            background: #f3f4f6;
+            font-weight: 600;
+            color: #4c1d95;
+        }
+        
+        tr:hover {
+            background: #f9fafb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🕊️ Lent Calendar Calculator</h1>
+            <p>Comprehensive Test Suite & Validation</p>
+        </header>
+        
+        <div class="content">
+            <div class="test-section">
+                <h2>Current Year Information</h2>
+                <div id="currentYearInfo"></div>
+            </div>
+            
+            <div class="test-section">
+                <h2>Multi-Year Easter Calculation Tests</h2>
+                <div id="multiYearTests"></div>
+            </div>
+            
+            <div class="test-section">
+                <h2>Lent Period Detection Test</h2>
+                <div id="lentPeriodTest"></div>
+            </div>
+            
+            <div class="test-section">
+                <h2>40-Day Window Generation</h2>
+                <div id="windowTest"></div>
+            </div>
+            
+            <div class="test-section">
+                <h2>Console Output</h2>
+                <div id="consoleOutput" class="console-output"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/lent-calendar-calculator.js"></script>
+    <script>
+        // Capture console output
+        const consoleDiv = document.getElementById('consoleOutput');
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const message = args.join(' ');
+            consoleDiv.innerHTML += `<span class="success">✓ ${message}</span>\n`;
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            const message = args.join(' ');
+            consoleDiv.innerHTML += `<span class="error">✗ ${message}</span>\n`;
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            const message = args.join(' ');
+            consoleDiv.innerHTML += `<span class="info">⚠ ${message}</span>\n`;
+        };
+        
+        // Run tests
+        function runTests() {
+            testCurrentYear();
+            testMultipleYears();
+            testLentPeriodDetection();
+            testWindowGeneration();
+        }
+        
+        function testCurrentYear() {
+            const info = window.LentCalendar.getLentInfo();
+            const div = document.getElementById('currentYearInfo');
+            
+            const html = `
+                <div class="result-grid">
+                    <div class="result-card success">
+                        <h3>Year ${info.year}</h3>
+                        <p><strong>Ash Wednesday:</strong> ${window.LentCalendar.formatDate(info.ashWednesday)}</p>
+                        <p><strong>Easter Sunday:</strong> ${window.LentCalendar.formatDate(info.easter)}</p>
+                        <p><strong>Status:</strong> ${info.isLentPeriod ? `🕊️ Day ${info.currentDay} of Lent` : 'Not in Lent period'}</p>
+                    </div>
+                </div>
+            `;
+            
+            div.innerHTML = html;
+        }
+        
+        function testMultipleYears() {
+            const years = [2024, 2025, 2026, 2027, 2028, 2029, 2030];
+            const div = document.getElementById('multiYearTests');
+            
+            // Known Easter dates for validation (from astronomical calculations)
+            const knownEasterDates = {
+                2024: { month: 2, day: 31 }, // March 31, 2024
+                2025: { month: 3, day: 20 }, // April 20, 2025
+                2026: { month: 3, day: 5 },  // April 5, 2026
+                2027: { month: 2, day: 28 }, // March 28, 2027
+                2028: { month: 3, day: 16 }, // April 16, 2028
+                2029: { month: 3, day: 1 },  // April 1, 2029
+                2030: { month: 3, day: 21 }  // April 21, 2030
+            };
+            
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Ash Wednesday</th>
+                            <th>Easter Sunday</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            years.forEach(year => {
+                const easter = window.LentCalendar.getEasterDate(year);
+                const ashWed = window.LentCalendar.getAshWednesday(year);
+                const known = knownEasterDates[year];
+                
+                // Validate against known dates
+                const isCorrect = known && 
+                    easter.getMonth() === known.month && 
+                    easter.getDate() === known.day;
+                
+                const statusBadge = isCorrect ? 
+                    '<span class="status-badge pass">PASS</span>' : 
+                    '<span class="status-badge fail">FAIL</span>';
+                
+                tableHTML += `
+                    <tr>
+                        <td><strong>${year}</strong></td>
+                        <td>${ashWed.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                        <td>${easter.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                        <td>${statusBadge}</td>
+                    </tr>
+                `;
+                
+                if (isCorrect) {
+                    console.log(`✓ ${year}: Easter calculation correct`);
+                } else {
+                    console.error(`✗ ${year}: Easter calculation mismatch`);
+                }
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            div.innerHTML = tableHTML;
+        }
+        
+        function testLentPeriodDetection() {
+            const div = document.getElementById('lentPeriodTest');
+            const currentYear = new Date().getFullYear();
+            
+            // Test various dates
+            const testDates = [
+                new Date(currentYear, 0, 1),   // Jan 1
+                new Date(currentYear, 1, 18),  // Feb 18 (Ash Wednesday 2026)
+                new Date(currentYear, 1, 25),  // Feb 25
+                new Date(currentYear, 2, 15),  // Mar 15
+                new Date(currentYear, 11, 25)  // Dec 25
+            ];
+            
+            let html = '<div class="result-grid">';
+            
+            testDates.forEach(date => {
+                const day = window.LentCalendar.getLentDevotionDay(date);
+                const isLent = day > 0;
+                
+                html += `
+                    <div class="result-card ${isLent ? 'success' : ''}">
+                        <h3>${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</h3>
+                        <p><strong>Lent Day:</strong> ${day > 0 ? `Day ${day}` : 'Not in Lent'}</p>
+                        <p><strong>Status:</strong> ${isLent ? '🕊️ Lent Period' : '—'}</p>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            div.innerHTML = html;
+        }
+        
+        function testWindowGeneration() {
+            const div = document.getElementById('windowTest');
+            const currentYear = new Date().getFullYear();
+            const window = window.LentCalendar.getLentDevotionWindow(currentYear);
+            
+            if (window.length !== 40) {
+                console.error(`✗ Window generation failed: Expected 40 days, got ${window.length}`);
+                div.innerHTML = `<p class="error">Window generation failed!</p>`;
+                return;
+            }
+            
+            console.log(`✓ Window generation successful: ${window.length} days`);
+            
+            // Show first 5 and last 5 days
+            const preview = [
+                ...window.slice(0, 5),
+                { day: '...', dateString: '...', date: null },
+                ...window.slice(-5)
+            ];
+            
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Date</th>
+                            <th>Weekday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            preview.forEach(item => {
+                if (item.day === '...') {
+                    html += `<tr><td colspan="3" style="text-align: center; color: #9ca3af;">...</td></tr>`;
+                } else {
+                    const date = new Date(item.date);
+                    const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
+                    const formatted = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    
+                    html += `
+                        <tr>
+                            <td><strong>Day ${item.day}</strong></td>
+                            <td>${formatted}</td>
+                            <td>${weekday}</td>
+                        </tr>
+                    `;
+                }
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+                <p style="margin-top: 1rem; color: #6b7280; text-align: center;">
+                    Showing first 5 and last 5 days of ${currentYear} Lent devotion window
+                </p>
+            `;
+            
+            div.innerHTML = html;
+        }
+        
+        // Run all tests on load
+        window.addEventListener('load', runTests);
+    </script>
+</body>
+</html>

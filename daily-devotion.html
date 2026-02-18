@@ -60,8 +60,24 @@
         })();
     </script>
 
+    <!-- Google Fonts for Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Liturgical Calendar Engine + Theme Engine (must run before CSS) -->
+    <script src="liturgical-calendar-engine.js"></script>
+    <script src="liturgical-theme-engine.js"></script>
+    <script src="sacred-reminder-engine.js"></script>
+
+    <!-- Sacred Design Token System (foundation → seasons → components) -->
+    <link rel="stylesheet" href="sacred-tokens.css">
     <link rel="stylesheet" href="styles.bundle.css?v=20260208">
+    <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="daily-devotion.css">
+    <link rel="stylesheet" href="bible-gateway-links.css">
     <link rel="stylesheet" href="mobile-performance-optimization.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css">
     <link rel="stylesheet" href="share-card-generator.css">
@@ -141,7 +157,7 @@
                             <li><a href="children-devotion.html">Children Devotion</a></li>
                             <li><a href="fasting-21days.html">21 Days Fasting</a></li>
                             <li><a href="fasting-30days.html">30 Days Fasting</a></li>
-                            <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">Lent - 40 Days</a></li>
                             <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
                         </ul>
                     </li>
@@ -196,7 +212,7 @@
 
         <!-- Sacred Quote Card -->
         <!-- Sacred Quote Card -->
-        <section class="sacred-quote-card devotion-card" aria-label="Today's Scripture">
+        <section class="sacred-quote-card devotion-card scripture-section" aria-label="Today's Scripture">
             <div class="sacred-quote-watermark" aria-hidden="true">
                 <img src="images/new-gpbc-logo-final.svg" alt="" />
             </div>
@@ -206,11 +222,13 @@
                     <span class="book-icon" aria-hidden="true">📖</span>
                     <span id="sacredQuoteRefText">—</span>
                 </h2>
-                <blockquote class="sacred-quote-verse" id="sacredQuoteVerse">
-                    <span class="quote-mark-open" aria-hidden="true">"</span>
-                    <span id="sacredQuoteVerseText">Loading today's word...</span>
-                    <span class="quote-mark-close" aria-hidden="true">"</span>
-                </blockquote>
+                <div class="bible-verse-link-container">
+                    <a href="#" id="bibleGatewayLink" class="bible-gateway-link" target="_blank" rel="noopener noreferrer">
+                        <span class="bible-icon" aria-hidden="true">📖</span>
+                        <span>Read Verse</span>
+                        <span class="external-icon" aria-hidden="true">↗</span>
+                    </a>
+                </div>
 
                 <!-- Share Today Button -->
                 <div class="share-today-wrapper">
@@ -1239,7 +1257,7 @@
                 // STEP 4: Render Hero Card (Sacred Quote)
                 if (dateElement) dateElement.textContent = devotionData.date;
                 if (metaLabel) metaLabel.textContent = devotionData.dateShort;
-                updateSacredQuoteCard(devotionData.date, devotionData.verse, devotionData.verseText);
+                updateSacredQuoteCard(devotionData.date, devotionData.verse);
                 console.log("[Devotion] Hero Rendered");
 
                 // STEP 5: Render Main Card
@@ -1290,40 +1308,36 @@
             }
 
             // Update Sacred Quote Card
-            function updateSacredQuoteCard(date, reference, verseText) {
-                console.log("[Devotion] Updating Sacred Quote:", { date, reference, verseText });
+            function updateSacredQuoteCard(date, reference) {
+                console.log("[Devotion] Updating Sacred Quote:", { date, reference });
 
-                // STEP 2 — Direct ID-based updates (reliable)
+                // Update date and reference
                 const dateEl = document.getElementById('sacredQuoteDate');
                 const refEl = document.getElementById('sacredQuoteRefText');
-                const verseEl = document.getElementById('sacredQuoteVerseText');
+                const linkEl = document.getElementById('bibleGatewayLink');
 
                 if (dateEl) {
                     dateEl.textContent = date || 'Loading...';
                     console.log("[Devotion] ✅ Sacred Quote Date updated:", date);
-                } else {
-                    console.warn("[Devotion] ❌ sacredQuoteDate element not found");
                 }
 
                 if (refEl) {
                     refEl.textContent = reference || '—';
                     console.log("[Devotion] ✅ Sacred Quote Reference updated:", reference);
-                } else {
-                    console.warn("[Devotion] ❌ sacredQuoteRefText element not found");
                 }
 
-                if (verseEl) {
-                    verseEl.textContent = verseText || 'Loading today\'s word...';
-                    console.log("[Devotion] ✅ Sacred Quote Verse updated:", verseText?.substring(0, 50) + '...');
-                } else {
-                    console.warn("[Devotion] ❌ sacredQuoteVerseText element not found");
+                // Create Bible Gateway link
+                if (linkEl && reference) {
+                    const verseQuery = encodeURIComponent(reference);
+                    linkEl.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
+                    linkEl.setAttribute('aria-label', `Read ${reference} on Bible Gateway`);
+                    console.log("[Devotion] ✅ Bible Gateway link created:", reference);
                 }
 
-                // Try window.safeSetText if available (bonus, but not required)
+                // Try window.safeSetText if available
                 if (window.safeSetText) {
                     window.safeSetText('#sacredQuoteDate', date || 'Loading...');
                     window.safeSetText('#sacredQuoteRefText', reference || '—');
-                    window.safeSetText('#sacredQuoteVerseText', verseText || 'Loading today\'s word...');
                 }
             }
 
@@ -1761,7 +1775,7 @@
                     if (prayerEl) prayerEl.innerHTML = `<p>${fallback.prayer}</p>`;
 
                     // STEP 3 — CRITICAL: Populate Sacred Quote Card
-                    updateSacredQuoteCard(fallback.date, fallback.verse, fallback.verseText);
+                    updateSacredQuoteCard(fallback.date, fallback.verse);
                     console.log("[Devotion] ✅ Fallback Sacred Quote populated");
 
                     // STEP 4 — Hide loader in fallback path
