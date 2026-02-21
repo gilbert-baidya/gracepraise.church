@@ -230,21 +230,21 @@
 
         <div class="timer">
             <div class="label">Execution Time</div>
-            <div class="time">1.16s</div>
+            <div class="time">28.21s</div>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card stat-total">
                 <div class="label">Total Tests</div>
-                <div class="value">1</div>
+                <div class="value">28</div>
             </div>
             <div class="stat-card stat-passed">
                 <div class="label">✅ Passed</div>
-                <div class="value">0</div>
+                <div class="value">28</div>
             </div>
             <div class="stat-card stat-failed">
                 <div class="label">❌ Failed</div>
-                <div class="value">1</div>
+                <div class="value">0</div>
             </div>
             <div class="stat-card stat-running">
                 <div class="label">⚡ Running</div>
@@ -271,41 +271,422 @@
         <div class="test-list">
             <h2>📋 Test Execution Log (Last 50)</h2>
             
-                <div class="test-item failed">
+                <div class="test-item passed">
                     <div class="test-icon">
-                        ❌
+                        ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Home - loads successfully with HTTP 200</div>
-                        <div class="test-location">smoke/auto-generated-coverage.spec.ts:81</div>
-                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: browserType.launch: Target page, context or browser has been closed
-Browser logs:
-
-<launching> /Users/gbaidya/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/bn/pqk_v9_s4cb75fzqkkt9qzvr0000gp/T/playwright_chromiumdev_profile-HbdFkm --remote-debugging-pipe --no-startup-window
-<launched> pid=26641
-[pid=26641][err] [0216/093631.899527:ERROR:base/power_monitor/thermal_state_observer_mac.mm:140] ThermalStateObserverMac unable to register to power notifications. Result: 9
-[pid=26641][err] [0216/093631.916811:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.
-[pid=26641][err] [0216/093631.918881:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.
-[pid=26641][err] [0216/093631.926017:FATAL:base/apple/mach_port_rendezvous_mac.cc:155] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.26641: Permission denied (1100)
-Call log:
-[2m  - <launching> /Users/gbaidya/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/bn/pqk_v9_s4cb75fzqkkt9qzvr0000gp/T/playwright_chromiumdev_profile-HbdFkm --remote-debugging-pipe --no-startup-window[22m
-[2m  - <launched> pid=26641[22m
-[2m  - [pid=26641][err] [0216/093631.899527:ERROR:base/power_monitor/thermal_state_observer_mac.mm:140] ThermalStateObserverMac unable to register to power notifications. Result: 9[22m
-[2m  - [pid=26641][err] [0216/093631.916811:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.[22m
-[2m  - [pid=26641][err] [0216/093631.918881:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.[22m
-[2m  - [pid=26641][err] [0216/093631.926017:FATAL:base/apple/mach_port_rendezvous_mac.cc:155] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.26641: Permission denied (1100)[22m
-[2m  - [pid=26641] <gracefully close start>[22m
-[2m  - [pid=26641] <kill>[22m
-[2m  - [pid=26641] <will force kill>[22m
-[2m  - [pid=26641] exception while trying to kill process: Error: kill EPERM[22m
-[2m  - [pid=26641] <process did exit: exitCode=null, signal=SIGTRAP>[22m
-[2m  - [pid=26641] starting temporary directories cleanup[22m
-[2m  - [pid=26641] finished temporary directories cleanup[22m
-[2m  - [pid=26641] <gracefully close end>[22m
-</div>
+                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        
                     </div>
                     <div class="test-duration">
-                        0.00s
+                        1.59s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        3.17s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.61s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.14s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.88s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.37s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.12s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        6.36s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.03s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        6.53s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.75s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.25s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.70s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.21s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        3.75s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.63s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        5.27s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.00s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        5.47s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        3.21s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.92s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.14s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        5.17s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.29s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.64s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        3.63s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.88s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
+                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.72s
                         
                     </div>
                 </div>

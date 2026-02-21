@@ -53,6 +53,7 @@
     let orientationListenerAdded = false;
     let headerHeightListenerAdded = false;
     let scrollListenerAdded = false;
+    let keydownListenerAdded = false;
 
     // Animation lock variables for deterministic tap handling
     let isAnimating = false;
@@ -154,6 +155,10 @@
             document.removeEventListener('click', handleDocumentClick);
             outsideClickListenerAdded = false;
         }
+        if (keydownListenerAdded) {
+            document.removeEventListener('keydown', handleGlobalKeydown);
+            keydownListenerAdded = false;
+        }
         if (mobileMenuBtn) {
             mobileMenuBtn.removeEventListener('click', toggleMobileMenu);
         }
@@ -161,6 +166,9 @@
             mobileOverlay.removeEventListener('click', toggleMobileMenu);
         }
         navInitialized = false;
+        if (typeof window !== 'undefined') {
+            window.PLATFORM_NAV_READY = false;
+        }
     }
 
     function attachHeaderHeightListener() {
@@ -427,12 +435,69 @@
     function closeAllDropdowns() {
         navDropdowns.forEach(dropdown => {
             dropdown.classList.remove('mobile-dropdown-open');
-            const menu = dropdown.querySelector('.dropdown-menu');
-            if (menu) menu.style.display = '';
-
             const toggle = dropdown.querySelector('a');
             if (toggle) {
                 toggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    function inferHrefPrefix() {
+        const navAnchors = document.querySelectorAll('.nav-links a[href]');
+        for (const anchor of navAnchors) {
+            const rawHref = (anchor.getAttribute('href') || '').trim();
+            if (!rawHref ||
+                rawHref.startsWith('#') ||
+                rawHref.startsWith('javascript:') ||
+                rawHref.startsWith('mailto:') ||
+                rawHref.startsWith('tel:')) {
+                continue;
+            }
+
+            if (rawHref.startsWith('/')) return '/';
+            if (/^https?:\/\//i.test(rawHref) || rawHref.startsWith('//')) return '';
+
+            const noQuery = rawHref.split('?')[0].split('#')[0];
+            const lastSlash = noQuery.lastIndexOf('/');
+            return lastSlash >= 0 ? noQuery.slice(0, lastSlash + 1) : '';
+        }
+        return '';
+    }
+
+    function ensureDevotionDropdownLinks() {
+        const prefix = inferHrefPrefix();
+        const devotionDropdowns = navDropdowns.filter(dropdown => {
+            const toggle = dropdown.querySelector('a');
+            return toggle && /devotion/i.test((toggle.textContent || '').trim());
+        });
+
+        devotionDropdowns.forEach(dropdown => {
+            let menu = dropdown.querySelector('.dropdown-menu');
+            if (!menu) {
+                menu = document.createElement('ul');
+                menu.className = 'dropdown-menu';
+                dropdown.appendChild(menu);
+            }
+
+            const hasToday = !!menu.querySelector('a[href*="daily-devotion.html"]');
+            const hasLent = !!menu.querySelector('a[href*="fasting-40days.html"], a[href*="lent-fasting.html"]');
+
+            if (!hasToday) {
+                const item = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = `${prefix}daily-devotion.html`;
+                link.textContent = "Today's Devotion";
+                item.appendChild(link);
+                menu.appendChild(item);
+            }
+
+            if (!hasLent) {
+                const item = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = `${prefix}fasting-40days.html`;
+                link.textContent = 'Lent - 40 Days';
+                item.appendChild(link);
+                menu.appendChild(item);
             }
         });
     }
@@ -466,6 +531,21 @@
             if (mode === 'MOBILE') {
                 // Handle Top-Level Dropdown Toggles
                 if (isToggle) {
+                    const hitArrow = target.classList.contains('dropdown-arrow') || target.closest('.dropdown-arrow');
+                    const href = link.getAttribute('href');
+                    const isAnchor = !href || href === '#' || href.startsWith('javascript:');
+
+                    // SPLIT INTERACTION:
+                    // 1. Text Click + Valid URL -> Navigate (allow default)
+                    // 2. Arrow Click OR Anchor -> Toggle Dropdown
+
+                    if (!hitArrow && !isAnchor) {
+                        // Navigation Intent - Let event bubble
+                        NAV_TELEMETRY.log('NAV_CLICK', href);
+                        return;
+                    }
+
+                    // TOGGLE INTENT
                     e.preventDefault();
                     e.stopPropagation();
 
@@ -473,28 +553,14 @@
                     if (!navLinks.classList.contains('mobile-open')) return;
 
                     // GATE 2: Animation Lock
-                    const parentHref = link.getAttribute('href');
-                    const isOpen = parentDropdown.classList.contains('mobile-dropdown-open');
-                    const isNavigationIntent = isOpen && parentHref && parentHref !== '#' && !parentHref.startsWith('javascript:');
-
-                    if (isAnimating && !isNavigationIntent) {
+                    if (isAnimating) {
                         NAV_TELEMETRY.fastTapBlocks++;
                         return;
                     }
 
                     // GATE 3: Debounce
                     const now = Date.now();
-                    // updateDebugLog(`DEBOUNCE: ${now - lastDropdownToggleTime}ms`); 
-
-                    if ((now - lastDropdownToggleTime) < DEBOUNCE_MS && !isNavigationIntent) {
-                        // updateDebugLog(`BLOCKED: Debounce`);
-                        return;
-                    }
-
-                    // ROUTING: Double Tap
-                    if (isNavigationIntent) {
-                        NAV_TELEMETRY.log('DOUBLE_TAP_NAVIGATE', parentHref);
-                        window.location.href = parentHref;
+                    if ((now - lastDropdownToggleTime) < 200) {
                         return;
                     }
 
@@ -506,9 +572,6 @@
                     navDropdowns.forEach(d => {
                         if (d !== parentDropdown) {
                             d.classList.remove('mobile-dropdown-open');
-                            // Hammer Fix cleanup
-                            const m = d.querySelector('.dropdown-menu');
-                            if (m) m.style.display = '';
                             d.querySelector('a')?.setAttribute('aria-expanded', 'false');
                         }
                     });
@@ -517,34 +580,23 @@
                     parentDropdown.classList.toggle('mobile-dropdown-open');
                     const newState = parentDropdown.classList.contains('mobile-dropdown-open');
 
-                    // Hammer Fix: Force Display
-                    const thisMenu = parentDropdown.querySelector('.dropdown-menu');
-                    if (thisMenu) {
-                        thisMenu.style.display = newState ? 'grid' : '';
-                    }
-
+                    // Let CSS handle display via mobile-dropdown-open class
                     link.setAttribute('aria-expanded', newState);
                     return;
                 }
 
-                // Handle Nested Dropdowns (Ministries, etc)
-                // Note: The original code attached listener to the arrow. 
-                // We need to detect if the click is on the arrow or the link acting as toggle.
-                // Assuming nested structure: .nav-dropdown-nested > a > .dropdown-arrow
-                if (target.classList.contains('dropdown-arrow') || link.closest('.nav-dropdown-nested a')) {
+                // Handle Nested Dropdowns
+                if (link.closest('.nav-dropdown-nested')) {
                     const nestedDropdown = link.closest('.nav-dropdown-nested');
-                    if (nestedDropdown) {
-                        // Only trap if it's strictly a toggle action (often defined by arrow click on nested)
-                        // Or if the design dictates the link itself is the toggle.
-                        // Looking at previous code: "arrow.addEventListener('click'...)"
-                        if (target.classList.contains('dropdown-arrow')) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            nestedDropdown.classList.toggle('mobile-dropdown-open');
-                            const expanded = nestedDropdown.classList.contains('mobile-dropdown-open');
-                            link.setAttribute('aria-expanded', expanded);
-                            return;
-                        }
+                    const hitArrow = target.classList.contains('dropdown-arrow') || target.closest('.dropdown-arrow');
+
+                    if (hitArrow && nestedDropdown) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        nestedDropdown.classList.toggle('mobile-dropdown-open');
+                        const expanded = nestedDropdown.classList.contains('mobile-dropdown-open');
+                        link.setAttribute('aria-expanded', expanded);
+                        return;
                     }
                 }
             }
@@ -553,11 +605,15 @@
             // SHARED / DESKTOP / LINK CLICK
             // ============================================
             // If we are here, it's a standard link click or desktop hover interaction (handled by CSS)
-            // Just need to handle Mobile Menu Auto-Close for anchors
+            // Mobile rule: close menu on any real navigation click
             if (mode === 'MOBILE') {
-                const href = link.getAttribute('href');
-                if (href && (href.startsWith('#') || href.includes('#'))) {
-                    isNavigatingToAnchor = true;
+                const href = (link.getAttribute('href') || '').trim();
+                const isNavigationLink = !!href && href !== '#' && !href.startsWith('javascript:');
+
+                if (isNavigationLink && navLinks.classList.contains('mobile-open')) {
+                    if (href.startsWith('#') || href.includes('#')) {
+                        isNavigatingToAnchor = true;
+                    }
                     toggleMobileMenu();
                 }
             }
@@ -611,48 +667,38 @@
     // ============================================
 
     function handleDocumentClick(e) {
-        if (window.innerWidth > 1024) {
+        const mode = getNavMode();
+        if (mode === 'DESKTOP') {
             const isDropdownClick = e.target.closest('.nav-dropdown');
-            if (!isDropdownClick) {
-                closeAllDropdowns();
-            }
+            if (!isDropdownClick) closeAllDropdowns();
+            return;
+        }
+
+        if (!navLinks || !navLinks.classList.contains('mobile-open')) return;
+
+        const clickedInsideMenu = e.target.closest('.nav-links');
+        const clickedBurger = e.target.closest('.mobile-menu-btn');
+        const clickedOverlay = e.target.closest('.mobile-overlay');
+        const clickedLogo = e.target.closest('.logo');
+
+        // Overlay already has its own click handler; skip duplicate toggle.
+        if (clickedOverlay) return;
+
+        if (!clickedInsideMenu && !clickedBurger) {
+            toggleMobileMenu();
+        } else if (clickedLogo) {
+            toggleMobileMenu();
         }
     }
 
-    // ============================================
-    // CLOSE MOBILE MENU ON REGULAR LINK CLICK
-    // ============================================
-
-    // RE-ENABLED for Mobile UX: Close menu when clicking anchor links
-    document.querySelectorAll('.nav-links a:not(.nav-dropdown > a)').forEach(link => {
-        link.addEventListener('click', (e) => {
-            if (navLinks.classList.contains('mobile-open')) {
-                const href = link.getAttribute('href');
-                // Only close menu for anchor links (#home, #about, etc.)
-                // For page links, let browser navigate naturally
-                if (href && (href.startsWith('#') || href.includes('#'))) {
-                    // Set flag to skip scroll restoration
-                    isNavigatingToAnchor = true;
-                    // Close menu immediately (no delay)
-                    toggleMobileMenu();
-                    // Browser will handle anchor navigation naturally
-                }
-            }
-        });
-    });
-
-    // 🆕 CRITICAL FIX: Close Mobile Menu when clicking Logo
-    // The logo is outside .nav-links so it needs its own listener
-    const projectLogo = document.querySelector('.logo');
-    if (projectLogo) {
-        projectLogo.addEventListener('click', (e) => {
+    function handleGlobalKeydown(e) {
+        if (e.key === 'Escape') {
+            closeAllDropdowns();
             if (navLinks && navLinks.classList.contains('mobile-open')) {
-                // If menu is open, this click acts as "Home" navigation AND "Close Menu"
-                // If href is just #home, we toggle closed.
-                isNavigatingToAnchor = true;
+                e.preventDefault();
                 toggleMobileMenu();
             }
-        });
+        }
     }
 
     // ============================================
@@ -676,6 +722,8 @@
         const darkModeToggle = document.getElementById('darkModeToggle');
 
         if (darkModeToggle) {
+            if (darkModeToggle.dataset.themeInit === 'true') return;
+            darkModeToggle.dataset.themeInit = 'true';
             darkModeToggle.addEventListener('click', () => {
                 const theme = document.documentElement.getAttribute('data-theme') || 'light';
                 const nextTheme = theme === 'dark' ? 'light' : 'dark';
@@ -774,12 +822,20 @@
             document.addEventListener('click', handleDocumentClick);
             outsideClickListenerAdded = true;
         }
+        if (!keydownListenerAdded) {
+            document.addEventListener('keydown', handleGlobalKeydown);
+            keydownListenerAdded = true;
+        }
 
+        ensureDevotionDropdownLinks();
         initDelegatedNavigation();
         initKeyboardNavigation();
         initThemeToggle();
 
         navInitialized = true;
+        if (typeof window !== 'undefined') {
+            window.PLATFORM_NAV_READY = true;
+        }
 
         // Telemetry: Record nav ready time
         NAV_TELEMETRY.navReadyTime = Date.now();
@@ -789,29 +845,22 @@
             isMobile: window.innerWidth <= NAV_BREAKPOINT
         });
 
-        // Track first navigation click
-        if (!NAV_TELEMETRY.firstNavClick) {
-            document.querySelector('.nav-links')?.addEventListener('click', (e) => {
-                if (!NAV_TELEMETRY.firstNavClick && e.target.tagName === 'A') {
-                    NAV_TELEMETRY.firstNavClick = {
-                        timestamp: Date.now(),
-                        target: e.target.textContent.trim(),
-                        href: e.target.getAttribute('href'),
-                        timeSinceReady: Date.now() - NAV_TELEMETRY.navReadyTime
-                    };
-                    NAV_TELEMETRY.log('FIRST_NAV_CLICK', NAV_TELEMETRY.firstNavClick);
-                }
-            });
-        }
-
         document.dispatchEvent(new CustomEvent('gpbc:navReady'));
     }
 
     if (typeof window !== 'undefined') {
         window.GPBC_initNav = initializeNavigationSystem;
         window.GPBC_NAV_TELEMETRY = NAV_TELEMETRY; // Expose telemetry for debugging
+        if (window.Platform && typeof window.Platform.registerNavigationInitializer === 'function') {
+            window.Platform.registerNavigationInitializer(initializeNavigationSystem);
+        }
     }
 
-    initializeNavigationSystem();
+    if (!(typeof window !== 'undefined' &&
+        window.PLATFORM_RUNTIME_READY === true &&
+        window.Platform &&
+        typeof window.Platform.initNavigation === 'function')) {
+        initializeNavigationSystem();
+    }
 
 })();

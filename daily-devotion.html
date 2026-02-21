@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+
+    <script src="platform-runtime.js"></script>
     <!-- iOS / Tablet Horizontal Scroll Lock — SAFE FIX -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 
@@ -16,10 +18,10 @@
     <meta name="robots" content="index, follow">
 
     <!-- Favicon System -->
-    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
-    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/x-icon" href="images/logo/GPBC_Favicon.ico">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicons/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/favicons/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" href="images/favicons/apple-touch-icon.png">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://gilbert-baidya.github.io/gracepraise.church/daily-devotion.html">
@@ -60,8 +62,24 @@
         })();
     </script>
 
+    <!-- Google Fonts for Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Liturgical Calendar Engine + Theme Engine (must run before CSS) -->
+    <script src="liturgical-calendar-engine.js"></script>
+    <script src="liturgical-theme-engine.js"></script>
+    <script src="sacred-reminder-engine.js"></script>
+
+    <!-- Sacred Design Token System (foundation → seasons → components) -->
+    <link rel="stylesheet" href="sacred-tokens.css">
     <link rel="stylesheet" href="styles.bundle.css?v=20260208">
+    <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="daily-devotion.css">
+    <link rel="stylesheet" href="bible-gateway-links.css">
     <link rel="stylesheet" href="mobile-performance-optimization.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css">
     <link rel="stylesheet" href="share-card-generator.css">
@@ -141,7 +159,7 @@
                             <li><a href="children-devotion.html">Children Devotion</a></li>
                             <li><a href="fasting-21days.html">21 Days Fasting</a></li>
                             <li><a href="fasting-30days.html">30 Days Fasting</a></li>
-                            <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">Lent - 40 Days</a></li>
                             <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
                         </ul>
                     </li>
@@ -196,7 +214,7 @@
 
         <!-- Sacred Quote Card -->
         <!-- Sacred Quote Card -->
-        <section class="sacred-quote-card devotion-card" aria-label="Today's Scripture">
+        <section class="sacred-quote-card devotion-card scripture-section" aria-label="Today's Scripture">
             <div class="sacred-quote-watermark" aria-hidden="true">
                 <img src="images/new-gpbc-logo-final.svg" alt="" />
             </div>
@@ -206,11 +224,14 @@
                     <span class="book-icon" aria-hidden="true">📖</span>
                     <span id="sacredQuoteRefText">—</span>
                 </h2>
-                <blockquote class="sacred-quote-verse" id="sacredQuoteVerse">
-                    <span class="quote-mark-open" aria-hidden="true">"</span>
-                    <span id="sacredQuoteVerseText">Loading today's word...</span>
-                    <span class="quote-mark-close" aria-hidden="true">"</span>
-                </blockquote>
+                <div class="bible-verse-link-container">
+                    <a href="#" id="bibleGatewayLink" class="bible-gateway-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <span class="bible-icon" aria-hidden="true">📖</span>
+                        <span>Read Verse</span>
+                        <span class="external-icon" aria-hidden="true">↗</span>
+                    </a>
+                </div>
 
                 <!-- Share Today Button -->
                 <div class="share-today-wrapper">
@@ -261,11 +282,19 @@
                 <!-- Scripture Section -->
                 <article class="devotion-section scripture-section" id="scriptureSection">
                     <h3 id="bibleReference">Philippians 4:6-7 (NIV)</h3>
-                    <blockquote class="scripture-text" id="bibleText" data-devotion-scripture>
-                        Do not be anxious about anything, but in every situation, by prayer and petition, with
-                        thanksgiving, present your requests to God. And the peace of God, which transcends all
-                        understanding, will guard your hearts and your minds in Christ Jesus.
-                    </blockquote>
+
+                    <!-- REFERENCE MODE: No verse text stored, always use Bible Gateway -->
+                    <div class="bible-gateway-link-container" style="margin-top: 1rem;">
+                        <a href="#" id="bibleGatewayLink" class="bible-gateway-link" target="_blank"
+                            rel="noopener noreferrer">
+                            <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20"
+                                height="20">
+                                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            Read on BibleGateway.com
+                        </a>
+                    </div>
 
                     <!-- Premium Share Panel -->
                     <div class="devotion-share-panel share-devotion-card" id="shareSection">
@@ -1209,11 +1238,13 @@
                 });
 
                 // PHASE 2 — Set Global Devotion Data (Single Source of Truth)
+                // REFERENCE MODE: No verseText, always use verseReference
                 const lang = currentLang === 'bn' ? 'Bn' : '';
+                const verseReference = data.verse || data.verseReference || data.verseRef || 'Psalm 46:1';
                 window.__CURRENT_DEVOTION_DATA__ = {
                     title: data[`title${lang}`] || data.title || 'Daily Devotion',
-                    verse: data.verse || '',
-                    verseText: data[`verseText${lang}`] || data.verseText || '',
+                    verse: verseReference,
+                    verseReference: verseReference,  // Always use reference
                     reflection: data[`reflection${lang}`] || data.reflection || '',
                     prayer: data[`prayer${lang}`] || data.prayer || '',
                     date: formatDisplayDate(selectedDate),
@@ -1239,7 +1270,7 @@
                 // STEP 4: Render Hero Card (Sacred Quote)
                 if (dateElement) dateElement.textContent = devotionData.date;
                 if (metaLabel) metaLabel.textContent = devotionData.dateShort;
-                updateSacredQuoteCard(devotionData.date, devotionData.verse, devotionData.verseText);
+                updateSacredQuoteCard(devotionData.date, devotionData.verse);
                 console.log("[Devotion] Hero Rendered");
 
                 // STEP 5: Render Main Card
@@ -1247,14 +1278,26 @@
                     window.safeSetText('#devotionTitle', devotionData.title);
                     window.safeSetText('#devotionSubtitle', `${devotionData.date} — ${devotionData.verse}`);
                     window.safeSetText('#bibleReference', devotionData.verse);
-                    window.safeSetText('#bibleText', devotionData.verseText);
+                    // REFERENCE MODE: Set Bible Gateway link instead of verse text
+                    const bibleGatewayLink = document.getElementById('bibleGatewayLink');
+                    if (bibleGatewayLink && devotionData.verse) {
+                        const verseQuery = encodeURIComponent(devotionData.verse);
+                        bibleGatewayLink.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
+                        bibleGatewayLink.setAttribute('aria-label', `Read ${devotionData.verse} on Bible Gateway`);
+                    }
                     window.safeSetHTML('[data-devotion-reflection]', `<p>${devotionData.reflection}</p>`);
                     window.safeSetHTML('[data-devotion-prayer]', `<p>${devotionData.prayer}</p>`);
                 } else {
                     if (headerTitle) headerTitle.textContent = devotionData.title;
                     if (headerSubtitle) headerSubtitle.textContent = `${devotionData.date} — ${devotionData.verse}`;
                     if (referenceEl) referenceEl.textContent = devotionData.verse;
-                    if (verseEl) verseEl.textContent = devotionData.verseText;
+                    // REFERENCE MODE: Set Bible Gateway link instead of verse text
+                    const bibleGatewayLink = document.getElementById('bibleGatewayLink');
+                    if (bibleGatewayLink && devotionData.verse) {
+                        const verseQuery = encodeURIComponent(devotionData.verse);
+                        bibleGatewayLink.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
+                        bibleGatewayLink.setAttribute('aria-label', `Read ${devotionData.verse} on Bible Gateway`);
+                    }
                     const rEl = safeSelect('[data-devotion-reflection]');
                     if (rEl) rEl.innerHTML = `<p>${devotionData.reflection}</p>`;
                     const pEl = safeSelect('[data-devotion-prayer]');
@@ -1284,46 +1327,48 @@
                 window.ResurrectionLock.release();
                 console.log("[Devotion] Render Completed");
 
+                // PHASE 2: Dispatch render complete event for share engine
+                document.dispatchEvent(new CustomEvent('DEVOTION_RENDER_COMPLETE', {
+                    detail: { devotionData }
+                }));
+                console.log("[Devotion] ✅ DEVOTION_RENDER_COMPLETE event dispatched");
+
                 // RESURRECTION — Performance Metrics
                 const perfEnd = performance.now();
                 console.log('[Resurrection] 📊 Total Render Time:', Math.round(perfEnd - (window.ResurrectionLock.firstPaintTime || perfEnd)), 'ms');
             }
 
             // Update Sacred Quote Card
-            function updateSacredQuoteCard(date, reference, verseText) {
-                console.log("[Devotion] Updating Sacred Quote:", { date, reference, verseText });
+            function updateSacredQuoteCard(date, reference) {
+                console.log("[Devotion] Updating Sacred Quote:", { date, reference });
 
-                // STEP 2 — Direct ID-based updates (reliable)
+                // Update date and reference
                 const dateEl = document.getElementById('sacredQuoteDate');
                 const refEl = document.getElementById('sacredQuoteRefText');
-                const verseEl = document.getElementById('sacredQuoteVerseText');
+                const linkEl = document.getElementById('bibleGatewayLink');
 
                 if (dateEl) {
                     dateEl.textContent = date || 'Loading...';
                     console.log("[Devotion] ✅ Sacred Quote Date updated:", date);
-                } else {
-                    console.warn("[Devotion] ❌ sacredQuoteDate element not found");
                 }
 
                 if (refEl) {
                     refEl.textContent = reference || '—';
                     console.log("[Devotion] ✅ Sacred Quote Reference updated:", reference);
-                } else {
-                    console.warn("[Devotion] ❌ sacredQuoteRefText element not found");
                 }
 
-                if (verseEl) {
-                    verseEl.textContent = verseText || 'Loading today\'s word...';
-                    console.log("[Devotion] ✅ Sacred Quote Verse updated:", verseText?.substring(0, 50) + '...');
-                } else {
-                    console.warn("[Devotion] ❌ sacredQuoteVerseText element not found");
+                // Create Bible Gateway link
+                if (linkEl && reference) {
+                    const verseQuery = encodeURIComponent(reference);
+                    linkEl.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
+                    linkEl.setAttribute('aria-label', `Read ${reference} on Bible Gateway`);
+                    console.log("[Devotion] ✅ Bible Gateway link created:", reference);
                 }
 
-                // Try window.safeSetText if available (bonus, but not required)
+                // Try window.safeSetText if available
                 if (window.safeSetText) {
                     window.safeSetText('#sacredQuoteDate', date || 'Loading...');
                     window.safeSetText('#sacredQuoteRefText', reference || '—');
-                    window.safeSetText('#sacredQuoteVerseText', verseText || 'Loading today\'s word...');
                 }
             }
 
@@ -1353,7 +1398,7 @@
             function generateShareCaption() {
                 const date = formatDisplayDate(selectedDate);
                 const reference = document.getElementById('bibleReference')?.textContent || '';
-                const verse = document.getElementById('bibleText')?.textContent || '';
+                const verse = document.getElementById('bibleText')?.textContent || reference;
                 const reflection = document.getElementById('devotionMessage')?.textContent || '';
                 const url = window.location.href;
 
@@ -1736,7 +1781,7 @@
                 const fallback = {
                     title: "God is our Refuge",
                     verse: "Psalm 46:1",
-                    verseText: "God is our refuge and strength, an ever-present help in trouble.",
+                    verseReference: "Psalm 46:1",  // REFERENCE MODE
                     reflection: "Even when systems fail, God never fails. His strength is available to you right now, in this very moment. Trust Him today.",
                     prayer: "Lord, be our strength today. When technology fails, You remain faithful. Help us to trust You completely. Amen.",
                     date: formatDisplayDate(selectedDate || new Date())
@@ -1751,8 +1796,13 @@
                     safeSetTextById('devotionSubtitle', `${fallback.date} — ${fallback.verse}`);
                     safeSetTextById('bibleReference', fallback.verse);
 
-                    const verseEl = document.querySelector('[data-devotion-scripture]');
-                    if (verseEl) verseEl.textContent = fallback.verseText;
+                    // REFERENCE MODE: Set Bible Gateway link instead of verse text
+                    const bibleGatewayLink = document.getElementById('bibleGatewayLink');
+                    if (bibleGatewayLink) {
+                        const verseQuery = encodeURIComponent(fallback.verse);
+                        bibleGatewayLink.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
+                        bibleGatewayLink.setAttribute('aria-label', `Read ${fallback.verse} on Bible Gateway`);
+                    }
 
                     const reflectionEl = document.querySelector('[data-devotion-reflection]');
                     if (reflectionEl) reflectionEl.innerHTML = `<p>${fallback.reflection}</p>`;
@@ -1761,7 +1811,7 @@
                     if (prayerEl) prayerEl.innerHTML = `<p>${fallback.prayer}</p>`;
 
                     // STEP 3 — CRITICAL: Populate Sacred Quote Card
-                    updateSacredQuoteCard(fallback.date, fallback.verse, fallback.verseText);
+                    updateSacredQuoteCard(fallback.date, fallback.verse);
                     console.log("[Devotion] ✅ Fallback Sacred Quote populated");
 
                     // STEP 4 — Hide loader in fallback path
@@ -1921,30 +1971,11 @@
             hero.classList.add('sacred-active');
         }
     </script>
-
-    <!-- Sticky Header Script (Page-specific) -->
-    <script>
-        // ============================================
-        // NAVIGATION LOCK — All navigation logic moved to navigation.js?v=20260125c
-        // Only sticky header behavior kept here
-        // ============================================
-        const header = document.querySelector('header');
-
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    </script>
-
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>
     <script src="devotions-db-2026.js"></script>
-    <script src="devotions-data.js"></script>
 
     <!-- Sacred Background Engine -->
     <link rel="stylesheet" href="sacred-background.css">

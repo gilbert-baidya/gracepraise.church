@@ -339,19 +339,9 @@
     // ========================================
 
     function initScrollReveal() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        });
-
+        // Fallback: immediately reveal all elements to prevent hidden content bugs
         document.querySelectorAll('.gentle-fade-in').forEach(element => {
-            observer.observe(element);
+            element.classList.add('revealed');
         });
     }
 

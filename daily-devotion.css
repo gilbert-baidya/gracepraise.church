@@ -4107,3 +4107,324 @@ body.page-daily-devotion #shareSection .share-action-btn {
     margin-left: auto;
     margin-right: auto;
 }
+/* ===== GRATITUDE FASTING ENHANCED STYLES ===== */
+/* Premium typography, glassmorphism, animations, and modern UI */
+
+/* Warm gradient background for gratitude theme */
+body {
+    background: linear-gradient(180deg, #fffbf0 0%, #fefce8 30%, #ffffff 100%) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-container {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+    padding: 0.75rem 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.progress-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.progress-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #92400e;
+    white-space: nowrap;
+}
+
+.progress-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: rgba(251, 191, 36, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+}
+
+/* ===== ENHANCED HERO ===== */
+.devotion-hero h1 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    letter-spacing: -0.02em !important;
+}
+
+.devotion-hero p {
+    font-weight: 300 !important;
+}
+
+/* ===== ENHANCED CONTROLS ===== */
+.devotion-controls {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(251, 191, 36, 0.1) !important;
+}
+
+.day-nav button,
+.lang-toggle button {
+    border-radius: 12px !important;
+    border: 1px solid rgba(251, 191, 36, 0.3) !important;
+    font-weight: 600 !important;
+    font-family: 'Inter', sans-serif !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+    padding: 0.625rem 1.25rem !important;
+}
+
+.day-nav button:hover:not(:disabled),
+.lang-toggle button:hover {
+    background: #fffbf0 !important;
+    border-color: #fbbf24 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2) !important;
+}
+
+.day-nav select {
+    border-radius: 12px !important;
+    border: 1px solid rgba(251, 191, 36, 0.3) !important;
+    font-weight: 600 !important;
+    font-family: 'Inter', sans-serif !important;
+    padding: 0.625rem 1.25rem !important;
+}
+
+.lang-toggle {
+    background: rgba(251, 191, 36, 0.1) !important;
+    padding: 0.25rem !important;
+    border-radius: 14px !important;
+}
+
+.lang-toggle button {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.lang-toggle button.active {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3) !important;
+}
+
+/* ===== SCROLL REVEAL ANIMATIONS ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* ===== ENHANCED CONTENT SECTIONS ===== */
+.devotion-container {
+    padding: 2rem 1.5rem 4rem !important;
+}
+
+.devotion-section {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 24px !important;
+    padding: 2.5rem !important;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid rgba(251, 191, 36, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.devotion-section:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* ===== PREMIUM SCRIPTURE SECTION ===== */
+.scripture-section {
+    background: linear-gradient(135deg, #fef9c3 0%, #fef3c7 100%) !important;
+    border: 2px solid rgba(251, 191, 36, 0.3) !important;
+    border-left: 2px solid rgba(251, 191, 36, 0.3) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.scripture-section::before {
+    content: '"' !important;
+    position: absolute !important;
+    top: -20px !important;
+    left: 20px !important;
+    font-size: 200px !important;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    color: rgba(251, 191, 36, 0.08) !important;
+    line-height: 1 !important;
+    pointer-events: none !important;
+}
+
+.scripture-section h3 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.75rem !important;
+    margin-bottom: 1.5rem !important;
+    font-weight: 700 !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.scripture-text {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.35rem !important;
+    line-height: 1.9 !important;
+    margin-bottom: 1rem !important;
+    position: relative !important;
+    z-index: 1 !important;
+    font-weight: 500 !important;
+}
+
+.scripture-ref {
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    font-family: 'Inter', sans-serif !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* ===== REFLECTION & PRAYER SECTIONS ===== */
+.reflection-section h3,
+.prayer-section h3 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.75rem !important;
+    margin-bottom: 1.5rem !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+}
+
+.reflection-text,
+.prayer-text {
+    font-family: 'Inter', sans-serif !important;
+    line-height: 1.9 !important;
+    font-size: 1.0625rem !important;
+}
+
+.promise-box {
+    padding: 1.75rem !important;
+    border-radius: 16px !important;
+    margin-top: 1.5rem !important;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1) !important;
+}
+
+.promise-box strong {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.125rem !important;
+}
+
+.promise-box p {
+    font-family: 'Inter', sans-serif !important;
+    line-height: 1.8 !important;
+    color: #1e3a8a !important;
+}
+
+/* ===== ENHANCED SHARE SECTION ===== */
+.share-section {
+    background: linear-gradient(135deg, rgba(243, 232, 255, 0.8) 0%, rgba(250, 232, 255, 0.8) 100%) !important;
+    backdrop-filter: blur(10px) !important;
+    padding: 2rem !important;
+    border-radius: 24px !important;
+    margin-top: 2.5rem !important;
+    border: 1px solid rgba(124, 58, 237, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1) !important;
+}
+
+.share-section h3 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.5rem !important;
+    margin-bottom: 1.25rem !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+}
+
+.share-btn {
+    padding: 0.875rem 1.5rem !important;
+    border-radius: 14px !important;
+    font-weight: 600 !important;
+    font-family: 'Inter', sans-serif !important;
+    gap: 0.625rem !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25) !important;
+}
+
+.share-btn:active {
+    transform: translateY(-1px) !important;
+}
+
+.share-btn.facebook {
+    background: linear-gradient(135deg, #1877f2, #0c63d4) !important;
+}
+
+.share-btn.twitter {
+    background: linear-gradient(135deg, #1da1f2, #0d8bd9) !important;
+}
+
+.share-btn.whatsapp {
+    background: linear-gradient(135deg, #25d366, #1ebe57) !important;
+}
+
+.share-btn.email {
+    background: linear-gradient(135deg, #ea4335, #d33426) !important;
+}
+
+.share-btn.copy {
+    background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
+}
+
+.share-btn.copy.copied {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+}
+
+/* ===== TOPIC HEADER ===== */
+#devotionTopic {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 2.25rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
+}
+
+#devotionDate {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+}
+
+/* ===== LOADING & ERROR STATES ===== */
+#loadingMsg,
+#errorMsg {
+    font-family: 'Inter', sans-serif !important;
+}

@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="platform-runtime.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grace and Praise Bangladeshi Church - San Bernardino, CA</title>
     <link rel="stylesheet" href="redesign-styles.css">
     <link rel="stylesheet" href="countdown.css">
@@ -415,80 +417,6 @@
 
     <!-- Stats Counter Animation Script -->
     <script>
-        // Scroll detection for header
-        const header = document.querySelector('header');
-        let lastScroll = 0;
-
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            
-            lastScroll = currentScroll;
-        });
-
-        // Dropdown menu accessibility and keyboard navigation
-        const navDropdown = document.querySelector('.nav-dropdown');
-        if (navDropdown) {
-            const dropdownToggle = navDropdown.querySelector('a[aria-haspopup]');
-            const dropdownMenu = navDropdown.querySelector('.dropdown-menu');
-            const dropdownLinks = dropdownMenu ? dropdownMenu.querySelectorAll('a') : [];
-
-            // Handle keyboard navigation
-            if (dropdownToggle) {
-                dropdownToggle.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        const isExpanded = dropdownToggle.getAttribute('aria-expanded') === 'true';
-                        dropdownToggle.setAttribute('aria-expanded', !isExpanded);
-                        
-                        if (!isExpanded && dropdownLinks.length > 0) {
-                            dropdownLinks[0].focus();
-                        }
-                    } else if (e.key === 'Escape') {
-                        dropdownToggle.setAttribute('aria-expanded', 'false');
-                        dropdownToggle.focus();
-                    }
-                });
-
-                // Update aria-expanded on hover
-                navDropdown.addEventListener('mouseenter', () => {
-                    dropdownToggle.setAttribute('aria-expanded', 'true');
-                });
-
-                navDropdown.addEventListener('mouseleave', () => {
-                    dropdownToggle.setAttribute('aria-expanded', 'false');
-                });
-            }
-
-            // Handle keyboard navigation within dropdown
-            dropdownLinks.forEach((link, index) => {
-                link.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowDown') {
-                        e.preventDefault();
-                        if (index < dropdownLinks.length - 1) {
-                            dropdownLinks[index + 1].focus();
-                        }
-                    } else if (e.key === 'ArrowUp') {
-                        e.preventDefault();
-                        if (index > 0) {
-                            dropdownLinks[index - 1].focus();
-                        } else {
-                            dropdownToggle.focus();
-                        }
-                    } else if (e.key === 'Escape') {
-                        e.preventDefault();
-                        dropdownToggle.setAttribute('aria-expanded', 'false');
-                        dropdownToggle.focus();
-                    }
-                });
-            });
-        }
-
         // Intersection Observer for stats animation
         const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {

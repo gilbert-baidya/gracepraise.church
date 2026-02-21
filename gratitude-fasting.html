@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+
+    <script src="platform-runtime.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gratitude Fasting 2026 | Grace and Praise Bangladeshi Church</title>
     <meta name="description"
@@ -583,7 +585,7 @@
                             <li><a href="children-devotion.html">Children Devotion</a></li>
                             <li><a href="fasting-21days.html">21 Days Fasting</a></li>
                             <li><a href="fasting-30days.html">30 Days Fasting</a></li>
-                            <li><a href="fasting-40days.html">40 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">Lent - 40 Days</a></li>
                             <li><a href="gratitude-fasting.html" class="active">Gratitude Fasting (<span
                                         class="year-display"></span> - <span class="days-display"></span> Days)</a></li>
                         </ul>
@@ -987,16 +989,6 @@
         document.getElementById('langEn').addEventListener('click', () => switchLanguage('en'));
         document.getElementById('langBn').addEventListener('click', () => switchLanguage('bn'));
 
-        // Sticky header behavior
-        const header = document.querySelector('header');
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
         // Initialize on page load
         loadDevotionalData();
 
@@ -1041,26 +1033,18 @@
             document.getElementById('progressBarFill').style.width = progress + '%';
         }
 
-        // Scroll reveal animations
+        // Scroll reveal animations (Neutralized: IntersectionObserver can cause content to remain permanently hidden)
+        // We now directly apply the visible class to ensure content is always shown.
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in-up');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        // Observe all devotion sections for scroll reveal
+        // Ensure all devotion sections are permanently visible
         document.addEventListener('DOMContentLoaded', () => {
             const sections = document.querySelectorAll('.devotion-section');
             sections.forEach(section => {
-                observer.observe(section);
+                section.classList.add('fade-in-up');
             });
 
             // Update progress bar on initial load
@@ -1077,12 +1061,11 @@
                 originalDisplayDevotion(day);
                 updateProgressBar(day);
 
-                // Re-observe sections for animation on day change
+                // Ensure sections remain visible on day change
                 setTimeout(() => {
                     const sections = document.querySelectorAll('.devotion-section');
                     sections.forEach(section => {
-                        section.classList.remove('fade-in-up');
-                        observer.observe(section);
+                        section.classList.add('fade-in-up');
                     });
                 }, 100);
             };
