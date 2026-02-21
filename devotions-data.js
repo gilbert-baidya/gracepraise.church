@@ -33,6 +33,19 @@
         return null;
     }
 
+    function normalizeDevotionEntry(entry) {
+        const source = (entry && typeof entry === 'object') ? entry : {};
+        return {
+            ...source,
+            title: source.title || source.topic || source.verseReference || '',
+            verseReference: source.verseReference || '',
+            verseText: source.verseText || source.verseReference || '',
+            reflection: source.reflection || '',
+            prayer: source.prayer || '',
+            date: source.date || ''
+        };
+    }
+
     function resolveDataUrl(path) {
         const cleanPath = String(path || '').replace(/^\/+/, '');
         return new URL(cleanPath, GPBC_DATA_BASE).toString();
@@ -58,31 +71,22 @@
     }
 
     const devotionLoader = {
-        async load(eventName) {
-            const requestedEvent = String(eventName || '').trim();
-            if (!requestedEvent) {
-                throw new Error('Event name is required for event devotion loading.');
+        devotions: null, // PRODUCTION FIX: Store loaded devotions
+        async load(event) {
+            try {
+                const res = await fetch(`${event}-devotions.json`);
+                const json = await res.json();
+                /* CRITICAL FIX — STORE DATA */
+                this.devotions = json.devotions || json;
+                /* expose globally for renderer */
+                window.DEVOTION_DATA = this.devotions;
+                console.log("[DEVOTION LOADER FIX] Loaded:", this.devotions.length);
+                return this.devotions;
+            } catch (e) {
+                console.error("[DEVOTION LOADER FIX] Failed:", e);
+                this.devotions = [];
+                return [];
             }
-
-            const normalizedEvent = EVENT_SOURCE_ALIASES[requestedEvent] || requestedEvent;
-            const source = `${normalizedEvent}-devotions.json`;
-            const data = await fetchJsonSafe(source);
-            const devotions = normalizeDevotionArray(data);
-
-            if (!devotions) {
-                throw new Error(`Event devotions file '${source}' is not in a recognized format.`);
-            }
-
-            // Pass through dev flag if present
-            if (data && data.devUnlockAllDays) {
-                devotions.devUnlockAllDays = data.devUnlockAllDays;
-            }
-
-            if (normalizedEvent !== requestedEvent) {
-                console.log(`[GPBC] Event alias applied: '${requestedEvent}' -> '${normalizedEvent}'`);
-            }
-            console.log(`[GPBC] ✅ Loaded event devotions: ${devotions.length} from ${source}`);
-            return devotions;
         }
     };
 

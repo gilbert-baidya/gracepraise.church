@@ -23,6 +23,25 @@
     // ============================================================================
     window.__SHARE_GENERATOR_READY__ = false;
     window.__SHARE_BINDINGS_DONE__ = false;
+    window.__SHARE_DEVOTION_DATA_READY__ = false;
+
+    // ============================================================================
+    // PHASE 2: EVENT-DRIVEN INITIALIZATION
+    // Wait for DEVOTION_RENDER_COMPLETE before initializing
+    // ============================================================================
+    let devotionDataReady = false;
+    let shareGeneratorInitialized = false;
+
+    document.addEventListener('DEVOTION_RENDER_COMPLETE', (e) => {
+        console.log('[Share Generator] ✅ Received DEVOTION_RENDER_COMPLETE event');
+        devotionDataReady = true;
+        window.__SHARE_DEVOTION_DATA_READY__ = true;
+        
+        // Initialize share generator if not already done
+        if (!shareGeneratorInitialized && window.__CURRENT_DEVOTION_DATA__) {
+            initShareCardGenerator();
+        }
+    });
 
     // ============================================================================
     // PRODUCTION HOTFIX — Safe Binding State Initialization
@@ -690,9 +709,26 @@
     function getVerseData() {
         const verseElement = document.querySelector('[data-devotion-scripture]') || document.getElementById('bibleText');
         const referenceElement = document.getElementById('bibleReference');
+        const globalDevotion = window.__CURRENT_DEVOTION_DATA__ || window.__CURRENT_DEVOTION__ || {};
+        const fallbackReference =
+            globalDevotion.verseReference ||
+            globalDevotion.verse ||
+            'Scripture Reference';
+        const fallbackVerseText =
+            globalDevotion.verseText ||
+            globalDevotion.verseTextBn ||
+            '';
 
-        const verse = verseElement?.textContent?.trim() || 'Loading verse...';
-        const reference = referenceElement?.textContent?.trim() || '';
+        const reference = referenceElement?.textContent?.trim() || fallbackReference;
+        let verse = verseElement?.textContent?.trim() || '';
+
+        if (!verse || /loading verse/i.test(verse)) {
+            verse = fallbackVerseText;
+        }
+        if (!verse || /loading verse/i.test(verse)) {
+            // Reference mode fallback: never block rendering waiting for full verse text.
+            verse = reference || fallbackReference;
+        }
 
         const date = new Date();
         const dateStr = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -1417,17 +1453,40 @@
         // Bind events
         ensureShareModalBindings();
 
-        // Mark ready
+        // Mark ready - prevent duplicate initialization
+        if (shareGeneratorInitialized) {
+            console.log('[Share Generator] ⚠️ Already initialized, skipping');
+            return;
+        }
+        
+        shareGeneratorInitialized = true;
         window.__SHARE_GENERATOR_READY__ = true;
-        window.dispatchEvent(new CustomEvent('gpbc:share-generator-ready'));
+        
+        // Only dispatch ready event once
+        if (!window.__SHARE_READY_EVENT_FIRED__) {
+            window.__SHARE_READY_EVENT_FIRED__ = true;
+            window.dispatchEvent(new CustomEvent('gpbc:share-generator-ready'));
+        }
+        
         console.log('[Share Generator] ✅ Ready');
     }
 
-    // Auto-init on load
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initShareCardGenerator);
-    } else {
+    // PHASE 2: Event-driven init - wait for devotion data OR DOM ready
+    function attemptInit() {
+        // Guard: Don't init without devotion data
+        if (!window.__CURRENT_DEVOTION_DATA__ || !window.__CURRENT_DEVOTION_DATA__.verse) {
+            console.log('[Share Generator] ⏳ Waiting for devotion data...');
+            return;
+        }
+        
         initShareCardGenerator();
+    }
+
+    // Listen for DOM ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attemptInit);
+    } else {
+        attemptInit();
     }
 
     // ========================================================================

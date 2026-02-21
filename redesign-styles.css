@@ -1156,32 +1156,219 @@ nav {
 
 /* Mobile-Specific Menu Adjustments - Updated for Tablet (1024px) */
 @media (max-width: 1024px) {
-    .dropdown-menu {
+    /* ============================================
+       FORCE STACKED STATIC MOBILE DROPDOWN
+       All pages must use this layout consistently
+       ============================================ */
+
+    /* Disable desktop hover behaviors completely */
+    .nav-dropdown:hover .dropdown-arrow,
+    .nav-dropdown:focus-within .dropdown-arrow,
+    .nav-item.has-dropdown:hover .dropdown-arrow {
+        transform: none !important;
+    }
+
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu,
+    .nav-item.has-dropdown:hover .dropdown-menu {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-10px) !important;
+        display: none !important;
+    }
+
+    /* Force static stacked layout for ALL dropdown menus */
+    .nav-dropdown .dropdown-menu,
+    .nav-item.has-dropdown > .dropdown-menu,
+    .dropdown-menu,
+    ul.dropdown-menu {
         position: static !important;
+        display: none !important;
+        width: 100% !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 8px 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        border-radius: 0 !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        margin-bottom: 0 !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        z-index: auto !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        filter: none !important;
+    }
+
+    /* Show dropdown ONLY when mobile-dropdown-open class is active */
+    .nav-dropdown.mobile-dropdown-open > .dropdown-menu,
+    .nav-item.mobile-dropdown-open > .dropdown-menu,
+    li.mobile-dropdown-open > ul.dropdown-menu,
+    .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu {
+        display: block !important;
+        background: transparent !important;
+        background-color: transparent !important;
+    }
+
+    /* Pill-style dropdown links - FORCED GLOBAL STYLE */
+    .nav-dropdown .dropdown-menu a,
+    .nav-item.has-dropdown .dropdown-menu a,
+    .dropdown-menu a,
+    ul.dropdown-menu > li > a,
+    .nav-links .dropdown-menu a,
+    .nav-links .nav-dropdown .dropdown-menu a {
+        display: block !important;
+        width: 100% !important;
+        padding: 14px 18px !important;
+        margin: 6px 0 !important;
+        border-radius: 16px !important;
+        min-height: 44px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: #ffffff !important;
+        text-align: left !important;
+        border: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important;
+        border-bottom: none !important;
+        box-shadow: none !important;
+        position: static !important;
+        transform: none !important;
+        font-size: var(--font-sm) !important;
+    }
+
+    .nav-dropdown .dropdown-menu a:hover,
+    .dropdown-menu a:hover,
+    .nav-links .dropdown-menu a:hover {
+        background: rgba(255, 255, 255, 0.12) !important;
+        transform: none !important;
+    }
+
+    /* Light mode pill style - ULTRA SPECIFIC */
+    body:not(.dark) .dropdown-menu a,
+    body:not([data-theme="dark"]) .dropdown-menu a,
+    body.light .dropdown-menu a,
+    body:not(.dark) .nav-dropdown .dropdown-menu a,
+    body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a,
+    body:not(.dark) .nav-links .dropdown-menu a,
+    body:not([data-theme="dark"]) .nav-links .dropdown-menu a,
+    body:not(.dark) ul.dropdown-menu > li > a,
+    body:not([data-theme="dark"]) ul.dropdown-menu > li > a {
+        background: rgba(0, 0, 0, 0.05) !important;
+        color: var(--text-body) !important;
+    }
+
+    body:not(.dark) .dropdown-menu a:hover,
+    body:not([data-theme="dark"]) .dropdown-menu a:hover,
+    body.light .dropdown-menu a:hover,
+    body:not(.dark) .nav-dropdown .dropdown-menu a:hover,
+    body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover,
+    body:not(.dark) .nav-links .dropdown-menu a:hover,
+    body:not([data-theme="dark"]) .nav-links .dropdown-menu a:hover {
+        background: rgba(0, 0, 0, 0.08) !important;
+    }
+
+    /* Parent dropdown link styling */
+    .nav-dropdown > a,
+    .nav-item.has-dropdown > a,
+    .nav-item.has-dropdown > button {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        min-height: 44px !important;
+    }
+
+    /* Arrow rotation when dropdown is open */
+    .dropdown-arrow {
+        transition: transform 0.3s ease !important;
+    }
+
+    .nav-dropdown.mobile-dropdown-open .dropdown-arrow,
+    .nav-item.mobile-dropdown-open .dropdown-arrow {
+        transform: rotate(180deg) !important;
+    }
+
+    /* Nested dropdown mobile styles - match parent */
+    .dropdown-menu-nested {
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+        right: auto !important;
         opacity: 1 !important;
         visibility: visible !important;
         transform: none !important;
         box-shadow: none !important;
         border: none !important;
-        padding-left: 1.5rem !important;
-        display: none;
         background: transparent !important;
+        width: 100% !important;
         min-width: 100% !important;
+        padding: 8px 0 8px 1rem !important;
+        margin-left: 0 !important;
+        display: none !important;
+        pointer-events: auto !important;
+        z-index: auto !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
     }
 
-    .nav-dropdown.mobile-dropdown-open .dropdown-menu {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.25rem;
-        margin-top: 0.5rem;
+    .nav-dropdown-nested.mobile-dropdown-open .dropdown-menu-nested {
+        display: block !important;
     }
 
-    .dropdown-menu a {
-        padding: 0.4rem !important;
-        font-size: 0.8rem !important;
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--color-text) !important;
+    .nav-dropdown-nested:hover .dropdown-menu-nested,
+    .nav-dropdown-nested:focus-within .dropdown-menu-nested {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        display: none !important;
     }
+
+    .dropdown-menu-nested a {
+        min-height: 44px !important;
+        display: block !important;
+        padding: 14px 18px !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+        border-radius: 16px !important;
+        margin: 6px 0 !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important;
+        border-bottom: none !important;
+        position: static !important;
+        box-shadow: none !important;
+    }
+
+    .dropdown-menu-nested a:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    body:not(.dark) .dropdown-menu-nested a,
+    body:not([data-theme="dark"]) .dropdown-menu-nested a,
+    body:not(.dark) .nav-dropdown-nested .dropdown-menu-nested a,
+    body:not([data-theme="dark"]) .nav-dropdown-nested .dropdown-menu-nested a,
+    body:not(.dark) .nav-links .dropdown-menu-nested a,
+    body:not([data-theme="dark"]) .nav-links .dropdown-menu-nested a {
+        background: rgba(0, 0, 0, 0.04) !important;
+        color: var(--text-body) !important;
+    }
+
+    body:not(.dark) .dropdown-menu-nested a:hover,
+    body:not([data-theme="dark"]) .dropdown-menu-nested a:hover,
+    body:not(.dark) .nav-dropdown-nested .dropdown-menu-nested a:hover,
+    body:not([data-theme="dark"]) .nav-dropdown-nested .dropdown-menu-nested a:hover {
+        background: rgba(0, 0, 0, 0.06) !important;
+    }
+}
 }
 
 .dropdown-menu a::after {
@@ -3979,111 +4166,108 @@ body:not(.dark):not([data-theme="dark"]) footer {
     .dropdown-arrow {
         display: inline-block;
         font-size: 0.65rem;
-        transition: transform var(--transition-fast);
+        transition: transform 0.3s ease !important;
         margin-left: auto;
     }
 
-    /* Mobile dropdown menu styling */
+    /* Mobile dropdown menu styling - PILL STYLE ENFORCED */
     .dropdown-menu {
-        display: none;
         position: static !important;
+        display: none !important;
+        width: 100% !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 8px 0 !important;
+        margin: 0 !important;
         opacity: 1 !important;
         visibility: visible !important;
         transform: none !important;
-        box-shadow: none;
-        border: none;
-        border-radius: 0;
-        padding: 0;
-        margin: 0;
-        background: var(--bg-card);
-        width: 100%;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease, padding 0.3s ease;
-        pointer-events: none;
-    }
-
-    .nav-dropdown.mobile-dropdown-open .dropdown-menu {
-        pointer-events: auto;
+        border-radius: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        pointer-events: auto !important;
+        z-index: auto !important;
     }
 
     /* Show dropdown menu when parent has mobile-dropdown-open class */
     .nav-dropdown.mobile-dropdown-open .dropdown-menu {
-        display: block;
-        max-height: 800px;
-        padding: var(--spacing-xs) 0;
-        margin-top: var(--spacing-xs);
+        display: block !important;
     }
 
     /* Rotate arrow when dropdown is open */
     .nav-dropdown.mobile-dropdown-open .dropdown-arrow {
-        transform: rotate(180deg);
+        transform: rotate(180deg) !important;
     }
 
-    /* Mobile dropdown link styling */
+    /* Mobile dropdown link styling - PILL STYLE */
     .dropdown-menu a {
-        padding: 0.875rem var(--spacing-lg) !important;
-        padding-left: calc(var(--spacing-lg) * 2) !important;
+        display: block !important;
+        width: 100% !important;
+        padding: 14px 18px !important;
+        margin: 6px 0 !important;
+        border-radius: 16px !important;
+        min-height: 44px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: #ffffff !important;
         font-size: var(--font-sm) !important;
-        border-left: 3px solid transparent;
-        color: var(--text-body);
-        transition: all var(--transition-fast);
-        min-height: 44px;
-        display: flex;
-        align-items: center;
+        border: none !important;
+        text-align: left !important;
+        transition: background 0.2s ease !important;
     }
 
     .dropdown-menu a:hover,
     .dropdown-menu a:focus {
-        background: var(--bg-section);
-        border-left-color: var(--border-highlight);
-        transform: translateX(2px);
+        background: rgba(255, 255, 255, 0.12) !important;
+        transform: none !important;
     }
 
     /* ===== MOBILE NESTED DROPDOWN (MINISTRIES) ===== */
 
     .dropdown-menu-nested {
-        display: none;
         position: static !important;
+        display: none !important;
+        width: 100% !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 8px 0 8px 1rem !important;
+        margin: 0 !important;
         opacity: 1 !important;
         visibility: visible !important;
         transform: none !important;
-        box-shadow: none;
-        border: none;
-        border-radius: 0;
-        padding: 0;
-        margin: 0;
-        background: var(--bg-card);
-        width: 100%;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease, padding 0.3s ease;
+        border-radius: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        z-index: auto !important;
     }
 
     .nav-dropdown-nested.mobile-dropdown-open .dropdown-menu-nested {
-        display: block;
-        max-height: 500px;
-        padding: var(--spacing-xs) 0;
-        margin-top: var(--spacing-xs);
+        display: block !important;
     }
 
     .nav-dropdown-nested.mobile-dropdown-open .dropdown-arrow {
-        transform: rotate(90deg);
+        transform: rotate(180deg) !important;
     }
 
     .dropdown-menu-nested a {
-        padding: var(--spacing-sm) var(--spacing-lg) !important;
-        padding-left: calc(var(--spacing-lg) * 3) !important;
+        display: block !important;
+        width: 100% !important;
+        padding: 14px 18px !important;
+        margin: 6px 0 !important;
+        border-radius: 16px !important;
+        min-height: 44px !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+        color: #ffffff !important;
         font-size: var(--font-sm) !important;
-        border-left: 3px solid transparent;
-        color: var(--text-body);
+        border: none !important;
+        text-align: left !important;
     }
 
     .dropdown-menu-nested a:hover,
     .dropdown-menu-nested a:focus {
-        background: var(--bg-section);
-        border-left-color: var(--border-highlight);
-        transform: translateX(2px);
+        background: rgba(255, 255, 255, 0.1) !important;
+        transform: none !important;
     }
 
     .nav-dropdown-nested>a {
@@ -4174,11 +4358,13 @@ body:not(.dark):not([data-theme="dark"]) footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        min-height: 44px;
     }
 
+    /* Override for dropdown links - styling already defined in mobile dropdown section */
     .dropdown-menu a,
     .dropdown-menu-nested a {
-        color: rgba(255, 255, 255, 0.8) !important;
+        /* Styles handled in @media (max-width: 1024px) .dropdown-menu a section */
     }
 
     .nav-links li {

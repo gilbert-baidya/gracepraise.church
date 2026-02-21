@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="platform-runtime.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Primary Meta Tags -->
     <title>Calendar 2026 - Grace and Praise Bangladeshi Church | Events & Services</title>
@@ -1178,77 +1180,7 @@
     <script src="donations.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="countdown.js"></script>
-
-    <!-- Dropdown menu accessibility script -->
-    <script>
-        // Dropdown menu accessibility and keyboard navigation
-        const navDropdown = document.querySelector('.nav-dropdown');
-        if (navDropdown) {
-            const dropdownToggle = navDropdown.querySelector('a[aria-haspopup]');
-            const dropdownMenu = navDropdown.querySelector('.dropdown-menu');
-            const dropdownLinks = dropdownMenu ? dropdownMenu.querySelectorAll('a') : [];
-
-            if (dropdownToggle) {
-                dropdownToggle.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        const isExpanded = dropdownToggle.getAttribute('aria-expanded') === 'true';
-                        dropdownToggle.setAttribute('aria-expanded', !isExpanded);
-
-                        if (!isExpanded && dropdownLinks.length > 0) {
-                            dropdownLinks[0].focus();
-                        }
-                    } else if (e.key === 'Escape') {
-                        dropdownToggle.setAttribute('aria-expanded', 'false');
-                        dropdownToggle.focus();
-                    }
-                });
-
-                navDropdown.addEventListener('mouseenter', () => {
-                    dropdownToggle.setAttribute('aria-expanded', 'true');
-                });
-
-                navDropdown.addEventListener('mouseleave', () => {
-                    dropdownToggle.setAttribute('aria-expanded', 'false');
-                });
-            }
-
-            dropdownLinks.forEach((link, index) => {
-                link.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowDown') {
-                        e.preventDefault();
-                        if (index < dropdownLinks.length - 1) {
-                            dropdownLinks[index + 1].focus();
-                        }
-                    } else if (e.key === 'ArrowUp') {
-                        e.preventDefault();
-                        if (index > 0) {
-                            dropdownLinks[index - 1].focus();
-                        } else {
-                            dropdownToggle.focus();
-                        }
-                    } else if (e.key === 'Escape') {
-                        e.preventDefault();
-                        dropdownToggle.setAttribute('aria-expanded', 'false');
-                        dropdownToggle.focus();
-                    }
-                });
-            });
-        }
-
-        // Header scroll effect
-        const header = document.querySelector('header');
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            if (currentScroll > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    </script>
-
-    <!-- NAVIGATION LOCK — Centralized navigation system -->
+<!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>

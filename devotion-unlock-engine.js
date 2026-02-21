@@ -36,15 +36,17 @@ const DevotionUnlockEngine = (() => {
     const UNLOCK_CACHE_KEY = 'gpbc-unlock-state';
 
     // ══════════════════════════════════════════════════
-    // GLOBAL UNLOCK OVERRIDE
-    // Set window.FORCE_DEVOTION_UNLOCK = true to bypass date-gating
+    // CONFIG-DRIVEN UNLOCK OVERRIDE
+    // Checks window.GPBC_CONFIG.unlockAllDevotions only
     // ══════════════════════════════════════════════════
     function shouldForceUnlock() {
-        // Check global override flag
-        if (typeof window !== 'undefined' && window.FORCE_DEVOTION_UNLOCK === true) {
+        // Check centralized config
+        if (typeof window !== 'undefined' && 
+            window.GPBC_CONFIG && 
+            window.GPBC_CONFIG.unlockAllDevotions === true) {
             return true;
         }
-        // Check query parameter ?unlock=1
+        // Check query parameter ?unlock=1 as override
         if (typeof window !== 'undefined' && window.location) {
             const params = new URLSearchParams(window.location.search);
             if (params.get('unlock') === '1') {
@@ -559,7 +561,9 @@ const DevotionUnlockEngine = (() => {
     let _forceUnlock = false;
 
     function isForcedUnlockActive() {
-        return _forceUnlock || (typeof window !== 'undefined' && window.FORCE_DEVOTION_UNLOCK === true);
+        // DEPRECATED: Legacy window.FORCE_DEVOTION_UNLOCK check removed
+        // Use window.GPBC_CONFIG.unlockAllDevotions instead
+        return _forceUnlock;
     }
 
     function buildForcedUnlockState(today) {

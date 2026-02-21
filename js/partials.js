@@ -1,17 +1,36 @@
 (() => {
     async function fetchPartial(url) {
-        const response = await fetch(url, { cache: 'no-cache' });
-        if (!response.ok) {
-            throw new Error(`Failed to load partial: ${url}`);
+        try {
+            const response = await fetch(url, { cache: 'no-cache' });
+            if (!response.ok) {
+                console.warn(`[Partials] Failed to load: ${url} (${response.status})`);
+                return null;
+            }
+            return response.text();
+        } catch (error) {
+            console.warn(`[Partials] Fetch error for ${url}:`, error.message);
+            return null;
         }
-        return response.text();
     }
 
-    async function injectPartial(selector, url) {
+    async function injectPartial(selector, url, fallbackHtml = '') {
         const container = document.querySelector(selector);
-        if (!container) return;
+        if (!container) {
+            console.warn(`[Partials] Container not found: ${selector}`);
+            return;
+        }
+        
         const html = await fetchPartial(url);
-        container.innerHTML = html;
+        
+        if (html) {
+            container.innerHTML = html;
+            console.log(`[Partials] ✅ Loaded: ${url}`);
+        } else if (fallbackHtml) {
+            container.innerHTML = fallbackHtml;
+            console.log(`[Partials] ⚠️ Using fallback for: ${selector}`);
+        } else {
+            console.warn(`[Partials] ❌ No content for: ${selector}`);
+        }
     }
 
     function getBasePath() {
@@ -32,20 +51,28 @@
     async function loadPartials() {
         const basePath = getBasePath();
 
-        try {
-            await injectPartial('#site-header', basePath + 'partials/header.html');
-        } catch (error) {
-            console.error(error);
-        }
+        const headerFallback = window.Platform?.getFallbackHeaderHtml?.() || 
+            '<header class="fallback-header"><nav><a href="index.html">GPBC</a></nav></header>';
+        
+        const footerFallback = '<footer class="fallback-footer"><p>&copy; 2026 GPBC</p></footer>';
 
-        try {
-            await injectPartial('#site-footer', basePath + 'partials/footer.html');
-        } catch (error) {
-            console.error(error);
-        }
+        await injectPartial('#site-header', basePath + 'partials/header.html', headerFallback);
+        await injectPartial('#site-footer', basePath + 'partials/footer.html', footerFallback);
+    }
+
+    if (typeof window !== 'undefined') {
+        window.GPBC_loadPartials = loadPartials;
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
+        if (typeof window !== 'undefined' &&
+            window.PLATFORM_RUNTIME_READY === true &&
+            window.Platform &&
+            typeof window.Platform.initPartials === 'function') {
+            await window.Platform.initPartials();
+            return;
+        }
+
         await loadPartials();
         if (typeof window !== 'undefined') {
             try {

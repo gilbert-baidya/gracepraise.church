@@ -78,15 +78,15 @@
     }
 }
 
-/* Language-specific visibility */
-.lang-en,
-.lang-bn {
+/* Language-specific visibility for Bible Gateway Links */
+.bible-gateway-link.lang-en,
+.bible-gateway-link.lang-bn {
     display: none;
 }
 
-[data-lang="en"] .lang-en,
-[data-lang="bn"] .lang-bn,
-[data-lang="both"] .lang-en,
-[data-lang="both"] .lang-bn {
-    display: flex;
+[data-lang="en"] .bible-gateway-link.lang-en,
+[data-lang="bn"] .bible-gateway-link.lang-bn,
+[data-lang="both"] .bible-gateway-link.lang-en,
+[data-lang="both"] .bible-gateway-link.lang-bn {
+    display: inline-flex;
 }

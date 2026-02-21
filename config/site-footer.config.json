@@ -1,0 +1,91 @@
+{
+  "church": {
+    "name": "Grace and Praise Bangladeshi Church",
+    "mission": "Helping people follow Jesus, grow in faith, and serve our city with compassion.",
+    "logoPath": "images/new-gpbc-logo-final.svg",
+    "logoAlt": "Grace and Praise Bangladeshi Church logo"
+  },
+  "visit": {
+    "addressLines": [
+      "1325 Richardson Street",
+      "San Bernardino, CA 92408"
+    ],
+    "directionsUrl": "https://www.google.com/maps/search/?api=1&query=1325+Richardson+Street+San+Bernardino+CA+92408",
+    "serviceTimes": [
+      "Sunday Worship: 10:30 AM",
+      "Prayer Gathering: Wednesday 7:00 PM"
+    ]
+  },
+  "connect": {
+    "phoneDisplay": "(888) 880-7773",
+    "phoneHref": "+18888807773",
+    "email": "info@gracepraise.church",
+    "secondaryEmail": "bangladeshi.church@gmail.com"
+  },
+  "cta": {
+    "title": "Take Your Next Step",
+    "description": "Whether you are new to church or looking for community, we would love to connect with you.",
+    "links": [
+      {
+        "label": "Plan a Visit",
+        "href": "plan-visit.html"
+      },
+      {
+        "label": "Watch Online",
+        "href": "https://youtube.com/@gpbc",
+        "external": true
+      },
+      {
+        "label": "Prayer Request",
+        "href": "prayer-request.html"
+      }
+    ]
+  },
+  "resources": [
+    {
+      "label": "Sermons",
+      "href": "https://youtube.com/@gpbc",
+      "external": true
+    },
+    {
+      "label": "Events",
+      "href": "calendar.html"
+    },
+    {
+      "label": "Give",
+      "href": "give.html"
+    },
+    {
+      "label": "Ministries",
+      "href": "ministries.html"
+    }
+  ],
+  "social": [
+    {
+      "id": "youtube",
+      "label": "YouTube",
+      "href": "https://youtube.com/@gpbc"
+    },
+    {
+      "id": "facebook",
+      "label": "Facebook",
+      "href": "https://facebook.com/graceandpraisebangladeshichurch"
+    },
+    {
+      "id": "instagram",
+      "label": "Instagram",
+      "href": "https://instagram.com/gpbc"
+    }
+  ],
+  "legal": [
+    {
+      "label": "Privacy",
+      "href": "privacy-policy.html"
+    },
+    {
+      "label": "Terms",
+      "href": "terms-conditions.html"
+    }
+  ],
+  "poweredBy": "Powered by GPBC Digital Ministry Team"
+}

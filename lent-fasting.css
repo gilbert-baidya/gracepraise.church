@@ -627,7 +627,7 @@ body {
     font-family: 'Noto Sans Bengali', var(--font-body);
     font-weight: 600;
     font-size: 0.9rem;
-    color: var(--lent-text-muted);
+    color: var(--lent-text-primary);
     margin-top: var(--space-xs);
 }
 
@@ -647,7 +647,7 @@ body {
     font-family: 'Noto Sans Bengali', var(--font-body);
     font-size: 1rem;
     line-height: 2.0;
-    color: var(--lent-text-secondary);
+    color: var(--lent-text-primary);
     margin-top: var(--space-md);
     padding-top: var(--space-md);
     border-top: 1px solid rgba(139, 92, 246, 0.18);

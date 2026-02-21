@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    
+
     <script src="platform-runtime.js"></script>
-<!-- iOS / Tablet Horizontal Scroll Lock — SAFE FIX -->
+    <!-- iOS / Tablet Horizontal Scroll Lock — SAFE FIX -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 
     <!-- Primary Meta Tags -->
@@ -225,7 +225,8 @@
                     <span id="sacredQuoteRefText">—</span>
                 </h2>
                 <div class="bible-verse-link-container">
-                    <a href="#" id="bibleGatewayLink" class="bible-gateway-link" target="_blank" rel="noopener noreferrer">
+                    <a href="#" id="bibleGatewayLink" class="bible-gateway-link" target="_blank"
+                        rel="noopener noreferrer">
                         <span class="bible-icon" aria-hidden="true">📖</span>
                         <span>Read Verse</span>
                         <span class="external-icon" aria-hidden="true">↗</span>
@@ -281,12 +282,15 @@
                 <!-- Scripture Section -->
                 <article class="devotion-section scripture-section" id="scriptureSection">
                     <h3 id="bibleReference">Philippians 4:6-7 (NIV)</h3>
-                    
+
                     <!-- REFERENCE MODE: No verse text stored, always use Bible Gateway -->
                     <div class="bible-gateway-link-container" style="margin-top: 1rem;">
-                        <a href="#" id="bibleGatewayLink" class="bible-gateway-link" target="_blank" rel="noopener noreferrer">
-                            <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20">
-                                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <a href="#" id="bibleGatewayLink" class="bible-gateway-link" target="_blank"
+                            rel="noopener noreferrer">
+                            <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20"
+                                height="20">
+                                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             Read on BibleGateway.com
                         </a>
@@ -1236,10 +1240,11 @@
                 // PHASE 2 — Set Global Devotion Data (Single Source of Truth)
                 // REFERENCE MODE: No verseText, always use verseReference
                 const lang = currentLang === 'bn' ? 'Bn' : '';
+                const verseReference = data.verse || data.verseReference || data.verseRef || 'Psalm 46:1';
                 window.__CURRENT_DEVOTION_DATA__ = {
                     title: data[`title${lang}`] || data.title || 'Daily Devotion',
-                    verse: data.verse || '',
-                    verseReference: data.verse || '',  // Always use reference
+                    verse: verseReference,
+                    verseReference: verseReference,  // Always use reference
                     reflection: data[`reflection${lang}`] || data.reflection || '',
                     prayer: data[`prayer${lang}`] || data.prayer || '',
                     date: formatDisplayDate(selectedDate),
@@ -1322,6 +1327,12 @@
                 window.ResurrectionLock.release();
                 console.log("[Devotion] Render Completed");
 
+                // PHASE 2: Dispatch render complete event for share engine
+                document.dispatchEvent(new CustomEvent('DEVOTION_RENDER_COMPLETE', {
+                    detail: { devotionData }
+                }));
+                console.log("[Devotion] ✅ DEVOTION_RENDER_COMPLETE event dispatched");
+
                 // RESURRECTION — Performance Metrics
                 const perfEnd = performance.now();
                 console.log('[Resurrection] 📊 Total Render Time:', Math.round(perfEnd - (window.ResurrectionLock.firstPaintTime || perfEnd)), 'ms');
@@ -1387,7 +1398,7 @@
             function generateShareCaption() {
                 const date = formatDisplayDate(selectedDate);
                 const reference = document.getElementById('bibleReference')?.textContent || '';
-                const verse = document.getElementById('bibleText')?.textContent || '';
+                const verse = document.getElementById('bibleText')?.textContent || reference;
                 const reflection = document.getElementById('devotionMessage')?.textContent || '';
                 const url = window.location.href;
 
@@ -1960,12 +1971,11 @@
             hero.classList.add('sacred-active');
         }
     </script>
-<!-- NAVIGATION LOCK — Centralized navigation system -->
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260125c"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>
     <script src="devotions-db-2026.js"></script>
-    <script src="devotions-data.js"></script>
 
     <!-- Sacred Background Engine -->
     <link rel="stylesheet" href="sacred-background.css">

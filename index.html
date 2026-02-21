@@ -4,7 +4,9 @@
 <head>
     <!-- Version: 2026-01-12-mobile-dropdown-fix-v2 -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="platform-runtime.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Security: Content Security Policy (CSP) - EMERGENCY HOTFIX 2026-02-13 -->
     <!-- Allows all verified external dependencies to restore site functionality -->
@@ -1618,22 +1620,6 @@
 
     <!-- Stats Counter Animation Script -->
     <script>
-        // Scroll detection for header
-        const header = document.querySelector('header');
-        let lastScroll = 0;
-
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-
-            if (currentScroll > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-
-            lastScroll = currentScroll;
-        });
-
         // ============================================
         // NAVIGATION LOCK — Moved to navigation.js?v=20260125c
         // All navigation logic centralized in navigation.js?v=20260125c

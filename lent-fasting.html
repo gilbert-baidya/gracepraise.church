@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    
+
     <script src="platform-runtime.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church</title>
     <meta name="description"
         content="Join us for 40 days of prayer and fasting. Daily devotions with Bible verses, reflections, and prayers in English and Bengali.">
@@ -150,22 +150,18 @@
                     <button id="langBoth" role="radio" aria-checked="false">Both</button>
                 </div>
             </div>
-            
+
             <!-- High Contrast Mode Toggle -->
-            <div class="controls-row" style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(139, 92, 246, 0.12);">
+            <div class="controls-row"
+                style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(139, 92, 246, 0.12);">
                 <label class="contrast-toggle-label" for="contrastToggle">
                     <span class="contrast-toggle-text">
                         <span class="contrast-icon" aria-hidden="true">◐</span>
                         High Contrast Mode
                     </span>
                     <div class="toggle-switch">
-                        <input 
-                            type="checkbox" 
-                            id="contrastToggle" 
-                            role="switch"
-                            aria-checked="false"
-                            aria-label="Enable high contrast mode for better readability"
-                        />
+                        <input type="checkbox" id="contrastToggle" role="switch" aria-checked="false"
+                            aria-label="Enable high contrast mode for better readability" />
                         <span class="toggle-slider"></span>
                     </div>
                 </label>
@@ -193,14 +189,18 @@
                 <section class="devotion-section scripture-section" aria-label="Scripture">
                     <h3>📖 Key Verse</h3>
                     <div class="bible-verse-container">
+                        <p class="scripture-text lang-en" id="verseText"></p>
                         <p class="scripture-ref lang-en" id="verseRef"></p>
-                        <a href="#" id="bibleGatewayLinkEn" class="bible-gateway-link lang-en" target="_blank" rel="noopener noreferrer">
+                        <a href="#" id="bibleGatewayLinkEn" class="bible-gateway-link lang-en" target="_blank"
+                            rel="noopener noreferrer">
                             <span class="bible-icon" aria-hidden="true">📖</span>
                             <span>Read Verse (NIV)</span>
                             <span class="external-icon" aria-hidden="true">↗</span>
                         </a>
+                        <p class="scripture-text-bn lang-bn" id="verseTextBn"></p>
                         <p class="scripture-ref-bn lang-bn" id="verseRefBn"></p>
-                        <a href="#" id="bibleGatewayLinkBn" class="bible-gateway-link lang-bn" target="_blank" rel="noopener noreferrer">
+                        <a href="#" id="bibleGatewayLinkBn" class="bible-gateway-link lang-bn" target="_blank"
+                            rel="noopener noreferrer">
                             <span class="bible-icon" aria-hidden="true">📖</span>
                             <span>পদ পড়ুন (কেরী ভার্সন)</span>
                             <span class="external-icon" aria-hidden="true">↗</span>
@@ -268,25 +268,9 @@
 
     <script>
         // ══════════════════════════════════════════════════════════
-        // GLOBAL UNLOCK CONFIGURATION
-        // Set this flag to true to unlock all devotion days
+        // CONFIG-DRIVEN UNLOCK - No direct global flag assignment
+        // Unlock controlled by window.GPBC_CONFIG.unlockAllDevotions
         // ══════════════════════════════════════════════════════════
-        window.FORCE_DEVOTION_UNLOCK = false; // Set to true to unlock all days
-
-        // Auto-enable unlock if devUnlockAllDays is true in JSON
-        async function checkDevUnlockFlag() {
-            try {
-                const response = await fetch('lent-fasting-devotions.json');
-                const data = await response.json();
-                if (data.devUnlockAllDays === true) {
-                    window.FORCE_DEVOTION_UNLOCK = true;
-                    console.log('[Lent] devUnlockAllDays=true detected - all days unlocked');
-                }
-            } catch (e) {
-                console.warn('[Lent] Could not check devUnlockAllDays flag:', e);
-            }
-        }
-        checkDevUnlockFlag();
 
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -361,19 +345,7 @@
             /* ── Scroll Reveal Observer ───────────────────────────── */
             function initScrollReveal() {
                 const sections = document.querySelectorAll('.devotion-section:not(.topic-section)');
-                if (!window.IntersectionObserver) {
-                    sections.forEach(s => s.classList.add('revealed'));
-                    return;
-                }
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('revealed');
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-                sections.forEach(s => observer.observe(s));
+                sections.forEach(s => s.classList.add('revealed'));
             }
 
             /* ── Confetti Micro-celebration ───────────────────────── */
@@ -419,6 +391,8 @@
                         devotionTopic: document.getElementById('devotionTopic'),
                         devotionTopicBn: document.getElementById('devotionTopicBn'),
                         devotionDate: document.getElementById('devotionDate'),
+                        verseText: document.getElementById('verseText'),
+                        verseTextBn: document.getElementById('verseTextBn'),
                         verseRef: document.getElementById('verseRef'),
                         verseRefBn: document.getElementById('verseRefBn'),
                         reflectionText: document.getElementById('reflectionText'),
@@ -477,10 +451,37 @@
 
                     try {
                         this.devotionalData = await window.devotionLoader.load(this.event);
+                        
+                        /* SAFE STATE BRIDGE */
+                        const loaderState = window.devotionLoader?.data?.["lent-fasting"];
+                        
+                        if (loaderState?.devotions?.length > 0) {
+                            this.devotions = loaderState.devotions;
+                            console.log(
+                                '[LENT STATE BRIDGE SUCCESS]',
+                                this.devotions.length,
+                                'devotions loaded'
+                            );
+                        } else {
+                            // Fallback: use return value directly
+                            this.devotions = this.devotionalData || [];
+                            console.warn('[LENT STATE BRIDGE] Using fallback:', this.devotions.length);
+                        }
 
-                        this.populateDaySelector();
+                        // Expose globally for defensive access
+                        window.LENT_DEVOTIONS_DATA = this.devotions || [];
 
-                        // ── Inject Today Banner + Progress Bar ──
+                        // Validate data loaded
+                        if (!this.devotions || this.devotions.length === 0) {
+                            console.error('[LENT FIX] Devotions array is empty after load');
+                            console.error('[LENT FIX] devotionalData:', this.devotionalData);
+                            console.error('[LENT FIX] loaderState:', loaderState);
+                            throw new Error('Failed to load devotional data');
+                        }
+
+                        console.log('[LENT FIX SUCCESS] Initialization complete. Data count:', this.devotions.length);
+
+                        this.populateDaySelector();                        // ── Inject Today Banner + Progress Bar ──
                         if (this.unlockState) {
                             const heroArea = document.querySelector('.devotion-hero') ||
                                 this.elements.devotionContent?.parentElement;
@@ -640,6 +641,15 @@
                 },
 
                 displayDevotion(day) {
+                    // ── Defensive guard: Check data availability ──
+                    if (!window.LENT_DEVOTIONS_DATA || !this.devotionalData) {
+                        console.error('[Sacred Waymarks] Lent devotions data not loaded');
+                        this.elements.errorMsg.textContent = 'Devotional content is not available. Please refresh the page.';
+                        this.elements.errorMsg.style.display = 'block';
+                        this.elements.devotionContent.style.display = 'none';
+                        return;
+                    }
+
                     // ── Check unlock before displaying ──
                     if (this.unlockState && !DevotionUnlockEngine.isDayUnlocked(day)) {
                         const overlay = DevotionUnlockEngine.createLockedOverlay(day, this.unlockState);
@@ -661,8 +671,18 @@
                         this.addEventListeners(); // Re-bind events (read more, etc)
                     }
 
-                    const devotion = this.devotionalData.find(d => d.day === day);
-                    if (!devotion) {
+                    this.currentDay = day;
+
+                    // Safe devotion lookup
+                    const devotion = (this.devotions || []).find(d => d.day === day);
+
+                    // Debug confirmation
+                    console.log('[LENT FIX SUCCESS] Day:', day, 'Total:', this.devotions?.length || 0, devotion ? '✓' : '✗');
+
+                    // Use found devotion (no fallback needed - this.devotions is the source)
+                    const selectedDevotion = devotion;
+
+                    if (!selectedDevotion) {
                         this.elements.errorMsg.textContent = `Content for day ${day} is not available.`;
                         this.elements.errorMsg.style.display = 'block';
                         this.elements.devotionContent.style.display = 'none';
@@ -671,13 +691,40 @@
 
 
 
-                    this.currentDay = day;
+
                     this.elements.errorMsg.style.display = 'none';
                     this.elements.devotionContent.style.display = 'block';
 
                     this.updateUrl();
                     this.updateNav();
-                    this.updateContent(devotion);
+                    this.updateContent(selectedDevotion);
+
+                    // Backward-compatible contract normalization for legacy selectors
+                    const verseRefEl = document.getElementById('verseRef');
+                    const reflectionEl = document.getElementById('reflectionText');
+                    const prayerEl = document.getElementById('prayerText');
+
+                    const legacyVerse = document.getElementById('key-verse');
+                    const legacyReflection = document.getElementById('reflection');
+                    const legacyPrayer = document.getElementById('prayer');
+
+                    if (legacyVerse && verseRefEl) {
+                        legacyVerse.innerHTML = verseRefEl.innerHTML;
+                    }
+                    if (legacyReflection && reflectionEl) {
+                        legacyReflection.innerHTML = reflectionEl.innerHTML;
+                    }
+                    if (legacyPrayer && prayerEl) {
+                        legacyPrayer.innerHTML = prayerEl.innerHTML;
+                    }
+
+                    console.info('[LENT] Devotion render verification:', {
+                        day: this.currentDay,
+                        verseReference: selectedDevotion.verseReference,
+                        reflectionLength: selectedDevotion.reflection?.length,
+                        prayerLength: selectedDevotion.prayer?.length
+                    });
+
                     this.updateProgressBar();
                     this.updateWeekTheme();
                     this.updateCompletionUI();
@@ -695,48 +742,174 @@
                     if (btnText) btnText.textContent = 'Read more ';
 
                     // Screen reader announcement
-                    this.announce(`Day ${day} of 40. ${devotion.topic || devotion.title || ''}`);
+                    this.announce(`Day ${day} of 40. ${selectedDevotion.topic || selectedDevotion.title || ''}`);
 
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 },
 
+                // PRODUCTION HOTFIX: Safe fallback renderer
+                safeRenderDevotion(devotion) {
+                    if (!devotion) {
+                        console.error('[LENT HOTFIX] Devotion missing');
+                        return;
+                    }
+
+                    console.log('[LENT HOTFIX] Raw devotion data:', devotion);
+
+                    const verseEl = document.querySelector("#verseRef");
+                    const reflectionEl = document.querySelector("#reflectionText");
+                    const prayerEl = document.querySelector("#prayerText");
+
+                    if (verseEl) {
+                        const verse = devotion.verseReference || devotion.verseReferenceBn || "";
+                        verseEl.textContent = verse ? `${verse} (NIV)` : "Verse missing";
+                        console.log('[LENT HOTFIX] Verse rendered:', verse);
+                    } else {
+                        console.error('[LENT HOTFIX] verseRef element not found');
+                    }
+
+                    if (reflectionEl) {
+                        const reflection = devotion.reflection || devotion.reflectionBn || "";
+                        reflectionEl.innerHTML = reflection ? reflection.replace(/\n/g, '<br>') : "Reflection missing";
+                        console.log('[LENT HOTFIX] Reflection rendered:', reflection.substring(0, 50) + '...');
+                    } else {
+                        console.error('[LENT HOTFIX] reflectionText element not found');
+                    }
+
+                    if (prayerEl) {
+                        const prayer = devotion.prayer || devotion.prayerBn || "";
+                        prayerEl.innerHTML = prayer ? prayer.replace(/\n/g, '<br>') : "Prayer missing";
+                        console.log('[LENT HOTFIX] Prayer rendered:', prayer.substring(0, 50) + '...');
+                    } else {
+                        console.error('[LENT HOTFIX] prayerText element not found');
+                    }
+                },
+
+                // Safe normalization adapter for Lent devotions
+                normalizeLentDevotion(devotion) {
+                    if (!devotion) {
+                        return {
+                            title: "",
+                            topic: "",
+                            verseText: "",
+                            verseReference: "",
+                            reflection: "",
+                            prayer: "",
+                            day: 1
+                        };
+                    }
+
+                    return {
+                        // Normalize title/topic
+                        title: devotion.title || devotion.topic || "",
+                        topic: devotion.topic || devotion.title || "",
+                        topicBn: devotion.topicBn || devotion.titleBn || "",
+
+                        // Normalize verse references
+                        verseText: devotion.verseText || devotion.verseReference || devotion.keyVerse || "",
+                        verseReference: devotion.verseReference || devotion.verseText || devotion.keyVerse || "",
+                        verseReferenceBn: devotion.verseReferenceBn || "",
+
+                        // Normalize content
+                        reflection: devotion.reflection || devotion.reflectionText || "",
+                        reflectionBn: devotion.reflectionBn || "",
+                        prayer: devotion.prayer || devotion.prayerText || "",
+                        prayerBn: devotion.prayerBn || "",
+
+                        // Pass through other properties
+                        day: devotion.day || 1,
+                        promise: devotion.promise || "",
+                        promiseBn: devotion.promiseBn || ""
+                    };
+                },
+
                 updateContent(devotion) {
+                    // Apply safe normalization
+                    const safeDevotion = this.normalizeLentDevotion(devotion);
+
                     // Title with language support
                     const lang = this.currentLang;
-                    const titleEn = devotion.topic || devotion.title || `Day ${devotion.day}`;
-                    const titleBn = devotion.topicBn || devotion.titleBn || '';
+                    const titleEn = safeDevotion.topic || `Day ${safeDevotion.day}`;
+                    const titleBn = safeDevotion.topicBn || '';
                     this.elements.devotionTopic.textContent = (lang === 'bn' && titleBn) ? titleBn : titleEn;
                     this.elements.devotionTopicBn.textContent = titleBn;
 
                     // Date
-                    const dayInfo = this.lentInfo.window[devotion.day - 1];
+                    const dayInfo = this.lentInfo.window[safeDevotion.day - 1];
                     if (dayInfo) {
                         const dateObj = new Date(dayInfo.date);
                         const formatted = dateObj.toLocaleDateString('en-US', {
                             weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
                         });
-                        this.elements.devotionDate.textContent = `Day ${devotion.day} — ${formatted}`;
+                        this.elements.devotionDate.textContent = `Day ${safeDevotion.day} — ${formatted}`;
                     } else {
-                        this.elements.devotionDate.textContent = `Day ${devotion.day}`;
+                        this.elements.devotionDate.textContent = `Day ${safeDevotion.day}`;
                     }
 
-                    // Verse references and links
-                    const vRefEn = devotion.verseReference || devotion.keyVerse || '';
-                    const vRefBn = devotion.verseReferenceBn || '';
-                    
-                    this.elements.verseRef.textContent = vRefEn ? `${vRefEn} (NIV)` : '';
-                    this.elements.verseRefBn.textContent = vRefBn ? `${vRefBn} (কেরী ভার্সন)` : (vRefEn ? `${vRefEn}` : '');
-                    
+                    // Verse texts and references
+                    const vTextEn = safeDevotion.verseText || '';
+                    const vTextBn = safeDevotion.verseTextBn || '';
+                    const vRefEn = safeDevotion.verseReference || '';
+                    const vRefBn = safeDevotion.verseReferenceBn || '';
+
+                    // 1. Render English Verse Text
+                    if (this.elements.verseText) {
+                        this.elements.verseText.textContent = vTextEn;
+                        this.elements.verseText.style.display = vTextEn ? 'block' : 'none';
+
+                        // Dynamic Fetch Fallback via bible-api.com
+                        // NOTE: normalizeLentDevotion sets verseText to verseReference if it's missing
+                        const isVerseTextMissing = !vTextEn || (vTextEn === vRefEn);
+
+                        if (isVerseTextMissing && vRefEn) {
+                            this.elements.verseText.textContent = "Loading verse...";
+                            this.elements.verseText.style.display = 'block';
+                            this.elements.verseText.style.opacity = '0.7';
+
+                            // Safe cross-origin fetch
+                            fetch(`https://bible-api.com/${encodeURIComponent(vRefEn)}?translation=web`)
+                                .then(res => res.ok ? res.json() : Promise.reject('API Error'))
+                                .then(data => {
+                                    if (data && data.text) {
+                                        this.elements.verseText.textContent = data.text.trim();
+                                        this.elements.verseText.style.opacity = '1';
+                                    } else {
+                                        this.elements.verseText.style.display = 'none';
+                                    }
+                                })
+                                .catch(err => {
+                                    console.warn('[LENT] Failed to fetch verse text dynamically:', err);
+                                    this.elements.verseText.style.display = 'none';
+                                });
+                        }
+                    }
+
+                    // 2. Render Bengali Verse Text
+                    if (this.elements.verseTextBn) {
+                        this.elements.verseTextBn.textContent = vTextBn;
+                        this.elements.verseTextBn.style.display = vTextBn ? 'block' : 'none';
+                    }
+
+                    // 3. Render English Verse Reference
+                    if (this.elements.verseRef) {
+                        this.elements.verseRef.textContent = vRefEn ? `${vRefEn} (NIV)` : '';
+                    } else {
+                        console.error('[LENT DEBUG] verseRef element missing!');
+                    }
+                    if (this.elements.verseRefBn) {
+                        this.elements.verseRefBn.textContent = vRefBn ? `${vRefBn} (কেরী ভার্সন)` : (vRefEn ? `${vRefEn}` : '');
+                    }
+
                     // Create Bible Gateway links
                     const linkEn = document.getElementById('bibleGatewayLinkEn');
                     const linkBn = document.getElementById('bibleGatewayLinkBn');
-                    
+
                     if (linkEn && vRefEn) {
                         const verseQuery = encodeURIComponent(vRefEn);
                         linkEn.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
                         linkEn.setAttribute('aria-label', `Read ${vRefEn} on Bible Gateway (NIV)`);
                     }
-                    
+
                     if (linkBn && (vRefBn || vRefEn)) {
                         const verseQuery = encodeURIComponent(vRefBn || vRefEn);
                         linkBn.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=BENGALI`;
@@ -744,11 +917,21 @@
                     }
 
                     // Reflection - remove backslash escapes and handle both languages with fallbacks
-                    const refEn = devotion.reflection || '';
-                    const refBn = devotion.reflectionBn || '';
-                    this.elements.reflectionText.innerHTML = refEn.replace(/\n/g, '<br>');
-                    this.elements.reflectionTextBn.innerHTML = refBn.replace(/\n/g, '<br>');
-                    
+                    const refEn = safeDevotion.reflection || '';
+                    const refBn = safeDevotion.reflectionBn || '';
+
+                    console.log('[LENT DEBUG] Reflection data length:', refEn.length, 'Element exists:', !!this.elements.reflectionText);
+
+                    if (this.elements.reflectionText) {
+                        this.elements.reflectionText.innerHTML = refEn.replace(/\n/g, '<br>');
+                        console.log('[LENT DEBUG] Reflection written, first 50 chars:', this.elements.reflectionText.textContent.substring(0, 50));
+                    } else {
+                        console.error('[LENT DEBUG] reflectionText element missing!');
+                    }
+                    if (this.elements.reflectionTextBn) {
+                        this.elements.reflectionTextBn.innerHTML = refBn.replace(/\n/g, '<br>');
+                    }
+
                     // If one language is missing, show note in that language
                     if (!refEn && refBn) {
                         this.elements.reflectionText.innerHTML = '<em>(English translation not available)</em>';
@@ -762,11 +945,15 @@
                     this.elements.readMoreBtn.style.display = textLen > 200 ? '' : 'none';
 
                     // Prayer - remove backslash escapes and handle both languages with fallbacks
-                    const prayerEn = devotion.prayer || '';
-                    const prayerBn = devotion.prayerBn || '';
-                    this.elements.prayerText.innerHTML = prayerEn.replace(/\n/g, '<br>');
-                    this.elements.prayerTextBn.innerHTML = prayerBn.replace(/\n/g, '<br>');
-                    
+                    const prayerEn = safeDevotion.prayer || '';
+                    const prayerBn = safeDevotion.prayerBn || '';
+                    if (this.elements.prayerText) {
+                        this.elements.prayerText.innerHTML = prayerEn.replace(/\n/g, '<br>');
+                    }
+                    if (this.elements.prayerTextBn) {
+                        this.elements.prayerTextBn.innerHTML = prayerBn.replace(/\n/g, '<br>');
+                    }
+
                     // If one language is missing, show note in that language
                     if (!prayerEn && prayerBn) {
                         this.elements.prayerText.innerHTML = '<em>(English translation not available)</em>';
@@ -775,20 +962,49 @@
                         this.elements.prayerTextBn.innerHTML = '<em>(বাংলা অনুবাদ উপলব্ধ নেই)</em>';
                     }
 
+                    // Console warning if all three fields are empty
+                    const verseContent = safeDevotion.verseReference || '';
+                    if (!verseContent && !refEn && !prayerEn) {
+                        console.warn('[LENT] Devotion data loaded but fields empty:', safeDevotion);
+                    }
+
                     // Bible Promise (optional)
-                    if (devotion.biblePromise) {
+                    if (safeDevotion.promise || safeDevotion.biblePromise) {
                         this.elements.promiseSection.style.display = '';
-                        this.elements.promiseText.textContent = devotion.biblePromise;
-                        this.elements.promiseTextBn.textContent = devotion.biblePromiseBn || '';
+                        this.elements.promiseText.textContent = safeDevotion.promise || safeDevotion.biblePromise || '';
+                        this.elements.promiseTextBn.textContent = safeDevotion.promiseBn || safeDevotion.biblePromiseBn || '';
                     } else {
                         this.elements.promiseSection.style.display = 'none';
                     }
 
                     // Apply language visibility
                     this.applyLanguageVisibility();
-                },
-
-                switchLanguage(lang) {
+                    
+                    // PRODUCTION SAFE FIX: Ensure content visibility
+                    const verseEl = document.getElementById("verseRef");
+                    const reflectionEl = document.getElementById("reflectionText");
+                    const prayerEl = document.getElementById("prayerText");
+                    
+                    if (verseEl) {
+                        verseEl.style.display = "block";
+                        verseEl.style.visibility = "visible";
+                        verseEl.style.opacity = "1";
+                    }
+                    
+                    if (reflectionEl) {
+                        reflectionEl.style.display = "block";
+                        reflectionEl.style.visibility = "visible";
+                        reflectionEl.style.opacity = "1";
+                    }
+                    
+                    if (prayerEl) {
+                        prayerEl.style.display = "block";
+                        prayerEl.style.visibility = "visible";
+                        prayerEl.style.opacity = "1";
+                    }
+                    
+                    console.log("[LENT FIX] Devotion content made visible");
+                }, switchLanguage(lang) {
                     this.currentLang = lang;
                     // Update toggle UI
                     this.elements.langEn.classList.toggle('active', lang === 'en');
@@ -935,22 +1151,22 @@
                     if (savedLang && ['en', 'bn', 'both'].includes(savedLang)) {
                         this.switchLanguage(savedLang);
                     }
-                    
+
                     // Initialize High Contrast Mode
                     this.initHighContrastMode();
                 },
-                
+
                 initHighContrastMode() {
                     const toggle = document.getElementById('contrastToggle');
                     if (!toggle) return;
-                    
+
                     // Check system preference first
                     const prefersHighContrast = window.matchMedia('(prefers-contrast: more)').matches;
-                    
+
                     // Check localStorage or use system preference
                     const savedMode = localStorage.getItem('lentContrastMode');
                     const shouldEnableHighContrast = savedMode === 'high' || (!savedMode && prefersHighContrast);
-                    
+
                     // Apply initial state
                     if (shouldEnableHighContrast) {
                         document.body.setAttribute('data-contrast', 'high');
@@ -962,11 +1178,11 @@
                         toggle.checked = false;
                         toggle.setAttribute('aria-checked', 'false');
                     }
-                    
+
                     // Toggle handler
                     toggle.addEventListener('change', (e) => {
                         const isEnabled = e.target.checked;
-                        
+
                         if (isEnabled) {
                             document.body.setAttribute('data-contrast', 'high');
                             toggle.setAttribute('aria-checked', 'true');
@@ -981,7 +1197,7 @@
                             console.log('[Lent] High Contrast Mode: OFF');
                         }
                     });
-                    
+
                     // Listen for system preference changes
                     const contrastQuery = window.matchMedia('(prefers-contrast: more)');
                     contrastQuery.addEventListener('change', (e) => {
