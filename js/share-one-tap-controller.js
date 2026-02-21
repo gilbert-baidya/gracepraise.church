@@ -185,6 +185,58 @@
         return false;
     }
 
+    function getCurrentDevotionData() {
+        return window.CURRENT_DEVOTION_DATA ||
+            window.__CURRENT_DEVOTION_DATA__ ||
+            window.__CURRENT_DEVOTION__ ||
+            window.currentDevotion ||
+            null;
+    }
+
+    async function ensureDevotionRenderReady() {
+        const existing = getCurrentDevotionData();
+        if (window.__DEVOTION_RENDER_COMPLETED__ && existing) {
+            return existing;
+        }
+
+        const timeoutMs = 8000;
+        const startedAt = Date.now();
+
+        return new Promise((resolve, reject) => {
+            const onReady = (event) => {
+                const incoming = event?.detail?.devotionData || getCurrentDevotionData();
+                if (!incoming) {
+                    return;
+                }
+                window.CURRENT_DEVOTION_DATA = incoming;
+                window.__CURRENT_DEVOTION_DATA__ = incoming;
+                window.__CURRENT_DEVOTION__ = incoming;
+                window.currentDevotion = incoming;
+                cleanup();
+                resolve(incoming);
+            };
+
+            const cleanup = () => {
+                document.removeEventListener('DEVOTION_RENDER_COMPLETE', onReady);
+                window.removeEventListener('DEVOTION_RENDER_COMPLETE', onReady);
+                clearTimeout(timer);
+            };
+
+            const timer = setTimeout(() => {
+                cleanup();
+                const fallbackData = getCurrentDevotionData();
+                if (fallbackData) {
+                    resolve(fallbackData);
+                    return;
+                }
+                reject(new Error(`Devotion render not ready after ${Date.now() - startedAt}ms`));
+            }, timeoutMs);
+
+            document.addEventListener('DEVOTION_RENDER_COMPLETE', onReady);
+            window.addEventListener('DEVOTION_RENDER_COMPLETE', onReady);
+        });
+    }
+
     /**
      * Generate share card silently (no modal)
      */
@@ -198,7 +250,7 @@
         console.log('[GPBC One Tap Share] Format mapping:', format, '→', generatorFormat);
 
         // Get current devotion data
-        const devotionData = window.__CURRENT_DEVOTION__ || window.__CURRENT_DEVOTION_DATA__;
+        const devotionData = getCurrentDevotionData();
 
         if (!devotionData) {
             throw new Error('No devotion data available');
@@ -437,7 +489,13 @@
         console.log('[GPBC One Tap Share] Options:', options);
 
         const shareMode = options.mode || 'image';
-        const devotionData = window.__CURRENT_DEVOTION__ || window.__CURRENT_DEVOTION_DATA__ || {};
+        let devotionData = {};
+        try {
+            devotionData = await ensureDevotionRenderReady();
+        } catch (error) {
+            console.warn('[GPBC One Tap Share] Devotion render readiness check failed:', error.message);
+            devotionData = getCurrentDevotionData() || {};
+        }
 
         let feedbackEl = null;
 

@@ -67,18 +67,65 @@
     const root = document.documentElement;
 
     // FORCE CSS OVERRIDE FOR MOBILE DROPDOWN CONTRAST
-    // This ensures white text regardless of theme or other CSS files
+    // Scope strictly to mobile-open dropdown states so desktop light mode is unaffected.
     const mobileContrastStyle = document.createElement('style');
     mobileContrastStyle.innerHTML = `
-        /* Nuclear Option for Mobile Dropdown Text Visibility */
-        body .nav-links.mobile-open .nav-dropdown .dropdown-menu a,
-        body .nav-links.mobile-open .nav-dropdown .dropdown-menu a:visited,
-        body .nav-links.mobile-open .nav-dropdown .dropdown-menu a:hover {
-            color: #ffffff !important;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
-            font-weight: 500 !important;
-            background: rgba(255, 255, 255, 0.1) !important;
-            -webkit-text-fill-color: #ffffff !important;
+        @media (max-width: 1024px) {
+            /* Keep submenu container transparent in the mobile overlay */
+            body .nav-links .nav-dropdown.mobile-dropdown-open > .dropdown-menu,
+            body .nav-links .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu,
+            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested,
+            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested,
+            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > .dropdown-menu,
+            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu,
+            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested,
+            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested {
+                background: transparent !important;
+                background-color: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+
+            /* High-contrast mobile dropdown pills */
+            body .nav-links .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a,
+            body .nav-links .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a,
+            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a,
+            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a,
+            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a,
+            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a,
+            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a,
+            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a {
+                color: #f8fafc !important;
+                background: linear-gradient(135deg, rgba(51, 65, 85, 0.9), rgba(30, 41, 59, 0.92)) !important;
+                border: 1px solid rgba(148, 163, 184, 0.16) !important;
+                border-radius: 14px !important;
+                text-shadow: none !important;
+                -webkit-text-fill-color: #f8fafc !important;
+            }
+
+            body .nav-links .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a:hover,
+            body .nav-links .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a:hover,
+            body .nav-links .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a:focus-visible,
+            body .nav-links .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a:focus-visible,
+            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a:hover,
+            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a:hover,
+            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a:focus-visible,
+            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a:focus-visible,
+            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a:hover,
+            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a:hover,
+            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a:focus-visible,
+            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a:focus-visible,
+            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a:hover,
+            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a:hover,
+            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a:focus-visible,
+            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a:focus-visible {
+                background: linear-gradient(135deg, rgba(30, 41, 59, 0.96), rgba(15, 23, 42, 0.98)) !important;
+                color: #ffffff !important;
+                -webkit-text-fill-color: #ffffff !important;
+            }
         }
     `;
     document.head.appendChild(mobileContrastStyle);

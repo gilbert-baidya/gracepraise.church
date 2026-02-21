@@ -117,6 +117,32 @@
         return response.text();
     }
 
+    function normalizeInjectedPaths(container, basePath = '') {
+        if (!container) return;
+
+        const normalizedBasePath = basePath || '';
+        const assets = container.querySelectorAll('[href], [src]');
+
+        assets.forEach((node) => {
+            ['href', 'src'].forEach((attr) => {
+                if (!node.hasAttribute(attr)) return;
+
+                const raw = node.getAttribute(attr);
+                const value = (raw || '').trim();
+                if (!value) return;
+
+                // Leave absolute/protocol/special URLs unchanged.
+                if (value.startsWith('#') || value.startsWith('//')) return;
+                if (/^(?:[a-z][a-z0-9+.-]*:|mailto:|tel:|javascript:|data:|blob:)/i.test(value)) return;
+
+                // Convert root-relative links to page-base-relative links.
+                if (value.startsWith('/')) {
+                    node.setAttribute(attr, `${normalizedBasePath}${value.slice(1)}`);
+                }
+            });
+        });
+    }
+
     function injectHeaderFallback(container, basePath = '') {
         if (!container) return;
         if (container.querySelector('header')) return;
@@ -234,6 +260,7 @@
                 console.error('[PlatformRuntime] Header partial failed, injecting fallback', error);
                 injectHeaderFallback(headerContainer, basePath);
             }
+            normalizeInjectedPaths(headerContainer, basePath);
         }
 
         if (footerContainer) {
@@ -244,6 +271,7 @@
                 console.error('[PlatformRuntime] Footer partial failed, injecting fallback', error);
                 injectFooterFallback(footerContainer, basePath);
             }
+            normalizeInjectedPaths(footerContainer, basePath);
         }
 
         if (typeof w.GPBC_loadLogo === 'function') {

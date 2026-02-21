@@ -211,7 +211,10 @@
         const isAdvancedMode = btn?.dataset?.shareMode === 'advanced';
         
         if (btn) {
-            const devotionData = window.__CURRENT_DEVOTION__;
+            const devotionData = window.CURRENT_DEVOTION_DATA ||
+                window.__CURRENT_DEVOTION_DATA__ ||
+                window.__CURRENT_DEVOTION__ ||
+                window.currentDevotion;
             
             // Check generator ready state before routing
             if (window.__SHARE_GENERATOR_READY__ !== true && typeof window.ensureShareModalBindings === 'function') {
@@ -371,12 +374,18 @@
      * Safe initialization with proper timing
      */
     function safeInit() {
-        // Wait for DOM ready
+        const startAfterRender = () => {
+            if (window.__DEVOTION_RENDER_COMPLETED__) {
+                init();
+                return;
+            }
+            document.addEventListener('DEVOTION_RENDER_COMPLETE', init, { once: true });
+        };
+
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
+            document.addEventListener('DOMContentLoaded', startAfterRender, { once: true });
         } else {
-            // DOM already ready, init immediately
-            init();
+            startAfterRender();
         }
     }
 

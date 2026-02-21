@@ -36,9 +36,22 @@
         console.log('[Share Generator] ✅ Received DEVOTION_RENDER_COMPLETE event');
         devotionDataReady = true;
         window.__SHARE_DEVOTION_DATA_READY__ = true;
+
+        const incomingData = e?.detail?.devotionData ||
+            window.CURRENT_DEVOTION_DATA ||
+            window.__CURRENT_DEVOTION_DATA__ ||
+            window.__CURRENT_DEVOTION__ ||
+            null;
+
+        if (incomingData && typeof incomingData === 'object') {
+            window.CURRENT_DEVOTION_DATA = incomingData;
+            window.__CURRENT_DEVOTION_DATA__ = incomingData;
+            window.__CURRENT_DEVOTION__ = incomingData;
+            window.currentDevotion = incomingData;
+        }
         
         // Initialize share generator if not already done
-        if (!shareGeneratorInitialized && window.__CURRENT_DEVOTION_DATA__) {
+        if (!shareGeneratorInitialized && window.CURRENT_DEVOTION_DATA) {
             initShareCardGenerator();
         }
     });
@@ -709,7 +722,12 @@
     function getVerseData() {
         const verseElement = document.querySelector('[data-devotion-scripture]') || document.getElementById('bibleText');
         const referenceElement = document.getElementById('bibleReference');
-        const globalDevotion = window.__CURRENT_DEVOTION_DATA__ || window.__CURRENT_DEVOTION__ || {};
+        const globalDevotion =
+            window.CURRENT_DEVOTION_DATA ||
+            window.__CURRENT_DEVOTION_DATA__ ||
+            window.__CURRENT_DEVOTION__ ||
+            window.currentDevotion ||
+            {};
         const fallbackReference =
             globalDevotion.verseReference ||
             globalDevotion.verse ||
@@ -1007,8 +1025,12 @@
         let backgroundDrawn = false;
 
         // STEP 1: Check if devotion data is available
-        if (!window.__CURRENT_DEVOTION__) {
-            console.warn('[GPBC Share Card] ⚠️ No __CURRENT_DEVOTION__ set, using fallback gradient');
+        const activeDevotionData =
+            window.CURRENT_DEVOTION_DATA ||
+            window.__CURRENT_DEVOTION_DATA__ ||
+            window.__CURRENT_DEVOTION__;
+        if (!activeDevotionData) {
+            console.warn('[GPBC Share Card] ⚠️ No CURRENT_DEVOTION_DATA set, using fallback gradient');
         } else if (typeof window.getShareBackgroundForCurrentDevotion === 'function') {
             try {
                 const bgData = await window.getShareBackgroundForCurrentDevotion();
@@ -1471,22 +1493,31 @@
         console.log('[Share Generator] ✅ Ready');
     }
 
-    // PHASE 2: Event-driven init - wait for devotion data OR DOM ready
-    function attemptInit() {
-        // Guard: Don't init without devotion data
-        if (!window.__CURRENT_DEVOTION_DATA__ || !window.__CURRENT_DEVOTION_DATA__.verse) {
-            console.log('[Share Generator] ⏳ Waiting for devotion data...');
+    // PHASE 2: Event-driven init ONLY — replay event if render already completed
+    function replayRenderEventIfReady() {
+        const devotionData =
+            window.CURRENT_DEVOTION_DATA ||
+            window.__CURRENT_DEVOTION_DATA__ ||
+            window.__CURRENT_DEVOTION__ ||
+            window.currentDevotion;
+
+        if (!window.__DEVOTION_RENDER_COMPLETED__ || !devotionData) {
+            console.log('[Share Generator] ⏳ Waiting for DEVOTION_RENDER_COMPLETE...');
             return;
         }
-        
-        initShareCardGenerator();
+
+        document.dispatchEvent(new CustomEvent('DEVOTION_RENDER_COMPLETE', {
+            detail: {
+                devotionData,
+                replayed: true
+            }
+        }));
     }
 
-    // Listen for DOM ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', attemptInit);
+        document.addEventListener('DOMContentLoaded', replayRenderEventIfReady);
     } else {
-        attemptInit();
+        replayRenderEventIfReady();
     }
 
     // ========================================================================

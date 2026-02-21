@@ -7652,3 +7652,63 @@ body:not(.dark):not([data-theme="dark"]) .share-container {
     border: 1px solid var(--sacred-surface-border-light);
     box-shadow: var(--sacred-shadow-soft-light);
 }
+
+/* ============================================================================
+   MOBILE NAV DROPDOWN SURFACE PARITY (HOME + SHARED)
+   Prevent white submenu panels inside mobile overlay.
+   ============================================================================ */
+@media (max-width: 1024px) {
+
+    .nav-links .nav-dropdown.mobile-dropdown-open>.dropdown-menu,
+    .nav-links .nav-dropdown.mobile-dropdown-open>ul.dropdown-menu,
+    .nav-links .nav-dropdown-nested.mobile-dropdown-open>.dropdown-menu-nested,
+    .nav-links .nav-dropdown-nested.mobile-dropdown-open>ul.dropdown-menu-nested,
+    body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open>.dropdown-menu,
+    body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open>ul.dropdown-menu,
+    body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open>.dropdown-menu-nested,
+    body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open>ul.dropdown-menu-nested {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    .nav-links .nav-dropdown.mobile-dropdown-open>.dropdown-menu>li>a,
+    .nav-links .nav-dropdown.mobile-dropdown-open>ul.dropdown-menu>li>a,
+    .nav-links .nav-dropdown-nested.mobile-dropdown-open>.dropdown-menu-nested>li>a,
+    .nav-links .nav-dropdown-nested.mobile-dropdown-open>ul.dropdown-menu-nested>li>a,
+    body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open>.dropdown-menu>li>a,
+    body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open>ul.dropdown-menu>li>a,
+    body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open>.dropdown-menu-nested>li>a,
+    body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open>ul.dropdown-menu-nested>li>a {
+        background: linear-gradient(135deg, rgba(51, 65, 85, 0.9), rgba(30, 41, 59, 0.92)) !important;
+        color: #f8fafc !important;
+        border: 1px solid rgba(148, 163, 184, 0.16) !important;
+        border-radius: 14px !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    .nav-links .nav-dropdown.mobile-dropdown-open>.dropdown-menu>li>a:hover,
+    .nav-links .nav-dropdown.mobile-dropdown-open>ul.dropdown-menu>li>a:hover,
+    .nav-links .nav-dropdown.mobile-dropdown-open>.dropdown-menu>li>a:focus-visible,
+    .nav-links .nav-dropdown.mobile-dropdown-open>ul.dropdown-menu>li>a:focus-visible,
+    .nav-links .nav-dropdown-nested.mobile-dropdown-open>.dropdown-menu-nested>li>a:hover,
+    .nav-links .nav-dropdown-nested.mobile-dropdown-open>ul.dropdown-menu-nested>li>a:hover,
+    .nav-links .nav-dropdown-nested.mobile-dropdown-open>.dropdown-menu-nested>li>a:focus-visible,
+    .nav-links .nav-dropdown-nested.mobile-dropdown-open>ul.dropdown-menu-nested>li>a:focus-visible,
+    body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open>.dropdown-menu>li>a:hover,
+    body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open>ul.dropdown-menu>li>a:hover,
+    body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open>.dropdown-menu>li>a:focus-visible,
+    body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open>ul.dropdown-menu>li>a:focus-visible,
+    body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open>.dropdown-menu-nested>li>a:hover,
+    body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open>ul.dropdown-menu-nested>li>a:hover,
+    body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open>.dropdown-menu-nested>li>a:focus-visible,
+    body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open>ul.dropdown-menu-nested>li>a:focus-visible {
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.96), rgba(15, 23, 42, 0.98)) !important;
+        color: #ffffff !important;
+    }
+}
