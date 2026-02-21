@@ -214,15 +214,15 @@
             color: #666;
         }
     </style>
-    
+    <meta http-equiv="refresh" content="2">
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>
                 🎭 Playwright Test Dashboard
-                <span class="status-badge status-complete">
-                    ✅ Complete
+                <span class="status-badge status-running">
+                    ⚡ Running...
                 </span>
             </h1>
             <div class="subtitle">Real-time test execution monitoring</div>
@@ -230,40 +230,40 @@
 
         <div class="timer">
             <div class="label">Execution Time</div>
-            <div class="time">28.21s</div>
+            <div class="time">89.15s</div>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card stat-total">
                 <div class="label">Total Tests</div>
-                <div class="value">28</div>
+                <div class="value">196</div>
             </div>
             <div class="stat-card stat-passed">
                 <div class="label">✅ Passed</div>
-                <div class="value">28</div>
+                <div class="value">66</div>
             </div>
             <div class="stat-card stat-failed">
                 <div class="label">❌ Failed</div>
-                <div class="value">0</div>
+                <div class="value">3</div>
             </div>
             <div class="stat-card stat-running">
                 <div class="label">⚡ Running</div>
-                <div class="value">0</div>
+                <div class="value">5</div>
             </div>
             <div class="stat-card stat-pending">
                 <div class="label">⏳ Pending</div>
-                <div class="value">0</div>
+                <div class="value">106</div>
             </div>
             <div class="stat-card stat-skipped">
                 <div class="label">⏭️ Skipped</div>
-                <div class="value">0</div>
+                <div class="value">16</div>
             </div>
         </div>
 
         <div class="progress-section">
             <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 100.0%">
-                    <span class="progress-text">100.0% Complete</span>
+                <div class="progress-bar" style="width: 43.4%">
+                    <span class="progress-text">43.4% Complete</span>
                 </div>
             </div>
         </div>
@@ -271,17 +271,92 @@
         <div class="test-list">
             <h2>📋 Test Execution Log (Last 50)</h2>
             
-                <div class="test-item passed">
+                <div class="test-item running">
                     <div class="test-icon">
-                        ✅
+                        ⚡
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        <div class="test-title">Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (tablet)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:364</div>
                         
                     </div>
                     <div class="test-duration">
-                        1.59s
+                        ...
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item running">
+                    <div class="test-icon">
+                        ⚡
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Home -> burger -> Devotion -> Daily Devotion renders core content (mobile)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:325</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        ...
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item running">
+                    <div class="test-icon">
+                        ⚡
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (mobile)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:364</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        ...
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item running">
+                    <div class="test-icon">
+                        ⚡
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent -> burger Devotion -> Daily Devotion + logo route do not 404 (tablet)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:337</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        ...
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item running">
+                    <div class="test-icon">
+                        ⚡
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Home -> burger -> Devotion -> Daily Devotion renders core content (tablet)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:325</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        ...
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Desktop light-mode dropdown links remain readable (About, Ministries, Devotion)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:299</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.92s
                         
                     </div>
                 </div>
@@ -291,12 +366,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        <div class="test-title">skip to content link should exist</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:250</div>
                         
                     </div>
                     <div class="test-duration">
-                        3.17s
+                        2.89s
                         
                     </div>
                 </div>
@@ -306,12 +381,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        <div class="test-title">navigation should have proper ARIA roles</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:236</div>
                         
                     </div>
                     <div class="test-duration">
-                        2.61s
+                        3.62s
                         
                     </div>
                 </div>
@@ -321,12 +396,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        <div class="test-title">burger menu should have accessible label</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:222</div>
                         
                     </div>
                     <div class="test-duration">
-                        2.14s
+                        3.46s
                         
                     </div>
                 </div>
@@ -336,12 +411,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        <div class="test-title">all navigation links should be clickable</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:200</div>
                         
                     </div>
                     <div class="test-duration">
-                        2.88s
+                        4.33s
                         
                     </div>
                 </div>
@@ -351,12 +426,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        <div class="test-title">should navigate to Daily Devotion page</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:190</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.37s
+                        4.49s
                         
                     </div>
                 </div>
@@ -366,8 +441,65 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        <div class="test-title">should navigate to Ministries page</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:181</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        5.44s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item failed">
+                    <div class="test-icon">
+                        ❌
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should navigate to About page</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:171</div>
+                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+Locator: locator('h1, h2')
+Expected: visible
+Error: strict mode violation: locator('h1, h2') resolved to 3 elements:
+    1) <h1>About Grace and Praise Bangladeshi Church</h1> aka getByRole('heading', { name: 'About Grace and Praise' })
+    2) <h2>Welcome to Grace and Praise Bangladeshi Church</h2> aka getByRole('heading', { name: 'Welcome to Grace and Praise' })
+    ...
+
+Call log:
+[2m  - Expect "toBeVisible" with timeout 5000ms[22m
+[2m  - waiting for locator('h1, h2')[22m
+</div>
+                    </div>
+                    <div class="test-duration">
+                        5.61s
+                        <span class="screenshot-indicator">📸</span>
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should handle breakpoint boundary at 1024px</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:155</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.13s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should handle breakpoint boundary at 768px</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:141</div>
                         
                     </div>
                     <div class="test-duration">
@@ -381,12 +513,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        <div class="test-title">should show desktop nav at desktop width (1920px)</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:127</div>
                         
                     </div>
                     <div class="test-duration">
-                        6.36s
+                        4.56s
                         
                     </div>
                 </div>
@@ -396,117 +528,87 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        <div class="test-title">should show burger menu at tablet width (834px)</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:114</div>
                         
                     </div>
                     <div class="test-duration">
-                        2.03s
+                        4.72s
                         
                     </div>
                 </div>
             
-                <div class="test-item passed">
+                <div class="test-item skipped">
                     <div class="test-icon">
-                        ✅
+                        ⏭️
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        <div class="test-title">should close dropdown when clicking another dropdown</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:83</div>
                         
                     </div>
                     <div class="test-duration">
-                        6.53s
+                        0.41s
                         
                     </div>
                 </div>
             
-                <div class="test-item passed">
+                <div class="test-item skipped">
                     <div class="test-icon">
-                        ✅
+                        ⏭️
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        <div class="test-title">should toggle Devotion dropdown</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:64</div>
                         
                     </div>
                     <div class="test-duration">
-                        2.75s
+                        0.45s
                         
                     </div>
                 </div>
             
-                <div class="test-item passed">
+                <div class="test-item skipped">
                     <div class="test-icon">
-                        ✅
+                        ⏭️
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        <div class="test-title">should handle fast double-tap on burger menu</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:42</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.25s
+                        0.61s
                         
                     </div>
                 </div>
             
-                <div class="test-item passed">
+                <div class="test-item skipped">
                     <div class="test-icon">
-                        ✅
+                        ⏭️
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        <div class="test-title">should close burger menu on close button</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:23</div>
                         
                     </div>
                     <div class="test-duration">
-                        1.70s
+                        0.60s
                         
                     </div>
                 </div>
             
-                <div class="test-item passed">
+                <div class="test-item skipped">
                     <div class="test-icon">
-                        ✅
+                        ⏭️
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        <div class="test-title">should open burger menu on tablet/mobile</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:6</div>
                         
                     </div>
                     <div class="test-duration">
-                        2.21s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        3.75s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        1.63s
+                        0.70s
                         
                     </div>
                 </div>
@@ -521,7 +623,7 @@
                         
                     </div>
                     <div class="test-duration">
-                        5.27s
+                        4.45s
                         
                     </div>
                 </div>
@@ -536,7 +638,7 @@
                         
                     </div>
                     <div class="test-duration">
-                        4.00s
+                        2.71s
                         
                     </div>
                 </div>
@@ -551,7 +653,7 @@
                         
                     </div>
                     <div class="test-duration">
-                        5.47s
+                        4.17s
                         
                     </div>
                 </div>
@@ -566,7 +668,7 @@
                         
                     </div>
                     <div class="test-duration">
-                        3.21s
+                        1.64s
                         
                     </div>
                 </div>
@@ -576,12 +678,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        <div class="test-title">Nested page keeps critical nav links path-safe (no root-absolute internal hrefs)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:396</div>
                         
                     </div>
                     <div class="test-duration">
-                        2.92s
+                        1.31s
                         
                     </div>
                 </div>
@@ -591,12 +693,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        <div class="test-title">Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (mobile)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:364</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.14s
+                        9.96s
                         
                     </div>
                 </div>
@@ -606,12 +708,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        <div class="test-title">Lent -> burger Devotion -> Daily Devotion + logo route do not 404 (mobile)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:337</div>
                         
                     </div>
                     <div class="test-duration">
-                        5.17s
+                        10.06s
                         
                     </div>
                 </div>
@@ -621,12 +723,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Translation Toggles Work Without Phantom CSS Conflicts</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:26</div>
+                        <div class="test-title">Home -> burger -> Devotion -> Daily Devotion renders core content (mobile)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:325</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.29s
+                        7.30s
                         
                     </div>
                 </div>
@@ -636,12 +738,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Gratitude Fasting: baseline data maps and displays properly</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:78</div>
+                        <div class="test-title">Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (tablet)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:364</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.64s
+                        13.35s
                         
                     </div>
                 </div>
@@ -651,12 +753,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        <div class="test-title">Lent -> burger Devotion -> Daily Devotion + logo route do not 404 (tablet)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:337</div>
                         
                     </div>
                     <div class="test-duration">
-                        3.63s
+                        10.38s
                         
                     </div>
                 </div>
@@ -666,12 +768,12 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Scroll Reveal Does Not Permanently Hide Content (Opacity Bug)</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:60</div>
+                        <div class="test-title">Home -> burger -> Devotion -> Daily Devotion renders core content (tablet)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:325</div>
                         
                     </div>
                     <div class="test-duration">
-                        2.88s
+                        9.71s
                         
                     </div>
                 </div>
@@ -681,12 +783,264 @@
                         ✅
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Lent Fasting: Dynamic Verse Fetch Populates Missing JSON Data</div>
-                        <div class="test-location">devotion/lent-and-gratitude-regression.spec.ts:8</div>
+                        <div class="test-title">Desktop light-mode dropdown links remain readable (About, Ministries, Devotion)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:299</div>
                         
                     </div>
                     <div class="test-duration">
-                        2.72s
+                        7.08s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">skip to content link should exist</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:250</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        3.57s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">navigation should have proper ARIA roles</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:236</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.75s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">burger menu should have accessible label</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:222</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.17s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">all navigation links should be clickable</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:200</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        5.05s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should navigate to Daily Devotion page</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:190</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.48s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should navigate to Ministries page</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:181</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        5.35s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item failed">
+                    <div class="test-icon">
+                        ❌
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should navigate to About page</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:171</div>
+                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+Locator: locator('h1, h2')
+Expected: visible
+Error: strict mode violation: locator('h1, h2') resolved to 3 elements:
+    1) <h1>About Grace and Praise Bangladeshi Church</h1> aka getByRole('heading', { name: 'About Grace and Praise' })
+    2) <h2>Welcome to Grace and Praise Bangladeshi Church</h2> aka getByRole('heading', { name: 'Welcome to Grace and Praise' })
+    3) <h2>Learn More About GPBC</h2> aka getByRole('heading', { name: 'Learn More About GPBC' })
+
+Call log:
+[2m  - Expect "toBeVisible" with timeout 5000ms[22m
+[2m  - waiting for locator('h1, h2')[22m
+</div>
+                    </div>
+                    <div class="test-duration">
+                        4.58s
+                        <span class="screenshot-indicator">📸</span>
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should handle breakpoint boundary at 1024px</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:155</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        3.76s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should handle breakpoint boundary at 768px</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:141</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.58s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should show desktop nav at desktop width (1920px)</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:127</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        5.52s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should show burger menu at tablet width (834px)</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:114</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        4.19s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should close dropdown when clicking another dropdown</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:83</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.90s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should toggle Devotion dropdown</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:64</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.41s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should handle fast double-tap on burger menu</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:42</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.48s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should close burger menu on close button</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:23</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.36s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">should open burger menu on tablet/mobile</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:6</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.30s
                         
                     </div>
                 </div>

@@ -76,7 +76,7 @@
 
     <!-- Sacred Design Token System (foundation → seasons → components) -->
     <link rel="stylesheet" href="sacred-tokens.css">
-    <link rel="stylesheet" href="styles.bundle.css?v=20260208">
+    <link rel="stylesheet" href="styles.bundle.css?v=20260221-navdropdownfix1">
     <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="daily-devotion.css">
     <link rel="stylesheet" href="bible-gateway-links.css">
@@ -282,6 +282,10 @@
                 <!-- Scripture Section -->
                 <article class="devotion-section scripture-section" id="scriptureSection">
                     <h3 id="bibleReference">Philippians 4:6-7 (NIV)</h3>
+                    <p id="bibleText" class="devotion-text devotion-scripture-text" data-devotion-scripture>
+                        Philippians 4:6-7
+                    </p>
+                    <p id="verseRef" class="sr-only">Philippians 4:6-7</p>
 
                     <!-- REFERENCE MODE: No verse text stored, always use Bible Gateway -->
                     <div class="bible-gateway-link-container" style="margin-top: 1rem;">
@@ -369,26 +373,28 @@
                     </button>
                     <div class="section-content" id="reflectionContent" aria-labelledby="reflectionToggle">
                         <div class="devotion-text" id="devotionMessage" data-devotion-reflection>
-                            <p>In our fast-paced world, worry and anxiety can easily consume us. Bills to pay,
-                                relationships
-                                to maintain, work pressures, health concerns—the list seems endless. Yet God's Word
-                                offers
-                                us a powerful antidote: prayer with thanksgiving.</p>
+                            <div id="reflectionText">
+                                <p>In our fast-paced world, worry and anxiety can easily consume us. Bills to pay,
+                                    relationships
+                                    to maintain, work pressures, health concerns—the list seems endless. Yet God's Word
+                                    offers
+                                    us a powerful antidote: prayer with thanksgiving.</p>
 
-                            <p>Notice that Paul doesn't say "don't worry if everything is going well." He says "in every
-                                situation"—whether you're facing challenges or celebrating victories. The key is to
-                                bring
-                                everything to God in prayer, not with complaints, but with thanksgiving.</p>
+                                <p>Notice that Paul doesn't say "don't worry if everything is going well." He says "in every
+                                    situation"—whether you're facing challenges or celebrating victories. The key is to
+                                    bring
+                                    everything to God in prayer, not with complaints, but with thanksgiving.</p>
 
-                            <p>When we choose gratitude in the midst of our struggles, something supernatural happens.
-                                God's
-                                peace—a peace that defies human logic—guards our hearts and minds. This isn't about
-                                pretending problems don't exist; it's about acknowledging that God is bigger than any
-                                problem we face.</p>
+                                <p>When we choose gratitude in the midst of our struggles, something supernatural happens.
+                                    God's
+                                    peace—a peace that defies human logic—guards our hearts and minds. This isn't about
+                                    pretending problems don't exist; it's about acknowledging that God is bigger than any
+                                    problem we face.</p>
 
-                            <p>Today, instead of dwelling on what's troubling you, pause and thank God for what He's
-                                already
-                                done. Watch how His peace transforms your perspective and protects your heart.</p>
+                                <p>Today, instead of dwelling on what's troubling you, pause and thank God for what He's
+                                    already
+                                    done. Watch how His peace transforms your perspective and protects your heart.</p>
+                            </div>
                         </div>
                     </div>
                 </article>
@@ -405,8 +411,10 @@
                     </button>
                     <div class="section-content" id="prayerContent" aria-labelledby="prayerToggle">
                         <div class="devotion-text" id="devotionPrayer" data-devotion-prayer>
-                            <p>Father, thank You for loving me in Jesus. Help me live from Your love and share it freely
-                                today.</p>
+                            <div id="prayerText">
+                                <p>Father, thank You for loving me in Jesus. Help me live from Your love and share it freely
+                                    today.</p>
+                            </div>
                         </div>
                     </div>
                 </article>
@@ -898,7 +906,10 @@
             // -----------------------------
             window.__DEVOTION_RENDER_STARTED__ = false;
             window.__DEVOTION_RENDER_COMPLETED__ = false;
+            window.CURRENT_DEVOTION_DATA = null;
             window.__CURRENT_DEVOTION_DATA__ = null;
+            window.__CURRENT_DEVOTION__ = null;
+            window.currentDevotion = null;
 
             // -----------------------------
             // DEBUG MODE & UTILS
@@ -935,6 +946,51 @@
                     return;
                 }
                 el.textContent = value;
+            }
+
+            function getCurrentDevotionData() {
+                return window.CURRENT_DEVOTION_DATA ||
+                    window.__CURRENT_DEVOTION_DATA__ ||
+                    window.__CURRENT_DEVOTION__ ||
+                    window.currentDevotion ||
+                    null;
+            }
+
+            function setCurrentDevotionData(devotionData) {
+                const data = devotionData && typeof devotionData === 'object'
+                    ? { ...devotionData }
+                    : null;
+                window.CURRENT_DEVOTION_DATA = data;
+                window.__CURRENT_DEVOTION_DATA__ = data;
+                window.__CURRENT_DEVOTION__ = data;
+                window.currentDevotion = data;
+                return data;
+            }
+
+            function bindBibleGatewayLinks(reference) {
+                const safeReference = (reference || 'Psalm 46:1').trim();
+                if (!safeReference) return;
+
+                const verseQuery = encodeURIComponent(safeReference);
+                const href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
+
+                document.querySelectorAll('a.bible-gateway-link').forEach((linkEl) => {
+                    linkEl.href = href;
+                    linkEl.setAttribute('aria-label', `Read ${safeReference} on Bible Gateway`);
+                });
+            }
+
+            function dispatchDevotionRenderComplete() {
+                const devotionData = getCurrentDevotionData();
+                window.__DEVOTION_RENDER_COMPLETED__ = true;
+                window.__DEVOTION_LOADED__ = true;
+                window.__LAST_DEVOTION_RENDER_EVENT_AT__ = Date.now();
+
+                const payload = { devotionData };
+                const event = new CustomEvent('DEVOTION_RENDER_COMPLETE', { detail: payload });
+                document.dispatchEvent(event);
+                window.dispatchEvent(new CustomEvent('DEVOTION_RENDER_COMPLETE', { detail: payload }));
+                console.log("[Devotion] ✅ DEVOTION_RENDER_COMPLETE event dispatched");
             }
             // -----------------------------
             // Data: replace or inject window.DEVOTIONS with your full dataset
@@ -983,6 +1039,33 @@
                     loader.style.display = "none";
                     console.log("[Devotion] ✅ Loader hidden (smooth fade-out)");
                 }, 300);
+            }
+
+            function renderScripture(reference, verseText) {
+                const globalData = getCurrentDevotionData() || {};
+                const safeReference = (globalData.verseReference || globalData.verse || reference || 'Psalm 46:1').trim();
+                const safeVerseText = (globalData.verseText || verseText || safeReference).trim();
+
+                if (window.safeSetText) {
+                    window.safeSetText('#bibleReference', safeReference);
+                    window.safeSetText('#bibleText', safeVerseText);
+                    window.safeSetText('#verseRef', safeReference);
+                } else {
+                    if (referenceEl) referenceEl.textContent = safeReference;
+                    if (verseEl) verseEl.textContent = safeVerseText;
+                    const verseRefEl = document.getElementById('verseRef');
+                    if (verseRefEl) verseRefEl.textContent = safeReference;
+                }
+            }
+
+            function renderNarrativeSection(selector, elementId, content) {
+                const wrapped = `<div id="${elementId}"><p>${content || ''}</p></div>`;
+                if (window.safeSetHTML) {
+                    window.safeSetHTML(selector, wrapped);
+                    return;
+                }
+                const target = safeSelect(selector);
+                if (target) target.innerHTML = wrapped;
             }
 
             // -----------------------------
@@ -1215,10 +1298,7 @@
 
                 if (!hasData) {
                     console.log("[Devotion] Fetch Success: No data for date — triggering fallback");
-                    contentEl.style.display = 'none';
-                    fallbackEl.style.display = 'block';
-                    hideDevotionLoader(); // STEP 3 — Use safe hide function
-                    window.SkeletonEngine.hide();
+                    showFallbackDevotion();
                     window.__DEVOTION_RENDER_STARTED__ = false;
                     window.ResurrectionLock.release();
                     return;
@@ -1241,20 +1321,17 @@
                 // REFERENCE MODE: No verseText, always use verseReference
                 const lang = currentLang === 'bn' ? 'Bn' : '';
                 const verseReference = data.verse || data.verseReference || data.verseRef || 'Psalm 46:1';
-                window.__CURRENT_DEVOTION_DATA__ = {
+                const verseText = data[`verseText${lang}`] || data.verseText || verseReference;
+                const devotionData = setCurrentDevotionData({
                     title: data[`title${lang}`] || data.title || 'Daily Devotion',
                     verse: verseReference,
-                    verseReference: verseReference,  // Always use reference
+                    verseReference: verseReference,
+                    verseText: verseText,
                     reflection: data[`reflection${lang}`] || data.reflection || '',
                     prayer: data[`prayer${lang}`] || data.prayer || '',
                     date: formatDisplayDate(selectedDate),
                     dateShort: formatMonthDay(selectedDate)
-                };
-
-                const devotionData = window.__CURRENT_DEVOTION_DATA__;
-
-                // STEP 3 — Cache for share card generator
-                window.__CURRENT_DEVOTION__ = devotionData;
+                });
                 console.log('[Devotion] ✅ Current devotion cached globally for share generator');
 
                 // INTELLIGENT BACKGROUND APPLICATION
@@ -1270,39 +1347,24 @@
                 // STEP 4: Render Hero Card (Sacred Quote)
                 if (dateElement) dateElement.textContent = devotionData.date;
                 if (metaLabel) metaLabel.textContent = devotionData.dateShort;
-                updateSacredQuoteCard(devotionData.date, devotionData.verse);
+                updateSacredQuoteCard(devotionData.date, devotionData.verseReference || devotionData.verse);
                 console.log("[Devotion] Hero Rendered");
 
                 // STEP 5: Render Main Card
-                if (window.safeSetText && window.safeSetHTML) {
+                if (window.safeSetText) {
                     window.safeSetText('#devotionTitle', devotionData.title);
                     window.safeSetText('#devotionSubtitle', `${devotionData.date} — ${devotionData.verse}`);
-                    window.safeSetText('#bibleReference', devotionData.verse);
-                    // REFERENCE MODE: Set Bible Gateway link instead of verse text
-                    const bibleGatewayLink = document.getElementById('bibleGatewayLink');
-                    if (bibleGatewayLink && devotionData.verse) {
-                        const verseQuery = encodeURIComponent(devotionData.verse);
-                        bibleGatewayLink.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
-                        bibleGatewayLink.setAttribute('aria-label', `Read ${devotionData.verse} on Bible Gateway`);
-                    }
-                    window.safeSetHTML('[data-devotion-reflection]', `<p>${devotionData.reflection}</p>`);
-                    window.safeSetHTML('[data-devotion-prayer]', `<p>${devotionData.prayer}</p>`);
                 } else {
                     if (headerTitle) headerTitle.textContent = devotionData.title;
                     if (headerSubtitle) headerSubtitle.textContent = `${devotionData.date} — ${devotionData.verse}`;
-                    if (referenceEl) referenceEl.textContent = devotionData.verse;
-                    // REFERENCE MODE: Set Bible Gateway link instead of verse text
-                    const bibleGatewayLink = document.getElementById('bibleGatewayLink');
-                    if (bibleGatewayLink && devotionData.verse) {
-                        const verseQuery = encodeURIComponent(devotionData.verse);
-                        bibleGatewayLink.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
-                        bibleGatewayLink.setAttribute('aria-label', `Read ${devotionData.verse} on Bible Gateway`);
-                    }
-                    const rEl = safeSelect('[data-devotion-reflection]');
-                    if (rEl) rEl.innerHTML = `<p>${devotionData.reflection}</p>`;
-                    const pEl = safeSelect('[data-devotion-prayer]');
-                    if (pEl) pEl.innerHTML = `<p>${devotionData.prayer}</p>`;
                 }
+
+                renderScripture(devotionData.verseReference || devotionData.verse, devotionData.verseText);
+
+                bindBibleGatewayLinks(devotionData.verseReference || devotionData.verse);
+
+                renderNarrativeSection('[data-devotion-reflection]', 'reflectionText', devotionData.reflection);
+                renderNarrativeSection('[data-devotion-prayer]', 'prayerText', devotionData.prayer);
                 console.log("[Devotion] Main Rendered");
 
                 // STEP 6: Initialize Share Engine
@@ -1322,16 +1384,11 @@
                 }
 
                 // STEP 8: Mark Render Completed
-                window.__DEVOTION_RENDER_COMPLETED__ = true;
-                window.__DEVOTION_LOADED__ = true;
                 window.ResurrectionLock.release();
                 console.log("[Devotion] Render Completed");
 
                 // PHASE 2: Dispatch render complete event for share engine
-                document.dispatchEvent(new CustomEvent('DEVOTION_RENDER_COMPLETE', {
-                    detail: { devotionData }
-                }));
-                console.log("[Devotion] ✅ DEVOTION_RENDER_COMPLETE event dispatched");
+                dispatchDevotionRenderComplete();
 
                 // RESURRECTION — Performance Metrics
                 const perfEnd = performance.now();
@@ -1345,7 +1402,6 @@
                 // Update date and reference
                 const dateEl = document.getElementById('sacredQuoteDate');
                 const refEl = document.getElementById('sacredQuoteRefText');
-                const linkEl = document.getElementById('bibleGatewayLink');
 
                 if (dateEl) {
                     dateEl.textContent = date || 'Loading...';
@@ -1357,11 +1413,9 @@
                     console.log("[Devotion] ✅ Sacred Quote Reference updated:", reference);
                 }
 
-                // Create Bible Gateway link
-                if (linkEl && reference) {
-                    const verseQuery = encodeURIComponent(reference);
-                    linkEl.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
-                    linkEl.setAttribute('aria-label', `Read ${reference} on Bible Gateway`);
+                // Create Bible Gateway links (all bound instances)
+                if (reference) {
+                    bindBibleGatewayLinks(reference);
                     console.log("[Devotion] ✅ Bible Gateway link created:", reference);
                 }
 
@@ -1396,9 +1450,12 @@
 
             // Generate shareable caption with verse, reference, and GPBC URL
             function generateShareCaption() {
+                const devotionData = getCurrentDevotionData() || {};
                 const date = formatDisplayDate(selectedDate);
-                const reference = document.getElementById('bibleReference')?.textContent || '';
-                const verse = document.getElementById('bibleText')?.textContent || reference;
+                const reference = devotionData.verseReference ||
+                    document.getElementById('bibleReference')?.textContent || '';
+                const verse = devotionData.verseText ||
+                    document.getElementById('bibleText')?.textContent || reference;
                 const reflection = document.getElementById('devotionMessage')?.textContent || '';
                 const url = window.location.href;
 
@@ -1781,7 +1838,8 @@
                 const fallback = {
                     title: "God is our Refuge",
                     verse: "Psalm 46:1",
-                    verseReference: "Psalm 46:1",  // REFERENCE MODE
+                    verseReference: "Psalm 46:1",
+                    verseText: "God is our refuge and strength, an ever-present help in trouble.",
                     reflection: "Even when systems fail, God never fails. His strength is available to you right now, in this very moment. Trust Him today.",
                     prayer: "Lord, be our strength today. When technology fails, You remain faithful. Help us to trust You completely. Amen.",
                     date: formatDisplayDate(selectedDate || new Date())
@@ -1794,31 +1852,22 @@
                     // STEP 3 — Populate main devotion
                     safeSetTextById('devotionTitle', fallback.title);
                     safeSetTextById('devotionSubtitle', `${fallback.date} — ${fallback.verse}`);
-                    safeSetTextById('bibleReference', fallback.verse);
+                    const fallbackData = setCurrentDevotionData(fallback);
+                    renderScripture(fallbackData.verseReference || fallbackData.verse, fallbackData.verseText || fallbackData.verse);
 
-                    // REFERENCE MODE: Set Bible Gateway link instead of verse text
-                    const bibleGatewayLink = document.getElementById('bibleGatewayLink');
-                    if (bibleGatewayLink) {
-                        const verseQuery = encodeURIComponent(fallback.verse);
-                        bibleGatewayLink.href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
-                        bibleGatewayLink.setAttribute('aria-label', `Read ${fallback.verse} on Bible Gateway`);
-                    }
+                    bindBibleGatewayLinks(fallbackData.verseReference || fallbackData.verse);
 
-                    const reflectionEl = document.querySelector('[data-devotion-reflection]');
-                    if (reflectionEl) reflectionEl.innerHTML = `<p>${fallback.reflection}</p>`;
-
-                    const prayerEl = document.querySelector('[data-devotion-prayer]');
-                    if (prayerEl) prayerEl.innerHTML = `<p>${fallback.prayer}</p>`;
+                    renderNarrativeSection('[data-devotion-reflection]', 'reflectionText', fallback.reflection);
+                    renderNarrativeSection('[data-devotion-prayer]', 'prayerText', fallback.prayer);
 
                     // STEP 3 — CRITICAL: Populate Sacred Quote Card
-                    updateSacredQuoteCard(fallback.date, fallback.verse);
+                    updateSacredQuoteCard(fallback.date, fallback.verseReference || fallback.verse);
                     console.log("[Devotion] ✅ Fallback Sacred Quote populated");
 
                     // STEP 4 — Hide loader in fallback path
                     hideDevotionLoader();
 
-                    window.__DEVOTION_RENDER_COMPLETED__ = true;
-                    window.__DEVOTION_LOADED__ = true;
+                    dispatchDevotionRenderComplete();
 
                     console.log("[Devotion] Fallback render complete");
 
@@ -1868,6 +1917,8 @@
                 }
             }
 
+            window.updateContent = renderAll;
+
             function highlightSelected() {
                 const pills = dateStrip.querySelectorAll('.date-pill');
                 pills.forEach(p => {
@@ -1902,7 +1953,7 @@
                 }
             }, 4000);
 
-            renderAll();
+            window.updateContent();
         }
 
         // Wait for devotions to load (or fail) then initialize once.

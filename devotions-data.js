@@ -51,6 +51,58 @@
         return new URL(cleanPath, GPBC_DATA_BASE).toString();
     }
 
+    function mergeVerseTextFromBundled(year, devotions) {
+        if (!Array.isArray(devotions) || devotions.length === 0) {
+            return { devotions, mergedCount: 0 };
+        }
+
+        const bundledKey = `DEVOTIONS_${Number(year)}_DB`;
+        const bundledDevotions = window[bundledKey] || window.DEVOTIONS_2026_DB;
+        if (!Array.isArray(bundledDevotions) || bundledDevotions.length === 0) {
+            return { devotions, mergedCount: 0 };
+        }
+
+        const byDate = new Map();
+        bundledDevotions.forEach((entry) => {
+            const key = (entry && entry.date) ? String(entry.date).trim() : '';
+            if (!key || byDate.has(key)) return;
+            byDate.set(key, entry);
+        });
+
+        let mergedCount = 0;
+        const merged = devotions.map((entry) => {
+            if (!entry || typeof entry !== 'object') return entry;
+
+            const key = entry.date ? String(entry.date).trim() : '';
+            if (!key) return entry;
+
+            const bundled = byDate.get(key);
+            if (!bundled || typeof bundled !== 'object') return entry;
+
+            const next = { ...entry };
+            const currentRef = next.verseReference || next.verse || '';
+            const currentText = (next.verseText || '').trim();
+            const currentTextBn = (next.verseTextBn || '').trim();
+            const bundledText = (bundled.verseText || '').trim();
+            const bundledTextBn = (bundled.verseTextBn || '').trim();
+
+            const shouldFillVerseText = !currentText || currentText === currentRef;
+            if (shouldFillVerseText && bundledText) {
+                next.verseText = bundledText;
+                mergedCount += 1;
+            }
+
+            const shouldFillVerseTextBn = !currentTextBn || currentTextBn === currentRef;
+            if (shouldFillVerseTextBn && bundledTextBn) {
+                next.verseTextBn = bundledTextBn;
+            }
+
+            return next;
+        });
+
+        return { devotions: merged, mergedCount };
+    }
+
     function dispatchEventSafe(name, detail) {
         window.dispatchEvent(new CustomEvent(name, { detail }));
     }
@@ -103,6 +155,13 @@
             const primarySource = `devotions-${targetYear}.json`;
             let devotions = normalizeDevotionArray(await fetchJsonSafe(primarySource));
             let sourceUsed = primarySource;
+            let verseTextMergeCount = 0;
+
+            if (Array.isArray(devotions) && devotions.length > 0) {
+                const mergeResult = mergeVerseTextFromBundled(targetYear, devotions);
+                devotions = mergeResult.devotions;
+                verseTextMergeCount = mergeResult.mergedCount;
+            }
 
             if (!devotions || devotions.length === 0) {
                 const bundledKey = `DEVOTIONS_${targetYear}_DB`;
@@ -121,6 +180,9 @@
             window.DEVOTIONS_YEAR = targetYear;
 
             console.log(`[GPBC] ✅ Final: ${devotions.length} devotions loaded for year ${targetYear} from ${sourceUsed}`);
+            if (verseTextMergeCount > 0) {
+                console.log(`[GPBC] ✅ Verse text hydrated from bundled DB for ${verseTextMergeCount} devotion(s)`);
+            }
             dispatchEventSafe('devotionsLoaded', {
                 count: devotions.length,
                 source: sourceUsed,

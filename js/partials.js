@@ -33,6 +33,30 @@
         }
     }
 
+    function normalizeInjectedPaths(container, basePath = '') {
+        if (!container) return;
+
+        const normalizedBasePath = basePath || '';
+        const assets = container.querySelectorAll('[href], [src]');
+
+        assets.forEach((node) => {
+            ['href', 'src'].forEach((attr) => {
+                if (!node.hasAttribute(attr)) return;
+
+                const raw = node.getAttribute(attr);
+                const value = (raw || '').trim();
+                if (!value) return;
+
+                if (value.startsWith('#') || value.startsWith('//')) return;
+                if (/^(?:[a-z][a-z0-9+.-]*:|mailto:|tel:|javascript:|data:|blob:)/i.test(value)) return;
+
+                if (value.startsWith('/')) {
+                    node.setAttribute(attr, `${normalizedBasePath}${value.slice(1)}`);
+                }
+            });
+        });
+    }
+
     function getBasePath() {
         // Infer base path from existing CSS links to ensure correct relative path
         // even in subdirectories or when opened via file:// protocol
@@ -51,13 +75,18 @@
     async function loadPartials() {
         const basePath = getBasePath();
 
-        const headerFallback = window.Platform?.getFallbackHeaderHtml?.() || 
+        const headerFallback = window.Platform?.getFallbackHeaderHtml?.(basePath) || 
             '<header class="fallback-header"><nav><a href="index.html">GPBC</a></nav></header>';
         
         const footerFallback = '<footer class="fallback-footer"><p>&copy; 2026 GPBC</p></footer>';
 
         await injectPartial('#site-header', basePath + 'partials/header.html', headerFallback);
         await injectPartial('#site-footer', basePath + 'partials/footer.html', footerFallback);
+
+        const headerContainer = document.querySelector('#site-header');
+        const footerContainer = document.querySelector('#site-footer');
+        normalizeInjectedPaths(headerContainer, basePath);
+        normalizeInjectedPaths(footerContainer, basePath);
     }
 
     if (typeof window !== 'undefined') {
