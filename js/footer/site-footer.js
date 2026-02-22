@@ -1,270 +1,123 @@
-// =============================================================================
-// SITE FOOTER RENDERER
-// Grace and Praise Bangladeshi Church
-// Fiddler-inspired footer with CTA band, dynamic columns, social icons
-// =============================================================================
+import { footerConfig } from './footer.config.js';
 
-import { FOOTER_CONFIG } from './footer.config.js';
+export function initSiteFooter() {
+    const footerElement = document.getElementById('site-footer');
 
-// ── Social Media SVG Icons ──
-const SOCIAL_ICONS = {
-    youtube: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-    </svg>`,
-    
-    facebook: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-    </svg>`,
-    
-    instagram: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
-    </svg>`
-};
-
-// ── Helper: Check if URL is external ──
-function isExternalUrl(url) {
-    if (!url) return false;
-    return url.startsWith('http://') || url.startsWith('https://');
-}
-
-// ── Helper: Create link element with proper attributes ──
-function createLink(url, label, extraAttrs = {}) {
-    const a = document.createElement('a');
-    a.href = url;
-    a.textContent = label;
-    
-    if (isExternalUrl(url)) {
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-    }
-    
-    Object.entries(extraAttrs).forEach(([key, value]) => {
-        a.setAttribute(key, value);
-    });
-    
-    return a;
-}
-
-// ── Render CTA Actions ──
-function renderCtaActions(container) {
-    if (!container) return;
-    
-    const fragment = document.createDocumentFragment();
-    
-    FOOTER_CONFIG.cta.forEach(cta => {
-        const link = createLink(cta.url, cta.label, {
-            class: 'footer-btn',
-            'aria-label': `${cta.label}: ${cta.description}`
-        });
-        
-        const iconSpan = document.createElement('span');
-        iconSpan.className = 'footer-btn-icon';
-        iconSpan.textContent = cta.icon;
-        iconSpan.setAttribute('aria-hidden', 'true');
-        
-        const labelSpan = document.createElement('span');
-        labelSpan.className = 'footer-btn-label';
-        labelSpan.textContent = cta.label;
-        
-        link.innerHTML = '';
-        link.appendChild(iconSpan);
-        link.appendChild(labelSpan);
-        
-        fragment.appendChild(link);
-    });
-    
-    container.appendChild(fragment);
-}
-
-// ── Render Brand Block ──
-function renderBrand(container) {
-    if (!container) return;
-    
-    const { brand } = FOOTER_CONFIG;
-    
-    container.innerHTML = `
-        <div class="footer-brand-content">
-            <h3 class="footer-brand-name">${brand.name}</h3>
-            <p class="footer-brand-name-bn">${brand.nameBengali}</p>
-            <p class="footer-brand-tagline">${brand.tagline}</p>
-            
-            <address class="footer-address">
-                <p>${brand.address.street}</p>
-                <p>${brand.address.city}</p>
-                <p><a href="mailto:${brand.email}">${brand.email}</a></p>
-                ${brand.phone ? `<p><a href="tel:${brand.phone.replace(/[^0-9+]/g, '')}">${brand.phone}</a></p>` : ''}
-            </address>
-            
-            <p class="footer-service-time">
-                <span class="footer-time-icon" aria-hidden="true">🕐</span>
-                <span>${brand.serviceTime}</span>
-            </p>
-            
-            ${brand.directionsUrl ? `
-                <a href="${brand.directionsUrl}" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   class="footer-directions-link">
-                    Get Directions →
-                </a>
-            ` : ''}
-        </div>
-    `;
-}
-
-// ── Render Footer Columns ──
-function renderColumns(container) {
-    if (!container) return;
-    
-    const fragment = document.createDocumentFragment();
-    
-    FOOTER_CONFIG.columns.slice(0, 4).forEach(column => {
-        const col = document.createElement('div');
-        col.className = 'footer-column';
-        
-        const heading = document.createElement('h3');
-        heading.className = 'footer-column-heading';
-        heading.textContent = column.heading;
-        
-        const nav = document.createElement('nav');
-        nav.setAttribute('aria-label', `${column.heading} navigation`);
-        
-        const ul = document.createElement('ul');
-        ul.className = 'footer-column-links';
-        
-        column.links.slice(0, 6).forEach(link => {
-            const li = document.createElement('li');
-            li.appendChild(createLink(link.url, link.label));
-            ul.appendChild(li);
-        });
-        
-        nav.appendChild(ul);
-        col.appendChild(heading);
-        col.appendChild(nav);
-        fragment.appendChild(col);
-    });
-    
-    container.appendChild(fragment);
-}
-
-// ── Render Legal Links ──
-function renderLegal(container) {
-    if (!container) return;
-    
-    const currentYear = new Date().getFullYear();
-    const { legal, legalLinks } = FOOTER_CONFIG;
-    
-    const wrapper = document.createElement('div');
-    wrapper.className = 'footer-legal-content';
-    
-    // Copyright
-    const copyright = document.createElement('p');
-    copyright.className = 'footer-copyright';
-    copyright.innerHTML = `&copy; ${currentYear} ${legal.copyrightEntity}. All rights reserved.`;
-    wrapper.appendChild(copyright);
-    
-    // Nonprofit notice
-    if (legal.nonprofitNotice) {
-        const nonprofit = document.createElement('p');
-        nonprofit.className = 'footer-nonprofit';
-        nonprofit.textContent = legal.nonprofitNotice;
-        wrapper.appendChild(nonprofit);
-    }
-    
-    // Legal links
-    if (legalLinks && legalLinks.length > 0) {
-        const nav = document.createElement('nav');
-        nav.className = 'footer-legal-links';
-        nav.setAttribute('aria-label', 'Legal navigation');
-        
-        legalLinks.forEach((link, index) => {
-            if (index > 0) {
-                const separator = document.createElement('span');
-                separator.className = 'footer-legal-separator';
-                separator.textContent = '•';
-                separator.setAttribute('aria-hidden', 'true');
-                nav.appendChild(separator);
-            }
-            nav.appendChild(createLink(link.url, link.label));
-        });
-        
-        wrapper.appendChild(nav);
-    }
-    
-    container.appendChild(wrapper);
-}
-
-// ── Render Social Links ──
-function renderSocial(container) {
-    if (!container) return;
-    
-    const nav = document.createElement('nav');
-    nav.className = 'footer-social-links';
-    nav.setAttribute('aria-label', 'Social media navigation');
-    
-    const ul = document.createElement('ul');
-    
-    FOOTER_CONFIG.social.forEach(social => {
-        const li = document.createElement('li');
-        
-        const a = document.createElement('a');
-        a.href = social.url;
-        a.className = 'footer-social-link';
-        a.setAttribute('aria-label', social.label);
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        
-        // Icon
-        const iconWrapper = document.createElement('span');
-        iconWrapper.className = 'footer-social-icon';
-        iconWrapper.innerHTML = SOCIAL_ICONS[social.icon] || '';
-        
-        // Label (visible on desktop, hidden on mobile)
-        const labelSpan = document.createElement('span');
-        labelSpan.className = 'footer-social-label';
-        labelSpan.textContent = social.platform;
-        
-        a.appendChild(iconWrapper);
-        a.appendChild(labelSpan);
-        li.appendChild(a);
-        ul.appendChild(li);
-    });
-    
-    nav.appendChild(ul);
-    container.appendChild(nav);
-}
-
-// ── Main Init Function ──
-export function initSiteFooter(root = document) {
-    console.log('[Footer] Initializing site footer...');
-    
-    const ctaContainer = root.querySelector('#footerCtaActions');
-    const brandContainer = root.querySelector('#footerBrand');
-    const columnsContainer = root.querySelector('#footerColumns');
-    const legalContainer = root.querySelector('#footerLegal');
-    const socialContainer = root.querySelector('#footerSocial');
-    
-    // ── Idempotency Guard ──
-    const footerElement = root.querySelector('[data-partial="site-footer"]');
-    if (footerElement?.hasAttribute('data-footer-initialized')) {
-        console.log('[Footer] ⚠️ Footer already initialized, skipping');
+    // Idempotency guard
+    if (!footerElement || footerElement.getAttribute('data-footer-initialized') === 'true') {
         return;
     }
-    
-    try {
-        renderCtaActions(ctaContainer);
-        renderBrand(brandContainer);
-        renderColumns(columnsContainer);
-        renderLegal(legalContainer);
-        renderSocial(socialContainer);
-        
-        // Mark as initialized
-        if (footerElement) {
-            footerElement.setAttribute('data-footer-initialized', 'true');
-        }
-        
-        console.log('[Footer] ✅ Footer initialized successfully');
-    } catch (error) {
-        console.error('[Footer] ❌ Failed to initialize footer:', error);
+
+    renderCtaBand();
+    renderNavGrids();
+    renderBottomBar();
+
+    // Mark as initialized
+    footerElement.setAttribute('data-footer-initialized', 'true');
+}
+
+function renderCtaBand() {
+    const container = document.getElementById('footer-cta-actions');
+    if (!container) return;
+
+    let html = '';
+    footerConfig.ctaActions.forEach(action => {
+        const primaryClass = action.primary ? 'primary-btn' : 'secondary-btn';
+        html += `<a href="${action.url}" class="footer-btn ${primaryClass}">${action.label}</a>`;
+    });
+    container.innerHTML = html;
+}
+
+function renderNavGrids() {
+    // Visit
+    const visitContainer = document.getElementById('footer-nav-visit');
+    if (visitContainer) {
+        visitContainer.innerHTML += buildLinkList(footerConfig.navGroups.visit);
+    }
+    // Connect
+    const connectContainer = document.getElementById('footer-nav-connect');
+    if (connectContainer) {
+        connectContainer.innerHTML += buildLinkList(footerConfig.navGroups.connect);
+    }
+    // Devotions
+    const devotionsContainer = document.getElementById('footer-nav-devotions');
+    if (devotionsContainer) {
+        devotionsContainer.innerHTML += buildLinkList(footerConfig.navGroups.devotions);
+    }
+    // Resources
+    const resourcesContainer = document.getElementById('footer-nav-resources');
+    if (resourcesContainer) {
+        resourcesContainer.innerHTML += buildLinkList(footerConfig.navGroups.resources);
+    }
+}
+
+function buildLinkList(links) {
+    let html = '<ul class="footer-link-list">';
+    links.forEach(link => {
+        html += `<li><a href="${link.url}" class="footer-link">${link.label}</a></li>`;
+    });
+    html += '</ul>';
+    return html;
+}
+
+function renderBottomBar() {
+    // Auto Year
+    const yearSpan = document.getElementById('footer-auto-year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+
+    // Legal Links
+    const legalContainer = document.getElementById('footer-legal-links');
+    if (legalContainer) {
+        let html = '';
+        footerConfig.legalLinks.forEach((link, idx) => {
+            html += `<a href="${link.url}" class="footer-legal-link">${link.label}</a>`;
+            if (idx < footerConfig.legalLinks.length - 1) {
+                html += '<span class="footer-legal-divider">|</span>';
+            }
+        });
+        legalContainer.innerHTML = html;
+    }
+
+    // Social Links
+    const socialContainer = document.getElementById('footer-social-row');
+    if (socialContainer) {
+        let html = '';
+        footerConfig.socialLinks.forEach(social => {
+            html += `
+                <a href="${social.url}" 
+                   class="footer-social-link" 
+                   aria-label="${social.label}" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    ${getSocialIconSvg(social.platform)}
+                </a>
+            `;
+        });
+        socialContainer.innerHTML = html;
+    }
+}
+
+function getSocialIconSvg(platform) {
+    switch (platform) {
+        case 'youtube':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+            </svg>`;
+        case 'facebook':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
+            </svg>`;
+        case 'instagram':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>`;
+        case 'tiktok':
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.12-3.44-3.17-3.64-5.46-.24-2.42.84-4.8 2.74-6.09 1.55-1.05 3.51-1.33 5.34-1.02v4.21c-.48-.15-.99-.21-1.49-.12-1.07.12-2.02.85-2.31 1.88-.2 1.05.04 2.19.8 2.91.73.69 1.83.83 2.76.43.83-.34 1.34-1.19 1.35-2.08.01-4.73 0-9.46.01-14.19z"/>
+            </svg>`;
+        default:
+            return '';
     }
 }

@@ -7,9 +7,9 @@
  * This script:
  * 1. Finds all HTML pages (excluding backups, tests, admin)
  * 2. Removes existing <footer> elements that might conflict
- * 3. Adds <div data-partial="site-footer"></div> before </body>
- * 4. Ensures footer-v2.css and footer-init.js are included
- * 5. Creates a backup before modifying each file
+ * 3. Removes specific legacy footer chunks like "Take Your Next Step" blocks.
+ * 4. Adds <div data-partial="site-footer"></div> before </body>
+ * 5. Ensures footer-v3.css and footer-init.js are included
  */
 
 const fs = require('fs');
@@ -35,7 +35,8 @@ const EXCLUDE_PATTERNS = [
     /test-connection\.html/,
     /test-lent-calendar\.html/,
     /DEVOTION_TEST\.html/,
-    /HOME_PAGE_TEST\.html/
+    /HOME_PAGE_TEST\.html/,
+    /partials\//
 ];
 
 // Stats tracking
@@ -51,27 +52,27 @@ const stats = {
  */
 function findHtmlFiles(dir, fileList = []) {
     const files = fs.readdirSync(dir);
-    
+
     files.forEach(file => {
         const filePath = path.join(dir, file);
         const stat = fs.statSync(filePath);
-        
+
         if (stat.isDirectory()) {
             // Skip certain directories
-            if (!file.startsWith('.') && file !== 'node_modules' && file !== 'test-results' && file !== 'playwright-report') {
+            if (!file.startsWith('.') && file !== 'node_modules' && file !== 'test-results' && file !== 'playwright-report' && file !== 'partials') {
                 findHtmlFiles(filePath, fileList);
             }
         } else if (file.endsWith('.html')) {
             // Check if file should be excluded
             const relativePath = path.relative(ROOT_DIR, filePath);
             const shouldExclude = EXCLUDE_PATTERNS.some(pattern => pattern.test(relativePath));
-            
+
             if (!shouldExclude) {
                 fileList.push(filePath);
             }
         }
     });
-    
+
     return fileList;
 }
 
@@ -95,16 +96,30 @@ function hasNewFooterMount(content) {
  * Check if file has footer CSS/JS includes
  */
 function hasFooterIncludes(content) {
-    return content.includes('footer-v2.css') && content.includes('footer/footer-init.js');
+    return content.includes('footer-v3.css') && content.includes('footer/footer-init.js');
 }
 
 /**
- * Remove old footer HTML blocks
+ * Remove old footer HTML blocks and legacy next steps section
  */
 function removeOldFooter(content) {
-    // Remove <footer> elements (but be conservative - only if they look like old footers)
-    const footerRegex = /<footer\s+class="sacred-footer"[\s\S]*?<\/footer>/gi;
-    return content.replace(footerRegex, '<!-- Old footer removed by footer-v2 migration -->');
+    // 1. Remove standard footer tag blocks
+    let newContent = content.replace(/<footer[\s\S]*?<\/footer>/gi, '<!-- Old footer removed by footer-v3 migration -->');
+
+    // 2. Remove legacy CTA blocks often found right above the footer
+    // Look for generic Next Steps sections or Quick Links containers.
+    const containerQuickLinksRegex = /<section[^>]*class="[^"]*(quick-links|cta-section|cta-band|next-steps-section)[^"]*"[^>]*>[\s\S]*?<\/section>/gi;
+    newContent = newContent.replace(containerQuickLinksRegex, '<!-- Legacy section removed by footer-v3 migration -->');
+
+    const divQuickLinksRegex = /<div[^>]*class="[^"]*(quick-links|cta-section|cta-band|next-steps-section)[^"]*"[^>]*>[\s\S]*?<\/div>\s*(?=<(script|footer|!--|body|\/body))/gi;
+    newContent = newContent.replace(divQuickLinksRegex, '<!-- Legacy section removed by footer-v3 migration -->');
+
+    // We remove elements by matching characteristic inner strings (like Quick Links) just in case the wrapper isn't a single element.
+    // However, regex replacing arbitrary HTML chunks is risky. We'll stick to removing the footer tag and elements explicitly tagged with footer classes.
+    const legacyFooterDivRegex = /<div[^>]*class="[^"]*(site-footer|footer|sacred-footer)[^"]*"[^>]*>[\s\S]*?<\/div>\s*(?=<\/?script|body|\/body)/gi;
+    newContent = newContent.replace(legacyFooterDivRegex, '<!-- Legacy footer wrapper removed by footer-v3 migration -->');
+
+    return newContent;
 }
 
 /**
@@ -112,41 +127,39 @@ function removeOldFooter(content) {
  */
 function addFooterMount(content, relativePath) {
     if (hasNewFooterMount(content)) {
-        return content; // Already has it
+        return content;
     }
-    
+
     const footerMount = `
     <!-- Site Footer (Partial Injection) -->
     <div data-partial="site-footer"></div>
 `;
-    
-    return content.replace('</body>', `${footerMount}\n</body>`);
+
+    return content.replace('</body>', `${footerMount}</body>`);
 }
 
 /**
- * Add CSS and JS includes to <head> if missing
+ * Add CSS and JS includes
  */
 function addFooterIncludes(content, relativePath) {
-    if (hasFooterIncludes(content)) {
-        return content; // Already has includes
+    let newContent = content;
+
+    // Remove old footer-v2 css just in case
+    newContent = newContent.replace(/<link[^>]*href="[^"]*footer-v2\.css"[^>]*>\s*/gi, '');
+
+    const cssInclude = `<link rel="stylesheet" href="${relativePath}css/footer-v3.css">`;
+    if (!newContent.includes('footer-v3.css')) {
+        // Find </head> or end of stylesheets and insert
+        newContent = newContent.replace('</head>', `    ${cssInclude}\n</head>`);
     }
-    
-    // Find a good place to insert CSS (after other stylesheets)
-    const cssInclude = `    <link rel="stylesheet" href="${relativePath}css/footer-v2.css">`;
-    
-    // Find </head> and insert CSS before it
-    if (!content.includes('footer-v2.css')) {
-        content = content.replace('</head>', `${cssInclude}\n</head>`);
+
+    const jsInclude = `<script type="module" src="${relativePath}js/footer/footer-init.js"></script>`;
+    if (!newContent.includes('footer-init.js')) {
+        // Add JS module before </body> after the mount
+        newContent = newContent.replace('</body>', `    ${jsInclude}\n</body>`);
     }
-    
-    // Add JS module before </body>
-    const jsInclude = `    <script type="module" src="${relativePath}js/footer/footer-init.js"></script>`;
-    
-    if (!content.includes('footer-init.js')) {
-        content = content.replace('</body>', `${jsInclude}\n</body>`);
-    }
-    
-    return content;
+
+    return newContent;
 }
 
 /**
@@ -154,56 +167,48 @@ function addFooterIncludes(content, relativePath) {
  */
 function processFile(filePath) {
     stats.processed++;
-    
+
     const relativePath = path.relative(ROOT_DIR, filePath);
     console.log(`\n📄 Processing: ${relativePath}`);
-    
+
     try {
         let content = fs.readFileSync(filePath, 'utf8');
         const originalContent = content;
         const relativeToRoot = getRelativePathToRoot(filePath);
-        
-        // Check if already has new footer
-        if (hasNewFooterMount(content)) {
-            console.log('   ✓ Already has new footer mount');
-            stats.skipped++;
-            return;
-        }
-        
-        // Remove old footer
+
+        // Remove old footer first (always run this to clean up mess)
         const beforeRemove = content;
         content = removeOldFooter(content);
         if (content !== beforeRemove) {
             console.log('   🗑️  Removed old footer HTML');
         }
-        
+
         // Add footer mount
-        content = addFooterMount(content, relativeToRoot);
-        console.log('   ➕ Added footer mount point');
-        
+        if (!hasNewFooterMount(content)) {
+            content = addFooterMount(content, relativeToRoot);
+            console.log('   ➕ Added footer mount point');
+        }
+
         // Add CSS/JS includes
+        const beforeIncludes = content;
         content = addFooterIncludes(content, relativeToRoot);
-        console.log('   ➕ Added footer CSS/JS includes');
-        
+        if (content !== beforeIncludes) {
+            console.log('   ➕ Added footer CSS/JS includes');
+        }
+
         // Only write if content changed
         if (content !== originalContent) {
             if (DRY_RUN) {
                 console.log('   [DRY RUN] Would save changes');
             } else {
-                // Create backup
-                const backupPath = filePath + '.backup-footer-v2';
-                fs.writeFileSync(backupPath, originalContent, 'utf8');
-                
-                // Write modified content
                 fs.writeFileSync(filePath, content, 'utf8');
-                console.log('   ✅ Saved (backup created)');
             }
             stats.modified++;
         } else {
             console.log('   ⚠️  No changes needed');
             stats.skipped++;
         }
-        
+
     } catch (error) {
         console.error(`   ❌ Error: ${error.message}`);
         stats.errors++;
@@ -215,46 +220,19 @@ function processFile(filePath) {
  */
 function main() {
     console.log('╔══════════════════════════════════════════════════════════════╗');
-    console.log('║  FOOTER V2 MIGRATION SCRIPT                                  ║');
-    console.log('║  Grace and Praise Bangladeshi Church                         ║');
+    console.log('║  FOOTER V3 MIGRATION SCRIPT                                  ║');
     console.log('╚══════════════════════════════════════════════════════════════╝\n');
-    
-    if (DRY_RUN) {
-        console.log('🔍 DRY RUN MODE - No files will be modified\n');
-    }
-    
-    console.log(`📂 Searching for HTML files in: ${ROOT_DIR}`);
-    
+
     const htmlFiles = findHtmlFiles(ROOT_DIR);
     console.log(`\n✨ Found ${htmlFiles.length} HTML files to process\n`);
-    console.log('─'.repeat(64));
-    
+
     htmlFiles.forEach(processFile);
-    
-    console.log('\n' + '═'.repeat(64));
-    console.log('📊 SUMMARY');
-    console.log('─'.repeat(64));
+
+    console.log('\n📊 SUMMARY');
     console.log(`   Processed:  ${stats.processed}`);
     console.log(`   Modified:   ${stats.modified}`);
     console.log(`   Skipped:    ${stats.skipped}`);
     console.log(`   Errors:     ${stats.errors}`);
-    console.log('═'.repeat(64));
-    
-    if (stats.errors > 0) {
-        console.log('\n⚠️  Some files encountered errors. Please review above.');
-        process.exit(1);
-    }
-    
-    if (DRY_RUN) {
-        console.log('\n💡 Run without --dry-run to apply changes');
-    } else {
-        console.log('\n✅ Footer migration complete!');
-        console.log('\n📝 Next steps:');
-        console.log('   1. Test locally: python3 -m http.server');
-        console.log('   2. Check a few pages: /, /prayer-request.html, /daily-devotion.html');
-        console.log('   3. Commit changes: git add . && git commit -m "feat: apply footer-v2 to all pages"');
-    }
 }
 
-// Run the script
 main();

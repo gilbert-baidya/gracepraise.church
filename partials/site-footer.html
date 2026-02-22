@@ -1,28 +1,54 @@
-<footer class="site-footer" role="contentinfo">
-    <!-- CTA Band: Next Steps -->
-    <section class="footer-cta" aria-label="Quick Actions">
-        <div class="footer-cta-container">
-            <h2 class="footer-cta-title">Take Your Next Step</h2>
-            <div id="footerCtaActions" class="footer-cta-actions"></div>
-        </div>
-    </section>
-
-    <!-- Main Footer Content -->
-    <div class="footer-main">
+<footer class="site-footer" id="site-footer" data-footer-initialized="false">
+    <!-- CTA Band -->
+    <div class="footer-cta-band">
         <div class="footer-container">
-            <!-- Brand Section -->
-            <div id="footerBrand" class="footer-brand"></div>
-            
-            <!-- Navigation Columns -->
-            <div id="footerColumns" class="footer-columns"></div>
+            <h2 class="footer-cta-title">Take Your Next Step</h2>
+            <div class="footer-cta-actions" id="footer-cta-actions">
+                <!-- Buttons injected by JS -->
+            </div>
         </div>
     </div>
 
-    <!-- Bottom Bar: Legal + Social -->
-    <div class="footer-bottom">
-        <div class="footer-bottom-container">
-            <div id="footerLegal" class="footer-legal"></div>
-            <div id="footerSocial" class="footer-social"></div>
+    <!-- Main Grid -->
+    <div class="footer-main-grid footer-container">
+        <!-- Brand / Address -->
+        <div class="footer-brand-col">
+            <div class="footer-logo">Grace Praise</div>
+            <address class="footer-address">
+                <p>123 Sacred Way</p>
+                <p>Faith City, CA 90210</p>
+            </address>
+        </div>
+
+        <!-- Links Columns -->
+        <nav class="footer-nav-col" aria-label="Visit Links" id="footer-nav-visit">
+            <h3 class="footer-nav-title">Visit</h3>
+            <!-- Links injected by JS -->
+        </nav>
+        <nav class="footer-nav-col" aria-label="Connect Links" id="footer-nav-connect">
+            <h3 class="footer-nav-title">Connect</h3>
+            <!-- Links injected by JS -->
+        </nav>
+        <nav class="footer-nav-col" aria-label="Devotions Links" id="footer-nav-devotions">
+            <h3 class="footer-nav-title">Devotions</h3>
+            <!-- Links injected by JS -->
+        </nav>
+        <nav class="footer-nav-col" aria-label="Resources Links" id="footer-nav-resources">
+            <h3 class="footer-nav-title">Resources</h3>
+            <!-- Links injected by JS -->
+        </nav>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom-bar footer-container">
+        <div class="footer-copyright">
+            &copy; <span id="footer-auto-year"></span> Grace Praise Church. All rights reserved.
+        </div>
+        <div class="footer-legal-links" id="footer-legal-links">
+            <!-- Privacy / Terms injected by JS -->
+        </div>
+        <div class="footer-social-row" id="footer-social-row" aria-label="Social Media Links">
+            <!-- Social Icons injected by JS -->
         </div>
     </div>
 </footer>
