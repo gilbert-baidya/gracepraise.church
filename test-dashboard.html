@@ -214,15 +214,15 @@
             color: #666;
         }
     </style>
-    <meta http-equiv="refresh" content="2">
+    
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>
                 🎭 Playwright Test Dashboard
-                <span class="status-badge status-running">
-                    ⚡ Running...
+                <span class="status-badge status-complete">
+                    ✅ Complete
                 </span>
             </h1>
             <div class="subtitle">Real-time test execution monitoring</div>
@@ -230,40 +230,40 @@
 
         <div class="timer">
             <div class="label">Execution Time</div>
-            <div class="time">89.15s</div>
+            <div class="time">106.75s</div>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card stat-total">
                 <div class="label">Total Tests</div>
-                <div class="value">196</div>
+                <div class="value">34</div>
             </div>
             <div class="stat-card stat-passed">
                 <div class="label">✅ Passed</div>
-                <div class="value">66</div>
+                <div class="value">33</div>
             </div>
             <div class="stat-card stat-failed">
                 <div class="label">❌ Failed</div>
-                <div class="value">3</div>
+                <div class="value">0</div>
             </div>
             <div class="stat-card stat-running">
                 <div class="label">⚡ Running</div>
-                <div class="value">5</div>
+                <div class="value">0</div>
             </div>
             <div class="stat-card stat-pending">
                 <div class="label">⏳ Pending</div>
-                <div class="value">106</div>
+                <div class="value">0</div>
             </div>
             <div class="stat-card stat-skipped">
                 <div class="label">⏭️ Skipped</div>
-                <div class="value">16</div>
+                <div class="value">1</div>
             </div>
         </div>
 
         <div class="progress-section">
             <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 43.4%">
-                    <span class="progress-text">43.4% Complete</span>
+                <div class="progress-bar" style="width: 100.0%">
+                    <span class="progress-text">100.0% Complete</span>
                 </div>
             </div>
         </div>
@@ -271,107 +271,17 @@
         <div class="test-list">
             <h2>📋 Test Execution Log (Last 50)</h2>
             
-                <div class="test-item running">
-                    <div class="test-icon">
-                        ⚡
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (tablet)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:364</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        ...
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item running">
-                    <div class="test-icon">
-                        ⚡
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">Home -> burger -> Devotion -> Daily Devotion renders core content (mobile)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:325</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        ...
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item running">
-                    <div class="test-icon">
-                        ⚡
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (mobile)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:364</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        ...
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item running">
-                    <div class="test-icon">
-                        ⚡
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">Lent -> burger Devotion -> Daily Devotion + logo route do not 404 (tablet)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:337</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        ...
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item running">
-                    <div class="test-icon">
-                        ⚡
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">Home -> burger -> Devotion -> Daily Devotion renders core content (tablet)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:325</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        ...
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item skipped">
-                    <div class="test-icon">
-                        ⏭️
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">Desktop light-mode dropdown links remain readable (About, Ministries, Devotion)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:299</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        0.92s
-                        
-                    </div>
-                </div>
-            
                 <div class="test-item passed">
                     <div class="test-icon">
                         ✅
                     </div>
                     <div class="test-details">
                         <div class="test-title">skip to content link should exist</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:250</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:291</div>
                         
                     </div>
                     <div class="test-duration">
-                        2.89s
+                        2.03s
                         
                     </div>
                 </div>
@@ -382,11 +292,11 @@
                     </div>
                     <div class="test-details">
                         <div class="test-title">navigation should have proper ARIA roles</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:236</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:277</div>
                         
                     </div>
                     <div class="test-duration">
-                        3.62s
+                        2.06s
                         
                     </div>
                 </div>
@@ -397,11 +307,11 @@
                     </div>
                     <div class="test-details">
                         <div class="test-title">burger menu should have accessible label</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:222</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:263</div>
                         
                     </div>
                     <div class="test-duration">
-                        3.46s
+                        2.34s
                         
                     </div>
                 </div>
@@ -412,11 +322,11 @@
                     </div>
                     <div class="test-details">
                         <div class="test-title">all navigation links should be clickable</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:200</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:241</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.33s
+                        3.19s
                         
                     </div>
                 </div>
@@ -427,11 +337,11 @@
                     </div>
                     <div class="test-details">
                         <div class="test-title">should navigate to Daily Devotion page</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:190</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:223</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.49s
+                        3.68s
                         
                     </div>
                 </div>
@@ -442,39 +352,27 @@
                     </div>
                     <div class="test-details">
                         <div class="test-title">should navigate to Ministries page</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:181</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:209</div>
                         
                     </div>
                     <div class="test-duration">
-                        5.44s
+                        2.74s
                         
                     </div>
                 </div>
             
-                <div class="test-item failed">
+                <div class="test-item passed">
                     <div class="test-icon">
-                        ❌
+                        ✅
                     </div>
                     <div class="test-details">
                         <div class="test-title">should navigate to About page</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:171</div>
-                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
-
-Locator: locator('h1, h2')
-Expected: visible
-Error: strict mode violation: locator('h1, h2') resolved to 3 elements:
-    1) <h1>About Grace and Praise Bangladeshi Church</h1> aka getByRole('heading', { name: 'About Grace and Praise' })
-    2) <h2>Welcome to Grace and Praise Bangladeshi Church</h2> aka getByRole('heading', { name: 'Welcome to Grace and Praise' })
-    ...
-
-Call log:
-[2m  - Expect "toBeVisible" with timeout 5000ms[22m
-[2m  - waiting for locator('h1, h2')[22m
-</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:194</div>
+                        
                     </div>
                     <div class="test-duration">
-                        5.61s
-                        <span class="screenshot-indicator">📸</span>
+                        2.12s
+                        
                     </div>
                 </div>
             
@@ -484,11 +382,11 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">should handle breakpoint boundary at 1024px</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:155</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:178</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.13s
+                        1.85s
                         
                     </div>
                 </div>
@@ -499,11 +397,11 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">should handle breakpoint boundary at 768px</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:141</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:164</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.12s
+                        2.05s
                         
                     </div>
                 </div>
@@ -514,11 +412,11 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">should show desktop nav at desktop width (1920px)</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:127</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:150</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.56s
+                        2.82s
                         
                     </div>
                 </div>
@@ -529,86 +427,86 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">should show burger menu at tablet width (834px)</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:114</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:137</div>
                         
                     </div>
                     <div class="test-duration">
-                        4.72s
+                        1.92s
                         
                     </div>
                 </div>
             
-                <div class="test-item skipped">
+                <div class="test-item passed">
                     <div class="test-icon">
-                        ⏭️
+                        ✅
                     </div>
                     <div class="test-details">
                         <div class="test-title">should close dropdown when clicking another dropdown</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:83</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:115</div>
                         
                     </div>
                     <div class="test-duration">
-                        0.41s
+                        2.80s
                         
                     </div>
                 </div>
             
-                <div class="test-item skipped">
+                <div class="test-item passed">
                     <div class="test-icon">
-                        ⏭️
+                        ✅
                     </div>
                     <div class="test-details">
                         <div class="test-title">should toggle Devotion dropdown</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:64</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:104</div>
                         
                     </div>
                     <div class="test-duration">
-                        0.45s
+                        2.53s
                         
                     </div>
                 </div>
             
-                <div class="test-item skipped">
+                <div class="test-item passed">
                     <div class="test-icon">
-                        ⏭️
+                        ✅
                     </div>
                     <div class="test-details">
                         <div class="test-title">should handle fast double-tap on burger menu</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:42</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:80</div>
                         
                     </div>
                     <div class="test-duration">
-                        0.61s
+                        2.75s
                         
                     </div>
                 </div>
             
-                <div class="test-item skipped">
+                <div class="test-item passed">
                     <div class="test-icon">
-                        ⏭️
+                        ✅
                     </div>
                     <div class="test-details">
                         <div class="test-title">should close burger menu on close button</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:23</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:72</div>
                         
                     </div>
                     <div class="test-duration">
-                        0.60s
+                        3.01s
                         
                     </div>
                 </div>
             
-                <div class="test-item skipped">
+                <div class="test-item passed">
                     <div class="test-icon">
-                        ⏭️
+                        ✅
                     </div>
                     <div class="test-details">
                         <div class="test-title">should open burger menu on tablet/mobile</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:6</div>
+                        <div class="test-location">navigation/navigation-integrity.spec.ts:65</div>
                         
                     </div>
                     <div class="test-duration">
-                        0.70s
+                        2.69s
                         
                     </div>
                 </div>
@@ -623,7 +521,7 @@ Call log:
                         
                     </div>
                     <div class="test-duration">
-                        4.45s
+                        3.28s
                         
                     </div>
                 </div>
@@ -638,7 +536,7 @@ Call log:
                         
                     </div>
                     <div class="test-duration">
-                        2.71s
+                        1.76s
                         
                     </div>
                 </div>
@@ -653,7 +551,7 @@ Call log:
                         
                     </div>
                     <div class="test-duration">
-                        4.17s
+                        2.63s
                         
                     </div>
                 </div>
@@ -668,7 +566,7 @@ Call log:
                         
                     </div>
                     <div class="test-duration">
-                        1.64s
+                        1.75s
                         
                     </div>
                 </div>
@@ -679,11 +577,11 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">Nested page keeps critical nav links path-safe (no root-absolute internal hrefs)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:396</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:488</div>
                         
                     </div>
                     <div class="test-duration">
-                        1.31s
+                        0.77s
                         
                     </div>
                 </div>
@@ -694,11 +592,11 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (mobile)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:364</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:456</div>
                         
                     </div>
                     <div class="test-duration">
-                        9.96s
+                        10.83s
                         
                     </div>
                 </div>
@@ -709,11 +607,11 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">Lent -> burger Devotion -> Daily Devotion + logo route do not 404 (mobile)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:337</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:429</div>
                         
                     </div>
                     <div class="test-duration">
-                        10.06s
+                        2.80s
                         
                     </div>
                 </div>
@@ -724,11 +622,86 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">Home -> burger -> Devotion -> Daily Devotion renders core content (mobile)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:325</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:417</div>
                         
                     </div>
                     <div class="test-duration">
-                        7.30s
+                        2.29s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Dropdown label tap expands submenu before and after Daily Devotion navigation (mobile)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:399</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.95s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (tablet-pro)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:456</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        5.19s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Lent -> burger Devotion -> Daily Devotion + logo route do not 404 (tablet-pro)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:429</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        3.83s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Home -> burger -> Devotion -> Daily Devotion renders core content (tablet-pro)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:417</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        2.84s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Dropdown label tap expands submenu before and after Daily Devotion navigation (tablet-pro)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:399</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        3.44s
                         
                     </div>
                 </div>
@@ -739,11 +712,11 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (tablet)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:364</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:456</div>
                         
                     </div>
                     <div class="test-duration">
-                        13.35s
+                        10.43s
                         
                     </div>
                 </div>
@@ -754,11 +727,11 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">Lent -> burger Devotion -> Daily Devotion + logo route do not 404 (tablet)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:337</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:429</div>
                         
                     </div>
                     <div class="test-duration">
-                        10.38s
+                        3.72s
                         
                     </div>
                 </div>
@@ -769,11 +742,11 @@ Call log:
                     </div>
                     <div class="test-details">
                         <div class="test-title">Home -> burger -> Devotion -> Daily Devotion renders core content (tablet)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:325</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:417</div>
                         
                     </div>
                     <div class="test-duration">
-                        9.71s
+                        2.31s
                         
                     </div>
                 </div>
@@ -781,266 +754,29 @@ Call log:
                 <div class="test-item passed">
                     <div class="test-icon">
                         ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">Dropdown label tap expands submenu before and after Daily Devotion navigation (tablet)</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:399</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        3.39s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
                     </div>
                     <div class="test-details">
                         <div class="test-title">Desktop light-mode dropdown links remain readable (About, Ministries, Devotion)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:299</div>
+                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:373</div>
                         
                     </div>
                     <div class="test-duration">
-                        7.08s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">skip to content link should exist</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:250</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        3.57s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">navigation should have proper ARIA roles</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:236</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        4.75s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">burger menu should have accessible label</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:222</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        4.17s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">all navigation links should be clickable</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:200</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        5.05s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should navigate to Daily Devotion page</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:190</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        4.48s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should navigate to Ministries page</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:181</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        5.35s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item failed">
-                    <div class="test-icon">
-                        ❌
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should navigate to About page</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:171</div>
-                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
-
-Locator: locator('h1, h2')
-Expected: visible
-Error: strict mode violation: locator('h1, h2') resolved to 3 elements:
-    1) <h1>About Grace and Praise Bangladeshi Church</h1> aka getByRole('heading', { name: 'About Grace and Praise' })
-    2) <h2>Welcome to Grace and Praise Bangladeshi Church</h2> aka getByRole('heading', { name: 'Welcome to Grace and Praise' })
-    3) <h2>Learn More About GPBC</h2> aka getByRole('heading', { name: 'Learn More About GPBC' })
-
-Call log:
-[2m  - Expect "toBeVisible" with timeout 5000ms[22m
-[2m  - waiting for locator('h1, h2')[22m
-</div>
-                    </div>
-                    <div class="test-duration">
-                        4.58s
-                        <span class="screenshot-indicator">📸</span>
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should handle breakpoint boundary at 1024px</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:155</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        3.76s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should handle breakpoint boundary at 768px</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:141</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        4.58s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should show desktop nav at desktop width (1920px)</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:127</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        5.52s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item passed">
-                    <div class="test-icon">
-                        ✅
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should show burger menu at tablet width (834px)</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:114</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        4.19s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item skipped">
-                    <div class="test-icon">
-                        ⏭️
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should close dropdown when clicking another dropdown</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:83</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        0.90s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item skipped">
-                    <div class="test-icon">
-                        ⏭️
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should toggle Devotion dropdown</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:64</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        0.41s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item skipped">
-                    <div class="test-icon">
-                        ⏭️
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should handle fast double-tap on burger menu</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:42</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        0.48s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item skipped">
-                    <div class="test-icon">
-                        ⏭️
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should close burger menu on close button</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:23</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        0.36s
-                        
-                    </div>
-                </div>
-            
-                <div class="test-item skipped">
-                    <div class="test-icon">
-                        ⏭️
-                    </div>
-                    <div class="test-details">
-                        <div class="test-title">should open burger menu on tablet/mobile</div>
-                        <div class="test-location">navigation/navigation-integrity.spec.ts:6</div>
-                        
-                    </div>
-                    <div class="test-duration">
-                        0.30s
+                        0.80s
                         
                     </div>
                 </div>

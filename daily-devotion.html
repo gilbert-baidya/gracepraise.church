@@ -76,15 +76,17 @@
 
     <!-- Sacred Design Token System (foundation → seasons → components) -->
     <link rel="stylesheet" href="sacred-tokens.css">
-    <link rel="stylesheet" href="styles.bundle.css?v=20260221-navdropdownfix1">
+    <link rel="stylesheet" href="styles.bundle.css?v=20260222-ipadnavfix2">
     <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="daily-devotion.css">
     <link rel="stylesheet" href="bible-gateway-links.css">
-    <link rel="stylesheet" href="mobile-performance-optimization.css">
+    <link rel="stylesheet" href="mobile-performance-optimization.css?v=20260222-ipadnavfix2">
     <link rel="stylesheet" href="dark-mode-toggle-position.css">
     <link rel="stylesheet" href="share-card-generator.css">
     <link rel="stylesheet" href="sacred-motion.css">
 
+    <link rel="stylesheet" href="./css/footer-v2.css">
+    <script src="./js/partials.js"></script>
 </head>
 
 <body class="page-daily-devotion">
@@ -596,61 +598,7 @@
 
     <!-- Footer -->
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html#home">Home</a></li>
-                    <li><a href="index.html#about">About</a></li>
-                    <li><a href="calendar.html">Calendar</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="index.html#prayer">Prayer</a></li>
-                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
-                    <li><a href="give.html">Give</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Ministries</h3>
-                <ul>
-                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
-                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
-                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
-                    <li><a href="kids/games/index.html">Kids Games</a></li>
-                    <li><a href="youth/games/index.html">Youth Games</a></li>
-                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <address>
-                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
-                    <p>1325 Richardson Street, CA 92408</p>
-                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
-                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
-                </address>
-            </div>
-
-            <div class="footer-section">
-                <h3>Connect</h3>
-                <ul class="social-links">
-                    <li><a href="https://www.facebook.com/GracePraiseBangladeshiChurch" target="_blank"
-                            rel="noopener noreferrer" aria-label="Facebook">📘 Facebook</a></li>
-                    <li><a href="https://www.youtube.com/@GracePraise.Church" target="_blank" rel="noopener noreferrer"
-                            aria-label="YouTube">📺 YouTube</a></li>
-                    <li><a href="#" aria-label="Instagram">📷 Instagram</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
-            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
-                    Conditions</a></p>
-        </div>
-    </footer>
+    <!-- Legacy footer removed -->
 
 
 
@@ -2023,7 +1971,7 @@
         }
     </script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->
-    <script src="navigation.js?v=20260125c"></script>
+    <script src="navigation.js?v=20260222-ipadnavfix2"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>
     <script src="devotions-db-2026.js"></script>
@@ -2076,6 +2024,11 @@
             console.log('[DEBUG] Current Devotion:', window.__CURRENT_DEVOTION__);
         }, 1500);
     </script>
+
+    <!-- Site Footer (Partial Injection) -->
+    <div data-partial="site-footer"></div>
+
+    <script type="module" src="./js/footer/footer-init.js"></script>
 </body>
 
 </html>

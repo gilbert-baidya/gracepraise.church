@@ -29,70 +29,8 @@
 
 @media (max-width: 1024px) {
 
-    /* ========================================
-       TABLET EXPLICIT LAYOUT RESET
-       NO CASCADE RELIANCE - FORCE OWNERSHIP
-       ======================================== */
-
-    /* Force mobile menu display on tablet band (769-1024px) */
-    .mobile-menu-btn {
-        display: flex !important;
-        z-index: 1100 !important;
-        min-width: 44px !important;
-        min-height: 44px !important;
-        /* Guaranteed hit zone separation from dark mode toggle */
-        margin-right: 1rem !important;
-    }
-
-    /* Force logo above overlay */
-    .logo {
-        position: relative;
-        z-index: 1100 !important;
-    }
-
-    /* Force navigation accordion mode */
-    .nav-links {
-        position: fixed !important;
-        top: 0 !important;
-        right: 0 !important;
-        width: 320px !important;
-        max-width: 85vw !important;
-        height: 100dvh !important;
-        transform: translateX(100%) !important;
-        z-index: 1005 !important;
-        /* Ensure scrolling works properly on iPad */
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        /* TABLET FIX: Force top alignment to prevent desktop inheritance */
-        justify-content: flex-start !important;
-        align-items: flex-start !important;
-        flex-direction: column !important;
-    }
-
-    .nav-links.mobile-open {
-        transform: translateX(0) !important;
-    }
-
-    /* Dropdown styles are controlled by redesign-styles.css @media (max-width: 1024px) section */
-    /* Do not override here to maintain consistency across all pages */
-
-    /* Overlay guaranteed ownership */
-    .mobile-overlay {
-        z-index: 1001 !important;
-        pointer-events: auto !important;
-    }
-
-    .mobile-overlay.active {
-        z-index: 1004 !important;
-        pointer-events: all !important;
-    }
-
-    /* Dark mode toggle separation from burger */
-    .dark-mode-toggle {
-        z-index: 1006 !important;
-        /* Minimum 3rem gap from burger to prevent tap collision */
-        right: calc(var(--container-padding) + 3rem) !important;
-    }
+    /* Navigation ownership stays in styles.bundle.css + navigation.js.
+       Do not override nav geometry or dropdown colors here. */
 
     /* ========================================
        BACKDROP-FILTER PERFORMANCE DISABLE
@@ -230,18 +168,7 @@
         background: rgba(15, 23, 42, 0.95) !important;
     }
 
-    /* Navigation dropdowns (light theme only) */
-    body:not(.dark):not([data-theme="dark"]) .nav-links .dropdown-menu,
-    body:not(.dark):not([data-theme="dark"]) .mobile-menu {
-        background: rgba(255, 255, 255, 0.98) !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-    }
-
-    body[data-theme="dark"] .nav-links .dropdown-menu,
-    body[data-theme="dark"] .mobile-menu {
-        background: rgba(15, 23, 42, 0.98) !important;
-    }
+    /* Keep nav dropdown surface styling in the canonical nav stylesheet. */
 }
 
 /* ============================================================================

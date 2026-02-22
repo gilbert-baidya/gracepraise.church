@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    
+    <script src="platform-runtime.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPBC Song Book - Grace and Praise Bangladeshi Church</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Modern CSS -->
+    <link rel="stylesheet" href="redesign-styles.css?v=20260222-ipadnavfix2">
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="styles-songbook.css?v=12">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+    
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: clip !important;
+}
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe { max-width: 100%; height: auto; }
+        section, main, .hero { width: 100%; max-width: 100%; }
+        
+        /* DARK MODE TOGGLE BUTTON */
+        .dark-mode-toggle {
+            background: rgba(45, 122, 143, 0.1);
+            border: 2px solid rgba(45, 122, 143, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-left: 15px;
+            font-size: 20px;
+        }
+        
+        .dark-mode-toggle:hover {
+            background: rgba(45, 122, 143, 0.2);
+            border-color: rgba(45, 122, 143, 0.5);
+            transform: scale(1.05);
+        }
+        
+    .dark-mode-toggle .sun-icon,
+    .dark-mode-toggle .moon-icon {
+        position: absolute;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .dark-mode-toggle .sun-icon {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    
+    .dark-mode-toggle .moon-icon {
+        opacity: 0;
+        transform: rotate(-180deg);
+    }        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg);
+        }
+        
+        [data-theme="dark"] .dark-mode-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+        
+        @media (max-width: 768px) {
+            .dark-mode-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to main content for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header with Navigation (matches Home page structure) -->
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+                </a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="https://www.youtube.com/@GracePraise.Church/live" target="_blank">LIVE</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="about.html">About Overview</a></li>
+                            <li><a href="history.html">Our History</a></li>
+                            <li><a href="mission.html">Our Mission</a></li>
+                            <li><a href="leadership.html">Our Leadership</a></li>
+                            <li><a href="beliefs.html">Our Beliefs</a></li>
+                            <li><a href="core-values.html">Our Core Values</a></li>
+                            <li><a href="position-papers.html">Position Papers</a></li>
+                            <li><a href="testimonies.html">Testimonies</a></li>
+                            <li><a href="songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="ministries.html">Ministries Overview</a></li>
+                            <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                            <li><a href="ministries/community-development.html">Community Development</a></li>
+                            <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                            <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                            <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                            <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                            <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                            <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                            <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                            <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                            <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html#next-service">Next Service</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="prayer-request.html">Prayer</a></li>
+                    <li class="nav-dropdown">
+                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                            <li><a href="family-devotion.html">Family Devotion</a></li>
+                            <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                            <li><a href="children-devotion.html">Children Devotion</a></li>
+                            <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                            <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">Lent - 40 Days</a></li>
+                            <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="mobile-overlay"></div>
+    </header>
+
+    
+    <div class="container songbook-page">
+        <div class="page-header">
+            <div class="header-content">
+                <div>
+                    <h1><span class="icon">🎵</span> Grace and Praise</h1>
+                    <p class="subtitle">Bangladeshi Church Song Book</p>
+                </div>
+                <div class="auth-section">
+                    <div id="authButton" style="display: none;">
+                        <button onclick="signInWithGoogle()" class="btn-auth">🔐 Sign In</button>
+                    </div>
+                    <div id="userInfo" style="display: none;">
+                        <span id="userName" class="user-name"></span>
+                        <button onclick="signOut()" class="btn-auth-small">Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search songs... (গান খুঁজুন...)" />
+        </div>
+
+        <div class="filter-tabs">
+            <button class="tab-btn active" id="allSongsTab">সব গান (All Songs)</button>
+            <button class="tab-btn" id="chordsOnlyTab">🎸 কর্ড সহ গান (Songs with Chords)</button>
+            <button class="tab-btn" id="bilingualTab">🌐 দ্বিভাষিক (Bilingual)</button>
+            <button class="tab-btn" id="christmasTab">🎄 বড়দিন (Christmas)</button>
+            <button class="tab-btn" id="easterTab">✝️ পুনরুত্থান (Easter)</button>
+            <button class="tab-btn" id="goodFridayTab">✞ গুড ফ্রাইডে (Good Friday)</button>
+            <button class="tab-btn" id="communionTab">🍞 প্রভুভোজ (Holy Communion)</button>
+            <button class="tab-btn" id="newYearTab">🎊 নববর্ষ (New Year)</button>
+        </div>
+
+        <div class="saved-playlists-section" id="savedPlaylistsSection" style="display: none;">
+            <h3>📁 Saved Service Playlists</h3>
+            <div class="saved-playlists-grid" id="savedPlaylistsGrid">
+                <!-- Saved playlists will appear here -->
+            </div>
+        </div>
+
+        <div class="alphabet-index" id="alphabetIndex">
+            <!-- Bangla alphabet buttons will be dynamically loaded here -->
+        </div>
+
+        <div class="song-list" id="songList">
+            <!-- Songs will be dynamically loaded here -->
+        </div>
+
+        <!-- Service Playlist Panel -->
+        <div class="service-playlist-panel" id="servicePlaylistPanel">
+            <div class="playlist-header">
+                <h3>📋 Service Playlist (<span id="playlistCount">0</span>)</h3>
+                <div class="playlist-actions">
+                    <button class="btn-small" onclick="savePlaylistPrompt()" id="savePlaylistBtn">💾 Save</button>
+                    <button class="btn-small" onclick="startPresentation()">▶ Start</button>
+                    <button class="btn-small" onclick="clearPlaylist()">Clear</button>
+                </div>
+            </div>
+            <div class="playlist-songs" id="playlistSongs"></div>
+        </div>
+
+        <!-- Copyright Notice Modal -->
+        <div id="copyrightModal" class="copyright-modal" style="display: none;">
+            <div class="copyright-content">
+                <h2>© All Rights Reserved</h2>
+                <p><strong>Grace and Praise - Bangladeshi Church Song Book</strong></p>
+                <p>This content is protected. Please sign in with an authorized account to access copying features.</p>
+                <button onclick="closeCopyrightModal()">Close</button>
+            </div>
+        </div>
+
+        <!-- Presentation Mode Modal -->
+        <div class="modal" id="presentationModal">
+            <div class="presentation-content">
+                <div class="presentation-header">
+                    <h2 id="presentationTitle"></h2>
+                    <span class="presentation-counter" id="presentationCounter"></span>
+                </div>
+                <div class="presentation-lyrics" id="presentationContent"></div>
+                <div class="presentation-controls">
+                    <button onclick="previousSong()" class="pres-btn">← Previous</button>
+                    <button onclick="exitPresentation()" class="pres-btn">Exit (ESC)</button>
+                    <button onclick="nextSong()" class="pres-btn">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="songModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="songTitle"></h2>
+                <div class="controls">
+                    <button id="toggleChords" class="btn btn-primary">Hide Chords</button>
+                    <button id="togglePhonetic" class="btn btn-primary">Show Phonetic</button>
+                    <button id="increaseFontSize" class="btn btn-primary">A+</button>
+                    <button id="decreaseFontSize" class="btn btn-primary">A-</button>
+                    <button id="toggleAdvanced" class="btn btn-secondary">Transpose ▼</button>
+                </div>
+                <div class="controls controls-advanced" id="advancedControls" style="display: none;">
+                    <button id="transposeUp" class="btn">Transpose +</button>
+                    <button id="transposeDown" class="btn">Transpose -</button>
+                </div>
+                <div id="songContent" class="song-content"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="index.html#prayer">Prayer</a></li>
+                <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                <li><a href="give.html">Give</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Ministries</h3>
+            <ul>
+                <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                <li><a href="kids/games/index.html">Kids Games</a></li>
+                <li><a href="youth/games/index.html">Youth Games</a></li>
+                <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <address>
+                <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                <p>1325 Richardson Street, CA 92408</p>
+                <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+            </address>
+        </div>
+
+        <div class="footer-section">
+            <h3>Connect</h3>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+        <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
+    </div>
+</footer>
+
+
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <script src="firebase-config.js"></script>
+    <script src="songs-data.js"></script>
+    <script src="songbook-app.js"></script>
+    <script src="navigation.js?v=20260222-ipadnavfix2"></script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>
+</html>

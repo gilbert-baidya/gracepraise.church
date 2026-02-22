@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <script src="platform-runtime.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="SMS Opt-In for Grace and Praise Bangladeshi Church - Receive service reminders, prayer meeting updates, event notifications, and important church announcements">
+    <title>SMS Opt-In – Grace and Praise Bangladeshi Church</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background-color: #ffffff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            margin: 15px 0;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .phone-number {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 20px;
+            letter-spacing: 1px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .content-section {
+            margin: 40px 0;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 700;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .consent-text {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 6px;
+            border: 2px solid #667eea;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+
+        .consent-text p {
+            color: #2c3e50;
+            font-size: 17px;
+        }
+
+        .consent-text strong {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .text-to-join {
+            text-align: center;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            border-radius: 8px;
+            margin: 40px 0;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .text-to-join p {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .text-to-join .keyword {
+            font-weight: 800;
+            font-size: 24px;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .checkbox-example {
+            padding: 25px;
+            background-color: #ffffff;
+            border: 3px solid #27ae60;
+            border-radius: 8px;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.15);
+        }
+
+        .checkbox-icon {
+            font-size: 40px;
+            color: #27ae60;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .checkbox-text {
+            font-size: 18px;
+            color: #2c3e50;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .compliance-info {
+            background-color: #fff3cd;
+            padding: 25px;
+            border-radius: 6px;
+            margin: 30px 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        .compliance-info p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #856404;
+        }
+
+        .compliance-info strong {
+            color: #533f03;
+            font-weight: 700;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 3px solid #e0e0e0;
+            text-align: center;
+        }
+
+        footer h3 {
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #ffffff;
+            background-color: #667eea;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+        }
+
+        .footer-links a:hover {
+            background-color: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .phone-number {
+                font-size: 22px;
+                padding: 10px 20px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+
+            .text-to-join {
+                padding: 30px 20px;
+            }
+
+            .text-to-join p {
+                font-size: 18px;
+            }
+
+            .text-to-join .keyword {
+                font-size: 20px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .footer-links a {
+                display: block;
+                width: 100%;
+            }
+
+            .checkbox-example {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .consent-text {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="logo-styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SMS Opt-In – Grace and Praise Bangladeshi Church</h1>
+            <p class="subtitle">Stay Connected with Our Community</p>
+            <div class="phone-number">(888) 880-7773</div>
+        </header>
+
+        <main>
+            <section class="content-section">
+                <h2>SMS Messaging Consent</h2>
+                <div class="consent-text">
+                    <p>By providing your phone number, you consent to receive SMS messages from Grace and Praise Bangladeshi Church for service reminders, prayer meeting updates, event notifications, and important church announcements.</p>
+                    <p>Message frequency varies. Message and data rates may apply. Reply <strong>STOP</strong> to unsubscribe at any time. Reply <strong>HELP</strong> for help.</p>
+                </div>
+            </section>
+
+            <section class="text-to-join">
+                <p>Text <span class="keyword">JOIN</span> to <span class="keyword">(888) 880-7773</span> to receive SMS updates from Grace and Praise Bangladeshi Church.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>Checkbox Opt-In Example</h2>
+                <div class="checkbox-example">
+                    <div class="checkbox-icon">☑</div>
+                    <div class="checkbox-text">I agree to receive SMS messages from Grace and Praise Bangladeshi Church.</div>
+                </div>
+            </section>
+
+            <section class="compliance-info">
+                <p><strong>Message Frequency:</strong> Varies based on church activities and events.</p>
+                <p><strong>Opt-Out:</strong> Text STOP to (888) 880-7773 at any time.</p>
+                <p><strong>Help:</strong> Text HELP to (888) 880-7773 for assistance.</p>
+                <p><strong>Carrier Rates:</strong> Standard message and data rates may apply.</p>
+            </section>
+        </main>
+
+        <footer>
+            <h3>For More Information</h3>
+            <div class="footer-links">
+                <a href="https://gilbert-baidya.github.io/gracepraise.church/privacy-policy.html">Privacy Policy</a>
+                <a href="https://gilbert-baidya.github.io/gracepraise.church/terms-conditions.html">Terms of Service</a>
+            </div>
+            <p class="footer-note">Grace and Praise Bangladeshi Church | (888) 880-7773</p>
+            <p class="footer-note" style="margin-top: 20px; font-size: 14px; line-height: 1.6;">Grace and Praise Bangladeshi Church is a ministry operated by Grace and Peace Bangladeshi Church, a registered nonprofit organization in the United States.</p>
+        </footer>
+    </div>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>
+</html>

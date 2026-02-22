@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <script src="platform-runtime.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grace and Praise Bangladeshi Church - San Bernardino, CA</title>
+    <link rel="stylesheet" href="redesign-styles.css?v=20260222-ipadnavfix2">
+    <link rel="stylesheet" href="countdown.css">
+    
+    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                overflow-x: hidden !important;
+                position: relative;
+            }
+        }
+        
+        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
+        img, video, iframe { max-width: 100%; height: auto; }
+        section, main, .hero { width: 100%; max-width: 100%; }
+    </style>
+    
+    <!-- Structured Data for Special Event -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "Gratitude & New Year Celebration",
+      "description": "Join us for a special evening of worship, thanksgiving, and hope as we celebrate the new year together.",
+      "startDate": "2025-12-31T22:30:00-08:00",
+      "endDate": "2026-01-01T01:00:00-08:00",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": {
+        "@type": "Place",
+        "name": "Grace and Praise Bangladeshi Church",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "1325 Richardson Street",
+          "addressLocality": "San Bernardino",
+          "addressRegion": "CA",
+          "postalCode": "92408",
+          "addressCountry": "US"
+        }
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "Grace and Praise Bangladeshi Church",
+        "url": "https://gracepraise.church"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://gracepraise.church"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="logo-styles.css">
+</head>
+<body>
+    <!-- Skip to main content for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Sticky Header/Nav -->
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="#" class="logo">
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+                </a>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#live">LIVE</a></li>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a href="about.html">About Overview</a></li>
+                            <li><a href="history.html">Our History</a></li>
+                            <li><a href="mission.html">Our Mission</a></li>
+                            <li><a href="leadership.html">Our Leadership</a></li>
+                            <li><a href="beliefs.html">Our Beliefs</a></li>
+                            <li><a href="core-values.html">Our Core Values</a></li>
+                            <li><a href="position-papers.html">Position Papers</a></li>
+                            <li><a href="testimonies.html">Testimonies</a></li>
+                            <li><a href="songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#next-service">Next Service</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="#prayer">Prayer</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="mobile-overlay"></div>
+    </header>
+
+    <!-- Special Event Inline Countdown Banner -->
+    <div id="specialEventBanner" class="inline-countdown-banner" role="region" aria-live="polite" aria-atomic="true">
+        <div class="inline-banner-content">
+            <span class="event-icon" aria-hidden="true">🎉</span>
+            <span class="event-label">
+                <strong>Gratitude & New Year Celebration</strong> starts in
+            </span>
+            <time class="inline-countdown" datetime="2025-12-31T22:30:00">
+                <span class="countdown-value" data-unit="days">01</span><span class="countdown-unit">d</span>
+                <span class="countdown-value" data-unit="hours">00</span><span class="countdown-unit">h</span>
+                <span class="countdown-value" data-unit="minutes">30</span><span class="countdown-unit">m</span>
+                <span class="countdown-value" data-unit="seconds">47</span><span class="countdown-unit">s</span>
+            </time>
+            <a href="#dynamic-events-container" class="banner-link" aria-label="View Gratitude & New Year Celebration details">Details →</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>
+                        <span data-lang="en">Grace and Praise Bangladeshi Church</span>
+                        <span data-lang="bn" style="display:none;">[গ্রেস এন্ড প্রেইজ বাংলাদেশী চার্চ]</span>
+                    </h1>
+                    <p class="tagline">
+                        <span data-lang="en">A Christ-centered community worshiping, growing, and serving together</span>
+                        <span data-lang="bn" style="display:none;">[খ্রীষ্ট-কেন্দ্রিক সম্প্রদায়]</span>
+                    </p>
+                    <p class="address">1325 Richardson Street, CA 92408</p>
+                    <div class="cta-buttons">
+                        <a href="#next-service" class="btn btn-primary">
+                            <span data-lang="en">Join the Next Service</span>
+                            <span data-lang="bn" style="display:none;">[পরবর্তী সেবায় যোগদান করুন]</span>
+                        </a>
+                        <a href="#live" class="btn btn-secondary">
+                            <span data-lang="en">Watch Live</span>
+                            <span data-lang="bn" style="display:none;">[সরাসরি দেখুন]</span>
+                        </a>
+                        <a href="#new-here" class="btn btn-secondary">
+                            <span data-lang="en">New Here?</span>
+                            <span data-lang="bn" style="display:none;">[নতুন?]</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-video">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/videoseries?list=UULFOrkCWKNIiDpCzabSxZ2HcQ" 
+                            title="Grace and Praise Bangladeshi Church YouTube Channel"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Here -->
+        <section class="new-here" id="new-here" aria-labelledby="new-here-heading">
+            <h2 id="new-here-heading">
+                <span data-lang="en">New Here? You Are Welcome</span>
+                <span data-lang="bn" style="display:none;">[নতুন এসেছেন? স্বাগতম]</span>
+            </h2>
+            <p class="new-here-intro">
+                <span data-lang="en">We're so glad you're here! Whether this is your first time or you're just curious about what we're about, you belong. No pressure, no expectations—just a warm welcome waiting for you.</span>
+                <span data-lang="bn" style="display:none;">[আপনাকে স্বাগতম বার্তা]</span>
+            </p>
+            
+            <div class="new-here-questions">
+                <dl>
+                    <dt>
+                        <span data-lang="en">What is the service like?</span>
+                        <span data-lang="bn" style="display:none;">[সেবা কেমন?]</span>
+                    </dt>
+                    <dd>
+                        <span data-lang="en">Think of it as a time to sing, pray, and learn together. You'll hear uplifting music, a down-to-earth message from the Bible, and feel the care of people who are genuinely happy you're there.</span>
+                        <span data-lang="bn" style="display:none;">[সেবার বিবরণ]</span>
+                    </dd>
+                    
+                    <dt>
+                        <span data-lang="en">What language is used?</span>
+                        <span data-lang="bn" style="display:none;">[কোন ভাষা ব্যবহার করা হয়?]</span>
+                    </dt>
+                    <dd>
+                        <span data-lang="en">We use both Bengali and English throughout our services, making everyone feel at home whether they're more comfortable in one language or the other.</span>
+                        <span data-lang="bn" style="display:none;">[বাংলা এবং ইংরেজি উভয়]</span>
+                    </dd>
+                    
+                    <dt>
+                        <span data-lang="en">How long is the service?</span>
+                        <span data-lang="bn" style="display:none;">[সেবা কতক্ষণ?]</span>
+                    </dt>
+                    <dd>
+                        <span data-lang="en">Services typically last about 90 minutes. We know life is busy, so we make every moment count while respecting your time.</span>
+                        <span data-lang="bn" style="display:none;">[প্রায় ৯০ মিনিট]</span>
+                    </dd>
+                    
+                    <dt>What should I expect when I arrive?</dt>
+                    <dd>Just come as you are—no dress code, no need to know anything in advance. You'll see friendly faces ready to help you find a seat. Don't worry about doing anything "wrong"—there's no wrong way to visit us!</dd>
+                </dl>
+            </div>
+            
+            <div class="new-here-cards">
+                <div class="new-here-card">
+                    <div class="card-icon">🎵</div>
+                    <h3>Worship & Prayer</h3>
+                    <p>Sing along or just listen—whatever feels right to you.</p>
+                </div>
+                
+                <div class="new-here-card">
+                    <div class="card-icon">📖</div>
+                    <h3>Bible-Based Message</h3>
+                    <p>Real-life wisdom from the Bible, no complicated language.</p>
+                </div>
+                
+                <div class="new-here-card">
+                    <div class="card-icon">🤝</div>
+                    <h3>Friendly Community</h3>
+                    <p>People who will remember your name and check in on you.</p>
+                </div>
+                
+                <div class="new-here-card">
+                    <div class="card-icon">👨‍👩‍👧‍👦</div>
+                    <h3>Families Welcome</h3>
+                    <p>Kids, babies, everyone—you're all invited, no exceptions.</p>
+                </div>
+            </div>
+            
+            <div class="new-here-cta">
+                <p class="cta-message">We would love to meet you in person.</p>
+                <div class="cta-buttons">
+                    <a href="#next-service" class="btn btn-primary">Plan My Visit</a>
+                    <a href="#prayer" class="btn btn-secondary">Request Prayer</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Upcoming Events Container -->
+        <!-- Events are dynamically loaded from events.js by homepage-events.js -->
+        <div id="dynamic-events-container"></div>
+
+        <!-- Next Service Section -->
+        <section class="next-service-section" id="next-service" aria-labelledby="next-service-heading">
+            <div class="next-service-content">
+                <h2 id="next-service-heading">Next Service</h2>
+                <p class="next-service-intro">Join us for our next upcoming service. We can't wait to worship with you!</p>
+                <div id="nextEventBanner" class="countdown-top-strip"></div>
+            </div>
+        </section>
+
+        <!-- Welcome Home -->
+        <section class="welcome" id="about" aria-labelledby="welcome-heading">
+            <div class="welcome-content">
+                <h2 id="welcome-heading">Welcome Home</h2>
+                <p class="intro">We are a vibrant community of believers who gather to worship God, grow in faith, and serve our community. Whether you're new to church or returning after time away, you'll find a warm welcome here.</p>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <span class="stat-number" data-count="500">0</span>
+                    <span class="stat-label">Members</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-count="20">0</span>
+                    <span class="stat-label">Years Serving</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-count="100">0</span>
+                    <span class="stat-label">Weekly Attendance</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-count="24">0</span>
+                    <span class="stat-label">Prayer Support</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- What's Happening -->
+        <section class="whats-happening" aria-labelledby="happening-heading">
+            <h2 id="happening-heading">What's Happening</h2>
+            <div class="feature-cards">
+                <article class="feature-card">
+                    <div class="card-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </div>
+                    <h3>Calendar</h3>
+                    <p>Stay connected with upcoming services, events, and special gatherings throughout the year.</p>
+                    <a href="calendar.html" class="card-link">View Events →</a>
+                </article>
+
+                <article class="feature-card">
+                    <div class="card-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h3>Prayer Requests</h3>
+                    <p>Share your prayer needs with our community. We're here to lift you up in prayer.</p>
+                    <a href="#prayer" class="card-link">Submit Request →</a>
+                </article>
+
+                <article class="feature-card">
+                    <div class="card-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                        </svg>
+                    </div>
+                    <h3>Special Days</h3>
+                    <p>Celebrate special occasions, holidays, and milestones together as a church family.</p>
+                    <a href="calendar.html" class="card-link">See Schedule →</a>
+                </article>
+
+                <article class="feature-card">
+                    <div class="card-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </div>
+                    <h3>Give</h3>
+                    <p>Support our mission and ministry through generous giving. Every gift makes a difference.</p>
+                    <a href="give.html" class="card-link">Give Now →</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Bible Verse Highlight -->
+        <section class="bible-verse" aria-label="Featured Bible Verse">
+            <blockquote>
+                <p class="verse-text">For where two or three gather in my name, there am I with them.</p>
+                <cite class="verse-reference">— Matthew 18:20</cite>
+            </blockquote>
+        </section>
+
+        <!-- Take Your Next Step -->
+        <section class="next-step" aria-labelledby="next-step-heading">
+            <h2 id="next-step-heading">Take Your Next Step</h2>
+            <p>Ready to get more connected? We'd love to help you find your place in our community.</p>
+            <div class="next-step-cta">
+                <a href="calendar.html" class="btn btn-primary">Join Us Sunday</a>
+                <a href="#prayer" class="btn btn-secondary">Connect With Us</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
+        </div>
+    </footer>
+
+    <!-- Stats Counter Animation Script -->
+    <script>
+        // Intersection Observer for stats animation
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        if (!stat.classList.contains('animated')) {
+                            animateCounter(stat);
+                            stat.classList.add('animated');
+                        }
+                    });
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+
+        // Count-up animation function
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-count'));
+            const duration = 2000; // 2 seconds
+            const increment = target / (duration / 16); // 60fps
+            let current = 0;
+            
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    element.textContent = Math.floor(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target;
+                    // Add suffix based on label
+                    const label = element.nextElementSibling.textContent;
+                    if (label.includes('Members') || label.includes('Attendance')) {
+                        element.textContent = target + '+';
+                    } else if (label.includes('Years')) {
+                        element.textContent = target + '+';
+                    } else if (label.includes('Prayer')) {
+                        element.textContent = target + '/7';
+                    }
+                }
+            };
+            
+            requestAnimationFrame(updateCounter);
+        }
+
+        // Observe stats section when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const statsSection = document.querySelector('.stats');
+            if (statsSection) {
+                statsObserver.observe(statsSection);
+            }
+        });
+    </script>
+    
+    <!-- NAVIGATION LOCK — Centralized navigation system -->
+    <script src="navigation.js?v=20260222-ipadnavfix2"></script>
+    <script src="events.js"></script>
+    <script src="homepage-events.js"></script>
+    <script src="countdown.js"></script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>
+</html>

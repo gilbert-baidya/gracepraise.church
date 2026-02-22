@@ -580,14 +580,13 @@
                 if (isToggle) {
                     const hitArrow = target.classList.contains('dropdown-arrow') || target.closest('.dropdown-arrow');
                     const href = link.getAttribute('href');
-                    const isAnchor = !href || href === '#' || href.startsWith('javascript:');
+                    const hasNavigableHref = !!href && href !== '#' && !href.startsWith('javascript:');
+                    const isAlreadyOpen = parentDropdown.classList.contains('mobile-dropdown-open');
 
-                    // SPLIT INTERACTION:
-                    // 1. Text Click + Valid URL -> Navigate (allow default)
-                    // 2. Arrow Click OR Anchor -> Toggle Dropdown
-
-                    if (!hitArrow && !isAnchor) {
-                        // Navigation Intent - Let event bubble
+                    // Mobile/iPad UX contract:
+                    // - First tap on label opens dropdown (same as arrow tap).
+                    // - Second tap on an already-open label with real href navigates.
+                    if (!hitArrow && hasNavigableHref && isAlreadyOpen) {
                         NAV_TELEMETRY.log('NAV_CLICK', href);
                         return;
                     }

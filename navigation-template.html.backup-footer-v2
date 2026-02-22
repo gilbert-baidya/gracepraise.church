@@ -1,0 +1,104 @@
+<!-- 
+============================================
+CANONICAL NAVIGATION - LOCKED
+============================================
+
+NAVIGATION LOCK — DO NOT MODIFY WITHOUT REVIEW
+
+This is the SINGLE SOURCE OF TRUTH for site navigation.
+Copy this exact markup to all pages.
+
+Version: 1.0.0
+Last Updated: 2026-01-03
+============================================
+-->
+
+<!-- Skip to main content for accessibility -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Sticky Header/Nav -->
+<header>
+    <script src="platform-runtime.js"></script>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+            </a>
+            <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html#live">LIVE</a></li>
+                <li><a href="index.html#home">Home</a></li>
+                <li class="nav-dropdown">
+                    <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="about.html">About Overview</a></li>
+                        <li><a href="history.html">Our History</a></li>
+                        <li><a href="mission.html">Our Mission</a></li>
+                        <li><a href="leadership.html">Our Leadership</a></li>
+                        <li><a href="beliefs.html">Our Beliefs</a></li>
+                        <li><a href="core-values.html">Our Core Values</a></li>
+                        <li><a href="position-papers.html">Position Papers</a></li>
+                        <li><a href="testimonies.html">Testimonies</a></li>
+                        <li><a href="songbook.html">GPBC Song Book</a></li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="ministries.html">Ministries Overview</a></li>
+                        <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                        <li><a href="ministries/community-development.html">Community Development</a></li>
+                        <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                        <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                        <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                        <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                        <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                        <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                        <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                        <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                        <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#next-service">Next Service</a></li>
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="index.html#prayer">Prayer</a></li>
+                <li class="nav-dropdown">
+                    <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                        <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                        <li><a href="family-devotion.html">Family Devotion</a></li>
+                        <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                        <li><a href="children-devotion.html">Children Devotion</a></li>
+                        <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                        <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                        <li><a href="fasting-40days.html">Lent - 40 Days</a></li>
+                        <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                    </ul>
+                </li>
+                <li><a href="give.html">Give</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="mobile-overlay"></div>
+</header>
+
+<!-- 
+USAGE INSTRUCTIONS:
+1. Copy this entire block to your page's <body> tag (after skip link)
+2. Add the 'active' class to the current page's link
+3. Include navigation.js?v=20260222-ipadnavfix2 before closing     <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+</body>:
+   <script src="navigation.js?v=20260222-ipadnavfix2"></script>
+4. DO NOT modify the structure or add inline styles
+5. DO NOT duplicate or customize per page
+
+NAVIGATION LOCK — DO NOT MODIFY WITHOUT REVIEW
+-->

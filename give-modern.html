@@ -21,7 +21,7 @@
     <meta property="og:url" content="https://gracepraise.church/give">
     
     <!-- Import existing site styles -->
-    <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="redesign-styles.css?v=20260222-ipadnavfix2">
     
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -588,6 +588,8 @@
         }
     </style>
     <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="./css/footer-v2.css">
+    <script src="./js/partials.js"></script>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -857,42 +859,7 @@
     </main>
 
     <!-- Footer (reuse from existing site) -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-col">
-                <h3>Grace and Praise Bangladeshi Church</h3>
-                <address>
-                    1325 Richardson Street<br>
-                    San Bernardino, CA 92408
-                </address>
-                <p>📧 gracepraisebangladeshichurch@gmail.com</p>
-            </div>
-
-            <div class="footer-col">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="redesign-mockup.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="calendar.html">Calendar</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h3>Connect</h3>
-                <ul>
-                    <li><a href="prayer-request.html">Prayer Requests</a></li>
-                    <li><a href="give-modern.html">Give</a></li>
-                    <li><a href="testimonies.html">Testimonies</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
-            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp; Conditions</a></p>
-        </div>
-    </footer>
+    <!-- Legacy footer removed -->
 
     <!-- JavaScript -->
     <script>
@@ -995,8 +962,13 @@
     </script>
     
     <!-- NAVIGATION LOCK — Centralized navigation system -->
-    <script src="navigation.js?v=20260125c"></script>
+    <script src="navigation.js?v=20260222-ipadnavfix2"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>
+
+    <!-- Site Footer (Partial Injection) -->
+    <div data-partial="site-footer"></div>
+
+    <script type="module" src="./js/footer/footer-init.js"></script>
 </body>
 </html>

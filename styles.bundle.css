@@ -3568,7 +3568,7 @@ footer {
 
 /* iPad-only horizontal overflow fix (safe, non-breaking) */
 /* iPad/Tablet (touch, up to large iPad width): Allow nav items to wrap */
-@media (pointer: coarse) and (min-width: 769px) and (max-width: 1366px) {
+@media (pointer: coarse) and (min-width: 1025px) and (max-width: 1366px) {
 
     /* Use overflow:hidden instead of clip - preserves sticky positioning */
     html {
@@ -3867,6 +3867,7 @@ footer {
         /* DETERMINISTIC LAYOUT: Force top alignment, prevent desktop inheritance */
         justify-content: flex-start !important;
         align-items: flex-start !important;
+        flex-wrap: nowrap !important;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         /* Native Mobile Scroll Physics */

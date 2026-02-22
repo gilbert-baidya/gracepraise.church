@@ -2,6 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 
 const VIEWPORTS = [
   { name: 'tablet', width: 768, height: 1024 },
+  { name: 'tablet-pro', width: 1024, height: 1366 },
   { name: 'mobile', width: 390, height: 844 }
 ];
 const DESKTOP_VIEWPORT = { name: 'desktop', width: 1440, height: 1024 };
@@ -17,6 +18,41 @@ async function openMobileMenu(page: Page): Promise<void> {
   await expect(menuButton).toBeVisible({ timeout: 10000 });
   await menuButton.click();
   await page.waitForTimeout(250);
+}
+
+async function assertMobileMenuStructuralIntegrity(page: Page): Promise<void> {
+  const state = await page.evaluate(() => {
+    const nav = document.querySelector('.nav-links') as HTMLElement | null;
+    if (!nav) {
+      return {
+        found: false,
+        widthRatio: 0,
+        flexWrap: '',
+        hasDevotion: false,
+        hasGive: false
+      };
+    }
+
+    const navRect = nav.getBoundingClientRect();
+    const navStyle = window.getComputedStyle(nav);
+    const topLevelTexts = Array.from(document.querySelectorAll('.nav-links > li > a')).map((anchor) =>
+      (anchor.textContent || '').replace(/\s+/g, ' ').trim()
+    );
+
+    return {
+      found: true,
+      widthRatio: navRect.width / window.innerWidth,
+      flexWrap: navStyle.flexWrap,
+      hasDevotion: topLevelTexts.some((text) => /^Devotion\b/i.test(text)),
+      hasGive: topLevelTexts.some((text) => /^Give\b/i.test(text))
+    };
+  });
+
+  expect(state.found).toBeTruthy();
+  expect(state.widthRatio).toBeGreaterThanOrEqual(0.9);
+  expect(state.flexWrap).not.toBe('wrap');
+  expect(state.hasDevotion).toBeTruthy();
+  expect(state.hasGive).toBeTruthy();
 }
 
 async function openDevotionDropdown(page: Page): Promise<void> {
@@ -35,6 +71,44 @@ async function openDevotionDropdown(page: Page): Promise<void> {
   await devotionLink.dispatchEvent('click');
 
   await page.waitForTimeout(250);
+}
+
+async function tapTopLevelDropdownLabel(page: Page, label: string): Promise<void> {
+  const dropdown = page
+    .locator('.nav-dropdown')
+    .filter({ has: page.locator('> a', { hasText: label }) })
+    .first();
+
+  const trigger = dropdown.locator(':scope > a').first();
+  await expect(trigger).toBeVisible({ timeout: 10000 });
+  await trigger.click();
+  await page.waitForTimeout(250);
+}
+
+async function assertDropdownExpanded(page: Page, label: string): Promise<void> {
+  const expanded = await page.evaluate((dropdownLabel) => {
+    const dropdown = Array.from(document.querySelectorAll('.nav-dropdown')).find((node) => {
+      const trigger = node.querySelector(':scope > a');
+      const triggerText = (trigger?.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase();
+      return triggerText.startsWith(dropdownLabel.toLowerCase());
+    }) as HTMLElement | undefined;
+
+    const menu = dropdown?.querySelector(':scope > .dropdown-menu') as HTMLElement | null;
+    const firstLink = menu?.querySelector(':scope > li > a') as HTMLElement | null;
+    const menuStyle = menu ? window.getComputedStyle(menu) : null;
+
+    return {
+      found: !!dropdown && !!menu,
+      hasOpenClass: !!dropdown?.classList.contains('mobile-dropdown-open'),
+      menuDisplay: menuStyle?.display || '',
+      firstLinkVisible: !!firstLink && firstLink.offsetParent !== null
+    };
+  }, label);
+
+  expect(expanded.found).toBeTruthy();
+  expect(expanded.hasOpenClass).toBeTruthy();
+  expect(expanded.menuDisplay).not.toBe('none');
+  expect(expanded.firstLinkVisible).toBeTruthy();
 }
 
 async function clickDailyDevotionFromMenu(page: Page): Promise<void> {
@@ -322,6 +396,24 @@ test.describe('Critical Regression - Navigation + Daily Devotion Render', () => 
   });
 
   for (const viewport of VIEWPORTS) {
+    test(`Dropdown label tap expands submenu before and after Daily Devotion navigation (${viewport.name})`, async ({ page }) => {
+      await page.setViewportSize({ width: viewport.width, height: viewport.height });
+      await page.goto('/index.html');
+
+      await openMobileMenu(page);
+      await assertMobileMenuStructuralIntegrity(page);
+      await tapTopLevelDropdownLabel(page, 'Devotion');
+      await assertDropdownExpanded(page, 'Devotion');
+      await clickDailyDevotionFromMenu(page);
+
+      await expect(page).toHaveURL(/daily-devotion\.html/);
+
+      await openMobileMenu(page);
+      await assertMobileMenuStructuralIntegrity(page);
+      await tapTopLevelDropdownLabel(page, 'Devotion');
+      await assertDropdownExpanded(page, 'Devotion');
+    });
+
     test(`Home -> burger -> Devotion -> Daily Devotion renders core content (${viewport.name})`, async ({ page }) => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
       await page.goto('/index.html');

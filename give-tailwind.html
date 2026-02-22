@@ -17,7 +17,7 @@
     <link rel="canonical" href="https://gracepraise.church/give">
 
     <!-- Global Styles -->
-    <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="redesign-styles.css?v=20260222-ipadnavfix2">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -245,6 +245,8 @@
     }
     </script>
     <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="./css/footer-v2.css">
+    <script src="./js/partials.js"></script>
 </head>
 <body class="bg-background text-text antialiased">
     <!-- Skip to main content -->
@@ -753,8 +755,13 @@
     </script>
     
     <!-- NAVIGATION LOCK — Centralized navigation system -->
-    <script src="navigation.js?v=20260125c"></script>
+    <script src="navigation.js?v=20260222-ipadnavfix2"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>
+
+    <!-- Site Footer (Partial Injection) -->
+    <div data-partial="site-footer"></div>
+
+    <script type="module" src="./js/footer/footer-init.js"></script>
 </body>
 </html>

@@ -31,7 +31,7 @@
     <meta property="twitter:image" content="https://gracepraise.church/images/og-give.jpg">
 
     <!-- Global Styles -->
-    <link rel="stylesheet" href="redesign-styles.css">
+    <link rel="stylesheet" href="redesign-styles.css?v=20260222-ipadnavfix2">
     
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -305,6 +305,8 @@
     }
     </script>
     <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="./css/footer-v2.css">
+    <script src="./js/partials.js"></script>
 </head>
 <body>
     <!-- Skip to main content -->
@@ -804,8 +806,13 @@
             });
         }
     </script>
-    <script src="navigation.js?v=20260125c"></script>
+    <script src="navigation.js?v=20260222-ipadnavfix2"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>
+
+    <!-- Site Footer (Partial Injection) -->
+    <div data-partial="site-footer"></div>
+
+    <script type="module" src="./js/footer/footer-init.js"></script>
 </body>
 </html>

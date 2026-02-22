@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    
+    <script src="platform-runtime.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Ministries - Grace and Praise Bangladeshi Church</title>
+    <meta name="description"
+        content="Serving God, Building People, Reaching Communities through various ministries at GPBC.">
+
+    <!-- Theme & JS Detection — DO NOT REMOVE -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.setAttribute('data-theme', 'dark');
+                    document.body.classList.add('dark');
+                });
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="redesign-styles.css?v=20260222-ipadnavfix2">
+    <link rel="stylesheet" href="logo-loading.css">
+    <link rel="stylesheet" href="logo-styles.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+
+    <style>
+        /* Dark mode toggle (match other pages) */
+        .dark-mode-toggle {
+            background: rgba(45, 122, 143, 0.1);
+            border: 2px solid rgba(45, 122, 143, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+            font-size: 20px;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(45, 122, 143, 0.2);
+            border-color: rgba(45, 122, 143, 0.5);
+            transform: scale(1.05);
+        }
+
+        .dark-mode-toggle .sun-icon,
+        .dark-mode-toggle .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dark-mode-toggle .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .dark-mode-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(-180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(180deg);
+        }
+
+        [data-theme="dark"] .dark-mode-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        /* Ministries Page Specific Styles */
+        .ministries-hero {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            color: white;
+            padding: calc(var(--gpbc-header-total-height) + 2rem) 2rem 4rem;
+            text-align: center;
+            border-radius: 0 0 2rem 2rem;
+        }
+
+        .ministries-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .ministries-hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .ministries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .ministry-card {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .ministry-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .ministry-card h3 {
+            color: var(--brand-primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .ministry-card p {
+            color: var(--text-body);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            /* Increased weight for legibility */
+        }
+
+        .ministry-card .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--brand-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .ministry-card .btn:hover {
+            background: var(--brand-secondary);
+            transform: translateX(4px);
+        }
+
+        [data-theme="dark"] .ministries-hero {
+            background: linear-gradient(135deg, #1e40af 0%, #0e7490 100%);
+        }
+
+        [data-theme="dark"] .ministry-card {
+            background: var(--bg-card);
+            border-color: rgba(148, 163, 184, 0.2);
+        }
+
+        [data-theme="dark"] .ministry-card h3 {
+            color: #60a5fa;
+        }
+
+        [data-theme="dark"] .ministry-card p {
+            color: var(--text-on-dark-body);
+        }
+
+        @media (max-width: 768px) {
+            .dark-mode-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                margin-left: 10px;
+            }
+
+            .ministries-hero h1 {
+                font-size: 2rem;
+            }
+
+            .ministries-hero p {
+                font-size: 1rem;
+            }
+
+            .ministries-grid {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Skip to main content for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Navigation (aligned with index.html) -->
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="index.html#home" class="logo">
+                    <img loading="lazy" src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
+                        class="logo-image" loading="eager" decoding="async">
+                </a>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="https://www.youtube.com/@GracePraise.Church" target="_blank"
+                            rel="noopener noreferrer">LIVE</a></li>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a href="about.html">About <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="about.html">About Overview</a></li>
+                            <li><a href="history.html">Our History</a></li>
+                            <li><a href="mission.html">Our Mission</a></li>
+                            <li><a href="leadership.html">Our Leadership</a></li>
+                            <li><a href="beliefs.html">Our Beliefs</a></li>
+                            <li><a href="core-values.html">Our Core Values</a></li>
+                            <li><a href="position-papers.html">Position Papers</a></li>
+                            <li><a href="testimonies.html">Testimonies</a></li>
+                            <li><a href="songbook.html">GPBC Song Book</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="ministries.html">Ministries <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="ministries.html" class="active">Ministries Overview</a></li>
+                            <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                            <li><a href="ministries/community-development.html">Community Development</a></li>
+                            <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
+                            <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
+                            <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
+                            <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                            <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                            <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
+                            <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
+                            <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                            <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html#next-service">Next Service</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li class="nav-dropdown">
+                        <a href="daily-devotion.html">Devotion <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                            <li><a href="couples-devotion.html">Couples Devotion</a></li>
+                            <li><a href="family-devotion.html">Family Devotion</a></li>
+                            <li><a href="youth-devotion.html">Youth Devotion</a></li>
+                            <li><a href="children-devotion.html">Children Devotion</a></li>
+                            <li><a href="fasting-21days.html">21 Days Fasting</a></li>
+                            <li><a href="fasting-30days.html">30 Days Fasting</a></li>
+                            <li><a href="fasting-40days.html">Lent - 40 Days</a></li>
+                            <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="mobile-overlay"></div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="ministries-hero">
+            <h1>Our Ministries</h1>
+            <p>Serving God, Building People, Reaching Communities</p>
+        </section>
+
+        <!-- Ministry Cards Grid -->
+        <section class="ministries-grid">
+            <div class="ministry-card">
+                <h3>Men Fellowship</h3>
+                <p>Helping men grow as disciples of Christ through fellowship, accountability, prayer, and godly
+                    leadership.</p>
+                <a href="ministries/men-fellowship.html" class="btn">Learn More</a>
+            </div>
+
+            <div class="ministry-card">
+                <h3>Bible Study</h3>
+                <p>Growing deeper in God's Word through systematic Bible study, discussion, and practical application.
+                </p>
+                <a href="ministries/bible-study.html" class="btn">Learn More</a>
+            </div>
+
+            <div class="ministry-card">
+                <h3>Worship Ministry</h3>
+                <p>Leading God's people into authentic worship through prayer, music, and reverence for His presence.
+                </p>
+                <a href="ministries/worship-ministry.html" class="btn">Learn More</a>
+            </div>
+
+            <div class="ministry-card">
+                <h3>Hospital Ministry</h3>
+                <p>Bringing prayer, comfort, and the love of Christ to those who are sick, hurting, or recovering.</p>
+                <a href="ministries/hospital-ministry.html" class="btn">Learn More</a>
+            </div>
+
+            <div class="ministry-card">
+                <h3>Prison Ministry</h3>
+                <p>Sharing hope, restoration, and the Gospel of Jesus Christ with those who are incarcerated.</p>
+                <a href="ministries/prison-ministry.html" class="btn">Learn More</a>
+            </div>
+
+            <div class="ministry-card">
+                <h3>Homeless Ministry</h3>
+                <p>Serving the least among us with compassion, dignity, prayer, and practical support.</p>
+                <a href="ministries/homeless-ministry.html" class="btn">Learn More</a>
+            </div>
+
+            <div class="ministry-card">
+                <h3>Community Development</h3>
+                <p>Strengthening families and neighborhoods through Christ-centered care and community support.</p>
+                <a href="ministries/community-development.html" class="btn">Learn More</a>
+            </div>
+
+            <div class="ministry-card">
+                <h3>Support Missionaries</h3>
+                <p>Partnering through prayer and giving to support those called to share the Gospel around the world.
+                </p>
+                <a href="ministries/support-missionaries.html" class="btn">Learn More</a>
+            </div>
+
+            <div class="ministry-card">
+                <h3>Mission Outreach</h3>
+                <p>Taking the message of Jesus beyond the church walls to reach the lost and the hurting.</p>
+                <a href="ministries/mission-outreach.html" class="btn">Learn More</a>
+            </div>
+
+            <div class="ministry-card">
+                <h3>Kids Ministry</h3>
+                <p>Nurturing young hearts to know, love, and follow Jesus in age-appropriate ways.</p>
+                <a href="ministries/kids-ministry.html" class="btn">Learn More</a>
+            </div>
+
+            <div class="ministry-card">
+                <h3>Youth Ministry</h3>
+                <p>Guiding the next generation toward authentic faith and lifelong commitment to Christ.</p>
+                <a href="ministries/youth-ministry.html" class="btn">Learn More</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (same as index.html) -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="index.html#prayer">Prayer</a></li>
+                    <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                    <li><a href="give.html">Give</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ministries</h3>
+                <ul>
+                    <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
+                    <li><a href="ministries/bible-study.html">Bible Study</a></li>
+                    <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
+                    <li><a href="kids/games/index.html">Kids Games</a></li>
+                    <li><a href="youth/games/index.html">Youth Games</a></li>
+                    <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <address>
+                    <p><strong>Grace and Praise Bangladeshi Church</strong></p>
+                    <p>1325 Richardson Street, CA 92408</p>
+                    <p>Email: <a href="mailto:info@gracepraise.church">info@gracepraise.church</a></p>
+                    <p>Email: <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a></p>
+                </address>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="social-links">
+                    <li><a href="#" aria-label="Facebook">[Facebook Icon]</a></li>
+                    <li><a href="#" aria-label="YouTube">[YouTube Icon]</a></li>
+                    <li><a href="#" aria-label="Instagram">[Instagram Icon]</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Grace and Praise Bangladeshi Church. All rights reserved.</p>
+            <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-conditions.html">Terms &amp;
+                    Conditions</a></p>
+        </div>
+    </footer>
+
+
+
+    <script src="navigation.js?v=20260222-ipadnavfix2"></script>
+    <script src="logo-loading.js"></script>
+    <script src="logo-loader.js"></script>
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        darkModeToggle.addEventListener('click', () => {
+            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        });
+    </script>
+</body>
+
+</html>

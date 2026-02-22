@@ -81,12 +81,24 @@
         const footerFallback = '<footer class="fallback-footer"><p>&copy; 2026 GPBC</p></footer>';
 
         await injectPartial('#site-header', basePath + 'partials/header.html', headerFallback);
-        await injectPartial('#site-footer', basePath + 'partials/footer.html', footerFallback);
+        
+        // Support both old footer selector and new data-partial approach
+        const legacyFooter = document.querySelector('#site-footer');
+        const newFooter = document.querySelector('[data-partial="site-footer"]');
+        
+        if (newFooter) {
+            await injectPartial('[data-partial="site-footer"]', basePath + 'partials/site-footer.html', footerFallback);
+        } else if (legacyFooter) {
+            await injectPartial('#site-footer', basePath + 'partials/footer.html', footerFallback);
+        }
 
         const headerContainer = document.querySelector('#site-header');
-        const footerContainer = document.querySelector('#site-footer');
+        const footerContainer = document.querySelector('#site-footer, [data-partial="site-footer"]');
         normalizeInjectedPaths(headerContainer, basePath);
         normalizeInjectedPaths(footerContainer, basePath);
+        
+        // Dispatch event to signal partials are loaded
+        document.dispatchEvent(new CustomEvent('partials:loaded', { detail: { basePath } }));
     }
 
     if (typeof window !== 'undefined') {

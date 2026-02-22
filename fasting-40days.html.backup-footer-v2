@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <script src="platform-runtime.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to Lent - 40 Days</title>
+    <meta http-equiv="refresh" content="0; url=lent-fasting.html">
+    <link rel="canonical" href="lent-fasting.html">
+    <script>
+        (function () {
+            const target = `lent-fasting.html${window.location.search}${window.location.hash}`;
+            window.location.replace(target);
+        })();
+    </script>
+</head>
+<body>
+    <p>Redirecting to <a href="lent-fasting.html">Lent - 40 Days</a>...</p>
+</body>
+</html>

@@ -240,8 +240,9 @@
 
         const headerContainer = d.querySelector('#site-header');
         const footerContainer = d.querySelector('#site-footer');
+        const newFooterMount = d.querySelector('[data-partial="site-footer"]');
 
-        if (!headerContainer && !footerContainer) {
+        if (!headerContainer && !footerContainer && !newFooterMount) {
             state.partialsInitialized = true;
             w.PLATFORM_PARTIALS_READY = true;
             initNavigation();
@@ -263,7 +264,17 @@
             normalizeInjectedPaths(headerContainer, basePath);
         }
 
-        if (footerContainer) {
+        // Support both old and new footer approaches
+        if (newFooterMount) {
+            try {
+                const html = await fetchText(basePath + 'partials/site-footer.html');
+                newFooterMount.innerHTML = html;
+                normalizeInjectedPaths(newFooterMount, basePath);
+            } catch (error) {
+                console.error('[PlatformRuntime] New footer partial failed, injecting fallback', error);
+                injectFooterFallback(newFooterMount, basePath);
+            }
+        } else if (footerContainer) {
             try {
                 const html = await fetchText(basePath + 'partials/footer.html');
                 footerContainer.innerHTML = html;
@@ -285,6 +296,9 @@
         state.partialsInitialized = true;
         state.partialsInitializing = false;
         w.PLATFORM_PARTIALS_READY = true;
+
+        // Dispatch event to signal partials are loaded (for footer-init.js)
+        d.dispatchEvent(new CustomEvent('partials:loaded', { detail: { basePath } }));
 
         initNavigation();
     }
