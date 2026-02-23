@@ -4,9 +4,9 @@
 <head>
     <!-- Version: 2026-01-12-mobile-dropdown-fix-v2 -->
     <meta charset="UTF-8">
-    
+
     <script src="platform-runtime.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Security: Content Security Policy (CSP) - EMERGENCY HOTFIX 2026-02-13 -->
     <!-- Allows all verified external dependencies to restore site functionality -->
@@ -698,10 +698,17 @@
                 <div id="nextEventBanner" class="countdown-top-strip"></div>
 
                 <!-- Service Information Below Countdown -->
-                <!-- Legacy footer wrapper removed by footer-v3 migration --><script type="module" src="./js/footer/footer-init.js"></script>
+                <!-- Legacy footer wrapper removed by footer-v3 migration -->
 
-    <!-- Site Footer (Partial Injection) -->
-    <div data-partial="site-footer"></div>
+                <!-- NAVIGATION LOCK — Centralized navigation system -->
+                <script src="navigation.js?v=20260222-ipadnavfix2"></script>
+                <script src="logo-loading.js"></script>
+                <script src="logo-loader.js"></script>
+
+                <script type="module" src="./js/footer/footer-init.js"></script>
+
+                <!-- Site Footer (Partial Injection) -->
+                <div data-partial="site-footer"></div>
 </body>
 
 </html>
