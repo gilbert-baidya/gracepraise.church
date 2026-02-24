@@ -4,9 +4,9 @@
 <head>
     <!-- Version: 2026-01-12-mobile-dropdown-fix-v2 -->
     <meta charset="UTF-8">
-    
+
     <script src="platform-runtime.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Security: Content Security Policy (CSP) - EMERGENCY HOTFIX 2026-02-13 -->
     <!-- Allows all verified external dependencies to restore site functionality -->
@@ -424,7 +424,8 @@
     <meta name="msapplication-TileColor" content="#2b5797">
     <meta name="msapplication-config" content="images/favicons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="./css/footer-v2.css">
+    <!-- Centralized Footer v3 CSS -->
+    <link rel="stylesheet" href="./css/footer-v3.css">
     <script src="./js/partials.js"></script>
 </head>
 
@@ -3667,9 +3668,12 @@
         }
 
         .block-the-loop .slick-dots li button {
-            width: 12px;
-            height: 12px;
-            padding: 0;
+            width: 14px !important;
+            height: 14px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
             border-radius: 20px;
             background: #e46c63 !important;
             border: 2px solid #ffffff;
@@ -3862,7 +3866,7 @@
             .block-the-loop .slick-dots {
                 width: 30% !important;
                 height: 30% !important;
-                transform: translate(-50%, -50%) !important;
+                transform: translate(-50%, -50%);
             }
 
             .block-the-loop .slick-dots li {
@@ -3882,19 +3886,19 @@
             }
 
             .block-the-loop .slick-dots li:nth-child(1) {
-                transform: translateX(-50%) !important;
+                transform: translateX(-50%);
             }
 
             .block-the-loop .slick-dots li:nth-child(2) {
-                transform: translateY(-50%) !important;
+                transform: translateY(-50%);
             }
 
             .block-the-loop .slick-dots li:nth-child(3) {
-                transform: translateX(-50%) !important;
+                transform: translateX(-50%);
             }
 
             .block-the-loop .slick-dots li:nth-child(4) {
-                transform: translateY(-50%) !important;
+                transform: translateY(-50%);
             }
         }
 
@@ -3903,7 +3907,7 @@
             .block-the-loop .slick-dots {
                 width: 35% !important;
                 height: 35% !important;
-                transform: translate(-50%, -50%) !important;
+                transform: translate(-50%, -50%);
             }
 
             .block-the-loop .slick-dots li {
@@ -3923,19 +3927,19 @@
             }
 
             .block-the-loop .slick-dots li:nth-child(1) {
-                transform: translateX(-50%) !important;
+                transform: translateX(-50%);
             }
 
             .block-the-loop .slick-dots li:nth-child(2) {
-                transform: translateY(-50%) !important;
+                transform: translateY(-50%);
             }
 
             .block-the-loop .slick-dots li:nth-child(3) {
-                transform: translateX(-50%) !important;
+                transform: translateX(-50%);
             }
 
             .block-the-loop .slick-dots li:nth-child(4) {
-                transform: translateY(-50%) !important;
+                transform: translateY(-50%);
             }
         }
 

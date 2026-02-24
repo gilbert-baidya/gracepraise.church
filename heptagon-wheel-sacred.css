@@ -17,9 +17,12 @@
    ========================================================================== */
 
 :root {
-  --heptagon-primary: #1e293b;        /* Dark slate for title (high contrast) */
-  --heptagon-active: #5b21b6;         /* Purple accent for scripture reference */
-  --heptagon-text: #334155;           /* Medium gray for body text (readable) */
+  --heptagon-primary: #1e293b;
+  /* Dark slate for title (high contrast) */
+  --heptagon-active: #5b21b6;
+  /* Purple accent for scripture reference */
+  --heptagon-text: #334155;
+  /* Medium gray for body text (readable) */
   --heptagon-subtle: #94a3b8;
   --heptagon-bg: #ffffff;
   --heptagon-rotation: 1200ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -304,8 +307,12 @@
 
 .heptagon-vertex-dot {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 14px !important;
+  height: 14px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
   background: var(--heptagon-subtle);
   border: 3px solid var(--heptagon-bg);
   border-radius: 50%;
@@ -324,11 +331,15 @@
 
 .heptagon-vertex-dot.active {
   background: var(--heptagon-active);
-  width: 16px;
-  height: 16px;
+  width: 18px !important;
+  height: 18px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
   border-width: 3px;
   box-shadow: 0 0 0 4px rgba(91, 33, 182, 0.2),
-              0 4px 16px rgba(91, 33, 182, 0.4);
+    0 4px 16px rgba(91, 33, 182, 0.4);
 }
 
 /* ============================================================================
@@ -336,54 +347,55 @@
    ========================================================================== */
 
 @media (max-width: 1024px) {
+
   /* Hide watermark heptagon on mobile */
   .heptagon-wheel-container::before {
     display: none;
   }
-  
+
   .heptagon-wheel-layout {
     grid-template-columns: 1fr;
     gap: 60px;
   }
-  
+
   .heptagon-left-panel {
     text-align: center;
     max-width: 100%;
   }
-  
+
   .heptagon-left-panel h1 {
     font-size: 36px;
   }
-  
+
   .heptagon-wheel-container {
     width: 90vmin;
     height: 90vmin;
   }
-  
+
   .heptagon-wall-label {
     font-size: 11px;
     letter-spacing: 0.06em;
   }
-  
+
   .heptagon-wall-label.active {
     font-size: 13px;
   }
-  
+
   .heptagon-vertex-dot {
-    width: 10px;
-    height: 10px;
+    width: 12px !important;
+    height: 12px !important;
     border-width: 2px;
   }
-  
+
   .heptagon-vertex-dot.active {
-    width: 14px;
-    height: 14px;
+    width: 16px !important;
+    height: 16px !important;
   }
-  
+
   .heptagon-center-item h2 {
     font-size: 22px;
   }
-  
+
   .heptagon-center-item p {
     font-size: 14px;
   }
@@ -393,35 +405,35 @@
   .heptagon-wheel-section {
     padding: 40px 20px;
   }
-  
+
   .heptagon-wheel-container {
     width: 85vmin;
     height: 85vmin;
   }
-  
+
   .heptagon-wall-label {
     font-size: 9px;
     letter-spacing: 0.05em;
   }
-  
+
   .heptagon-wall-label.active {
     font-size: 11px;
   }
-  
+
   .heptagon-vertex-dot {
-    width: 8px;
-    height: 8px;
+    width: 10px !important;
+    height: 10px !important;
   }
-  
+
   .heptagon-vertex-dot.active {
-    width: 12px;
-    height: 12px;
+    width: 14px !important;
+    height: 14px !important;
   }
-  
+
   .heptagon-center-item h2 {
     font-size: 20px;
   }
-  
+
   .heptagon-center-item p {
     font-size: 13px;
   }
@@ -524,11 +536,11 @@ body[data-theme="dark"] .heptagon-wall-label.active {
   .heptagon-rotating-layer {
     transition-duration: 10ms;
   }
-  
+
   .heptagon-center-item {
     transition-duration: 10ms;
   }
-  
+
   .heptagon-wall-label {
     transition-duration: 10ms;
   }
