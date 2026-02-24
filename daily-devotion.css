@@ -9,19 +9,19 @@
             --sacred-bg-primary: #FBF8F2;
             --sacred-bg-secondary: #F3EDE2;
             --sacred-bg-elevated: #FFFFFF;
-            
+
             --sacred-surface-light: rgba(255, 255, 255, 0.78);
             --sacred-surface-border-light: rgba(212, 185, 120, 0.22);
-            
+
             --sacred-text-primary: #1F2A37;
             --sacred-text-secondary: #5B6B7A;
             --sacred-text-scripture: #223E5A;
-            
+
             --sacred-accent-gold: #C9A96E;
             --sacred-accent-gold-glow: rgba(201, 169, 110, 0.35);
-            
+
             --sacred-shadow-soft-light: 0 10px 30px rgba(30, 60, 90, 0.08);
-            
+
             /* SHARED */
             --sacred-blur-desktop: blur(14px);
         }
@@ -33,17 +33,17 @@
             --sacred-bg-primary: #0B1220;
             --sacred-bg-secondary: #0F1829;
             --sacred-bg-elevated: #131F36;
-            
+
             --sacred-surface-dark: rgba(17, 30, 49, 0.72);
             --sacred-surface-border-dark: rgba(201, 169, 110, 0.18);
-            
+
             --sacred-text-primary: #E6EDF5;
             --sacred-text-secondary: #9FB2C7;
             --sacred-text-scripture: #F0F6FF;
-            
+
             --sacred-accent-gold: #D4B878;
             --sacred-accent-gold-glow: rgba(212, 184, 120, 0.40);
-            
+
             --sacred-shadow-soft-dark: 0 18px 48px rgba(0, 0, 0, 0.55);
         }
 
@@ -667,6 +667,12 @@
             border-left: 4px solid var(--color-secondary);
         }
 
+        [data-theme="dark"] .scripture-section,
+        html.dark .scripture-section {
+            background: linear-gradient(to bottom right, #1a1b1f, #111215);
+            border-left: 4px solid var(--color-secondary-dark);
+        }
+
         .scripture-section h3 {
             color: var(--color-primary);
             font-size: var(--font-2xl);
@@ -863,6 +869,12 @@
             border-radius: var(--radius-md);
             border-left: 4px solid var(--color-secondary);
             margin: var(--spacing-lg) 0;
+        }
+
+        [data-theme="dark"] .devotion-fallback .fallback-scripture,
+        html.dark .devotion-fallback .fallback-scripture {
+            background: linear-gradient(to bottom right, #1a1b1f, #111215);
+            border-left: 4px solid var(--color-secondary-dark);
         }
 
         .devotion-fallback .fallback-scripture p {
@@ -1868,7 +1880,8 @@
         /* Scripture Verse */
         body.page-daily-devotion .sacred-quote-verse {
             margin: 0;
-            margin-bottom: 16px; /* Golden polish breathing space */
+            margin-bottom: 16px;
+            /* Golden polish breathing space */
             padding: 0;
             font-size: 1.25rem;
             font-weight: 400;
@@ -2018,12 +2031,15 @@
         body.page-daily-devotion .share-today-wrapper {
             max-width: 800px;
             margin: var(--spacing-lg) auto;
-            margin-top: 48px; /* Golden Sacred Spacing - brings into yellow box area */
+            margin-top: 48px;
+            /* Golden Sacred Spacing - brings into yellow box area */
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 16px; /* STEP 2 — Consistent gap spacing */
-            flex-wrap: wrap; /* STEP 2 — Responsive wrapping */
+            gap: 16px;
+            /* STEP 2 — Consistent gap spacing */
+            flex-wrap: wrap;
+            /* STEP 2 — Responsive wrapping */
             width: 100%;
             padding: 0 var(--dd-safe-x);
         }
@@ -2194,6 +2210,7 @@
 
         /* Mobile: Horizontal Scroll Slider with Fade Edges */
         @media (max-width: 768px) {
+
             /* MOBILE GPU STABILITY (CRITICAL) */
             body.page-daily-devotion .devotion-share-panel,
             body.page-daily-devotion .share-devotion-card {
@@ -2202,14 +2219,15 @@
                 transform: translateZ(0);
                 will-change: transform;
             }
-            
+
             body.page-daily-devotion .share-actions-grid {
                 display: flex;
                 flex-direction: row;
                 overflow-x: auto;
                 overflow-y: hidden;
                 scroll-snap-type: x mandatory;
-                gap: 10px; /* STEP 7 — BUTTON GRID MOBILE BALANCE */
+                gap: 10px;
+                /* STEP 7 — BUTTON GRID MOBILE BALANCE */
                 padding: 0 clamp(16px, 5vw, 32px);
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
@@ -2229,15 +2247,17 @@
                 scroll-snap-align: start;
                 min-width: 150px;
                 width: 150px;
-                min-height: 48px; /* STEP 7 — BUTTON GRID MOBILE BALANCE */
+                min-height: 48px;
+                /* STEP 7 — BUTTON GRID MOBILE BALANCE */
             }
 
             /* Fade edge effect on right */
             /* Fade edge effect removed per user request */
         }
-        
+
         /* MOBILE GPU STABILITY - Extra Small Screens */
         @media (max-width: 640px) {
+
             body.page-daily-devotion .devotion-share-panel,
             body.page-daily-devotion .share-devotion-card {
                 background-color: rgba(24, 24, 27, 0.88);
@@ -2307,10 +2327,10 @@
         body.page-daily-devotion[data-theme="dark"] .devotion-share-panel,
         html.dark body.page-daily-devotion .devotion-share-panel {
             background: rgba(20, 30, 50, 0.65);
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow:
-                0 10px 30px rgba(0,0,0,0.35),
-                inset 0 0 0 1px rgba(255,255,255,0.04);
+                0 10px 30px rgba(0, 0, 0, 0.35),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.04);
         }
 
         body.page-daily-devotion.dark .devotion-share-panel h4,
@@ -2410,8 +2430,10 @@
 
             body.page-daily-devotion .share-today-wrapper {
                 padding: 0 var(--spacing-md);
-                margin-top: 36px; /* Golden mobile sacred spacing */
-                justify-content: center; /* STEP 3 — Centered mobile layout */
+                margin-top: 36px;
+                /* Golden mobile sacred spacing */
+                justify-content: center;
+                /* STEP 3 — Centered mobile layout */
             }
 
             body.page-daily-devotion .share-toast {
@@ -3106,31 +3128,29 @@
         body.page-daily-devotion .devotion-share-panel,
         body.page-daily-devotion .share-devotion-card {
             padding: 32px !important;
-            
+
             /* REQUIRED — Fix verification + mobile rendering */
             background-color: rgba(24, 24, 27, 0.78);
-            
+
             /* Sacred gradient overlay */
-            background-image: linear-gradient(
-                135deg,
-                rgba(30,30,36,0.95),
-                rgba(24,24,27,0.95)
-            );
-            
+            background-image: linear-gradient(135deg,
+                    rgba(30, 30, 36, 0.95),
+                    rgba(24, 24, 27, 0.95));
+
             /* Sacred glass blur */
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
-            
+
             /* Premium shape */
             border-radius: 20px;
-            
+
             /* Sacred border */
-            border: 1px solid rgba(255,255,255,0.08);
-            
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
             /* Prevent mobile black slab rendering */
             background-clip: padding-box;
-            
-            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
         }
 
         .devotion-share-panel h4 {
@@ -3230,32 +3250,28 @@
         html.dark body.page-daily-devotion .devotion-share-panel,
         html.dark body.page-daily-devotion .share-devotion-card {
             background-color: rgba(18, 18, 22, 0.82);
-            background-image: linear-gradient(
-                135deg,
-                rgba(30,30,36,0.95),
-                rgba(24,24,27,0.95)
-            );
+            background-image: linear-gradient(135deg,
+                    rgba(30, 30, 36, 0.95),
+                    rgba(24, 24, 27, 0.95));
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow:
-                0 10px 30px rgba(0,0,0,0.35),
-                inset 0 0 0 1px rgba(255,255,255,0.04);
+                0 10px 30px rgba(0, 0, 0, 0.35),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.04);
         }
 
         /* LIGHT MODE OVERRIDE */
         [data-theme="light"] body.page-daily-devotion .devotion-share-panel,
         [data-theme="light"] body.page-daily-devotion .share-devotion-card {
             background-color: rgba(255, 255, 255, 0.78);
-            background-image: linear-gradient(
-                135deg,
-                rgba(255,255,255,0.95),
-                rgba(245,245,250,0.95)
-            );
+            background-image: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.95),
+                    rgba(245, 245, 250, 0.95));
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(0,0,0,0.06);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
         [data-theme="dark"] body.page-daily-devotion .share-action-btn {
@@ -3272,6 +3288,7 @@
         [data-theme="dark"] body.page-daily-devotion .sacred-quote-verse {
             color: rgba(255, 255, 255, 0.95) !important;
         }
+
         /* =========================================================================
            FINAL PHASE: SACRED PREMIUM MICRO POLISH
            Scope: Optical Spacing, Light & Depth, Typography, Emotion
@@ -3280,29 +3297,41 @@
         /* PHASE 1: OPTICAL SPACING POLISH */
         body.page-daily-devotion {
             /* Increase breathing room for 'Sacred' feel */
-            --space-hero-calendar: 52px !important;   /* +4px */
-            --space-calendar-verse: 36px !important;  /* +4px */
-            --space-verse-share: 32px !important;     /* +4px */
-            --space-share-tabs: 36px !important;      /* +4px */
-            --space-tabs-scripture: 28px !important;  /* Maintain connection */
-            --space-prayer-invite: 56px !important;   /* +8px (Major separation) */
-            --space-invite-nav: 48px !important;      /* +8px */
+            --space-hero-calendar: 52px !important;
+            /* +4px */
+            --space-calendar-verse: 36px !important;
+            /* +4px */
+            --space-verse-share: 32px !important;
+            /* +4px */
+            --space-share-tabs: 36px !important;
+            /* +4px */
+            --space-tabs-scripture: 28px !important;
+            /* Maintain connection */
+            --space-prayer-invite: 56px !important;
+            /* +8px (Major separation) */
+            --space-invite-nav: 48px !important;
+            /* +8px */
         }
 
         /* Share Section - "Offering Plate" Feel */
         body.page-daily-devotion .devotion-share-panel {
-            padding: 32px !important; /* Increased from 20px */
+            padding: 32px !important;
+            /* Increased from 20px */
             /* PHASE 2: SACRED LIGHT & DEPTH - Day Mode (Warm Parchment) */
-            background: linear-gradient(135deg, #FFFCF5, #F9F5EB) !important; /* Warm parchment */
-            border: 1px solid rgba(139, 115, 85, 0.15) !important; /* Soft Gold/Brown trace */
-            box-shadow: 
-                0 4px 6px -1px rgba(0, 0, 0, 0.02), 
-                0 12px 24px -4px rgba(60, 50, 40, 0.04) !important; /* Soft ambient depth */
+            background: linear-gradient(135deg, #FFFCF5, #F9F5EB) !important;
+            /* Warm parchment */
+            border: 1px solid rgba(139, 115, 85, 0.15) !important;
+            /* Soft Gold/Brown trace */
+            box-shadow:
+                0 4px 6px -1px rgba(0, 0, 0, 0.02),
+                0 12px 24px -4px rgba(60, 50, 40, 0.04) !important;
+            /* Soft ambient depth */
         }
 
         .devotion-share-panel h4 {
             margin-top: 0 !important;
-            letter-spacing: -0.025em !important; /* Elegant tight */
+            letter-spacing: -0.025em !important;
+            /* Elegant tight */
         }
 
         /* PHASE 2: SACRED LIGHT & DEPTH - General */
@@ -3311,58 +3340,69 @@
             box-shadow: 0 2px 4px rgba(60, 50, 40, 0.03) !important;
             background: #FFFFFF !important;
             border-color: rgba(139, 115, 85, 0.15) !important;
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important; /* Gentle ease */
-            border-radius: 12px !important; /* Ensure soft rounding */
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+            /* Gentle ease */
+            border-radius: 12px !important;
+            /* Ensure soft rounding */
         }
 
         body.page-daily-devotion .share-action-btn:hover {
             transform: translateY(-3px) !important;
-            box-shadow: 0 12px 24px rgba(60, 50, 40, 0.08) !important; /* Soft architectural shadow */
+            box-shadow: 0 12px 24px rgba(60, 50, 40, 0.08) !important;
+            /* Soft architectural shadow */
             border-color: var(--brand-primary) !important;
         }
 
         /* Primary Button - Sacred Purple Gradient (De-Neonized) */
         body.page-daily-devotion .share-action-btn.primary {
-            background: linear-gradient(135deg, #7c3aed, #5b21b6) !important; /* Slightly deeper */
-            box-shadow: 0 4px 12px rgba(91, 33, 182, 0.15) !important; /* Reduced heavy glow */
+            background: linear-gradient(135deg, #7c3aed, #5b21b6) !important;
+            /* Slightly deeper */
+            box-shadow: 0 4px 12px rgba(91, 33, 182, 0.15) !important;
+            /* Reduced heavy glow */
             border: none !important;
         }
 
         body.page-daily-devotion .share-action-btn.primary:hover {
-            background: linear-gradient(135deg, #6d28d9, #4c1d95) !important; /* Deepest purple */
-            box-shadow: 0 12px 24px rgba(91, 33, 182, 0.2) !important; /* Ambient, not neon */
+            background: linear-gradient(135deg, #6d28d9, #4c1d95) !important;
+            /* Deepest purple */
+            box-shadow: 0 12px 24px rgba(91, 33, 182, 0.2) !important;
+            /* Ambient, not neon */
         }
 
         /* PHASE 3: TYPOGRAPHY SACRED AUTHORITY */
         /* Scripture Text */
         body.page-daily-devotion .sacred-quote-verse {
-            font-weight: 550 !important; /* Heavier than normal body */
-            letter-spacing: -0.01em !important; /* Tighten slightly */
-            color: #1a1a1a !important; /* Deepest grey/black */
+            font-weight: 550 !important;
+            /* Heavier than normal body */
+            letter-spacing: -0.01em !important;
+            /* Tighten slightly */
+            color: #1a1a1a !important;
+            /* Deepest grey/black */
         }
 
         /* Headings - Ministry Led */
-        body.page-daily-devotion h2, 
+        body.page-daily-devotion h2,
         body.page-daily-devotion h3 {
-            letter-spacing: -0.025em !important; /* Modern elegant tight */
+            letter-spacing: -0.025em !important;
+            /* Modern elegant tight */
         }
 
         /* PHASE 4: SHARE EXPERIENCE EMOTION */
         body.page-daily-devotion .jump-link,
         body.page-daily-devotion .date-pill {
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important; /* Slow ease-out "Gentle" */
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+            /* Slow ease-out "Gentle" */
         }
 
         /* PHASE 2: DARK MODE OVERRIDES (Candle-lit Chapel) */
         @media (prefers-color-scheme: dark) {
+
             body.page-daily-devotion .devotion-share-panel,
             body.page-daily-devotion .share-devotion-card {
                 background-color: rgba(18, 18, 22, 0.82);
-                background-image: linear-gradient(
-                    135deg,
-                    rgba(30,30,36,0.95),
-                    rgba(24,24,27,0.95)
-                );
+                background-image: linear-gradient(135deg,
+                        rgba(30, 30, 36, 0.95),
+                        rgba(24, 24, 27, 0.95));
                 backdrop-filter: blur(18px);
                 -webkit-backdrop-filter: blur(18px);
                 border: 1px solid rgba(255, 255, 255, 0.08);
@@ -3374,22 +3414,22 @@
                 border-color: rgba(255, 255, 255, 0.1) !important;
                 color: rgba(255, 255, 255, 0.9) !important;
             }
-            
+
             body.page-daily-devotion .share-action-btn:hover {
                 background: rgba(255, 255, 255, 0.08) !important;
                 box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5) !important;
                 border-color: rgba(255, 255, 255, 0.3) !important;
             }
-            
+
             body.page-daily-devotion .sacred-quote-verse {
                 color: rgba(255, 255, 255, 0.95) !important;
             }
         }
-        
+
         [data-theme="dark"] body.page-daily-devotion .devotion-share-panel {
-             background: linear-gradient(135deg, #1e1e24, #18181b) !important;
-             border: 1px solid rgba(255, 255, 255, 0.08) !important;
-             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+            background: linear-gradient(135deg, #1e1e24, #18181b) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
         }
 
         [data-theme="dark"] body.page-daily-devotion .share-action-btn {
@@ -3397,1034 +3437,1016 @@
             border-color: rgba(255, 255, 255, 0.1) !important;
             color: rgba(255, 255, 255, 0.9) !important;
         }
-        
+
         [data-theme="dark"] body.page-daily-devotion .share-action-btn:hover {
-             background: rgba(255, 255, 255, 0.08) !important;
-             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5) !important;
-             border-color: rgba(255, 255, 255, 0.3) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
         }
-        
+
         [data-theme="dark"] body.page-daily-devotion .sacred-quote-verse {
             color: rgba(255, 255, 255, 0.95) !important;
         }
 
-/* ============================= */
-/* GPBC SACRED SHARE PANEL FINAL */
-/* ============================= */
-
-.devotion-share-panel,
-.share-devotion-card {
-
-    /* FORCE REAL BACKGROUND */
-    background-color: rgba(24,24,27,0.85) !important;
-
-    /* DO NOT USE background: */
-    background-image: linear-gradient(
-        135deg,
-        rgba(30,30,36,0.96),
-        rgba(24,24,27,0.96)
-    ) !important;
-
-    backdrop-filter: blur(18px) !important;
-    -webkit-backdrop-filter: blur(18px) !important;
-
-    border-radius: 20px !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
-
-    background-clip: padding-box !important;
-}
-
-/* DARK MODE HARD LOCK */
-[data-theme="dark"] .devotion-share-panel,
-[data-theme="dark"] .share-devotion-card,
-html.dark .devotion-share-panel,
-html.dark .share-devotion-card {
-    background-color: rgba(18,18,22,0.88) !important;
-}
-
-/* LIGHT MODE HARD LOCK */
-[data-theme="light"] .devotion-share-panel,
-[data-theme="light"] .share-devotion-card {
-    background-color: rgba(255,255,255,0.85) !important;
-    background-image: linear-gradient(
-        135deg,
-        rgba(255,255,255,0.96),
-        rgba(245,245,250,0.96)
-    ) !important;
-    border: 1px solid rgba(0,0,0,0.06) !important;
-}
-
-/* MOBILE GPU FIX */
-@media (max-width: 640px) {
-    .devotion-share-panel,
-    .share-devotion-card {
-        transform: translateZ(0);
-        will-change: transform;
-    }
-}
-
-/* ===================================================================== */
-/* GPBC MOBILE SACRED SHARE PANEL — PREMIUM GLASS FIX                   */
-/* Daily Devotion Only — Lighter, Breathable, Vertical Flow             */
-/* ===================================================================== */
-
-@media (max-width: 640px) {
-
-    /* STEP 1 — Mobile Sacred Glass Surface (Lighter & Breathable) */
-    .devotion-share-panel,
-    .share-devotion-card {
-        /* Lighter sacred glass */
-        background-color: rgba(20, 24, 32, 0.55) !important;
-
-        background-image: linear-gradient(
-            145deg,
-            rgba(30, 35, 48, 0.75),
-            rgba(18, 22, 32, 0.70)
-        ) !important;
-
-        backdrop-filter: blur(22px) saturate(140%);
-        -webkit-backdrop-filter: blur(22px) saturate(140%);
-
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 22px;
-
-        box-shadow:
-            0 10px 30px rgba(0,0,0,0.35),
-            inset 0 1px 0 rgba(255,255,255,0.06);
-
-        padding: 28px 22px;
-    }
-
-    /* STEP 2 — Mobile Layout: Vertical Sacred Flow */
-    .share-actions-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        width: 100%;
-    }
-
-    /* STEP 3 — Mobile Button Sacred Comfort */
-    .share-action-btn {
-        width: 100%;
-        min-height: 52px;
-
-        justify-content: center;
-        gap: 12px;
-
-        border-radius: 16px;
-
-        font-size: 15px;
-        font-weight: 600;
-
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.08);
-
-        transition: all 0.25s ease;
-    }
-
-    .share-action-btn.primary {
-        background: linear-gradient(
-            135deg,
-            #3b82f6,
-            #7c3aed
-        );
-        border: none;
-        color: white;
-    }
-
-    /* STEP 4 — Mobile Title Sacred Breathing Space */
-    .share-devotion-title {
-        margin-bottom: 18px;
-        font-size: 18px;
-        letter-spacing: 0.4px;
-        text-align: center;
-    }
-
-    /* STEP 5 — Micro Glow (Premium Touch) */
-    .share-action-btn:hover,
-    .share-action-btn:active {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-    }
-
-}
-
-/* ===================================================================== */
-/* GPBC PRODUCTION HARD FIX — MOBILE SHARE PANEL CLIPPING               */
-/* Daily Devotion Only — Fixes button cut, grid overflow, verification  */
-/* ===================================================================== */
-
-/* STEP 1 — Remove Glass Clipping (All Breakpoints) */
-.devotion-share-panel,
-.share-devotion-card {
-    overflow: visible !important;
-}
-
-/* STEP 2-3 — Mobile Grid Structure + Button Fix */
-@media (max-width: 640px) {
-
-  .devotion-share-panel {
-    padding: 20px 16px !important;
-    margin: 20px 14px !important;
-    overflow: visible !important;
-  }
-
-  .share-actions-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 12px !important;
-    width: 100% !important;
-  }
-
-  .share-action-btn {
-    width: 100% !important;
-    min-width: 0 !important;
-    padding: 12px 10px !important;
-    font-size: 14px !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
-  }
-
-  .share-action-btn .btn-label {
-    white-space: nowrap !important;
-    font-size: 14px !important;
-  }
-
-}
-
-/* STEP 4 — Sacred Glass Surface Hard Lock (Verification Pass) */
-.devotion-share-panel,
-.share-devotion-card {
-
-  background-color: rgba(24, 24, 27, 0.88) !important;
-
-  background-image: linear-gradient(
-    135deg,
-    rgba(30,30,36,0.96),
-    rgba(24,24,27,0.96)
-  ) !important;
-
-  backdrop-filter: blur(18px) !important;
-  -webkit-backdrop-filter: blur(18px) !important;
-
-  border-radius: 20px !important;
-}
-
-/* STEP 5 — Mobile GPU Render Stability */
-@media (max-width: 640px) {
-
-  .devotion-share-panel,
-  .share-devotion-card {
-    transform: translateZ(0);
-    will-change: transform;
-  }
-
-}
-
-/* ===================================================================== */
-/* GPBC SHARE CARD ORCHESTRATOR — YOUVERSION-LEVEL EXPERIENCE           */
-/* Instant feedback, smooth transitions, production-grade polish        */
-/* ===================================================================== */
-
-/* Loading State (Instant Feedback <100ms) */
-.share-action-btn.is-generating {
-    opacity: 0.85 !important;
-    transform: scale(0.98) !important;
-    pointer-events: none !important;
-    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-/* Dark Mode Loading State */
-[data-theme="dark"] .share-action-btn.is-generating,
-html.dark .share-action-btn.is-generating {
-    opacity: 0.75 !important;
-}
-
-/* Micro animation for premium feel */
-@keyframes gpbc-pulse {
-    0%, 100% { opacity: 0.85; }
-    50% { opacity: 0.7; }
-}
-
-.share-action-btn.is-generating {
-    animation: gpbc-pulse 1.5s ease-in-out infinite;
-}
-
-/* Accessibility: Focus ring preserved during generation */
-.share-action-btn.is-generating:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 2px;
-}
-
-/* ===================================================================== */
-/* GPBC MOBILE UI REFINEMENT — YOUVERSION-QUALITY SHARE PANEL           */
-/* Daily Devotion Only — Premium Glass, Perfect Spacing, Clear Hierarchy */
-/* Target: Bible App / YouVersion mobile polish level                    */
-/* ===================================================================== */
-
-@media (max-width: 768px) {
-
-    /* STEP 1 — Mobile Panel Visual Rebuild (Soft Sacred Glass) */
-    .devotion-share-panel {
-        padding: 18px 16px !important;
-        border-radius: 18px !important;
-        
-        background: linear-gradient(180deg,
-            rgba(22, 30, 48, 0.85),
-            rgba(18, 24, 40, 0.88)
-        ) !important;
-        
-        backdrop-filter: blur(14px) !important;
-        -webkit-backdrop-filter: blur(14px) !important;
-        
-        border: 1px solid rgba(255, 255, 255, 0.06) !important;
-        
-        position: relative;
-        overflow: visible !important;
-    }
-
-    /* STEP 9 — Remove "Black Blob" Feel (Inner Glow) */
-    .devotion-share-panel::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: radial-gradient(
-            circle at top,
-            rgba(255, 255, 255, 0.05),
-            transparent 60%
-        );
-        pointer-events: none;
-        z-index: 0;
-    }
-
-    /* Ensure content stays above pseudo-element */
-    .devotion-share-panel > * {
-        position: relative;
-        z-index: 1;
-    }
-
-    /* STEP 8 — Mobile Typography Fix */
-    .share-devotion-title {
-        font-size: 16px !important;
-        margin-bottom: 12px !important;
-        opacity: 0.9;
-        font-weight: 600;
-        letter-spacing: 0.01em;
-        text-align: center !important;
-    }
-
-    /* STEP 3 — Mobile Grid Rewrite (Vertical Priority Stack) */
-    .share-actions-grid {
-        display: grid !important;
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
-        width: 100% !important;
-    }
-
-    /* STEP 6 — Two Column Social Row (WhatsApp + Facebook Only) */
-    .share-actions-grid {
-        grid-template-columns: 1fr 1fr !important;
-    }
-
-    /* Full-width buttons: Share Card, Copy Caption, Copy Link */
-    .share-actions-grid button:nth-child(1),
-    .share-actions-grid button:nth-child(2),
-    .share-actions-grid button:nth-child(5) {
-        grid-column: 1 / -1 !important;
-    }
-
-    /* Two-column row: WhatsApp + Facebook */
-    .share-actions-grid button:nth-child(3),
-    .share-actions-grid button:nth-child(4) {
-        width: 100% !important;
-    }
-
-    /* STEP 7 — Tap Comfort Spacing */
-    .share-action-btn {
-        padding: 14px 16px !important;
-        border-radius: 14px !important;
-        
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 10px !important;
-        
-        transition: all 0.2s ease !important;
-    }
-
-    /* STEP 4 — Primary Button Emphasis (YouVersion Blue) */
-    .share-action-btn.primary {
-        height: 52px !important;
-        font-size: 16px !important;
-        font-weight: 600 !important;
-        
-        background: linear-gradient(135deg,
-            #5ea2ff,
-            #7b6cff
-        ) !important;
-        
-        border: none !important;
-        color: white !important;
-        
-        box-shadow: 0 8px 22px rgba(90, 120, 255, 0.25) !important;
-    }
-
-    .share-action-btn.primary:active {
-        transform: translateY(1px) !important;
-        box-shadow: 0 4px 12px rgba(90, 120, 255, 0.2) !important;
-    }
-
-    /* STEP 5 — Secondary Button Mobile Polish */
-    .share-action-btn:not(.primary) {
-        height: 46px !important;
-        font-size: 15px !important;
-        font-weight: 500 !important;
-        
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-    }
-
-    .share-action-btn:not(.primary):active {
-        background: rgba(255, 255, 255, 0.08) !important;
-        transform: scale(0.98) !important;
-    }
-
-    /* Button Icon Sizing */
-    .share-action-btn .btn-icon {
-        width: 20px !important;
-        height: 20px !important;
-        flex-shrink: 0;
-    }
-
-    .share-action-btn.primary .btn-icon {
-        width: 22px !important;
-        height: 22px !important;
-    }
-
-    /* Button Label */
-    .share-action-btn .btn-label {
-        white-space: nowrap !important;
-        font-size: inherit !important;
-    }
-
-    /* STEP 10 — Safe Mobile Performance (No Heavy Effects) */
-    .share-action-btn {
-        will-change: transform;
-        backface-visibility: hidden;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    /* Remove excessive blur/shadows for performance */
-    .devotion-share-panel {
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
-    }
-
-}
-
-/* Dark Mode Adjustments */
-@media (max-width: 768px) {
-    [data-theme="dark"] .devotion-share-panel,
-    html.dark .devotion-share-panel {
-        background: linear-gradient(180deg,
-            rgba(18, 22, 32, 0.88),
-            rgba(15, 18, 28, 0.92)
-        ) !important;
-        
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    }
-
-    [data-theme="dark"] .share-action-btn:not(.primary),
-    html.dark .share-action-btn:not(.primary) {
-        background: rgba(255, 255, 255, 0.06) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    }
-}
-
-/* Light Mode Adjustments */
-@media (max-width: 768px) {
-    [data-theme="light"] .devotion-share-panel {
-        background: linear-gradient(180deg,
-            rgba(248, 250, 252, 0.95),
-            rgba(241, 245, 249, 0.98)
-        ) !important;
-        
-        border: 1px solid rgba(0, 0, 0, 0.06) !important;
-        
-        backdrop-filter: blur(12px) !important;
-    }
-
-    [data-theme="light"] .devotion-share-panel::before {
-        background: radial-gradient(
-            circle at top,
-            rgba(255, 255, 255, 0.8),
-            transparent 60%
-        );
-    }
-
-    [data-theme="light"] .share-devotion-title {
-        color: rgba(15, 23, 42, 0.9);
-    }
-
-    [data-theme="light"] .share-action-btn:not(.primary) {
-        background: rgba(255, 255, 255, 0.7) !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        color: rgba(15, 23, 42, 0.9) !important;
-    }
-
-    [data-theme="light"] .share-action-btn:not(.primary):active {
-        background: rgba(255, 255, 255, 0.9) !important;
-    }
-}
-
-/* ========================================
+        /* ============================= */
+        /* GPBC SACRED SHARE PANEL FINAL */
+        /* ============================= */
+
+        .devotion-share-panel,
+        .share-devotion-card {
+
+            /* FORCE REAL BACKGROUND */
+            background-color: rgba(24, 24, 27, 0.85) !important;
+
+            /* DO NOT USE background: */
+            background-image: linear-gradient(135deg,
+                    rgba(30, 30, 36, 0.96),
+                    rgba(24, 24, 27, 0.96)) !important;
+
+            backdrop-filter: blur(18px) !important;
+            -webkit-backdrop-filter: blur(18px) !important;
+
+            border-radius: 20px !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+
+            background-clip: padding-box !important;
+        }
+
+        /* DARK MODE HARD LOCK */
+        [data-theme="dark"] .devotion-share-panel,
+        [data-theme="dark"] .share-devotion-card,
+        html.dark .devotion-share-panel,
+        html.dark .share-devotion-card {
+            background-color: rgba(18, 18, 22, 0.88) !important;
+        }
+
+        /* LIGHT MODE HARD LOCK */
+        [data-theme="light"] .devotion-share-panel,
+        [data-theme="light"] .share-devotion-card {
+            background-color: rgba(255, 255, 255, 0.85) !important;
+            background-image: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.96),
+                    rgba(245, 245, 250, 0.96)) !important;
+            border: 1px solid rgba(0, 0, 0, 0.06) !important;
+        }
+
+        /* MOBILE GPU FIX */
+        @media (max-width: 640px) {
+
+            .devotion-share-panel,
+            .share-devotion-card {
+                transform: translateZ(0);
+                will-change: transform;
+            }
+        }
+
+        /* ===================================================================== */
+        /* GPBC MOBILE SACRED SHARE PANEL — PREMIUM GLASS FIX                   */
+        /* Daily Devotion Only — Lighter, Breathable, Vertical Flow             */
+        /* ===================================================================== */
+
+        @media (max-width: 640px) {
+
+            /* STEP 1 — Mobile Sacred Glass Surface (Lighter & Breathable) */
+            .devotion-share-panel,
+            .share-devotion-card {
+                /* Lighter sacred glass */
+                background-color: rgba(20, 24, 32, 0.55) !important;
+
+                background-image: linear-gradient(145deg,
+                        rgba(30, 35, 48, 0.75),
+                        rgba(18, 22, 32, 0.70)) !important;
+
+                backdrop-filter: blur(22px) saturate(140%);
+                -webkit-backdrop-filter: blur(22px) saturate(140%);
+
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 22px;
+
+                box-shadow:
+                    0 10px 30px rgba(0, 0, 0, 0.35),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+                padding: 28px 22px;
+            }
+
+            /* STEP 2 — Mobile Layout: Vertical Sacred Flow */
+            .share-actions-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                width: 100%;
+            }
+
+            /* STEP 3 — Mobile Button Sacred Comfort */
+            .share-action-btn {
+                width: 100%;
+                min-height: 52px;
+
+                justify-content: center;
+                gap: 12px;
+
+                border-radius: 16px;
+
+                font-size: 15px;
+                font-weight: 600;
+
+                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+
+                transition: all 0.25s ease;
+            }
+
+            .share-action-btn.primary {
+                background: linear-gradient(135deg,
+                        #3b82f6,
+                        #7c3aed);
+                border: none;
+                color: white;
+            }
+
+            /* STEP 4 — Mobile Title Sacred Breathing Space */
+            .share-devotion-title {
+                margin-bottom: 18px;
+                font-size: 18px;
+                letter-spacing: 0.4px;
+                text-align: center;
+            }
+
+            /* STEP 5 — Micro Glow (Premium Touch) */
+            .share-action-btn:hover,
+            .share-action-btn:active {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            }
+
+        }
+
+        /* ===================================================================== */
+        /* GPBC PRODUCTION HARD FIX — MOBILE SHARE PANEL CLIPPING               */
+        /* Daily Devotion Only — Fixes button cut, grid overflow, verification  */
+        /* ===================================================================== */
+
+        /* STEP 1 — Remove Glass Clipping (All Breakpoints) */
+        .devotion-share-panel,
+        .share-devotion-card {
+            overflow: visible !important;
+        }
+
+        /* STEP 2-3 — Mobile Grid Structure + Button Fix */
+        @media (max-width: 640px) {
+
+            .devotion-share-panel {
+                padding: 20px 16px !important;
+                margin: 20px auto !important;
+                overflow: visible !important;
+            }
+
+            .share-actions-grid {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+                width: 100% !important;
+            }
+
+            .share-action-btn {
+                width: 100% !important;
+                min-width: 0 !important;
+                padding: 12px 10px !important;
+                font-size: 14px !important;
+
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 8px !important;
+            }
+
+            .share-action-btn .btn-label {
+                white-space: nowrap !important;
+                font-size: 14px !important;
+            }
+
+        }
+
+        /* STEP 4 — Sacred Glass Surface Hard Lock (Verification Pass) */
+        .devotion-share-panel,
+        .share-devotion-card {
+
+            background-color: rgba(24, 24, 27, 0.88) !important;
+
+            background-image: linear-gradient(135deg,
+                    rgba(30, 30, 36, 0.96),
+                    rgba(24, 24, 27, 0.96)) !important;
+
+            backdrop-filter: blur(18px) !important;
+            -webkit-backdrop-filter: blur(18px) !important;
+
+            border-radius: 20px !important;
+        }
+
+        /* STEP 5 — Mobile GPU Render Stability */
+        @media (max-width: 640px) {
+
+            .devotion-share-panel,
+            .share-devotion-card {
+                transform: translateZ(0);
+                will-change: transform;
+            }
+
+        }
+
+        /* ===================================================================== */
+        /* GPBC SHARE CARD ORCHESTRATOR — YOUVERSION-LEVEL EXPERIENCE           */
+        /* Instant feedback, smooth transitions, production-grade polish        */
+        /* ===================================================================== */
+
+        /* Loading State (Instant Feedback <100ms) */
+        .share-action-btn.is-generating {
+            opacity: 0.85 !important;
+            transform: scale(0.98) !important;
+            pointer-events: none !important;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        /* Dark Mode Loading State */
+        [data-theme="dark"] .share-action-btn.is-generating,
+        html.dark .share-action-btn.is-generating {
+            opacity: 0.75 !important;
+        }
+
+        /* Micro animation for premium feel */
+        @keyframes gpbc-pulse {
+
+            0%,
+            100% {
+                opacity: 0.85;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .share-action-btn.is-generating {
+            animation: gpbc-pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Accessibility: Focus ring preserved during generation */
+        .share-action-btn.is-generating:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+        }
+
+        /* ===================================================================== */
+        /* GPBC MOBILE UI REFINEMENT — YOUVERSION-QUALITY SHARE PANEL           */
+        /* Daily Devotion Only — Premium Glass, Perfect Spacing, Clear Hierarchy */
+        /* Target: Bible App / YouVersion mobile polish level                    */
+        /* ===================================================================== */
+
+        @media (max-width: 768px) {
+
+            /* STEP 1 — Mobile Panel Visual Rebuild (Soft Sacred Glass) */
+            .devotion-share-panel {
+                padding: 18px 16px !important;
+                border-radius: 18px !important;
+
+                background: linear-gradient(180deg,
+                        rgba(22, 30, 48, 0.85),
+                        rgba(18, 24, 40, 0.88)) !important;
+
+                backdrop-filter: blur(14px) !important;
+                -webkit-backdrop-filter: blur(14px) !important;
+
+                border: 1px solid rgba(255, 255, 255, 0.06) !important;
+
+                position: relative;
+                overflow: visible !important;
+            }
+
+            /* STEP 9 — Remove "Black Blob" Feel (Inner Glow) */
+            .devotion-share-panel::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                background: radial-gradient(circle at top,
+                        rgba(255, 255, 255, 0.05),
+                        transparent 60%);
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            /* Ensure content stays above pseudo-element */
+            .devotion-share-panel>* {
+                position: relative;
+                z-index: 1;
+            }
+
+            /* STEP 8 — Mobile Typography Fix */
+            .share-devotion-title {
+                font-size: 16px !important;
+                margin-bottom: 12px !important;
+                opacity: 0.9;
+                font-weight: 600;
+                letter-spacing: 0.01em;
+                text-align: center !important;
+            }
+
+            /* STEP 3 — Mobile Grid Rewrite (Vertical Priority Stack) */
+            .share-actions-grid {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+                width: 100% !important;
+            }
+
+            /* All buttons full width */
+            .share-actions-grid button {
+                grid-column: 1 / -1 !important;
+                width: 100% !important;
+            }
+
+            /* STEP 7 — Tap Comfort Spacing */
+            .share-action-btn {
+                padding: 14px 16px !important;
+                border-radius: 14px !important;
+
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 10px !important;
+
+                transition: all 0.2s ease !important;
+            }
+
+            /* STEP 4 — Primary Button Emphasis (YouVersion Blue) */
+            .share-action-btn.primary {
+                height: 52px !important;
+                font-size: 16px !important;
+                font-weight: 600 !important;
+
+                background: linear-gradient(135deg,
+                        #5ea2ff,
+                        #7b6cff) !important;
+
+                border: none !important;
+                color: white !important;
+
+                box-shadow: 0 8px 22px rgba(90, 120, 255, 0.25) !important;
+            }
+
+            .share-action-btn.primary:active {
+                transform: translateY(1px) !important;
+                box-shadow: 0 4px 12px rgba(90, 120, 255, 0.2) !important;
+            }
+
+            /* STEP 5 — Secondary Button Mobile Polish */
+            .share-action-btn:not(.primary) {
+                height: 46px !important;
+                font-size: 15px !important;
+                font-weight: 500 !important;
+
+                background: rgba(255, 255, 255, 0.05) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+
+            .share-action-btn:not(.primary):active {
+                background: rgba(255, 255, 255, 0.08) !important;
+                transform: scale(0.98) !important;
+            }
+
+            /* Button Icon Sizing */
+            .share-action-btn .btn-icon {
+                width: 20px !important;
+                height: 20px !important;
+                flex-shrink: 0;
+            }
+
+            .share-action-btn.primary .btn-icon {
+                width: 22px !important;
+                height: 22px !important;
+            }
+
+            /* Button Label */
+            .share-action-btn .btn-label {
+                white-space: nowrap !important;
+                font-size: inherit !important;
+            }
+
+            /* STEP 10 — Safe Mobile Performance (No Heavy Effects) */
+            .share-action-btn {
+                will-change: transform;
+                backface-visibility: hidden;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            /* Remove excessive blur/shadows for performance */
+            .devotion-share-panel {
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+            }
+
+        }
+
+        /* Dark Mode Adjustments */
+        @media (max-width: 768px) {
+
+            [data-theme="dark"] .devotion-share-panel,
+            html.dark .devotion-share-panel {
+                background: linear-gradient(180deg,
+                        rgba(18, 22, 32, 0.88),
+                        rgba(15, 18, 28, 0.92)) !important;
+
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            }
+
+            [data-theme="dark"] .share-action-btn:not(.primary),
+            html.dark .share-action-btn:not(.primary) {
+                background: rgba(255, 255, 255, 0.06) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            }
+        }
+
+        /* Light Mode Adjustments */
+        @media (max-width: 768px) {
+            [data-theme="light"] .devotion-share-panel {
+                background: linear-gradient(180deg,
+                        rgba(248, 250, 252, 0.95),
+                        rgba(241, 245, 249, 0.98)) !important;
+
+                border: 1px solid rgba(0, 0, 0, 0.06) !important;
+
+                backdrop-filter: blur(12px) !important;
+            }
+
+            [data-theme="light"] .devotion-share-panel::before {
+                background: radial-gradient(circle at top,
+                        rgba(255, 255, 255, 0.8),
+                        transparent 60%);
+            }
+
+            [data-theme="light"] .share-devotion-title {
+                color: rgba(15, 23, 42, 0.9);
+            }
+
+            [data-theme="light"] .share-action-btn:not(.primary) {
+                background: rgba(255, 255, 255, 0.7) !important;
+                border: 1px solid rgba(0, 0, 0, 0.08) !important;
+                color: rgba(15, 23, 42, 0.9) !important;
+            }
+
+            [data-theme="light"] .share-action-btn:not(.primary):active {
+                background: rgba(255, 255, 255, 0.9) !important;
+            }
+        }
+
+        /* ========================================
    SAFE VISUAL AUTHORITY PASS
    Principal Front-End Architect + Liturgical UI/UX
    February 11, 2026
    ======================================== */
 
-/* ------------------------------------------------
+        /* ------------------------------------------------
    PHASE 1 — CONTAINER AUTHORITY CONTRACT
    ------------------------------------------------ */
 
-:root {
-    /* Canonical devotion reading rhythm */
-    --devotion-reading-max: 880px;
-    --devotion-reading-padding-desktop: 40px;
-    --devotion-reading-padding-tablet: 28px;
-    --devotion-reading-padding-mobile: 20px;
-    
-    /* Sacred typography weight authority */
-    --sacred-verse-weight: 600;
-    --sacred-reference-weight: 500;
-    --sacred-body-weight: 400;
-    
-    /* Sacred surface gradients */
-    --sacred-surface-light: linear-gradient(135deg, #fffdf7, #f6f1e6);
-    --sacred-surface-dark: linear-gradient(135deg, #141414, #1c1c1c);
-}
+        :root {
+            /* Canonical devotion reading rhythm */
+            --devotion-reading-max: 880px;
+            --devotion-reading-padding-desktop: 40px;
+            --devotion-reading-padding-tablet: 28px;
+            --devotion-reading-padding-mobile: 20px;
 
-/* Dark mode depth ladder tokens */
-[data-theme="dark"],
-html.dark,
-body.dark {
-    --sacred-depth-1: #0f0f0f;
-    --sacred-depth-2: #161616;
-    --sacred-depth-3: #1d1d1d;
-}
+            /* Sacred typography weight authority */
+            --sacred-verse-weight: 600;
+            --sacred-reference-weight: 500;
+            --sacred-body-weight: 400;
 
-/* ------------------------------------------------
+            /* Sacred surface gradients */
+            --sacred-surface-light: linear-gradient(135deg, #fffdf7, #f6f1e6);
+            --sacred-surface-dark: linear-gradient(135deg, #141414, #1c1c1c);
+        }
+
+        /* Dark mode depth ladder tokens */
+        [data-theme="dark"],
+        html.dark,
+        body.dark {
+            --sacred-depth-1: #0f0f0f;
+            --sacred-depth-2: #161616;
+            --sacred-depth-3: #1d1d1d;
+        }
+
+        /* ------------------------------------------------
    Container Authority Overrides (Safe Cascade)
    ------------------------------------------------ */
 
-/* Main devotion container - unified reading max-width */
-.devotion-container,
-body.page-daily-devotion .devotion-container {
-    max-width: var(--devotion-reading-max);
-}
+        /* Main devotion container - unified reading max-width */
+        .devotion-container,
+        body.page-daily-devotion .devotion-container {
+            max-width: var(--devotion-reading-max);
+        }
 
-/* Sacred quote card container - consistent with reading rhythm */
-body.page-daily-devotion .sacred-quote-card {
-    max-width: var(--devotion-reading-max);
-    margin-left: auto;
-    margin-right: auto;
-}
+        /* Sacred quote card container - consistent with reading rhythm */
+        body.page-daily-devotion .sacred-quote-card {
+            max-width: var(--devotion-reading-max);
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-/* Share panel container - aligned with sacred system */
-body.page-daily-devotion .devotion-share-panel,
-.devotion-share-panel {
-    max-width: var(--devotion-reading-max);
-    margin-left: auto;
-    margin-right: auto;
-}
+        /* Share panel container - aligned with sacred system */
+        body.page-daily-devotion .devotion-share-panel,
+        .devotion-share-panel {
+            max-width: var(--devotion-reading-max);
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-/* Tablet responsive padding authority */
-@media (min-width: 768px) and (max-width: 1024px) {
-    .devotion-container,
-    body.page-daily-devotion .sacred-quote-card,
-    body.page-daily-devotion .devotion-share-panel {
-        padding-left: var(--devotion-reading-padding-tablet);
-        padding-right: var(--devotion-reading-padding-tablet);
-    }
-}
+        /* Tablet responsive padding authority */
+        @media (min-width: 768px) and (max-width: 1024px) {
 
-/* Mobile responsive padding authority */
-@media (max-width: 767px) {
-    .devotion-container,
-    body.page-daily-devotion .sacred-quote-card,
-    body.page-daily-devotion .devotion-share-panel {
-        padding-left: var(--devotion-reading-padding-mobile);
-        padding-right: var(--devotion-reading-padding-mobile);
-    }
-}
+            .devotion-container,
+            body.page-daily-devotion .sacred-quote-card,
+            body.page-daily-devotion .devotion-share-panel {
+                padding-left: var(--devotion-reading-padding-tablet);
+                padding-right: var(--devotion-reading-padding-tablet);
+            }
+        }
 
-/* ------------------------------------------------
+        /* Mobile responsive padding authority */
+        @media (max-width: 767px) {
+
+            .devotion-container,
+            body.page-daily-devotion .sacred-quote-card,
+            body.page-daily-devotion .devotion-share-panel {
+                padding-left: var(--devotion-reading-padding-mobile);
+                padding-right: var(--devotion-reading-padding-mobile);
+            }
+        }
+
+        /* ------------------------------------------------
    PHASE 2 — SACRED TYPOGRAPHY AUTHORITY LOCK
    ------------------------------------------------ */
 
-/* Verse text hierarchy - premium weight */
-body.page-daily-devotion .sacred-quote-verse {
-    font-weight: var(--sacred-verse-weight);
-}
+        /* Verse text hierarchy - premium weight */
+        body.page-daily-devotion .sacred-quote-verse {
+            font-weight: var(--sacred-verse-weight);
+        }
 
-/* Reference hierarchy - balanced authority */
-body.page-daily-devotion .sacred-quote-reference {
-    font-weight: var(--sacred-reference-weight);
-}
+        /* Reference hierarchy - balanced authority */
+        body.page-daily-devotion .sacred-quote-reference {
+            font-weight: var(--sacred-reference-weight);
+        }
 
-/* Body text hierarchy - readable flow */
-body.page-daily-devotion .sacred-quote-content,
-body.page-daily-devotion .devotion-text,
-body.page-daily-devotion .reflection-body,
-body.page-daily-devotion .prayer-body {
-    font-weight: var(--sacred-body-weight);
-}
+        /* Body text hierarchy - readable flow */
+        body.page-daily-devotion .sacred-quote-content,
+        body.page-daily-devotion .devotion-text,
+        body.page-daily-devotion .reflection-body,
+        body.page-daily-devotion .prayer-body {
+            font-weight: var(--sacred-body-weight);
+        }
 
-/* Dark mode typography consistency */
-body.page-daily-devotion.dark .sacred-quote-verse,
-body.page-daily-devotion[data-theme="dark"] .sacred-quote-verse,
-html.dark body.page-daily-devotion .sacred-quote-verse {
-    font-weight: var(--sacred-verse-weight);
-}
+        /* Dark mode typography consistency */
+        body.page-daily-devotion.dark .sacred-quote-verse,
+        body.page-daily-devotion[data-theme="dark"] .sacred-quote-verse,
+        html.dark body.page-daily-devotion .sacred-quote-verse {
+            font-weight: var(--sacred-verse-weight);
+        }
 
-body.page-daily-devotion.dark .sacred-quote-reference,
-body.page-daily-devotion[data-theme="dark"] .sacred-quote-reference,
-html.dark body.page-daily-devotion .sacred-quote-reference {
-    font-weight: var(--sacred-reference-weight);
-}
+        body.page-daily-devotion.dark .sacred-quote-reference,
+        body.page-daily-devotion[data-theme="dark"] .sacred-quote-reference,
+        html.dark body.page-daily-devotion .sacred-quote-reference {
+            font-weight: var(--sacred-reference-weight);
+        }
 
-/* ------------------------------------------------
+        /* ------------------------------------------------
    PHASE 3 — SHARE PANEL VISUAL COLLISION REDUCTION
    ------------------------------------------------ */
 
-/* Unified border radius authority */
-body.page-daily-devotion .devotion-share-panel,
-.devotion-share-panel,
-.share-card,
-.share-card-modal {
-    border-radius: 18px;
-}
+        /* Unified border radius authority */
+        body.page-daily-devotion .devotion-share-panel,
+        .devotion-share-panel,
+        .share-card,
+        .share-card-modal {
+            border-radius: 18px;
+        }
 
-/* Sacred surface gradient (safe override for gradient-based backgrounds) */
-body.page-daily-devotion .sacred-quote-card {
-    background: var(--sacred-surface-light);
-}
+        /* Sacred surface gradient (safe override for gradient-based backgrounds) */
+        body.page-daily-devotion .sacred-quote-card {
+            background: var(--sacred-surface-light);
+        }
 
-[data-theme="dark"] body.page-daily-devotion .sacred-quote-card,
-html.dark body.page-daily-devotion .sacred-quote-card,
-body.page-daily-devotion.dark .sacred-quote-card {
-    background: var(--sacred-surface-dark);
-}
+        [data-theme="dark"] body.page-daily-devotion .sacred-quote-card,
+        html.dark body.page-daily-devotion .sacred-quote-card,
+        body.page-daily-devotion.dark .sacred-quote-card {
+            background: var(--sacred-surface-dark);
+        }
 
-/* ------------------------------------------------
+        /* ------------------------------------------------
    PHASE 4 — DARK MODE DEPTH LADDER (SAFE)
    ------------------------------------------------ */
 
-/* Section containers - layered depth */
-[data-theme="dark"] .devotion-container,
-html.dark .devotion-container {
-    background-color: var(--sacred-depth-1);
-}
+        /* Section containers - layered depth */
+        [data-theme="dark"] .devotion-container,
+        html.dark .devotion-container {
+            background-color: var(--sacred-depth-1);
+        }
 
-/* Card containers - elevated depth */
-[data-theme="dark"] body.page-daily-devotion .sacred-quote-card,
-html.dark body.page-daily-devotion .sacred-quote-card {
-    background: var(--sacred-depth-2);
-}
+        /* Card containers - elevated depth */
+        [data-theme="dark"] body.page-daily-devotion .sacred-quote-card,
+        html.dark body.page-daily-devotion .sacred-quote-card {
+            background: var(--sacred-depth-2);
+        }
 
-/* Share panel - top layer depth */
-[data-theme="dark"] body.page-daily-devotion .devotion-share-panel,
-html.dark body.page-daily-devotion .devotion-share-panel {
-    background: var(--sacred-depth-3);
-}
+        /* Share panel - top layer depth */
+        [data-theme="dark"] body.page-daily-devotion .devotion-share-panel,
+        html.dark body.page-daily-devotion .devotion-share-panel {
+            background: var(--sacred-depth-3);
+        }
 
-/* ------------------------------------------------
+        /* ------------------------------------------------
    PHASE 5 — MOBILE PERFORMANCE COEXISTENCE
    ------------------------------------------------ */
 
-/* Soft gradient alternative when blur is disabled */
-@media (max-width: 768px) {
-    .devotion-share-panel {
-        /* Coexists with mobile-performance-optimization.css */
-        /* Uses soft gradient + subtle border instead of heavy blur */
-        border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    
-    [data-theme="light"] .devotion-share-panel {
-        border: 1px solid rgba(0, 0, 0, 0.06);
-    }
-}
+        /* Soft gradient alternative when blur is disabled */
+        @media (max-width: 768px) {
+            .devotion-share-panel {
+                /* Coexists with mobile-performance-optimization.css */
+                /* Uses soft gradient + subtle border instead of heavy blur */
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
 
-/* ================================================
+            [data-theme="light"] .devotion-share-panel {
+                border: 1px solid rgba(0, 0, 0, 0.06);
+            }
+        }
+
+        /* ================================================
    END SAFE VISUAL AUTHORITY PASS
    ================================================ */
 
-/* Phone width tuning for sacred quote card measurement */
-@media (min-width: 430px) and (max-width: 480px) {
-    body.page-daily-devotion .sacred-quote-card {
-        width: 100%;
-        max-width: 377px;
-    }
-}
+        /* Phone width tuning for sacred quote card measurement */
+        @media (min-width: 430px) and (max-width: 480px) {
+            body.page-daily-devotion .sacred-quote-card {
+                width: 100%;
+                max-width: 377px;
+            }
+        }
 
-/* Remove sacred quote card surface while preserving inner content */
-body.page-daily-devotion .sacred-quote-card {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-}
+        /* Remove sacred quote card surface while preserving inner content */
+        body.page-daily-devotion .sacred-quote-card {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
 
-/* Force white text/icon for primary Share Card action button */
-body.page-daily-devotion .share-action-btn.primary,
-body.page-daily-devotion .share-action-btn.primary .btn-label,
-body.page-daily-devotion .share-action-btn.primary .btn-icon {
-    color: #ffffff !important;
-}
+        /* Force white text/icon for primary Share Card action button */
+        body.page-daily-devotion .share-action-btn.primary,
+        body.page-daily-devotion .share-action-btn.primary .btn-label,
+        body.page-daily-devotion .share-action-btn.primary .btn-icon {
+            color: #ffffff !important;
+        }
 
-body.page-daily-devotion .share-action-btn.primary .btn-icon {
-    stroke: #ffffff !important;
-}
+        body.page-daily-devotion .share-action-btn.primary .btn-icon {
+            stroke: #ffffff !important;
+        }
 
-/* Center share panel content inside the card */
-body.page-daily-devotion #shareSection {
-    text-align: center;
-}
+        /* Center share panel content inside the card */
+        body.page-daily-devotion #shareSection {
+            text-align: center;
+        }
 
-body.page-daily-devotion #shareSection .share-actions-grid {
-    width: min(100%, 720px);
-    margin-left: auto !important;
-    margin-right: auto !important;
-    justify-items: center;
-    align-items: center;
-    justify-content: center !important;
-}
+        body.page-daily-devotion #shareSection .share-actions-grid {
+            width: min(100%, 720px);
+            margin-left: auto !important;
+            margin-right: auto !important;
+            justify-items: center;
+            align-items: center;
+            justify-content: center !important;
+        }
 
-body.page-daily-devotion #shareSection .share-action-btn {
-    margin-left: auto;
-    margin-right: auto;
-}
-/* ===== GRATITUDE FASTING ENHANCED STYLES ===== */
-/* Premium typography, glassmorphism, animations, and modern UI */
+        body.page-daily-devotion #shareSection .share-action-btn {
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-/* Warm gradient background for gratitude theme */
-body {
-    background: linear-gradient(180deg, #fffbf0 0%, #fefce8 30%, #ffffff 100%) !important;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-}
+        /* ===== GRATITUDE FASTING ENHANCED STYLES ===== */
+        /* Premium typography, glassmorphism, animations, and modern UI */
 
-/* ===== PROGRESS BAR ===== */
-.progress-container {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(251, 191, 36, 0.2);
-    padding: 0.75rem 1rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
+        /* Warm gradient background for gratitude theme */
+        body.page-gratitude-fasting {
+            background: linear-gradient(180deg, #fffbf0 0%, #fefce8 30%, #ffffff 100%) !important;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        }
 
-.progress-wrapper {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+            padding: 0.75rem 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
 
-.progress-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #92400e;
-    white-space: nowrap;
-}
+        .progress-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-.progress-bar-bg {
-    flex: 1;
-    height: 8px;
-    background: rgba(251, 191, 36, 0.2);
-    border-radius: 10px;
-    overflow: hidden;
-}
+        .progress-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #92400e;
+            white-space: nowrap;
+        }
 
-.progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #fbbf24, #f59e0b);
-    border-radius: 10px;
-    transition: width 0.5s ease;
-    box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
-}
+        .progress-bar-bg {
+            flex: 1;
+            height: 8px;
+            background: rgba(251, 191, 36, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-/* ===== ENHANCED HERO ===== */
-.devotion-hero h1 {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    letter-spacing: -0.02em !important;
-}
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
 
-.devotion-hero p {
-    font-weight: 300 !important;
-}
+        /* ===== ENHANCED HERO ===== */
+        .devotion-hero h1 {
+            font-family: 'Playfair Display', Georgia, serif !important;
+            letter-spacing: -0.02em !important;
+        }
 
-/* ===== ENHANCED CONTROLS ===== */
-.devotion-controls {
-    background: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(10px) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
-    border-radius: 20px !important;
-    border: 1px solid rgba(251, 191, 36, 0.1) !important;
-}
+        .devotion-hero p {
+            font-weight: 300 !important;
+        }
 
-.day-nav button,
-.lang-toggle button {
-    border-radius: 12px !important;
-    border: 1px solid rgba(251, 191, 36, 0.3) !important;
-    font-weight: 600 !important;
-    font-family: 'Inter', sans-serif !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
-    padding: 0.625rem 1.25rem !important;
-}
+        /* ===== ENHANCED CONTROLS ===== */
+        .devotion-controls {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(10px) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+            border-radius: 20px !important;
+            border: 1px solid rgba(251, 191, 36, 0.1) !important;
+        }
 
-.day-nav button:hover:not(:disabled),
-.lang-toggle button:hover {
-    background: #fffbf0 !important;
-    border-color: #fbbf24 !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2) !important;
-}
+        .day-nav button,
+        .lang-toggle button {
+            border-radius: 12px !important;
+            border: 1px solid rgba(251, 191, 36, 0.3) !important;
+            font-weight: 600 !important;
+            font-family: 'Inter', sans-serif !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+            padding: 0.625rem 1.25rem !important;
+        }
 
-.day-nav select {
-    border-radius: 12px !important;
-    border: 1px solid rgba(251, 191, 36, 0.3) !important;
-    font-weight: 600 !important;
-    font-family: 'Inter', sans-serif !important;
-    padding: 0.625rem 1.25rem !important;
-}
+        .day-nav button:hover:not(:disabled),
+        .lang-toggle button:hover {
+            background: #fffbf0 !important;
+            border-color: #fbbf24 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2) !important;
+        }
 
-.lang-toggle {
-    background: rgba(251, 191, 36, 0.1) !important;
-    padding: 0.25rem !important;
-    border-radius: 14px !important;
-}
+        .day-nav select {
+            border-radius: 12px !important;
+            border: 1px solid rgba(251, 191, 36, 0.3) !important;
+            font-weight: 600 !important;
+            font-family: 'Inter', sans-serif !important;
+            padding: 0.625rem 1.25rem !important;
+        }
 
-.lang-toggle button {
-    border: none !important;
-    box-shadow: none !important;
-}
+        .lang-toggle {
+            background: rgba(251, 191, 36, 0.1) !important;
+            padding: 0.25rem !important;
+            border-radius: 14px !important;
+        }
 
-.lang-toggle button.active {
-    background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
-    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3) !important;
-}
+        .lang-toggle button {
+            border: none !important;
+            box-shadow: none !important;
+        }
 
-/* ===== SCROLL REVEAL ANIMATIONS ===== */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
+        .lang-toggle button.active {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3) !important;
+        }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        /* ===== SCROLL REVEAL ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
 
-.fade-in-up {
-    animation: fadeInUp 0.6s ease-out forwards;
-}
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-/* ===== ENHANCED CONTENT SECTIONS ===== */
-.devotion-container {
-    padding: 2rem 1.5rem 4rem !important;
-}
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
 
-.devotion-section {
-    background: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(10px) !important;
-    border-radius: 24px !important;
-    padding: 2.5rem !important;
-    margin-bottom: 2rem !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06) !important;
-    border: 1px solid rgba(251, 191, 36, 0.1) !important;
-    transition: all 0.3s ease !important;
-}
+        /* ===== ENHANCED CONTENT SECTIONS ===== */
+        .page-gratitude-fasting .devotion-container {
+            padding: 2rem 1.5rem 4rem !important;
+        }
 
-.devotion-section:hover {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1) !important;
-    transform: translateY(-2px) !important;
-}
+        .page-gratitude-fasting .devotion-section {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 24px !important;
+            padding: 2.5rem !important;
+            margin-bottom: 2rem !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06) !important;
+            border: 1px solid rgba(251, 191, 36, 0.1) !important;
+            transition: all 0.3s ease !important;
+        }
 
-/* ===== PREMIUM SCRIPTURE SECTION ===== */
-.scripture-section {
-    background: linear-gradient(135deg, #fef9c3 0%, #fef3c7 100%) !important;
-    border: 2px solid rgba(251, 191, 36, 0.3) !important;
-    border-left: 2px solid rgba(251, 191, 36, 0.3) !important;
-    position: relative !important;
-    overflow: hidden !important;
-}
+        .page-gratitude-fasting .devotion-section:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1) !important;
+            transform: translateY(-2px) !important;
+        }
 
-.scripture-section::before {
-    content: '"' !important;
-    position: absolute !important;
-    top: -20px !important;
-    left: 20px !important;
-    font-size: 200px !important;
-    font-family: 'Playfair Display', Georgia, serif !important;
-    color: rgba(251, 191, 36, 0.08) !important;
-    line-height: 1 !important;
-    pointer-events: none !important;
-}
+        /* ===== PREMIUM SCRIPTURE SECTION ===== */
+        .page-gratitude-fasting .scripture-section {
+            background: linear-gradient(135deg, #fef9c3 0%, #fef3c7 100%) !important;
+            border: 2px solid rgba(251, 191, 36, 0.3) !important;
+            border-left: 2px solid rgba(251, 191, 36, 0.3) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
 
-.scripture-section h3 {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 1.75rem !important;
-    margin-bottom: 1.5rem !important;
-    font-weight: 700 !important;
-    position: relative !important;
-    z-index: 1 !important;
-}
+        .page-gratitude-fasting .scripture-section::before {
+            content: '"' !important;
+            position: absolute !important;
+            top: -20px !important;
+            left: 20px !important;
+            font-size: 200px !important;
+            font-family: 'Playfair Display', Georgia, serif !important;
+            color: rgba(251, 191, 36, 0.08) !important;
+            line-height: 1 !important;
+            pointer-events: none !important;
+        }
 
-.scripture-text {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 1.35rem !important;
-    line-height: 1.9 !important;
-    margin-bottom: 1rem !important;
-    position: relative !important;
-    z-index: 1 !important;
-    font-weight: 500 !important;
-}
+        .page-gratitude-fasting .scripture-section h3 {
+            font-family: 'Playfair Display', Georgia, serif !important;
+            font-size: 1.75rem !important;
+            margin-bottom: 1.5rem !important;
+            font-weight: 700 !important;
+            position: relative !important;
+            z-index: 1 !important;
+        }
 
-.scripture-ref {
-    font-weight: 700 !important;
-    font-size: 1.1rem !important;
-    font-family: 'Inter', sans-serif !important;
-    position: relative !important;
-    z-index: 1 !important;
-}
+        .scripture-text {
+            font-family: 'Playfair Display', Georgia, serif !important;
+            font-size: 1.35rem !important;
+            line-height: 1.9 !important;
+            margin-bottom: 1rem !important;
+            position: relative !important;
+            z-index: 1 !important;
+            font-weight: 500 !important;
+        }
 
-/* ===== REFLECTION & PRAYER SECTIONS ===== */
-.reflection-section h3,
-.prayer-section h3 {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 1.75rem !important;
-    margin-bottom: 1.5rem !important;
-    font-weight: 700 !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.75rem !important;
-}
+        .scripture-ref {
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            font-family: 'Inter', sans-serif !important;
+            position: relative !important;
+            z-index: 1 !important;
+        }
 
-.reflection-text,
-.prayer-text {
-    font-family: 'Inter', sans-serif !important;
-    line-height: 1.9 !important;
-    font-size: 1.0625rem !important;
-}
+        /* ===== REFLECTION & PRAYER SECTIONS ===== */
+        .reflection-section h3,
+        .prayer-section h3 {
+            font-family: 'Playfair Display', Georgia, serif !important;
+            font-size: 1.75rem !important;
+            margin-bottom: 1.5rem !important;
+            font-weight: 700 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.75rem !important;
+        }
 
-.promise-box {
-    padding: 1.75rem !important;
-    border-radius: 16px !important;
-    margin-top: 1.5rem !important;
-    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1) !important;
-}
+        .reflection-text,
+        .prayer-text {
+            font-family: 'Inter', sans-serif !important;
+            line-height: 1.9 !important;
+            font-size: 1.0625rem !important;
+        }
 
-.promise-box strong {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 1.125rem !important;
-}
+        .promise-box {
+            padding: 1.75rem !important;
+            border-radius: 16px !important;
+            margin-top: 1.5rem !important;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1) !important;
+        }
 
-.promise-box p {
-    font-family: 'Inter', sans-serif !important;
-    line-height: 1.8 !important;
-    color: #1e3a8a !important;
-}
+        .promise-box strong {
+            font-family: 'Playfair Display', Georgia, serif !important;
+            font-size: 1.125rem !important;
+        }
 
-/* ===== ENHANCED SHARE SECTION ===== */
-.share-section {
-    background: linear-gradient(135deg, rgba(243, 232, 255, 0.8) 0%, rgba(250, 232, 255, 0.8) 100%) !important;
-    backdrop-filter: blur(10px) !important;
-    padding: 2rem !important;
-    border-radius: 24px !important;
-    margin-top: 2.5rem !important;
-    border: 1px solid rgba(124, 58, 237, 0.2) !important;
-    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1) !important;
-}
+        .promise-box p {
+            font-family: 'Inter', sans-serif !important;
+            line-height: 1.8 !important;
+            color: #1e3a8a !important;
+        }
 
-.share-section h3 {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 1.5rem !important;
-    margin-bottom: 1.25rem !important;
-    font-weight: 700 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0.5rem !important;
-}
+        /* ===== ENHANCED SHARE SECTION ===== */
+        .share-section {
+            background: linear-gradient(135deg, rgba(243, 232, 255, 0.8) 0%, rgba(250, 232, 255, 0.8) 100%) !important;
+            backdrop-filter: blur(10px) !important;
+            padding: 2rem !important;
+            border-radius: 24px !important;
+            margin-top: 2.5rem !important;
+            border: 1px solid rgba(124, 58, 237, 0.2) !important;
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1) !important;
+        }
 
-.share-btn {
-    padding: 0.875rem 1.5rem !important;
-    border-radius: 14px !important;
-    font-weight: 600 !important;
-    font-family: 'Inter', sans-serif !important;
-    gap: 0.625rem !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-}
+        .share-section h3 {
+            font-family: 'Playfair Display', Georgia, serif !important;
+            font-size: 1.5rem !important;
+            margin-bottom: 1.25rem !important;
+            font-weight: 700 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 0.5rem !important;
+        }
 
-.share-btn:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25) !important;
-}
+        .share-btn {
+            padding: 0.875rem 1.5rem !important;
+            border-radius: 14px !important;
+            font-weight: 600 !important;
+            font-family: 'Inter', sans-serif !important;
+            gap: 0.625rem !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        }
 
-.share-btn:active {
-    transform: translateY(-1px) !important;
-}
+        .share-btn:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25) !important;
+        }
 
-.share-btn.facebook {
-    background: linear-gradient(135deg, #1877f2, #0c63d4) !important;
-}
+        .share-btn:active {
+            transform: translateY(-1px) !important;
+        }
 
-.share-btn.twitter {
-    background: linear-gradient(135deg, #1da1f2, #0d8bd9) !important;
-}
+        .share-btn.facebook {
+            background: linear-gradient(135deg, #1877f2, #0c63d4) !important;
+        }
 
-.share-btn.whatsapp {
-    background: linear-gradient(135deg, #25d366, #1ebe57) !important;
-}
+        .share-btn.twitter {
+            background: linear-gradient(135deg, #1da1f2, #0d8bd9) !important;
+        }
 
-.share-btn.email {
-    background: linear-gradient(135deg, #ea4335, #d33426) !important;
-}
+        .share-btn.whatsapp {
+            background: linear-gradient(135deg, #25d366, #1ebe57) !important;
+        }
 
-.share-btn.copy {
-    background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
-}
+        .share-btn.email {
+            background: linear-gradient(135deg, #ea4335, #d33426) !important;
+        }
 
-.share-btn.copy.copied {
-    background: linear-gradient(135deg, #10b981, #059669) !important;
-}
+        .share-btn.copy {
+            background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
+        }
 
-/* ===== TOPIC HEADER ===== */
-#devotionTopic {
-    font-family: 'Playfair Display', Georgia, serif !important;
-    font-size: 2.25rem !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.02em !important;
-}
+        .share-btn.copy.copied {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+        }
 
-#devotionDate {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 1rem !important;
-    font-weight: 500 !important;
-}
+        /* ===== TOPIC HEADER ===== */
+        #devotionTopic {
+            font-family: 'Playfair Display', Georgia, serif !important;
+            font-size: 2.25rem !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.02em !important;
+        }
 
-/* ===== LOADING & ERROR STATES ===== */
-#loadingMsg,
-#errorMsg {
-    font-family: 'Inter', sans-serif !important;
-}
+        #devotionDate {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: 500 !important;
+        }
+
+        /* ===== LOADING & ERROR STATES ===== */
+        #loadingMsg,
+        #errorMsg {
+            font-family: 'Inter', sans-serif !important;
+        }

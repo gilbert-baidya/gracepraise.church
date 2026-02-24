@@ -3426,12 +3426,7 @@ body.dark .devotion-card {
    Footer - Style C
    ======================================== */
 
-footer {
-    background: linear-gradient(135deg, #1e3a8a, #0f766e);
-    color: #f8fafc;
-    padding: var(--spacing-3xl) var(--spacing-sm) var(--spacing-xl);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
+/* Legacy styling removed in favor of footer-v3.css */
 
 .footer-content {
     display: grid;
@@ -3850,7 +3845,8 @@ footer {
         inset: 0;
         width: 100vw;
         height: 100dvh;
-        height: 100vh; /* fallback */
+        height: 100vh;
+        /* fallback */
         background: rgba(15, 23, 42, 0.98);
         /* Deep navy glassmorphism */
         backdrop-filter: blur(20px);
@@ -7375,10 +7371,7 @@ body:not(.dark):not([data-theme="dark"]) .button:hover {
     transform: translateY(-1px);
 }
 
-/* ===== 11. FOOTER DAY MODE ADAPTATION ===== */
-body:not(.dark):not([data-theme="dark"]) footer {
-    background: linear-gradient(180deg, #1e3a5f 0%, #0f172a 100%);
-}
+/* ===== 11. FOOTER DAY MODE ADAPTATION (DEPRECATED: Controlled by footer-v3.css) ===== */
 
 /* ===== 12. PAGE BACKGROUNDS - WARM GRADIENTS ===== */
 body:not(.dark):not([data-theme="dark"]) .page-hero,
@@ -7586,6 +7579,7 @@ body:not(.dark):not([data-theme="dark"]) .section-divider {
    ======================================== */
 
 @media (max-width: 768px) {
+
     .devotion-card,
     .scripture-card,
     .reflection-card,

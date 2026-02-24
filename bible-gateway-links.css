@@ -46,13 +46,17 @@
 }
 
 /* Dark mode support */
-[data-theme="dark"] .bible-gateway-link {
+[data-theme="dark"] .bible-gateway-link,
+html.dark .bible-gateway-link,
+.dark .bible-gateway-link {
     background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(167, 139, 250, 0.2));
     border-color: rgba(167, 139, 250, 0.4);
-    color: var(--color-primary-light, #a78bfa);
+    color: #ffffff;
 }
 
-[data-theme="dark"] .bible-gateway-link:hover {
+[data-theme="dark"] .bible-gateway-link:hover,
+html.dark .bible-gateway-link:hover,
+.dark .bible-gateway-link:hover {
     background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(167, 139, 250, 0.3));
     border-color: rgba(167, 139, 250, 0.6);
 }
