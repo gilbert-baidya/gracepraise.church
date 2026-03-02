@@ -654,6 +654,19 @@
                         }
 
                         const data = JSON.parse(cached);
+                        const hasVerseBodies = Array.isArray(data) && data.some((entry) => {
+                            if (!entry || typeof entry !== 'object') return false;
+                            const en = typeof entry.verseText === 'string' ? entry.verseText.trim() : '';
+                            const bn = typeof entry.verseTextBn === 'string' ? entry.verseTextBn.trim() : '';
+                            return Boolean(en && bn);
+                        });
+
+                        if (!hasVerseBodies) {
+                            console.warn('[Resurrection] Cache invalid: verse text fields missing. Clearing stale cache.');
+                            this.clear();
+                            return null;
+                        }
+
                         console.log('[Resurrection] ⚡ Cache hit:', data.length, 'devotions (age:', Math.floor(age / 1000), 's)');
                         return data;
                     } catch (e) {
