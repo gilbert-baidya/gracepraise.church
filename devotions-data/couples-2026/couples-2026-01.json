@@ -1,0 +1,668 @@
+{
+  "meta": {
+    "type": "couples-devotion",
+    "year": 2026,
+    "month": 1,
+    "language": [
+      "en",
+      "bn"
+    ],
+    "copyright": {
+      "en": "NIV-based paraphrase only; not verbatim NIV text.",
+      "bn": "William Carey Bangla version (short excerpt)."
+    }
+  },
+  "days": {
+    "2026-01-01": {
+      "title": {
+        "en": "One Heart in Christ by Grace",
+        "bn": "খ্রীষ্টে এক হৃদয় অনুগ্রহে"
+      },
+      "verseRef": "Psalm 133:1",
+      "nivKeyPhrase": "God delights when His people live together in harmony.",
+      "bnVerse": "দেখ, ভ্রাতৃগণ একত্রে বাস করা কত উত্তম ও মনোরম।",
+      "reflection": {
+        "en": "The Lord invites us to grow in unity in Christ as one covenant team. Today we commit to praying together before bedtime instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by serving together in a prayer team, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে খ্রীষ্টে ঐক্যতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে ঘুমানোর আগে একসাথে প্রার্থনা করি বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। প্রার্থনা দলে একসাথে সেবা করে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice unity in Christ in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে খ্রীষ্টে ঐক্য জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into unity in Christ together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে খ্রীষ্টে ঐক্যতে গভীরে নিয়ে যান।"
+      }
+    },
+    "2026-01-02": {
+      "title": {
+        "en": "Graceful Communication in Covenant Love",
+        "bn": "অনুগ্রহপূর্ণ কথা চুক্তির প্রেমে"
+      },
+      "verseRef": "James 1:19",
+      "nivKeyPhrase": "Listen first, speak carefully, and refuse quick anger.",
+      "bnVerse": "শুনিতে তৎপর হও, বলিতে ধীর হও, ক্রোধে ধীর হও।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through grace-filled communication. Today we will practice it by confessing quickly when we are wrong. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by joining a couples fellowship group, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে অনুগ্রহপূর্ণ যোগাযোগ দিয়ে গড়ে তুলছেন। আজ আমরা ভুল হলে দ্রুত স্বীকার করি এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে দম্পতি ফেলোশিপে নিয়মিত অংশ নিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Father, forgive our impatience and renew our hearts. Teach us to walk in grace-filled communication with humility and faith. Use us to strengthen others in church with joyful service.",
+        "bn": "পিতা, আমাদের অস্থিরতা ক্ষমা করে হৃদয় নতুন করুন। নম্রতা ও বিশ্বাসে অনুগ্রহপূর্ণ যোগাযোগ অনুশীলন করতে শেখান। আনন্দের সেবায় আমাদের দ্বারা চার্চ পরিবারকে শক্তিশালী করুন।"
+      },
+      "shareLine": {
+        "en": "Our covenant grows stronger through grace-filled communication.",
+        "bn": "আমাদের চুক্তির দাম্পত্য অনুগ্রহপূর্ণ যোগাযোগ দ্বারা দৃঢ় হয়।"
+      }
+    },
+    "2026-01-03": {
+      "title": {
+        "en": "Steady Patience for Today",
+        "bn": "স্থির ধৈর্য আজ"
+      },
+      "verseRef": "Galatians 6:9",
+      "nivKeyPhrase": "Do not grow tired in doing good; harvest comes in season.",
+      "bnVerse": "সৎকর্ম করিতে নিরুৎসাহ না হই; উপযুক্ত সময়ে আমরা ফল পাইব।",
+      "reflection": {
+        "en": "The Lord invites us to grow in patient love as one covenant team. Today we commit to choosing gentle words during stress instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by visiting and encouraging an elderly member, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে ধৈর্যময় প্রেমতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে চাপের সময় কোমল ভাষা বেছে নিই বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। বয়োজ্যেষ্ঠ সদস্যকে দেখে উৎসাহ দিয়ে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Lord Jesus, thank You for covenant love. Fill us with Your Spirit so we can grow in patient love today. Lead our home to bless Your church by visiting and encouraging an elderly member.",
+        "bn": "প্রভু যীশু, চুক্তির প্রেমের জন্য আপনাকে ধন্যবাদ। আজ আমাদেরকে আপনার আত্মায় পূর্ণ করুন, যেন আমরা ধৈর্যময় প্রেমতে চলতে পারি। বয়োজ্যেষ্ঠ সদস্যকে দেখে উৎসাহ দিয়ে আমাদের ঘরকে আপনার মণ্ডলীর আশীর্বাদ করুন।"
+      },
+      "shareLine": {
+        "en": "Today we choose patient love with Jesus.",
+        "bn": "আজ আমরা যীশুর সাথে ধৈর্যময় প্রেম বেছে নিচ্ছি।"
+      }
+    },
+    "2026-01-04": {
+      "title": {
+        "en": "Quick to Forgive by Grace",
+        "bn": "দ্রুত ক্ষমাশীল হৃদয় অনুগ্রহে"
+      },
+      "verseRef": "Matthew 6:14",
+      "nivKeyPhrase": "As you forgive others, your Father extends mercy to you.",
+      "bnVerse": "তোমরা যদি মানুষের অপরাধ ক্ষমা কর, তবে তোমাদের স্বর্গীয় পিতাও তোমাদিগকে ক্ষমা করবেন।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through forgiving grace. Today we will practice it by setting aside time to read the Bible together. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by supporting a ministry project with time and care, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে ক্ষমার অনুগ্রহ দিয়ে গড়ে তুলছেন। আজ আমরা একসাথে বাইবেল পড়ার সময় আলাদা করি এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে মন্ত্রণালয়ের কাজে সময় ও যত্ন দিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice forgiving grace in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে ক্ষমার অনুগ্রহ জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into forgiving grace together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে ক্ষমার অনুগ্রহতে গভীরে নিয়ে যান।"
+      }
+    },
+    "2026-01-05": {
+      "title": {
+        "en": "Serving Side by Side in Covenant Love",
+        "bn": "পাশাপাশি সেবা চুক্তির প্রেমে"
+      },
+      "verseRef": "Galatians 5:13",
+      "nivKeyPhrase": "Use freedom to serve one another humbly in love.",
+      "bnVerse": "প্রেমের দ্বারা পরস্পরের সেবা কর।",
+      "reflection": {
+        "en": "The Lord invites us to grow in serving love as one covenant team. Today we commit to pausing to ask the Holy Spirit for wisdom instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by hosting a small prayer gathering at home, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে সেবাময় প্রেমতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে পবিত্র আত্মার জ্ঞান চাইতে থেমে যাই বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। বাড়িতে ছোট প্রার্থনা সভা আয়োজন করে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Father, forgive our impatience and renew our hearts. Teach us to walk in serving love with humility and faith. Use us to strengthen others in church with joyful service.",
+        "bn": "পিতা, আমাদের অস্থিরতা ক্ষমা করে হৃদয় নতুন করুন। নম্রতা ও বিশ্বাসে সেবাময় প্রেম অনুশীলন করতে শেখান। আনন্দের সেবায় আমাদের দ্বারা চার্চ পরিবারকে শক্তিশালী করুন।"
+      },
+      "shareLine": {
+        "en": "Our covenant grows stronger through serving love.",
+        "bn": "আমাদের চুক্তির দাম্পত্য সেবাময় প্রেম দ্বারা দৃঢ় হয়।"
+      }
+    },
+    "2026-01-06": {
+      "title": {
+        "en": "Generous Hearts for Today",
+        "bn": "উদার হৃদয় আজ"
+      },
+      "verseRef": "Luke 6:38",
+      "nivKeyPhrase": "Give, and generous measure will return to you.",
+      "bnVerse": "দান কর, তাহা হইলে তোমাদিগকেও দেওয়া হইবে; পরিপূর্ণ মাত্রা তোমাদের কোলে দেওয়া হবে।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through joyful generosity. Today we will practice it by encouraging each other with hope-filled words. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by encouraging younger couples in faith, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে আনন্দময় উদারতা দিয়ে গড়ে তুলছেন। আজ আমরা আশাভরা কথায় একে অপরকে উৎসাহ দিই এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে তরুণ দম্পতিদের বিশ্বাসে উৎসাহ দিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Lord Jesus, thank You for covenant love. Fill us with Your Spirit so we can grow in joyful generosity today. Lead our home to bless Your church by encouraging younger couples in faith.",
+        "bn": "প্রভু যীশু, চুক্তির প্রেমের জন্য আপনাকে ধন্যবাদ। আজ আমাদেরকে আপনার আত্মায় পূর্ণ করুন, যেন আমরা আনন্দময় উদারতাতে চলতে পারি। তরুণ দম্পতিদের বিশ্বাসে উৎসাহ দিয়ে আমাদের ঘরকে আপনার মণ্ডলীর আশীর্বাদ করুন।"
+      },
+      "shareLine": {
+        "en": "Today we choose joyful generosity with Jesus.",
+        "bn": "আজ আমরা যীশুর সাথে আনন্দময় উদারতা বেছে নিচ্ছি।"
+      }
+    },
+    "2026-01-07": {
+      "title": {
+        "en": "Parenting with Grace by Grace",
+        "bn": "অনুগ্রহে সন্তান প্রতিপালন অনুগ্রহে"
+      },
+      "verseRef": "Ephesians 6:4",
+      "nivKeyPhrase": "Raise children with the Lord's training and instruction.",
+      "bnVerse": "সন্তানদের উত্তেজিত করিও না; প্রভুর শাসন ও উপদেশে তাহাদের প্রতিপালন কর।",
+      "reflection": {
+        "en": "The Lord invites us to grow in godly parenting as one covenant team. Today we commit to praying together before bedtime instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by participating faithfully in Sunday service, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে ঈশ্বরভীরু সন্তান পালনের জীবনতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে ঘুমানোর আগে একসাথে প্রার্থনা করি বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। রবিবারের উপাসনায় বিশ্বস্তভাবে অংশ নিয়ে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice godly parenting in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে ঈশ্বরভীরু সন্তান পালনের জীবন জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into godly parenting together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে ঈশ্বরভীরু সন্তান পালনের জীবনতে গভীরে নিয়ে যান।"
+      }
+    },
+    "2026-01-08": {
+      "title": {
+        "en": "Holy Affection in Covenant Love",
+        "bn": "পবিত্র স্নেহ চুক্তির প্রেমে"
+      },
+      "verseRef": "1 Thessalonians 4:3-4",
+      "nivKeyPhrase": "God calls you to holiness and self-control.",
+      "bnVerse": "ঈশ্বরের ইচ্ছা এই, তোমাদের পবিত্রীকরণ; পবিত্রতা ও সম্মানে আপন দেহ ধারণ কর।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through holy purity. Today we will practice it by confessing quickly when we are wrong. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by serving at a church outreach event, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে পবিত্রতা দিয়ে গড়ে তুলছেন। আজ আমরা ভুল হলে দ্রুত স্বীকার করি এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে চার্চ আউটরিচে একসাথে সেবা করে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Father, forgive our impatience and renew our hearts. Teach us to walk in holy purity with humility and faith. Use us to strengthen others in church with joyful service.",
+        "bn": "পিতা, আমাদের অস্থিরতা ক্ষমা করে হৃদয় নতুন করুন। নম্রতা ও বিশ্বাসে পবিত্রতা অনুশীলন করতে শেখান। আনন্দের সেবায় আমাদের দ্বারা চার্চ পরিবারকে শক্তিশালী করুন।"
+      },
+      "shareLine": {
+        "en": "Our covenant grows stronger through holy purity.",
+        "bn": "আমাদের চুক্তির দাম্পত্য পবিত্রতা দ্বারা দৃঢ় হয়।"
+      }
+    },
+    "2026-01-09": {
+      "title": {
+        "en": "Worshiping as One for Today",
+        "bn": "একসাথে উপাসনা আজ"
+      },
+      "verseRef": "Colossians 3:16",
+      "nivKeyPhrase": "Let Christ's word dwell richly as you sing with gratitude.",
+      "bnVerse": "খ্রীষ্টের বাক্য তোমাদের মধ্যে প্রচুরভাবে বাস করুক; কৃতজ্ঞ হৃদয়ে গান গাও।",
+      "reflection": {
+        "en": "The Lord invites us to grow in shared worship as one covenant team. Today we commit to choosing gentle words during stress instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by partnering with deacons in practical service, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে যৌথ উপাসনাতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে চাপের সময় কোমল ভাষা বেছে নিই বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। ডিকনদের সাথে ব্যবহারিক কাজে সাহায্য করে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Lord Jesus, thank You for covenant love. Fill us with Your Spirit so we can grow in shared worship today. Lead our home to bless Your church by partnering with deacons in practical service.",
+        "bn": "প্রভু যীশু, চুক্তির প্রেমের জন্য আপনাকে ধন্যবাদ। আজ আমাদেরকে আপনার আত্মায় পূর্ণ করুন, যেন আমরা যৌথ উপাসনাতে চলতে পারি। ডিকনদের সাথে ব্যবহারিক কাজে সাহায্য করে আমাদের ঘরকে আপনার মণ্ডলীর আশীর্বাদ করুন।"
+      },
+      "shareLine": {
+        "en": "Today we choose shared worship with Jesus.",
+        "bn": "আজ আমরা যীশুর সাথে যৌথ উপাসনা বেছে নিচ্ছি।"
+      }
+    },
+    "2026-01-10": {
+      "title": {
+        "en": "Praying in Agreement by Grace",
+        "bn": "সম্মত প্রার্থনার জীবন অনুগ্রহে"
+      },
+      "verseRef": "Matthew 18:19-20",
+      "nivKeyPhrase": "When believers agree in prayer, Christ is present among them.",
+      "bnVerse": "দুই জন একমত হয়ে প্রার্থনা করলে পিতা শুনেন; তাঁর নামে একত্র হলে তিনি উপস্থিত থাকেন।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through a faithful prayer life. Today we will practice it by setting aside time to read the Bible together. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by giving generously for mission needs, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে বিশ্বস্ত প্রার্থনার জীবন দিয়ে গড়ে তুলছেন। আজ আমরা একসাথে বাইবেল পড়ার সময় আলাদা করি এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে মিশনের প্রয়োজনে উদারভাবে দান করে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice a faithful prayer life in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে বিশ্বস্ত প্রার্থনার জীবন জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into a faithful prayer life together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে বিশ্বস্ত প্রার্থনার জীবনতে গভীরে নিয়ে যান।"
+      }
+    },
+    "2026-01-11": {
+      "title": {
+        "en": "Open Home, Open Heart in Covenant Love",
+        "bn": "খোলা ঘর, খোলা হৃদয় চুক্তির প্রেমে"
+      },
+      "verseRef": "Romans 12:13",
+      "nivKeyPhrase": "Share with believers in need and practice hospitality gladly.",
+      "bnVerse": "পবিত্রদের অভাবে সহায় হও; অতিথিসেবা করিবার জন্য চেষ্টা কর।",
+      "reflection": {
+        "en": "The Lord invites us to grow in Christlike hospitality as one covenant team. Today we commit to pausing to ask the Holy Spirit for wisdom instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by praying weekly for church leaders, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে খ্রীষ্টসুলভ অতিথিপরায়ণতাতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে পবিত্র আত্মার জ্ঞান চাইতে থেমে যাই বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। চার্চ নেতাদের জন্য সাপ্তাহিক প্রার্থনা করে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Father, forgive our impatience and renew our hearts. Teach us to walk in Christlike hospitality with humility and faith. Use us to strengthen others in church with joyful service.",
+        "bn": "পিতা, আমাদের অস্থিরতা ক্ষমা করে হৃদয় নতুন করুন। নম্রতা ও বিশ্বাসে খ্রীষ্টসুলভ অতিথিপরায়ণতা অনুশীলন করতে শেখান। আনন্দের সেবায় আমাদের দ্বারা চার্চ পরিবারকে শক্তিশালী করুন।"
+      },
+      "shareLine": {
+        "en": "Our covenant grows stronger through Christlike hospitality.",
+        "bn": "আমাদের চুক্তির দাম্পত্য খ্রীষ্টসুলভ অতিথিপরায়ণতা দ্বারা দৃঢ় হয়।"
+      }
+    },
+    "2026-01-12": {
+      "title": {
+        "en": "Healing by Grace for Today",
+        "bn": "অনুগ্রহে আরোগ্য আজ"
+      },
+      "verseRef": "James 5:16",
+      "nivKeyPhrase": "Confess and pray for one another to receive healing.",
+      "bnVerse": "পরস্পরের নিকটে অপরাধ স্বীকার কর, এবং আরোগ্য লাভের জন্য প্রার্থনা কর।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through healing grace. Today we will practice it by encouraging each other with hope-filled words. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by welcoming newcomers after worship, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে আরোগ্যের অনুগ্রহ দিয়ে গড়ে তুলছেন। আজ আমরা আশাভরা কথায় একে অপরকে উৎসাহ দিই এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে উপাসনার পরে নতুনদের স্বাগত জানিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Lord Jesus, thank You for covenant love. Fill us with Your Spirit so we can grow in healing grace today. Lead our home to bless Your church by welcoming newcomers after worship.",
+        "bn": "প্রভু যীশু, চুক্তির প্রেমের জন্য আপনাকে ধন্যবাদ। আজ আমাদেরকে আপনার আত্মায় পূর্ণ করুন, যেন আমরা আরোগ্যের অনুগ্রহতে চলতে পারি। উপাসনার পরে নতুনদের স্বাগত জানিয়ে আমাদের ঘরকে আপনার মণ্ডলীর আশীর্বাদ করুন।"
+      },
+      "shareLine": {
+        "en": "Today we choose healing grace with Jesus.",
+        "bn": "আজ আমরা যীশুর সাথে আরোগ্যের অনুগ্রহ বেছে নিচ্ছি।"
+      }
+    },
+    "2026-01-13": {
+      "title": {
+        "en": "Faithful Stewardship by Grace",
+        "bn": "বিশ্বস্ত তত্ত্বাবধান অনুগ্রহে"
+      },
+      "verseRef": "Luke 16:10",
+      "nivKeyPhrase": "Who is faithful in little will be faithful in much.",
+      "bnVerse": "অল্প বিষয়ে যে বিশ্বস্ত, সে অনেক বিষয়ে বিশ্বস্ত।",
+      "reflection": {
+        "en": "The Lord invites us to grow in faithful stewardship as one covenant team. Today we commit to praying together before bedtime instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by serving together in a prayer team, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে বিশ্বস্ত তত্ত্বাবধানতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে ঘুমানোর আগে একসাথে প্রার্থনা করি বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। প্রার্থনা দলে একসাথে সেবা করে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice faithful stewardship in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে বিশ্বস্ত তত্ত্বাবধান জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into faithful stewardship together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে বিশ্বস্ত তত্ত্বাবধানতে গভীরে নিয়ে যান।"
+      }
+    },
+    "2026-01-14": {
+      "title": {
+        "en": "Servant Leadership in Covenant Love",
+        "bn": "সেবক নেতৃত্ব চুক্তির প্রেমে"
+      },
+      "verseRef": "Mark 10:43-44",
+      "nivKeyPhrase": "Greatness in God's kingdom is measured by serving others.",
+      "bnVerse": "তোমাদের মধ্যে যে বড় হইতে চায়, সে তোমাদের সেবক হউক।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through servant leadership. Today we will practice it by confessing quickly when we are wrong. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by joining a couples fellowship group, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে সেবক নেতৃত্ব দিয়ে গড়ে তুলছেন। আজ আমরা ভুল হলে দ্রুত স্বীকার করি এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে দম্পতি ফেলোশিপে নিয়মিত অংশ নিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Father, forgive our impatience and renew our hearts. Teach us to walk in servant leadership with humility and faith. Use us to strengthen others in church with joyful service.",
+        "bn": "পিতা, আমাদের অস্থিরতা ক্ষমা করে হৃদয় নতুন করুন। নম্রতা ও বিশ্বাসে সেবক নেতৃত্ব অনুশীলন করতে শেখান। আনন্দের সেবায় আমাদের দ্বারা চার্চ পরিবারকে শক্তিশালী করুন।"
+      },
+      "shareLine": {
+        "en": "Our covenant grows stronger through servant leadership.",
+        "bn": "আমাদের চুক্তির দাম্পত্য সেবক নেতৃত্ব দ্বারা দৃঢ় হয়।"
+      }
+    },
+    "2026-01-15": {
+      "title": {
+        "en": "Humble Hearts for Today",
+        "bn": "নম্র হৃদয় আজ"
+      },
+      "verseRef": "1 Peter 5:5",
+      "nivKeyPhrase": "Clothe yourselves with humility toward one another.",
+      "bnVerse": "তোমরা পরস্পরের প্রতি নম্রতা পরিধান কর।",
+      "reflection": {
+        "en": "The Lord invites us to grow in Christlike humility as one covenant team. Today we commit to choosing gentle words during stress instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by visiting and encouraging an elderly member, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে খ্রীষ্টসদৃশ নম্রতাতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে চাপের সময় কোমল ভাষা বেছে নিই বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। বয়োজ্যেষ্ঠ সদস্যকে দেখে উৎসাহ দিয়ে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Lord Jesus, thank You for covenant love. Fill us with Your Spirit so we can grow in Christlike humility today. Lead our home to bless Your church by visiting and encouraging an elderly member.",
+        "bn": "প্রভু যীশু, চুক্তির প্রেমের জন্য আপনাকে ধন্যবাদ। আজ আমাদেরকে আপনার আত্মায় পূর্ণ করুন, যেন আমরা খ্রীষ্টসদৃশ নম্রতাতে চলতে পারি। বয়োজ্যেষ্ঠ সদস্যকে দেখে উৎসাহ দিয়ে আমাদের ঘরকে আপনার মণ্ডলীর আশীর্বাদ করুন।"
+      },
+      "shareLine": {
+        "en": "Today we choose Christlike humility with Jesus.",
+        "bn": "আজ আমরা যীশুর সাথে খ্রীষ্টসদৃশ নম্রতা বেছে নিচ্ছি।"
+      }
+    },
+    "2026-01-16": {
+      "title": {
+        "en": "Joyful Covenant by Grace",
+        "bn": "আনন্দময় চুক্তি অনুগ্রহে"
+      },
+      "verseRef": "Romans 15:13",
+      "nivKeyPhrase": "God fills believers with joy and peace through trust.",
+      "bnVerse": "আশার ঈশ্বর বিশ্বাসে তোমাদিগকে সমস্ত আনন্দ ও শান্তিতে পরিপূর্ণ করুন।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through holy joy. Today we will practice it by setting aside time to read the Bible together. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by supporting a ministry project with time and care, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে পবিত্র আনন্দ দিয়ে গড়ে তুলছেন। আজ আমরা একসাথে বাইবেল পড়ার সময় আলাদা করি এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে মন্ত্রণালয়ের কাজে সময় ও যত্ন দিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice holy joy in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে পবিত্র আনন্দ জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into holy joy together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে পবিত্র আনন্দতে গভীরে নিয়ে যান।"
+      }
+    },
+    "2026-01-17": {
+      "title": {
+        "en": "Ruled by Peace in Covenant Love",
+        "bn": "শান্তিতে পরিচালিত চুক্তির প্রেমে"
+      },
+      "verseRef": "John 14:27",
+      "nivKeyPhrase": "Jesus gives peace unlike what the world offers.",
+      "bnVerse": "আমি তোমাদের শান্তি দিয়া যাই; জগত যেমন দেয়, তেমন নয়।",
+      "reflection": {
+        "en": "The Lord invites us to grow in the peace of Christ as one covenant team. Today we commit to pausing to ask the Holy Spirit for wisdom instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by hosting a small prayer gathering at home, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে খ্রীষ্টের শান্তিতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে পবিত্র আত্মার জ্ঞান চাইতে থেমে যাই বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। বাড়িতে ছোট প্রার্থনা সভা আয়োজন করে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Father, forgive our impatience and renew our hearts. Teach us to walk in the peace of Christ with humility and faith. Use us to strengthen others in church with joyful service.",
+        "bn": "পিতা, আমাদের অস্থিরতা ক্ষমা করে হৃদয় নতুন করুন। নম্রতা ও বিশ্বাসে খ্রীষ্টের শান্তি অনুশীলন করতে শেখান। আনন্দের সেবায় আমাদের দ্বারা চার্চ পরিবারকে শক্তিশালী করুন।"
+      },
+      "shareLine": {
+        "en": "Our covenant grows stronger through the peace of Christ.",
+        "bn": "আমাদের চুক্তির দাম্পত্য খ্রীষ্টের শান্তি দ্বারা দৃঢ় হয়।"
+      }
+    },
+    "2026-01-18": {
+      "title": {
+        "en": "Peacemaking Love for Today",
+        "bn": "শান্তিস্থাপক প্রেম আজ"
+      },
+      "verseRef": "Ephesians 4:26",
+      "nivKeyPhrase": "Do not let anger remain unresolved through the day.",
+      "bnVerse": "ক্রুদ্ধ হও, কিন্তু পাপ করিও না; সূর্য অস্ত যাওয়া পর্যন্ত ক্রোধ রাখিও না।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through biblical conflict resolution. Today we will practice it by encouraging each other with hope-filled words. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by encouraging younger couples in faith, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে বাইবেলীয় দ্বন্দ্ব সমাধান দিয়ে গড়ে তুলছেন। আজ আমরা আশাভরা কথায় একে অপরকে উৎসাহ দিই এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে তরুণ দম্পতিদের বিশ্বাসে উৎসাহ দিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Lord Jesus, thank You for covenant love. Fill us with Your Spirit so we can grow in biblical conflict resolution today. Lead our home to bless Your church by encouraging younger couples in faith.",
+        "bn": "প্রভু যীশু, চুক্তির প্রেমের জন্য আপনাকে ধন্যবাদ। আজ আমাদেরকে আপনার আত্মায় পূর্ণ করুন, যেন আমরা বাইবেলীয় দ্বন্দ্ব সমাধানতে চলতে পারি। তরুণ দম্পতিদের বিশ্বাসে উৎসাহ দিয়ে আমাদের ঘরকে আপনার মণ্ডলীর আশীর্বাদ করুন।"
+      },
+      "shareLine": {
+        "en": "Today we choose biblical conflict resolution with Jesus.",
+        "bn": "আজ আমরা যীশুর সাথে বাইবেলীয় দ্বন্দ্ব সমাধান বেছে নিচ্ছি।"
+      }
+    },
+    "2026-01-19": {
+      "title": {
+        "en": "Honoring One Another by Grace",
+        "bn": "পরস্পরকে সম্মান অনুগ্রহে"
+      },
+      "verseRef": "Proverbs 31:11",
+      "nivKeyPhrase": "Trust grows when spouses are trustworthy and faithful.",
+      "bnVerse": "তাহার স্বামীর হৃদয় তাহার উপরে আস্থা রাখে।",
+      "reflection": {
+        "en": "The Lord invites us to grow in honoring one another as one covenant team. Today we commit to praying together before bedtime instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by participating faithfully in Sunday service, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে পরস্পরকে সম্মান করাতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে ঘুমানোর আগে একসাথে প্রার্থনা করি বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। রবিবারের উপাসনায় বিশ্বস্তভাবে অংশ নিয়ে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice honoring one another in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে পরস্পরকে সম্মান করা জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into honoring one another together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে পরস্পরকে সম্মান করাতে গভীরে নিয়ে যান।"
+      }
+    },
+    "2026-01-20": {
+      "title": {
+        "en": "Walking in the Spirit in Covenant Love",
+        "bn": "আত্মায় চলা চুক্তির প্রেমে"
+      },
+      "verseRef": "Galatians 5:22-23",
+      "nivKeyPhrase": "The Spirit produces love, joy, peace, patience, and self-control.",
+      "bnVerse": "আত্মার ফল প্রেম, আনন্দ, শান্তি, ধৈর্য, দয়া, মঙ্গল, বিশ্বাস, নম্রতা, আত্মসংযম।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through walking in the Spirit. Today we will practice it by confessing quickly when we are wrong. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by serving at a church outreach event, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে আত্মায় চলা দিয়ে গড়ে তুলছেন। আজ আমরা ভুল হলে দ্রুত স্বীকার করি এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে চার্চ আউটরিচে একসাথে সেবা করে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Father, forgive our impatience and renew our hearts. Teach us to walk in walking in the Spirit with humility and faith. Use us to strengthen others in church with joyful service.",
+        "bn": "পিতা, আমাদের অস্থিরতা ক্ষমা করে হৃদয় নতুন করুন। নম্রতা ও বিশ্বাসে আত্মায় চলা অনুশীলন করতে শেখান। আনন্দের সেবায় আমাদের দ্বারা চার্চ পরিবারকে শক্তিশালী করুন।"
+      },
+      "shareLine": {
+        "en": "Our covenant grows stronger through walking in the Spirit.",
+        "bn": "আমাদের চুক্তির দাম্পত্য আত্মায় চলা দ্বারা দৃঢ় হয়।"
+      }
+    },
+    "2026-01-21": {
+      "title": {
+        "en": "One Heart in Christ for Today",
+        "bn": "খ্রীষ্টে এক হৃদয় আজ"
+      },
+      "verseRef": "Psalm 133:1",
+      "nivKeyPhrase": "God delights when His people live together in harmony.",
+      "bnVerse": "দেখ, ভ্রাতৃগণ একত্রে বাস করা কত উত্তম ও মনোরম।",
+      "reflection": {
+        "en": "The Lord invites us to grow in unity in Christ as one covenant team. Today we commit to choosing gentle words during stress instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by partnering with deacons in practical service, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে খ্রীষ্টে ঐক্যতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে চাপের সময় কোমল ভাষা বেছে নিই বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। ডিকনদের সাথে ব্যবহারিক কাজে সাহায্য করে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Lord Jesus, thank You for covenant love. Fill us with Your Spirit so we can grow in unity in Christ today. Lead our home to bless Your church by partnering with deacons in practical service.",
+        "bn": "প্রভু যীশু, চুক্তির প্রেমের জন্য আপনাকে ধন্যবাদ। আজ আমাদেরকে আপনার আত্মায় পূর্ণ করুন, যেন আমরা খ্রীষ্টে ঐক্যতে চলতে পারি। ডিকনদের সাথে ব্যবহারিক কাজে সাহায্য করে আমাদের ঘরকে আপনার মণ্ডলীর আশীর্বাদ করুন।"
+      },
+      "shareLine": {
+        "en": "Today we choose unity in Christ with Jesus.",
+        "bn": "আজ আমরা যীশুর সাথে খ্রীষ্টে ঐক্য বেছে নিচ্ছি।"
+      }
+    },
+    "2026-01-22": {
+      "title": {
+        "en": "Graceful Communication by Grace",
+        "bn": "অনুগ্রহপূর্ণ কথা অনুগ্রহে"
+      },
+      "verseRef": "James 1:19",
+      "nivKeyPhrase": "Listen first, speak carefully, and refuse quick anger.",
+      "bnVerse": "শুনিতে তৎপর হও, বলিতে ধীর হও, ক্রোধে ধীর হও।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through grace-filled communication. Today we will practice it by setting aside time to read the Bible together. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by giving generously for mission needs, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে অনুগ্রহপূর্ণ যোগাযোগ দিয়ে গড়ে তুলছেন। আজ আমরা একসাথে বাইবেল পড়ার সময় আলাদা করি এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে মিশনের প্রয়োজনে উদারভাবে দান করে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice grace-filled communication in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে অনুগ্রহপূর্ণ যোগাযোগ জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into grace-filled communication together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে অনুগ্রহপূর্ণ যোগাযোগতে গভীরে নিয়ে যান।"
+      }
+    },
+    "2026-01-23": {
+      "title": {
+        "en": "Steady Patience in Covenant Love",
+        "bn": "স্থির ধৈর্য চুক্তির প্রেমে"
+      },
+      "verseRef": "Galatians 6:9",
+      "nivKeyPhrase": "Do not grow tired in doing good; harvest comes in season.",
+      "bnVerse": "সৎকর্ম করিতে নিরুৎসাহ না হই; উপযুক্ত সময়ে আমরা ফল পাইব।",
+      "reflection": {
+        "en": "The Lord invites us to grow in patient love as one covenant team. Today we commit to pausing to ask the Holy Spirit for wisdom instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by praying weekly for church leaders, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে ধৈর্যময় প্রেমতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে পবিত্র আত্মার জ্ঞান চাইতে থেমে যাই বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। চার্চ নেতাদের জন্য সাপ্তাহিক প্রার্থনা করে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Father, forgive our impatience and renew our hearts. Teach us to walk in patient love with humility and faith. Use us to strengthen others in church with joyful service.",
+        "bn": "পিতা, আমাদের অস্থিরতা ক্ষমা করে হৃদয় নতুন করুন। নম্রতা ও বিশ্বাসে ধৈর্যময় প্রেম অনুশীলন করতে শেখান। আনন্দের সেবায় আমাদের দ্বারা চার্চ পরিবারকে শক্তিশালী করুন।"
+      },
+      "shareLine": {
+        "en": "Our covenant grows stronger through patient love.",
+        "bn": "আমাদের চুক্তির দাম্পত্য ধৈর্যময় প্রেম দ্বারা দৃঢ় হয়।"
+      }
+    },
+    "2026-01-24": {
+      "title": {
+        "en": "Quick to Forgive for Today",
+        "bn": "দ্রুত ক্ষমাশীল হৃদয় আজ"
+      },
+      "verseRef": "Matthew 6:14",
+      "nivKeyPhrase": "As you forgive others, your Father extends mercy to you.",
+      "bnVerse": "তোমরা যদি মানুষের অপরাধ ক্ষমা কর, তবে তোমাদের স্বর্গীয় পিতাও তোমাদিগকে ক্ষমা করবেন।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through forgiving grace. Today we will practice it by encouraging each other with hope-filled words. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by welcoming newcomers after worship, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে ক্ষমার অনুগ্রহ দিয়ে গড়ে তুলছেন। আজ আমরা আশাভরা কথায় একে অপরকে উৎসাহ দিই এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে উপাসনার পরে নতুনদের স্বাগত জানিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Lord Jesus, thank You for covenant love. Fill us with Your Spirit so we can grow in forgiving grace today. Lead our home to bless Your church by welcoming newcomers after worship.",
+        "bn": "প্রভু যীশু, চুক্তির প্রেমের জন্য আপনাকে ধন্যবাদ। আজ আমাদেরকে আপনার আত্মায় পূর্ণ করুন, যেন আমরা ক্ষমার অনুগ্রহতে চলতে পারি। উপাসনার পরে নতুনদের স্বাগত জানিয়ে আমাদের ঘরকে আপনার মণ্ডলীর আশীর্বাদ করুন।"
+      },
+      "shareLine": {
+        "en": "Today we choose forgiving grace with Jesus.",
+        "bn": "আজ আমরা যীশুর সাথে ক্ষমার অনুগ্রহ বেছে নিচ্ছি।"
+      }
+    },
+    "2026-01-25": {
+      "title": {
+        "en": "Serving Side by Side by Grace",
+        "bn": "পাশাপাশি সেবা অনুগ্রহে"
+      },
+      "verseRef": "Galatians 5:13",
+      "nivKeyPhrase": "Use freedom to serve one another humbly in love.",
+      "bnVerse": "প্রেমের দ্বারা পরস্পরের সেবা কর।",
+      "reflection": {
+        "en": "The Lord invites us to grow in serving love as one covenant team. Today we commit to praying together before bedtime instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by serving together in a prayer team, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে সেবাময় প্রেমতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে ঘুমানোর আগে একসাথে প্রার্থনা করি বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। প্রার্থনা দলে একসাথে সেবা করে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice serving love in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে সেবাময় প্রেম জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into serving love together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে সেবাময় প্রেমতে গভীরে নিয়ে যান।"
+      }
+    },
+    "2026-01-26": {
+      "title": {
+        "en": "Generous Hearts in Covenant Love",
+        "bn": "উদার হৃদয় চুক্তির প্রেমে"
+      },
+      "verseRef": "Luke 6:38",
+      "nivKeyPhrase": "Give, and generous measure will return to you.",
+      "bnVerse": "দান কর, তাহা হইলে তোমাদিগকেও দেওয়া হইবে; পরিপূর্ণ মাত্রা তোমাদের কোলে দেওয়া হবে।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through joyful generosity. Today we will practice it by confessing quickly when we are wrong. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by joining a couples fellowship group, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে আনন্দময় উদারতা দিয়ে গড়ে তুলছেন। আজ আমরা ভুল হলে দ্রুত স্বীকার করি এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে দম্পতি ফেলোশিপে নিয়মিত অংশ নিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Father, forgive our impatience and renew our hearts. Teach us to walk in joyful generosity with humility and faith. Use us to strengthen others in church with joyful service.",
+        "bn": "পিতা, আমাদের অস্থিরতা ক্ষমা করে হৃদয় নতুন করুন। নম্রতা ও বিশ্বাসে আনন্দময় উদারতা অনুশীলন করতে শেখান। আনন্দের সেবায় আমাদের দ্বারা চার্চ পরিবারকে শক্তিশালী করুন।"
+      },
+      "shareLine": {
+        "en": "Our covenant grows stronger through joyful generosity.",
+        "bn": "আমাদের চুক্তির দাম্পত্য আনন্দময় উদারতা দ্বারা দৃঢ় হয়।"
+      }
+    },
+    "2026-01-27": {
+      "title": {
+        "en": "Parenting with Grace for Today",
+        "bn": "অনুগ্রহে সন্তান প্রতিপালন আজ"
+      },
+      "verseRef": "Ephesians 6:4",
+      "nivKeyPhrase": "Raise children with the Lord's training and instruction.",
+      "bnVerse": "সন্তানদের উত্তেজিত করিও না; প্রভুর শাসন ও উপদেশে তাহাদের প্রতিপালন কর।",
+      "reflection": {
+        "en": "The Lord invites us to grow in godly parenting as one covenant team. Today we commit to choosing gentle words during stress instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by visiting and encouraging an elderly member, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে ঈশ্বরভীরু সন্তান পালনের জীবনতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে চাপের সময় কোমল ভাষা বেছে নিই বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। বয়োজ্যেষ্ঠ সদস্যকে দেখে উৎসাহ দিয়ে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Lord Jesus, thank You for covenant love. Fill us with Your Spirit so we can grow in godly parenting today. Lead our home to bless Your church by visiting and encouraging an elderly member.",
+        "bn": "প্রভু যীশু, চুক্তির প্রেমের জন্য আপনাকে ধন্যবাদ। আজ আমাদেরকে আপনার আত্মায় পূর্ণ করুন, যেন আমরা ঈশ্বরভীরু সন্তান পালনের জীবনতে চলতে পারি। বয়োজ্যেষ্ঠ সদস্যকে দেখে উৎসাহ দিয়ে আমাদের ঘরকে আপনার মণ্ডলীর আশীর্বাদ করুন।"
+      },
+      "shareLine": {
+        "en": "Today we choose godly parenting with Jesus.",
+        "bn": "আজ আমরা যীশুর সাথে ঈশ্বরভীরু সন্তান পালনের জীবন বেছে নিচ্ছি।"
+      }
+    },
+    "2026-01-28": {
+      "title": {
+        "en": "Holy Affection by Grace",
+        "bn": "পবিত্র স্নেহ অনুগ্রহে"
+      },
+      "verseRef": "1 Thessalonians 4:3-4",
+      "nivKeyPhrase": "God calls you to holiness and self-control.",
+      "bnVerse": "ঈশ্বরের ইচ্ছা এই, তোমাদের পবিত্রীকরণ; পবিত্রতা ও সম্মানে আপন দেহ ধারণ কর।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through holy purity. Today we will practice it by setting aside time to read the Bible together. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by supporting a ministry project with time and care, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে পবিত্রতা দিয়ে গড়ে তুলছেন। আজ আমরা একসাথে বাইবেল পড়ার সময় আলাদা করি এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে মন্ত্রণালয়ের কাজে সময় ও যত্ন দিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice holy purity in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে পবিত্রতা জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into holy purity together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে পবিত্রতাতে গভীরে নিয়ে যান।"
+      }
+    },
+    "2026-01-29": {
+      "title": {
+        "en": "Worshiping as One in Covenant Love",
+        "bn": "একসাথে উপাসনা চুক্তির প্রেমে"
+      },
+      "verseRef": "Colossians 3:16",
+      "nivKeyPhrase": "Let Christ's word dwell richly as you sing with gratitude.",
+      "bnVerse": "খ্রীষ্টের বাক্য তোমাদের মধ্যে প্রচুরভাবে বাস করুক; কৃতজ্ঞ হৃদয়ে গান গাও।",
+      "reflection": {
+        "en": "The Lord invites us to grow in shared worship as one covenant team. Today we commit to pausing to ask the Holy Spirit for wisdom instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by hosting a small prayer gathering at home, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে যৌথ উপাসনাতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে পবিত্র আত্মার জ্ঞান চাইতে থেমে যাই বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। বাড়িতে ছোট প্রার্থনা সভা আয়োজন করে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Father, forgive our impatience and renew our hearts. Teach us to walk in shared worship with humility and faith. Use us to strengthen others in church with joyful service.",
+        "bn": "পিতা, আমাদের অস্থিরতা ক্ষমা করে হৃদয় নতুন করুন। নম্রতা ও বিশ্বাসে যৌথ উপাসনা অনুশীলন করতে শেখান। আনন্দের সেবায় আমাদের দ্বারা চার্চ পরিবারকে শক্তিশালী করুন।"
+      },
+      "shareLine": {
+        "en": "Our covenant grows stronger through shared worship.",
+        "bn": "আমাদের চুক্তির দাম্পত্য যৌথ উপাসনা দ্বারা দৃঢ় হয়।"
+      }
+    },
+    "2026-01-30": {
+      "title": {
+        "en": "Praying in Agreement for Today",
+        "bn": "সম্মত প্রার্থনার জীবন আজ"
+      },
+      "verseRef": "Matthew 18:19-20",
+      "nivKeyPhrase": "When believers agree in prayer, Christ is present among them.",
+      "bnVerse": "দুই জন একমত হয়ে প্রার্থনা করলে পিতা শুনেন; তাঁর নামে একত্র হলে তিনি উপস্থিত থাকেন।",
+      "reflection": {
+        "en": "Jesus is shaping our marriage through a faithful prayer life. Today we will practice it by encouraging each other with hope-filled words. As we speak with kindness and truth, trust grows and conflict loses power. This week we will bless the church by encouraging younger couples in faith, so our home becomes a witness of grace.",
+        "bn": "যীশু আমাদের দাম্পত্যকে বিশ্বস্ত প্রার্থনার জীবন দিয়ে গড়ে তুলছেন। আজ আমরা আশাভরা কথায় একে অপরকে উৎসাহ দিই এই অনুশীলন শুরু করব। আমরা যখন সত্য ও কোমলতায় কথা বলি, তখন বিশ্বাস বাড়ে এবং দ্বন্দ্বের শক্তি কমে। এই সপ্তাহে তরুণ দম্পতিদের বিশ্বাসে উৎসাহ দিয়ে আমরা মণ্ডলীকে আশীর্বাদ করব, যাতে আমাদের ঘর অনুগ্রহের সাক্ষ্য হয়।"
+      },
+      "prayer": {
+        "en": "Lord Jesus, thank You for covenant love. Fill us with Your Spirit so we can grow in a faithful prayer life today. Lead our home to bless Your church by encouraging younger couples in faith.",
+        "bn": "প্রভু যীশু, চুক্তির প্রেমের জন্য আপনাকে ধন্যবাদ। আজ আমাদেরকে আপনার আত্মায় পূর্ণ করুন, যেন আমরা বিশ্বস্ত প্রার্থনার জীবনতে চলতে পারি। তরুণ দম্পতিদের বিশ্বাসে উৎসাহ দিয়ে আমাদের ঘরকে আপনার মণ্ডলীর আশীর্বাদ করুন।"
+      },
+      "shareLine": {
+        "en": "Today we choose a faithful prayer life with Jesus.",
+        "bn": "আজ আমরা যীশুর সাথে বিশ্বস্ত প্রার্থনার জীবন বেছে নিচ্ছি।"
+      }
+    },
+    "2026-01-31": {
+      "title": {
+        "en": "Open Home, Open Heart by Grace",
+        "bn": "খোলা ঘর, খোলা হৃদয় অনুগ্রহে"
+      },
+      "verseRef": "Romans 12:13",
+      "nivKeyPhrase": "Share with believers in need and practice hospitality gladly.",
+      "bnVerse": "পবিত্রদের অভাবে সহায় হও; অতিথিসেবা করিবার জন্য চেষ্টা কর।",
+      "reflection": {
+        "en": "The Lord invites us to grow in Christlike hospitality as one covenant team. Today we commit to praying together before bedtime instead of reacting in the flesh. The Holy Spirit can turn small habits into deep spiritual strength for our home. Together we will live on mission by participating faithfully in Sunday service, serving with joy.",
+        "bn": "প্রভু আমাদেরকে চুক্তির দল হিসেবে খ্রীষ্টসুলভ অতিথিপরায়ণতাতে বৃদ্ধি পেতে ডাকছেন। আজ আমরা শরীরের প্রতিক্রিয়ার বদলে ঘুমানোর আগে একসাথে প্রার্থনা করি বেছে নেব। পবিত্র আত্মা ছোট অভ্যাসকে গভীর আধ্যাত্মিক শক্তিতে পরিণত করতে পারেন। রবিবারের উপাসনায় বিশ্বস্তভাবে অংশ নিয়ে আমরা আনন্দের সাথে একসাথে মিশনে চলব।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guide our words, choices, and attitudes. Help us practice Christlike hospitality in every conversation and decision. Keep our marriage rooted in Christ and fruitful for Your kingdom.",
+        "bn": "পবিত্র আত্মা, আমাদের কথা, সিদ্ধান্ত ও মনোভাব পরিচালনা করুন। প্রতিটি আলাপ ও কাজে খ্রীষ্টসুলভ অতিথিপরায়ণতা জীবিত রাখতে সাহায্য করুন। আমাদের দাম্পত্যকে খ্রীষ্টে প্রতিষ্ঠিত ও আপনার রাজ্যের জন্য ফলবান করুন।"
+      },
+      "shareLine": {
+        "en": "Christ leads us deeper into Christlike hospitality together.",
+        "bn": "খ্রীষ্ট আমাদের একসাথে খ্রীষ্টসুলভ অতিথিপরায়ণতাতে গভীরে নিয়ে যান।"
+      }
+    }
+  }
+}

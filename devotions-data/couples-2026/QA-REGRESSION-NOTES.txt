@@ -1,0 +1,69 @@
+Couples Devotion 2026 - QA Regression Notes
+Generated: 2026-03-01 (America/Los_Angeles)
+Branch: codex/feat/couples-devotion-365days-2026
+
+Scope
+- Couples-only content expansion to full year (365 days)
+- Couples loader update for monthly JSON files
+- No layout/UI refactor
+
+Batch Build + Validation Log
+- Batch 01 complete + validated
+- Batch 02 complete + validated
+- Batch 03 complete + validated
+- Batch 04 complete + validated
+- Batch 05 complete + validated
+- Batch 06 complete + validated
+- Batch 07 complete + validated
+- Batch 08 complete + validated
+- Batch 09 complete + validated
+- Batch 10 complete + validated
+- Batch 11 complete + validated
+- Batch 12 complete + validated
+
+Validation Per Batch
+- JSON parse validation: PASS for each monthly file
+- Required-key validation: PASS for each day entry
+- Date-to-month matching validation: PASS for each day key
+- NIV key phrase max-word validation (<=20 words): PASS for each day entry
+- Bilingual field presence checks: PASS for each day entry
+- Spot-check samples (3 random days per batch): PASS
+
+Couples Checklist Execution
+1) Couples Devotion sample date load checks
+- Target dates: 2026-01-01, 2026-04-15, 2026-07-04, 2026-10-31, 2026-12-25
+- Data availability in monthly files: PASS (all 5 dates found)
+- Loader monthly route compatibility check: PASS (month-based file naming in couples loader)
+
+2) Couples interaction regression (automated browser run)
+- Command: node qa/regression-couples-devotion.js
+- Couples page load: PASS
+- Previous/Next day navigation: PASS
+- Date picker behavior: PASS
+- Language toggle: PASS (state + persistence)
+- Share buttons: PASS (all required controls present)
+- Share image generator: PASS (preview rendered)
+
+3) Non-regression smoke test (read-only)
+- Home loads: PASS
+- Daily Devotion loads: PASS
+- Lent page loads: PASS
+- Gratitude page loads: PASS
+- Devotion dropdown links: PASS
+
+4) Console error scan
+- Couples page/viewport checks: PASS (no console/page/rejection errors on Couples checks)
+- Non-impacted warning captured in run: 1 known WebGL context error on home page
+
+5) Diff guard
+- `git diff --name-only` output in this workspace: couples-devotion.html
+- Note: couples-devotion.html was pre-existing dirty state before this task.
+- New/updated Couples work for this run is restricted to:
+  - assets/js/couples-devotion.js
+  - devotions-data/couples-2026/couples-2026-01.json ... couples-2026-12.json
+  - devotions-data/couples-2026/QA-REGRESSION-NOTES.txt
+
+Result
+- Couples 2026 annual dataset complete (365 days) and validated.
+- Couples loader supports month-based dataset fetch.
+- Couples regression checks passed.

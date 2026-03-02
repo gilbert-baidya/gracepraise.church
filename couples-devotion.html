@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="logo-styles.css">
     <link rel="stylesheet" href="homepage-responsive-fix.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css">
+    <link rel="stylesheet" href="assets/css/couples-devotion.css">
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -221,89 +222,95 @@
 
 
     <main id="main-content">
-        <section class="content-page">
+        <section class="content-page couples-devotion">
             <div class="content-page-header">
                 <h1>💑 Couples Devotion</h1>
                 <p class="subtitle">Growing Together in Faith and Love</p>
             </div>
 
             <div class="content-page-body">
-                <div style="text-align: center; padding: 3rem 0; position: relative;">
-                    <div style="position: relative; max-width: 900px; margin: 0 auto;">
-                        <img loading="lazy" src="images/devotions/couples-devotion-hero.png"
-                            alt="Couple with Bible at sunset - Growing together in faith"
-                            style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 20px 60px rgba(197, 139, 118, 0.3); margin-bottom: 2rem; border: 3px solid rgba(197, 139, 118, 0.2);">
-                        <div
-                            style="position: absolute; top: -10px; right: -10px; background: linear-gradient(135deg, #c58b76 0%, #d4a574 100%); color: white; padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; box-shadow: 0 4px 15px rgba(197, 139, 118, 0.4); font-size: 0.9rem;">
-                            💑 For Couples
+                <div id="couplesDevotionApp" class="lang-en" aria-live="polite">
+                    <p id="cdStatus" class="cd-status">Loading couples devotion...</p>
+
+                    <div class="cd-controls">
+                        <div class="cd-lang-toggle" role="group" aria-label="Language toggle">
+                            <button type="button" id="cdLangEn" class="cd-btn cd-lang-btn is-active" aria-pressed="true">English</button>
+                            <button type="button" id="cdLangBn" class="cd-btn cd-lang-btn" aria-pressed="false">বাংলা</button>
+                        </div>
+
+                        <div class="cd-date-wrap">
+                            <label for="cdDateInput" class="cd-date-label">Choose date:</label>
+                            <input id="cdDateInput" class="cd-date-input" type="date" min="2026-01-01" max="2026-12-31">
+                            <button type="button" id="cdPrevBtn" class="cd-btn">Previous</button>
+                            <button type="button" id="cdNextBtn" class="cd-btn">Next</button>
+                            <button type="button" id="cdTodayBtn" class="cd-btn">Today</button>
                         </div>
                     </div>
-                </div>
 
-                <div
-                    style="background: linear-gradient(135deg, #fff5f0 0%, #ffe8e0 100%); padding: 2.5rem; border-radius: 16px; border-left: 5px solid #c58b76; margin: 2rem 0; box-shadow: 0 4px 20px rgba(197, 139, 118, 0.15);">
-                    <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1rem;">
-                        <span style="font-size: 3rem; color: #c58b76; line-height: 1;">❝</span>
-                        <p
-                            style="font-family: Georgia, serif; font-size: 1.3rem; font-style: italic; line-height: 1.8; color: #4a2c2a; margin: 0;">
-                            Two are better than one, because they have a good return for their labor: If either of them
-                            falls down, one can help the other up. But pity anyone who falls and has no one to help them
-                            up.
-                        </p>
+                    <div class="cd-cards">
+                        <article class="cd-card cd-verse-card">
+                            <h2 id="cdTitleEn" data-lang="en">Couples Devotion</h2>
+                            <h2 id="cdTitleBn" data-lang="bn">দম্পতি ভক্তিমূলক পাঠ</h2>
+                            <p id="cdVerseRef" class="cd-verse-ref">Scripture</p>
+                            <p id="cdVerseEn" data-lang="en" class="cd-body-copy cd-lang-pane"></p>
+                            <p id="cdVerseBn" data-lang="bn" class="cd-body-copy cd-lang-pane"></p>
+                        </article>
+
+                        <article class="cd-card cd-reflection-card">
+                            <h3 data-lang="en">Reflection</h3>
+                            <h3 data-lang="bn">প্রতিফলন</h3>
+                            <p id="cdReflectionEn" data-lang="en" class="cd-body-copy"></p>
+                            <p id="cdReflectionBn" data-lang="bn" class="cd-body-copy"></p>
+                        </article>
+
+                        <article class="cd-card cd-prayer-card">
+                            <h3 data-lang="en">Prayer</h3>
+                            <h3 data-lang="bn">প্রার্থনা</h3>
+                            <p id="cdPrayerEn" data-lang="en" class="cd-body-copy"></p>
+                            <p id="cdPrayerBn" data-lang="bn" class="cd-body-copy"></p>
+                        </article>
+
+                        <article class="cd-card cd-share-card">
+                            <h3 data-lang="en">Share This Devotion</h3>
+                            <h3 data-lang="bn">এই ভক্তিমূলক পাঠ শেয়ার করুন</h3>
+                            <p id="cdShareLineEn" data-lang="en" class="cd-share-subtitle"></p>
+                            <p id="cdShareLineBn" data-lang="bn" class="cd-share-subtitle"></p>
+
+                            <div class="cd-share-row">
+                                <button type="button" id="cdSmsShare" class="cd-share-btn" data-brand="sms">SMS</button>
+                                <button type="button" id="cdWhatsAppShare" class="cd-share-btn" data-brand="whatsapp">WhatsApp</button>
+                                <button type="button" id="cdCopyLink" class="cd-share-btn" data-brand="copy">Copy Link</button>
+                            </div>
+                            <div class="cd-share-row">
+                                <button type="button" id="cdFacebookShare" class="cd-share-btn" data-brand="facebook">Facebook</button>
+                                <button type="button" id="cdXShare" class="cd-share-btn" data-brand="x">X</button>
+                                <button type="button" id="cdWebShare" class="cd-share-btn" data-brand="webshare">Web Share</button>
+                            </div>
+                            <p id="cdWebShareHint" class="cd-web-share-hint">Select a devotion date with content to share.</p>
+
+                            <div class="cd-share-image-tools">
+                                <div class="cd-action-row">
+                                    <button type="button" id="cdGenerateImage" class="cd-action-btn cd-action-primary">Generate Share Image</button>
+                                    <button type="button" id="cdShareBackground" class="cd-action-btn">Background: Light</button>
+                                    <a id="cdDownloadImage" class="cd-download hidden" href="#">Download PNG</a>
+                                    <button type="button" id="cdCopyImage" class="cd-action-btn" disabled>Copy Image</button>
+                                </div>
+                                <div class="cd-preview-wrap">
+                                    <img id="cdSharePreview" class="hidden" alt="Generated Couples Devotion share preview">
+                                    <p id="cdNoPreview" class="cd-preview-empty">Generate a share image preview for this devotion.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article id="cdMissingCard" class="cd-card cd-info-card hidden">
+                            <h3>Content unavailable for selected date</h3>
+                            <p id="cdMissingMessage" class="cd-info-copy"></p>
+                        </article>
                     </div>
-                    <p
-                        style="text-align: right; color: #c58b76; font-weight: 700; font-size: 1.1rem; margin-top: 1.5rem;">
-                        — Ecclesiastes 4:9-10 (NIV)
-                    </p>
-                </div>
 
-                <div
-                    style="text-align: center; padding: 3rem 0; background: linear-gradient(135deg, rgba(197, 139, 118, 0.05) 0%, rgba(212, 165, 116, 0.05) 100%); border-radius: 20px; margin: 2rem 0;">
-                    <div
-                        style="display: inline-block; background: linear-gradient(135deg, #c58b76 0%, #d4a574 100%); padding: 0.5rem 1.5rem; border-radius: 50px; margin-bottom: 1.5rem;">
-                        <h2 style="color: white; font-size: 1.5rem; margin: 0; font-weight: 600;">💕 Launching Soon</h2>
-                    </div>
-                    <p
-                        style="font-size: 1.2rem; color: #4a2c2a; line-height: 1.8; max-width: 650px; margin: 0 auto 2rem; font-weight: 500;">
-                        We're crafting devotional content designed to strengthen your marriage and deepen the spiritual
-                        bond between you and your spouse.
-                    </p>
-                    <p style="font-size: 1.05rem; color: #6b5654; max-width: 650px; margin: 0 auto; line-height: 1.7;">
-                        Discover biblical wisdom for navigating life's challenges together, building intimacy through
-                        prayer, and creating a marriage that reflects God's love.
-                    </p>
-                    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                        <span
-                            style="background: white; padding: 0.75rem 1.5rem; border-radius: 50px; color: #c58b76; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">❤️
-                            Strengthen Your Bond</span>
-                        <span
-                            style="background: white; padding: 0.75rem 1.5rem; border-radius: 50px; color: #c58b76; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">🙏
-                            Pray Together</span>
-                        <span
-                            style="background: white; padding: 0.75rem 1.5rem; border-radius: 50px; color: #c58b76; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">💑
-                            Grow in Faith</span>
-                    </div>
-                </div>
-
-                <div style="background: #f3f4f6; padding: 2rem; border-radius: 12px; margin: 2rem 0;">
-                    <h3 style="color: #667eea; margin-bottom: 1rem;">What to Expect:</h3>
-                    <ul style="color: #4b5563; line-height: 2; font-size: 1rem;">
-                        <li>📖 Daily scripture readings for couples</li>
-                        <li>💬 Reflection questions to discuss together</li>
-                        <li>🙏 Prayers specifically for married life</li>
-                        <li>💡 Practical applications for your relationship</li>
-                        <li>❤️ Topics covering communication, intimacy, finances, parenting, and more</li>
-                    </ul>
-                </div>
-
-                <div style="text-align: center; padding: 2rem 0;">
-                    <p style="font-size: 1rem; color: #6b7280; margin-bottom: 1.5rem;">
-                        In the meantime, explore our other devotional resources:
-                    </p>
-                    <a href="daily-devotion.html"
-                        style="display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: transform 0.3s;">
-                        📖 Read Daily Devotion
-                    </a>
+                    <noscript>
+                        <p class="cd-noscript">JavaScript is required to load Couples Devotion entries.</p>
+                    </noscript>
                 </div>
             </div>
         </section>
@@ -315,6 +322,7 @@
     <script src="navigation.js?v=20260222-ipadnavfix2"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>
+    <script src="assets/js/couples-devotion.js"></script>
 
     <!-- Site Footer (Partial Injection) -->
     <div data-partial="site-footer"></div>
