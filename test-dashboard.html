@@ -230,40 +230,40 @@
 
         <div class="timer">
             <div class="label">Execution Time</div>
-            <div class="time">0.95s</div>
+            <div class="time">998.22s</div>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card stat-total">
                 <div class="label">Total Tests</div>
-                <div class="value">3</div>
+                <div class="value">8673</div>
             </div>
             <div class="stat-card stat-passed">
                 <div class="label">✅ Passed</div>
-                <div class="value">0</div>
+                <div class="value">2810</div>
             </div>
             <div class="stat-card stat-failed">
                 <div class="label">❌ Failed</div>
-                <div class="value">0</div>
+                <div class="value">192</div>
             </div>
             <div class="stat-card stat-running">
                 <div class="label">⚡ Running</div>
-                <div class="value">3</div>
+                <div class="value">6</div>
             </div>
             <div class="stat-card stat-pending">
                 <div class="label">⏳ Pending</div>
-                <div class="value">0</div>
+                <div class="value">5286</div>
             </div>
             <div class="stat-card stat-skipped">
                 <div class="label">⏭️ Skipped</div>
-                <div class="value">0</div>
+                <div class="value">378</div>
             </div>
         </div>
 
         <div class="progress-section">
             <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 0.0%">
-                    <span class="progress-text">0.0% Complete</span>
+                <div class="progress-bar" style="width: 39.0%">
+                    <span class="progress-text">39.0% Complete</span>
                 </div>
             </div>
         </div>
@@ -276,8 +276,8 @@
                         ⚡
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Desktop light-mode dropdown links remain readable (About, Ministries, Devotion)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:373</div>
+                        <div class="test-title">all navigation links are clickable</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:124</div>
                         
                     </div>
                     <div class="test-duration">
@@ -291,8 +291,8 @@
                         ⚡
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Home -> burger -> Devotion -> Daily Devotion renders core content (mobile)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:417</div>
+                        <div class="test-title">images have alt text</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:176</div>
                         
                     </div>
                     <div class="test-duration">
@@ -306,12 +306,780 @@
                         ⚡
                     </div>
                     <div class="test-details">
-                        <div class="test-title">Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (mobile)</div>
-                        <div class="test-location">devotion/critical-navigation-and-render-regression.spec.ts:456</div>
+                        <div class="test-title">buttons and interactive elements have labels</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:147</div>
                         
                     </div>
                     <div class="test-duration">
                         ...
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">burger menu works on mobile/tablet devices</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:91</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.45s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item running">
+                    <div class="test-icon">
+                        ⚡
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">displays header and footer correctly</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:72</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        ...
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item running">
+                    <div class="test-icon">
+                        ⚡
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">has no horizontal scroll overflow</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:54</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        ...
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item running">
+                    <div class="test-icon">
+                        ⚡
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">loads successfully without errors</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:25</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        ...
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item failed">
+                    <div class="test-icon">
+                        ❌
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">images have alt text</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:176</div>
+                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveTitle[2m([22m[32mexpected[39m[2m)[22m failed
+
+Expected pattern: [32m/40 Days Fasting \| Grace and Praise Bangladeshi Church/i[39m
+Received string:  [31m"Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[39m
+Timeout: 15000ms
+
+Call log:
+[2m  - Expect "toHaveTitle" with timeout 15000ms[22m
+[2m    19 × unexpected value "Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[22m
+</div>
+                    </div>
+                    <div class="test-duration">
+                        16.08s
+                        <span class="screenshot-indicator">📸</span>
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">buttons and interactive elements have labels</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:147</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.24s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">all navigation links are clickable</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:124</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.50s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">burger menu works on mobile/tablet devices</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:91</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.55s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">displays header and footer correctly</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:72</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.58s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">has no horizontal scroll overflow</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:54</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.98s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">loads successfully without errors</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:25</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.89s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">images have alt text</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:176</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.97s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">buttons and interactive elements have labels</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:147</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.28s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">all navigation links are clickable</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:124</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.29s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">burger menu works on mobile/tablet devices</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:91</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.89s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">displays header and footer correctly</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:72</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.13s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">has no horizontal scroll overflow</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:54</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.86s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">loads successfully without errors</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:25</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.77s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">images have alt text</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:176</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.29s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item failed">
+                    <div class="test-icon">
+                        ❌
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">buttons and interactive elements have labels</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:147</div>
+                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveTitle[2m([22m[32mexpected[39m[2m)[22m failed
+
+Expected pattern: [32m/40 Days Fasting \| Grace and Praise Bangladeshi Church/i[39m
+Received string:  [31m"Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[39m
+Timeout: 15000ms
+
+Call log:
+[2m  - Expect "toHaveTitle" with timeout 15000ms[22m
+[2m    19 × unexpected value "Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[22m
+</div>
+                    </div>
+                    <div class="test-duration">
+                        15.57s
+                        <span class="screenshot-indicator">📸</span>
+                    </div>
+                </div>
+            
+                <div class="test-item failed">
+                    <div class="test-icon">
+                        ❌
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">all navigation links are clickable</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:124</div>
+                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveTitle[2m([22m[32mexpected[39m[2m)[22m failed
+
+Expected pattern: [32m/40 Days Fasting \| Grace and Praise Bangladeshi Church/i[39m
+Received string:  [31m"Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[39m
+Timeout: 15000ms
+
+Call log:
+[2m  - Expect "toHaveTitle" with timeout 15000ms[22m
+[2m    19 × unexpected value "Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[22m
+</div>
+                    </div>
+                    <div class="test-duration">
+                        15.64s
+                        <span class="screenshot-indicator">📸</span>
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">burger menu works on mobile/tablet devices</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:91</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.32s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item failed">
+                    <div class="test-icon">
+                        ❌
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">displays header and footer correctly</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:72</div>
+                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveTitle[2m([22m[32mexpected[39m[2m)[22m failed
+
+Expected pattern: [32m/40 Days Fasting \| Grace and Praise Bangladeshi Church/i[39m
+Received string:  [31m"Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[39m
+Timeout: 15000ms
+
+Call log:
+[2m  - Expect "toHaveTitle" with timeout 15000ms[22m
+[2m    19 × unexpected value "Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[22m
+</div>
+                    </div>
+                    <div class="test-duration">
+                        15.68s
+                        <span class="screenshot-indicator">📸</span>
+                    </div>
+                </div>
+            
+                <div class="test-item failed">
+                    <div class="test-icon">
+                        ❌
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">has no horizontal scroll overflow</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:54</div>
+                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveTitle[2m([22m[32mexpected[39m[2m)[22m failed
+
+Expected pattern: [32m/40 Days Fasting \| Grace and Praise Bangladeshi Church/i[39m
+Received string:  [31m"Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[39m
+Timeout: 15000ms
+
+Call log:
+[2m  - Expect "toHaveTitle" with timeout 15000ms[22m
+[2m    19 × unexpected value "Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[22m
+</div>
+                    </div>
+                    <div class="test-duration">
+                        15.63s
+                        <span class="screenshot-indicator">📸</span>
+                    </div>
+                </div>
+            
+                <div class="test-item failed">
+                    <div class="test-icon">
+                        ❌
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">loads successfully without errors</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:25</div>
+                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveTitle[2m([22m[32mexpected[39m[2m)[22m failed
+
+Expected pattern: [32m/40 Days Fasting \| Grace and Praise Bangladeshi Church/i[39m
+Received string:  [31m"Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[39m
+Timeout: 15000ms
+
+Call log:
+[2m  - Expect "toHaveTitle" with timeout 15000ms[22m
+[2m    19 × unexpected value "Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church"[22m
+</div>
+                    </div>
+                    <div class="test-duration">
+                        15.66s
+                        <span class="screenshot-indicator">📸</span>
+                    </div>
+                </div>
+            
+                <div class="test-item failed">
+                    <div class="test-icon">
+                        ❌
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">images have alt text</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:176</div>
+                        <div style="color: #ef4444; font-size: 12px; margin-top: 4px;">Error: Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveTitle[2m([22m[32mexpected[39m[2m)[22m failed
+
+Expected pattern: [32m/Daily Devotion \| Grace and Praise Bangladeshi Church/i[39m
+Received string:  [31m"The Lord Will Fight (March 3, 2026) | Daily Devotion"[39m
+Timeout: 15000ms
+
+Call log:
+[2m  - Expect "toHaveTitle" with timeout 15000ms[22m
+[2m    19 × unexpected value "The Lord Will Fight (March 3, 2026) | Daily Devotion"[22m
+</div>
+                    </div>
+                    <div class="test-duration">
+                        16.00s
+                        <span class="screenshot-indicator">📸</span>
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">buttons and interactive elements have labels</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:147</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.72s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">all navigation links are clickable</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:124</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.82s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">burger menu works on mobile/tablet devices</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:91</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.36s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">displays header and footer correctly</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:72</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.85s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">has no horizontal scroll overflow</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:54</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.87s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">loads successfully without errors</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:25</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.72s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">images have alt text</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:176</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.80s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">buttons and interactive elements have labels</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:147</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.93s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">all navigation links are clickable</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:124</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.90s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">burger menu works on mobile/tablet devices</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:91</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.50s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">displays header and footer correctly</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:72</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.70s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">has no horizontal scroll overflow</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:54</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.96s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">loads successfully without errors</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:25</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.05s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">images have alt text</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:176</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.91s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">buttons and interactive elements have labels</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:147</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.23s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">all navigation links are clickable</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:124</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.10s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">burger menu works on mobile/tablet devices</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:91</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.43s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">displays header and footer correctly</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:72</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.51s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">has no horizontal scroll overflow</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:54</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.90s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item skipped">
+                    <div class="test-icon">
+                        ⏭️
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">all navigation links are clickable</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:124</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        1.70s
+                        
+                    </div>
+                </div>
+            
+                <div class="test-item passed">
+                    <div class="test-icon">
+                        ✅
+                    </div>
+                    <div class="test-details">
+                        <div class="test-title">loads successfully without errors</div>
+                        <div class="test-location">smoke/auto-generated-page-tests.spec.ts:25</div>
+                        
+                    </div>
+                    <div class="test-duration">
+                        0.88s
                         
                     </div>
                 </div>

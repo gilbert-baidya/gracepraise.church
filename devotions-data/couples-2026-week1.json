@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "type": "couples",
+    "language": ["en-NIV", "bn-WilliamCarey"],
+    "range": "2026-03-01..2026-03-07"
+  },
+  "days": {
+    "2026-03-01": {
+      "title": { "en": "One Heart, One Prayer", "bn": "এক হৃদয়, এক প্রার্থনা" },
+      "verseRef": "Matthew 18:19-20",
+      "verse": {
+        "en": "\"If two of you on earth agree about anything they ask for, it will be done for them by my Father in heaven. For where two or three gather in my name, there am I with them.\"",
+        "bn": "\"যদি তোমাদের মধ্যে পৃথিবীতে দুই জন কোন বিষয়ে একমত হয়ে প্রার্থনা করে, তবে স্বর্গে আমার পিতা তাহা করিবেন। কারণ আমার নামে দুই কি তিন জন যেখানে একত্র হয়, আমি সেখানে তাদের মধ্যে উপস্থিত থাকি।\""
+      },
+      "reflection": {
+        "en": "Marriage grows stronger when prayer becomes a shared rhythm. Before solving problems, agree to seek Jesus together and let unity lead every decision.",
+        "bn": "যখন প্রার্থনা দাম্পত্যের দৈনন্দিন ছন্দ হয়, সম্পর্ক দৃঢ় হয়। সমস্যার সমাধানের আগে একসাথে যীশুকে খুঁজুন, ঐক্যকে সিদ্ধান্তের ভিত্তি করুন।"
+      },
+      "prayer": {
+        "en": "Lord, teach us to pray with one heart. Make our home a place where Your presence guides every word, plan, and step.",
+        "bn": "প্রভু, আমাদের এক হৃদয়ে প্রার্থনা করতে শেখান। আমাদের ঘরকে এমন স্থান করুন, যেখানে আপনার উপস্থিতি কথা, পরিকল্পনা ও পদক্ষেপকে পরিচালনা করে।"
+      },
+      "shareLine": {
+        "en": "Pray together, and God will build you together.",
+        "bn": "একসাথে প্রার্থনা করুন, ঈশ্বর একসাথে গড়ে তুলবেন।"
+      }
+    },
+    "2026-03-02": {
+      "title": { "en": "Love That Serves", "bn": "সেবাময় প্রেম" },
+      "verseRef": "Galatians 5:13",
+      "verse": {
+        "en": "\"Serve one another humbly in love.\"",
+        "bn": "\"প্রেমের দ্বারা পরস্পরের দাসত্ব কর।\""
+      },
+      "reflection": {
+        "en": "Real love is visible in service. Small acts done with humility heal hurt, restore trust, and turn your home into a witness of Christ.",
+        "bn": "সত্যিকারের প্রেম সেবায় প্রকাশ পায়। নম্রতার ছোট কাজগুলো আঘাত সারায়, বিশ্বাস ফিরিয়ে আনে, এবং আপনার ঘরকে খ্রিষ্টের সাক্ষ্যে পরিণত করে।"
+      },
+      "prayer": {
+        "en": "Jesus, remove selfishness from us. Give us joy in serving one another and serving Your church together.",
+        "bn": "যীশু, আমাদের মধ্যে থেকে স্বার্থপরতা দূর করুন। একে অন্যকে এবং আপনার মণ্ডলীতে একসাথে সেবা করার আনন্দ দিন।"
+      },
+      "shareLine": {
+        "en": "Love grows when spouses serve with humility.",
+        "bn": "নম্র সেবায় দাম্পত্য-প্রেম বৃদ্ধি পায়।"
+      }
+    },
+    "2026-03-03": {
+      "title": { "en": "Forgive Quickly", "bn": "দ্রুত ক্ষমা করুন" },
+      "verseRef": "Ephesians 4:32",
+      "verse": {
+        "en": "\"Be kind and compassionate to one another, forgiving each other, just as in Christ God forgave you.\"",
+        "bn": "\"পরস্পরের প্রতি দয়ালু ও করুণাময় হও; খ্রীষ্টে ঈশ্বর যেমন তোমাদিগকে ক্ষমা করেছেন, তোমরাও তেমন একে অপরকে ক্ষমা কর।\""
+      },
+      "reflection": {
+        "en": "Unforgiveness hardens marriage, but grace softens hearts. Forgive quickly, speak gently, and protect unity before the sun goes down.",
+        "bn": "অক্ষমা দাম্পত্যকে কঠিন করে, কিন্তু অনুগ্রহ হৃদয়কে কোমল করে। দ্রুত ক্ষমা করুন, কোমলভাবে কথা বলুন, সূর্যাস্তের আগেই ঐক্য রক্ষা করুন।"
+      },
+      "prayer": {
+        "en": "Father, heal old wounds between us. Help us forgive as we have been forgiven, and restore peace in our home.",
+        "bn": "পিতা, আমাদের মাঝের পুরনো ক্ষত সারিয়ে দিন। যেমন আমরা ক্ষমা পেয়েছি তেমনি ক্ষমা করতে সাহায্য করুন, এবং আমাদের ঘরে শান্তি ফিরিয়ে দিন।"
+      },
+      "shareLine": {
+        "en": "Grace in marriage begins with forgiveness.",
+        "bn": "দাম্পত্যে অনুগ্রহ শুরু হয় ক্ষমা দিয়ে।"
+      }
+    },
+    "2026-03-04": {
+      "title": { "en": "Speak Life", "bn": "জীবনদায়ী কথা বলুন" },
+      "verseRef": "Proverbs 18:21",
+      "verse": {
+        "en": "\"The tongue has the power of life and death.\"",
+        "bn": "\"জিহ্বার ক্ষমতা মৃত্যু ও জীবনে।\""
+      },
+      "reflection": {
+        "en": "Words shape the atmosphere of marriage. Choose encouragement over criticism so your spouse hears courage, dignity, and hope.",
+        "bn": "কথা দাম্পত্যের পরিবেশ গঠন করে। সমালোচনার বদলে উৎসাহ দিন, যাতে আপনার সঙ্গী সাহস, মর্যাদা ও আশা পায়।"
+      },
+      "prayer": {
+        "en": "Holy Spirit, guard our mouths. Let our words heal, strengthen, and call each other deeper into Your purpose.",
+        "bn": "পবিত্র আত্মা, আমাদের মুখ রক্ষা করুন। আমাদের কথা যেন আরোগ্য দেয়, শক্তি দেয়, এবং একে অপরকে আপনার উদ্দেশ্যে আরও গভীরে ডাকে।"
+      },
+      "shareLine": {
+        "en": "Speak words that build, not words that break.",
+        "bn": "ভাঙার কথা নয়, গড়ার কথা বলুন।"
+      }
+    },
+    "2026-03-05": {
+      "title": { "en": "Carry Each Other", "bn": "একে অপরকে বহন করুন" },
+      "verseRef": "Galatians 6:2",
+      "verse": {
+        "en": "\"Carry each other's burdens, and in this way you will fulfill the law of Christ.\"",
+        "bn": "\"পরস্পরের ভার বহন কর; এইরূপে তোমরা খ্রীষ্টের ব্যবস্থা পূর্ণ করিবে।\""
+      },
+      "reflection": {
+        "en": "Marriage is covenant partnership, not solo effort. Share burdens with honesty and compassion, and your bond becomes a testimony to the church.",
+        "bn": "দাম্পত্য একক প্রচেষ্টা নয়, চুক্তিভিত্তিক অংশীদারিত্ব। সততা ও সহানুভূতিতে ভার ভাগ করুন; আপনার সম্পর্ক মণ্ডলীর কাছে সাক্ষ্যে পরিণত হবে।"
+      },
+      "prayer": {
+        "en": "Lord, make us attentive to each other's burdens. Give us patience, practical love, and strength to carry one another.",
+        "bn": "প্রভু, একে অপরের ভারের প্রতি আমাদের সংবেদনশীল করুন। ধৈর্য, বাস্তব প্রেম ও পরস্পরকে বহন করার শক্তি দিন।"
+      },
+      "shareLine": {
+        "en": "Strong couples carry burdens together.",
+        "bn": "দৃঢ় দম্পতি একসাথে ভার বহন করে।"
+      }
+    },
+    "2026-03-06": {
+      "title": { "en": "Serve the Church Together", "bn": "মণ্ডলীতে একসাথে সেবা" },
+      "verseRef": "Joshua 24:15",
+      "verse": {
+        "en": "\"As for me and my household, we will serve the Lord.\"",
+        "bn": "\"আমি ও আমার পরিবার সদাপ্রভুর সেবা করিব।\""
+      },
+      "reflection": {
+        "en": "Couples flourish when they share mission. Serving together in church aligns your values, strengthens unity, and blesses many lives.",
+        "bn": "যখন দম্পতি এক মিশনে চলে, তখন সম্পর্ক বিকশিত হয়। মণ্ডলীতে একসাথে সেবা আপনার মূল্যবোধকে এক করে, ঐক্য বাড়ায়, এবং অনেক জীবনকে আশীর্বাদ করে।"
+      },
+      "prayer": {
+        "en": "God, align our home with Your mission. Show us where to serve together with humility, joy, and faithfulness.",
+        "bn": "ঈশ্বর, আমাদের ঘরকে আপনার মিশনের সঙ্গে মিলিয়ে দিন। নম্রতা, আনন্দ ও বিশ্বস্ততায় কোথায় একসাথে সেবা করব তা দেখান।"
+      },
+      "shareLine": {
+        "en": "A couple on mission becomes a blessing to many.",
+        "bn": "মিশনমুখী দম্পতি অনেকের আশীর্বাদ হয়।"
+      }
+    },
+    "2026-03-07": {
+      "title": { "en": "Bound in Peace", "bn": "শান্তির বন্ধনে আবদ্ধ" },
+      "verseRef": "Colossians 3:14-15",
+      "verse": {
+        "en": "\"Over all these virtues put on love, which binds them all together in perfect unity. Let the peace of Christ rule in your hearts.\"",
+        "bn": "\"এই সকলের উপরে প্রেম পরিধান কর, যাহা সিদ্ধতার বন্ধন। খ্রীষ্টের শান্তি তোমাদের হৃদয়ে রাজত্ব করুক।\""
+      },
+      "reflection": {
+        "en": "Peace in marriage is built, not found. Put on love daily, choose unity intentionally, and let Christ rule your responses in every conflict.",
+        "bn": "দাম্পত্যের শান্তি পাওয়া যায় না, গড়ে তুলতে হয়। প্রতিদিন প্রেম পরিধান করুন, সচেতনভাবে ঐক্য বেছে নিন, এবং প্রতিটি দ্বন্দ্বে খ্রীষ্টকে আপনার প্রতিক্রিয়ার প্রভু হতে দিন।"
+      },
+      "prayer": {
+        "en": "Prince of Peace, rule our hearts today. Bind us in love, protect our unity, and make our marriage a light for others.",
+        "bn": "শান্তির রাজকুমার, আজ আমাদের হৃদয়ে রাজত্ব করুন। প্রেমে আমাদের বাঁধুন, ঐক্য রক্ষা করুন, এবং আমাদের দাম্পত্যকে অন্যদের জন্য আলো করুন।"
+      },
+      "shareLine": {
+        "en": "Love and peace keep marriage in perfect unity.",
+        "bn": "প্রেম ও শান্তি দাম্পত্যকে সিদ্ধ ঐক্যে রাখে।"
+      }
+    }
+  }
+}

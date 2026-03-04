@@ -146,6 +146,7 @@ function generateCalendarAccessQR() {
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.H
                 });
+                annotateGeneratedQrCode(qrDiv, 'QR code to open the GPBC calendar website');
             } else {
                 // Retry after 100ms if library not loaded yet
                 setTimeout(generateQR, 100);
@@ -153,6 +154,46 @@ function generateCalendarAccessQR() {
         };
         generateQR();
     }
+}
+
+function annotateGeneratedQrCode(container, label) {
+    if (!container) return;
+
+    if (!container.getAttribute('role')) {
+        container.setAttribute('role', 'img');
+    }
+    if (!container.getAttribute('aria-label')) {
+        container.setAttribute('aria-label', label);
+    }
+
+    const applyMetadata = () => {
+        const img = container.querySelector('img');
+        if (img && img.getAttribute('alt') === null) {
+            img.setAttribute('alt', label);
+        }
+
+        const canvas = container.querySelector('canvas');
+        if (canvas) {
+            if (!canvas.getAttribute('role')) {
+                canvas.setAttribute('role', 'img');
+            }
+            if (!canvas.getAttribute('aria-label')) {
+                canvas.setAttribute('aria-label', label);
+            }
+        }
+    };
+
+    applyMetadata();
+
+    if (typeof MutationObserver === 'undefined') return;
+    const observer = new MutationObserver(() => {
+        applyMetadata();
+        if (container.querySelector('img, canvas')) {
+            observer.disconnect();
+        }
+    });
+    observer.observe(container, { childList: true, subtree: true });
+    setTimeout(() => observer.disconnect(), 2000);
 }
 
 function initializeCalendar() {
@@ -968,6 +1009,7 @@ function setupDonationModal() {
                 colorLight: '#ffffff',
                 correctLevel: QRCode.CorrectLevel.H
             });
+            annotateGeneratedQrCode(zelleQR, 'QR code for Zelle giving');
         } catch (e) {
             // console.log('Error generating Zelle QR code:', e); // Removed for production
         }
@@ -985,6 +1027,7 @@ function setupDonationModal() {
                 colorLight: '#ffffff',
                 correctLevel: QRCode.CorrectLevel.H
             });
+            annotateGeneratedQrCode(paypalQR, 'QR code for PayPal giving');
         } catch (e) {
             // console.log('Error generating PayPal QR code:', e); // Removed for production
         }

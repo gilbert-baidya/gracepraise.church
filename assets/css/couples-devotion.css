@@ -22,6 +22,20 @@
   margin: 0 auto;
 }
 
+body[data-theme="dark"] #couplesDevotionApp,
+body.dark #couplesDevotionApp,
+html.dark #couplesDevotionApp {
+  --cd-text: #e8edf7;
+  --cd-muted: #c5d0e3;
+  --cd-card: #1a2538;
+  --cd-card-soft: #22324a;
+  --cd-line: rgba(157, 176, 204, 0.34);
+  --cd-shadow: 0 14px 26px rgba(2, 10, 25, 0.45);
+  --cd-primary: #3b82f6;
+  --cd-primary-soft: #60a5fa;
+  --cd-focus: #f59e0b;
+}
+
 #couplesDevotionApp.lang-en [data-lang="en"] {
   display: block !important;
 }
@@ -49,10 +63,26 @@
   line-height: 1.5;
 }
 
+body[data-theme="dark"] #couplesDevotionApp .cd-status,
+body.dark #couplesDevotionApp .cd-status,
+html.dark #couplesDevotionApp .cd-status {
+  border-color: rgba(96, 165, 250, 0.42);
+  background: rgba(37, 99, 235, 0.22);
+  color: #dbeafe;
+}
+
 #couplesDevotionApp .cd-status.is-error {
   border-color: rgba(159, 65, 53, 0.26);
   background: rgba(159, 65, 53, 0.1);
   color: #6d2d25;
+}
+
+body[data-theme="dark"] #couplesDevotionApp .cd-status.is-error,
+body.dark #couplesDevotionApp .cd-status.is-error,
+html.dark #couplesDevotionApp .cd-status.is-error {
+  border-color: rgba(248, 113, 113, 0.4);
+  background: rgba(127, 29, 29, 0.25);
+  color: #fecaca;
 }
 
 #couplesDevotionApp .cd-controls {
@@ -60,7 +90,7 @@
   gap: 0.8rem;
   border: 1px solid var(--cd-line);
   border-radius: 16px;
-  background: linear-gradient(135deg, #fffefa 0%, #f9f1e8 100%);
+  background: linear-gradient(135deg, var(--cd-card) 0%, var(--cd-card-soft) 100%);
   box-shadow: var(--cd-shadow);
   padding: 1rem;
   margin-bottom: 1rem;
@@ -88,8 +118,8 @@
 #couplesDevotionApp .cd-date-input {
   border: 1px solid var(--cd-line);
   border-radius: 10px;
-  background: #ffffff;
-  color: #34271e;
+  background: var(--cd-card);
+  color: var(--cd-text);
   padding: 0.52rem 0.66rem;
   min-width: 165px;
   font-size: 0.94rem;
@@ -100,10 +130,10 @@
 #couplesDevotionApp .cd-action-btn,
 #couplesDevotionApp .cd-download {
   appearance: none;
-  border: 1px solid rgba(86, 58, 41, 0.24);
+  border: 1px solid var(--cd-line);
   border-radius: 10px;
-  background: #fffaf3;
-  color: #2f241d;
+  background: var(--cd-card-soft);
+  color: var(--cd-text);
   padding: 0.56rem 0.82rem;
   font-weight: 600;
   font-size: 0.94rem;
@@ -117,7 +147,7 @@
 #couplesDevotionApp .cd-share-btn:hover,
 #couplesDevotionApp .cd-action-btn:hover,
 #couplesDevotionApp .cd-download:hover {
-  background: #fff1e4;
+  background: var(--cd-card);
   transform: translateY(-1px);
   box-shadow: 0 7px 16px rgba(63, 43, 31, 0.14);
 }
@@ -174,13 +204,13 @@
   margin: 0 0 0.5rem;
   font-size: 1.35rem;
   line-height: 1.3;
-  color: #34251d;
+  color: var(--cd-text);
 }
 
 #couplesDevotionApp .cd-card h3 {
   margin: 0 0 0.46rem;
   font-size: 1rem;
-  color: #4b3327;
+  color: var(--cd-text);
 }
 
 #couplesDevotionApp .cd-body-copy,
@@ -188,6 +218,7 @@
 #couplesDevotionApp .cd-share-subtitle,
 #couplesDevotionApp .cd-card p {
   margin: 0;
+  color: var(--cd-text);
   line-height: 1.75;
 }
 
@@ -199,7 +230,7 @@
 
 #couplesDevotionApp .cd-verse-card {
   grid-column: span 12;
-  background: linear-gradient(135deg, #fffdf9 0%, #f8efe5 100%);
+  background: linear-gradient(135deg, var(--cd-card) 0%, var(--cd-card-soft) 100%);
   min-height: 210px;
 }
 
@@ -218,11 +249,11 @@
 
 #couplesDevotionApp .cd-share-card {
   grid-column: span 12;
-  background: linear-gradient(135deg, #fffdfb 0%, #f5ece3 100%);
+  background: linear-gradient(135deg, var(--cd-card) 0%, var(--cd-card-soft) 100%);
 }
 
 #couplesDevotionApp .cd-share-subtitle {
-  color: #4e372b;
+  color: var(--cd-text);
   margin-bottom: 0.65rem;
 }
 
@@ -278,9 +309,9 @@
 
 #couplesDevotionApp .cd-preview-wrap {
   margin-top: 0.8rem;
-  border: 1px dashed rgba(89, 63, 45, 0.25);
+  border: 1px dashed var(--cd-line);
   border-radius: 14px;
-  background: #fbf6ef;
+  background: var(--cd-card-soft);
   min-height: 190px;
   display: grid;
   place-items: center;
@@ -294,7 +325,7 @@
 }
 
 #couplesDevotionApp .cd-preview-empty {
-  color: #6d584b;
+  color: var(--cd-muted);
   text-align: center;
   padding: 0.8rem;
   font-size: 0.9rem;
@@ -302,11 +333,11 @@
 
 #couplesDevotionApp .cd-info-card {
   grid-column: span 12;
-  background: linear-gradient(135deg, #f8f3ec 0%, #f4ece4 100%);
+  background: linear-gradient(135deg, var(--cd-card) 0%, var(--cd-card-soft) 100%);
 }
 
 #couplesDevotionApp .cd-info-copy {
-  color: #5f4c41;
+  color: var(--cd-text);
 }
 
 #couplesDevotionApp .cd-noscript {

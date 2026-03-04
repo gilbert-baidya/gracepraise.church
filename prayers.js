@@ -3,12 +3,18 @@
 function setupPrayerRequestModal() {
     const modal = document.getElementById('prayerRequestModal');
     const btn = document.getElementById('prayerRequestBtn');
-    const closeBtn = modal.querySelector('.close');
+    const closeBtn = modal ? modal.querySelector('.close') : null;
     const cancelBtn = document.getElementById('cancelPrayerRequest');
     const form = document.getElementById('prayerRequestForm');
     const isAnonymous = document.getElementById('isAnonymous');
     const nameSection = document.getElementById('nameSection');
     const nameInput = document.getElementById('prayerName');
+
+    // This script is loaded on pages that do not include the prayer modal DOM.
+    // Exit safely to avoid runtime errors.
+    if (!modal || !btn || !closeBtn || !cancelBtn || !form || !isAnonymous || !nameSection || !nameInput) {
+        return;
+    }
 
     // Open modal
     btn.addEventListener('click', () => {

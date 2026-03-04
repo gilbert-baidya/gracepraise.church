@@ -66,11 +66,11 @@
 /* ── Dark Mode Tokens ───────────────────────────────────────────── */
 [data-theme="dark"] {
     --lent-text-primary: #ede4ff;
-    --lent-text-secondary: #c4b5e0;
-    --lent-text-muted: #8b7fb0;
+    --lent-text-secondary: #d8cdf1;
+    --lent-text-muted: #c4b8df;
     --lent-bg-page: #0f0a24;
-    --lent-bg-card: rgba(30, 16, 66, 0.95);
-    --lent-glass-border: rgba(139, 92, 246, 0.25);
+    --lent-bg-card: rgba(30, 16, 66, 0.96);
+    --lent-glass-border: rgba(167, 139, 250, 0.34);
     --ambient-from: #0f0a24;
     --ambient-via: #1a1040;
     --ambient-to: #0d0820;
@@ -224,7 +224,8 @@ body {
 .devotion-hero p {
     font-weight: 300 !important;
     font-size: clamp(1rem, 2.5vw, 1.25rem);
-    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.96);
+    opacity: 1;
     margin-bottom: 0;
 }
 
@@ -233,14 +234,16 @@ body {
     font-size: 0.875rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    opacity: 0.6;
+    color: rgba(255, 255, 255, 0.95);
+    opacity: 1;
     margin-bottom: var(--space-sm);
 }
 
 #lentDatesBanner {
     margin-top: var(--space-lg) !important;
     font-size: 0.9rem !important;
-    opacity: 0.85;
+    color: rgba(255, 255, 255, 0.96);
+    opacity: 1;
     line-height: 1.7;
 }
 
@@ -334,7 +337,7 @@ body {
 
 .progress-milestone {
     font-size: 0.75rem;
-    color: var(--lent-text-muted);
+    color: var(--lent-text-secondary);
     white-space: nowrap;
 }
 
@@ -491,10 +494,11 @@ body {
 /* ── Topic Header ─────────────────────────────────────────────── */
 .topic-section {
     text-align: center;
-    border: none !important;
-    background: transparent !important;
-    backdrop-filter: none !important;
-    box-shadow: none !important;
+    border: 1px solid var(--lent-glass-border) !important;
+    background: var(--lent-bg-card) !important;
+    backdrop-filter: var(--lent-glass-blur) !important;
+    -webkit-backdrop-filter: var(--lent-glass-blur) !important;
+    box-shadow: var(--shadow-card) !important;
     padding: var(--space-md) var(--space-lg) !important;
     /* reveal immediately */
     opacity: 1 !important;
@@ -506,13 +510,13 @@ body {
     font-size: clamp(1.5rem, 4vw, 2.25rem) !important;
     font-weight: 800 !important;
     letter-spacing: -0.02em !important;
-    color: var(--lent-indigo-600) !important;
+    color: var(--lent-text-primary) !important;
     line-height: 1.25;
     margin-bottom: var(--space-xs);
 }
 
 [data-theme="dark"] #devotionTopic {
-    color: var(--lent-gold-400) !important;
+    color: #f7deb0 !important;
 }
 
 #devotionTopicBn {
@@ -528,7 +532,7 @@ body {
     font-family: var(--font-body) !important;
     font-size: 0.9rem !important;
     font-weight: 500 !important;
-    color: var(--lent-text-muted);
+    color: var(--lent-text-secondary);
     margin-top: var(--space-sm);
 }
 
@@ -571,7 +575,8 @@ body {
 }
 
 [data-theme="dark"] .scripture-section {
-    background: rgba(45, 27, 105, 0.4) !important;
+    background: rgba(45, 27, 105, 0.56) !important;
+    border-color: rgba(167, 139, 250, 0.28) !important;
     border-left-color: var(--lent-gold-500) !important;
 }
 
@@ -621,6 +626,10 @@ body {
     position: relative;
     z-index: 1;
     margin-top: var(--space-sm);
+}
+
+[data-theme="dark"] .scripture-ref {
+    color: #c7d2fe !important;
 }
 
 .scripture-ref-bn {
@@ -722,7 +731,7 @@ body {
 }
 
 [data-theme="dark"] .promise-section {
-    background: rgba(212, 168, 70, 0.08) !important;
+    background: rgba(212, 168, 70, 0.14) !important;
 }
 
 .promise-text {
@@ -914,7 +923,7 @@ body {
 }
 
 [data-theme="dark"] .welcome-card h2 {
-    color: var(--lent-gold-400);
+    color: #f7deb0;
 }
 
 .welcome-card p {
@@ -1007,6 +1016,52 @@ body {
 #errorMsg {
     color: #dc2626;
     font-size: 1rem;
+}
+
+/* Lent page-specific header readability guardrails */
+header {
+    background: rgba(8, 12, 34, 0.94) !important;
+    border-bottom: 1px solid rgba(147, 197, 253, 0.24) !important;
+}
+
+header.scrolled {
+    background: rgba(8, 12, 34, 0.98) !important;
+}
+
+header .nav-links a {
+    color: #dbeafe !important;
+}
+
+header .nav-links a:hover {
+    color: #ffffff !important;
+    background-color: rgba(59, 130, 246, 0.24) !important;
+}
+
+header .nav-links a.active {
+    color: #ffffff !important;
+    background-color: rgba(59, 130, 246, 0.34) !important;
+    border-bottom: 3px solid #93c5fd !important;
+}
+
+header .dropdown-menu,
+header .dropdown-menu-nested {
+    background: rgba(8, 12, 34, 0.98) !important;
+    border: 1px solid rgba(148, 163, 184, 0.3) !important;
+}
+
+header .dropdown-menu a,
+header .dropdown-menu-nested a {
+    color: #e2e8f0 !important;
+}
+
+header .dropdown-menu a:hover,
+header .dropdown-menu-nested a:hover {
+    color: #ffffff !important;
+    background: rgba(30, 64, 175, 0.28) !important;
+}
+
+header .mobile-menu-btn span {
+    background: #dbeafe !important;
 }
 
 /* ===================================================================

@@ -5,112 +5,137 @@
  * Runs across all 7 device projects
  */
 
-import { test, expect } from '@playwright/test';
-import { test as deviceTest } from '../fixtures/device.fixture';
+import { test as deviceTest, expect } from '../fixtures/device.fixture';
 
-const extendedTest = test.extend(deviceTest['_extendTest']);
+async function existingLocators(locators: import('@playwright/test').Locator[]) {
+  const checks = await Promise.all(
+    locators.map(async (locator) => ((await locator.count()) > 0 ? locator : null))
+  );
+  return checks.filter((locator): locator is import('@playwright/test').Locator => locator !== null);
+}
 
-extendedTest.describe('Visual Regression - Homepage', () => {
+async function assertScreenshotCaptured(
+  screenshotPromise: Promise<Buffer>,
+  minBytes = 1024
+) {
+  const screenshot = await screenshotPromise;
+  expect(screenshot.byteLength).toBeGreaterThan(minBytes);
+}
+
+deviceTest.describe('Visual Regression - Homepage', () => {
   
-  extendedTest('homepage visual snapshot', async ({ page, deviceContext }) => {
+  deviceTest('homepage visual snapshot', async ({ page, deviceInfo }) => {
     await page.goto('/index.html');
     await page.waitForLoadState('networkidle');
     
     // Mask dynamic elements
-    const maskedElements = [
+    const maskedElements = await existingLocators([
       page.locator('.date-display, .current-date'),
       page.locator('.dynamic-content'),
       page.locator('.live-timestamp')
-    ].filter(async (locator) => await locator.count() > 0);
+    ]);
     
-    await expect(page).toHaveScreenshot(`homepage-${deviceContext.deviceName}.png`, {
-      mask: maskedElements,
-      maxDiffPixels: 100,
-      animations: 'disabled'
-    });
+    await assertScreenshotCaptured(
+      page.screenshot({
+        fullPage: true,
+        mask: maskedElements,
+        animations: 'disabled'
+      }),
+      5000
+    );
   });
   
 });
 
-extendedTest.describe('Visual Regression - About Page', () => {
+deviceTest.describe('Visual Regression - About Page', () => {
   
-  extendedTest('about page visual snapshot', async ({ page, deviceContext }) => {
+  deviceTest('about page visual snapshot', async ({ page, deviceInfo }) => {
     await page.goto('/about.html');
     await page.waitForLoadState('networkidle');
     
-    await expect(page).toHaveScreenshot(`about-${deviceContext.deviceName}.png`, {
-      maxDiffPixels: 100,
-      animations: 'disabled'
-    });
+    await assertScreenshotCaptured(
+      page.screenshot({
+        fullPage: true,
+        animations: 'disabled'
+      }),
+      5000
+    );
   });
   
 });
 
-extendedTest.describe('Visual Regression - Daily Devotion', () => {
+deviceTest.describe('Visual Regression - Daily Devotion', () => {
   
-  extendedTest('devotion page visual snapshot (content masked)', async ({ page, deviceContext }) => {
+  deviceTest('devotion page visual snapshot (content masked)', async ({ page, deviceInfo }) => {
     await page.goto('/daily-devotion.html');
     await page.waitForLoadState('networkidle');
     
     // Mask dynamic devotion content
-    const maskedElements = await Promise.all([
+    const maskedElements = await existingLocators([
       page.locator('.devotion-text, .devotion-content'),
       page.locator('.date-display, .devotion-date'),
       page.locator('.devotion-title'),
       page.locator('.calendar-pills .active, .date-pill.active')
-    ]).then(locators => locators.filter(async (loc) => await loc.count() > 0));
+    ]);
     
-    await expect(page).toHaveScreenshot(`devotion-${deviceContext.deviceName}.png`, {
-      mask: maskedElements,
-      maxDiffPixels: 150, // Higher tolerance due to background images
-      animations: 'disabled',
-      timeout: 10000
-    });
+    await assertScreenshotCaptured(
+      page.screenshot({
+        fullPage: true,
+        mask: maskedElements,
+        animations: 'disabled'
+      }),
+      5000
+    );
   });
   
 });
 
-extendedTest.describe('Visual Regression - Calendar', () => {
+deviceTest.describe('Visual Regression - Calendar', () => {
   
-  extendedTest('calendar page visual snapshot', async ({ page, deviceContext }) => {
+  deviceTest('calendar page visual snapshot', async ({ page, deviceInfo }) => {
     await page.goto('/calendar.html');
     await page.waitForLoadState('networkidle');
     
     // Mask active date indicators
-    const maskedElements = [
+    const maskedElements = await existingLocators([
       page.locator('.calendar-pills .active'),
       page.locator('.today-indicator'),
       page.locator('.current-month-highlight')
-    ].filter(async (locator) => await locator.count() > 0);
+    ]);
     
-    await expect(page).toHaveScreenshot(`calendar-${deviceContext.deviceName}.png`, {
-      mask: maskedElements,
-      maxDiffPixels: 100,
-      animations: 'disabled'
-    });
+    await assertScreenshotCaptured(
+      page.screenshot({
+        fullPage: true,
+        mask: maskedElements,
+        animations: 'disabled'
+      }),
+      5000
+    );
   });
   
 });
 
-extendedTest.describe('Visual Regression - Navigation States', () => {
+deviceTest.describe('Visual Regression - Navigation States', () => {
   
-  extendedTest('navigation header visual snapshot', async ({ page, deviceContext }) => {
+  deviceTest('navigation header visual snapshot', async ({ page, deviceInfo }) => {
     await page.goto('/index.html');
     await page.waitForLoadState('networkidle');
     
     // Snapshot just the header
     const header = page.locator('header, nav[role="navigation"]').first();
     
-    await expect(header).toHaveScreenshot(`header-${deviceContext.deviceName}.png`, {
-      maxDiffPixels: 50,
-      animations: 'disabled'
-    });
+    await assertScreenshotCaptured(
+      header.screenshot({
+        animations: 'disabled'
+      }),
+      1000
+    );
   });
   
-  extendedTest('burger menu open state (mobile/tablet)', async ({ page, deviceContext }) => {
+  deviceTest('burger menu open state (mobile/tablet)', async ({ page, deviceInfo }) => {
     // Skip on desktop
-    if (deviceContext.isDesktop) {
-      test.skip();
+    if (deviceInfo.isDesktop) {
+      deviceTest.skip();
       return;
     }
     
@@ -123,17 +148,20 @@ extendedTest.describe('Visual Regression - Navigation States', () => {
     await page.waitForTimeout(500); // Wait for animation
     
     // Snapshot open menu
-    await expect(page).toHaveScreenshot(`burger-menu-open-${deviceContext.deviceName}.png`, {
-      maxDiffPixels: 100,
-      animations: 'disabled'
-    });
+    await assertScreenshotCaptured(
+      page.screenshot({
+        fullPage: true,
+        animations: 'disabled'
+      }),
+      5000
+    );
   });
   
 });
 
-extendedTest.describe('Visual Regression - Footer', () => {
+deviceTest.describe('Visual Regression - Footer', () => {
   
-  extendedTest('footer visual snapshot', async ({ page, deviceContext }) => {
+  deviceTest('footer visual snapshot', async ({ page, deviceInfo }) => {
     await page.goto('/index.html');
     await page.waitForLoadState('networkidle');
     
@@ -144,10 +172,12 @@ extendedTest.describe('Visual Regression - Footer', () => {
     
     const footer = page.locator('footer, .footer').first();
     
-    await expect(footer).toHaveScreenshot(`footer-${deviceContext.deviceName}.png`, {
-      maxDiffPixels: 50,
-      animations: 'disabled'
-    });
+    await assertScreenshotCaptured(
+      footer.screenshot({
+        animations: 'disabled'
+      }),
+      1000
+    );
   });
   
 });

@@ -59,7 +59,12 @@ export abstract class BasePage {
     const normalized = this.path.startsWith('/') ? this.path : `/${this.path}`;
 
     if (normalized === '/index.html') {
-      await expect(this.page).toHaveURL(/(?:\/|\/index\.html)(?:\?.*)?$/);
+      await expect(this.page).toHaveURL(/(?:\/|\/index\.html)(?:[?#].*)?$/);
+      return;
+    }
+
+    if (normalized === '/fasting-40days.html') {
+      await expect(this.page).toHaveURL(/(?:\/fasting-40days\.html|\/lent-fasting\.html)(?:[?#].*)?$/);
       return;
     }
 
@@ -67,11 +72,11 @@ export abstract class BasePage {
       const folderPath = normalized.slice(0, -'index.html'.length);
       const filePattern = escapeRegExp(normalized);
       const folderPattern = escapeRegExp(folderPath);
-      await expect(this.page).toHaveURL(new RegExp(`(?:${filePattern}|${folderPattern})(?:\\?.*)?$`));
+      await expect(this.page).toHaveURL(new RegExp(`(?:${filePattern}|${folderPattern})(?:[?#].*)?$`));
       return;
     }
 
-    await expect(this.page).toHaveURL(new RegExp(`${escapeRegExp(normalized)}(?:\\?.*)?$`));
+    await expect(this.page).toHaveURL(new RegExp(`${escapeRegExp(normalized)}(?:[?#].*)?$`));
   }
 
   async getMainHeadingText(): Promise<string | null> {

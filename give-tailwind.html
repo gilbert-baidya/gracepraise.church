@@ -663,9 +663,10 @@
         let qrCodeInstance;
         window.addEventListener('DOMContentLoaded', () => {
             const qrUrl = 'https://gracepraise.church/give?src=qr&utm_campaign=gpbc_give&utm_medium=print&utm_source=site';
+            const qrRoot = document.getElementById('qrcode');
             
-            if (typeof QRCode !== 'undefined') {
-                qrCodeInstance = new QRCode(document.getElementById('qrcode'), {
+            if (typeof QRCode !== 'undefined' && qrRoot) {
+                qrCodeInstance = new QRCode(qrRoot, {
                     text: qrUrl,
                     width: 200,
                     height: 200,
@@ -673,6 +674,17 @@
                     colorLight: '#ffffff',
                     correctLevel: QRCode.CorrectLevel.H
                 });
+                setTimeout(() => {
+                    const qrImg = qrRoot.querySelector('img');
+                    if (qrImg && qrImg.getAttribute('alt') === null) {
+                        qrImg.setAttribute('alt', 'QR code to open GPBC online giving');
+                    }
+                    const qrCanvas = qrRoot.querySelector('canvas');
+                    if (qrCanvas) {
+                        qrCanvas.setAttribute('role', 'img');
+                        qrCanvas.setAttribute('aria-label', 'QR code to open GPBC online giving');
+                    }
+                }, 0);
             }
         });
         

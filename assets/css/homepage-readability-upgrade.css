@@ -1,0 +1,933 @@
+/* ==========================================================================
+   HOMEPAGE READABILITY UPGRADE (NON-FUNCTIONAL)
+   Scope: Homepage visual readability and color contrast only
+   ========================================================================== */
+
+/* Core homepage readability tokens */
+body.homepage,
+body[data-page="home"] {
+    --home-read-text: #1f2937;
+    --home-read-text-muted: #334155;
+    --home-read-heading: #0f172a;
+    --home-read-link: #1d4ed8;
+    --home-read-link-hover: #1e40af;
+    --home-read-surface: #ffffff;
+    --home-read-surface-soft: #f8fafc;
+    /* Fix: Border visibility (Light) */
+    /* Before: --home-read-border: rgba(15, 23, 42, 0.16); */
+    /* After:  --home-read-border: rgba(15, 23, 42, 0.24); */
+    --home-read-border: rgba(15, 23, 42, 0.24);
+    /* Fix: Glass depth shadow balance (Light) */
+    /* Before: --home-read-shadow: 0 12px 32px rgba(15, 23, 42, 0.12); */
+    /* After:  --home-read-shadow: 0 12px 30px rgba(15, 23, 42, 0.16); */
+    --home-read-shadow: 0 12px 30px rgba(15, 23, 42, 0.16);
+    /* Fix: Gold accent contrast (Light) */
+    /* Before: --hero-accent-gold: #f59e0b; */
+    /* After:  --hero-accent-gold: #b45309; */
+    --hero-accent-gold: #b45309;
+    /* Fix: Glassmorphism token depth (Light) */
+    /* Before: --glass-bg: rgba(255, 255, 255, 0.8); */
+    /* After:  --glass-bg: rgba(255, 255, 255, 0.74); */
+    --glass-bg: rgba(255, 255, 255, 0.74);
+    /* Fix: Border visibility for glass edges (Light) */
+    /* Before: --glass-border: rgba(15, 23, 42, 0.1); */
+    /* After:  --glass-border: rgba(15, 23, 42, 0.2); */
+    --glass-border: rgba(15, 23, 42, 0.2);
+    /* Fix: Focus ring clarity (Light) */
+    /* Before: --gpbc-focus-ring: #d97706; */
+    /* After:  --gpbc-focus-ring: #1d4ed8; */
+    --gpbc-focus-ring: #1d4ed8;
+    /* Fix: Focus ring clarity (Light) */
+    /* Before: --gpbc-focus-shadow: rgba(217, 119, 6, 0.32); */
+    /* After:  --gpbc-focus-shadow: rgba(29, 78, 216, 0.34); */
+    --gpbc-focus-shadow: rgba(29, 78, 216, 0.34);
+    --home-hero-accent: #0b67d7;
+}
+
+body.homepage.dark,
+body.homepage[data-theme="dark"],
+body[data-page="home"].dark,
+body[data-page="home"][data-theme="dark"],
+html[data-theme="dark"] body.homepage,
+html[data-theme="dark"] body[data-page="home"] {
+    --home-read-text: #dbe7f8;
+    --home-read-text-muted: #c1d1e9;
+    --home-read-heading: #f1f5ff;
+    --home-read-link: #93c5fd;
+    --home-read-link-hover: #bfdbfe;
+    --home-read-surface: #162238;
+    --home-read-surface-soft: #1b2a41;
+    /* Fix: Border visibility (Dark) */
+    /* Before: --home-read-border: rgba(148, 163, 184, 0.36); */
+    /* After:  --home-read-border: rgba(148, 163, 184, 0.48); */
+    --home-read-border: rgba(148, 163, 184, 0.48);
+    /* Fix: Glass depth shadow balance (Dark) */
+    /* Before: --home-read-shadow: 0 16px 40px rgba(2, 6, 23, 0.5); */
+    /* After:  --home-read-shadow: 0 14px 34px rgba(2, 6, 23, 0.44); */
+    --home-read-shadow: 0 14px 34px rgba(2, 6, 23, 0.44);
+    /* Fix: Over-aggressive glow (Dark) */
+    /* Before: --glass-glow-gold: rgba(245, 158, 11, 0.2); */
+    /* After:  --glass-glow-gold: rgba(245, 158, 11, 0.14); */
+    --glass-glow-gold: rgba(245, 158, 11, 0.14);
+    /* Fix: Over-aggressive glow (Dark) */
+    /* Before: --glass-glow-teal: rgba(14, 165, 164, 0.2); */
+    /* After:  --glass-glow-teal: rgba(14, 165, 164, 0.12); */
+    --glass-glow-teal: rgba(14, 165, 164, 0.12);
+    /* Fix: Glassmorphism token depth (Dark) */
+    /* Before: --glass-bg: rgba(255, 255, 255, 0.03); */
+    /* After:  --glass-bg: rgba(15, 23, 42, 0.52); */
+    --glass-bg: rgba(15, 23, 42, 0.52);
+    /* Fix: Border visibility for glass edges (Dark) */
+    /* Before: --glass-border: rgba(255, 255, 255, 0.1); */
+    /* After:  --glass-border: rgba(148, 163, 184, 0.34); */
+    --glass-border: rgba(148, 163, 184, 0.34);
+    /* Fix: Over-aggressive ambient glow (Dark) */
+    /* Before: --mesh-opacity: 0.8; */
+    /* After:  --mesh-opacity: 0.66; */
+    --mesh-opacity: 0.66;
+    /* Fix: Focus ring clarity (Dark) */
+    /* Before: --gpbc-focus-ring: #d97706; */
+    /* After:  --gpbc-focus-ring: #fbbf24; */
+    --gpbc-focus-ring: #fbbf24;
+    /* Fix: Focus ring clarity (Dark) */
+    /* Before: --gpbc-focus-shadow: rgba(217, 119, 6, 0.32); */
+    /* After:  --gpbc-focus-shadow: rgba(251, 191, 36, 0.42); */
+    --gpbc-focus-shadow: rgba(251, 191, 36, 0.42);
+    --home-hero-accent: #7dd3fc;
+}
+
+/* Fix: Sticky header shadow compression perception (Light) */
+/* Before: box-shadow perceived as too flat/compressed */
+/* After:  stronger layered separation shadow */
+body.homepage header,
+body[data-page="home"] header {
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1), 0 1px 0 rgba(15, 23, 42, 0.08);
+}
+
+/* Fix: Sticky header shadow compression perception (Light scrolled) */
+/* Before: compressed depth cue */
+/* After:  clearer elevated depth cue */
+body.homepage header.scrolled,
+body[data-page="home"] header.scrolled {
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14), 0 1px 0 rgba(15, 23, 42, 0.1);
+}
+
+/* Fix: Sticky header shadow compression perception (Dark) */
+/* Before: compressed depth cue */
+/* After:  stronger but controlled dark separation shadow */
+body.homepage.dark header,
+body.homepage[data-theme="dark"] header,
+body[data-page="home"].dark header,
+body[data-page="home"][data-theme="dark"] header,
+html[data-theme="dark"] body.homepage header,
+html[data-theme="dark"] body[data-page="home"] header {
+    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.48), 0 1px 0 rgba(148, 163, 184, 0.12);
+}
+
+/* Fix: Sticky header shadow compression perception (Dark scrolled) */
+/* Before: compressed depth cue */
+/* After:  stronger but controlled dark separation shadow */
+body.homepage.dark header.scrolled,
+body.homepage[data-theme="dark"] header.scrolled,
+body[data-page="home"].dark header.scrolled,
+body[data-page="home"][data-theme="dark"] header.scrolled,
+html[data-theme="dark"] body.homepage header.scrolled,
+html[data-theme="dark"] body[data-page="home"] header.scrolled {
+    box-shadow: 0 12px 28px rgba(2, 6, 23, 0.58), 0 1px 0 rgba(148, 163, 184, 0.14);
+}
+
+/* Header/nav readability */
+body.homepage header .nav-links a,
+body[data-page="home"] header .nav-links a {
+    color: var(--home-read-text) !important;
+    font-weight: 600;
+}
+
+body.homepage header .nav-links a:hover,
+body.homepage header .nav-links a:focus-visible,
+body[data-page="home"] header .nav-links a:hover,
+body[data-page="home"] header .nav-links a:focus-visible {
+    color: var(--home-read-heading) !important;
+    background: rgba(37, 99, 235, 0.15) !important;
+}
+
+body.homepage.dark header .nav-links a,
+body.homepage[data-theme="dark"] header .nav-links a,
+body[data-page="home"].dark header .nav-links a,
+body[data-page="home"][data-theme="dark"] header .nav-links a,
+html[data-theme="dark"] body.homepage header .nav-links a,
+html[data-theme="dark"] body[data-page="home"] header .nav-links a {
+    color: #e2ebfb !important;
+}
+
+/* Hero readability — Dark Mode (default for hero since both modes had dark hero) */
+body.homepage.dark .hero-upgrade h1,
+body.homepage[data-theme="dark"] .hero-upgrade h1,
+body[data-page="home"].dark .hero-upgrade h1,
+body[data-page="home"][data-theme="dark"] .hero-upgrade h1,
+html[data-theme="dark"] body.homepage .hero-upgrade h1,
+html[data-theme="dark"] body[data-page="home"] .hero-upgrade h1 {
+    color: #f8fbff !important;
+    text-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+}
+
+body.homepage.dark .hero-upgrade h1 span.gradient-text,
+body.homepage[data-theme="dark"] .hero-upgrade h1 span.gradient-text,
+body[data-page="home"].dark .hero-upgrade h1 span.gradient-text,
+body[data-page="home"][data-theme="dark"] .hero-upgrade h1 span.gradient-text,
+html[data-theme="dark"] body.homepage .hero-upgrade h1 span.gradient-text,
+html[data-theme="dark"] body[data-page="home"] .hero-upgrade h1 span.gradient-text {
+    background: none !important;
+    -webkit-text-fill-color: var(--home-hero-accent) !important;
+    color: var(--home-hero-accent) !important;
+    text-shadow: none;
+}
+
+body.homepage.dark .hero-description,
+body.homepage.dark .hero-slogan,
+body.homepage[data-theme="dark"] .hero-description,
+body.homepage[data-theme="dark"] .hero-slogan,
+body[data-page="home"].dark .hero-description,
+body[data-page="home"].dark .hero-slogan,
+body[data-page="home"][data-theme="dark"] .hero-description,
+body[data-page="home"][data-theme="dark"] .hero-slogan,
+html[data-theme="dark"] body.homepage .hero-description,
+html[data-theme="dark"] body.homepage .hero-slogan,
+html[data-theme="dark"] body[data-page="home"] .hero-description,
+html[data-theme="dark"] body[data-page="home"] .hero-slogan {
+    color: #f1f5ff !important;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* Day mode hero stabilization — TRUE LIGHT MODE (bright bg, dark text, proper contrast) */
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade {
+    /* Fix: Light Mode hero background — visible image with bright overlay */
+    /* Before: background: #030b1d !important; (near-black, identical to dark mode) */
+    /* After:  transparent fallback so the video/poster image shows through */
+    background: transparent !important;
+    --mesh-opacity: 0.25 !important;
+    --mesh-blend: multiply !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-overlay,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-overlay,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-overlay,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-overlay {
+    /* Fix: Light Mode video overlay — let image show through */
+    /* Before: dark radial overlay rgba(6,16,45,...) */
+    /* After:  subtle light wash that preserves image visibility */
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.25) 0%, rgba(240, 244, 255, 0.55) 100%) !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-background,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-background,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-background,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-background {
+    /* Fix: Force video background to cover full hero area in light mode */
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important;
+    overflow: hidden !important;
+    background-image: url("../../images/hero-worship-authentic.png");
+    background-size: cover;
+    background-position: center;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-background video,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-background video,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-background video,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-background video {
+    display: block !important;
+    visibility: visible !important;
+    /* Fix: Light Mode video opacity & filter */
+    /* Before: opacity: 0.7; filter: brightness(0.84) */
+    /* After:  opacity: 0.65; filter: brightness(1.2) — visible but bright & airy */
+    opacity: 0.65 !important;
+    filter: brightness(1.2) contrast(0.95) saturate(0.85) !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .mesh-gradient,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .mesh-gradient,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .mesh-gradient,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .mesh-gradient {
+    opacity: 0.35 !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .mesh-point,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .mesh-point,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .mesh-point,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .mesh-point {
+    opacity: 0.25 !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .global-lines,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .global-lines,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .global-lines,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .global-lines {
+    /* Fix: Light Mode grid lines */
+    /* Before: opacity: 0.18; white lines on dark bg */
+    /* After:  opacity: 0.12; subtle dark lines on light bg */
+    opacity: 0.12 !important;
+    background-image:
+        linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px) !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container {
+    /* Fix: Force container width to fill viewport on large screens */
+    /* Root cause: flex parent shrinks grid child to content-based minimum */
+    width: 90% !important;
+    max-width: 1600px !important;
+    flex-shrink: 0 !important;
+    grid-template-columns: 1.2fr 1fr !important;
+    margin: 0 auto !important;
+    padding-left: clamp(2rem, 5vw, 6rem) !important;
+    padding-right: clamp(2rem, 5vw, 6rem) !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-main-text,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-main-text,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-main-text,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-main-text {
+    max-width: 44rem;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid {
+    width: 100%;
+    max-width: 560px;
+    justify-self: end;
+}
+
+/* Fix: Light Mode hero heading — dark text on light bg */
+/* Before: color: #f8fbff (white on dark bg) */
+/* After:  color: #0f172a (dark on light bg) */
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade h1,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade h1,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade h1,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 {
+    color: #0f172a !important;
+    text-shadow: 0 4px 16px rgba(255, 255, 255, 0.3);
+}
+
+/* Fix: Light Mode gradient-text accent */
+/* Before: --home-hero-accent (was #0b67d7 but on dark bg) */
+/* After:  keep #0b67d7 but now visible on light bg */
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 span.gradient-text,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 span.gradient-text,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 span.gradient-text,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 span.gradient-text {
+    background: linear-gradient(135deg, #0b67d7 0%, #2563eb 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: none;
+}
+
+/* Fix: Light Mode hero description + slogan */
+/* Before: color: #eef4ff (white) */
+/* After:  color: #334155 (readable dark grey on light bg) */
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-description,
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-description,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-description,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-description,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan {
+    color: #334155 !important;
+    text-shadow: none;
+}
+
+/* Fix: Light Mode hero slogan accent color */
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan {
+    color: #b45309 !important;
+}
+
+/* Fix: Light Mode glass buttons — visible on light bg */
+/* Before: background: rgba(15, 23, 42, 0.62) (dark glass on dark bg) */
+/* After:  background: rgba(255, 255, 255, 0.7) (light glass on light bg) */
+body.homepage:not(.dark):not([data-theme="dark"]) .btn-glass,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .btn-glass,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .btn-glass,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .btn-glass {
+    background: rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid rgba(15, 23, 42, 0.15) !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+}
+
+/* Fix: Light Mode primary CTA button */
+/* Before: same blue gradient but with dark-mode border */
+/* After:  same blue gradient with proper light-mode shadow */
+body.homepage:not(.dark):not([data-theme="dark"]) .btn-glass-primary,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .btn-glass-primary,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .btn-glass-primary,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .btn-glass-primary {
+    background: linear-gradient(135deg, #1d4ed8, #2563eb) !important;
+    color: #ffffff !important;
+    border-color: rgba(29, 78, 216, 0.3) !important;
+    box-shadow: 0 8px 24px rgba(29, 78, 216, 0.25);
+}
+
+/* Fix: Light Mode scroll indicator — visible against bright hero image */
+body.homepage:not(.dark):not([data-theme="dark"]) .scroll-indicator .mouse,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .scroll-indicator .mouse,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .scroll-indicator .mouse,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .scroll-indicator .mouse {
+    border-color: rgba(15, 23, 42, 0.7) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .scroll-indicator .wheel,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .scroll-indicator .wheel,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .scroll-indicator .wheel,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .scroll-indicator .wheel {
+    background: #0f172a !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .scroll-indicator .scroll-text,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .scroll-indicator .scroll-text,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .scroll-indicator .scroll-text,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .scroll-indicator .scroll-text {
+    color: rgba(15, 23, 42, 0.8) !important;
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Fix: Light Mode bento cards — glass bg on light */
+body.homepage:not(.dark):not([data-theme="dark"]) .bento-card,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .bento-card,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .bento-card,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .bento-card {
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .bento-card:hover,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .bento-card:hover,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .bento-card:hover,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .bento-card:hover {
+    border-color: rgba(15, 23, 42, 0.2);
+}
+
+@media (max-width: 1360px) {
+
+    body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container,
+    html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container,
+    html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container {
+        grid-template-columns: minmax(0, 1fr) minmax(340px, 0.9fr);
+    }
+
+    body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid,
+    html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid,
+    html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid {
+        min-width: 340px;
+    }
+}
+
+body.homepage.dark .btn-glass,
+body.homepage[data-theme="dark"] .btn-glass,
+body[data-page="home"].dark .btn-glass,
+body[data-page="home"][data-theme="dark"] .btn-glass,
+html[data-theme="dark"] body.homepage .btn-glass,
+html[data-theme="dark"] body[data-page="home"] .btn-glass {
+    /* Fix: Glass depth balance (Dark) */
+    /* Before: background: rgba(15, 23, 42, 0.82); */
+    /* After:  background: rgba(15, 23, 42, 0.72); */
+    background: rgba(15, 23, 42, 0.72);
+    /* Fix: Border visibility (Dark glass buttons) */
+    /* Before: border-color: rgba(148, 163, 184, 0.46); */
+    /* After:  border-color: rgba(148, 163, 184, 0.6); */
+    border-color: rgba(148, 163, 184, 0.6);
+    color: #f1f5ff;
+}
+
+/* Fix: Over-aggressive glow intensity (Dark primary CTA) */
+/* Before: stronger inherited glow from base dark theme */
+/* After:  controlled glow intensity for CTA hierarchy */
+body.homepage.dark .btn-glass-primary,
+body.homepage[data-theme="dark"] .btn-glass-primary,
+body[data-page="home"].dark .btn-glass-primary,
+body[data-page="home"][data-theme="dark"] .btn-glass-primary,
+html[data-theme="dark"] body.homepage .btn-glass-primary,
+html[data-theme="dark"] body[data-page="home"] .btn-glass-primary {
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28) !important;
+    border-color: rgba(147, 197, 253, 0.64) !important;
+}
+
+/* Section readability: shared copy tiers */
+body.homepage :where(.new-here-intro,
+    .new-here-questions dd,
+    .intro,
+    .service-note,
+    .service-meta,
+    .weekly-gatherings-text,
+    .next-service-intro,
+    .feature-card p,
+    .devotion-promo-text p,
+    .devotion-verse,
+    .shape-scripture,
+    .slide-description,
+    .trapezoid-copy,
+    .theological-intro),
+body[data-page="home"] :where(.new-here-intro,
+    .new-here-questions dd,
+    .intro,
+    .service-note,
+    .service-meta,
+    .weekly-gatherings-text,
+    .next-service-intro,
+    .feature-card p,
+    .devotion-promo-text p,
+    .devotion-verse,
+    .shape-scripture,
+    .slide-description,
+    .trapezoid-copy,
+    .theological-intro) {
+    color: var(--home-read-text) !important;
+}
+
+body.homepage :where(.event-tagline,
+    .service-location-address,
+    .stat-label,
+    .devotion-reference,
+    .verse-reference,
+    .flip-scroll-hint),
+body[data-page="home"] :where(.event-tagline,
+    .service-location-address,
+    .stat-label,
+    .devotion-reference,
+    .verse-reference,
+    .flip-scroll-hint) {
+    color: var(--home-read-text-muted) !important;
+}
+
+body.homepage :where(.section-title-display,
+    .section-title-accent-teal,
+    .next-service-content h2,
+    .new-here h2,
+    .welcome h2,
+    .whats-happening h2,
+    .devotion-promo-text h2,
+    .shape-content-wrapper h2,
+    .heptagon-left-panel h2),
+body[data-page="home"] :where(.section-title-display,
+    .section-title-accent-teal,
+    .next-service-content h2,
+    .new-here h2,
+    .welcome h2,
+    .whats-happening h2,
+    .devotion-promo-text h2,
+    .shape-content-wrapper h2,
+    .heptagon-left-panel h2) {
+    color: var(--home-read-heading) !important;
+}
+
+/* Keep dark sections readable — MUST beat :where() rules above */
+body.homepage .next-service-section,
+body[data-page="home"] .next-service-section {
+    color: #e2ebfb !important;
+}
+
+body.homepage .next-service-section h2,
+body[data-page="home"] .next-service-section h2 {
+    color: #f8fafc !important;
+}
+
+body.homepage .next-service-section .next-service-intro,
+body.homepage .next-service-section .service-note,
+body.homepage .next-service-section .service-meta,
+body.homepage .next-service-section .weekly-gatherings-text,
+body.homepage .next-service-section .service-location-address,
+body[data-page="home"] .next-service-section .next-service-intro,
+body[data-page="home"] .next-service-section .service-note,
+body[data-page="home"] .next-service-section .service-meta,
+body[data-page="home"] .next-service-section .weekly-gatherings-text,
+body[data-page="home"] .next-service-section .service-location-address {
+    color: #cbd5e1 !important;
+}
+
+/* Next Service card — event name, time, location text */
+body.homepage .next-service-section .service-time,
+body.homepage .next-service-section .service-location,
+body[data-page="home"] .next-service-section .service-time,
+body[data-page="home"] .next-service-section .service-location {
+    color: #f8fafc !important;
+}
+
+/* Next Service card inner — the countdown card on dark bg */
+body.homepage .next-service-section .next-service-content,
+body[data-page="home"] .next-service-section .next-service-content {
+    color: #e2e8f0 !important;
+}
+
+/* Countdown numbers and labels */
+body.homepage .next-service-section .time-value,
+body[data-page="home"] .next-service-section .time-value {
+    color: #f8fafc !important;
+}
+
+body.homepage .next-service-section .time-label,
+body[data-page="home"] .next-service-section .time-label {
+    color: #cbd5e1 !important;
+}
+
+/* Location card title and address */
+body.homepage .next-service-section .service-location-title,
+body[data-page="home"] .next-service-section .service-location-title {
+    color: #e2e8f0 !important;
+}
+
+/* Location card — light bg card inside dark section, needs DARK text in day mode */
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card {
+    color: #1e293b !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card .service-location-title,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card .service-location-title {
+    color: #0f172a !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card .service-location-address,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card .service-location-address {
+    color: #334155 !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card address,
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card p,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card address,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card p {
+    color: #334155 !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-link,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-link {
+    color: #2563eb !important;
+}
+
+/* Weekly gatherings note */
+/* Weekly gatherings note — light bg card, needs DARK text in day mode */
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-note,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-note {
+    color: #334155 !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-text,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-text {
+    color: #334155 !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-text strong,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-text strong {
+    color: #0f172a !important;
+}
+
+/* Dark mode weekly gatherings — keep light text */
+body.homepage.dark .next-service-section .weekly-gatherings-note,
+body.homepage[data-theme="dark"] .next-service-section .weekly-gatherings-note,
+body[data-page="home"].dark .next-service-section .weekly-gatherings-note,
+body[data-page="home"][data-theme="dark"] .next-service-section .weekly-gatherings-note {
+    color: #e2e8f0 !important;
+}
+
+body.homepage.dark .next-service-section .weekly-gatherings-text strong,
+body.homepage[data-theme="dark"] .next-service-section .weekly-gatherings-text strong,
+body[data-page="home"].dark .next-service-section .weekly-gatherings-text strong,
+body[data-page="home"][data-theme="dark"] .next-service-section .weekly-gatherings-text strong {
+    color: #f8fafc !important;
+}
+
+body.homepage .flip-scroll-section,
+body[data-page="home"] .flip-scroll-section {
+    color: #e2ebfb !important;
+}
+
+body.homepage .flip-section-title .flip-scroll-hint,
+body[data-page="home"] .flip-section-title .flip-scroll-hint {
+    color: #d1def2 !important;
+}
+
+/* Card and button readability refinement */
+body.homepage :where(.new-here-card,
+    .feature-card,
+    .stat-card,
+    .devotion-card,
+    .service-location-card,
+    .weekly-gatherings-note),
+body[data-page="home"] :where(.new-here-card,
+    .feature-card,
+    .stat-card,
+    .devotion-card,
+    .service-location-card,
+    .weekly-gatherings-note) {
+    background: var(--home-read-surface) !important;
+    border: 1px solid var(--home-read-border) !important;
+    box-shadow: var(--home-read-shadow);
+}
+
+body.homepage.dark :where(.new-here-card,
+    .feature-card,
+    .stat-card,
+    .devotion-card,
+    .service-location-card,
+    .weekly-gatherings-note),
+body.homepage[data-theme="dark"] :where(.new-here-card,
+    .feature-card,
+    .stat-card,
+    .devotion-card,
+    .service-location-card,
+    .weekly-gatherings-note),
+body[data-page="home"].dark :where(.new-here-card,
+    .feature-card,
+    .stat-card,
+    .devotion-card,
+    .service-location-card,
+    .weekly-gatherings-note),
+body[data-page="home"][data-theme="dark"] :where(.new-here-card,
+    .feature-card,
+    .stat-card,
+    .devotion-card,
+    .service-location-card,
+    .weekly-gatherings-note),
+html[data-theme="dark"] body.homepage :where(.new-here-card,
+    .feature-card,
+    .stat-card,
+    .devotion-card,
+    .service-location-card,
+    .weekly-gatherings-note),
+html[data-theme="dark"] body[data-page="home"] :where(.new-here-card,
+    .feature-card,
+    .stat-card,
+    .devotion-card,
+    .service-location-card,
+    .weekly-gatherings-note) {
+    background: var(--home-read-surface-soft) !important;
+}
+
+/* Link readability (non-color-only and stronger contrast) */
+body.homepage main a[href]:not(.btn):not([class*="btn"]):not(.card-button),
+body[data-page="home"] main a[href]:not(.btn):not([class*="btn"]):not(.card-button) {
+    color: var(--home-read-link) !important;
+    text-decoration-line: underline !important;
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 0.09em;
+}
+
+body.homepage main a[href]:not(.btn):not([class*="btn"]):not(.card-button):hover,
+body[data-page="home"] main a[href]:not(.btn):not([class*="btn"]):not(.card-button):hover {
+    color: var(--home-read-link-hover) !important;
+}
+
+/* Mobile readability scale-up */
+@media (max-width: 768px) {
+
+    body.homepage :where(.new-here-intro,
+        .new-here-questions dd,
+        .intro,
+        .service-note,
+        .service-meta,
+        .weekly-gatherings-text,
+        .feature-card p,
+        .devotion-promo-text p,
+        .trapezoid-copy,
+        .theological-intro),
+    body[data-page="home"] :where(.new-here-intro,
+        .new-here-questions dd,
+        .intro,
+        .service-note,
+        .service-meta,
+        .weekly-gatherings-text,
+        .feature-card p,
+        .devotion-promo-text p,
+        .trapezoid-copy,
+        .theological-intro) {
+        font-size: 1rem !important;
+        line-height: 1.75 !important;
+    }
+
+    body.homepage .section-title-display,
+    body[data-page="home"] .section-title-display {
+        font-size: 2rem !important;
+    }
+}
+
+/* Sacred Focus day-mode readability normalization */
+body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus {
+    background: radial-gradient(circle at 50% 46%, #10254a 0%, #07142f 48%, #030b1d 100%) !important;
+    color: #e8efff !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus::before,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus::before,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus::before,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.08) 0%, rgba(1, 8, 25, 0.28) 38%, rgba(1, 8, 25, 0.6) 100%),
+        linear-gradient(180deg, rgba(2, 8, 23, 0.32) 0%, rgba(2, 8, 23, 0.45) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus .container,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus .container,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus .container,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus .container {
+    z-index: 2;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus-content,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus-content,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus-content,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus-content {
+    background: radial-gradient(circle, rgba(2, 6, 23, 0.78) 0%, rgba(2, 6, 23, 0.3) 56%, transparent 88%) !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus-content .eyebrow,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus-content .eyebrow,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus-content .eyebrow,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus-content .eyebrow {
+    color: #6fb4ff !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus-content h2,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus-content h2,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus-content h2,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus-content h2 {
+    background: none !important;
+    background-image: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: #f8fbff !important;
+    color: #f8fbff !important;
+    text-shadow: 0 12px 30px rgba(2, 6, 23, 0.5);
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus-content p,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus-content p,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus-content p,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus-content p {
+    color: #dbe7ff !important;
+    text-shadow: 0 2px 10px rgba(2, 6, 23, 0.45);
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus .btn-hero-light,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus .btn-hero-light,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus .btn-hero-light,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus .btn-hero-light {
+    background: #2a52cc !important;
+    color: #ffffff !important;
+    border: 2px solid #4678ff !important;
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.35);
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus .btn-hero-outline,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus .btn-hero-outline,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus .btn-hero-outline,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus .btn-hero-outline {
+    background: rgba(15, 23, 42, 0.45) !important;
+    color: #eef4ff !important;
+    border: 2px solid rgba(147, 197, 253, 0.82) !important;
+}
+
+/* Fix: Light Mode liquid transition gap — warm fade to dark instead of solid dark */
+body.homepage:not(.dark):not([data-theme="dark"]) .liquid-transition-gap,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .liquid-transition-gap,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .liquid-transition-gap,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .liquid-transition-gap {
+    /* Before: same dark gradient as dark mode (#010409 → #0f172a) */
+    /* After:  warm bright top → dark navy bottom, matching hero-to-service transition */
+    background: linear-gradient(180deg, rgba(200, 185, 160, 0.6) 0%, #1e293b 50%, #0f172a 100%) !important;
+}
+
+/* Fix: Light Mode mobile/tablet burger menu — force light text on dark bg */
+/* The mobile menu uses dark navy bg in ALL modes, but day mode inherits dark text = unreadable */
+@media (max-width: 1024px) {
+
+    body.homepage:not(.dark):not([data-theme="dark"]) .nav-links a,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .nav-links a,
+    html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .nav-links a,
+    html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .nav-links a {
+        color: #e2ebfb !important;
+    }
+
+    body.homepage:not(.dark):not([data-theme="dark"]) .nav-links a:hover,
+    body.homepage:not(.dark):not([data-theme="dark"]) .nav-links a:focus-visible,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .nav-links a:hover,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .nav-links a:focus-visible {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    body.homepage:not(.dark):not([data-theme="dark"]) .nav-links a.active,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .nav-links a.active {
+        color: #ffffff !important;
+        background: rgba(59, 130, 246, 0.2) !important;
+    }
+
+    /* Dropdown menu items */
+    body.homepage:not(.dark):not([data-theme="dark"]) .nav-links .dropdown-menu a,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .nav-links .dropdown-menu a {
+        color: #cbd5e1 !important;
+    }
+
+    body.homepage:not(.dark):not([data-theme="dark"]) .nav-links .dropdown-menu a:hover,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .nav-links .dropdown-menu a:hover {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Dropdown arrow color */
+    body.homepage:not(.dark):not([data-theme="dark"]) .nav-links .dropdown-arrow,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .nav-links .dropdown-arrow {
+        color: #94a3b8 !important;
+    }
+}
+
+/* Fix: Glass halo card (Stories of Grace) — dark text in day mode */
+body.homepage:not(.dark):not([data-theme="dark"]) .glass-halo-card,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .glass-halo-card {
+    color: #1e293b !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .glass-halo-card .shape-content-wrapper h2,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .glass-halo-card .shape-content-wrapper h2 {
+    color: #0f172a !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .glass-halo-card .shape-scripture,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .glass-halo-card .shape-scripture {
+    color: #334155 !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .glass-halo-card .slide-description,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .glass-halo-card .slide-description {
+    color: #475569 !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .glass-halo-card .btn-hero-light,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .glass-halo-card .btn-hero-light {
+    color: #ffffff !important;
+    background: #1d4ed8 !important;
+}

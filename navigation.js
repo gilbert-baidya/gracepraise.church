@@ -785,6 +785,31 @@
         }
     }
 
+    function applyFormA11yLabels() {
+        const controls = Array.from(
+            document.querySelectorAll(
+                'input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="image"]), select, textarea'
+            )
+        );
+
+        controls.forEach((el, index) => {
+            const id = el.getAttribute('id');
+            const hasForLabel =
+                id && document.querySelector(`label[for="${CSS.escape(id)}"]`) ? true : false;
+            const hasAria = !!(el.getAttribute('aria-label') || el.getAttribute('aria-labelledby'));
+            if (hasForLabel || hasAria) return;
+
+            const fallbackText =
+                (el.getAttribute('placeholder') || '').trim() ||
+                (el.getAttribute('name') || '').replace(/[_-]+/g, ' ').trim() ||
+                (id || '').replace(/[_-]+/g, ' ').trim() ||
+                `form field ${index + 1}`;
+
+            const label = fallbackText.charAt(0).toUpperCase() + fallbackText.slice(1);
+            el.setAttribute('aria-label', label);
+        });
+    }
+
     function initializeNavigationSystem() {
         if (retryTimeout) {
             clearTimeout(retryTimeout);
@@ -877,6 +902,11 @@
         initDelegatedNavigation();
         initKeyboardNavigation();
         initThemeToggle();
+        applyFormA11yLabels();
+
+        // Recalculate once styles settle to prevent sticky/fixed overlap on tablet/mobile.
+        requestAnimationFrame(updateScrollPadding);
+        setTimeout(updateScrollPadding, 120);
 
         navInitialized = true;
         if (typeof window !== 'undefined') {

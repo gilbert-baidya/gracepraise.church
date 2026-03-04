@@ -220,6 +220,7 @@
         </div>
 
         <div class="search-container">
+            <label for="searchInput" class="sr-only">Search songs</label>
             <input type="text" id="searchInput" placeholder="Search songs... (গান খুঁজুন...)" />
         </div>
 
@@ -235,7 +236,7 @@
         </div>
 
         <div class="saved-playlists-section" id="savedPlaylistsSection" style="display: none;">
-            <h3>📁 Saved Service Playlists</h3>
+            <h2>📁 Saved Service Playlists</h2>
             <div class="saved-playlists-grid" id="savedPlaylistsGrid">
                 <!-- Saved playlists will appear here -->
             </div>
@@ -252,7 +253,7 @@
         <!-- Service Playlist Panel -->
         <div class="service-playlist-panel" id="servicePlaylistPanel">
             <div class="playlist-header">
-                <h3>📋 Service Playlist (<span id="playlistCount">0</span>)</h3>
+                <h2>📋 Service Playlist (<span id="playlistCount">0</span>)</h2>
                 <div class="playlist-actions">
                     <button class="btn-small" onclick="savePlaylistPrompt()" id="savePlaylistBtn">💾 Save</button>
                     <button class="btn-small" onclick="startPresentation()">▶ Start</button>

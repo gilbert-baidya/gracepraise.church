@@ -418,6 +418,17 @@
                     colorDark: '#1e3a5f',
                     colorLight: '#ffffff'
                 });
+                setTimeout(() => {
+                    const qrImg = paypalQRDiv.querySelector('img');
+                    if (qrImg && qrImg.getAttribute('alt') === null) {
+                        qrImg.setAttribute('alt', 'QR code for GPBC PayPal giving email');
+                    }
+                    const qrCanvas = paypalQRDiv.querySelector('canvas');
+                    if (qrCanvas) {
+                        qrCanvas.setAttribute('role', 'img');
+                        qrCanvas.setAttribute('aria-label', 'QR code for GPBC PayPal giving email');
+                    }
+                }, 0);
             }
         });
     </script>
