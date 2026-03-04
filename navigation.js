@@ -57,6 +57,7 @@
 
     // Animation lock variables for deterministic tap handling
     let isAnimating = false;
+    let animationLockTimer = null;
     let lastDropdownToggleTime = 0;
     const DEBOUNCE_MS = 300;
     let isNavigatingToAnchor = false;
@@ -351,8 +352,43 @@
     let scrollTimer;
     let scrollPosition = 0;
 
+    function setAnimationLock(durationMs) {
+        if (!navLinks) return;
+
+        isAnimating = true;
+
+        const onTransitionEnd = (event) => {
+            if (event.target !== navLinks) return;
+            isAnimating = false;
+            navLinks.removeEventListener('transitionend', onTransitionEnd);
+            if (animationLockTimer) {
+                clearTimeout(animationLockTimer);
+                animationLockTimer = null;
+            }
+        };
+
+        navLinks.addEventListener('transitionend', onTransitionEnd);
+
+        if (animationLockTimer) {
+            clearTimeout(animationLockTimer);
+            animationLockTimer = null;
+        }
+
+        animationLockTimer = setTimeout(() => {
+            if (isAnimating) {
+                isAnimating = false;
+                NAV_TELEMETRY.log('ANIMATION_LOCK_FALLBACK', `${durationMs}ms timeout`);
+            }
+            navLinks.removeEventListener('transitionend', onTransitionEnd);
+            animationLockTimer = null;
+        }, durationMs);
+    }
+
     function toggleMobileMenu() {
+        if (!navLinks || !mobileMenuBtn || !mobileOverlay) return;
+
         const isOpening = !navLinks.classList.contains('mobile-open');
+        const lockDuration = window.innerWidth <= NAV_BREAKPOINT ? 220 : 320;
 
         if (isOpening) {
             // Save current scroll position before locking
@@ -363,26 +399,6 @@
             // Phase 5: Ensure menu is visible to accessibility tree
             navLinks.removeAttribute('aria-hidden');
             navLinks.removeAttribute('inert');
-
-            // Set animation lock - reduce for tablet (150ms vs 300ms)
-            const isTabletWidth = window.innerWidth >= 769 && window.innerWidth <= 1024;
-            const lockDuration = isTabletWidth ? 150 : 300;
-            isAnimating = true;
-
-            // Release animation lock after transition completes
-            const releaseAnimationLock = () => {
-                isAnimating = false;
-                navLinks.removeEventListener('transitionend', releaseAnimationLock);
-            };
-            navLinks.addEventListener('transitionend', releaseAnimationLock);
-
-            // Fallback timeout in case transitionend doesn't fire
-            setTimeout(() => {
-                if (isAnimating) {
-                    isAnimating = false;
-                    navLinks.removeEventListener('transitionend', releaseAnimationLock);
-                }
-            }, lockDuration + 100);
         } else {
             // Phase 4: Update ARIA expanded BEFORE visual transition
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
@@ -399,9 +415,6 @@
             isNavigatingToAnchor = false;
 
             closeAllDropdowns();
-
-            // Set animation lock
-            isAnimating = true;
         }
 
         // THEN toggle visual state
@@ -409,24 +422,8 @@
         mobileOverlay.classList.toggle('active');
         document.body.classList.toggle('menu-open');
 
-        // Release animation lock after transition completes
-        const releaseAnimationLock = () => {
-            isAnimating = false;
-            navLinks.removeEventListener('transitionend', releaseAnimationLock);
-        };
-        navLinks.addEventListener('transitionend', releaseAnimationLock);
-
-        // TABLET DETERMINISTIC: Reduced lock duration for faster interaction
-        const isTabletWidth = window.innerWidth >= 769 && window.innerWidth <= 1024;
-        const lockDuration = isTabletWidth ? 150 : 400;
-
-        // Fallback: force release after duration if transitionend doesn't fire
-        setTimeout(() => {
-            if (isAnimating) {
-                isAnimating = false;
-                NAV_TELEMETRY.log('ANIMATION_LOCK_FALLBACK', `${lockDuration}ms timeout`);
-            }
-        }, lockDuration);
+        // Keep lock deterministic around menu transitions to avoid stale toggle states.
+        setAnimationLock(lockDuration);
 
         if (isOpening) {
             // Phase 5: Focus first link for keyboard users
