@@ -901,6 +901,16 @@ a:hover {
     .countdown-top-strip .event-header {
         width: 100%;
     }
+    
+    .countdown-top-strip .event-title {
+        color: #000000 !important;
+        font-weight: 900 !important;
+    }
+    
+    .countdown-top-strip .event-badge {
+        color: #000000 !important;
+        font-weight: 700 !important;
+    }
 
     .countdown-top-strip .event-info {
         width: 100%;
@@ -908,15 +918,80 @@ a:hover {
         align-items: flex-start;
         gap: 0.5rem;
     }
+    
+    .countdown-top-strip .event-info p {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
 
     .countdown-top-strip .countdown-display {
         width: 100%;
         justify-content: space-between;
     }
 
-    .countdown-top-strip .countdown-unit {
+    .countdown-top-strip .countdown-unit,
+    .countdown-top-strip .time-unit {
         flex: 1;
-        min-width: 0;
+        min-width: 56px;
+        padding: 0.65rem 0.4rem;
+        background: rgba(255, 255, 180, 0.5) !important;
+        border: 1px solid rgba(255, 255, 0, 0.1) !important;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    
+    .countdown-top-strip .countdown-unit .time-value,
+    .countdown-top-strip .time-value,
+    .countdown-top-strip .time-unit .time-value {
+        color: #000000 !important;
+        font-weight: 900 !important;
+        font-size: 1.5rem !important;
+    }
+    
+    .countdown-top-strip .countdown-unit .time-label,
+    .countdown-top-strip .time-label,
+    .countdown-top-strip .time-unit .time-label {
+        color: #000000 !important;
+        font-weight: 800 !important;
+        font-size: 0.7rem !important;
+    }
+    
+    /* Dark mode overrides for mobile */
+    body.dark .countdown-top-strip .countdown-unit,
+    body.dark .countdown-top-strip .time-unit,
+    body[data-theme="dark"] .countdown-top-strip .countdown-unit,
+    body[data-theme="dark"] .countdown-top-strip .time-unit {
+        background: rgba(15, 23, 42, 0.95) !important;
+        border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+    body.dark .countdown-top-strip .event-title,
+    body[data-theme="dark"] .countdown-top-strip .event-title {
+        color: #ffffff !important;
+    }
+    
+    body.dark .countdown-top-strip .event-badge,
+    body[data-theme="dark"] .countdown-top-strip .event-badge {
+        color: #fbbf24 !important;
+    }
+    
+    body.dark .countdown-top-strip .event-info p,
+    body[data-theme="dark"] .countdown-top-strip .event-info p {
+        color: #e2e8f0 !important;
+    }
+    
+    body.dark .countdown-top-strip .countdown-unit .time-value,
+    body.dark .countdown-top-strip .time-value,
+    body[data-theme="dark"] .countdown-top-strip .countdown-unit .time-value,
+    body[data-theme="dark"] .countdown-top-strip .time-value {
+        color: #ffffff !important;
+    }
+    
+    body.dark .countdown-top-strip .countdown-unit .time-label,
+    body.dark .countdown-top-strip .time-label,
+    body[data-theme="dark"] .countdown-top-strip .countdown-unit .time-label,
+    body[data-theme="dark"] .countdown-top-strip .time-label {
+        color: #cbd5e1 !important;
     }
 }
 

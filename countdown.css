@@ -601,12 +601,19 @@
     }
     
     .event-title {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
+        color: #000000;
+        font-weight: 900;
+        text-shadow: none;
+        opacity: 1;
     }
     
     .event-badge {
         font-size: 0.65rem;
         padding: 0.2rem 0.6rem;
+        background: rgba(255, 255, 0, 0.2);
+        color: #000000;
+        font-weight: 700;
     }
     
     .event-info {
@@ -615,7 +622,9 @@
     }
     
     .event-info p {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
+        color: #000000;
+        font-weight: 600;
     }
     
     .live-badge {
@@ -658,12 +667,16 @@
     }
     
     .time-value {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
+        color: #000000;
+        font-weight: 800;
     }
     
     .time-label {
-        font-size: 0.55rem;
+        font-size: 0.6rem;
         margin-top: 0.25rem;
+        color: #000000;
+        font-weight: 700;
     }
     
     .live-now-message {
@@ -872,4 +885,38 @@ body.dark .next-service-intro,
 body[data-theme="dark"] .next-service-intro {
     color: #cbd5e1;
     opacity: 1;
+}
+
+/* Mobile dark mode text color fixes */
+@media (max-width: 768px) {
+    body.dark .event-info p,
+    body[data-theme="dark"] .event-info p {
+        color: #e2e8f0;
+        font-weight: 600;
+    }
+    
+    body.dark .event-title,
+    body[data-theme="dark"] .event-title {
+        color: #ffffff;
+        font-weight: 800;
+    }
+    
+    body.dark .event-badge,
+    body[data-theme="dark"] .event-badge {
+        background: rgba(251, 191, 36, 0.25);
+        color: #fbbf24;
+        font-weight: 700;
+    }
+    
+    body.dark .time-value,
+    body[data-theme="dark"] .time-value {
+        color: #ffffff;
+        font-weight: 800;
+    }
+    
+    body.dark .time-label,
+    body[data-theme="dark"] .time-label {
+        color: #cbd5e1;
+        font-weight: 600;
+    }
 }

@@ -199,17 +199,25 @@ html[data-theme="dark"] body[data-page="home"] .hero-slogan {
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
-/* Day mode hero stabilization — TRUE LIGHT MODE (bright bg, dark text, proper contrast) */
+/* Day mode hero — match dark mode appearance (same text, layout, glass) */
+/* Only the background brightness differs between modes */
 body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade,
 body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade,
 html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade,
 html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade {
-    /* Fix: Light Mode hero background — visible image with bright overlay */
-    /* Before: background: #030b1d !important; (near-black, identical to dark mode) */
-    /* After:  transparent fallback so the video/poster image shows through */
+    /* Background: transparent so poster/video shows */
     background: transparent !important;
+    /* Override hero CSS variables to match dark mode */
+    --hero-text: #ffffff !important;
+    --hero-text-dim: rgba(255, 255, 255, 0.7) !important;
+    --glass-bg: rgba(255, 255, 255, 0.03) !important;
+    --glass-border: rgba(255, 255, 255, 0.1) !important;
+    --glass-glow-gold: rgba(245, 158, 11, 0.2) !important;
+    --glass-glow-teal: rgba(14, 165, 164, 0.2) !important;
     --mesh-opacity: 0.25 !important;
     --mesh-blend: multiply !important;
+    --hero-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    --hero-shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
 body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .video-overlay,
@@ -282,105 +290,65 @@ body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-co
 body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container,
 html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container,
 html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-upgrade-container {
-    /* Fix: Force container width to fill viewport on large screens */
-    /* Root cause: flex parent shrinks grid child to content-based minimum */
-    width: 90% !important;
-    max-width: 1600px !important;
-    flex-shrink: 0 !important;
-    grid-template-columns: 1.2fr 1fr !important;
+    /* Match dark mode: single column centered layout */
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+    justify-items: center !important;
+    width: 100% !important;
+    max-width: var(--container-max-width) !important;
     margin: 0 auto !important;
-    padding-left: clamp(2rem, 5vw, 6rem) !important;
-    padding-right: clamp(2rem, 5vw, 6rem) !important;
 }
 
-body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-main-text,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-main-text,
-html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-main-text,
-html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-main-text {
-    max-width: 44rem;
+/* Fix: Scroll indicator must stay position:absolute in day mode too.
+   redesign-styles.css sets .hero-upgrade > * { position: relative } in light mode,
+   which pulls the scroll indicator into the flex flow and steals ~83px from the container. */
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .scroll-indicator,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .scroll-indicator {
+    position: absolute !important;
 }
 
-body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid,
-html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid,
-html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-visual-grid {
-    width: 100%;
-    max-width: 560px;
-    justify-self: end;
-}
+/* Match dark mode: heading, gradient-text, description, slogan, buttons */
 
-/* Fix: Light Mode hero heading — dark text on light bg */
-/* Before: color: #f8fbff (white on dark bg) */
-/* After:  color: #0f172a (dark on light bg) */
+/* Hero heading — white, matching dark mode */
 body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade h1,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade h1,
-html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade h1,
-html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 {
-    color: #0f172a !important;
-    text-shadow: 0 4px 16px rgba(255, 255, 255, 0.3);
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 {
+    color: #f8fbff !important;
+    text-shadow: 0 8px 28px rgba(0, 0, 0, 0.55) !important;
 }
 
-/* Fix: Light Mode gradient-text accent */
-/* Before: --home-hero-accent (was #0b67d7 but on dark bg) */
-/* After:  keep #0b67d7 but now visible on light bg */
+/* Gradient-text — flat cyan, matching dark mode (not blue gradient) */
 body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 span.gradient-text,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 span.gradient-text,
-html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 span.gradient-text,
-html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 span.gradient-text {
-    background: linear-gradient(135deg, #0b67d7 0%, #2563eb 100%) !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    text-shadow: none;
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade h1 span.gradient-text {
+    background: none !important;
+    -webkit-text-fill-color: #7dd3fc !important;
+    color: #7dd3fc !important;
+    text-shadow: none !important;
 }
 
-/* Fix: Light Mode hero description + slogan */
-/* Before: color: #eef4ff (white) */
-/* After:  color: #334155 (readable dark grey on light bg) */
+/* Description and slogan — white, matching dark mode */
 body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-description,
 body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
 body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-description,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
-html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-description,
-html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
-html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-description,
-html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan {
-    color: #334155 !important;
-    text-shadow: none;
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan {
+    color: #f1f5ff !important;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45) !important;
 }
 
-/* Fix: Light Mode hero slogan accent color */
-body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
-html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan,
-html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .hero-slogan {
-    color: #b45309 !important;
+/* Glass buttons — dark glass, matching dark mode */
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .btn-glass,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .btn-glass {
+    background: rgba(15, 23, 42, 0.72) !important;
+    border-color: rgba(148, 163, 184, 0.6) !important;
+    color: #f1f5ff !important;
 }
 
-/* Fix: Light Mode glass buttons — visible on light bg */
-/* Before: background: rgba(15, 23, 42, 0.62) (dark glass on dark bg) */
-/* After:  background: rgba(255, 255, 255, 0.7) (light glass on light bg) */
-body.homepage:not(.dark):not([data-theme="dark"]) .btn-glass,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .btn-glass,
-html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .btn-glass,
-html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .btn-glass {
-    background: rgba(255, 255, 255, 0.7) !important;
-    border: 1px solid rgba(15, 23, 42, 0.15) !important;
-    color: #0f172a !important;
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
-}
-
-/* Fix: Light Mode primary CTA button */
-/* Before: same blue gradient but with dark-mode border */
-/* After:  same blue gradient with proper light-mode shadow */
-body.homepage:not(.dark):not([data-theme="dark"]) .btn-glass-primary,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .btn-glass-primary,
-html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .btn-glass-primary,
-html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .btn-glass-primary {
-    background: linear-gradient(135deg, #1d4ed8, #2563eb) !important;
-    color: #ffffff !important;
-    border-color: rgba(29, 78, 216, 0.3) !important;
-    box-shadow: 0 8px 24px rgba(29, 78, 216, 0.25);
+/* Primary CTA — same dark glass, not solid blue */
+body.homepage:not(.dark):not([data-theme="dark"]) .hero-upgrade .btn-glass-primary,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .hero-upgrade .btn-glass-primary {
+    background: rgba(15, 23, 42, 0.72) !important;
+    border-color: rgba(147, 197, 253, 0.64) !important;
+    color: #f1f5ff !important;
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28) !important;
 }
 
 /* Fix: Light Mode scroll indicator — visible against bright hero image */
@@ -767,6 +735,26 @@ body[data-page="home"] main a[href]:not(.btn):not([class*="btn"]):not(.card-butt
     }
 }
 
+/* ==========================================================================
+   COUNTDOWN FIX - Day Mode (All Viewports)
+   Keep top-strip countdown text readable in light mode on desktop/tablet/mobile.
+   ========================================================================== */
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-value,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-value,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-value,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-value {
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-label,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-label,
+html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-label,
+html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-label {
+    color: #111827 !important;
+    text-shadow: none !important;
+}
+
 /* Sacred Focus day-mode readability normalization */
 body.homepage:not(.dark):not([data-theme="dark"]) .sacred-focus,
 body[data-page="home"]:not(.dark):not([data-theme="dark"]) .sacred-focus,
@@ -930,4 +918,58 @@ body.homepage:not(.dark):not([data-theme="dark"]) .glass-halo-card .btn-hero-lig
 body[data-page="home"]:not(.dark):not([data-theme="dark"]) .glass-halo-card .btn-hero-light {
     color: #ffffff !important;
     background: #1d4ed8 !important;
+}
+
+/* ==========================================================================
+   MOBILE COUNTDOWN FIX - Day Mode Visibility Override
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* Mobile countdown - override all previous styles for visibility */
+    .countdown-top-strip .event-title {
+        color: #000000 !important;
+        font-weight: 900 !important;
+    }
+    
+    .countdown-top-strip .event-badge {
+        color: #000000 !important;
+        font-weight: 700 !important;
+    }
+    
+    .countdown-top-strip .event-info p {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+    
+    .countdown-top-strip .time-value {
+        color: #000000 !important;
+        font-weight: 900 !important;
+        font-size: 1.5rem !important;
+    }
+    
+    .countdown-top-strip .time-label {
+        color: #000000 !important;
+        font-weight: 800 !important;
+    }
+}
+
+/* ==========================================================================
+   MOBILE COUNTDOWN FIX - Day Mode Specificity Patch
+   Keep countdown text dark in light mode despite homepage-wide light text rules.
+   ========================================================================== */
+@media (max-width: 768px) {
+    body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-value,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-value,
+    html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-value,
+    html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-value {
+        color: #000000 !important;
+        text-shadow: none !important;
+    }
+
+    body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-label,
+    body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-label,
+    html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-label,
+    html:not([data-theme="dark"]) body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .countdown-top-strip .time-label {
+        color: #111827 !important;
+        text-shadow: none !important;
+    }
 }
