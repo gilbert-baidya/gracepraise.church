@@ -18,7 +18,8 @@ const authorizedUsers = [
   'gilbert.baidya@gmail.com',   // Gilbert
   'dinabiswas@gmail.com',       // Dina
   'blessdj32@gmail.com',        // Arif
-  'gabrieldalim@gmail.com'      // Dalim
+  'gabrieldalim@gmail.com',      // Dalim
+  'antora.halder@gmail.com'     // Antora
 ];
 
 // Initialize Firebase (will be called from app.js)
@@ -27,6 +28,15 @@ let database = null;
 let currentUser = null;
 let isAuthorized = false;
 let isSigningIn = false; // Prevent multiple popup attempts
+
+function buildSignInErrorMessage(error) {
+  if (error && error.code === 'auth/unauthorized-domain') {
+    const hostname = window.location.hostname || 'this domain';
+    return `Google sign-in is blocked because Firebase has not authorized "${hostname}" yet.\n\nFix: Firebase Console -> Authentication -> Settings -> Authorized domains -> Add ${hostname}\n\nThen reload this page and try again.`;
+  }
+
+  return 'Sign in failed: ' + error.message;
+}
 
 function initializeFirebase() {
   if (typeof firebase === 'undefined') {
@@ -78,7 +88,7 @@ function signInWithGoogle() {
       // Only show alert for non-cancelled errors
       if (error.code !== 'auth/cancelled-popup-request' && error.code !== 'auth/popup-closed-by-user') {
         console.error('Sign in error:', error);
-        alert('Sign in failed: ' + error.message);
+        alert(buildSignInErrorMessage(error));
       } else {
         // console.log('Sign in cancelled by user'); // Removed for production
       }
@@ -276,4 +286,3 @@ function deletePlaylist(playlistId) {
       alert('Failed to delete playlist: ' + error.message);
     });
 }
-
