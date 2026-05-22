@@ -154,7 +154,8 @@
                         <a href="daily-devotion.html" class="active" aria-haspopup="true" aria-expanded="false">Devotion
                             <span class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
+                        <li><a href="bible-reader.html">Holy Bible</a></li>
+                        <li><a href="daily-devotion.html">Daily Devotion</a></li>
                             <li><a href="couples-devotion.html">Couples Devotion</a></li>
                             <li><a href="family-devotion.html">Family Devotion</a></li>
                             <li><a href="youth-devotion.html">Youth Devotion</a></li>
@@ -611,6 +612,10 @@
     <!-- Load devotions data from external JSON file -->
     <script src="devotions-data.js"></script>
 
+    <!-- Licensed Bible Service -->
+    <script src="services/bible/book-map.js"></script>
+    <script src="services/bible/bible-service.js"></script>
+
     <!-- Scripts -->
     <script>
         // ═══════════════════════════════════════════════════════════════
@@ -928,16 +933,105 @@
                 return data;
             }
 
+            let scriptureHydrationToken = 0;
+
+            function getVerseReference(data) {
+                return (data?.verse || data?.verseReference || data?.verseRef || 'Psalm 46:1').trim();
+            }
+
+            function getActiveVerseText(data, reference) {
+                if (currentLang === 'bn') {
+                    return (data?.verseTextBn || data?.verseText || reference).trim();
+                }
+
+                return (data?.verseText || reference).trim();
+            }
+
+            function buildCurrentDevotionData(data) {
+                const lang = currentLang === 'bn' ? 'Bn' : '';
+                const verseReference = getVerseReference(data);
+
+                return {
+                    title: data?.[`title${lang}`] || data?.title || 'Daily Devotion',
+                    verse: verseReference,
+                    verseReference: verseReference,
+                    verseText: getActiveVerseText(data, verseReference),
+                    verseTextEn: (data?.verseText || '').trim(),
+                    verseTextBn: (data?.verseTextBn || '').trim(),
+                    reflection: data?.[`reflection${lang}`] || data?.reflection || '',
+                    prayer: data?.[`prayer${lang}`] || data?.prayer || '',
+                    date: formatDisplayDate(selectedDate),
+                    dateShort: formatMonthDay(selectedDate)
+                };
+            }
+
+            function getBiblePassageText(reference, language) {
+                if (!reference || !window.GPBCBibleService || typeof window.GPBCBibleService.getPassage !== 'function') {
+                    return Promise.resolve('');
+                }
+
+                return Promise.resolve(window.GPBCBibleService.getPassage(reference, language))
+                    .then((passage) => passage && passage.text ? passage.text.trim() : '')
+                    .catch((error) => {
+                        console.warn(`[Devotion] Bible service lookup failed for ${language}:${reference}`, error);
+                        return '';
+                    });
+            }
+
+            function hydrateScriptureFromBibleService(data, dateKey, renderToken) {
+                const reference = getVerseReference(data);
+                if (!reference) {
+                    return;
+                }
+
+                Promise.all([
+                    getBiblePassageText(reference, 'en'),
+                    getBiblePassageText(reference, 'bn')
+                ]).then(([resolvedEn, resolvedBn]) => {
+                    let didUpdate = false;
+
+                    if (resolvedEn && resolvedEn !== (data.verseText || '').trim()) {
+                        data.verseText = resolvedEn;
+                        didUpdate = true;
+                    }
+
+                    if (resolvedBn && resolvedBn !== (data.verseTextBn || '').trim()) {
+                        data.verseTextBn = resolvedBn;
+                        didUpdate = true;
+                    }
+
+                    if (scriptureHydrationToken !== renderToken || toDateKey(selectedDate) !== dateKey) {
+                        return;
+                    }
+
+                    if (!didUpdate) {
+                        return;
+                    }
+
+                    const devotionData = setCurrentDevotionData(buildCurrentDevotionData(data));
+                    renderScripture(devotionData.verseReference || devotionData.verse, devotionData.verseText);
+
+                    if (window.SeoManager) {
+                        window.SeoManager.update(data, selectedDate);
+                    }
+
+                    console.log('[Devotion] ✅ Scripture hydrated from local Bible service');
+                    dispatchDevotionRenderComplete();
+                });
+            }
+
             function bindBibleGatewayLinks(reference) {
                 const safeReference = (reference || 'Psalm 46:1').trim();
                 if (!safeReference) return;
 
                 const verseQuery = encodeURIComponent(safeReference);
-                const href = `https://www.biblegateway.com/passage/?search=${verseQuery}&version=NIV`;
+                const href = `bible-reader.html?ref=${verseQuery}`;
 
                 document.querySelectorAll('a.bible-gateway-link').forEach((linkEl) => {
                     linkEl.href = href;
-                    linkEl.setAttribute('aria-label', `Read ${safeReference} on Bible Gateway`);
+                    linkEl.setAttribute('aria-label', `Read ${safeReference} in the Bible Reader`);
+                    linkEl.removeAttribute('target');
+                    linkEl.removeAttribute('rel');
                 });
             }
 
@@ -1219,6 +1313,8 @@
 
             // PHASE 5 — RENDER ORDER GUARANTEE: Fetch → Validate → Set Global → Render Hero → Render Main → Hide Loader
             function renderDevotion() {
+                const renderToken = ++scriptureHydrationToken;
+
                 // RESURRECTION — Acquire Render Lock
                 if (!window.ResurrectionLock.acquire()) {
                     console.warn("[Devotion] Render blocked by Resurrection Lock");
@@ -1279,20 +1375,7 @@
                 });
 
                 // PHASE 2 — Set Global Devotion Data (Single Source of Truth)
-                // REFERENCE MODE: No verseText, always use verseReference
-                const lang = currentLang === 'bn' ? 'Bn' : '';
-                const verseReference = data.verse || data.verseReference || data.verseRef || 'Psalm 46:1';
-                const verseText = data[`verseText${lang}`] || data.verseText || verseReference;
-                const devotionData = setCurrentDevotionData({
-                    title: data[`title${lang}`] || data.title || 'Daily Devotion',
-                    verse: verseReference,
-                    verseReference: verseReference,
-                    verseText: verseText,
-                    reflection: data[`reflection${lang}`] || data.reflection || '',
-                    prayer: data[`prayer${lang}`] || data.prayer || '',
-                    date: formatDisplayDate(selectedDate),
-                    dateShort: formatMonthDay(selectedDate)
-                });
+                const devotionData = setCurrentDevotionData(buildCurrentDevotionData(data));
                 console.log('[Devotion] ✅ Current devotion cached globally for share generator');
 
                 // INTELLIGENT BACKGROUND APPLICATION
@@ -1333,6 +1416,8 @@
                     window.SeoManager.update(data, selectedDate);
                 }
                 console.log("[Devotion] Share Engine Ready");
+
+                hydrateScriptureFromBibleService(data, key, renderToken);
 
                 // STEP 7: Hide Loader (smooth fade-out)
                 hideDevotionLoader();
@@ -1790,6 +1875,8 @@
 
             // PHASE 6 — FAIL SAFE (Only if data fails — render once)
             function showFallbackDevotion() {
+                scriptureHydrationToken += 1;
+
                 if (window.__DEVOTION_RENDER_COMPLETED__) {
                     console.warn("[Devotion] Fallback skipped — render already completed");
                     return;

@@ -196,8 +196,11 @@ class SacredHeptagonWheel {
       label.style.left = `${labelX}%`;
       label.style.top = `${labelY}%`;
 
-      // Rotate text parallel to the edge
-      label.style.transform = `translate(-50%, -50%) rotate(${midpoint.angle}deg)`;
+      // Rotate text parallel to the edge, but flip if upside-down
+      let angle = midpoint.angle;
+      if (angle > 90) angle -= 180;
+      if (angle < -90) angle += 180;
+      label.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
 
       // Store side index for tracking
       label.dataset.side = index;
@@ -290,8 +293,30 @@ class SacredHeptagonWheel {
 
     setTimeout(() => {
       this.updateActiveState(targetIndex);
+      this.updateLabelReadability();
       this.isAnimating = false;
     }, transitionDuration * 0.6);
+  }
+
+  /* ========================================================================
+     LABEL READABILITY — Counter-rotate labels to prevent upside-down text
+     ======================================================================== */
+
+  updateLabelReadability() {
+    const sideMidpoints = this.calculateSideMidpoints();
+    this.wallLabels.forEach((label, index) => {
+      const midpoint = sideMidpoints[index];
+      // Calculate effective angle after layer rotation
+      let effectiveAngle = midpoint.angle + this.currentRotation;
+      // Normalize to -180..180
+      effectiveAngle = ((effectiveAngle % 360) + 540) % 360 - 180;
+      // Determine label's own rotation to stay readable
+      let labelRotation = midpoint.angle;
+      if (effectiveAngle > 90 || effectiveAngle < -90) {
+        labelRotation += 180;
+      }
+      label.style.transform = `translate(-50%, -50%) rotate(${labelRotation}deg)`;
+    });
   }
 
   /* ========================================================================

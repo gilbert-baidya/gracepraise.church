@@ -179,7 +179,9 @@ body[data-theme="dark"] {
 .video-overlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, transparent 0%, var(--hero-bg) 100%);
+    background:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0.35) 100%),
+        radial-gradient(circle at center, transparent 0%, var(--hero-bg) 100%);
     z-index: 1;
     pointer-events: none;
     transition: background 0.5s ease;
@@ -432,7 +434,7 @@ body[data-theme="dark"] .hero-countdown-badge .event-label {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.8);
     color: #ffffff;
     padding: 1rem 2rem;
     border-radius: var(--radius-lg);

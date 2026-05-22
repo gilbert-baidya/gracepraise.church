@@ -375,8 +375,83 @@
                 totalDays: 40,
                 event: 'lent-fasting',
                 lentInfo: null,
+                bibleServicePromise: null,
+                verseLookupToken: 0,
 
                 elements: {},
+
+                loadScriptOnce(src) {
+                    return new Promise((resolve, reject) => {
+                        const existing = document.querySelector(`script[data-runtime-src="${src}"]`);
+                        if (existing) {
+                            if (existing.dataset.loaded === 'true') {
+                                resolve();
+                                return;
+                            }
+
+                            if (existing.dataset.failed === 'true') {
+                                reject(new Error(`Failed to load script: ${src}`));
+                                return;
+                            }
+
+                            existing.addEventListener('load', () => resolve(), { once: true });
+                            existing.addEventListener('error', () => reject(new Error(`Failed to load script: ${src}`)), { once: true });
+                            return;
+                        }
+
+                        const script = document.createElement('script');
+                        script.src = src;
+                        script.async = true;
+                        script.dataset.runtimeSrc = src;
+                        script.addEventListener('load', () => {
+                            script.dataset.loaded = 'true';
+                            resolve();
+                        }, { once: true });
+                        script.addEventListener('error', () => {
+                            script.dataset.failed = 'true';
+                            reject(new Error(`Failed to load script: ${src}`));
+                        }, { once: true });
+                        document.head.appendChild(script);
+                    });
+                },
+
+                loadBibleService() {
+                    if (window.GPBCBibleService) {
+                        return Promise.resolve(window.GPBCBibleService);
+                    }
+
+                    if (!this.bibleServicePromise) {
+                        this.bibleServicePromise = this.loadScriptOnce('services/bible/book-map.js')
+                            .then(() => this.loadScriptOnce('services/bible/bible-service.js'))
+                            .then(() => {
+                                if (!window.GPBCBibleService) {
+                                    throw new Error('GPBCBibleService failed to initialize');
+                                }
+
+                                return window.GPBCBibleService;
+                            })
+                            .catch((error) => {
+                                this.bibleServicePromise = null;
+                                throw error;
+                            });
+                    }
+
+                    return this.bibleServicePromise;
+                },
+
+                getLocalPassage(reference, language) {
+                    if (!reference) {
+                        return Promise.resolve(null);
+                    }
+
+                    return this.loadBibleService()
+                        .then((service) => Promise.resolve(service.getPassage(reference, language)));
+                },
+
+                getLocalVerseText(reference, language) {
+                    return this.getLocalPassage(reference, language)
+                        .then((passage) => passage && passage.text ? passage.text.trim() : '');
+                },
 
                 cacheElements() {
                     this.elements = {
@@ -827,6 +902,7 @@
                 updateContent(devotion) {
                     // Apply safe normalization
                     const safeDevotion = this.normalizeLentDevotion(devotion);
+                    const verseLookupToken = ++this.verseLookupToken;
 
                     // Title with language support
                     const lang = this.currentLang;
@@ -857,8 +933,9 @@
                     if (this.elements.verseText) {
                         this.elements.verseText.textContent = vTextEn;
                         this.elements.verseText.style.display = vTextEn ? 'block' : 'none';
+                        this.elements.verseText.style.opacity = '1';
 
-                        // Dynamic Fetch Fallback via bible-api.com
+                        // Dynamic local lookup with in-memory/text fallback
                         // NOTE: normalizeLentDevotion sets verseText to verseReference if it's missing
                         const isVerseTextMissing = !vTextEn || (vTextEn === vRefEn);
 
@@ -867,20 +944,35 @@
                             this.elements.verseText.style.display = 'block';
                             this.elements.verseText.style.opacity = '0.7';
 
-                            // Safe cross-origin fetch
-                            fetch(`https://bible-api.com/${encodeURIComponent(vRefEn)}?translation=web`)
-                                .then(res => res.ok ? res.json() : Promise.reject('API Error'))
-                                .then(data => {
-                                    if (data && data.text) {
-                                        this.elements.verseText.textContent = data.text.trim();
+                            this.getLocalVerseText(vRefEn, 'en')
+                                .catch((error) => {
+                                    console.warn('[LENT] Local verse lookup failed:', error);
+                                    return '';
+                                })
+                                .then((text) => {
+                                    if (this.verseLookupToken !== verseLookupToken || this.currentDay !== safeDevotion.day) {
+                                        return;
+                                    }
+
+                                    const finalVerseText = text || vTextEn;
+
+                                    if (finalVerseText) {
+                                        this.elements.verseText.textContent = finalVerseText;
+                                        this.elements.verseText.style.display = 'block';
                                         this.elements.verseText.style.opacity = '1';
                                     } else {
                                         this.elements.verseText.style.display = 'none';
+                                        this.elements.verseText.style.opacity = '1';
                                     }
                                 })
                                 .catch(err => {
-                                    console.warn('[LENT] Failed to fetch verse text dynamically:', err);
+                                    if (this.verseLookupToken !== verseLookupToken || this.currentDay !== safeDevotion.day) {
+                                        return;
+                                    }
+
+                                    console.warn('[LENT] Failed to load verse text dynamically:', err);
                                     this.elements.verseText.style.display = 'none';
+                                    this.elements.verseText.style.opacity = '1';
                                 });
                         }
                     }
@@ -889,6 +981,24 @@
                     if (this.elements.verseTextBn) {
                         this.elements.verseTextBn.textContent = vTextBn;
                         this.elements.verseTextBn.style.display = vTextBn ? 'block' : 'none';
+
+                        const isVerseTextBnMissing = !vTextBn || (vRefBn && vTextBn === vRefBn);
+                        if (isVerseTextBnMissing && vRefBn) {
+                            this.getLocalVerseText(vRefBn, 'bn')
+                                .then((text) => {
+                                    if (this.verseLookupToken !== verseLookupToken || this.currentDay !== safeDevotion.day) {
+                                        return;
+                                    }
+
+                                    if (text) {
+                                        this.elements.verseTextBn.textContent = text;
+                                        this.elements.verseTextBn.style.display = 'block';
+                                    }
+                                })
+                                .catch((err) => {
+                                    console.warn('[LENT] Failed to load Bengali verse text locally:', err);
+                                });
+                        }
                     }
 
                     // 3. Render English Verse Reference

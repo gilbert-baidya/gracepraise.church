@@ -857,7 +857,7 @@
                         this.elements.verseText.textContent = vTextEn;
                         this.elements.verseText.style.display = vTextEn ? 'block' : 'none';
 
-                        // Dynamic Fetch Fallback via bible-api.com
+                        // Dynamic local lookup with text fallback
                         // NOTE: normalizeLentDevotion sets verseText to verseReference if it's missing
                         const isVerseTextMissing = !vTextEn || (vTextEn === vRefEn);
 
@@ -866,20 +866,27 @@
                             this.elements.verseText.style.display = 'block';
                             this.elements.verseText.style.opacity = '0.7';
 
-                            // Safe cross-origin fetch
-                            fetch(`https://bible-api.com/${encodeURIComponent(vRefEn)}?translation=web`)
-                                .then(res => res.ok ? res.json() : Promise.reject('API Error'))
-                                .then(data => {
-                                    if (data && data.text) {
-                                        this.elements.verseText.textContent = data.text.trim();
+                            this.getLocalVerseText(vRefEn, 'en')
+                                .catch(err => {
+                                    console.warn('[LENT] Failed to load verse text dynamically:', err);
+                                    return '';
+                                })
+                                .then(text => {
+                                    const finalVerseText = text || vTextEn;
+
+                                    if (finalVerseText) {
+                                        this.elements.verseText.textContent = finalVerseText;
+                                        this.elements.verseText.style.display = 'block';
                                         this.elements.verseText.style.opacity = '1';
                                     } else {
                                         this.elements.verseText.style.display = 'none';
+                                        this.elements.verseText.style.opacity = '1';
                                     }
                                 })
                                 .catch(err => {
-                                    console.warn('[LENT] Failed to fetch verse text dynamically:', err);
+                                    console.warn('[LENT] Failed to render verse text dynamically:', err);
                                     this.elements.verseText.style.display = 'none';
+                                    this.elements.verseText.style.opacity = '1';
                                 });
                         }
                     }

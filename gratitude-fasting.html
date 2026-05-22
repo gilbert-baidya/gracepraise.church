@@ -716,11 +716,14 @@
 
 
     <script src="devotions-db-2026.js"></script>
+    <script src="services/bible/book-map.js"></script>
+    <script src="services/bible/bible-service.js"></script>
     <script>
         // Gratitude Fasting Devotional Application
         let devotionalData = null;
         let currentDay = 1;
         let currentLang = 'en';
+        let scriptureHydrationToken = 0;
         const currentYear = new Date().getFullYear();
         const totalDays = currentYear % 100;
         const dataCandidates = [
@@ -732,6 +735,59 @@
         // Update year and days displays
         document.querySelectorAll('.year-display').forEach(el => el.textContent = currentYear);
         document.querySelectorAll('.days-display').forEach(el => el.textContent = totalDays);
+
+        function getVerseReference(devotion) {
+            return (devotion?.keyVerse || '').trim();
+        }
+
+        function getBiblePassageText(reference, language) {
+            if (!reference || !window.GPBCBibleService || typeof window.GPBCBibleService.getPassage !== 'function') {
+                return Promise.resolve('');
+            }
+
+            return Promise.resolve()
+                .then(() => window.GPBCBibleService.getPassage(reference, language))
+                .then((passage) => passage && passage.text ? passage.text.trim() : '')
+                .catch((error) => {
+                    console.warn(`[Gratitude] Bible service lookup failed for ${language}:${reference}`, error);
+                    return '';
+                });
+        }
+
+        function hydrateScriptureFromBibleService(devotion, renderToken) {
+            const reference = getVerseReference(devotion);
+            if (!reference) {
+                return;
+            }
+
+            Promise.all([
+                getBiblePassageText(reference, 'en'),
+                getBiblePassageText(reference, 'bn')
+            ]).then(([resolvedEn, resolvedBn]) => {
+                let didUpdate = false;
+
+                if (resolvedEn && resolvedEn !== (devotion.keyVerseText || '').trim()) {
+                    devotion.keyVerseText = resolvedEn;
+                    didUpdate = true;
+                }
+
+                if (resolvedBn && resolvedBn !== (devotion.keyVerseTextBn || '').trim()) {
+                    devotion.keyVerseTextBn = resolvedBn;
+                    didUpdate = true;
+                }
+
+                if (scriptureHydrationToken !== renderToken || currentDay !== devotion.day) {
+                    return;
+                }
+
+                if (!didUpdate) {
+                    return;
+                }
+
+                updateContent(devotion);
+                console.log('[Gratitude] Scripture hydrated from local Bible service');
+            });
+        }
 
         // Load devotional data
         async function loadDevotionalData() {
@@ -806,6 +862,8 @@
 
             // Display content based on language
             updateContent(devotion);
+            const renderToken = ++scriptureHydrationToken;
+            hydrateScriptureFromBibleService(devotion, renderToken);
 
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });

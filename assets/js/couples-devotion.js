@@ -28,6 +28,10 @@
     lastComputedTextTone: "light",
   };
 
+  let bibleInfrastructurePromise = null;
+  let scriptureHydrationToken = 0;
+  const hydratedVerseState = new WeakMap();
+
   const el = {
     app: document.getElementById("couplesDevotionApp"),
     status: document.getElementById("cdStatus"),
@@ -117,6 +121,185 @@
       return value.trim();
     }
     return fallback;
+  }
+
+  function hasHydratedVerse(entry, language) {
+    const hydration = hydratedVerseState.get(entry);
+    return Boolean(hydration && hydration[language]);
+  }
+
+  function markHydratedVerse(entry, language) {
+    if (!entry || typeof entry !== "object") {
+      return;
+    }
+
+    const nextHydration = Object.assign({}, hydratedVerseState.get(entry) || {});
+    nextHydration[language] = true;
+    hydratedVerseState.set(entry, nextHydration);
+  }
+
+  function resolveScriptUrl(relativePath) {
+    return new URL(relativePath, window.location.href).href;
+  }
+
+  function findExistingScript(scriptUrl) {
+    return Array.from(document.scripts || []).find((script) => {
+      const rawSrc = script.getAttribute("src");
+      if (!rawSrc) {
+        return false;
+      }
+
+      try {
+        return new URL(rawSrc, window.location.href).href === scriptUrl;
+      } catch {
+        return false;
+      }
+    }) || null;
+  }
+
+  function loadScriptOnce(relativePath, globalKey) {
+    if (typeof window[globalKey] !== "undefined") {
+      return Promise.resolve(window[globalKey]);
+    }
+
+    const scriptUrl = resolveScriptUrl(relativePath);
+    const existingScript = findExistingScript(scriptUrl);
+
+    if (existingScript) {
+      return Promise.resolve(window[globalKey] || null);
+    }
+
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = scriptUrl;
+      script.async = true;
+      script.onload = () => resolve(window[globalKey] || null);
+      script.onerror = () => reject(new Error(`Failed to load ${relativePath}`));
+      document.head.appendChild(script);
+    });
+  }
+
+  function ensureBibleInfrastructure() {
+    if (window.GPBCBibleService && window.GPBCBibleBookMap) {
+      return Promise.resolve(window.GPBCBibleService);
+    }
+
+    if (!bibleInfrastructurePromise) {
+      bibleInfrastructurePromise = loadScriptOnce("services/bible/book-map.js", "GPBCBibleBookMap")
+        .then(() => loadScriptOnce("services/bible/bible-service.js", "GPBCBibleService"))
+        .then(() => window.GPBCBibleService || null)
+        .catch((error) => {
+          console.warn("[Couples] Local Bible infrastructure unavailable.", error);
+          return null;
+        });
+    }
+
+    return bibleInfrastructurePromise;
+  }
+
+  function getVerseReference(entry) {
+    return safeText(entry && entry.verseRef, "");
+  }
+
+  function getBiblePassageText(reference, language, service) {
+    if (!reference || !service || typeof service.getPassage !== "function") {
+      return Promise.resolve("");
+    }
+
+    return Promise.resolve()
+      .then(() => service.getPassage(reference, language))
+      .then((passage) => (passage && passage.text ? passage.text.trim() : ""))
+      .catch((error) => {
+        console.warn(`[Couples] Bible service lookup failed for ${language}:${reference}`, error);
+        return "";
+      });
+  }
+
+  function applyHydratedVerse(entry, language, nextText) {
+    if (!entry || typeof entry !== "object" || !nextText) {
+      return false;
+    }
+
+    if (entry.verse && typeof entry.verse === "object") {
+      const currentText = safeText(entry.verse[language], "");
+      if (currentText === nextText) {
+        return false;
+      }
+
+      entry.verse[language] = nextText;
+      return true;
+    }
+
+    if (language === "bn") {
+      const currentText = safeText(entry.bnVerse, "");
+      if (currentText === nextText) {
+        return false;
+      }
+
+      entry.bnVerse = nextText;
+      return true;
+    }
+
+    const currentText = safeText(entry.nivKeyPhrase, "");
+    if (currentText === nextText) {
+      return false;
+    }
+
+    entry.nivKeyPhrase = nextText;
+    return true;
+  }
+
+  function hydrateEntryScripture(entry, isoDate, renderToken) {
+    const reference = getVerseReference(entry);
+    if (!entry || !reference) {
+      return;
+    }
+
+    ensureBibleInfrastructure()
+      .then((service) => {
+        if (!service) {
+          return null;
+        }
+
+        return Promise.all([
+          getBiblePassageText(reference, "en", service),
+          getBiblePassageText(reference, "bn", service),
+        ]);
+      })
+      .then((resolvedTexts) => {
+        if (!resolvedTexts) {
+          return;
+        }
+
+        const [resolvedEn, resolvedBn] = resolvedTexts;
+        let shouldRefreshVerses = false;
+
+        if (resolvedEn) {
+          const hadHydratedEn = hasHydratedVerse(entry, "en");
+          const didUpdateEn = applyHydratedVerse(entry, "en", resolvedEn);
+          markHydratedVerse(entry, "en");
+          shouldRefreshVerses = shouldRefreshVerses || didUpdateEn || !hadHydratedEn;
+        }
+
+        if (resolvedBn) {
+          const hadHydratedBn = hasHydratedVerse(entry, "bn");
+          const didUpdateBn = applyHydratedVerse(entry, "bn", resolvedBn);
+          markHydratedVerse(entry, "bn");
+          shouldRefreshVerses = shouldRefreshVerses || didUpdateBn || !hadHydratedBn;
+        }
+
+        if (!shouldRefreshVerses) {
+          return;
+        }
+
+        if (scriptureHydrationToken !== renderToken || state.selectedDate !== isoDate || state.currentEntry !== entry) {
+          return;
+        }
+
+        el.verseEn.textContent = verseByLanguage(entry, "en");
+        el.verseBn.textContent = verseByLanguage(entry, "bn");
+        console.log("[Couples] Scripture hydrated from local Bible service");
+      });
   }
 
   function setStatus(message, isError) {
@@ -385,6 +568,7 @@
   }
 
   async function renderEntry() {
+    const renderToken = ++scriptureHydrationToken;
     setQueryDate(state.selectedDate);
 
     if (el.dateInput) {
@@ -445,6 +629,7 @@
     setStatus(`Loaded ${titleCaseDate(state.selectedDate)} devotion.`, false);
     setShareButtonsEnabled(true);
     clearGeneratedImage();
+    hydrateEntryScripture(entry, state.selectedDate, renderToken);
   }
 
   function localizedValue(value, language, fallback) {
@@ -481,7 +666,11 @@
     }
 
     const phrase = safeText(entry.nivKeyPhrase, "");
-    return phrase ? `NIV-based key phrase: ${phrase}` : "NIV-based key phrase unavailable.";
+    if (!phrase) {
+      return "NIV-based key phrase unavailable.";
+    }
+
+    return hasHydratedVerse(entry, "en") ? phrase : `NIV-based key phrase: ${phrase}`;
   }
 
   function shareBundle() {

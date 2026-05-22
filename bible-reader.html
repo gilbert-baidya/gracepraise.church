@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <script src="platform-runtime.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+    <title>Holy Bible | Grace and Praise Bangladeshi Church</title>
+    
+    <!-- Sacred Design Token System -->
+    <link rel="stylesheet" href="sacred-tokens.css">
+    <link rel="stylesheet" href="styles.bundle.css?v=20260222-ipadnavfix2">
+    <link rel="stylesheet" href="liturgical-tokens.css">
+    <link rel="stylesheet" href="hero-upgrade.css?v=20260203c">
+    <link rel="stylesheet" href="countdown.css">
+    <link rel="stylesheet" href="shape-system.css">
+    <link rel="stylesheet" href="bible-reader.css">
+    
+    <!-- Navigation Partial Support -->
+    <script src="./js/partials.js"></script>
+    <link rel="stylesheet" href="./css/footer-v3.css">
+
+    <!-- Theme & JS Detection -->
+    <script>
+        (function () {
+            document.documentElement.classList.add('js-enabled');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Serif+Bengali:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="page-bible-reader">
+    <div id="site-header"></div>
+
+    <main id="main-content" class="bible-workspace" data-current-view="atlas">
+        <!-- View 1: Book Atlas (Library) -->
+        <section id="atlasView" class="bible-view book-atlas active">
+            <header class="atlas-header">
+                <h2>THE SACRED CANON</h2>
+                <p>Explore the Divine Text, Book by Book</p>
+            </header>
+            
+            <div id="testamentContainer">
+                <!-- OT Section -->
+                <div class="testament-section" id="otSection">
+                    <div class="testament-title">
+                        <span>OLD TESTAMENT</span>
+                        <small>পবিত্র বাইবেল: পুরাতন নিয়ম</small>
+                    </div>
+                    <div class="book-grid" id="otGrid">
+                        <!-- Dynamically Populated -->
+                    </div>
+                </div>
+
+                <!-- NT Section -->
+                <div class="testament-section" id="ntSection">
+                    <div class="testament-title">
+                        <span>NEW TESTAMENT</span>
+                        <small>পবিত্র বাইবেল: নতুন নিয়ম</small>
+                    </div>
+                    <div class="book-grid" id="ntGrid">
+                        <!-- Dynamically Populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 2: Chapter Constellation -->
+        <section id="constellationView" class="bible-view chapter-constellation">
+            <header class="atlas-header">
+                <h2 id="selectedBookName">BOOK</h2>
+                <p>Select a Chapter to Begin Reading</p>
+            </header>
+            <div class="constellation-grid" id="chapterGrid">
+                <!-- Dynamically Populated -->
+            </div>
+            <button class="command-btn" onclick="app.showView('atlas')" style="margin-top: 40px; color: var(--sacred-text-secondary);">
+                <span>← Back to Library</span>
+            </button>
+        </section>
+
+        <!-- View 3: Reader View -->
+        <section id="readerView" class="bible-view reader-view">
+            <header class="reader-header glass">
+                <h1 id="currentPassageDisplay">John 3</h1>
+                <div class="reader-controls">
+                    <button class="pills" onclick="app.showView('constellation')">Chapters</button>
+                    <button class="pills" id="langToggle">English / Both</button>
+                </div>
+            </header>
+
+            <div class="verse-container" id="verseContent">
+                <!-- Verses aligned here -->
+            </div>
+        </section>
+
+        <!-- Floating Command Bar -->
+        <div class="command-bar">
+            <input type="text" id="smartSearch" placeholder="Search Book or Chapter (e.g. John 3)..." aria-label="Smart Bible Search">
+            <div class="divider"></div>
+            <button class="command-btn" id="bookmarksBtn" title="View Bookmarks">
+                <span class="icon">🔖</span>
+                <span>Bookmarks</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- Site Footer (Partial Injection) -->
+    <div data-partial="site-footer"></div>
+
+    <!-- Core Scripts -->
+    <script src="navigation.js"></script>
+    <script src="bible-reader.js"></script>
+    <script type="module" src="./js/footer/footer-init.js"></script>
+</body>
+</html>

@@ -59,10 +59,7 @@
         resizeTimeout = setTimeout(updateHeaderHeight, 150);
     }, { passive: true });
     
-    // Update on orientation change
-    window.addEventListener('orientationchange', function() {
-        setTimeout(updateHeaderHeight, 200);
-    });
+    // Orientation change handled by navigation.js (single authority)
     
 })();
 

@@ -32,7 +32,7 @@
     border-radius: 999px;
     pointer-events: auto;
     background: var(--bg-glass, rgba(255, 255, 255, 0.8));
-    border: 1px solid var(--border-highlight, rgba(0, 0, 0, 0.1));
+    border: 2px solid #b8860b;
     box-shadow: var(--shadow-glass, 0 4px 10px rgba(0, 0, 0, 0.05));
     color: var(--text-primary, #0f172a);
 }
@@ -40,9 +40,32 @@
 body.dark .header-countdown .badge-content,
 body[data-theme="dark"] .header-countdown .badge-content {
     background: rgba(15, 23, 42, 0.4);
-    border: 1px solid rgba(56, 189, 248, 0.2);
+    border: 2px solid #b8860b;
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
     color: #ffffff;
+}
+
+/* Fix: Service title text — darker gold for contrast */
+.header-countdown .event-label strong,
+.header-countdown .event-name {
+    color: #7a5208 !important;
+}
+
+body.dark .header-countdown .event-label strong,
+body.dark .header-countdown .event-name,
+body[data-theme="dark"] .header-countdown .event-label strong,
+body[data-theme="dark"] .header-countdown .event-name {
+    color: #fbbf24 !important;
+}
+
+/* Fix: Music note icon — ensure minimum contrast */
+.header-countdown .event-icon {
+    color: #374151;
+}
+
+body.dark .header-countdown .event-icon,
+body[data-theme="dark"] .header-countdown .event-icon {
+    color: #e2e8f0;
 }
 
 .header-countdown .event-label {
@@ -58,8 +81,15 @@ body[data-theme="dark"] .header-countdown .badge-content {
     font-size: 0.95rem;
 }
 
+/* Fix: D/H/M/S unit letters — boost contrast */
 .header-countdown .countdown-unit {
     font-size: 0.65rem;
+    color: #374151;
+}
+
+body.dark .header-countdown .countdown-unit,
+body[data-theme="dark"] .header-countdown .countdown-unit {
+    color: #e2e8f0;
 }
 
 @media (max-width: 768px) {

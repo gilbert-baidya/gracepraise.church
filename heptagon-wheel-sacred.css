@@ -23,7 +23,7 @@
   /* Purple accent for scripture reference */
   --heptagon-text: #334155;
   /* Medium gray for body text (readable) */
-  --heptagon-subtle: #94a3b8;
+  --heptagon-subtle: #555555;
   --heptagon-bg: #ffffff;
   --heptagon-rotation: 1200ms cubic-bezier(0.4, 0, 0.2, 1);
   --heptagon-fade: 600ms ease;

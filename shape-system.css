@@ -471,6 +471,25 @@
     mix-blend-mode: normal !important;
 }
 
+/* Ensure anchor-based cards (Give) don't inherit link styling */
+a.shape-square,
+a.shape-square:visited,
+a.shape-square:hover,
+a.shape-square:active {
+    text-decoration: none;
+    color: var(--text-heading);
+}
+
+a.shape-square h3 {
+    color: var(--text-heading) !important;
+    text-decoration: none !important;
+}
+
+a.shape-square p {
+    color: var(--text-body) !important;
+    text-decoration: none !important;
+}
+
 .shape-square:hover {
     transform: translateY(-8px) scale(1.03);
     box-shadow: var(--shadow-card);

@@ -519,8 +519,16 @@ function setupFilterTabs() {
     const allTabs = [allSongsTab, chordsOnlyTab, bilingualTab, christmasTab, easterTab, goodFridayTab, communionTab, newYearTab];
     
     function setActiveTab(activeTab) {
-        allTabs.forEach(tab => tab && tab.classList.remove('active'));
-        activeTab && activeTab.classList.add('active');
+        allTabs.forEach(tab => {
+            if (tab) {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            }
+        });
+        if (activeTab) {
+            activeTab.classList.add('active');
+            activeTab.setAttribute('aria-selected', 'true');
+        }
         renderAlphabetIndex();
         renderSongList(getFilteredSongs());
         document.getElementById('searchInput').value = '';
@@ -619,6 +627,12 @@ function renderSongList(songs) {
     const songList = document.getElementById('songList');
     songList.innerHTML = '';
     
+    // Announce result count to screen readers
+    const announcer = document.getElementById('songResultsAnnouncer');
+    if (announcer) {
+        announcer.textContent = songs.length === 0 ? 'No songs found' : `${songs.length} songs found`;
+    }
+    
     if (songs.length === 0) {
         songList.innerHTML = '<p style="color: white; text-align: center; grid-column: 1/-1;">No songs found</p>';
         return;
@@ -627,6 +641,9 @@ function renderSongList(songs) {
     songs.forEach(song => {
         const card = document.createElement('div');
         card.className = 'song-card';
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', song.title);
         const isInPlaylist = servicePlaylist.some(s => s.id === song.id);
         card.innerHTML = `
             <h3>${song.title}</h3>
@@ -637,6 +654,12 @@ function renderSongList(songs) {
             </button>
         `;
         card.onclick = () => openSong(song);
+        card.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openSong(song);
+            }
+        };
         songList.appendChild(card);
     });
 }
@@ -743,8 +766,24 @@ function renderSongContent(lyrics) {
     }
     
     if (showChords) {
-        // Show all content as-is (chords and lyrics)
-        const finalHTML = textToDisplay.replace(/\n/g, '<br>');
+        // Show all content as-is (chords and lyrics), with transposition applied
+        const lines = textToDisplay.split('\n');
+        const processedLines = lines.map(line => {
+            const trimmed = line.trim();
+            if (!trimmed) return line;
+            const hasBengali = /[\u0980-\u09FF]/.test(trimmed);
+            const chordPattern = /^[A-G#bmajdinsug\s\/]+$/;
+            const isChordLine = !hasBengali && chordPattern.test(trimmed);
+            if (isChordLine) {
+                let processed = normalizeChordLine(trimmed);
+                if (currentTranspose !== 0) {
+                    processed = processed.replace(/[A-G][#b]?[a-z]*/g, chord => transposeChord(chord, currentTranspose));
+                }
+                return processed;
+            }
+            return line;
+        });
+        const finalHTML = processedLines.join('<br>');
         content.innerHTML = finalHTML;
         content.offsetHeight; // Force reflow
     } else {
@@ -773,6 +812,11 @@ function renderSongContent(lyrics) {
         content.innerHTML = finalHTML;
         content.offsetHeight; // Force reflow
     }
+}
+
+// Normalize chord spacing (fixes "BF#" → "B F#", "C#F#" → "C# F#")
+function normalizeChordLine(line) {
+    return line.replace(/([A-G][#b]?(?:m|maj|dim|sus|aug|add|[0-9])*)\s*(?=[A-G])/g, '$1 ');
 }
 
 // Transpose chord

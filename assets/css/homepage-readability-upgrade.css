@@ -561,49 +561,55 @@ body[data-page="home"] .next-service-section .service-location-title {
     color: #e2e8f0 !important;
 }
 
-/* Location card — light bg card inside dark section, needs DARK text in day mode */
-body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card {
-    color: #1e293b !important;
+/* Location card — dark glass inside always-dark next-service section */
+body.homepage .next-service-section .service-location-card,
+body[data-page="home"] .next-service-section .service-location-card {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #e2e8f0 !important;
 }
 
-body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card .service-location-title,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card .service-location-title {
-    color: #0f172a !important;
+body.homepage .next-service-section .service-location-card .service-location-title,
+body[data-page="home"] .next-service-section .service-location-card .service-location-title {
+    color: #e2e8f0 !important;
 }
 
-body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card .service-location-address,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card .service-location-address {
-    color: #334155 !important;
+body.homepage .next-service-section .service-location-card .service-location-address,
+body[data-page="home"] .next-service-section .service-location-card .service-location-address {
+    color: #cbd5e1 !important;
 }
 
-body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card address,
-body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card p,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card address,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-card p {
-    color: #334155 !important;
+body.homepage .next-service-section .service-location-card address,
+body.homepage .next-service-section .service-location-card p,
+body[data-page="home"] .next-service-section .service-location-card address,
+body[data-page="home"] .next-service-section .service-location-card p {
+    color: #cbd5e1 !important;
 }
 
-body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-link,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .service-location-link {
-    color: #2563eb !important;
+body.homepage .next-service-section .service-location-link,
+body[data-page="home"] .next-service-section .service-location-link {
+    color: #60a5fa !important;
 }
 
-/* Weekly gatherings note */
-/* Weekly gatherings note — light bg card, needs DARK text in day mode */
-body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-note,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-note {
-    color: #334155 !important;
+/* Weekly gatherings note — dark glass inside always-dark next-service section */
+body.homepage .next-service-section .weekly-gatherings-note,
+body[data-page="home"] .next-service-section .weekly-gatherings-note {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #cbd5e1 !important;
 }
 
-body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-text,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-text {
-    color: #334155 !important;
+body.homepage .next-service-section .weekly-gatherings-text,
+body[data-page="home"] .next-service-section .weekly-gatherings-text {
+    color: #cbd5e1 !important;
 }
 
-body.homepage:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-text strong,
-body[data-page="home"]:not(.dark):not([data-theme="dark"]) .next-service-section .weekly-gatherings-text strong {
-    color: #0f172a !important;
+body.homepage .next-service-section .weekly-gatherings-text strong,
+body[data-page="home"] .next-service-section .weekly-gatherings-text strong {
+    color: #f8fafc !important;
 }
 
 /* Dark mode weekly gatherings — keep light text */

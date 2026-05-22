@@ -25,3 +25,7 @@ npm-debug.log*
 # Playwright artifacts
 playwright-report/
 test-results/
+
+# Backup files
+*.bak
+*.backup*

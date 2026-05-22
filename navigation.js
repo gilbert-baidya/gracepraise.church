@@ -32,7 +32,9 @@
         dropdownToggles: 0,
         fastTapBlocks: 0,
         log(event, data) {
-            console.log(`[NAV] ${event}`, data || '');
+            if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+                console.log(`[NAV] ${event}`, data || '');
+            }
         }
     };
 
@@ -144,6 +146,7 @@
         if (newMode === currentNavMode) return;
 
         // console.log(`[NAV] Mode transition: ${currentNavMode} -> ${newMode}`);
+        const previousMode = currentNavMode;
         currentNavMode = newMode;
         lastModeChangeTime = Date.now();
 
@@ -157,8 +160,10 @@
             navLinks.style.transition = 'none'; // Prevent layout thrashing animation
             setTimeout(() => { navLinks.style.transition = ''; }, 50);
         } else {
-            // Switching to Mobile: Reset state
-            closeAllDropdowns();
+            // Switching to Mobile: Reset state only on actual transition
+            if (previousMode !== 'MOBILE') {
+                closeAllDropdowns();
+            }
             // Ensure proper ARIA state
             if (navLinks) {
                 navLinks.setAttribute('aria-hidden', 'true');
@@ -186,17 +191,39 @@
         countdownBanner = document.getElementById('specialEventBanner') || document.querySelector('.inline-countdown-banner');
     }
 
+    function handleResize() {
+        debouncedUpdateScrollPadding();
+        debouncedApplyNavMode();
+    }
+
+    function handleOrientationChange() {
+        // Stabilization lock: prevent taps during rotation transition
+        isAnimating = true;
+
+        // FORCE LAYOUT REFLOW
+        document.body.style.display = 'none';
+        document.body.offsetHeight; // force reflow
+        document.body.style.display = '';
+
+        updateScrollPadding();
+        applyNavModeIfChanged(); // Immediate check on orientation
+        setTimeout(() => {
+            applyNavModeIfChanged(); // Safety check after rotation animation
+            isAnimating = false; // Release stabilization lock
+        }, 400);
+    }
+
     function cleanupGlobalListeners() {
         if (scrollListenerAdded) {
             window.removeEventListener('scroll', handleScroll);
             scrollListenerAdded = false;
         }
         if (resizeListenerAdded) {
-            window.removeEventListener('resize', debouncedUpdateScrollPadding);
+            window.removeEventListener('resize', handleResize);
             resizeListenerAdded = false;
         }
         if (orientationListenerAdded) {
-            window.removeEventListener('orientationchange', updateScrollPadding);
+            window.removeEventListener('orientationchange', handleOrientationChange);
             orientationListenerAdded = false;
         }
         if (outsideClickListenerAdded) {
@@ -323,6 +350,7 @@
     }
 
     const debouncedUpdateScrollPadding = debounce(updateScrollPadding, 150);
+    const debouncedApplyNavMode = debounce(applyNavModeIfChanged, 150);
 
     document.addEventListener('gpbc:headerHeightChanged', () => {
         GPBC_updateHeaderTotalHeight();
@@ -431,6 +459,27 @@
                 const firstLink = navLinks.querySelector('a');
                 if (firstLink) firstLink.focus();
             }, 100);
+            // Phase 6: Focus trap within mobile menu
+            navLinks.addEventListener('keydown', trapFocusInMenu);
+        } else {
+            // Return focus to burger button on close
+            navLinks.removeEventListener('keydown', trapFocusInMenu);
+            mobileMenuBtn.focus();
+        }
+    }
+
+    function trapFocusInMenu(e) {
+        if (e.key !== 'Tab') return;
+        const focusableEls = navLinks.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+        if (!focusableEls.length) return;
+        const firstEl = focusableEls[0];
+        const lastEl = focusableEls[focusableEls.length - 1];
+        if (e.shiftKey && document.activeElement === firstEl) {
+            e.preventDefault();
+            lastEl.focus();
+        } else if (!e.shiftKey && document.activeElement === lastEl) {
+            e.preventDefault();
+            firstEl.focus();
         }
     }
 
@@ -631,9 +680,9 @@
                 // Handle Nested Dropdowns
                 if (link.closest('.nav-dropdown-nested')) {
                     const nestedDropdown = link.closest('.nav-dropdown-nested');
-                    const hitArrow = target.classList.contains('dropdown-arrow') || target.closest('.dropdown-arrow');
+                    const hitToggle = link.contains(target) || target.classList.contains('dropdown-arrow') || target.closest('.dropdown-arrow');
 
-                    if (hitArrow && nestedDropdown) {
+                    if (hitToggle && nestedDropdown) {
                         e.preventDefault();
                         e.stopPropagation();
                         nestedDropdown.classList.toggle('mobile-dropdown-open');
@@ -807,6 +856,20 @@
         });
     }
 
+    function markCurrentPageNav() {
+        if (!navLinks) return;
+        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+        const links = navLinks.querySelectorAll('a[href]');
+        links.forEach(link => {
+            const href = (link.getAttribute('href') || '').split('#')[0].split('?')[0];
+            const linkPage = href.split('/').pop() || 'index.html';
+            if (linkPage === currentPath) {
+                link.setAttribute('aria-current', 'page');
+                link.classList.add('nav-active');
+            }
+        });
+    }
+
     function initializeNavigationSystem() {
         if (retryTimeout) {
             clearTimeout(retryTimeout);
@@ -826,24 +889,11 @@
 
         updateScrollPadding();
         if (!resizeListenerAdded) {
-            window.addEventListener('resize', () => {
-                debouncedUpdateScrollPadding();
-                // Phase 4: Debounced Mode Check
-                debounce(applyNavModeIfChanged, 150)();
-            });
+            window.addEventListener('resize', handleResize);
             resizeListenerAdded = true;
         }
         if (!orientationListenerAdded) {
-            window.addEventListener('orientationchange', () => {
-                // FORCE LAYOUT REFLOW
-                document.body.style.display = 'none';
-                document.body.offsetHeight; // force reflow
-                document.body.style.display = '';
-
-                updateScrollPadding();
-                applyNavModeIfChanged(); // Immediate check on orientation
-                setTimeout(applyNavModeIfChanged, 300); // Safety check after rotation animation
-            });
+            window.addEventListener('orientationchange', handleOrientationChange);
             orientationListenerAdded = true;
         }
         if (!scrollListenerAdded) {
@@ -900,6 +950,7 @@
         initKeyboardNavigation();
         initThemeToggle();
         applyFormA11yLabels();
+        markCurrentPageNav();
 
         // Recalculate once styles settle to prevent sticky/fixed overlap on tablet/mobile.
         requestAnimationFrame(updateScrollPadding);

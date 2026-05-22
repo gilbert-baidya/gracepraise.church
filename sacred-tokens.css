@@ -362,3 +362,23 @@ body.dark {
     --container-max-width: 1200px;
     --container-padding: var(--space-md);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   8. BIBLE READER THEME (SANCTUARY)
+   ══════════════════════════════════════════════════════════════════════════ */
+:root {
+    /* Sanctuary Theme Tokens */
+    --sanctuary-bg: #fdfaf3;
+    --sanctuary-text: #1e293b;
+    --sanctuary-gold: #d4b978;
+    --sanctuary-gold-glow: rgba(212, 185, 120, 0.4);
+    --sanctuary-parchment: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+    
+    /* Dark Sanctuary Override */
+    --dark-sanctuary-bg: #0f172a;
+    --dark-sanctuary-text: #f8fafc;
+    
+    /* Animation Tokens */
+    --calm-duration: 0.6s;
+    --calm-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}

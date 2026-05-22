@@ -200,6 +200,7 @@
     </header>
 
     
+    <main id="main-content">
     <div class="container songbook-page">
         <div class="page-header">
             <div class="header-content">
@@ -224,15 +225,15 @@
             <input type="text" id="searchInput" placeholder="Search songs... (গান খুঁজুন...)" />
         </div>
 
-        <div class="filter-tabs">
-            <button class="tab-btn active" id="allSongsTab">সব গান (All Songs)</button>
-            <button class="tab-btn" id="chordsOnlyTab">🎸 কর্ড সহ গান (Songs with Chords)</button>
-            <button class="tab-btn" id="bilingualTab">🌐 দ্বিভাষিক (Bilingual)</button>
-            <button class="tab-btn" id="christmasTab">🎄 বড়দিন (Christmas)</button>
-            <button class="tab-btn" id="easterTab">✝️ পুনরুত্থান (Easter)</button>
-            <button class="tab-btn" id="goodFridayTab">✞ গুড ফ্রাইডে (Good Friday)</button>
-            <button class="tab-btn" id="communionTab">🍞 প্রভুভোজ (Holy Communion)</button>
-            <button class="tab-btn" id="newYearTab">🎊 নববর্ষ (New Year)</button>
+        <div class="filter-tabs" role="tablist" aria-label="Song filters">
+            <button class="tab-btn active" id="allSongsTab" role="tab" aria-selected="true">সব গান (All Songs)</button>
+            <button class="tab-btn" id="chordsOnlyTab" role="tab" aria-selected="false">🎸 কর্ড সহ গান (Songs with Chords)</button>
+            <button class="tab-btn" id="bilingualTab" role="tab" aria-selected="false">🌐 দ্বিভাষিক (Bilingual)</button>
+            <button class="tab-btn" id="christmasTab" role="tab" aria-selected="false">🎄 বড়দিন (Christmas)</button>
+            <button class="tab-btn" id="easterTab" role="tab" aria-selected="false">✝️ পুনরুত্থান (Easter)</button>
+            <button class="tab-btn" id="goodFridayTab" role="tab" aria-selected="false">✞ গুড ফ্রাইডে (Good Friday)</button>
+            <button class="tab-btn" id="communionTab" role="tab" aria-selected="false">🍞 প্রভুভোজ (Holy Communion)</button>
+            <button class="tab-btn" id="newYearTab" role="tab" aria-selected="false">🎊 নববর্ষ (New Year)</button>
         </div>
 
         <div class="saved-playlists-section" id="savedPlaylistsSection" style="display: none;">
@@ -246,9 +247,18 @@
             <!-- Bangla alphabet buttons will be dynamically loaded here -->
         </div>
 
-        <div class="song-list" id="songList">
-            <!-- Songs will be dynamically loaded here -->
+        <div class="song-list" id="songList" aria-live="polite" aria-atomic="false">
+            <!-- Loading skeleton shown until songs render -->
+            <div class="song-skeleton" aria-hidden="true">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
         </div>
+        <div id="songResultsAnnouncer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
         <!-- Service Playlist Panel -->
         <div class="service-playlist-panel" id="servicePlaylistPanel">
@@ -264,7 +274,7 @@
         </div>
 
         <!-- Copyright Notice Modal -->
-        <div id="copyrightModal" class="copyright-modal" style="display: none;">
+        <div id="copyrightModal" class="copyright-modal" role="dialog" aria-modal="true" aria-label="Copyright Notice" style="display: none;">
             <div class="copyright-content">
                 <h2>© All Rights Reserved</h2>
                 <p><strong>Grace and Praise - Bangladeshi Church Song Book</strong></p>
@@ -274,7 +284,7 @@
         </div>
 
         <!-- Presentation Mode Modal -->
-        <div class="modal" id="presentationModal">
+        <div class="modal" id="presentationModal" role="dialog" aria-modal="true" aria-labelledby="presentationTitle">
             <div class="presentation-content">
                 <div class="presentation-header">
                     <h2 id="presentationTitle"></h2>
@@ -289,9 +299,9 @@
             </div>
         </div>
 
-        <div class="modal" id="songModal">
+        <div class="modal" id="songModal" role="dialog" aria-modal="true" aria-labelledby="songTitle">
             <div class="modal-content">
-                <span class="close">&times;</span>
+                <button class="close" aria-label="Close song">&times;</button>
                 <h2 id="songTitle"></h2>
                 <div class="controls">
                     <button id="toggleChords" class="btn btn-primary">Hide Chords</button>
@@ -308,6 +318,7 @@
             </div>
         </div>
     </div>
+    </main>
 
 
     <!-- Footer -->
@@ -321,8 +332,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     
     <script src="firebase-config.js"></script>
-    <script src="songs-data.js"></script>
-    <script src="songbook-app.js"></script>
+    <script src="songs-data.js" defer></script>
+    <script src="songbook-app.js" defer></script>
     <script src="navigation.js?v=20260222-ipadnavfix2"></script>
     <script src="logo-loading.js"></script>
     <script src="logo-loader.js"></script>

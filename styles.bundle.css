@@ -1206,6 +1206,14 @@ nav {
     border: 1px solid var(--color-border);
 }
 
+/* Dark mode: elevate dropdown above dark backgrounds */
+body.dark .dropdown-menu,
+body[data-theme="dark"] .dropdown-menu {
+    background: #1e293b;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(148, 163, 184, 0.15);
+}
+
 .nav-dropdown:hover .dropdown-menu,
 .nav-dropdown:focus-within .dropdown-menu {
     opacity: 1;
@@ -2503,13 +2511,15 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
 
 .liquid-transition-gap {
     width: 100%;
-    height: 160px;
+    height: 60px;
     background: linear-gradient(180deg, #010409 0%, #0b1220 55%, #0f172a 100%);
+    margin: 0;
+    padding: 0;
 }
 
 @media (max-width: 768px) {
     .liquid-transition-gap {
-        height: 80px;
+        height: 40px;
     }
 }
 
@@ -2520,6 +2530,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
     color: #e2e8f0;
     text-align: center;
     overflow: hidden;
+    margin-top: 0;
     --countdown-text: #e2e8f0;
     --countdown-text-muted: #94a3b8;
 }
@@ -2530,7 +2541,7 @@ body:not([data-theme="dark"]) .nav-dropdown .dropdown-menu a:hover {
     top: 0;
     left: 0;
     right: 0;
-    height: 160px;
+    height: 60px;
     background: linear-gradient(180deg, #010409 0%, #0b1220 55%, rgba(15, 23, 42, 0) 100%);
     pointer-events: none;
     z-index: 0;
@@ -5431,13 +5442,14 @@ body[data-theme="dark"] textarea::placeholder {
     width: 100%;
     height: 80vh;
     min-height: 600px;
-    background: var(--bg-main, #ffffff);
+    background: #010409;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-primary);
+    color: #ffffff;
     transition: background 0.5s ease;
+    margin-bottom: 0;
 }
 
 body.dark .sacred-focus,
@@ -8347,5 +8359,29 @@ body[data-theme="dark"] :where(.event-name,
 
     .mobile-overlay.active {
         display: block !important;
+    }
+}
+
+/* Phase 3: Mobile readability floor — minimum font size for body content */
+@media (max-width: 768px) {
+    p, li, td, th, label, .card-text, .ministry-description, .section-text {
+        font-size: max(0.875rem, inherit);
+    }
+}
+
+/* Phase 3: Current page navigation indicator */
+.nav-links a.nav-active {
+    color: var(--accent-primary, #38bdf8);
+    font-weight: 700;
+    border-bottom: 2px solid currentColor;
+}
+
+/* Accessibility: Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

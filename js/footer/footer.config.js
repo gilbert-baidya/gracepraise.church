@@ -1,7 +1,7 @@
 export const footerConfig = {
     ctaActions: [
         { label: 'Plan a Visit', url: '/plan-visit.html', primary: true },
-        { label: 'Watch Online', url: '#TODO-watch-online' },
+        { label: 'Watch Online', url: 'https://youtube.com/@gpbc' },
         { label: 'Prayer Request', url: '/prayer-request.html' },
         { label: 'Give', url: '/give.html' }
     ],
@@ -17,7 +17,7 @@ export const footerConfig = {
             { label: 'Ministries', url: '/ministries.html' },
             { label: 'Small Groups', url: '#TODO-small-groups' },
             { label: 'Prayer Request', url: '/prayer-request.html' },
-            { label: 'Contact Us', url: '#TODO-contact-us' },
+            { label: 'Contact Us', url: '/contact.html' },
             { label: 'SMS Opt-In', url: '/sms-opt-in.html' }
         ],
         devotions: [
@@ -40,9 +40,9 @@ export const footerConfig = {
         { label: 'Terms & Conditions', url: '/terms-conditions.html' }
     ],
     socialLinks: [
-        { platform: 'youtube', url: '#TODO-youtube-url', label: 'Grace Praise on YouTube' },
-        { platform: 'facebook', url: '#TODO-facebook-url', label: 'Grace Praise on Facebook' },
-        { platform: 'instagram', url: '#TODO-instagram-url', label: 'Grace Praise on Instagram' },
-        { platform: 'tiktok', url: '#TODO-tiktok-url', label: 'Grace Praise on TikTok' }
+        { platform: 'youtube', url: 'https://youtube.com/@gpbc', label: 'Grace Praise on YouTube' },
+        { platform: 'facebook', url: 'https://facebook.com/graceandpraisebangladeshichurch', label: 'Grace Praise on Facebook' },
+        { platform: 'instagram', url: 'https://instagram.com/gpbc', label: 'Grace Praise on Instagram' },
+        { platform: 'tiktok', url: 'https://tiktok.com/@gpbc', label: 'Grace Praise on TikTok' }
     ]
 };
