@@ -400,7 +400,7 @@ header_to_use = canonical_header
 ## 🙏 Next Steps
 
 1. **Deploy to GitHub Pages** - Changes already pushed to main branch
-2. **Test on Production** - Visit gilbert-baidya.github.io/gracepraise.church
+2. **Test on Production** - Visit gracepraise.church
 3. **User Acceptance Testing** - Verify on actual devices
 4. **Monitor Analytics** - Track navigation usage
 5. **Gather Feedback** - Check for any edge cases

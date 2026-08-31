@@ -1,9 +1,16 @@
 // Donation System
-// Handles all donation-related functionality
+// Handles all donation-related functionality across Grace and Praise Bangladeshi Church
 
-// Stripe Configuration
-const STRIPE_PUBLISHABLE_KEY = 'pk_test_YOUR_STRIPE_KEY_HERE'; // Not needed for payment links
-const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_dRmbJ3eeaa33fsBfjYfEk01';
+// Stripe & PayPal Production Configuration
+// In production, set stripePaymentLink to your verified live Stripe Payment Link
+const DONATION_CONFIG = {
+    stripePaymentLink: 'https://buy.stripe.com/YOUR_LIVE_STRIPE_LINK_HERE',
+    stripePublishableKey: 'pk_live_YOUR_STRIPE_KEY_HERE',
+    paypalPaymentLink: 'https://www.paypal.com/ncp/payment/V3AF32ZHJSAME',
+    venmoLink: 'https://venmo.com/gpbc-church',
+    cashappLink: 'https://cash.app/$gpbcchurch',
+    zelleEmail: 'gracepraisebangladeshichurch@gmail.com'
+};
 
 let selectedDonationAmount = 0;
 
@@ -14,45 +21,63 @@ document.addEventListener('DOMContentLoaded', () => {
     generateDonationQRCodes();
 });
 
+function openSecureLink(url) {
+    if (!url) return;
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+function getSelectedAmount() {
+    const amountInput = document.getElementById('amount') || document.getElementById('customAmount');
+    if (amountInput && amountInput.value) {
+        const val = parseFloat(amountInput.value);
+        if (!isNaN(val) && val > 0) return val;
+    }
+    return selectedDonationAmount;
+}
+
 function setupAmountSelection() {
-    // Amount selection buttons
-    const amountButtons = document.querySelectorAll('.amount-btn');
+    // Amount selection buttons (.amount-btn and .preset-btn)
+    const amountButtons = document.querySelectorAll('.amount-btn, .preset-btn');
+    const amountInput = document.getElementById('amount') || document.getElementById('customAmount');
+
     amountButtons.forEach(btn => {
         btn.addEventListener('click', function() {
-            // Remove selected class from all buttons
+            const amountAttr = this.dataset.amount;
+            
+            // Remove selected state from all buttons
             amountButtons.forEach(b => {
-                b.classList.remove('selected');
-                b.style.background = 'white';
-                b.style.color = '#667eea';
+                b.classList.remove('selected', 'active');
             });
             
-            // Add selected class to clicked button
-            this.classList.add('selected');
-            this.style.background = '#667eea';
-            this.style.color = 'white';
+            // Add selected state to clicked button
+            this.classList.add('selected', 'active');
             
-            // Set selected amount
-            selectedDonationAmount = parseInt(this.dataset.amount);
-            
-            // Clear custom amount
-            const customInput = document.getElementById('customAmount');
-            if (customInput) {
-                customInput.value = '';
+            if (amountAttr === 'custom') {
+                if (amountInput) {
+                    amountInput.value = '';
+                    amountInput.focus();
+                }
+                selectedDonationAmount = 0;
+            } else {
+                const parsed = parseFloat(amountAttr);
+                selectedDonationAmount = !isNaN(parsed) ? parsed : 0;
+                if (amountInput && selectedDonationAmount > 0) {
+                    amountInput.value = selectedDonationAmount;
+                }
             }
         });
     });
     
-    // Custom amount input
-    const customAmountInput = document.getElementById('customAmount');
-    if (customAmountInput) {
-        customAmountInput.addEventListener('input', function() {
-            // Deselect preset amounts
-            amountButtons.forEach(b => {
-                b.classList.remove('selected');
-                b.style.background = 'white';
-                b.style.color = '#667eea';
-            });
-            
+    // Custom amount input listener
+    if (amountInput) {
+        amountInput.addEventListener('input', function() {
+            amountButtons.forEach(b => b.classList.remove('selected', 'active'));
             selectedDonationAmount = parseFloat(this.value) || 0;
         });
     }
@@ -64,6 +89,12 @@ function setupPaymentButtons() {
     if (stripeBtn) {
         stripeBtn.addEventListener('click', handleStripePayment);
     }
+
+    // PayPal payment button
+    const paypalBtn = document.getElementById('paypalPaymentBtn');
+    if (paypalBtn) {
+        paypalBtn.addEventListener('click', handlePayPalPayment);
+    }
 }
 
 function generateDonationQRCodes() {
@@ -72,7 +103,7 @@ function generateDonationQRCodes() {
     if (zelleDiv && typeof QRCode !== 'undefined') {
         zelleDiv.innerHTML = '';
         new QRCode(zelleDiv, {
-            text: 'gracepraisebangladeshichurch@gmail.com',
+            text: DONATION_CONFIG.zelleEmail,
             width: 150,
             height: 150,
             colorDark: "#667eea",
@@ -86,7 +117,7 @@ function generateDonationQRCodes() {
     if (paypalDiv && typeof QRCode !== 'undefined') {
         paypalDiv.innerHTML = '';
         new QRCode(paypalDiv, {
-            text: 'https://www.paypal.com/ncp/payment/V3AF32ZHJSAME',
+            text: DONATION_CONFIG.paypalPaymentLink,
             width: 150,
             height: 150,
             colorDark: "#0070ba",
@@ -100,7 +131,7 @@ function generateDonationQRCodes() {
     if (venmoDiv && typeof QRCode !== 'undefined') {
         venmoDiv.innerHTML = '';
         new QRCode(venmoDiv, {
-            text: 'venmo.com/gpbc-church',
+            text: DONATION_CONFIG.venmoLink,
             width: 150,
             height: 150,
             colorDark: "#008CFF",
@@ -114,7 +145,7 @@ function generateDonationQRCodes() {
     if (cashappDiv && typeof QRCode !== 'undefined') {
         cashappDiv.innerHTML = '';
         new QRCode(cashappDiv, {
-            text: 'https://cash.app/$gpbcchurch',
+            text: DONATION_CONFIG.cashappLink,
             width: 150,
             height: 150,
             colorDark: "#00D64F",
@@ -125,51 +156,52 @@ function generateDonationQRCodes() {
 }
 
 function handleStripePayment() {
-    if (selectedDonationAmount <= 0) {
-        alert('Please select or enter a donation amount first');
+    const amount = getSelectedAmount();
+    if (amount <= 0) {
+        alert('Please select or enter a donation amount first.');
+        const amountInput = document.getElementById('amount') || document.getElementById('customAmount');
+        if (amountInput) amountInput.focus();
         return;
     }
     
-    // Open Stripe payment page in new tab
-    const paymentUrl = `${STRIPE_PAYMENT_LINK}`;
-    window.open(paymentUrl, '_blank');
+    if (!DONATION_CONFIG.stripePaymentLink || DONATION_CONFIG.stripePaymentLink.includes('YOUR_LIVE_STRIPE_LINK')) {
+        const proceedWithPayPal = confirm(
+            `Stripe direct checkout is being configured.\n\nWould you like to give $${amount.toFixed(2)} securely via PayPal instead?`
+        );
+        if (proceedWithPayPal) {
+            handlePayPalPayment();
+        }
+        return;
+    }
     
-    // Show confirmation
-    setTimeout(() => {
-        alert(`Opening secure Stripe payment page...\n\nAmount: $${selectedDonationAmount}\n\nThank you for your generous donation!`);
-    }, 100);
+    // Open Stripe payment page in new secure tab
+    openSecureLink(DONATION_CONFIG.stripePaymentLink);
+}
+
+function handlePayPalPayment() {
+    const amount = getSelectedAmount();
+    if (amount <= 0) {
+        alert('Please select or enter a donation amount first.');
+        const amountInput = document.getElementById('amount') || document.getElementById('customAmount');
+        if (amountInput) amountInput.focus();
+        return;
+    }
+    
+    // Open PayPal donation portal in new secure tab
+    openSecureLink(DONATION_CONFIG.paypalPaymentLink);
 }
 
 function handleDigitalWalletPayment() {
-    if (selectedDonationAmount <= 0) {
-        alert('Please select or enter a donation amount');
+    const amount = getSelectedAmount();
+    if (amount <= 0) {
+        alert('Please select or enter a donation amount.');
         return;
     }
     
-    // Check if Payment Request API is available
     if (!window.PaymentRequest) {
-        alert('Digital wallet payments are not supported on this device/browser.\n\nPlease use:\n• PayPal\n• Zelle\n• Venmo\n• Cash App');
+        alert('Digital wallet payments are not supported on this device/browser.\n\nPlease use PayPal, Zelle, Venmo, or Cash App.');
         return;
     }
     
-    // For demonstration - in production you'd integrate with Stripe Payment Request API
-    alert(`Digital Wallet Payment\n\nAmount: $${selectedDonationAmount}\n\nTo enable Apple Pay/Google Pay:\n1. Set up Stripe account\n2. Integrate Payment Request API\n\nFor now, please use other payment methods.`);
+    alert(`Digital Wallet Payment\n\nAmount: $${amount.toFixed(2)}\n\nTo enable Apple Pay/Google Pay via Stripe, configure live Stripe keys.`);
 }
-
-// Add hover effects for amount buttons
-document.addEventListener('DOMContentLoaded', () => {
-    const style = document.createElement('style');
-    style.textContent = `
-        .amount-btn:hover {
-            background: #667eea !important;
-            color: white !important;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-        .amount-btn.selected {
-            background: #667eea !important;
-            color: white !important;
-        }
-    `;
-    document.head.appendChild(style);
-});

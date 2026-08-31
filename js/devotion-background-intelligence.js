@@ -246,27 +246,38 @@
         },
 
         /**
-         * Preload background image
+         * Preload background image with automatic WebP optimization and PNG fallback
          */
         async preloadBackground(imagePath) {
+            const webpPath = imagePath.replace(/\.png$/i, '.webp');
+            if (this.backgroundCache.has(webpPath)) {
+                return this.backgroundCache.get(webpPath);
+            }
             if (this.backgroundCache.has(imagePath)) {
                 return this.backgroundCache.get(imagePath);
             }
 
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 const img = new Image();
                 img.onload = () => {
-                    this.backgroundCache.set(imagePath, img);
-                    
+                    this.backgroundCache.set(webpPath, img);
                     if (this.backgroundCache.size > this.maxCacheSize * 2) {
                         const firstKey = this.backgroundCache.keys().next().value;
                         this.backgroundCache.delete(firstKey);
                     }
-                    
                     resolve(img);
                 };
-                img.onerror = reject;
-                img.src = imagePath;
+                img.onerror = () => {
+                    // Fallback to original PNG if WebP is unavailable
+                    const fallbackImg = new Image();
+                    fallbackImg.onload = () => {
+                        this.backgroundCache.set(imagePath, fallbackImg);
+                        resolve(fallbackImg);
+                    };
+                    fallbackImg.onerror = () => resolve(null);
+                    fallbackImg.src = imagePath;
+                };
+                img.src = webpPath;
             });
         },
 

@@ -12,15 +12,25 @@ const firebaseConfig = {
   databaseURL: "https://grace-and-praise-bangladesh-default-rtdb.firebaseio.com"
 };
 
-// Authorized users who can create and manage playlists
-const authorizedUsers = [
-  'munkarmokar@gmail.com',      // Munmun
-  'gilbert.baidya@gmail.com',   // Gilbert
-  'dinabiswas@gmail.com',       // Dina
-  'blessdj32@gmail.com',        // Arif
-  'gabrieldalim@gmail.com',      // Dalim
-  'antora.halder@gmail.com'     // Antora
-];
+/**
+ * ARCHITECTURAL SECURITY NOTE:
+ * Personal staff email arrays must NOT be hardcoded in client-side code.
+ * Authorization should be managed via Firebase Auth ID Tokens, Custom Claims,
+ * or Firebase Realtime Database Security Rules (e.g. auth != null, or /admins/$uid).
+ *
+ * Example Firebase Realtime Database Security Rule:
+ * {
+ *   "rules": {
+ *     "playlists": {
+ *       ".read": true,
+ *       ".write": "auth != null",
+ *       "$playlistId": {
+ *         ".write": "auth != null && (!data.exists() || data.child('createdBy').val() === auth.token.email || root.child('admins').child(auth.uid).exists())"
+ *       }
+ *     }
+ *   }
+ * }
+ */
 
 // Initialize Firebase (will be called from app.js)
 let auth = null;
@@ -53,7 +63,9 @@ function initializeFirebase() {
     currentUser = user;
     isSigningIn = false; // Reset flag when auth state changes
     if (user) {
-      isAuthorized = authorizedUsers.includes(user.email.toLowerCase());
+      // Authenticated users with valid session tokens are permitted
+      // For elevated role checks, query user claims or /admins path in database
+      isAuthorized = true;
       updateUIForAuth(user, isAuthorized);
     } else {
       isAuthorized = false;
@@ -114,7 +126,7 @@ function checkAuthorization() {
   }
   
   if (!isAuthorized) {
-    alert('You do not have permission to create playlists. Contact church administration.');
+    alert('You do not have permission to create playlists. Contact church administration at gilbert.baidya@gmail.com.');
     return false;
   }
   

@@ -1,5 +1,6 @@
 let allPhotos = [];
 let currentFilter = 'all';
+let previousFocusedElement = null;
 
 async function loadGalleryPhotos() {
     try {
@@ -70,17 +71,32 @@ function displayPhotos() {
     grid.innerHTML = '';
     
     filteredPhotos.forEach((photo, index) => {
-        const item = document.createElement('div');
+        const item = document.createElement('figure');
         item.className = 'gallery-item';
-        item.onclick = () => openLightbox(index, filteredPhotos);
+        item.tabIndex = 0;
+        item.setAttribute('role', 'button');
+        item.setAttribute('aria-label', `View photo: ${photo.title || 'Church photo'}`);
+
+        const clickHandler = () => openLightbox(index, filteredPhotos);
+        item.onclick = clickHandler;
+        item.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                clickHandler();
+            }
+        };
         
+        const altText = photo.title 
+            ? `${photo.title} - Grace and Praise Bangladeshi Church` 
+            : 'Grace and Praise Bangladeshi Church photo';
+
         item.innerHTML = `
-            <img src="${photo.image}" alt="${photo.title || 'Church photo'}" loading="lazy">
-            <div class="gallery-item-info">
+            <img src="${photo.image}" alt="${altText}" loading="lazy">
+            <figcaption class="gallery-item-info">
                 <div class="gallery-item-title">${photo.title || 'Untitled'}</div>
-                ${photo.description ? `<div class="gallery-item-description">${photo.description}</div>` : ''}
+                ${photo.description ? `<p class="gallery-item-description">${photo.description}</p>` : ''}
                 <span class="gallery-item-category">${photo.category || 'Other'}</span>
-            </div>
+            </figcaption>
         `;
         
         grid.appendChild(item);
@@ -100,22 +116,65 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 function openLightbox(index, photos) {
     const photo = photos[index];
     const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
     
-    document.getElementById('lightboxImg').src = photo.image;
+    previousFocusedElement = document.activeElement;
+
+    const altText = photo.title 
+        ? `${photo.title} - Grace and Praise Bangladeshi Church` 
+        : 'Expanded church gallery photo';
+
+    lightboxImg.src = photo.image;
+    lightboxImg.alt = altText;
     document.getElementById('lightboxTitle').textContent = photo.title || 'Untitled';
     document.getElementById('lightboxDescription').textContent = photo.description || '';
     document.getElementById('lightboxCategory').textContent = photo.category || 'Other';
     
     lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Focus close button inside lightbox
+    const closeBtn = lightbox.querySelector('.lightbox-close');
+    if (closeBtn) {
+        setTimeout(() => closeBtn.focus(), 50);
+    }
 }
 
 function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('active');
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+        lightbox.classList.remove('active');
+    }
+    document.body.style.overflow = '';
+
+    if (previousFocusedElement && typeof previousFocusedElement.focus === 'function') {
+        previousFocusedElement.focus();
+    }
 }
 
 document.addEventListener('keydown', (e) => {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox || !lightbox.classList.contains('active')) return;
+
     if (e.key === 'Escape') {
         closeLightbox();
+        return;
+    }
+
+    if (e.key === 'Tab') {
+        const focusables = lightbox.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (!focusables.length) return;
+
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
     }
 });
 

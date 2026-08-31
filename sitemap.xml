@@ -3,95 +3,246 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-    
-    <!-- Homepage -->
+
     <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/</loc>
-        <lastmod>2025-12-10</lastmod>
+        <loc>https://gracepraise.church/</loc>
+        <lastmod>2026-08-31</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
-    
-    <!-- About Page -->
     <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/about.html</loc>
-        <lastmod>2025-12-10</lastmod>
+        <loc>https://gracepraise.church/about.html</loc>
+        <lastmod>2026-08-31</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
-    
-    <!-- About Sections -->
     <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/about.html#next-service</loc>
-        <lastmod>2025-12-10</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/about.html#history</loc>
-        <lastmod>2025-12-10</lastmod>
+        <loc>https://gracepraise.church/beliefs.html</loc>
+        <lastmod>2026-08-31</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
+        <priority>0.6</priority>
     </url>
-    
     <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/about.html#mission</loc>
-        <lastmod>2025-12-10</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    
-    <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/about.html#leadership</loc>
-        <lastmod>2025-12-10</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    
-    <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/about.html#beliefs</loc>
-        <lastmod>2025-12-10</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    
-    <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/about.html#testimonies</loc>
-        <lastmod>2025-12-10</lastmod>
+        <loc>https://gracepraise.church/calendar.html</loc>
+        <lastmod>2026-08-31</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    
-    <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/about.html#songbook</loc>
-        <lastmod>2025-12-10</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    
-    <!-- Calendar Page -->
-    <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/calendar.html</loc>
-        <lastmod>2025-12-10</lastmod>
-        <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
-    
-    <!-- Prayer Page -->
     <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/calendar.html#prayer</loc>
-        <lastmod>2025-12-10</lastmod>
+        <loc>https://gracepraise.church/children-devotion.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/core-values.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/couples-devotion.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/daily-devotion.html</loc>
+        <lastmod>2026-08-31</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
-    
-    <!-- Give Page -->
     <url>
-        <loc>https://gilbert-baidya.github.io/gracepraise.church/give.html</loc>
-        <lastmod>2025-12-10</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://gracepraise.church/family-devotion.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/fasting-21days.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/fasting-30days.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/fasting-40days.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/gallery.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
-    
+    <url>
+        <loc>https://gracepraise.church/give.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/gratitude-fasting.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/history.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/leadership.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/lent-fasting.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/mission.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/plan-visit.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/position-papers.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/prayer-request.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/privacy-policy.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/sms-opt-in.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/songbook.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/terms-conditions.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/youth-devotion.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/bible-study.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/community-development.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/homeless-ministry.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/hospital-ministry.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/index.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/kids-ministry.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/men-fellowship.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/mission-outreach.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/prison-ministry.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/support-missionaries.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/worship-ministry.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://gracepraise.church/ministries/youth-ministry.html</loc>
+        <lastmod>2026-08-31</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
 </urlset>

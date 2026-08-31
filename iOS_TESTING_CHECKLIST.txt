@@ -6,7 +6,7 @@ iOS SAFARI HORIZONTAL SCROLL FIX - TESTING CHECKLIST
 
 Step 1: Open Daily Devotion Page
 ---------------------------------
-URL: https://gilbert-baidya.github.io/gracepraise.church/daily-devotion.html
+URL: https://gracepraise.church/daily-devotion.html
 OR: http://localhost:8001/daily-devotion.html (if testing locally)
 
 Step 2: Portrait Mode Tests

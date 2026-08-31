@@ -61,7 +61,7 @@ Added by: {{added_by}}
 Contact: {{contact_info}}
 Added on: {{timestamp}}
 
-View the full calendar at: https://gilbert-baidya.github.io/gracepraise.church/
+View the full calendar at: https://gracepraise.church/
 
 God Bless,
 GPBC Calendar System

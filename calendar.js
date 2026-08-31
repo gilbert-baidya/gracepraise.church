@@ -9,17 +9,17 @@ let currentEvent = null;
 const CODE_OWNER = 'gilbert-baidya'; // Change to your GitHub username
 
 // Google Sheets Database Configuration
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxN025_2hB-8X00M3cDDkit0HqTSUuh2VttI3GJ26gbaohwKFncar3ExvJtJW4PtuqERQ/exec';
+const GOOGLE_SHEETS_URL = window.GOOGLE_SHEETS_URL || 'https://script.google.com/macros/s/AKfycbxN025_2hB-8X00M3cDDkit0HqTSUuh2VttI3GJ26gbaohwKFncar3ExvJtJW4PtuqERQ/exec';
 const USE_GOOGLE_SHEETS = true; // Set to false to use localStorage instead
 
-// EmailJS configuration - replace these with your actual values
-const EMAILJS_PUBLIC_KEY = '__rLqwMXgJLla26DS';
-const EMAILJS_SERVICE_ID = 'service_qndkrol';
-const EMAILJS_TEMPLATE_ID = 'template_tf8nnjr';
+// EmailJS configuration - replace with runtime config / environment placeholders
+const EMAILJS_PUBLIC_KEY = window.EMAILJS_PUBLIC_KEY || 'YOUR_EMAILJS_PUBLIC_KEY';
+const EMAILJS_SERVICE_ID = window.EMAILJS_SERVICE_ID || 'YOUR_EMAILJS_SERVICE_ID';
+const EMAILJS_TEMPLATE_ID = window.EMAILJS_TEMPLATE_ID || 'YOUR_EMAILJS_TEMPLATE_ID';
 
-// Cloudinary configuration
-const CLOUDINARY_CLOUD_NAME = 'duaygqnyk';
-const CLOUDINARY_UPLOAD_PRESET = 'gpbc-events';
+// Cloudinary configuration - replace with runtime config / environment placeholders
+const CLOUDINARY_CLOUD_NAME = window.CLOUDINARY_CLOUD_NAME || 'YOUR_CLOUDINARY_CLOUD_NAME';
+const CLOUDINARY_UPLOAD_PRESET = window.CLOUDINARY_UPLOAD_PRESET || 'YOUR_CLOUDINARY_UPLOAD_PRESET';
 let cloudinaryWidget = null;
 
 // Initialize EmailJS for notifications (only if configured)
@@ -139,7 +139,7 @@ function generateCalendarAccessQR() {
             if (typeof QRCode !== 'undefined') {
                 qrDiv.innerHTML = ''; // Clear any existing content
                 new QRCode(qrDiv, {
-                    text: 'https://gilbert-baidya.github.io/gracepraise.church/',
+                    text: 'https://gracepraise.church/',
                     width: 180,
                     height: 180,
                     colorDark: "#667eea",

@@ -6,6 +6,17 @@
     <script src="platform-runtime.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPBC Song Book - Grace and Praise Bangladeshi Church</title>
+
+    <!-- SEO: Canonical + OpenGraph (auto-injected) -->
+    <link rel="canonical" href="https://gracepraise.church/songbook.html" />
+    <meta property="og:site_name" content="Grace and Praise Bangladeshi Church" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="GPBC Song Book - Grace and Praise Bangladeshi Church" />
+    <meta property="og:description" content="Grace and Praise Bangladeshi Church in San Bernardino, CA — a welcoming Bengali Christian community. Join us for worship, prayer, and fellowship." />
+    <meta property="og:url" content="https://gracepraise.church/songbook.html" />
+    <meta property="og:image" content="https://gracepraise.church/images/logo/gpbc-og-banner.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -200,12 +211,12 @@
     </header>
 
     
-    <div class="container songbook-page">
+    <main id="main-content" class="container songbook-page">
         <div class="page-header">
             <div class="header-content">
                 <div>
-                    <h1><span class="icon">🎵</span> Grace and Praise</h1>
-                    <p class="subtitle">Bangladeshi Church Song Book</p>
+                    <h1><span class="icon" aria-hidden="true">🎵</span> Grace and Praise</h1>
+                    <p class="subtitle">Bangladeshi Church Song Book • <a href="mailto:gilbert.baidya@gmail.com?subject=GPBC%20Songbook%20Contribution%20%2F%20Inquiry" class="songbook-contact-link" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;" aria-label="Submit song contributions or inquiries via email to gilbert.baidya@gmail.com">Submit Song / Inquiry</a></p>
                 </div>
                 <div class="auth-section">
                     <div id="authButton" style="display: none;">
@@ -224,15 +235,15 @@
             <input type="text" id="searchInput" placeholder="Search songs... (গান খুঁজুন...)" />
         </div>
 
-        <div class="filter-tabs">
-            <button class="tab-btn active" id="allSongsTab">সব গান (All Songs)</button>
-            <button class="tab-btn" id="chordsOnlyTab">🎸 কর্ড সহ গান (Songs with Chords)</button>
-            <button class="tab-btn" id="bilingualTab">🌐 দ্বিভাষিক (Bilingual)</button>
-            <button class="tab-btn" id="christmasTab">🎄 বড়দিন (Christmas)</button>
-            <button class="tab-btn" id="easterTab">✝️ পুনরুত্থান (Easter)</button>
-            <button class="tab-btn" id="goodFridayTab">✞ গুড ফ্রাইডে (Good Friday)</button>
-            <button class="tab-btn" id="communionTab">🍞 প্রভুভোজ (Holy Communion)</button>
-            <button class="tab-btn" id="newYearTab">🎊 নববর্ষ (New Year)</button>
+        <div class="filter-tabs" role="tablist" aria-label="Song language and occasion filters">
+            <button class="tab-btn active" id="allSongsTab" role="tab" aria-selected="true">সব গান (All Songs)</button>
+            <button class="tab-btn" id="chordsOnlyTab" role="tab" aria-selected="false">🎸 কর্ড সহ গান (Songs with Chords)</button>
+            <button class="tab-btn" id="bilingualTab" role="tab" aria-selected="false">🌐 দ্বিভাষিক (Bilingual)</button>
+            <button class="tab-btn" id="christmasTab" role="tab" aria-selected="false">🎄 বড়দিন (Christmas)</button>
+            <button class="tab-btn" id="easterTab" role="tab" aria-selected="false">✝️ পুনরুত্থান (Easter)</button>
+            <button class="tab-btn" id="goodFridayTab" role="tab" aria-selected="false">✞ গুড ফ্রাইডে (Good Friday)</button>
+            <button class="tab-btn" id="communionTab" role="tab" aria-selected="false">🍞 প্রভুভোজ (Holy Communion)</button>
+            <button class="tab-btn" id="newYearTab" role="tab" aria-selected="false">🎊 নববর্ষ (New Year)</button>
         </div>
 
         <div class="saved-playlists-section" id="savedPlaylistsSection" style="display: none;">
@@ -242,16 +253,16 @@
             </div>
         </div>
 
-        <div class="alphabet-index" id="alphabetIndex">
+        <div class="alphabet-index" id="alphabetIndex" role="navigation" aria-label="Bangla alphabet index">
             <!-- Bangla alphabet buttons will be dynamically loaded here -->
         </div>
 
-        <div class="song-list" id="songList">
+        <div class="song-list" id="songList" role="region" aria-label="Song catalog">
             <!-- Songs will be dynamically loaded here -->
         </div>
 
         <!-- Service Playlist Panel -->
-        <div class="service-playlist-panel" id="servicePlaylistPanel">
+        <div class="service-playlist-panel" id="servicePlaylistPanel" role="region" aria-label="Service playlist manager">
             <div class="playlist-header">
                 <h2>📋 Service Playlist (<span id="playlistCount">0</span>)</h2>
                 <div class="playlist-actions">
@@ -264,50 +275,66 @@
         </div>
 
         <!-- Copyright Notice Modal -->
-        <div id="copyrightModal" class="copyright-modal" style="display: none;">
+        <div id="copyrightModal" class="copyright-modal" role="dialog" aria-modal="true" aria-labelledby="copyrightTitle" style="display: none;">
             <div class="copyright-content">
-                <h2>© All Rights Reserved</h2>
+                <h2 id="copyrightTitle">© All Rights Reserved</h2>
                 <p><strong>Grace and Praise - Bangladeshi Church Song Book</strong></p>
-                <p>This content is protected. Please sign in with an authorized account to access copying features.</p>
-                <button onclick="closeCopyrightModal()">Close</button>
+                <p>This content is protected for church worship ministry use. To request copy permissions, contribute new songs, or submit corrections, please contact our worship coordinator:</p>
+                <div class="copyright-contact" style="margin: 16px 0; padding: 12px; background: rgba(102, 126, 234, 0.08); border-radius: 8px;">
+                    <p style="margin: 0 0 6px 0; font-size: 14px; color: var(--color-text, #475569);">Song Contributions &amp; Inquiries:</p>
+                    <a href="mailto:gilbert.baidya@gmail.com?subject=GPBC%20Songbook%20Inquiry%20%2F%20Contribution" class="btn-email-contact" style="color: #667eea; font-weight: 700; text-decoration: underline; word-break: break-all;" aria-label="Send email to gilbert.baidya@gmail.com">
+                        ✉️ gilbert.baidya@gmail.com
+                    </a>
+                </div>
+                <button type="button" onclick="closeCopyrightModal()" aria-label="Close copyright notice">Close</button>
             </div>
         </div>
 
         <!-- Presentation Mode Modal -->
-        <div class="modal" id="presentationModal">
+        <div class="modal" id="presentationModal" role="dialog" aria-modal="true" aria-labelledby="presentationTitle" style="display: none;">
             <div class="presentation-content">
                 <div class="presentation-header">
                     <h2 id="presentationTitle"></h2>
                     <span class="presentation-counter" id="presentationCounter"></span>
+                    <button type="button" class="close" onclick="exitPresentation()" aria-label="Exit presentation (ESC)">&times;</button>
                 </div>
                 <div class="presentation-lyrics" id="presentationContent"></div>
                 <div class="presentation-controls">
-                    <button onclick="previousSong()" class="pres-btn">← Previous</button>
-                    <button onclick="exitPresentation()" class="pres-btn">Exit (ESC)</button>
-                    <button onclick="nextSong()" class="pres-btn">Next →</button>
+                    <button type="button" onclick="previousSong()" class="pres-btn">← Previous</button>
+                    <button type="button" onclick="exitPresentation()" class="pres-btn">Exit (ESC)</button>
+                    <button type="button" onclick="nextSong()" class="pres-btn">Next →</button>
                 </div>
             </div>
         </div>
 
-        <div class="modal" id="songModal">
+        <div class="modal" id="songModal" role="dialog" aria-modal="true" aria-labelledby="songTitle" style="display: none;">
             <div class="modal-content">
-                <span class="close">&times;</span>
+                <button type="button" class="close" onclick="closeSongModal()" aria-label="Close song details">&times;</button>
                 <h2 id="songTitle"></h2>
                 <div class="controls">
-                    <button id="toggleChords" class="btn btn-primary">Hide Chords</button>
-                    <button id="togglePhonetic" class="btn btn-primary">Show Phonetic</button>
-                    <button id="increaseFontSize" class="btn btn-primary">A+</button>
-                    <button id="decreaseFontSize" class="btn btn-primary">A-</button>
-                    <button id="toggleAdvanced" class="btn btn-secondary">Transpose ▼</button>
+                    <button type="button" id="toggleChords" class="btn btn-primary">Hide Chords</button>
+                    <button type="button" id="togglePhonetic" class="btn btn-primary">Show Phonetic</button>
+                    <button type="button" id="increaseFontSize" class="btn btn-primary" aria-label="Increase font size">A+</button>
+                    <button type="button" id="decreaseFontSize" class="btn btn-primary" aria-label="Decrease font size">A-</button>
+                    <button type="button" id="toggleAdvanced" class="btn btn-secondary">Transpose ▼</button>
                 </div>
                 <div class="controls controls-advanced" id="advancedControls" style="display: none;">
-                    <button id="transposeUp" class="btn">Transpose +</button>
-                    <button id="transposeDown" class="btn">Transpose -</button>
+                    <button type="button" id="transposeUp" class="btn">Transpose +</button>
+                    <button type="button" id="transposeDown" class="btn">Transpose -</button>
                 </div>
                 <div id="songContent" class="song-content"></div>
             </div>
         </div>
-    </div>
+
+        <!-- Song Contribution & Worship Ministry Inquiry Callout -->
+        <section class="songbook-contribute-section" style="margin-top: 40px; margin-bottom: 20px; padding: 24px; background: var(--color-surface, #ffffff); border: 1px solid var(--color-border, #e2e8f0); border-radius: var(--radius-lg, 12px); text-align: center;">
+            <h3 style="margin-bottom: 8px; color: var(--color-primary, #1e3a5f); font-size: 1.25rem;">🎼 Contribute a Song or Request Lyrics</h3>
+            <p style="margin-bottom: 16px; color: var(--color-text-light, #64748b); font-size: 0.95rem; line-height: 1.6;">Have a Christian worship song in Bengali or English to add to our church songbook? Notice a chord or lyric correction? We welcome your contributions!</p>
+            <a href="mailto:gilbert.baidya@gmail.com?subject=GPBC%20Songbook%20Contribution%20%2F%20Inquiry" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-weight: 600; text-decoration: none;" aria-label="Email song contributions and inquiries to gilbert.baidya@gmail.com">
+                <span>✉️ Email Song Contributions (gilbert.baidya@gmail.com)</span>
+            </a>
+        </section>
+    </main>
 
 
     <!-- Footer -->
