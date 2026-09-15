@@ -1,0 +1,1273 @@
+/* ==========================================================================
+   PASTOR PROFILE — Page-scoped styles
+   Grace and Praise Bangladeshi Church
+   --------------------------------------------------------------------------
+   Mobile-first, clean, modern, responsive pastor landing page.
+   Strictly scoped to .pastor-page or page containers to prevent leaking.
+   ========================================================================== */
+
+/* ── Mobile Width Fix & Header Lock ───────────────────────────────────── */
+/* Root cause fix: on viewports <= 1024px, redesign-styles.css gives
+   .nav-links fixed inset with translateX(100%) and visibility:hidden,
+   which forces body scrollWidth to ~200% of the viewport width.
+   Hiding .nav-links completely when closed collapses the phantom width. */
+@media (max-width: 1024px) {
+    .nav-links:not(.mobile-open) {
+        display: none !important;
+    }
+}
+
+.pastor-page {
+    --pastor-max-width: 1120px;
+    --pastor-reading-width: 780px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    box-sizing: border-box;
+}
+
+/* ── Containers & Sections ────────────────────────────────────────────── */
+.pastor-section {
+    width: 100%;
+    padding: var(--spacing-lg) var(--spacing-sm);
+    box-sizing: border-box;
+}
+
+.pastor-section--alt {
+    background: var(--color-surface);
+}
+
+.pastor-container {
+    width: 100%;
+    max-width: var(--pastor-max-width);
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.pastor-reading {
+    max-width: var(--pastor-reading-width);
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.section-eyebrow {
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: var(--font-xs);
+    font-weight: var(--font-bold);
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-xs);
+}
+
+.section-title {
+    font-size: var(--font-3xl);
+    color: var(--color-primary);
+    margin: 0 0 var(--spacing-xs);
+    font-weight: var(--font-bold);
+    line-height: var(--leading-tight);
+}
+
+.section-subtitle {
+    font-size: var(--font-base);
+    color: var(--color-text-light);
+    margin: 0;
+    line-height: var(--leading-normal);
+}
+
+/* ── Hero Section ─────────────────────────────────────────────────────── */
+.pastor-hero {
+    width: 100%;
+    padding: var(--spacing-xl) var(--spacing-sm) var(--spacing-lg);
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-background) 100%);
+    box-sizing: border-box;
+}
+
+.pastor-hero__grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    align-items: center;
+}
+
+.pastor-hero__content {
+    text-align: center;
+    width: 100%;
+    max-width: 640px;
+}
+
+.pastor-hero__eyebrow {
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: var(--font-xs);
+    font-weight: var(--font-bold);
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-xs);
+}
+
+.pastor-hero__tagline {
+    font-size: var(--font-lg);
+    color: var(--color-secondary);
+    font-weight: var(--font-semibold);
+    margin: 0 0 var(--spacing-xs);
+    letter-spacing: 0.04em;
+}
+
+.pastor-hero h1 {
+    font-size: var(--font-3xl);
+    line-height: var(--leading-tight);
+    color: var(--color-text-heading, #0f172a);
+    margin: 0 0 var(--spacing-xs);
+    font-weight: var(--font-extrabold);
+}
+
+.pastor-hero__role {
+    font-size: var(--font-base);
+    color: var(--color-primary);
+    font-weight: var(--font-semibold);
+    margin: 0 0 2px;
+}
+
+.pastor-hero__church {
+    font-size: var(--font-sm);
+    color: var(--color-text-light);
+    margin: 0 0 var(--spacing-md);
+}
+
+.pastor-hero__intro {
+    font-size: var(--font-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-lg);
+}
+
+.pastor-hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    align-items: center;
+}
+
+.pastor-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: var(--font-sm);
+    font-weight: var(--font-semibold);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    cursor: pointer;
+    min-height: 44px;
+    box-sizing: border-box;
+}
+
+.pastor-btn--primary {
+    background: var(--color-primary);
+    color: var(--color-text-inverse, #ffffff) !important;
+    box-shadow: var(--shadow-sm);
+}
+
+.pastor-btn--primary:hover,
+.pastor-btn--primary:focus-visible {
+    background: var(--color-primary-dark, #1e40af);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text-inverse, #ffffff) !important;
+}
+
+.pastor-btn--secondary {
+    background: var(--color-surface);
+    color: var(--color-primary) !important;
+    border: 2px solid var(--color-primary);
+}
+
+.pastor-btn--secondary:hover,
+.pastor-btn--secondary:focus-visible {
+    background: var(--color-primary);
+    color: var(--color-text-inverse, #ffffff) !important;
+    transform: translateY(-2px);
+}
+
+.pastor-hero__media {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.pastor-hero__portrait {
+    margin: 0;
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+}
+
+.pastor-hero__portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 1122 / 1402;
+}
+
+.pastor-hero__portrait figcaption {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-xs);
+    color: var(--color-text-light);
+    text-align: center;
+    background: var(--color-surface);
+}
+
+/* ── Ministry Highlights (Stats) ──────────────────────────────────────── */
+.pastor-stats {
+    padding: var(--spacing-md) var(--spacing-sm);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.pastor-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.pastor-stat-card {
+    background: var(--color-background);
+    padding: var(--spacing-md) var(--spacing-sm);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.pastor-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.pastor-stat-card__number {
+    font-size: var(--font-2xl);
+    font-weight: var(--font-extrabold);
+    color: var(--color-primary);
+    line-height: 1.1;
+    margin-bottom: var(--spacing-xs);
+}
+
+.pastor-stat-card__label {
+    font-size: var(--font-xs);
+    font-weight: var(--font-medium);
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: var(--leading-tight);
+}
+
+/* ── Biography & Story ────────────────────────────────────────────────── */
+.story-flow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.story-card {
+    background: var(--color-surface);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+}
+
+.story-card h3 {
+    font-size: var(--font-xl);
+    color: var(--color-primary);
+    margin: 0 0 var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.story-card p {
+    font-size: var(--font-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-sm);
+}
+
+.story-card p:last-child {
+    margin-bottom: 0;
+}
+
+/* ── Ministry & Leadership (A Life of Service) ─────────────────────────── */
+.journey-flow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.journey-chapter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.journey-chapter:hover {
+    border-color: rgba(245, 158, 11, 0.4);
+    box-shadow: var(--shadow-md);
+}
+
+.journey-chapter__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+}
+
+.journey-chapter__year {
+    font-size: var(--font-base);
+    font-weight: var(--font-extrabold);
+    color: var(--color-accent);
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+}
+
+.journey-chapter__tag {
+    display: inline-block;
+    font-size: var(--font-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+    padding: 2px 8px;
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+}
+
+.journey-chapter__content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.journey-chapter__title {
+    font-size: var(--font-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-text-heading, #0f172a);
+    margin: 0;
+    line-height: var(--leading-tight);
+}
+
+.journey-chapter__text {
+    font-size: var(--font-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 4px 0 0;
+}
+
+.journey-chapter__lead {
+    font-size: var(--font-sm);
+    color: var(--color-primary);
+    margin: 6px 0 0;
+}
+
+/* ── Major Featured Chapter: Bethel AG Church ──────────────────────────── */
+.journey-chapter--featured {
+    background: linear-gradient(180deg, var(--color-background) 0%, var(--color-surface) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.journey-featured__header {
+    margin-bottom: var(--spacing-xs);
+}
+
+.journey-featured__badge {
+    display: inline-block;
+    font-size: var(--font-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-bottom: 4px;
+}
+
+.journey-featured__church {
+    font-size: var(--font-sm);
+    font-weight: var(--font-semibold);
+    color: var(--color-primary);
+    margin: 2px 0 0;
+}
+
+.journey-roles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-md) 0 0;
+}
+
+.journey-role-card {
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.journey-role-card__stat {
+    font-size: var(--font-sm);
+    font-weight: var(--font-extrabold);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.journey-role-card__title {
+    font-size: var(--font-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-text-heading, #0f172a);
+}
+
+.journey-role-card__desc {
+    font-size: var(--font-xs);
+    color: var(--color-text-light);
+    line-height: var(--leading-normal);
+    margin: 0;
+}
+
+/* Dark theme refinements for journey chapters */
+[data-theme="dark"] .journey-chapter__title,
+body.dark .journey-chapter__title {
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .journey-role-card__title,
+body.dark .journey-role-card__title {
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .journey-chapter--featured,
+body.dark .journey-chapter--featured {
+    border-color: rgba(245, 158, 11, 0.45);
+    background: linear-gradient(180deg, #0b1220 0%, #020617 100%);
+}
+
+/* ── Serving Together & Family Section ────────────────────────────────── */
+.pastor-family-layout {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.family-block {
+    display: grid;
+    gap: var(--spacing-md);
+    align-items: center;
+}
+
+.family-block__media {
+    margin: 0;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+}
+
+.family-block__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 1122 / 1402;
+}
+
+.family-block__media figcaption {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-xs);
+    color: var(--color-text-light);
+    text-align: center;
+    background: var(--color-surface);
+}
+
+.family-block__content h3 {
+    font-size: var(--font-2xl);
+    color: var(--color-primary);
+    margin: 0 0 var(--spacing-sm);
+}
+
+.family-block__content p {
+    font-size: var(--font-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-sm);
+}
+
+.family-block__content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ── Faith in the Marketplace ─────────────────────────────────────────── */
+.pastor-marketplace {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.marketplace-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.marketplace-narrative {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.marketplace-header {
+    text-align: left;
+}
+
+.marketplace-header .section-eyebrow {
+    margin-bottom: var(--spacing-xs);
+}
+
+.marketplace-header .section-title {
+    text-align: left;
+    margin: 0;
+}
+
+.marketplace-body p {
+    font-size: var(--font-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-sm);
+}
+
+.marketplace-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* Restrained closing statement */
+.marketplace-quote {
+    margin: var(--spacing-xs) 0 0;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-background);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    box-shadow: var(--shadow-sm);
+}
+
+.marketplace-quote p {
+    font-size: var(--font-base);
+    font-style: italic;
+    font-weight: var(--font-medium);
+    color: var(--color-text-heading, #0f172a);
+    line-height: var(--leading-normal);
+    margin: 0;
+}
+
+/* Professional Domain Indicators Sidebar */
+.marketplace-domains {
+    width: 100%;
+}
+
+.marketplace-domains__card {
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.marketplace-domains__title {
+    font-size: var(--font-lg);
+    color: var(--color-primary);
+    font-weight: var(--font-bold);
+    margin: 0 0 4px;
+}
+
+.marketplace-domains__subtitle {
+    font-size: var(--font-xs);
+    color: var(--color-text-light);
+    margin: 0 0 var(--spacing-md);
+    line-height: var(--leading-normal);
+}
+
+.marketplace-domains__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.marketplace-domain-pill {
+    display: flex;
+    flex-direction: column;
+    padding: 0.625rem 0.875rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.marketplace-domain-pill:hover {
+    border-color: var(--color-accent);
+    transform: translateX(2px);
+}
+
+.domain-pill__tag {
+    font-size: var(--font-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    line-height: 1.2;
+}
+
+.domain-pill__detail {
+    font-size: var(--font-xs);
+    color: var(--color-text-light);
+    line-height: 1.3;
+    margin-top: 2px;
+}
+
+/* Dark mode contrast guarantees */
+[data-theme="dark"] .marketplace-quote p,
+body.dark .marketplace-quote p {
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .domain-pill__tag,
+body.dark .domain-pill__tag {
+    color: #60a5fa;
+}
+
+/* ── Ministry Vision ──────────────────────────────────────────────────── */
+.vision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.vision-card {
+    background: var(--color-surface);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.vision-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.vision-card__icon {
+    font-size: var(--font-2xl);
+    display: inline-block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.vision-card__title {
+    font-size: var(--font-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin: 0 0 4px;
+}
+
+.vision-card__desc {
+    font-size: var(--font-xs);
+    color: var(--color-text-light);
+    line-height: var(--leading-normal);
+    margin: 0;
+}
+
+/* ── Future Ministry Hub / More to Explore ────────────────────────────── */
+.pastor-links {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.pastor-link-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.pastor-link-card:hover,
+.pastor-link-card:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.pastor-link-card__icon {
+    font-size: var(--font-2xl);
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.pastor-link-card__title {
+    display: block;
+    color: var(--color-primary);
+    font-weight: var(--font-bold);
+    font-size: var(--font-base);
+    margin-bottom: 2px;
+}
+
+.pastor-link-card__desc {
+    display: block;
+    font-size: var(--font-xs);
+    color: var(--color-text-light);
+    line-height: var(--leading-normal);
+}
+
+.pastor-back {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+}
+
+/* ── Tablet & Desktop Breakpoints ─────────────────────────────────────── */
+@media (min-width: 768px) {
+    .pastor-section {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .pastor-hero {
+        padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-xl);
+    }
+
+    .pastor-hero__grid {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: var(--spacing-2xl);
+    }
+
+    .pastor-hero__content {
+        text-align: left;
+        flex: 1 1 55%;
+    }
+
+    .pastor-hero__ctas {
+        justify-content: flex-start;
+    }
+
+    .pastor-hero__media {
+        flex: 1 1 45%;
+        max-width: 400px;
+    }
+
+    .pastor-hero h1 {
+        font-size: var(--font-4xl);
+    }
+
+    .pastor-stats__grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--spacing-md);
+    }
+
+    .journey-chapter {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        gap: var(--spacing-md);
+        align-items: start;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .journey-chapter__meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding-top: 2px;
+    }
+
+    .journey-chapter--featured {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .journey-roles-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-sm);
+    }
+
+    .family-block {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-xl);
+    }
+
+    .family-block--reverse .family-block__media {
+        order: 2;
+    }
+
+    .family-block--reverse .family-block__content {
+        order: 1;
+    }
+
+    .credentials-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .vision-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-md);
+    }
+
+    .pastor-links {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+}
+
+@media (min-width: 1024px) {
+    .pastor-section {
+        padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .pastor-hero h1 {
+        font-size: var(--font-5xl);
+    }
+
+    .pastor-hero__intro {
+        font-size: var(--font-lg);
+    }
+
+    .marketplace-grid {
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        gap: var(--spacing-2xl);
+        align-items: start;
+    }
+}
+
+/* ── Mobile Spacing Polish (<= 767px) ─────────────────────────────────── */
+/* Tightens vertical rhythm ~15% and reclaims horizontal reading width
+   inside cards. Side gutters stay within the 16–20px target and no
+   font sizes or touch-target heights are reduced. */
+@media (max-width: 767px) {
+    .pastor-hero {
+        padding: 48px var(--spacing-sm) 34px;
+    }
+
+    .pastor-hero__grid {
+        gap: 34px;
+    }
+
+    .pastor-hero__intro {
+        margin-bottom: 34px;
+    }
+
+    .pastor-section {
+        padding: 34px var(--spacing-sm);
+    }
+
+    .pastor-stats {
+        padding: 20px var(--spacing-sm);
+    }
+
+    .section-header {
+        margin-bottom: 34px;
+    }
+
+    /* 40px inner padding left only ~263px of text on a 343px card */
+    .story-card,
+    .credential-card {
+        padding: 24px;
+    }
+
+    .journey-chapter {
+        padding: 16px 18px;
+    }
+
+    .journey-chapter--featured {
+        padding: 20px 16px;
+    }
+
+    .journey-role-card {
+        padding: 12px 14px;
+    }
+
+    .journey-flow {
+        gap: 16px;
+    }
+
+    .marketplace-quote {
+        padding: 14px 16px;
+    }
+
+    .marketplace-domains__card {
+        padding: 20px 16px;
+    }
+
+    .marketplace-domain-pill {
+        padding: 10px 12px;
+    }
+
+    .story-flow {
+        gap: 20px;
+    }
+
+    .pastor-family-layout {
+        gap: 44px;
+    }
+
+    .family-block {
+        gap: 20px;
+    }
+
+    .pastor-back {
+        margin-top: 34px;
+    }
+}
+
+/* ── Editorial Biography Refinement ───────────────────────────────────── */
+.pastor-hero__name {
+    color: var(--color-primary);
+    font-size: var(--font-lg);
+    font-weight: var(--font-semibold);
+    line-height: var(--leading-tight);
+    margin: 0 0 2px;
+}
+
+.section-header--editorial {
+    text-align: left;
+    margin-bottom: var(--spacing-lg);
+}
+
+.section-header--editorial .section-title {
+    margin-bottom: var(--spacing-sm);
+}
+
+.pastor-story {
+    background: var(--color-background);
+}
+
+.editorial-journey {
+    border-top: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.editorial-story {
+    max-width: 680px;
+    padding-top: var(--spacing-md);
+}
+
+.editorial-story > p {
+    color: var(--color-text);
+    font-size: var(--font-base);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--spacing-sm);
+}
+
+.editorial-story > p:last-child {
+    margin-bottom: 0;
+}
+
+.editorial-story strong {
+    color: var(--color-primary);
+}
+
+.chapter-signature {
+    border-top: 1px solid rgba(245, 158, 11, 0.38);
+    color: var(--color-primary) !important;
+    font-size: var(--font-sm) !important;
+    margin-top: var(--spacing-md) !important;
+    padding-top: var(--spacing-sm);
+}
+
+.chapter-signature strong,
+.chapter-signature span {
+    display: block;
+}
+
+.chapter-signature strong {
+    font-size: var(--font-base);
+}
+
+.chapter-signature span {
+    color: var(--color-text-light);
+    margin-top: 0.15rem;
+}
+
+.family-editorial {
+    background: var(--color-surface);
+}
+
+.family-editorial__grid {
+    display: grid;
+    gap: var(--spacing-lg);
+}
+
+.family-editorial__image {
+    box-sizing: border-box;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+}
+
+.family-editorial__image img {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    display: block;
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.family-editorial__image figcaption {
+    color: var(--color-text-light);
+    font-size: var(--font-xs);
+    margin-top: var(--spacing-xs);
+}
+
+.family-editorial__copy {
+    align-self: center;
+}
+
+.family-editorial__copy h3 {
+    color: var(--color-primary);
+    font-size: var(--font-xl);
+    margin: 0 0 var(--spacing-xs);
+}
+
+.family-editorial__copy h3:not(:first-child) {
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+}
+
+.family-editorial__copy p {
+    color: var(--color-text);
+    font-size: var(--font-base);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+}
+
+.prepared-section {
+    background: var(--color-background);
+}
+
+.prepared-grid {
+    border-top: 1px solid var(--color-border);
+    display: grid;
+}
+
+.prepared-column {
+    padding: var(--spacing-lg) 0;
+}
+
+.prepared-column + .prepared-column {
+    border-top: 1px solid var(--color-border);
+}
+
+.prepared-column h3 {
+    color: var(--color-primary);
+    font-size: var(--font-2xl);
+    line-height: var(--leading-tight);
+    margin: var(--spacing-xs) 0 var(--spacing-sm);
+}
+
+.prepared-column p {
+    color: var(--color-text);
+    font-size: var(--font-base);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--spacing-sm);
+}
+
+.prepared-column p:last-child {
+    margin-bottom: 0;
+}
+
+.prepared-column--marketplace {
+    border-left: 3px solid var(--color-accent);
+    padding-left: var(--spacing-md);
+}
+
+.prepared-line {
+    color: var(--color-primary) !important;
+    font-size: var(--font-xs) !important;
+    font-weight: var(--font-bold);
+    letter-spacing: 0.08em;
+    margin-top: var(--spacing-md) !important;
+}
+
+.heart-section {
+    background: var(--color-surface);
+}
+
+.heart-editorial {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--spacing-lg);
+}
+
+.heart-editorial__lead {
+    color: var(--color-text-heading, #0f172a);
+    font-size: var(--font-xl);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--spacing-lg);
+    max-width: 680px;
+}
+
+.heart-themes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1.25rem;
+}
+
+.heart-themes span {
+    color: var(--color-text-light);
+    font-size: var(--font-sm);
+}
+
+.heart-themes span::before {
+    color: var(--color-accent);
+    content: '—';
+    margin-right: 0.45rem;
+}
+
+.resources-section {
+    background: var(--color-surface);
+}
+
+.resources-section .pastor-links {
+    gap: 0;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: var(--spacing-md);
+}
+
+.resources-section .pastor-link-card {
+    align-items: flex-start;
+    background: transparent;
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    border-radius: 0;
+    box-shadow: none;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: var(--spacing-md) var(--spacing-sm) var(--spacing-md) 0;
+}
+
+.resources-section .pastor-link-card:hover,
+.resources-section .pastor-link-card:focus-visible {
+    background: transparent;
+    transform: none;
+}
+
+.pastor-affiliation {
+    align-items: center;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-light);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: var(--font-xs);
+    gap: var(--spacing-sm);
+    justify-content: space-between;
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+}
+
+.pastor-affiliation a {
+    color: var(--color-primary);
+    font-weight: var(--font-semibold);
+}
+
+@media (min-width: 768px) {
+    .family-editorial__grid {
+        align-items: center;
+        grid-template-columns: minmax(210px, 0.8fr) 1fr minmax(210px, 0.8fr);
+    }
+
+    .family-editorial__image--family {
+        margin-top: var(--spacing-xl);
+    }
+
+    .prepared-grid {
+        gap: var(--spacing-2xl);
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .prepared-column + .prepared-column {
+        border-left: 1px solid var(--color-border);
+        border-top: 0;
+        padding-left: var(--spacing-2xl);
+    }
+}
+
+@media (max-width: 767px) {
+    .pastor-hero__name {
+        font-size: var(--font-base);
+    }
+
+    .section-header--editorial {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .editorial-story {
+        padding-top: var(--spacing-sm);
+    }
+
+    .family-editorial__grid {
+        gap: var(--spacing-md);
+    }
+
+    .family-editorial__image--family {
+        justify-self: stretch;
+        margin-inline: auto;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .prepared-column--marketplace {
+        padding-left: var(--spacing-sm);
+    }
+
+    .resources-section .pastor-links {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .pastor-affiliation {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
