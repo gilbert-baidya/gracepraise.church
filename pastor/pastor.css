@@ -1038,7 +1038,10 @@ body.dark .domain-pill__tag {
 }
 
 .family-editorial__image {
+    box-sizing: border-box;
     margin: 0;
+    max-width: 100%;
+    width: 100%;
 }
 
 .family-editorial__image img {
@@ -1046,6 +1049,8 @@ body.dark .domain-pill__tag {
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-lg);
     display: block;
+    height: auto;
+    max-width: 100%;
     object-fit: cover;
     width: 100%;
 }
@@ -1247,8 +1252,10 @@ body.dark .domain-pill__tag {
     }
 
     .family-editorial__image--family {
-        max-width: 84%;
-        justify-self: end;
+        justify-self: stretch;
+        margin-inline: auto;
+        max-width: 100%;
+        width: 100%;
     }
 
     .prepared-column--marketplace {
