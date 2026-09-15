@@ -2,7 +2,7 @@
 # NAVIGATION FORENSIC AUDIT — DEVOTION DROPDOWN PATH
 # ============================================================================
 # Principal Staff Frontend Reliability + Runtime UX Determinism Auditor
-# Target: https://gilbert-baidya.github.io/gracepraise.church/
+# Target: https://gracepraise.church/
 # Branch: main (production)
 # Date: February 13, 2026
 # Mode: READ ONLY — FORENSIC EVIDENCE ONLY

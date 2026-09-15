@@ -214,14 +214,14 @@ After pushing, test on GitHub Pages:
 
 **Main site:**
 ```
-https://gilbert-baidya.github.io/gracepraise.church/
+https://gracepraise.church/
 ```
 
 **Test pages:**
 ```
-https://gilbert-baidya.github.io/gracepraise.church/prayer-request.html
-https://gilbert-baidya.github.io/gracepraise.church/daily-devotion.html
-https://gilbert-baidya.github.io/gracepraise.church/ministries/index.html
+https://gracepraise.church/prayer-request.html
+https://gracepraise.church/daily-devotion.html
+https://gracepraise.church/ministries/index.html
 ```
 
 ## 🐛 Troubleshooting

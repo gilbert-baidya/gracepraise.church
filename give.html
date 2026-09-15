@@ -9,6 +9,12 @@
 
     <!-- SEO Meta Tags -->
     <title>Give | Support Our Ministry | Grace and Praise Bangladeshi Church</title>
+
+    <!-- SEO: Canonical + OpenGraph (auto-injected) -->
+    <meta property="og:site_name" content="Grace and Praise Bangladeshi Church" />
+    <meta property="og:image" content="https://gracepraise.church/images/logo/gpbc-og-banner.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <meta name="description"
         content="Support Grace and Praise Bangladeshi Church through secure online giving. Multiple convenient payment options including online payment, QR code, bank transfer, and check.">
     <meta name="keywords"
@@ -925,10 +931,10 @@
                             </div>
 
                             <div class="payment-buttons">
-                                <button type="button" class="btn btn-primary" aria-label="Continue with PayPal">
+                                <button type="button" id="paypalPaymentBtn" class="btn btn-primary" aria-label="Continue with PayPal">
                                     <span>Continue with PayPal</span>
                                 </button>
-                                <button type="button" class="btn btn-primary"
+                                <button type="button" id="stripePaymentBtn" class="btn btn-primary"
                                     aria-label="Continue with credit or debit card">
                                     <span>Continue with Card</span>
                                 </button>
@@ -1188,6 +1194,9 @@
         }
 
     </script>
+
+    <!-- Donations & Payment Processor -->
+    <script src="donations.js"></script>
 
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260222-ipadnavfix2"></script>

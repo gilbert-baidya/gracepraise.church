@@ -7,6 +7,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Church Gallery - Grace and Praise Bangladeshi Church</title>
+
+    <!-- SEO: Canonical + OpenGraph (auto-injected) -->
+    <link rel="canonical" href="https://gracepraise.church/gallery.html" />
+    <meta property="og:site_name" content="Grace and Praise Bangladeshi Church" />
+    <meta property="og:url" content="https://gracepraise.church/gallery.html" />
+    <meta property="og:image" content="https://gracepraise.church/images/logo/gpbc-og-banner.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <meta name="description" content="View photos from our worship services, special events, and community gatherings at Grace and Praise Bangladeshi Church in San Bernardino, CA.">
     
     <meta property="og:type" content="website">
@@ -208,6 +216,7 @@
         }
         
         .gallery-item {
+            margin: 0;
             background: var(--color-background);
             border-radius: var(--radius-xl);
             overflow: hidden;
@@ -215,6 +224,11 @@
             transition: all var(--transition-base);
             cursor: pointer;
             border: 1px solid var(--color-border);
+        }
+        
+        .gallery-item:focus-visible {
+            outline: 3px solid var(--color-secondary);
+            outline-offset: 3px;
         }
         
         .gallery-item:hover {
@@ -529,10 +543,10 @@
         </section>
     </main>
 
-    <div class="lightbox" id="lightbox">
-        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+        <button type="button" class="lightbox-close" onclick="closeLightbox()" aria-label="Close photo lightbox">&times;</button>
         <div class="lightbox-content">
-            <img loading="lazy" id="lightboxImg" src="" alt="">
+            <img loading="lazy" id="lightboxImg" src="" alt="Expanded church gallery photo">
             <div class="lightbox-info">
                 <h3 id="lightboxTitle"></h3>
                 <p id="lightboxDescription"></p>

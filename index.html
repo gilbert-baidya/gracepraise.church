@@ -14,6 +14,10 @@
         content="default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://script.google.com https://www.google.com https://www.gstatic.com https://upload-widget.cloudinary.com https://identity.netlify.com https://unpkg.com https://translate.google.com https://cdn.tailwindcss.com; script-src-elem 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://script.google.com https://www.google.com https://www.gstatic.com https://upload-widget.cloudinary.com https://identity.netlify.com https://unpkg.com https://translate.google.com https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; media-src 'self' https://player.vimeo.com https://*.vimeocdn.com https://vimeo.com; frame-src 'self' https://player.vimeo.com https://www.youtube.com; connect-src 'self' https://script.google.com https://www.gstatic.com https://api.cloudinary.com; object-src 'none'; base-uri 'self'; form-action 'self' https://script.google.com;">
 
     <title>Grace and Praise Bangladeshi Church - San Bernardino, CA</title>
+
+    <!-- SEO: Canonical + OpenGraph (auto-injected) -->
+    <meta property="og:site_name" content="Grace and Praise Bangladeshi Church" />
+
     <meta name="description"
         content="Join Grace and Praise Bangladeshi Church in San Bernardino for Sunday worship at 5 PM. A welcoming Bengali Christian community serving families in Bengali and English.">
     <link rel="canonical" href="https://gracepraise.church/">
@@ -22,6 +26,25 @@
     <link rel="icon" href="images/logo/GPBC_Favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
+
+    <!-- PWA: Manifest, Theme & Apple Touch Icons -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#020617">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="GPBC">
+    <link rel="apple-touch-icon" href="/images/favicons/apple-touch-icon.png">
+    <script>
+        // PWA Service Worker Registration (Cache First, Network Fallback)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js').catch(function (err) {
+                    console.warn('[PWA] Service worker registration failed:', err);
+                });
+            });
+        }
+    </script>
 
     <!-- Open Graph Meta Tags for Social Sharing -->
     <meta property="og:type" content="website">
@@ -42,8 +65,16 @@
     <meta name="twitter:image" content="https://gracepraise.church/images/community-worship.png">
     <meta name="twitter:image:alt" content="Sunday worship gathering at Grace and Praise Bangladeshi Church">
 
+    <!-- Resource Preconnects -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://vimeo.com">
+    <link rel="preconnect" href="https://player.vimeo.com">
+
+    <!-- LCP Preloads -->
+    <link rel="preload" as="image" href="images/new-gpbc-logo-final.svg" type="image/svg+xml">
+    <link rel="preload" as="image" href="images/hero-worship-authentic.png" type="image/png">
+
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap"
         rel="stylesheet">
@@ -418,13 +449,10 @@
     <!-- Favicon Package - Trinity Cross -->
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="images/favicons/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="images/favicons/android-chrome-512x512.png">
-    <link rel="manifest" href="images/favicons/site.webmanifest">
     <meta name="msapplication-TileColor" content="#2b5797">
     <meta name="msapplication-config" content="images/favicons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
     <!-- Centralized Footer v3 CSS -->
     <link rel="stylesheet" href="./css/footer-v3.css">
     <script src="./js/partials.js"></script>
@@ -555,7 +583,7 @@
         <section class="hero-upgrade" id="home">
             <!-- Video Background Base Layer -->
             <div class="video-background">
-                <video autoplay muted loop playsinline preload="none" poster="images/hero-worship-authentic.png">
+                <video autoplay muted loop playsinline preload="metadata" width="1920" height="1080" poster="images/hero-worship-authentic.png">
                     <source
                         data-src="https://player.vimeo.com/external/494252666.sd.mp4?s=72fd1304543788771966ec93e7e226027a65975b&profile_id=164&oauth2_token_id=57447761"
                         type="video/mp4">
@@ -618,7 +646,7 @@
                             width="800" height="600">
                     </div>
                     <div class="bento-card card-3 float-3">
-                        <img loading="lazy" src="images/hero-worship-authentic.png" alt="Sanctuary Atmosphere"
+                        <img src="images/hero-worship-authentic.png" alt="Sanctuary Atmosphere"
                             class="card-img" loading="lazy" width="800" height="600">
                     </div>
                 </div>
@@ -643,7 +671,9 @@
                         <!-- Using vimeo as example, in production replace with church video -->
                         <iframe id="heroStoryVideo"
                             data-src="https://player.vimeo.com/video/494252666?h=72fd130454&badge=0&autopause=0&player_id=0&app_id=58479"
-                            loading="lazy" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+                            loading="lazy" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
                             title="Our Story"></iframe>
                     </div>
                 </div>
@@ -5096,6 +5126,9 @@
 
     <!-- Site Footer (Partial Injection) -->
     <div data-partial="site-footer"></div>
+
+    <!-- Persistent Floating Sermon Player -->
+    <script src="js/sermon-player.js" defer></script>
 
     <script type="module" src="./js/footer/footer-init.js"></script>
 </body>

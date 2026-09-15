@@ -1,4 +1,6 @@
 // Main application logic
+const SONGBOOK_COORDINATOR_EMAIL = 'gilbert.baidya@gmail.com';
+
 let currentFontSize = 16;
 let currentTranspose = 0;
 let showChords = true;
@@ -359,6 +361,7 @@ function showPresentationMode(song) {
     
     // Lock body scroll when presentation modal opens
     document.body.style.overflow = 'hidden';
+    trapModalFocus(modal);
 }
 
 function nextSong() {
@@ -381,6 +384,7 @@ function exitPresentation() {
     
     // Restore body scroll
     document.body.style.overflow = '';
+    releaseModalFocus(modal);
     
     // Reset presentation state
     window.currentPresentationIndex = 0;
@@ -641,6 +645,64 @@ function renderSongList(songs) {
     });
 }
 
+// Focus Trap Helper for Accessible Modals
+let songbookLastFocusedElement = null;
+
+function trapModalFocus(modalElement) {
+    if (!modalElement) return;
+    songbookLastFocusedElement = document.activeElement;
+
+    const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const focusables = Array.from(modalElement.querySelectorAll(focusableSelectors)).filter(
+        el => !el.disabled && el.offsetParent !== null
+    );
+
+    if (focusables.length > 0) {
+        setTimeout(() => focusables[0].focus(), 60);
+    }
+
+    const keyHandler = (e) => {
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            if (modalElement.id === 'songModal') closeSongModal();
+            else if (modalElement.id === 'presentationModal') exitPresentation();
+            else if (modalElement.id === 'copyrightModal') closeCopyrightModal();
+            return;
+        }
+
+        if (e.key === 'Tab') {
+            const currentFocusables = Array.from(modalElement.querySelectorAll(focusableSelectors)).filter(
+                el => !el.disabled && el.offsetParent !== null
+            );
+            if (!currentFocusables.length) return;
+
+            const firstEl = currentFocusables[0];
+            const lastEl = currentFocusables[currentFocusables.length - 1];
+
+            if (e.shiftKey && document.activeElement === firstEl) {
+                e.preventDefault();
+                lastEl.focus();
+            } else if (!e.shiftKey && document.activeElement === lastEl) {
+                e.preventDefault();
+                firstEl.focus();
+            }
+        }
+    };
+
+    modalElement._focusKeyHandler = keyHandler;
+    modalElement.addEventListener('keydown', keyHandler);
+}
+
+function releaseModalFocus(modalElement) {
+    if (modalElement && modalElement._focusKeyHandler) {
+        modalElement.removeEventListener('keydown', modalElement._focusKeyHandler);
+        delete modalElement._focusKeyHandler;
+    }
+    if (songbookLastFocusedElement && typeof songbookLastFocusedElement.focus === 'function') {
+        songbookLastFocusedElement.focus();
+    }
+}
+
 // Open song modal
 function openSong(song) {
     const modal = document.getElementById('songModal');
@@ -676,6 +738,7 @@ function openSong(song) {
     
     // Lock body scroll when modal opens
     document.body.style.overflow = 'hidden';
+    trapModalFocus(modal);
 }
 
 // Centralized cleanup function to restore UI state
@@ -685,6 +748,7 @@ function closeSongModal() {
     
     // Restore body scroll
     document.body.style.overflow = '';
+    releaseModalFocus(modal);
     
     // Clear any transient UI states
     window.currentSong = null;
@@ -928,11 +992,19 @@ function showCopyrightModal() {
     if (isAuthorizedUser) {
         return;
     }
-    document.getElementById('copyrightModal').style.display = 'flex';
+    const modal = document.getElementById('copyrightModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        trapModalFocus(modal);
+    }
 }
 
 function closeCopyrightModal() {
-    document.getElementById('copyrightModal').style.display = 'none';
+    const modal = document.getElementById('copyrightModal');
+    if (modal) {
+        modal.style.display = 'none';
+        releaseModalFocus(modal);
+    }
 }
 
 function updateCopyProtectionUI() {
@@ -952,6 +1024,13 @@ function enableCopyForAuthorizedUser() {
 function disableCopyForUnauthorizedUser() {
     isAuthorizedUser = false;
     updateCopyProtectionUI();
+}
+
+/**
+ * Open default mail client to submit a song contribution or inquiry
+ */
+function contactSongCoordinator() {
+    window.location.href = `mailto:${SONGBOOK_COORDINATOR_EMAIL}?subject=GPBC%20Songbook%20Contribution%20%2F%20Inquiry`;
 }
 
 // Safety cleanup: Ensure UI state is restored when leaving the page or switching tabs

@@ -77,21 +77,21 @@
                 "@type": "BlogPosting",
                 "headline": data.title,
                 "image": [
-                    "https://gilbert-baidya.github.io/gracepraise.church/images/devotion-placeholder.jpg"
+                    "https://gracepraise.church/images/devotion-placeholder.jpg"
                 ],
                 "datePublished": data.date,
                 "dateModified": data.date,
                 "author": {
                     "@type": "Organization",
                     "name": "Grace and Praise Bangladeshi Church",
-                    "url": "https://gilbert-baidya.github.io/gracepraise.church/"
+                    "url": "https://gracepraise.church/"
                 },
                 "publisher": {
                     "@type": "Organization",
                     "name": "Grace and Praise Bangladeshi Church",
                     "logo": {
                         "@type": "ImageObject",
-                        "url": "https://gilbert-baidya.github.io/gracepraise.church/images/logo.png"
+                        "url": "https://gracepraise.church/images/logo.png"
                     }
                 },
                 "description": `${data.scriptureText} (${data.scriptureRef})`,

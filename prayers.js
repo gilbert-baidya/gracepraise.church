@@ -28,7 +28,7 @@ function setupPrayerRequestModal() {
             prayerQrDiv.innerHTML = '';
             
             // Generate QR code with prayer request direct link
-            const prayerUrl = 'https://gilbert-baidya.github.io/gracepraise.church/calendar.html?prayer=true';
+            const prayerUrl = 'https://gracepraise.church/calendar.html?prayer=true';
             new QRCode(prayerQrDiv, {
                 text: prayerUrl,
                 width: 200,
