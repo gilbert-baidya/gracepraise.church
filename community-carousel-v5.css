@@ -230,18 +230,6 @@
     }
 }
 
-@media (min-width: 1025px) {
-    .community-v5 {
-        scroll-margin-top: -7rem;
-    }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-    .community-v5 {
-        scroll-margin-top: -4.5rem;
-    }
-}
-
 @media (max-width: 768px) {
     .community-v5 {
         padding-top: 4.25rem;
@@ -279,7 +267,7 @@
 
 @media (max-width: 430px) {
     .community-v5 {
-        scroll-margin-top: 4rem;
+        scroll-margin-top: 2.75rem;
     }
 
     .community-v5__stage {
