@@ -27,11 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const isActive = abs === 0;
             const isVisible = abs <= 2;
-            const translateX = normalized * 235;
-            const rotateY = normalized * 18;
-            const scale = isActive ? 1 : 1 - (abs * 0.12);
-            const opacity = isActive ? 1 : abs === 1 ? 0.82 : abs === 2 ? 0.24 : 0;
-            const depth = isActive ? 0 : -abs * 160;
+            const translateX = normalized * (window.innerWidth > 1024 ? 300 : 235);
+            const rotateY = normalized * 16;
+            const scale = isActive ? 1 : abs === 1 ? 0.86 : 0.72;
+            const opacity = isActive ? 1 : abs === 1 ? 0.74 : abs === 2 ? 0.18 : 0;
+            const depth = isActive ? 0 : -abs * 210;
             const yOffset = isActive ? 0 : abs * 10;
             const zIndex = isActive ? 30 : 20 - abs;
             const pointerEvents = isVisible ? 'auto' : 'none';
