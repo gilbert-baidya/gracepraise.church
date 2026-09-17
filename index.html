@@ -59,12 +59,11 @@
     <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="hero-upgrade.css?v=20260203c">
     <link rel="stylesheet" href="countdown.css">
+    <link rel="stylesheet" href="welcome-home-v4.css?v=20260917a">
+    <link rel="stylesheet" href="community-carousel-v5.css">
     <link rel="stylesheet" href="shape-system.css">
     <link rel="stylesheet" href="heptagon-wheel-sacred.css">
     <link rel="stylesheet" href="assets/css/homepage-readability-upgrade.css?v=20260304-herofinal25">
-
-    <!-- Homepage-only responsive fixes (mobile/iPad spacing & scroll) -->
-    <link rel="stylesheet" href="event-flip-cards.css">
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -907,244 +906,91 @@
             </div>
         </section>
 
-        <!-- SHAPE SYSTEM: SQUARE - Service & Ministry (Restored) -->
-        <section class="shape-square-container gentle-fade-in" id="ministries">
-            <div class="container">
-                <h2 class="section-title-display">
-                    Ways to Serve
-                </h2>
+        <section class="community-v5" id="community-v5" aria-labelledby="community-v5-heading">
+            <div class="community-v5__inner">
+                <header class="community-v5__intro">
+                    <p class="community-v5__eyebrow">Life Together</p>
+                    <h2 id="community-v5-heading">Our Church Family</h2>
+                    <p class="community-v5__lead">Faith becomes family when we worship, grow, pray, and walk together.</p>
+                </header>
 
-                <div class="shape-square-grid">
-                    <!-- Worship Team -->
-                    <div class="shape-square" onclick="location.href='ministries/worship-ministry.html'" role="button"
-                        tabindex="0">
-                        <div class="shape-square-icon">🙏</div>
-                        <h3>Worship Team</h3>
-                        <p>Share your musical gifts to lead our congregation in heartfelt praise and worship every
-                            Sunday.
-                        </p>
+                <div class="community-v5__stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Grace and Praise church family moments">
+                    <div class="community-v5__track">
+                        <article class="community-v5__slide is-active" tabindex="0" data-index="0" role="button" aria-label="View Sunday Worship slide">
+                            <figure class="community-v5__media">
+                                <img src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church" width="900" height="700" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="community-v5__caption">
+                                <p class="community-v5__label">Sunday Worship</p>
+                                <h3>Worship Together</h3>
+                            </div>
+                        </article>
+
+                        <article class="community-v5__slide" tabindex="0" data-index="1" role="button" aria-label="View Family Fellowship slide">
+                            <figure class="community-v5__media">
+                                <img src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC" width="900" height="700" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="community-v5__caption">
+                                <p class="community-v5__label">Family Fellowship</p>
+                                <h3>Life Together</h3>
+                            </div>
+                        </article>
+
+                        <article class="community-v5__slide" tabindex="0" data-index="2" role="button" aria-label="View Youth Gathering slide">
+                            <figure class="community-v5__media">
+                                <img src="images/community-youth-night.webp" alt="GPBC youth gathering in worship and fellowship" width="900" height="700" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="community-v5__caption">
+                                <p class="community-v5__label">Youth Gathering</p>
+                                <h3>Growing Together</h3>
+                            </div>
+                        </article>
+
+                        <article class="community-v5__slide" tabindex="0" data-index="3" role="button" aria-label="View Bible Study slide">
+                            <figure class="community-v5__media">
+                                <img src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church" width="900" height="700" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="community-v5__caption">
+                                <p class="community-v5__label">Bible Study</p>
+                                <h3>Rooted in God's Word</h3>
+                            </div>
+                        </article>
+
+                        <article class="community-v5__slide" tabindex="0" data-index="4" role="button" aria-label="View Prayer and Service slide">
+                            <figure class="community-v5__media">
+                                <img src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community" width="900" height="700" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="community-v5__caption">
+                                <p class="community-v5__label">Prayer &amp; Service</p>
+                                <h3>Praying Together</h3>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="community-v5__controls" aria-label="Carousel navigation controls">
+                    <button class="community-v5__prev" type="button" aria-label="Previous community moment">
+                        <span aria-hidden="true">←</span>
+                    </button>
+
+                    <div class="community-v5__dots" role="tablist" aria-label="Choose a church family moment">
+                        <button class="community-v5__dot is-active" type="button" data-index="0" role="tab" aria-label="View first slide" aria-selected="true" aria-current="true"></button>
+                        <button class="community-v5__dot" type="button" data-index="1" role="tab" aria-label="View second slide" aria-selected="false"></button>
+                        <button class="community-v5__dot" type="button" data-index="2" role="tab" aria-label="View third slide" aria-selected="false"></button>
+                        <button class="community-v5__dot" type="button" data-index="3" role="tab" aria-label="View fourth slide" aria-selected="false"></button>
+                        <button class="community-v5__dot" type="button" data-index="4" role="tab" aria-label="View fifth slide" aria-selected="false"></button>
                     </div>
 
-                    <!-- Kids Ministry -->
-                    <div class="shape-square" onclick="location.href='ministries/kids-ministry.html'" role="button"
-                        tabindex="0">
-                        <div class="shape-square-icon">👶</div>
-                        <h3>Kids Ministry</h3>
-                        <p>Impact the next generation by teaching Bible stories and leading activities for children ages
-                            4-12.</p>
-                    </div>
-
-                    <!-- Hospitality -->
-                    <div class="shape-square">
-                        <div class="shape-square-icon">☕</div>
-                        <h3>Hospitality</h3>
-                        <p>Welcome guests and help create a warm, inviting atmosphere for everyone who enters our doors.
-                        </p>
-                    </div>
-
-                    <!-- Give -->
-                    <a class="shape-square" href="give.html">
-                        <div class="shape-square-icon">💝</div>
-                        <h3>Give</h3>
-                        <p>Support the mission of Grace and Praise through your faithful tithes and offerings.</p>
-                        <span class="shape-square-link">Give Online →</span>
-                    </a>
+                    <button class="community-v5__next" type="button" aria-label="Next community moment">
+                        <span aria-hidden="true">→</span>
+                    </button>
                 </div>
             </div>
         </section>
 
-        <div class="whats-happening-macro" aria-label="What's Happening">
-            <!-- FLIPPING CARDS SCROLL SECTION -->
-            <section class="flip-scroll-section" id="featured-events">
-                <div class="flip-sticky-wrapper">
-                    <div class="flip-section-title">
-                        <h2 class="section-title-display section-title-display--light">
-                            Community Highlights</h2>
-                        <p class="flip-scroll-hint">Scroll to flip each card</p>
-                    </div>
-
-                    <div class="flip-cards-container">
-                        <!-- Card 1 -->
-                        <div class="flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="card-category">Worship</div>
-                                    <div class="card-icon">🙏</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <div class="card-image-wrap">
-                                        <picture>
-                                            <source srcset="images/community-worship.webp" type="image/webp">
-                                            <img loading="lazy" src="images/community-worship.png" alt="Sunday worship gathering at Grace and Praise Bangladeshi Church" width="800" height="600">
-                                        </picture>
-                                    </div>
-                                    <h3 class="card-back-title">Sunday Main Service</h3>
-                                    <p>Join us for our main
-                                        Bengali service every Sunday at 5:00 PM.</p>
-                                    <a href="calendar.html" class="card-button">Learn More</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 2 -->
-                        <div class="flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="card-category">Youth</div>
-                                    <div class="card-icon">🔥</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <div class="card-image-wrap">
-                                        <picture>
-                                            <source srcset="images/community-youth-night.webp" type="image/webp">
-                                            <img loading="lazy" src="images/community-youth-night.png" alt="Youth gathering for Friday night worship and fellowship" width="800" height="600">
-                                        </picture>
-                                    </div>
-                                    <h3 class="card-back-title">Friday Youth Night</h3>
-                                    <p>Empowering the next generation. Every Friday at 7:30 PM.</p>
-                                    <a href="ministries/youth-ministry.html" class="card-button">Join Youth</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 3 -->
-                        <div class="flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="card-category">Prayer</div>
-                                    <div class="card-icon">📖</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <div class="card-image-wrap">
-                                        <picture>
-                                            <source srcset="images/community-bible-study.webp" type="image/webp">
-                                            <img loading="lazy" src="images/community-bible-study.png" alt="Small group Bible study with Scripture and coffee" width="800" height="600">
-                                        </picture>
-                                    </div>
-                                    <h3 class="card-back-title">Weekly Bible Study</h3>
-                                    <p>Deep dive into the Word of God every Wednesday at 7:00 PM.</p>
-                                    <a href="ministries/bible-study.html" class="card-button">Study Word</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 4 -->
-                        <div class="flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="card-category">Fasting</div>
-                                    <div class="card-icon">⛪</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <div class="card-image-wrap">
-                                        <img loading="lazy" src="images/fasting-prayer-hands.jpg"
-                                            alt="Saturday fasting prayer with quiet reflection and intercession"
-                                            loading="lazy" width="800" height="600">
-                                    </div>
-                                    <h3 class="card-back-title">Saturday Fasting Prayer</h3>
-                                    <p>Morning fasting and prayer for our church—Saturday at 10:00 AM.</p>
-                                    <a href="prayer-request.html" class="card-button">Send Prayer Request</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Dynamic Upcoming Events Container -->
-            <!-- Events are dynamically loaded from events.js by homepage-events.js -->
-            <div id="dynamic-events-container"></div>
-
-            <!-- THE COMMUNITY HALO - Reimagined Community Section -->
-            <section class="shape-circle-container gentle-fade-in" id="circle-hero">
-                <div class="circle-carousel" tabindex="0" role="region" aria-label="Community highlights carousel">
-
-                    <!-- Slide 1: Sunday Worship -->
-                    <div class="circle-carousel-item active">
-                        <div class="slide-backdrop" style="background-image: url('images/community-worship.png');">
-                        </div>
-                        <div class="slide-overlay"></div>
-                        <div class="glass-halo-card">
-                            <div class="unity-ring"></div>
-                            <div class="shape-content-wrapper">
-                                <h2>Join Us in Worship</h2>
-                                <p class="shape-scripture">
-                                    "Taste and see that the Lord is good; blessed is the one who takes refuge in him."
-                                    <br>— Psalm 34:8
-                                </p>
-                                <p class="slide-description">
-                                    Experience the warmth of fellowship and the joy of worshiping together as one body
-                                    in
-                                    Christ.
-                                </p>
-                                <a href="#next-service" class="btn btn-primary btn-hero-light">
-                                    View Service Countdown →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2: Community Prayer -->
-                    <div class="circle-carousel-item">
-                        <div class="slide-backdrop" style="background-image: url('images/fasting-prayer-hands.jpg');">
-                        </div>
-                        <div class="slide-overlay"></div>
-                        <div class="glass-halo-card">
-                            <div class="unity-ring"></div>
-                            <div class="shape-content-wrapper">
-                                <h2>United in Prayer</h2>
-                                <p class="shape-scripture">
-                                    "Again, truly I tell you that if two of you on earth agree about anything they ask
-                                    for,
-                                    it
-                                    will be done for them by my Father in heaven."
-                                    <br>— Matthew 18:19
-                                </p>
-                                <p class="slide-description">
-                                    Our prayer circle meets to lift up our community's needs to God in faith and unity.
-                                </p>
-                                <a href="prayer-request.html" class="btn btn-primary btn-hero-light">
-                                    Request Prayer →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 3: Testimonies -->
-                    <div class="circle-carousel-item">
-                        <div class="slide-backdrop" style="background-image: url('images/community-greeting.png');">
-                        </div>
-                        <div class="slide-overlay"></div>
-                        <div class="glass-halo-card">
-                            <div class="unity-ring"></div>
-                            <div class="shape-content-wrapper">
-                                <h2>Stories of Grace</h2>
-                                <p class="shape-scripture">
-                                    "They triumphed over him by the blood of the Lamb and by the word of their
-                                    testimony."
-                                    <br>— Revelation 12:11
-                                </p>
-                                <p class="slide-description">
-                                    Hear how God is working in the lives of our church family through transformation and
-                                    hope.
-                                </p>
-                                <a href="testimonies.html" class="btn btn-primary btn-hero-light">
-                                    Read Testimonies →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Circle Navigation Dots -->
-                    <div class="circle-nav-dots" role="tablist" aria-label="Carousel navigation">
-                        <button class="circle-dot active" role="tab" aria-label="Go to slide 1"
-                            aria-selected="true"></button>
-                        <button class="circle-dot" role="tab" aria-label="Go to slide 2" aria-selected="false"></button>
-                        <button class="circle-dot" role="tab" aria-label="Go to slide 3" aria-selected="false"></button>
-                    </div>
-                </div>
-            </section>
-        </div>
+        <!-- Dynamic Upcoming Events Container -->
+        <!-- Events are dynamically loaded from events.js by homepage-events.js -->
+        <div id="dynamic-events-container"></div>
 
         <!-- GPBC Loop Scroll – Scroll-driven circular slider. Isolated, safe to remove -->
         <!-- Get Involved: Transformational Loop with Slick Carousel -->
@@ -5056,7 +4902,7 @@
     </script>
 
 
-    <script src="event-flip-cards.js" defer></script>
+    <script src="community-carousel-v5.js" defer></script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260222-ipadnavfix2" defer></script>
     <script src="events.js?v=20260129a" defer></script>
