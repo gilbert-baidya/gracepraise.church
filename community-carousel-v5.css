@@ -21,14 +21,19 @@
 }
 
 .community-v5__intro {
+    position: relative;
     max-width: 40rem;
-    margin: 0 auto 3.25rem;
+    margin: 0 auto 2.35rem;
+    padding: 0.9rem 1.5rem 1rem;
+    border: 1px solid rgba(20, 40, 61, 0.08);
+    background: rgba(255, 255, 255, 0.34);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
     text-align: center;
 }
 
 .community-v5__eyebrow {
     margin: 0 0 1.15rem;
-    color: var(--community-v5-accent);
+    color: #9a651e;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.22em;
@@ -50,8 +55,9 @@
 .community-v5__lead {
     margin: 1.35rem auto 0;
     max-width: 38rem;
-    color: var(--community-v5-muted);
+    color: #3e5063;
     font-size: clamp(1.08rem, 1.7vw, 1.35rem);
+    font-weight: 500;
     line-height: 1.6;
     font-family: "Space Grotesk", Arial, sans-serif;
 }
@@ -131,7 +137,7 @@
     justify-content: space-between;
     gap: 1rem;
     padding: 1.15rem 1.25rem 1.35rem;
-    background: rgba(255, 255, 255, 0.38);
+    background: rgba(255, 255, 255, 0.64);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
 }
@@ -152,7 +158,7 @@
     font-size: clamp(1.05rem, 1.8vw, 1.5rem);
     line-height: 1.2;
     font-family: "Space Grotesk", Arial, sans-serif;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .community-v5__controls {
@@ -224,6 +230,18 @@
     }
 }
 
+@media (min-width: 1025px) {
+    .community-v5 {
+        scroll-margin-top: -7rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .community-v5 {
+        scroll-margin-top: -4.5rem;
+    }
+}
+
 @media (max-width: 768px) {
     .community-v5 {
         padding-top: 4.25rem;
@@ -231,7 +249,8 @@
     }
 
     .community-v5__intro {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.35rem;
+        padding: 0.75rem 1rem 0.85rem;
     }
 
     .community-v5__stage {
@@ -259,6 +278,10 @@
  }
 
 @media (max-width: 430px) {
+    .community-v5 {
+        scroll-margin-top: 4rem;
+    }
+
     .community-v5__stage {
         height: 27rem;
     }
