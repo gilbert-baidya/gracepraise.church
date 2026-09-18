@@ -61,6 +61,7 @@
     <link rel="stylesheet" href="countdown.css">
     <link rel="stylesheet" href="welcome-home-v4.css?v=20260917a">
     <link rel="stylesheet" href="community-carousel-v5.css">
+    <link rel="stylesheet" href="event-flip-cards.css">
     <link rel="stylesheet" href="shape-system.css">
     <link rel="stylesheet" href="heptagon-wheel-sacred.css">
     <link rel="stylesheet" href="assets/css/homepage-readability-upgrade.css?v=20260304-herofinal25">
@@ -991,6 +992,100 @@
         <!-- Dynamic Upcoming Events Container -->
         <!-- Events are dynamically loaded from events.js by homepage-events.js -->
         <div id="dynamic-events-container"></div>
+
+        <!-- FLIPPING CARDS SCROLL SECTION -->
+        <section class="flip-scroll-section" id="featured-events">
+            <div class="flip-sticky-wrapper">
+                <div class="flip-section-title">
+                    <p class="flip-section-eyebrow">Your Next Step</p>
+                    <h2>Get Involved</h2>
+                    <p class="flip-section-subtitle">Your Journey Starts Here</p>
+                    <p class="flip-section-lead">Come as you are. Find your place. Grow in Christ. Build His Kingdom.</p>
+                </div>
+
+                <div class="flip-cards-container">
+                    <!-- Card 1 -->
+                    <div class="flip-card flip-card--come">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-step">01</div>
+                                <div class="card-icon">🙏</div>
+                                <div class="card-category">Come</div>
+                                <p class="card-front-copy">Worship With Us</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church">
+                                </div>
+                                <h3 class="card-back-title">Worship With Us</h3>
+                                <p>Come into God's presence and experience worship, prayer, and the Word together.</p>
+                                <a href="plan-visit.html" class="card-button">Plan Your Visit</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="flip-card flip-card--belong">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-step">02</div>
+                                <div class="card-icon">🤝</div>
+                                <div class="card-category">Belong</div>
+                                <p class="card-front-copy">Find Your Family</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC">
+                                </div>
+                                <h3 class="card-back-title">Find Your Family</h3>
+                                <p>You were never meant to walk alone. Build meaningful relationships in the GPBC family.</p>
+                                <a href="contact.html" class="card-button">Connect With Us</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="flip-card flip-card--become">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-step">03</div>
+                                <div class="card-icon">📖</div>
+                                <div class="card-category">Become</div>
+                                <p class="card-front-copy">Grow in Christ</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church">
+                                </div>
+                                <h3 class="card-back-title">Grow in Christ</h3>
+                                <p>Grow through Scripture, prayer, discipleship, and a deeper relationship with Jesus.</p>
+                                <a href="ministries/bible-study.html" class="card-button">Grow With Us</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="flip-card flip-card--build">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-step">04</div>
+                                <div class="card-icon">⛪</div>
+                                <div class="card-category">Build</div>
+                                <p class="card-front-copy">Serve With Purpose</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community">
+                                </div>
+                                <h3 class="card-back-title">Serve With Purpose</h3>
+                                <p>Use your gifts to serve God, strengthen the church, and make a difference in the lives of others.</p>
+                                <a href="ministries.html" class="card-button">Start Serving</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- GPBC Loop Scroll – Scroll-driven circular slider. Isolated, safe to remove -->
         <!-- Get Involved: Transformational Loop with Slick Carousel -->
@@ -4903,6 +4998,7 @@
 
 
     <script src="community-carousel-v5.js" defer></script>
+    <script src="event-flip-cards.js" defer></script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260222-ipadnavfix2" defer></script>
     <script src="events.js?v=20260129a" defer></script>

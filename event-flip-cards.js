@@ -40,11 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
             xPositions = [-300, -100, 100, 300];
             scaleVal = 0.85;
         } else if (isMobile) {
-            // On mobile, we spread them VERTICALLY so they are visible as a stack
-            xPositions = [0, 0, 0, 0];
-            yPositions = [-30, -10, 10, 30]; // Slight vertical offset to see edges
+            // On mobile, keep a compact fan while exposing every completed card CTA.
+            const isSmallMobile = window.innerWidth <= 380 || window.innerHeight <= 700;
+            xPositions = isSmallMobile ? [-80, 80, -80, 80] : [-85, 85, -85, 85];
+            yPositions = isSmallMobile ? [-195, -195, 40, 40] : [-145, -145, 125, 125];
             rotations = [0, 0, 0, 0];
-            scaleVal = 0.8;
+            scaleVal = isSmallMobile ? 0.62 : 0.66;
         }
 
         const scrollDistanceMultiplier = 2;

@@ -4,19 +4,51 @@
  */
 
 :root {
-    --card-primary: #e7f2e7;
-    --card-secondary: #f1eae2;
+    --card-primary: #fff8ec;
+    --card-secondary: #fffaf1;
     --card-border-radius: 24px;
-    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 26px 70px rgba(92, 60, 24, 0.16);
 }
 
 .flip-scroll-section {
     position: relative;
     height: 110vh;
-    /* Much shorter scroll distance for a faster, snappier feel */
-    background-color: #0d1117;
+    background:
+        radial-gradient(circle at 18% 12%, rgba(232, 178, 78, 0.2), transparent 30rem),
+        radial-gradient(circle at 82% 72%, rgba(139, 91, 49, 0.12), transparent 26rem),
+        linear-gradient(180deg, #f1ebdf 0%, #fff7ea 38%, #f7ead7 100%);
+    color: #14283d;
     margin: 0;
-    padding-top: 12px;
+    padding-top: 0;
+    overflow: hidden;
+}
+
+.flip-scroll-section::before,
+.flip-scroll-section::after {
+    content: "";
+    position: absolute;
+    inset: auto;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.flip-scroll-section::before {
+    top: -12rem;
+    left: 50%;
+    width: min(70rem, 92vw);
+    height: 26rem;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.66), transparent 68%);
+    opacity: 0.75;
+}
+
+.flip-scroll-section::after {
+    right: -8rem;
+    bottom: -14rem;
+    width: 34rem;
+    height: 34rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(181, 122, 45, 0.14), transparent 68%);
 }
 
 .flip-sticky-wrapper {
@@ -31,23 +63,57 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 100px;
-    /* Space for header + Title breathing room */
+    padding: clamp(4.8rem, 8vh, 6.4rem) clamp(1.25rem, 3vw, 2.5rem) 0;
     overflow: hidden;
     perspective: 2000px;
+    z-index: 1;
 }
 
 .flip-section-title {
-    margin-bottom: 2rem;
+    width: min(100%, 48rem);
+    margin-bottom: clamp(1.25rem, 3vh, 2rem);
     text-align: center;
     z-index: 100;
 }
 
+.flip-section-eyebrow {
+    margin: 0 0 0.85rem;
+    color: #9a651e;
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
 .flip-section-title h2 {
-    font-family: 'Cinzel', serif;
-    font-size: 3.5rem;
-    color: white;
-    /* Matches church theme */
+    margin: 0;
+    color: #34463A !important;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: clamp(3.1rem, 5.4vw, 4.65rem);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+    text-transform: uppercase;
+}
+
+.flip-section-subtitle {
+    margin: 0.65rem 0 0;
+    color: #5F6963;
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: clamp(1.15rem, 2vw, 1.55rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.flip-section-lead {
+    max-width: 42rem;
+    margin: 0.75rem auto 0;
+    color: #5F6963;
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: clamp(0.98rem, 1.35vw, 1.12rem);
+    font-weight: 500;
+    line-height: 1.55;
 }
 
 .flip-cards-container {
@@ -92,6 +158,35 @@ html.gsap-disabled .flip-card {
     opacity: 0;
     z-index: 10;
     /* Base z-index */
+    --card-accent: #b57a2d;
+    --card-accent-soft: rgba(181, 122, 45, 0.16);
+    --card-face-start: #fffdf8;
+    --card-face-end: #f7ead7;
+    --card-stage: #14283d;
+}
+
+.flip-card--come {
+    --card-accent: #b57a2d;
+    --card-accent-soft: rgba(181, 122, 45, 0.18);
+    --card-face-end: #f9edd5;
+}
+
+.flip-card--belong {
+    --card-accent: #b66f62;
+    --card-accent-soft: rgba(182, 111, 98, 0.16);
+    --card-face-end: #f8e8df;
+}
+
+.flip-card--become {
+    --card-accent: #637f5e;
+    --card-accent-soft: rgba(99, 127, 94, 0.17);
+    --card-face-end: #eaf1df;
+}
+
+.flip-card--build {
+    --card-accent: #a76535;
+    --card-accent-soft: rgba(167, 101, 53, 0.18);
+    --card-face-end: #f5e3d2;
 }
 
 /* Reverse stacking order so first card is on top */
@@ -131,89 +226,188 @@ html.gsap-disabled .flip-card {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     border-radius: var(--card-border-radius);
-    padding: 1.5rem;
+    padding: 1.35rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
     box-shadow: var(--card-shadow);
+    border: 1px solid rgba(112, 76, 34, 0.14);
 }
 
 .flip-card-front {
-    background-color: var(--card-primary);
-    color: #0f172a !important;
-    /* Force dark navy even in dark mode */
+    background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.9), transparent 11rem),
+        linear-gradient(160deg, var(--card-face-start) 0%, var(--card-face-end) 100%);
+    color: var(--card-stage) !important;
 }
 
 .flip-card-back {
-    background-color: var(--card-secondary);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 250, 241, 0.98)),
+        var(--card-secondary);
     color: #334155 !important;
-    /* Force dark gray even in dark mode */
     transform: rotateY(180deg);
 }
 
+.card-step {
+    align-self: flex-start;
+    color: var(--card-accent);
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+}
+
 .card-icon {
-    font-size: 4rem;
-    margin: auto;
+    width: 5rem;
+    height: 5rem;
+    margin: 1.15rem auto 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    border-radius: 999px;
+    background: radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.96), var(--card-accent-soft));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 18px 38px rgba(92, 60, 24, 0.12);
+    display: grid;
+    place-items: center;
+    font-size: 2.15rem;
 }
 
 .card-category {
-    font-size: 1.5rem;
-    font-weight: 600;
+    color: #34463A;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 0.95;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #2d4a3e;
+    letter-spacing: -0.045em;
+}
+
+.card-front-copy {
+    margin: 0.75rem 0 0;
+    color: #667168;
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
 }
 
 .card-image-wrap {
     width: 100%;
-    height: 200px;
-    border-radius: 12px;
+    height: 178px;
+    border-radius: 18px;
     overflow: hidden;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    background: #eadfcf;
+    box-shadow: 0 16px 34px rgba(52, 34, 16, 0.12);
 }
 
 .card-image-wrap img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .card-back-title {
-    font-size: 1.25rem;
+    margin: 0 0 0.45rem;
+    color: #34463A !important;
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: 1.18rem;
     font-weight: 700;
-    line-height: 1.4;
+    line-height: 1.2;
     text-align: left;
-    color: #0f172a !important;
-    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
 }
 
 .flip-card-back p {
-    color: #334155 !important;
+    color: #5F6963 !important;
     text-align: left;
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.48;
     margin-top: 0;
+    margin-bottom: 0.85rem;
 }
 
 /* Explicit Dark Mode Overrides for these specific light cards */
 body.dark .card-category,
+body.dark .card-front-copy,
+body.dark .card-step,
 body.dark .card-back-title,
 body.dark .flip-card-back p,
 body[data-theme="dark"] .card-category,
+body[data-theme="dark"] .card-front-copy,
+body[data-theme="dark"] .card-step,
 body[data-theme="dark"] .card-back-title,
 body[data-theme="dark"] .flip-card-back p {
-    color: #0f172a !important;
+    color: #34463A !important;
+}
+
+body.dark .card-front-copy,
+body[data-theme="dark"] .card-front-copy {
+    color: #667168 !important;
+}
+
+body.dark .flip-card-back p,
+body[data-theme="dark"] .flip-card-back p {
+    color: #5F6963 !important;
 }
 
 .card-button {
-    margin-top: 1rem;
-    padding: 0.75rem 1.5rem;
-    background: #090b0f;
-    color: white;
+    margin-top: auto;
+    padding: 0.75rem 1.35rem;
+    background: #C79A32;
+    color: #FFFDF7 !important;
     border-radius: 50px;
-    font-size: 0.9rem;
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     align-self: flex-start;
+    text-decoration: none !important;
+    box-shadow: 0 12px 24px rgba(148, 101, 30, 0.22);
+    transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.flip-scroll-section .flip-card-back a.card-button,
+.flip-scroll-section .flip-card-back a.card-button:link,
+.flip-scroll-section .flip-card-back a.card-button:visited {
+    color: #FFFDF7 !important;
+    text-decoration: none !important;
+}
+
+.card-button:hover,
+.card-button:focus-visible {
+    background: #AD8125;
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+    transform: translateY(-1px);
+    box-shadow: 0 16px 30px rgba(148, 101, 30, 0.28);
+}
+
+.flip-scroll-section .flip-card-back a.card-button:hover,
+.flip-scroll-section .flip-card-back a.card-button:focus-visible {
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+}
+
+html body #featured-events .flip-card .flip-card-back a.card-button,
+html body #featured-events .flip-card .flip-card-back a.card-button:link,
+html body #featured-events .flip-card .flip-card-back a.card-button:visited {
+    color: #FFFDF7 !important;
+    text-decoration: none !important;
+}
+
+html body #featured-events .flip-card .flip-card-back a.card-button:hover,
+html body #featured-events .flip-card .flip-card-back a.card-button:focus-visible {
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+}
+
+.card-button:focus-visible {
+    outline: 3px solid rgba(181, 122, 45, 0.45);
+    outline-offset: 3px;
 }
 
 @media (max-width: 1024px) {
@@ -231,13 +425,33 @@ body[data-theme="dark"] .flip-card-back p {
 }
 
 @media (max-width: 768px) {
+    .flip-section-title {
+        margin-bottom: 0.95rem;
+    }
+
+    .flip-section-eyebrow {
+        margin-bottom: 0.5rem;
+        font-size: 0.7rem;
+    }
+
     .flip-section-title h2 {
-        font-size: 2rem;
+        font-size: 2.35rem;
+    }
+
+    .flip-section-subtitle {
+        margin-top: 0.35rem;
+        font-size: 1rem;
+    }
+
+    .flip-section-lead {
+        max-width: 22rem;
+        margin-top: 0.45rem;
+        font-size: 0.82rem;
+        line-height: 1.45;
     }
 
     .flip-sticky-wrapper {
-        padding: 80px 1rem 0;
-        /* Tighter for mobile but still clearing header */
+        padding: 68px 1rem 0;
     }
 
     .flip-cards-container {
@@ -253,15 +467,73 @@ body[data-theme="dark"] .flip-card-back p {
         height: 110vh;
         /* Extra scroll room for mobile stacking sequence */
     }
+
+    .flip-card-front,
+    .flip-card-back {
+        padding: 1.1rem;
+    }
+
+    .card-icon {
+        width: 4.3rem;
+        height: 4.3rem;
+        margin-top: 0.7rem;
+        font-size: 1.9rem;
+    }
+
+    .card-category {
+        font-size: 1.8rem;
+    }
+
+    .card-front-copy {
+        font-size: 0.92rem;
+    }
+
+    .card-image-wrap {
+        height: 142px;
+        margin-bottom: 0.8rem;
+        border-radius: 15px;
+    }
+
+    .card-back-title {
+        font-size: 1.08rem;
+    }
+
+    .flip-card-back p {
+        font-size: 0.82rem;
+        line-height: 1.38;
+        margin-bottom: 0.7rem;
+    }
+
+    .card-button {
+        padding: 0.66rem 1.12rem;
+        font-size: 0.82rem;
+    }
 }
 
 @media (max-width: 480px) {
     .flip-section-title h2 {
-        font-size: 1.75rem;
+        font-size: 2rem;
     }
 
     .flip-card {
         width: 240px;
         height: 350px;
+    }
+
+    .flip-section-lead {
+        display: none;
+    }
+
+    .card-image-wrap {
+        height: 118px;
+    }
+
+    .flip-card-back p {
+        font-size: 0.78rem;
+    }
+
+    .card-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
     }
 }
