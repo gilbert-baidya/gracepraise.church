@@ -17,14 +17,17 @@
    ========================================================================== */
 
 :root {
-  --heptagon-primary: #1e293b;
-  /* Dark slate for title (high contrast) */
-  --heptagon-active: #5b21b6;
-  /* Purple accent for scripture reference */
-  --heptagon-text: #334155;
-  /* Medium gray for body text (readable) */
-  --heptagon-subtle: #555555;
-  --heptagon-bg: #ffffff;
+  --heptagon-primary: #12304a;
+  --heptagon-secondary: #1c4563;
+  --heptagon-active: #d4a532;
+  --heptagon-active-soft: #e2bd68;
+  --heptagon-text: #1c4563;
+  --heptagon-body: #355a72;
+  --heptagon-subtle: #6f8798;
+  --heptagon-bg: #fff8eb;
+  --heptagon-surface: rgba(255, 248, 235, 0.88);
+  --heptagon-shadow: rgba(18, 48, 74, 0.18);
+  --heptagon-outline: rgba(18, 48, 74, 0.18);
   --heptagon-rotation: 1200ms cubic-bezier(0.4, 0, 0.2, 1);
   --heptagon-fade: 600ms ease;
 }
@@ -39,10 +42,42 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
-  padding: 80px 40px;
+  background:
+    radial-gradient(circle at 50% 26%, rgba(255, 248, 235, 0.9) 0%, rgba(196, 212, 221, 0.68) 18%, rgba(131, 158, 177, 0.38) 35%, rgba(18, 48, 74, 0.92) 100%),
+    linear-gradient(180deg, #eef6ff 0%, #dfeaf3 35%, #c7d9ea 100%);
+  padding: 80px 40px 100px;
   overflow: hidden;
   isolation: isolate;
+}
+
+.heptagon-wheel-section::before,
+.heptagon-wheel-section::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heptagon-wheel-section::before {
+  width: 72vw;
+  height: 72vw;
+  max-width: 900px;
+  max-height: 900px;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 248, 235, 0.8) 0%, rgba(226, 189, 104, 0.22) 28%, rgba(36, 84, 111, 0.08) 58%, transparent 75%);
+  filter: blur(18px);
+  opacity: 0.95;
+}
+
+.heptagon-wheel-section::after {
+  width: 120%;
+  height: 28%;
+  left: -10%;
+  bottom: -6%;
+  background: linear-gradient(180deg, rgba(15, 30, 46, 0) 0%, rgba(15, 30, 46, 0.12) 30%, rgba(15, 30, 46, 0.2) 100%);
 }
 
 /* ============================================================================
@@ -51,8 +86,8 @@
 
 .heptagon-wheel-layout {
   display: grid;
-  grid-template-columns: 400px 1fr;
-  gap: 80px;
+  grid-template-columns: 420px 1fr;
+  gap: 72px;
   max-width: 1400px;
   width: 100%;
   align-items: center;
@@ -61,24 +96,26 @@
 }
 
 .heptagon-left-panel {
-  padding: 40px;
-  max-width: 400px;
+  position: relative;
+  padding: 40px 24px 40px 0;
+  max-width: 420px;
   isolation: isolate;
 }
 
-.heptagon-left-panel h1 {
-  font-size: 48px;
-  font-weight: 800;
+.heptagon-left-panel h2 {
+  font-size: clamp(2.4rem, 3vw, 4.1rem);
+  font-weight: 700;
   color: var(--heptagon-primary);
-  line-height: 1.1;
-  margin: 0 0 24px;
-  letter-spacing: -0.03em;
+  line-height: 0.96;
+  margin: 0 0 22px;
+  letter-spacing: -0.05em;
+  text-shadow: 0 10px 30px rgba(255, 248, 235, 0.2);
 }
 
 .heptagon-left-panel .theological-intro {
   font-size: 18px;
   line-height: 1.8;
-  color: var(--heptagon-text);
+  color: rgba(17, 34, 48, 0.8);
   margin: 0;
   max-width: 100%;
 }
@@ -103,6 +140,7 @@
   max-width: 90vmin;
   max-height: 90vmin;
   isolation: isolate;
+  filter: drop-shadow(0 24px 48px rgba(18, 48, 74, 0.16));
 }
 
 /* ============================================================================
@@ -117,11 +155,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,2 87.53,20.07 96.80,60.68 70.83,93.25 29.17,93.25 3.20,60.68 12.47,20.07" fill="none" stroke="rgb(124, 58, 237)" stroke-width="1" stroke-linejoin="miter" vector-effect="non-scaling-stroke"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,2 87.53,20.07 96.80,60.68 70.83,93.25 29.17,93.25 3.20,60.68 12.47,20.07" fill="none" stroke="rgba(226,189,104,0.75)" stroke-width="1" stroke-linejoin="miter" vector-effect="non-scaling-stroke"/></svg>');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  opacity: 0.05;
+  opacity: 0.28;
   pointer-events: none;
   z-index: 0;
 }
@@ -155,17 +193,19 @@
 }
 
 .heptagon-polygon {
-  fill: var(--heptagon-bg);
-  stroke: var(--heptagon-primary);
-  stroke-width: 2.5;
+  fill: rgba(255, 248, 235, 0.9);
+  stroke: var(--heptagon-active);
+  stroke-width: 2.2;
   stroke-linejoin: miter;
   vector-effect: non-scaling-stroke;
-  transition: fill var(--heptagon-fade), stroke var(--heptagon-fade);
+  transition: fill var(--heptagon-fade), stroke var(--heptagon-fade), filter var(--heptagon-fade);
+  filter: drop-shadow(0 0 18px rgba(226, 189, 104, 0.24));
 }
 
 .heptagon-wheel-container:hover .heptagon-polygon {
-  stroke: var(--heptagon-active);
-  stroke-width: 3;
+  stroke: var(--heptagon-active-soft);
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 22px rgba(226, 189, 104, 0.3));
 }
 
 /* ============================================================================
@@ -183,26 +223,26 @@
 
 .heptagon-wall-label {
   position: absolute;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--heptagon-subtle);
+  color: var(--heptagon-primary);
   transition: all var(--heptagon-fade);
   transform-origin: center center;
   white-space: nowrap;
   pointer-events: auto;
   cursor: pointer;
   user-select: none;
-  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 3px rgba(255, 248, 235, 0.85);
 }
 
 /* Active wall label (top side) — emphasized */
 .heptagon-wall-label.active {
   color: var(--heptagon-active);
   font-weight: 700;
-  font-size: 15px;
-  text-shadow: 0 2px 4px rgba(91, 33, 182, 0.2);
+  font-size: 13px;
+  text-shadow: 0 2px 6px rgba(212, 165, 50, 0.28);
 }
 
 /* Labels positioned at side midpoints by JavaScript */
@@ -213,8 +253,8 @@
 
 .heptagon-center-content {
   position: absolute;
-  width: 50%;
-  height: 50%;
+  width: 52%;
+  height: 52%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -230,9 +270,21 @@
   isolation: isolate;
 }
 
+.heptagon-center-content::before {
+  content: "";
+  position: absolute;
+  inset: 8% 7%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 248, 235, 0.96) 0%, rgba(255, 248, 235, 0.58) 24%, rgba(226, 189, 104, 0.32) 40%, rgba(226, 189, 104, 0.08) 62%, transparent 78%);
+  filter: blur(18px);
+  z-index: -1;
+}
+
 .heptagon-center-inner {
   max-width: 320px;
-  padding: 30px;
+  padding: 24px 16px;
+  position: relative;
+  z-index: 1;
 }
 
 .heptagon-center-item {
@@ -256,33 +308,33 @@
 }
 
 .heptagon-center-item h2 {
-  font-size: 28px;
-  font-weight: 800;
+  font-size: clamp(1.5rem, 2.1vw, 2.15rem);
+  font-weight: 700;
   color: var(--heptagon-primary);
   margin: 0 0 12px;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
   opacity: 1 !important;
   text-shadow: none !important;
   filter: none !important;
 }
 
 .heptagon-center-item .scripture {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   color: var(--heptagon-active);
   margin: 0 0 16px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   opacity: 1 !important;
   text-shadow: none !important;
   filter: none !important;
 }
 
 .heptagon-center-item p {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.7;
-  color: var(--heptagon-text);
+  color: var(--heptagon-body);
   margin: 0;
   max-width: 90%;
   margin-left: auto;
@@ -313,20 +365,20 @@
   margin: 0 !important;
   min-width: 0 !important;
   min-height: 0 !important;
-  background: var(--heptagon-subtle);
-  border: 3px solid var(--heptagon-bg);
+  background: rgba(255, 248, 235, 0.95);
+  border: 3px solid var(--heptagon-active-soft);
   border-radius: 50%;
   cursor: pointer;
   pointer-events: auto;
   transition: all var(--heptagon-fade);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 3px rgba(18, 48, 74, 0.06), 0 6px 18px rgba(18, 48, 74, 0.15);
   z-index: 3;
 }
 
 .heptagon-vertex-dot:hover {
-  background: var(--heptagon-primary);
-  transform: translate(-50%, -50%) scale(1.4);
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  background: var(--heptagon-active-soft);
+  transform: translate(-50%, -50%) scale(1.25);
+  box-shadow: 0 0 0 5px rgba(226, 189, 104, 0.2), 0 6px 18px rgba(18, 48, 74, 0.15);
 }
 
 .heptagon-vertex-dot.active {
@@ -338,8 +390,9 @@
   min-width: 0 !important;
   min-height: 0 !important;
   border-width: 3px;
-  box-shadow: 0 0 0 4px rgba(91, 33, 182, 0.2),
-    0 4px 16px rgba(91, 33, 182, 0.4);
+  border-color: rgba(255, 248, 235, 0.9);
+  box-shadow: 0 0 0 5px rgba(226, 189, 104, 0.18),
+    0 8px 18px rgba(18, 48, 74, 0.2);
 }
 
 /* ============================================================================
@@ -363,7 +416,7 @@
     max-width: 100%;
   }
 
-  .heptagon-left-panel h1 {
+  .heptagon-left-panel h2 {
     font-size: 36px;
   }
 
@@ -458,16 +511,18 @@
 
 body.dark .heptagon-wheel-section,
 body[data-theme="dark"] .heptagon-wheel-section {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background:
+    radial-gradient(circle at 50% 26%, rgba(255, 248, 235, 0.18) 0%, rgba(124, 140, 163, 0.3) 24%, rgba(18, 48, 74, 0.88) 62%, rgba(5, 19, 31, 0.98) 100%),
+    linear-gradient(180deg, #12304a 0%, #163b59 42%, #0d2136 100%);
   opacity: 1 !important;
   filter: none !important;
   backdrop-filter: none !important;
   mix-blend-mode: normal !important;
 }
 
-body.dark .heptagon-left-panel h1,
-body[data-theme="dark"] .heptagon-left-panel h1 {
-  color: #f8fafc !important;
+body.dark .heptagon-left-panel h2,
+body[data-theme="dark"] .heptagon-left-panel h2 {
+  color: #f7f1e7 !important;
   opacity: 1 !important;
   text-shadow: none !important;
   filter: none !important;
@@ -476,7 +531,7 @@ body[data-theme="dark"] .heptagon-left-panel h1 {
 
 body.dark .heptagon-left-panel .theological-intro,
 body[data-theme="dark"] .heptagon-left-panel .theological-intro {
-  color: #cbd5e1 !important;
+  color: #dfeaf3 !important;
   opacity: 1 !important;
   text-shadow: none !important;
   filter: none !important;
@@ -485,7 +540,7 @@ body[data-theme="dark"] .heptagon-left-panel .theological-intro {
 
 body.dark .heptagon-center-item h2,
 body[data-theme="dark"] .heptagon-center-item h2 {
-  color: #1e293b !important;
+  color: #f7f1e7 !important;
   opacity: 1 !important;
   text-shadow: none !important;
   filter: none !important;
@@ -494,7 +549,7 @@ body[data-theme="dark"] .heptagon-center-item h2 {
 
 body.dark .heptagon-center-item .scripture,
 body[data-theme="dark"] .heptagon-center-item .scripture {
-  color: #5b21b6 !important;
+  color: #e2bd68 !important;
   opacity: 1 !important;
   text-shadow: none !important;
   filter: none !important;
@@ -503,7 +558,7 @@ body[data-theme="dark"] .heptagon-center-item .scripture {
 
 body.dark .heptagon-center-item p,
 body[data-theme="dark"] .heptagon-center-item p {
-  color: #334155 !important;
+  color: #e2edf7 !important;
   opacity: 1 !important;
   text-shadow: none !important;
   filter: none !important;
@@ -512,10 +567,27 @@ body[data-theme="dark"] .heptagon-center-item p {
 
 body.dark .heptagon-polygon,
 body[data-theme="dark"] .heptagon-polygon {
-  fill: #ffffff !important;
+  fill: rgba(255, 248, 235, 0.9) !important;
   opacity: 1 !important;
   filter: none !important;
   mix-blend-mode: normal !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heptagon-rotating-layer,
+  .heptagon-wall-label,
+  .heptagon-vertex-dot,
+  .heptagon-center-item,
+  .heptagon-polygon {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .heptagon-wheel-container[data-loading="true"] .heptagon-rotating-layer,
+  .heptagon-wheel-container[data-loading="true"] .heptagon-center-content {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 body.dark .heptagon-wall-label,

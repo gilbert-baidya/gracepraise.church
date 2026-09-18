@@ -47,6 +47,13 @@ class SacredHeptagonWheel {
     // Show first content
     this.updateActiveState(0);
 
+    if (this.prefersReducedMotion) {
+      this.rotatingLayer.style.transition = 'none';
+      this.rotatingLayer.style.transform = 'rotate(0deg)';
+      this.container.removeAttribute('data-loading');
+      return;
+    }
+
     // Desktop: Scroll navigation
     if (!this.isMobile) {
       this.container.addEventListener('wheel', this.handleScroll.bind(this), { passive: false });
@@ -268,6 +275,15 @@ class SacredHeptagonWheel {
   goToSide(targetIndex) {
     if (this.isAnimating || targetIndex === this.currentIndex) return;
 
+    if (this.prefersReducedMotion) {
+      this.currentRotation = 0;
+      this.rotatingLayer.style.transform = 'rotate(0deg)';
+      this.currentIndex = targetIndex;
+      this.updateActiveState(targetIndex);
+      this.updateLabelReadability();
+      return;
+    }
+
     this.isAnimating = true;
 
     // Calculate rotation needed to bring target side to TOP
@@ -324,8 +340,7 @@ class SacredHeptagonWheel {
      ======================================================================== */
 
   updateActiveState(index) {
-    // The active side is determined by which side is at the TOP position
-    const topSideIndex = this.getTopSideIndex();
+    const activeIndex = Number.isInteger(index) ? index : this.getTopSideIndex();
 
     // CRITICAL: Center content must match the active wall label
     // Wall labels are ordered 0-6 corresponding to sides 0-6
@@ -333,12 +348,12 @@ class SacredHeptagonWheel {
 
     // Update center content to match the active side
     this.centerItems.forEach((item, i) => {
-      item.classList.toggle('active', i === topSideIndex);
+      item.classList.toggle('active', i === activeIndex);
     });
 
     // Update wall labels - highlight the one at top
     this.wallLabels.forEach((label, i) => {
-      label.classList.toggle('active', i === topSideIndex);
+      label.classList.toggle('active', i === activeIndex);
     });
 
     // Update vertex dots - highlight the one at top
@@ -348,13 +363,17 @@ class SacredHeptagonWheel {
     });
 
     // Update current index to track state
-    this.currentIndex = topSideIndex;
+    this.currentIndex = activeIndex;
 
     // Announce to screen readers
-    this.announceContent(topSideIndex);
+    this.announceContent(activeIndex);
   }
 
   getTopSideIndex() {
+    if (this.prefersReducedMotion) {
+      return this.currentIndex;
+    }
+
     // Calculate which side is currently at the top position
     // Sides are indexed starting from the top side (index 0)
     // As we rotate clockwise, we need to determine which side moved to top
@@ -369,7 +388,7 @@ class SacredHeptagonWheel {
 
   getTopVertexIndex() {
     // The top vertex is the starting point of the top side
-    return this.getTopSideIndex();
+    return this.prefersReducedMotion ? this.currentIndex : this.getTopSideIndex();
   }
 
   /* ========================================================================
@@ -377,6 +396,8 @@ class SacredHeptagonWheel {
      ======================================================================== */
 
   startAutoAdvance() {
+    if (this.prefersReducedMotion) return;
+
     this.stopAutoAdvance();
 
     this.autoAdvanceTimer = setInterval(() => {
