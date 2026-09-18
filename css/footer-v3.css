@@ -29,6 +29,10 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
+body .site-footer {
+    padding-bottom: 24px;
+}
+
 .site-footer * {
     box-sizing: border-box;
 }
@@ -145,7 +149,7 @@ body .site-footer .sacred-footer__brand-text h2 {
 .sacred-footer__monogram {
     display: inline-block;
     margin-top: 8px;
-    padding: 0 18px 6px;
+    padding: 3px 18px;
     border-top: 1px solid rgba(215, 181, 124, 0.7);
     border-bottom: 1px solid rgba(215, 181, 124, 0.7);
     font-family: "Cinzel", Georgia, serif;
@@ -301,13 +305,13 @@ body .site-footer .sacred-footer__brand-text h2 {
     color: var(--footer-v9-gold-soft);
 }
 
-.sacred-footer__bottom {
+.site-footer .sacred-footer__bottom {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 18px;
-    padding: 18px 28px 28px;
+    gap: 20px;
+    padding: 12px 28px 16px;
     color: var(--footer-v9-ivory-soft);
     border-top: 1px solid rgba(215, 181, 124, 0.7);
     max-width: 1280px;
@@ -323,8 +327,8 @@ body .site-footer .sacred-footer__brand-text h2 {
 .sacred-footer__bottom-meta {
     display: flex;
     align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
+    gap: 26px;
+    flex-wrap: nowrap;
     justify-content: flex-end;
 }
 
@@ -350,6 +354,8 @@ body .site-footer .sacred-footer__brand-text h2 {
     justify-content: center;
     width: 34px;
     height: 34px;
+    min-width: 34px;
+    min-height: 34px;
     border-radius: 50%;
     color: var(--footer-v9-gold-soft);
     background: rgba(255, 255, 255, 0.02);
@@ -374,13 +380,19 @@ body .site-footer .sacred-footer__brand-text h2 {
     display: flex;
     align-items: center;
     gap: 12px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .site-footer .footer-legal-link {
+    display: inline-flex;
+    align-items: center;
+    min-width: auto;
+    min-height: auto;
     color: rgba(247, 242, 234, 0.88);
     text-decoration: none;
     font-size: 0.84rem;
+    line-height: 1.35;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     transition: color 0.2s ease;
@@ -415,7 +427,47 @@ body .site-footer .sacred-footer__brand-text h2 {
 }
 
 .site-footer .footer-legal-divider {
+    display: inline-flex;
+    align-items: center;
     color: rgba(215, 181, 124, 0.8);
+    line-height: 1;
+}
+
+@media (min-width: 641px) {
+    body.homepage .scroll-to-top,
+    body[data-page="home"] .scroll-to-top {
+        left: auto;
+        right: 24px;
+        bottom: 84px;
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        min-height: 42px;
+        transform: none;
+        background: rgba(1, 13, 29, 0.84);
+        border: 1px solid rgba(244, 215, 155, 0.76);
+        color: var(--footer-v9-gold-soft);
+        box-shadow: 0 8px 22px rgba(1, 13, 29, 0.28);
+    }
+
+    body.homepage .scroll-to-top:hover,
+    body.homepage .scroll-to-top:focus-visible,
+    body[data-page="home"] .scroll-to-top:hover,
+    body[data-page="home"] .scroll-to-top:focus-visible {
+        transform: translateY(-2px);
+        box-shadow: 0 0 0 3px rgba(244, 215, 155, 0.14), 0 10px 24px rgba(1, 13, 29, 0.32);
+    }
+
+    body.homepage .scroll-to-top:active,
+    body[data-page="home"] .scroll-to-top:active {
+        transform: translateY(0);
+    }
+
+    body.homepage .scroll-to-top svg,
+    body[data-page="home"] .scroll-to-top svg {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 .site-footer a:focus-visible {
