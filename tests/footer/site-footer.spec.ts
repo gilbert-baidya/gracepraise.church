@@ -1,131 +1,84 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import { test, expect } from '@playwright/test';
 
-interface InventoryPage {
-  htmlPath: string;
-  isFullDocument: boolean;
-}
+const FOOTER_ROUTES = [
+  'index.html', 'about.html', 'beliefs.html', 'bible-reader.html', 'calendar.html',
+  'children-devotion.html', 'contact.html', 'core-values.html', 'couples-devotion.html',
+  'daily-devotion.html', 'family-devotion.html', 'fasting-21days.html', 'fasting-30days.html',
+  'fasting-40days.html', 'gallery.html', 'give.html', 'gratitude-fasting.html', 'history.html',
+  'leadership.html', 'lent-fasting.html', 'ministries.html', 'mission.html', 'pastor/index.html',
+  'plan-visit.html', 'position-papers.html', 'prayer-request.html', 'privacy-policy.html',
+  'sms-opt-in.html', 'songbook.html', 'terms-conditions.html', 'testimonies.html',
+  'youth-devotion.html', 'ministries/index.html', 'ministries/bible-study.html',
+  'ministries/community-development.html', 'ministries/homeless-ministry.html',
+  'ministries/hospital-ministry.html', 'ministries/kids-ministry.html',
+  'ministries/men-fellowship.html', 'ministries/mission-outreach.html',
+  'ministries/prison-ministry.html', 'ministries/support-missionaries.html',
+  'ministries/worship-ministry.html', 'ministries/youth-ministry.html',
+  'kids/games/index.html', 'youth/games/index.html'
+];
 
-interface FooterLink {
-  label: string;
-  href: string;
-  external?: boolean;
-}
+const REPRESENTATIVE_ROUTES = [
+  'index.html',
+  'about.html',
+  'contact.html',
+  'testimonies.html',
+  'pastor/index.html',
+  'ministries/bible-study.html',
+  'kids/games/index.html'
+];
 
-interface FooterConfig {
-  cta: {
-    links: FooterLink[];
-  };
-  resources: FooterLink[];
-  legal: FooterLink[];
-  social: FooterLink[];
-  visit: {
-    directionsUrl: string;
-  };
-}
-
-const inventoryPath = path.resolve(__dirname, '..', 'data', 'html-pages-inventory.json');
-const inventory = JSON.parse(fs.readFileSync(inventoryPath, 'utf8')) as { pages: InventoryPage[] };
-
-const footerConfigPath = path.resolve(__dirname, '..', '..', 'config', 'site-footer.config.json');
-const footerConfig = JSON.parse(fs.readFileSync(footerConfigPath, 'utf8')) as FooterConfig;
-
-const FOOTER_ROUTES = inventory.pages
-  .filter((page) => page.isFullDocument)
-  .map((page) => page.htmlPath)
-  .filter((htmlPath) => !htmlPath.startsWith('admin/'))
-  .filter((htmlPath) => !/^(kids\/games\/|youth\/games\/)/i.test(htmlPath))
-  .filter((htmlPath) => !/(DEVOTION_TEST\.html|HOME_PAGE_TEST\.html|test-connection\.html|translate-test\.html|ministries\/index\.html)/i.test(htmlPath));
-
-function isExternalHref(href: string): boolean {
-  return /^https?:\/\//i.test(href);
-}
-
-function isSpecialHref(href: string): boolean {
-  return /^(mailto:|tel:|#)/i.test(href);
-}
-
-function internalTargetExists(href: string): boolean {
-  const cleanHref = href.split('#')[0].split('?')[0].replace(/^\/+/, '').replace(/^\.\//, '');
-  if (!cleanHref) return true;
-
-  const absolute = path.resolve(process.cwd(), cleanHref);
-  if (fs.existsSync(absolute)) return true;
-  if (fs.existsSync(`${absolute}.html`)) return true;
-  if (fs.existsSync(path.join(absolute, 'index.html'))) return true;
-
-  return false;
-}
-
-test.describe('Site Footer Rendering', () => {
+test.describe('V10 shared footer rendering', () => {
   for (const route of FOOTER_ROUTES) {
-    test(`footer renders via shared component on ${route}`, async ({ page }) => {
+    test(`renders one shared footer on ${route}`, async ({ page }) => {
       await page.goto(`/${route}`);
       await page.waitForLoadState('domcontentloaded');
 
-      const sharedFooter = page.locator('footer[data-site-footer="true"]');
-      const fallbackFooter = page.locator('footer, .footer').first();
-      const hasSharedFooter = (await sharedFooter.count()) > 0;
-      const hasFallbackFooter = (await fallbackFooter.count()) > 0;
-
-      if (!hasSharedFooter && !hasFallbackFooter) {
-        test.skip();
-        return;
-      }
-
-      if (hasSharedFooter) {
-        await expect(sharedFooter, `Missing shared footer on ${route}`).toBeVisible();
-      } else {
-        await expect(fallbackFooter, `Missing footer container on ${route}`).toBeVisible();
-      }
+      const footer = page.locator('footer.site-footer');
+      await expect(footer, `Missing shared V10 footer on ${route}`).toHaveCount(1);
+      await expect(footer).toBeVisible();
+      await expect(footer.locator('.sacred-footer__logo')).toHaveJSProperty('complete', true);
+      await expect(footer.locator('.sacred-footer__logo')).toHaveJSProperty('naturalWidth', 192);
+      await expect(footer.locator('#footer-auto-year')).toHaveText(String(new Date().getFullYear()));
     });
   }
 });
 
-test.describe('Site Footer Config Integrity', () => {
-  test('all configured links are valid', async () => {
-    const links: FooterLink[] = [
-      ...footerConfig.cta.links,
-      ...footerConfig.resources,
-      ...footerConfig.legal,
-      { label: 'Get Directions', href: footerConfig.visit.directionsUrl, external: true },
-      ...footerConfig.social
-    ];
+test.describe('V10 shared footer behavior', () => {
+  for (const route of REPRESENTATIVE_ROUTES) {
+    test(`resolves internal links from ${route}`, async ({ page, request }) => {
+      await page.goto(`/${route}`);
+      await page.waitForLoadState('domcontentloaded');
 
-    for (const link of links) {
-      expect(link.label).toBeTruthy();
-      expect(link.href).toBeTruthy();
+      const links = await page.locator('footer.site-footer a[href]').evaluateAll((anchors) =>
+        anchors
+          .map((anchor) => anchor.href)
+          .filter((href) => href.startsWith(location.origin))
+      );
 
-      if (isSpecialHref(link.href)) {
-        continue;
+      for (const href of [...new Set(links)]) {
+        const response = await request.get(href);
+        expect(response.ok(), `Broken footer link on ${route}: ${href}`).toBeTruthy();
       }
+    });
 
-      if (isExternalHref(link.href)) {
-        expect(link.href.startsWith('https://')).toBeTruthy();
-        continue;
-      }
+    test(`has no horizontal overflow at mobile width on ${route}`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`/${route}`);
+      await page.waitForLoadState('domcontentloaded');
+      await expect(page.locator('footer.site-footer')).toBeVisible();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
+    });
+  }
 
-      expect(internalTargetExists(link.href), `Missing internal route: ${link.href}`).toBeTruthy();
-    }
-  });
-
-  test('social icons render with aria-labels', async ({ page }) => {
+  test('renders labelled social and legal links', async ({ page }) => {
     await page.goto('/index.html');
     await page.waitForLoadState('domcontentloaded');
+    const footer = page.locator('footer.site-footer');
+    await expect(footer.locator('.footer-social-link')).toHaveCount(3);
+    await expect(footer.locator('.footer-legal-link')).toHaveCount(2);
 
-    const socialLinks = page.locator(
-      'footer[data-site-footer="true"] .site-footer__social-link, footer .social-links a, footer [class*="social"] a'
-    );
-    const socialCount = await socialLinks.count();
-    expect(socialCount).toBeGreaterThan(0);
-
-    for (let index = 0; index < socialCount; index += 1) {
-      const link = socialLinks.nth(index);
-      const ariaLabel = await link.getAttribute('aria-label');
-      const title = await link.getAttribute('title');
-      const text = (await link.textContent())?.trim() || '';
-      expect(Boolean(ariaLabel || title || text.length > 0)).toBeTruthy();
+    for (const link of await footer.locator('.footer-social-link').all()) {
+      await expect(link).toHaveAttribute('aria-label', /.+/);
     }
   });
 });

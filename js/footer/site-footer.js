@@ -16,6 +16,17 @@ export function initSiteFooter() {
     footerElement.setAttribute('data-footer-initialized', 'true');
 }
 
+function resolveFooterUrl(url) {
+    if (/^(?:[a-z][a-z0-9+.-]*:|#|\/\/)/i.test(url)) {
+        return url;
+    }
+
+    const footerElement = document.getElementById('site-footer');
+    const siteRoot = footerElement?.dataset.siteRoot || new URL('../../', import.meta.url).href;
+
+    return new URL(url.replace(/^\/+/, ''), siteRoot).href;
+}
+
 function renderCtaBand() {
     const container = document.getElementById('footer-cta-actions');
     if (!container) return;
@@ -23,7 +34,7 @@ function renderCtaBand() {
     let html = '';
     footerConfig.ctaActions.forEach(action => {
         const primaryClass = action.primary ? 'primary-btn' : 'secondary-btn';
-        html += `<a href="${action.url}" class="footer-btn ${primaryClass}">${action.label}</a>`;
+        html += `<a href="${resolveFooterUrl(action.url)}" class="footer-btn ${primaryClass}">${action.label}</a>`;
     });
     container.innerHTML = html;
 }
@@ -49,12 +60,17 @@ function renderNavGrids() {
     if (resourcesContainer) {
         resourcesContainer.innerHTML += buildLinkList(footerConfig.navGroups.resources);
     }
+    const connectLinksContainer = document.getElementById('footer-nav-connect-links');
+    if (connectLinksContainer) {
+        connectLinksContainer.innerHTML += buildLinkList(footerConfig.connectLinks);
+    }
 }
 
 function buildLinkList(links) {
     let html = '<ul class="footer-link-list">';
     links.forEach(link => {
-        html += `<li><a href="${link.url}" class="footer-link">${link.label}</a></li>`;
+        const externalAttributes = link.external ? ' target="_blank" rel="noopener noreferrer"' : '';
+        html += `<li><a href="${resolveFooterUrl(link.url)}" class="footer-link"${externalAttributes}>${link.label}</a></li>`;
     });
     html += '</ul>';
     return html;
@@ -72,7 +88,7 @@ function renderBottomBar() {
     if (legalContainer) {
         let html = '';
         footerConfig.legalLinks.forEach((link, idx) => {
-            html += `<a href="${link.url}" class="footer-legal-link">${link.label}</a>`;
+            html += `<a href="${resolveFooterUrl(link.url)}" class="footer-legal-link">${link.label}</a>`;
             if (idx < footerConfig.legalLinks.length - 1) {
                 html += '<span class="footer-legal-divider">|</span>';
             }

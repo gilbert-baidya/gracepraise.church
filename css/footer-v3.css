@@ -29,6 +29,31 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
+body:not(.dark):not([data-theme="dark"]) footer.site-footer.sacred-footer {
+    position: relative;
+    width: 100%;
+    padding: 0 0 24px;
+    overflow: visible;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(214, 178, 118, 0.12), transparent 22%),
+        linear-gradient(180deg, #07182a 0%, #020d1b 28%, #010d1d 100%);
+    color: var(--footer-v9-ivory);
+    font-family: "Space Grotesk", "Segoe UI", sans-serif;
+    border-top: 1px solid rgba(215, 181, 124, 0.85);
+    border-image: none;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+body:not(.dark):not([data-theme="dark"]) footer.site-footer.sacred-footer::before {
+    content: none;
+    color: inherit;
+    opacity: 1;
+    filter: none;
+    transform: none;
+    box-shadow: none;
+    text-shadow: none;
+}
+
 body .site-footer {
     padding-bottom: 24px;
 }
@@ -199,6 +224,7 @@ body .site-footer .sacred-footer__brand-text h2 {
 .sacred-footer__column .footer-nav-title {
     position: relative;
     margin: 0 0 16px;
+    font-family: Inter, -apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -231,10 +257,12 @@ body .site-footer .sacred-footer__brand-text h2 {
 }
 
 .sacred-footer__column .footer-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-width: auto;
-    min-height: auto;
-    padding-block: 2px;
+    min-height: 44px;
+    padding: 6px 4px;
     color: var(--footer-v9-ivory);
     text-decoration: none;
     font-size: 0.98rem;
@@ -527,7 +555,7 @@ body .site-footer .sacred-footer__brand-text h2 {
     }
 
     .sacred-footer__brand {
-        margin-bottom: 36px;
+        margin-bottom: 28px;
     }
 
     .sacred-footer__logo {
@@ -561,7 +589,7 @@ body .site-footer .sacred-footer__brand-text h2 {
 
     .sacred-footer__grid {
         grid-template-columns: 1fr;
-        gap: 36px;
+        gap: 26px;
         margin-top: 0;
     }
 
@@ -574,7 +602,7 @@ body .site-footer .sacred-footer__brand-text h2 {
     }
 
     .sacred-footer__column .footer-nav-title {
-        margin-bottom: 18px;
+        margin-bottom: 12px;
         text-align: center;
     }
 
@@ -588,7 +616,7 @@ body .site-footer .sacred-footer__brand-text h2 {
         flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
-        gap: 9px;
+        gap: 2px;
         width: 100%;
         text-align: center;
     }
@@ -599,7 +627,8 @@ body .site-footer .sacred-footer__brand-text h2 {
 
     .sacred-footer__column .footer-link {
         max-width: 100%;
-        padding-block: 2px;
+        min-height: 44px;
+        padding: 6px 4px;
         line-height: 1.35;
         text-align: center;
     }

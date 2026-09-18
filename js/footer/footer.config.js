@@ -27,6 +27,13 @@ export const footerConfig = {
             { label: 'Outreach', url: 'ministries/' }
         ]
     },
+    connectLinks: [
+        { label: 'Events', url: 'calendar.html' },
+        { label: 'Sermons', url: 'https://youtube.com/@gpbc', external: true },
+        { label: 'Prayer Request', url: 'prayer-request.html' },
+        { label: 'Give', url: 'give.html' },
+        { label: 'Get Involved', url: 'contact.html' }
+    ],
     legalLinks: [
         { label: 'Privacy', url: 'privacy-policy.html' },
         { label: 'Terms', url: 'terms-conditions.html' }

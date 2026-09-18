@@ -6,18 +6,23 @@
 
 import { initSiteFooter } from './site-footer.js';
 
-// Wait for partials to load, then initialize footer
-document.addEventListener('partials:loaded', () => {
-    console.log('[Footer Init] Partials loaded, initializing footer...');
-    initSiteFooter(document);
-});
-
-// Fallback: If partials are already loaded when this script runs
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    // Check if footer mount point exists
-    const footerMount = document.querySelector('[data-partial="site-footer"]');
-    if (footerMount && footerMount.querySelector('.site-footer')) {
-        console.log('[Footer Init] Footer already in DOM, initializing...');
-        initSiteFooter(document);
+function initializeFooter() {
+    if (!document.querySelector('.site-footer')) {
+        return false;
     }
+
+    initSiteFooter();
+    return true;
+}
+
+document.addEventListener('partials:loaded', initializeFooter);
+
+if (!initializeFooter()) {
+    const observer = new MutationObserver(() => {
+        if (initializeFooter()) {
+            observer.disconnect();
+        }
+    });
+
+    observer.observe(document.documentElement, { childList: true, subtree: true });
 }
