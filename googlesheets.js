@@ -8,6 +8,9 @@ async function loadEventsFromGoogleSheets() {
         return false;
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     try {
         const response = await fetch(GOOGLE_SHEETS_URL, {
             method: 'POST',
@@ -16,7 +19,8 @@ async function loadEventsFromGoogleSheets() {
             },
             body: JSON.stringify({
                 action: 'getEvents'
-            })
+            }),
+            signal: controller.signal
         });
 
         if (!response.ok) {
@@ -76,6 +80,8 @@ async function loadEventsFromGoogleSheets() {
         console.error('Error loading events from Google Sheets:', error);
         // console.log('Falling back to localStorage'); // Removed for production
         return false;
+    } finally {
+        clearTimeout(timeoutId);
     }
 }
 
@@ -159,6 +165,8 @@ async function deleteEventFromGoogleSheets(event) {
 
 // Show loading indicator
 function showLoadingIndicator(message = 'Loading...') {
+    hideLoadingIndicator();
+
     const loadingDiv = document.createElement('div');
     loadingDiv.id = 'loadingIndicator';
     loadingDiv.style.cssText = `
@@ -181,8 +189,8 @@ function showLoadingIndicator(message = 'Loading...') {
 }
 
 function hideLoadingIndicator() {
-    const loadingDiv = document.getElementById('loadingIndicator');
-    if (loadingDiv) {
+    const loadingIndicators = document.querySelectorAll('#loadingIndicator');
+    loadingIndicators.forEach(loadingDiv => {
         loadingDiv.remove();
-    }
+    });
 }

@@ -5,7 +5,7 @@
     <!-- Version: 2026-01-12-mobile-dropdown-fix-v2 -->
     <meta charset="UTF-8">
 
-    <script src="platform-runtime.js"></script>
+    <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Security: Content Security Policy (CSP) - EMERGENCY HOTFIX 2026-02-13 -->
@@ -76,26 +76,26 @@
     <link rel="preload" as="image" href="images/hero-worship-authentic.png" type="image/png">
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Liturgical Calendar Engine + Theme Engine (must run before CSS) -->
-    <script src="liturgical-calendar-engine.js"></script>
-    <script src="liturgical-theme-engine.js"></script>
-    <script src="sacred-reminder-engine.js"></script>
+    <!-- Liturgical Calendar Engine + Theme Engine -->
+    <script src="liturgical-calendar-engine.js" defer></script>
+    <script src="liturgical-theme-engine.js" defer></script>
+    <script src="sacred-reminder-engine.js" defer></script>
 
     <!-- Sacred Design Token System (foundation → seasons → components) -->
-    <link rel="stylesheet" href="sacred-tokens.css">
-    <link rel="stylesheet" href="styles.bundle.css?v=20260222-ipadnavfix2">
+    <link rel="stylesheet" href="sacred-tokens.css?v=20260918-v11-theme-final3">
+    <link rel="stylesheet" href="styles.bundle.css?v=20260918-v11-stay-mobile">
     <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="hero-upgrade.css?v=20260203c">
     <link rel="stylesheet" href="countdown.css">
-    <link rel="stylesheet" href="shape-system.css">
-    <link rel="stylesheet" href="heptagon-wheel-sacred.css">
-    <link rel="stylesheet" href="assets/css/homepage-readability-upgrade.css?v=20260304-herofinal25">
-
-    <!-- Homepage-only responsive fixes (mobile/iPad spacing & scroll) -->
+    <link rel="stylesheet" href="welcome-home-v4.css?v=20260917a">
+    <link rel="stylesheet" href="community-carousel-v5.css?v=20260918-v11-community-mobile">
     <link rel="stylesheet" href="event-flip-cards.css">
+    <link rel="stylesheet" href="shape-system.css">
+    <link rel="stylesheet" href="heptagon-wheel-sacred.css?v=20260918-v11-home-contrast">
+    <link rel="stylesheet" href="assets/css/homepage-readability-upgrade.css?v=20260918-v11-home-contrast">
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -106,7 +106,7 @@
         href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
 
     <!-- Slick Carousel JS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js" defer></script>
 
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -425,27 +425,37 @@
     <!-- Theme & JS Detection — DO NOT REMOVE -->
     <script>
         (function () {
-            // Instant JS detection
             document.documentElement.classList.add('js-enabled');
 
-            // Theme pre-detection
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-                // We'll also apply to body once it exists
-                document.addEventListener('DOMContentLoaded', () => {
-                    document.body.setAttribute('data-theme', 'dark');
-                    document.body.classList.add('dark');
-                });
+            function getInitialTheme() {
+                if (window.Platform && typeof window.Platform.getPreferredTheme === 'function') {
+                    return window.Platform.getPreferredTheme();
+                }
+
+                try {
+                    const savedTheme = localStorage.getItem('theme');
+                    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+                } catch (error) {
+                    console.warn('[Theme] Saved preference could not be read', error);
+                }
+
+                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             }
+
+            const theme = getInitialTheme();
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+            document.addEventListener('DOMContentLoaded', () => {
+                document.body.setAttribute('data-theme', theme);
+                document.body.classList.toggle('dark', theme === 'dark');
+            });
         })();
     </script>
 
     <!-- Logo System & Position Styles -->
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css?v=20260203c">
-    <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260213-tabletfix">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-stay-mobile">
     <!-- Favicon Package - Trinity Cross -->
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
@@ -454,8 +464,19 @@
     <meta name="msapplication-TileColor" content="#2b5797">
     <meta name="msapplication-config" content="images/favicons/browserconfig.xml">
     <!-- Centralized Footer v3 CSS -->
-    <link rel="stylesheet" href="./css/footer-v3.css">
-    <script src="./js/partials.js"></script>
+    <link rel="stylesheet" href="./css/footer-v3.css?v=20260918-v11-floating-control">
+
+    <!-- Homepage Hero V2 — loaded last so it wins the cascade against the
+         legacy hero overrides. Every rule is scoped under .v2-hero, so it
+         cannot affect any other production section. -->
+    <link rel="stylesheet" href="hero-v2.css?v=20260918-v11-mobile-hero">
+    <!-- Homepage Plan Your Visit V3 — isolated from shared section styles. -->
+    <link rel="stylesheet" href="plan-your-visit-v3.css?v=20260917d">
+    <!-- Homepage Welcome Home V4 — isolated editorial section styles. -->
+    <link rel="stylesheet" href="welcome-home-v4.css?v=20260917a">
+    <!-- Homepage Stay Connected V8 — isolated editorial section styles. -->
+    <link rel="stylesheet" href="stay-connected-v8.css?v=20260918-v11-stay-mobile">
+    <script src="./js/partials.js?v=20260918-v11-theme-final3" defer></script>
 </head>
 
 <body class="homepage" data-page="home">
@@ -470,8 +491,7 @@
                     <img loading="lazy" src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
                         class="logo-image" loading="eager" decoding="async">
                 </a>
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
-                    title="Toggle dark mode">
+                <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
@@ -512,7 +532,6 @@
                             <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
                             <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
                             <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
-                            <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
                         </ul>
                     </li>
                     <li><a href="#next-service">Next Service</a></li>
@@ -523,6 +542,7 @@
                         <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span
                                 class="dropdown-arrow">▼</span></a>
                         <ul class="dropdown-menu">
+                            <li><a href="bible-reader.html">Holy Bible</a></li>
                             <li><a href="daily-devotion.html">Daily Devotion</a></li>
                             <li><a href="couples-devotion.html">Couples Devotion</a></li>
                             <li><a href="family-devotion.html">Family Devotion</a></li>
@@ -579,103 +599,216 @@
 
 
     <main id="main-content">
-        <!-- HERO UPGRADE: HYBRID GLASSMORPHISM -->
-        <section class="hero-upgrade" id="home">
-            <!-- Video Background Base Layer -->
-            <div class="video-background">
-                <video autoplay muted loop playsinline preload="metadata" width="1920" height="1080" poster="images/hero-worship-authentic.png">
-                    <source
-                        data-src="https://player.vimeo.com/external/494252666.sd.mp4?s=72fd1304543788771966ec93e7e226027a65975b&profile_id=164&oauth2_token_id=57447761"
-                        type="video/mp4">
-                </video>
-                <div class="video-overlay"></div>
+        <!-- ------------------------------------------------------------
+             HOMEPAGE HERO V2 (replaces the legacy glassmorphism hero)
+             Styles: hero-v2.css  —  all rules scoped under .v2-hero
+             ------------------------------------------------------------ -->
+        <section class="v2-hero" id="home" aria-labelledby="hero-heading">
+            <!-- Ambient decorative background layers (aria-hidden) -->
+            <div class="v2-hero-bg" aria-hidden="true">
+                <span class="v2-bg-glow v2-bg-glow--gold"></span>
+                <span class="v2-bg-glow v2-bg-glow--teal"></span>
+                <span class="v2-bg-glow v2-bg-glow--rose"></span>
+                <span class="v2-bg-grid"></span>
+                <span class="v2-bg-textile"></span>
             </div>
 
-            <!-- Dynamic Background Effects -->
-            <div class="mesh-gradient" aria-hidden="true">
-                <div class="mesh-point mesh-point-1"></div>
-                <div class="mesh-point mesh-point-2"></div>
-                <div class="mesh-point mesh-point-3"></div>
-            </div>
-            <div class="global-lines" aria-hidden="true"></div>
-
-            <div class="hero-upgrade-container">
-                <!-- Text Content -->
-                <div class="hero-main-text">
-                    <p class="hero-slogan">
-                        <span>Living in Grace.</span>
-                        <span>Rising in Praise.</span>
+            <div class="v2-hero-inner">
+                <!-- ---------- Text column ---------- -->
+                <div class="v2-hero-content" id="hero-content">
+                    <p class="v2-eyebrow">
+                        <span class="v2-eyebrow-mark" aria-hidden="true"></span>
+                        Welcome Home
                     </p>
-                    <h1>
-                        <span class="gradient-text">A Community</span>
-                        <span>of Grace</span>
+
+                    <h1 class="v2-hero-heading" id="hero-heading">
+                        <span class="v2-heading-line">Grace and Praise</span>
+                        <span class="v2-heading-line v2-heading-accent">Bangladeshi Church</span>
                     </h1>
-                    <p class="hero-description">
-                        From Bangladesh to San Bernardino, we are a diverse family united in Christ.
-                        Experience futuristic worship rooted in timeless tradition.
+
+                    <p class="v2-tagline">Living in Grace. Rising in Praise.</p>
+
+                    <p class="v2-lede">
+                        The first Bangladeshi church in Southern California<span class="v2-lede-desktop-detail">
+                            — Bangladesh roots, an American home, one family in Christ.</span>
                     </p>
-                    <div class="hero-actions">
-                        <a href="#next-service" class="btn-glass btn-glass-primary">
-                            <span>Join Us This Sunday</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
+
+                    <!-- Service details -->
+                    <dl class="v2-service">
+                        <div class="v2-service-item">
+                            <dt>Sunday</dt>
+                            <dd>5:00 PM</dd>
+                        </div>
+                        <div class="v2-service-divider" aria-hidden="true"></div>
+                        <div class="v2-service-item">
+                            <dt>Location</dt>
+                            <dd>San Bernardino, California</dd>
+                        </div>
+                    </dl>
+
+                    <p class="v2-welcome-line">
+                        Bengali &amp; English Worship <span aria-hidden="true">•</span> Everyone Welcome
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="v2-cta-group">
+                        <a href="plan-visit.html" class="v2-btn v2-btn--primary">Plan Your Visit</a>
+                        <a href="https://www.youtube.com/@GracePraise.Church/videos" class="v2-btn v2-btn--secondary"
+                           target="_blank" rel="noopener noreferrer">
+                            <svg class="v2-play-icon" viewBox="0 0 12 14" aria-hidden="true" focusable="false">
+                                <path d="M1 1.2 11 7 1 12.8Z" />
                             </svg>
+                            Watch Sermons
                         </a>
-                        <a href="#new-here" class="btn-glass">
-                            I'm New Here
-                        </a>
-                        <button class="btn-glass btn-watch-story" onclick="openVideoModal()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5,3 19,12 5,21"></polygon>
+                    </div>
+                </div>
+
+                <!-- ---------- Visual column ---------- -->
+                <div class="v2-hero-visual" aria-hidden="false">
+                    <!-- Southern California silhouette: San Bernardino mountains, palms, soft sunset (decorative) -->
+                    <div class="v2-socal" aria-hidden="true">
+                        <svg viewBox="0 0 600 240" preserveAspectRatio="xMidYMax meet" focusable="false">
+                            <defs>
+                                <radialGradient id="v2SunGrad" cx="50%" cy="100%" r="70%">
+                                    <stop offset="0%" stop-color="#f6d59a" stop-opacity="0.55" />
+                                    <stop offset="45%" stop-color="#e7b84a" stop-opacity="0.22" />
+                                    <stop offset="100%" stop-color="#e7b84a" stop-opacity="0" />
+                                </radialGradient>
+                                <linearGradient id="v2RidgeBack" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#1d3d63" />
+                                    <stop offset="100%" stop-color="#0f2036" />
+                                </linearGradient>
+                                <linearGradient id="v2RidgeFront" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#0f2036" />
+                                    <stop offset="100%" stop-color="#060d1a" />
+                                </linearGradient>
+                            </defs>
+
+                            <!-- soft sunset haze -->
+                            <ellipse cx="300" cy="235" rx="230" ry="150" fill="url(#v2SunGrad)" />
+
+                            <!-- distant San Bernardino ridge (Mt. San Gorgonio profile) -->
+                            <path class="v2-socal-ridge-back" fill="url(#v2RidgeBack)"
+                                d="M0 176 L70 150 L130 168 L200 120 L250 148 L330 96 L400 142 L470 118 L540 150 L600 132 L600 240 L0 240 Z" />
+                            <!-- subtle warm rim on the far ridge -->
+                            <path class="v2-socal-rim" fill="none" stroke="#f6d59a" stroke-opacity="0.28" stroke-width="1.4"
+                                d="M200 120 L250 148 L330 96 L400 142 L470 118" />
+
+                            <!-- foreground ridge -->
+                            <path fill="url(#v2RidgeFront)"
+                                d="M0 210 L90 182 L170 204 L260 170 L350 200 L440 176 L520 202 L600 184 L600 240 L0 240 Z" />
+
+                            <!-- palm silhouettes -->
+                            <g fill="#060d1a" opacity="0.92">
+                                <g transform="translate(96 208)">
+                                    <path d="M-2 0 C-3 -30 -1 -52 0 -66 C1 -52 3 -30 2 0 Z" />
+                                    <path fill="none" stroke="#060d1a" stroke-width="3.4" stroke-linecap="round"
+                                        d="M0 -66 C-16 -78 -30 -78 -42 -70 M0 -66 C-10 -84 -8 -98 2 -108 M0 -66 C16 -80 32 -80 44 -72 M0 -66 C10 -80 26 -84 40 -84 M0 -66 C-8 -80 -22 -84 -36 -84" />
+                                </g>
+                                <g transform="translate(508 204) scale(0.86)">
+                                    <path d="M-2 0 C-3 -30 -1 -52 0 -66 C1 -52 3 -30 2 0 Z" />
+                                    <path fill="none" stroke="#060d1a" stroke-width="3.4" stroke-linecap="round"
+                                        d="M0 -66 C-16 -78 -30 -78 -42 -70 M0 -66 C-10 -84 -8 -98 2 -108 M0 -66 C16 -80 32 -80 44 -72 M0 -66 C10 -80 26 -84 40 -84 M0 -66 C-8 -80 -22 -84 -36 -84" />
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Bangladeshi flowing textile ribbon (Jamdani-toned, decorative) -->
+                    <div class="v2-ribbon" aria-hidden="true">
+                        <svg viewBox="0 0 420 420" preserveAspectRatio="xMidYMid meet" focusable="false">
+                            <defs>
+                                <linearGradient id="v2RibbonGrad" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#0f7a5a" />
+                                    <stop offset="52%" stop-color="#e7b84a" />
+                                    <stop offset="100%" stop-color="#d1483c" />
+                                </linearGradient>
+                            </defs>
+                            <g fill="none" stroke="url(#v2RibbonGrad)" stroke-linecap="round">
+                                <path stroke-width="10" opacity="0.26"
+                                    d="M-30 300 C70 220 130 350 210 280 S350 170 450 250" />
+                                <path stroke-width="3.2" opacity="0.34"
+                                    d="M-30 322 C70 244 130 372 210 302 S350 192 450 272" />
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Cross focal composition (CSS/SVG, decorative) -->
+                    <div class="v2-cross-stage" role="img"
+                        aria-label="Illustrated luminous cross within a glowing halo and translucent hexagons">
+                        <div class="v2-cross-composition">
+                            <span class="v2-halo" aria-hidden="true"></span>
+                            <span class="v2-hex v2-hex--1" aria-hidden="true"></span>
+                            <span class="v2-hex v2-hex--2" aria-hidden="true"></span>
+                            <span class="v2-hex v2-hex--3" aria-hidden="true"></span>
+
+                            <svg class="v2-cross" viewBox="0 0 120 180" aria-hidden="true" focusable="false">
+                                <defs>
+                                    <linearGradient id="v2CrossGrad" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#fbe6b0" />
+                                        <stop offset="45%" stop-color="#e7b84a" />
+                                        <stop offset="100%" stop-color="#b9862a" />
+                                    </linearGradient>
+                                    <filter id="v2CrossGlow" x="-60%" y="-60%" width="220%" height="220%">
+                                        <feGaussianBlur stdDeviation="3.2" result="blur" />
+                                        <feMerge>
+                                            <feMergeNode in="blur" />
+                                            <feMergeNode in="SourceGraphic" />
+                                        </feMerge>
+                                    </filter>
+                                </defs>
+                                <g filter="url(#v2CrossGlow)">
+                                    <rect x="51" y="8" width="18" height="164" rx="6" fill="url(#v2CrossGrad)"
+                                        stroke="#3a2708" stroke-width="1.6" stroke-opacity="0.55" />
+                                    <rect x="20" y="52" width="80" height="18" rx="6" fill="url(#v2CrossGrad)"
+                                        stroke="#3a2708" stroke-width="1.6" stroke-opacity="0.55" />
+                                </g>
                             </svg>
-                            Watch Our Story
-                        </button>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Mosaic Bento Grid -->
-                <div class="hero-visual-grid">
-                    <div class="bento-card card-1 float-1">
-                        <img src="images/community-worship.png" alt="Community Worship" class="card-img" loading="eager"
-                            width="800" height="600">
-                    </div>
-                    <div class="bento-card card-2 float-2">
-                        <img src="images/community-youth-night.png" alt="Youth Night" class="card-img" loading="lazy"
-                            width="800" height="600">
-                    </div>
-                    <div class="bento-card card-3 float-3">
-                        <img src="images/hero-worship-authentic.png" alt="Sanctuary Atmosphere"
-                            class="card-img" loading="lazy" width="800" height="600">
-                    </div>
-                </div>
-            </div>
+                    <!-- Glass-style replaceable photo cards -->
+                    <figure class="v2-photo-card v2-photo-card--main" data-photo-slot="MAIN_WORSHIP_PHOTO">
+                        <div class="v2-photo-frame">
+                            <img class="v2-photo-img"
+                                alt="GPBC congregation worshiping together during a church service"
+                                src="images/homepage/hero-v2/final/worship-desktop.webp"
+                                srcset="images/homepage/hero-v2/final/worship-desktop.webp 1000w,
+                                        images/homepage/hero-v2/final/worship-mobile.webp 1200w"
+                                sizes="(max-width: 760px) calc(100vw - 3rem), 430px"
+                                width="1200" height="900" decoding="async" fetchpriority="high">
+                            <span class="v2-photo-badge">Worship</span>
+                        </div>
+                        <figcaption class="v2-photo-caption">Sunday Worship</figcaption>
+                    </figure>
 
-            <!-- Scroll Indicator -->
-            <button class="scroll-indicator" type="button"
-                onclick="document.getElementById('sacred-focus').scrollIntoView({behavior: 'smooth'})"
-                aria-label="Scroll to content">
-                <div class="mouse">
-                    <div class="wheel"></div>
-                </div>
-                <span class="scroll-text">Scroll Down</span>
-            </button>
+                    <figure class="v2-photo-card v2-photo-card--community" data-photo-slot="COMMUNITY_PHOTO">
+                        <div class="v2-photo-frame">
+                            <img class="v2-photo-img"
+                                alt="Members and guests gathered together at Grace and Praise Bangladeshi Church"
+                                src="images/homepage/hero-v2/final/community-desktop.webp"
+                                srcset="images/homepage/hero-v2/final/community-desktop.webp 1000w,
+                                        images/homepage/hero-v2/final/community-mobile.webp 1200w"
+                                sizes="(max-width: 760px) calc(100vw - 3rem), 201px"
+                                width="1200" height="900" decoding="async" loading="lazy">
+                            <span class="v2-photo-badge">Community</span>
+                        </div>
+                        <figcaption class="v2-photo-caption">Community &amp; Fellowship</figcaption>
+                    </figure>
 
-            <!-- Video Modal Structure -->
-            <div id="heroVideoModal" class="hero-video-modal" role="dialog" aria-modal="true"
-                aria-label="Our Story Video" tabindex="-1">
-                <button class="close-modal" onclick="closeVideoModal()" aria-label="Close modal">✕</button>
-                <div class="video-modal-content">
-                    <div class="video-player-wrapper">
-                        <!-- Using vimeo as example, in production replace with church video -->
-                        <iframe id="heroStoryVideo"
-                            data-src="https://player.vimeo.com/video/494252666?h=72fd130454&badge=0&autopause=0&player_id=0&app_id=58479"
-                            loading="lazy" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            title="Our Story"></iframe>
-                    </div>
+                    <figure class="v2-photo-card v2-photo-card--family" data-photo-slot="FAMILY_PHOTO">
+                        <div class="v2-photo-frame">
+                            <img class="v2-photo-img"
+                                alt="Grace and Praise Bangladeshi Church family gathered together"
+                                src="images/homepage/hero-v2/final/family-desktop.webp"
+                                srcset="images/homepage/hero-v2/final/family-desktop.webp 1000w,
+                                        images/homepage/hero-v2/final/family-mobile.webp 1200w"
+                                sizes="(max-width: 760px) calc(100vw - 3rem), 201px"
+                                width="1200" height="900" decoding="async" loading="lazy">
+                            <span class="v2-photo-badge">Family</span>
+                        </div>
+                        <figcaption class="v2-photo-caption">Church Family</figcaption>
+                    </figure>
                 </div>
             </div>
         </section>
@@ -703,421 +836,294 @@
 
 
 
-        <!-- LIQUID TRANSITION GAP -->
-        <div class="liquid-transition-gap" aria-hidden="true"></div>
+        <!-- PLAN YOUR VISIT V3 -->
+        <section class="visit-v3" id="plan-your-visit" aria-labelledby="plan-your-visit-heading">
+            <span class="visit-v3__legacy-anchor" id="next-service" aria-hidden="true"></span>
+            <span class="visit-v3__legacy-anchor" id="new-here" aria-hidden="true"></span>
 
-        <!-- NEXT SERVICE SECTION — FIX FOR HEADER LINK ANCHOR -->
-        <section class="next-service-section" id="next-service" aria-labelledby="next-service-heading">
-            <div class="next-service-content">
-                <h2 id="next-service-heading">Next Service</h2>
-                <p class="next-service-intro">Join us for our next upcoming service. We can't wait to worship with you!
-                </p>
-
-                <!-- Service Details Above Countdown -->
-                <div class="service-details-header">
-                    <p class="service-name">
-                        <span id="service-name-display">Sunday Service</span>
-                    </p>
-                    <p class="service-time">
-                        <span id="service-time-display">Sunday at 5:00 PM PT</span>
-                    </p>
-                    <p class="service-note">
-                        <span id="service-type-note">Our main Sunday worship service — perfect for first-time
-                            visitors</span>
-                    </p>
+            <div class="visit-v3__inner">
+                <div class="visit-v3__intro">
+                    <p class="visit-v3__eyebrow">New here?</p>
+                    <h2 class="visit-v3__title" id="plan-your-visit-heading">Plan Your Visit</h2>
+                    <p class="visit-v3__welcome">We'd love to welcome you this Sunday.</p>
                 </div>
 
-                <div id="nextEventBanner" class="countdown-top-strip"></div>
+                <div class="visit-v3__details" aria-label="Sunday worship details">
+                    <p class="visit-v3__service-label">Sunday Worship</p>
+                    <time class="visit-v3__time" datetime="17:00">5:00 PM</time>
 
-                <!-- Service Information Below Countdown -->
-                <div class="service-details-footer">
-                    <div class="service-location-card">
-                        <p class="service-location-title">
-                            📍 Location
-                        </p>
-                        <p class="service-location-address">
-                            1325 Richardson Street<br>
-                            San Bernardino, CA 92408
-                        </p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=1325+Richardson+Street+San+Bernardino+CA+92408"
-                            target="_blank" rel="noopener noreferrer" class="service-location-link">
-                            Get Directions →
+                    <div class="visit-v3__location">
+                        <p class="visit-v3__church-name">Grace and Praise Bangladeshi Church</p>
+                        <address class="visit-v3__address">
+                            <span>1325 Richardson St.</span>
+                            <span>San Bernardino, CA 92408</span>
+                        </address>
+                    </div>
+
+                    <p class="visit-v3__meta">
+                        About 90 minutes <span aria-hidden="true">&middot;</span> Bangla &amp; English
+                        <span aria-hidden="true">&middot;</span> Everyone is welcome
+                    </p>
+
+                    <div class="visit-v3__actions">
+                        <a class="visit-v3__directions visit-v3__btn-link"
+                            href="https://www.google.com/maps/search/?api=1&query=1325+Richardson+Street+San+Bernardino+CA+92408"
+                            target="_blank" rel="noopener noreferrer"
+                            aria-label="Get directions to Grace and Praise Bangladeshi Church (opens in a new tab)">
+                            Get Directions
                         </a>
+                        <a class="visit-v3__guide visit-v3__btn-link" href="plan-visit.html">View the Full Visit Guide</a>
                     </div>
-
-                    <p class="service-meta">
-                        90 minutes · Bengali & English · All are welcome
-                    </p>
-
-                    <a href="#new-here" class="btn btn-primary btn-compact">
-                        Plan Your Visit
-                    </a>
                 </div>
 
-                <!-- Weekly Service Schedule Reference -->
-                <div class="weekly-gatherings-note">
-                    <p class="weekly-gatherings-text">
-                        <strong>Weekly Gatherings:</strong><br>
-                        Friday 5:30 PM - Worship Practice · Saturday 12:00 PM - Fasting Prayer · Sunday 5:00 PM - Main
-                        Service
-                    </p>
+                <figure class="visit-v3__visual">
+                    <picture>
+                        <source media="(max-width: 51.25rem)"
+                            srcset="images/homepage/plan-your-visit/gpbc-plan-your-visit-mobile.webp"
+                            width="1200" height="750">
+                        <img class="visit-v3__image"
+                            src="images/homepage/plan-your-visit/gpbc-plan-your-visit-desktop.webp"
+                            alt="Pastor preaching to the congregation at Grace and Praise Bangladeshi Church with the cross behind him."
+                            width="1000" height="1116" loading="lazy" decoding="async">
+                    </picture>
+                </figure>
+
+                <div class="visit-v3__expectations" aria-labelledby="visit-v3-expectations-heading">
+                    <h3 class="visit-v3__expectations-title" id="visit-v3-expectations-heading">What to Expect</h3>
+                    <ul class="visit-v3__expectations-list">
+                        <li class="visit-v3__expectation-item">
+                            <span class="visit-v3__expectation-mark" aria-hidden="true">01</span>
+                            <div>
+                                <h4 class="visit-v3__expectation-title">Come as you are</h4>
+                                <p class="visit-v3__expectation-copy">A warm, family-friendly welcome.</p>
+                            </div>
+                        </li>
+                        <li class="visit-v3__expectation-item">
+                            <span class="visit-v3__expectation-mark" aria-hidden="true">02</span>
+                            <div>
+                                <h4 class="visit-v3__expectation-title">Bangla &amp; English</h4>
+                                <p class="visit-v3__expectation-copy">Worship and ministry for our bilingual community.</p>
+                            </div>
+                        </li>
+                        <li class="visit-v3__expectation-item">
+                            <span class="visit-v3__expectation-mark" aria-hidden="true">03</span>
+                            <div>
+                                <h4 class="visit-v3__expectation-title">Biblical message &amp; prayer</h4>
+                                <p class="visit-v3__expectation-copy">Christ-centered worship, Scripture, and prayer.</p>
+                            </div>
+                        </li>
+                        <li class="visit-v3__expectation-item">
+                            <span class="visit-v3__expectation-mark" aria-hidden="true">04</span>
+                            <div>
+                                <h4 class="visit-v3__expectation-title">Fellowship</h4>
+                                <p class="visit-v3__expectation-copy">Stay and connect with the GPBC family.</p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <!-- New Here -->
-        <section class="new-here" id="new-here" aria-labelledby="new-here-heading">
-            <h2 id="new-here-heading">
-                <span data-lang="en">New Here? You Are Welcome</span>
-                <span data-lang="bn" style="display:none;">[নতুন এসেছেন? স্বাগতম]</span>
-            </h2>
-            <p class="new-here-intro">
-                <span data-lang="en">We're so glad you're here! Whether this is your first time or you're just curious
-                    about what we're about, you belong. No pressure, no expectations—just a warm welcome waiting for
-                    you.</span>
-                <span data-lang="bn" style="display:none;">[আপনাকে স্বাগতম বার্তা]</span>
-            </p>
+        <!-- Welcome Home V4 -->
+        <section class="welcome-home-v4" id="about" aria-labelledby="welcome-home-v4-heading">
+            <div class="welcome-home-v4__inner">
+                <div class="welcome-home-v4__intro">
+                    <p class="welcome-home-v4__eyebrow">Welcome to GPBC</p>
+                    <h2 class="welcome-home-v4__title" id="welcome-home-v4-heading">Welcome Home</h2>
+                    <p class="welcome-home-v4__lead">Come as you are. Find your place. Grow together in Christ.</p>
+                    <p class="welcome-home-v4__copy">A church family centered on Christ, growing together through faith, prayer, worship, fellowship, and service.</p>
+                </div>
 
-            <div class="new-here-questions">
-                <dl>
-                    <dt>
-                        <span data-lang="en">What is the service like?</span>
-                        <span data-lang="bn" style="display:none;">[সেবা কেমন?]</span>
-                    </dt>
-                    <dd>
-                        <span data-lang="en">Think of it as a time to sing, pray, and learn together. You'll hear
-                            uplifting music, a down-to-earth message from the Bible, and feel the care of people who are
-                            genuinely happy you're there.</span>
-                        <span data-lang="bn" style="display:none;">[সেবার বিবরণ]</span>
-                    </dd>
+                <figure class="welcome-home-v4__visual">
+                    <img class="welcome-home-v4__image"
+                        src="images/homepage/hero-v2/final/family-desktop.webp"
+                        alt="A diverse GPBC church family gathered together for a group photograph."
+                        width="1000" height="750" loading="lazy" decoding="async">
+                </figure>
 
-                    <dt>
-                        <span data-lang="en">What language is used?</span>
-                        <span data-lang="bn" style="display:none;">[কোন ভাষা ব্যবহার করা হয়?]</span>
-                    </dt>
-                    <dd>
-                        <span data-lang="en">We use both Bengali and English throughout our services, making everyone
-                            feel at home whether they're more comfortable in one language or the other.</span>
-                        <span data-lang="bn" style="display:none;">[বাংলা এবং ইংরেজি উভয়]</span>
-                    </dd>
-
-                    <dt>
-                        <span data-lang="en">How long is the service?</span>
-                        <span data-lang="bn" style="display:none;">[সেবা কতক্ষণ?]</span>
-                    </dt>
-                    <dd>
-                        <span data-lang="en">Services typically last about 90 minutes. We know life is busy, so we make
-                            every moment count while respecting your time.</span>
-                        <span data-lang="bn" style="display:none;">[প্রায় ৯০ মিনিট]</span>
-                    </dd>
-
-                    <dt>What should I expect when I arrive?</dt>
-                    <dd>Just come as you are—no dress code, no need to know anything in advance. You'll see friendly
-                        faces ready to help you find a seat. Don't worry about doing anything "wrong"—there's no wrong
-                        way to visit us!</dd>
-                </dl>
+                <p class="welcome-home-v4__closing">There is a place for you here.</p>
             </div>
+        </section>
 
-            <div class="new-here-cards">
-                <div class="new-here-card">
-                    <div class="card-icon">🎵</div>
-                    <h3>Worship & Prayer</h3>
-                    <p>Sing along or just listen—whatever feels right to you.</p>
+        <section class="community-v5" id="community-v5" aria-labelledby="community-v5-heading">
+            <div class="community-v5__inner">
+                <header class="community-v5__intro">
+                    <p class="community-v5__eyebrow">Life Together</p>
+                    <h2 id="community-v5-heading">Our Church Family</h2>
+                    <p class="community-v5__lead">Faith becomes family when we worship, grow, pray, and walk together.</p>
+                </header>
+
+                <div class="community-v5__stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Grace and Praise church family moments">
+                    <div class="community-v5__track">
+                        <article class="community-v5__slide is-active" tabindex="0" data-index="0" role="button" aria-label="View Sunday Worship slide">
+                            <figure class="community-v5__media">
+                                <img src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church" width="900" height="700" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="community-v5__caption">
+                                <p class="community-v5__label">Sunday Worship</p>
+                                <h3>Worship Together</h3>
+                            </div>
+                        </article>
+
+                        <article class="community-v5__slide" tabindex="0" data-index="1" role="button" aria-label="View Family Fellowship slide">
+                            <figure class="community-v5__media">
+                                <img src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC" width="900" height="700" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="community-v5__caption">
+                                <p class="community-v5__label">Family Fellowship</p>
+                                <h3>Life Together</h3>
+                            </div>
+                        </article>
+
+                        <article class="community-v5__slide" tabindex="0" data-index="2" role="button" aria-label="View Youth Gathering slide">
+                            <figure class="community-v5__media">
+                                <img src="images/community-youth-night.webp" alt="GPBC youth gathering in worship and fellowship" width="900" height="700" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="community-v5__caption">
+                                <p class="community-v5__label">Youth Gathering</p>
+                                <h3>Growing Together</h3>
+                            </div>
+                        </article>
+
+                        <article class="community-v5__slide" tabindex="0" data-index="3" role="button" aria-label="View Bible Study slide">
+                            <figure class="community-v5__media">
+                                <img src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church" width="900" height="700" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="community-v5__caption">
+                                <p class="community-v5__label">Bible Study</p>
+                                <h3>Rooted in God's Word</h3>
+                            </div>
+                        </article>
+
+                        <article class="community-v5__slide" tabindex="0" data-index="4" role="button" aria-label="View Prayer and Service slide">
+                            <figure class="community-v5__media">
+                                <img src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community" width="900" height="700" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="community-v5__caption">
+                                <p class="community-v5__label">Prayer &amp; Service</p>
+                                <h3>Praying Together</h3>
+                            </div>
+                        </article>
+                    </div>
                 </div>
 
-                <div class="new-here-card">
-                    <div class="card-icon">📖</div>
-                    <h3>Bible-Based Message</h3>
-                    <p>Real-life wisdom from the Bible, no complicated language.</p>
-                </div>
+                <div class="community-v5__controls" aria-label="Carousel navigation controls">
+                    <button class="community-v5__prev" type="button" aria-label="Previous community moment">
+                        <span aria-hidden="true">←</span>
+                    </button>
 
-                <div class="new-here-card">
-                    <div class="card-icon">🤝</div>
-                    <h3>Friendly Community</h3>
-                    <p>People who will remember your name and check in on you.</p>
-                </div>
+                    <div class="community-v5__dots" role="tablist" aria-label="Choose a church family moment">
+                        <button class="community-v5__dot is-active" type="button" data-index="0" role="tab" aria-label="View first slide" aria-selected="true" aria-current="true"></button>
+                        <button class="community-v5__dot" type="button" data-index="1" role="tab" aria-label="View second slide" aria-selected="false"></button>
+                        <button class="community-v5__dot" type="button" data-index="2" role="tab" aria-label="View third slide" aria-selected="false"></button>
+                        <button class="community-v5__dot" type="button" data-index="3" role="tab" aria-label="View fourth slide" aria-selected="false"></button>
+                        <button class="community-v5__dot" type="button" data-index="4" role="tab" aria-label="View fifth slide" aria-selected="false"></button>
+                    </div>
 
-                <div class="new-here-card">
-                    <div class="card-icon">👨‍👩‍👧‍👦</div>
-                    <h3>Families Welcome</h3>
-                    <p>Kids, babies, everyone—you're all invited, no exceptions.</p>
-                </div>
-            </div>
-
-            <div class="new-here-cta">
-                <p class="cta-message">We would love to meet you in person.</p>
-                <div class="cta-buttons">
-                    <a href="beliefs.html" class="btn btn-primary">See Our Beliefs</a>
-                    <a href="leadership.html" class="btn btn-secondary">Meet the Leaders</a>
+                    <button class="community-v5__next" type="button" aria-label="Next community moment">
+                        <span aria-hidden="true">→</span>
+                    </button>
                 </div>
             </div>
         </section>
 
-        <!-- Welcome Home -->
-        <section class="welcome" id="about" aria-labelledby="welcome-heading">
-            <div class="welcome-content">
-                <h2 id="welcome-heading">Welcome Home</h2>
-                <p class="intro">We are a vibrant community of believers who gather to worship God, grow in faith, and
-                    serve our community. As a Bengali Christian church, we're proud to serve families in San Bernardino
-                    and the surrounding Inland Empire with worship in both Bengali and English. Whether you're new to
-                    church or returning after time away, you'll find a warm welcome here.</p>
-            </div>
+        <!-- Dynamic Upcoming Events Container -->
+        <!-- Events are dynamically loaded from events.js by homepage-events.js -->
+        <div id="dynamic-events-container"></div>
 
-            <div class="stats">
-                <div class="stat-card">
-                    <span class="stat-number" data-count="500">0</span>
-                    <span class="stat-label">Members</span>
+        <!-- FLIPPING CARDS SCROLL SECTION -->
+        <section class="flip-scroll-section" id="featured-events">
+            <div class="flip-sticky-wrapper">
+                <div class="flip-section-title">
+                    <p class="flip-section-eyebrow">Your Next Step</p>
+                    <h2>Get Involved</h2>
+                    <p class="flip-section-subtitle">Your Journey Starts Here</p>
+                    <p class="flip-section-lead">Come as you are. Find your place. Grow in Christ. Build His Kingdom.</p>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-number" data-count="20">0</span>
-                    <span class="stat-label">Years Serving</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" data-count="100">0</span>
-                    <span class="stat-label">Weekly Attendance</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" data-count="24">0</span>
-                    <span class="stat-label">Prayer Support</span>
+
+                <div class="flip-cards-container">
+                    <!-- Card 1 -->
+                    <div class="flip-card flip-card--come">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-step">01</div>
+                                <div class="card-icon">🙏</div>
+                                <div class="card-category">Come</div>
+                                <p class="card-front-copy">Worship With Us</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church">
+                                </div>
+                                <h3 class="card-back-title">Worship With Us</h3>
+                                <p>Come into God's presence and experience worship, prayer, and the Word together.</p>
+                                <a href="plan-visit.html" class="card-button">Plan Your Visit</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="flip-card flip-card--belong">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-step">02</div>
+                                <div class="card-icon">🤝</div>
+                                <div class="card-category">Belong</div>
+                                <p class="card-front-copy">Find Your Family</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC">
+                                </div>
+                                <h3 class="card-back-title">Find Your Family</h3>
+                                <p>You were never meant to walk alone. Build meaningful relationships in the GPBC family.</p>
+                                <a href="contact.html" class="card-button">Connect With Us</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="flip-card flip-card--become">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-step">03</div>
+                                <div class="card-icon">📖</div>
+                                <div class="card-category">Become</div>
+                                <p class="card-front-copy">Grow in Christ</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church">
+                                </div>
+                                <h3 class="card-back-title">Grow in Christ</h3>
+                                <p>Grow through Scripture, prayer, discipleship, and a deeper relationship with Jesus.</p>
+                                <a href="ministries/bible-study.html" class="card-button">Grow With Us</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="flip-card flip-card--build">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-step">04</div>
+                                <div class="card-icon">⛪</div>
+                                <div class="card-category">Build</div>
+                                <p class="card-front-copy">Serve With Purpose</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="card-image-wrap">
+                                    <img src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community">
+                                </div>
+                                <h3 class="card-back-title">Serve With Purpose</h3>
+                                <p>Use your gifts to serve God, strengthen the church, and make a difference in the lives of others.</p>
+                                <a href="ministries.html" class="card-button">Start Serving</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <!-- SHAPE SYSTEM: SQUARE - Service & Ministry (Restored) -->
-        <section class="shape-square-container gentle-fade-in" id="ministries">
-            <div class="container">
-                <h2 class="section-title-display">
-                    Ways to Serve
-                </h2>
-
-                <div class="shape-square-grid">
-                    <!-- Worship Team -->
-                    <div class="shape-square" onclick="location.href='ministries/worship-ministry.html'" role="button"
-                        tabindex="0">
-                        <div class="shape-square-icon">🙏</div>
-                        <h3>Worship Team</h3>
-                        <p>Share your musical gifts to lead our congregation in heartfelt praise and worship every
-                            Sunday.
-                        </p>
-                    </div>
-
-                    <!-- Kids Ministry -->
-                    <div class="shape-square" onclick="location.href='ministries/kids-ministry.html'" role="button"
-                        tabindex="0">
-                        <div class="shape-square-icon">👶</div>
-                        <h3>Kids Ministry</h3>
-                        <p>Impact the next generation by teaching Bible stories and leading activities for children ages
-                            4-12.</p>
-                    </div>
-
-                    <!-- Hospitality -->
-                    <div class="shape-square">
-                        <div class="shape-square-icon">☕</div>
-                        <h3>Hospitality</h3>
-                        <p>Welcome guests and help create a warm, inviting atmosphere for everyone who enters our doors.
-                        </p>
-                    </div>
-
-                    <!-- Give -->
-                    <a class="shape-square" href="give.html">
-                        <div class="shape-square-icon">💝</div>
-                        <h3>Give</h3>
-                        <p>Support the mission of Grace and Praise through your faithful tithes and offerings.</p>
-                        <span class="shape-square-link">Give Online →</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <div class="whats-happening-macro" aria-label="What's Happening">
-            <!-- FLIPPING CARDS SCROLL SECTION -->
-            <section class="flip-scroll-section" id="featured-events">
-                <div class="flip-sticky-wrapper">
-                    <div class="flip-section-title">
-                        <h2 class="section-title-display section-title-display--light">
-                            Community Highlights</h2>
-                        <p class="flip-scroll-hint">Scroll to flip each card</p>
-                    </div>
-
-                    <div class="flip-cards-container">
-                        <!-- Card 1 -->
-                        <div class="flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="card-category">Worship</div>
-                                    <div class="card-icon">🙏</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <div class="card-image-wrap">
-                                        <img loading="lazy" src="images/community-worship.png"
-                                            alt="Sunday worship gathering at Grace and Praise Bangladeshi Church"
-                                            loading="lazy" width="800" height="600">
-                                    </div>
-                                    <h3 class="card-back-title">Sunday Main Service</h3>
-                                    <p>Join us for our main
-                                        Bengali service every Sunday at 5:00 PM.</p>
-                                    <a href="calendar.html" class="card-button">Learn More</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 2 -->
-                        <div class="flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="card-category">Youth</div>
-                                    <div class="card-icon">🔥</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <div class="card-image-wrap">
-                                        <img loading="lazy" src="images/community-youth-night.png"
-                                            alt="Youth gathering for Friday night worship and fellowship" loading="lazy"
-                                            width="800" height="600">
-                                    </div>
-                                    <h3 class="card-back-title">Friday Youth Night</h3>
-                                    <p>Empowering the next generation. Every Friday at 7:30 PM.</p>
-                                    <a href="ministries/youth-ministry.html" class="card-button">Join Youth</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 3 -->
-                        <div class="flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="card-category">Prayer</div>
-                                    <div class="card-icon">📖</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <div class="card-image-wrap">
-                                        <img loading="lazy" src="images/community-bible-study.png"
-                                            alt="Small group Bible study with Scripture and coffee" loading="lazy"
-                                            width="800" height="600">
-                                    </div>
-                                    <h3 class="card-back-title">Weekly Bible Study</h3>
-                                    <p>Deep dive into the Word of God every Wednesday at 7:00 PM.</p>
-                                    <a href="ministries/bible-study.html" class="card-button">Study Word</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 4 -->
-                        <div class="flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="card-category">Fasting</div>
-                                    <div class="card-icon">⛪</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <div class="card-image-wrap">
-                                        <img loading="lazy" src="images/fasting-prayer-hands.jpg"
-                                            alt="Saturday fasting prayer with quiet reflection and intercession"
-                                            loading="lazy" width="800" height="600">
-                                    </div>
-                                    <h3 class="card-back-title">Saturday Fasting Prayer</h3>
-                                    <p>Morning fasting and prayer for our church—Saturday at 10:00 AM.</p>
-                                    <a href="prayer-request.html" class="card-button">Send Prayer Request</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Dynamic Upcoming Events Container -->
-            <!-- Events are dynamically loaded from events.js by homepage-events.js -->
-            <div id="dynamic-events-container"></div>
-
-            <!-- THE COMMUNITY HALO - Reimagined Community Section -->
-            <section class="shape-circle-container gentle-fade-in" id="circle-hero">
-                <div class="circle-carousel" tabindex="0" role="region" aria-label="Community highlights carousel">
-
-                    <!-- Slide 1: Sunday Worship -->
-                    <div class="circle-carousel-item active">
-                        <div class="slide-backdrop" style="background-image: url('images/community-worship.png');">
-                        </div>
-                        <div class="slide-overlay"></div>
-                        <div class="glass-halo-card">
-                            <div class="unity-ring"></div>
-                            <div class="shape-content-wrapper">
-                                <h2>Join Us in Worship</h2>
-                                <p class="shape-scripture">
-                                    "Taste and see that the Lord is good; blessed is the one who takes refuge in him."
-                                    <br>— Psalm 34:8
-                                </p>
-                                <p class="slide-description">
-                                    Experience the warmth of fellowship and the joy of worshiping together as one body
-                                    in
-                                    Christ.
-                                </p>
-                                <a href="#next-service" class="btn btn-primary btn-hero-light">
-                                    View Service Countdown →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2: Community Prayer -->
-                    <div class="circle-carousel-item">
-                        <div class="slide-backdrop" style="background-image: url('images/fasting-prayer-hands.jpg');">
-                        </div>
-                        <div class="slide-overlay"></div>
-                        <div class="glass-halo-card">
-                            <div class="unity-ring"></div>
-                            <div class="shape-content-wrapper">
-                                <h2>United in Prayer</h2>
-                                <p class="shape-scripture">
-                                    "Again, truly I tell you that if two of you on earth agree about anything they ask
-                                    for,
-                                    it
-                                    will be done for them by my Father in heaven."
-                                    <br>— Matthew 18:19
-                                </p>
-                                <p class="slide-description">
-                                    Our prayer circle meets to lift up our community's needs to God in faith and unity.
-                                </p>
-                                <a href="prayer-request.html" class="btn btn-primary btn-hero-light">
-                                    Request Prayer →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 3: Testimonies -->
-                    <div class="circle-carousel-item">
-                        <div class="slide-backdrop" style="background-image: url('images/community-greeting.png');">
-                        </div>
-                        <div class="slide-overlay"></div>
-                        <div class="glass-halo-card">
-                            <div class="unity-ring"></div>
-                            <div class="shape-content-wrapper">
-                                <h2>Stories of Grace</h2>
-                                <p class="shape-scripture">
-                                    "They triumphed over him by the blood of the Lamb and by the word of their
-                                    testimony."
-                                    <br>— Revelation 12:11
-                                </p>
-                                <p class="slide-description">
-                                    Hear how God is working in the lives of our church family through transformation and
-                                    hope.
-                                </p>
-                                <a href="testimonies.html" class="btn btn-primary btn-hero-light">
-                                    Read Testimonies →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Circle Navigation Dots -->
-                    <div class="circle-nav-dots" role="tablist" aria-label="Carousel navigation">
-                        <button class="circle-dot active" role="tab" aria-label="Go to slide 1"
-                            aria-selected="true"></button>
-                        <button class="circle-dot" role="tab" aria-label="Go to slide 2" aria-selected="false"></button>
-                        <button class="circle-dot" role="tab" aria-label="Go to slide 3" aria-selected="false"></button>
-                    </div>
-                </div>
-            </section>
-        </div>
 
         <!-- GPBC Loop Scroll – Scroll-driven circular slider. Isolated, safe to remove -->
         <!-- Get Involved: Transformational Loop with Slick Carousel -->
@@ -1148,7 +1154,7 @@
                                 <h2>Follow Jesus</h2>
                             </div>
                             <img loading="lazy" decoding="async" width="1080" height="1080"
-                                src="images/community-worship.png" class="attachment-large size-large"
+                                src="images/community-worship.webp" class="attachment-large size-large"
                                 alt="Baptism and worship at Grace and Praise" />
                         </div>
                         <div>
@@ -1165,7 +1171,7 @@
                                 <h2>Grow Together</h2>
                             </div>
                             <img loading="lazy" decoding="async" width="1080" height="1080"
-                                src="images/community-greeting.png" class="attachment-large size-large"
+                                src="images/community-greeting.webp" class="attachment-large size-large"
                                 alt="Community prayer and fellowship at Grace and Praise" />
                         </div>
                         <div>
@@ -1180,7 +1186,7 @@
                                 <h2>Serve One Another</h2>
                             </div>
                             <img loading="lazy" decoding="async" width="1080" height="1080"
-                                src="images/community-youth-night.png" class="attachment-large size-large"
+                                src="images/community-youth-night.webp" class="attachment-large size-large"
                                 alt="Serving one another with love and encouragement" />
                         </div>
                         <div>
@@ -1198,7 +1204,7 @@
                                 <h2>Change The World</h2>
                             </div>
                             <img loading="lazy" decoding="async" width="1080" height="1080"
-                                src="images/community-bible-study.png" class="attachment-large size-large"
+                                src="images/community-bible-study.webp" class="attachment-large size-large"
                                 alt="Community outreach and spiritual growth through the Word" />
                         </div>
                     </div>
@@ -1289,48 +1295,14 @@
             });
         </script>
 
-        <!-- ========================================
-             SHAPE SYSTEM: TRAPEZOID - Youth & Growth
-             ======================================== -->
-        <section class="shape-trapezoid-container gentle-fade-in" id="youth-section">
-            <div class="container">
-                <h2 class="section-title-accent-teal">
-                    Youth Ministry <span class="growth-arrow">↗</span>
-                </h2>
-
-                <div class="trapezoid-slider" role="region" aria-label="Youth ministry highlights">
-                    <div class="trapezoid-slide" style="display: block;">
-                        <div class="shape-trapezoid">
-                            <h3>Friday Night Live</h3>
-                            <p class="trapezoid-copy">
-                                Join us every Friday at 7 PM for worship, games, and powerful messages designed for
-                                young hearts seeking God.
-                            </p>
-                            <p class="shape-scripture shape-scripture-inverse">
-                                "Don't let anyone look down on you because you are young, but set an example for the
-                                believers in speech, in conduct, in love, in faith and in purity."
-                                <br>— 1 Timothy 4:12
-                            </p>
-                        </div>
-                    </div>
-                    <button class="trapezoid-arrow left" aria-label="Previous slide">
-                        <span class="trapezoid-arrow-icon">‹</span>
-                    </button>
-                    <button class="trapezoid-arrow right" aria-label="Next slide">
-                        <span class="trapezoid-arrow-icon">›</span>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========================================
+        <!-- ----------------------------------------
              SHAPE SYSTEM: RECTANGLE - Teaching & Stability
-             ======================================== -->
+             ---------------------------------------- -->
 
 
-        <!-- ============================================================================
+        <!-- ----------------------------------------------------------------------------
              TRUE HEPTAGON WHEEL — Sacred Geometry Teaching Tool
-             ============================================================================
+             ----------------------------------------------------------------------------
              Purpose: Visual catechism where geometry teaches theology
              Interaction: Rotate to bring each side to TOP (active position)
              Content: 7 aspects from the Lord's Prayer (Matthew 6:9-13)
@@ -1339,7 +1311,7 @@
              - Rotating layer: Heptagon outline + wall text labels (rotate together)
              - Static center: Active topic details (crossfade only, never moves)
              - Active side: Always at TOP position
-             ========================================================================== -->
+             -------------------------------------------------------------------------- -->
         <section class="heptagon-wheel-section" aria-label="Our Father in Heaven">
 
             <!-- Two-Column Layout -->
@@ -1460,65 +1432,146 @@
 
         </section>
 
-        <!-- What's Happening -->
-        <section class="whats-happening" aria-labelledby="happening-heading">
-            <h2 id="happening-heading">What's Happening</h2>
-            <div class="feature-cards">
-                <article class="feature-card">
-                    <div class="card-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
-                    </div>
-                    <h3>Calendar</h3>
-                    <p>Stay connected with upcoming services, events, and special gatherings throughout the year.</p>
-                    <a href="calendar.html" class="card-link">View Events →</a>
-                </article>
+        <!-- Homepage Stay Connected V8 -->
+        <section class="stay-connected-v8" id="stay-connected" aria-labelledby="stay-connected-v8-heading">
+            <div class="stay-connected-v8__inner">
+                <div class="stay-connected-v8__intro">
+                    <p class="stay-connected-v8__eyebrow">Stay Connected</p>
+                    <h2 class="stay-connected-v8__title" id="stay-connected-v8-heading">
+                        Stay <span>Connected</span>
+                    </h2>
+                    <p class="stay-connected-v8__subtitle">
+                        Keep growing in faith and community beyond Sunday.
+                    </p>
+                </div>
 
-                <article class="feature-card">
-                    <div class="card-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <h3>Prayer Requests</h3>
-                    <p>Share your prayer needs with our community. We're here to lift you up in prayer.</p>
-                    <a href="prayer-request.html" class="card-link">Share a Prayer →</a>
-                </article>
+                <div class="stay-connected-v8__grid">
+                    <article class="stay-connected-v8__card stay-connected-v8__card--events">
+                        <a class="stay-connected-v8__link stay-connected-v8__btn-link" href="calendar.html"
+                            aria-label="View Events: Discover upcoming services, fellowships, and special events.">
+                            <figure class="stay-connected-v8__media">
+                                <img src="images/community-worship.webp"
+                                    alt="Grace and Praise church family worshiping together"
+                                    width="1024" height="1024" loading="lazy" decoding="async">
+                                <span class="stay-connected-v8__icon stay-connected-v8__icon--teal" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" focusable="false">
+                                        <rect x="3.5" y="5" width="17" height="16" rx="2"></rect>
+                                        <path d="M7.5 3v4M16.5 3v4M3.5 9.5h17M7.5 13h.01M12 13h.01M16.5 13h.01M7.5 17h.01M12 17h.01M16.5 17h.01"></path>
+                                    </svg>
+                                </span>
+                            </figure>
+                            <div class="stay-connected-v8__content">
+                                <p class="stay-connected-v8__label">Connect in community</p>
+                                <h3>Events</h3>
+                                <p class="stay-connected-v8__description">
+                                    Discover upcoming services, fellowships, and special events.
+                                </p>
+                                <span class="stay-connected-v8__cta">View Events <span aria-hidden="true">→</span></span>
+                            </div>
+                        </a>
+                    </article>
 
-                <article class="feature-card">
-                    <div class="card-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path
-                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                            </path>
-                        </svg>
-                    </div>
-                    <h3>Special Days</h3>
-                    <p>Celebrate special occasions, holidays, and milestones together as a church family.</p>
-                    <a href="calendar.html" class="card-link">See Schedule →</a>
-                </article>
+                    <article class="stay-connected-v8__card stay-connected-v8__card--prayer">
+                        <a class="stay-connected-v8__link stay-connected-v8__btn-link" href="prayer-request.html"
+                            aria-label="Submit a Prayer: Share your prayer requests and pray with our church family.">
+                            <figure class="stay-connected-v8__media">
+                                <img src="images/community-greeting.webp"
+                                    alt="Two people praying together over an open Bible"
+                                    width="1024" height="1024" loading="lazy" decoding="async">
+                                <span class="stay-connected-v8__icon stay-connected-v8__icon--gold" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" focusable="false">
+                                        <path d="M12 20.5s-7-4.35-7-10.1A4.1 4.1 0 0 1 12 8a4.1 4.1 0 0 1 7 2.4c0 5.75-7 10.1-7 10.1Z"></path>
+                                        <path d="M12 3.5v5M9.5 6h5"></path>
+                                    </svg>
+                                </span>
+                            </figure>
+                            <div class="stay-connected-v8__content">
+                                <p class="stay-connected-v8__label">Pray together</p>
+                                <h3>Prayer</h3>
+                                <p class="stay-connected-v8__description">
+                                    Share your prayer requests and pray with our church family.
+                                </p>
+                                <span class="stay-connected-v8__cta">Submit a Prayer <span aria-hidden="true">→</span></span>
+                            </div>
+                        </a>
+                    </article>
 
-                <article class="feature-card">
-                    <div class="card-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path
-                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                            </path>
-                        </svg>
-                    </div>
-                    <h3>Give</h3>
-                    <p>Support our mission and ministry through generous giving. Every gift makes a difference.</p>
-                    <a href="give.html" class="card-link">Give Now →</a>
-                </article>
+                    <article class="stay-connected-v8__card stay-connected-v8__card--worship">
+                        <a class="stay-connected-v8__link stay-connected-v8__btn-link" href="ministries/worship-ministry.html"
+                            aria-label="Explore Praise and Worship Ministry: Serving God through worship, music, prayer, and praise as one church family.">
+                            <figure class="stay-connected-v8__media">
+                                <img src="images/homepage/hero-v2/final/worship-desktop.webp"
+                                    alt="Grace and Praise worship ministry leading the church in praise"
+                                    width="1000" height="750" loading="lazy" decoding="async">
+                                <span class="stay-connected-v8__icon stay-connected-v8__icon--teal" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" focusable="false">
+                                        <path d="M9 18V5l10-2v13"></path>
+                                        <circle cx="6.5" cy="18" r="2.5"></circle>
+                                        <circle cx="16.5" cy="16" r="2.5"></circle>
+                                    </svg>
+                                </span>
+                            </figure>
+                            <div class="stay-connected-v8__content">
+                                <p class="stay-connected-v8__label">Worship Together</p>
+                                <h3>Praise &amp; Worship Ministry</h3>
+                                <p class="stay-connected-v8__description">
+                                    Serving God through worship, music, prayer, and praise as one church family.
+                                </p>
+                                <span class="stay-connected-v8__cta">Explore Ministry <span aria-hidden="true">→</span></span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="stay-connected-v8__card stay-connected-v8__card--devotion">
+                        <a class="stay-connected-v8__link stay-connected-v8__btn-link" href="daily-devotion.html"
+                            aria-label="Read Today's Daily Devotion: Be encouraged by God's Word every day.">
+                            <figure class="stay-connected-v8__media">
+                                <img src="images/devotions/daily-devotion-hero.webp"
+                                    alt="A warmly lit devotional scene with Scripture and a candle"
+                                    width="1024" height="1024" loading="lazy" decoding="async">
+                                <span class="stay-connected-v8__icon stay-connected-v8__icon--teal" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" focusable="false">
+                                        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z"></path>
+                                        <path d="M4 5.5v15M8 7h8M8 11h8"></path>
+                                    </svg>
+                                </span>
+                            </figure>
+                            <div class="stay-connected-v8__content">
+                                <p class="stay-connected-v8__label">Pause and reflect</p>
+                                <h3>Daily Devotion</h3>
+                                <p class="stay-connected-v8__description">
+                                    Be encouraged by God's Word every day.
+                                </p>
+                                <span class="stay-connected-v8__cta">Read Today <span aria-hidden="true">→</span></span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="stay-connected-v8__card stay-connected-v8__card--give">
+                        <a class="stay-connected-v8__link stay-connected-v8__btn-link" href="give.html"
+                            aria-label="Give Online: Partner with what God is doing through GPBC.">
+                            <figure class="stay-connected-v8__media">
+                                <img src="images/homepage/hero-v2/final/family-desktop.webp"
+                                    alt="Grace and Praise church family gathered together"
+                                    width="1200" height="900" loading="lazy" decoding="async">
+                                <span class="stay-connected-v8__icon stay-connected-v8__icon--gold" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" focusable="false">
+                                        <path d="M20.5 12.5v5.25A2.25 2.25 0 0 1 18.25 20H5.75a2.25 2.25 0 0 1-2.25-2.25V9.5h17v3"></path>
+                                        <path d="M3.5 9.5V7.25A2.25 2.25 0 0 1 5.75 5H10l2 2h6.25a2.25 2.25 0 0 1 2.25 2.25M12 13c1.4-2.1 4.5-.25 0 2.5-4.5-2.75-1.4-4.6 0-2.5Z"></path>
+                                    </svg>
+                                </span>
+                            </figure>
+                            <div class="stay-connected-v8__content">
+                                <p class="stay-connected-v8__label">Give with purpose</p>
+                                <h3>Give</h3>
+                                <p class="stay-connected-v8__description">
+                                    Partner with what God is doing through GPBC.
+                                </p>
+                                <span class="stay-connected-v8__cta">Give Online <span aria-hidden="true">→</span></span>
+                            </div>
+                        </a>
+                    </article>
+                </div>
             </div>
         </section>
 
@@ -1576,10 +1629,10 @@
 
     <!-- Stats Counter Animation Script -->
     <script>
-        // ============================================
+        // --------------------------------------------
         // NAVIGATION LOCK — Moved to navigation.js?v=20260222-ipadnavfix2
         // All navigation logic centralized in navigation.js?v=20260222-ipadnavfix2
-        // ============================================
+        // --------------------------------------------
 
         // Intersection Observer for stats animation
         const statsObserver = new IntersectionObserver((entries) => {
@@ -1874,13 +1927,13 @@
             }
         }
 
-        /* ============================================================================
+        /* ----------------------------------------------------------------------------
        DARK MODE — Enhanced Contrast & Readability
-       ============================================================================
+       ----------------------------------------------------------------------------
        CRITICAL: NO opacity on primary text in dark mode
        All text colors are explicit, solid, and meet WCAG AA contrast
        Cards use soft light background (#F8FAFC) for intentional, active feel
-       ========================================================================== */
+       -------------------------------------------------------------------------- */
 
         [data-theme="dark"] .gpbc-faith-timeline {
             background: #0f172a;
@@ -2276,9 +2329,9 @@
             }
         }
 
-        /* ======================================================
+        /* ------------------------------------------------------
        GPBC FEATURE SHOWCASE STYLES - Isolated, safe to remove
-       ====================================================== */
+       ------------------------------------------------------ */
         /* SCOPED STYLES - Only affects .gpbc-feature-showcase */
         .gpbc-feature-showcase {
             width: 100%;
@@ -2551,10 +2604,10 @@
             }
         }
 
-        /* ======================================================
+        /* ------------------------------------------------------
        GPBC LOOP SCROLL STYLES - Scroll-driven circular slider
        Isolated, safe to remove
-       ====================================================== */
+       ------------------------------------------------------ */
         /* SCOPED STYLES - Only affects .gpbc-loop-scroll */
         .gpbc-loop-scroll {
             width: 100%;
@@ -3359,10 +3412,10 @@
         }
     </style>
 
-    <!-- ======================================================
+    <!-- ------------------------------------------------------
        SLICK CAROUSEL LOOP STYLES
        Get Involved Transformational Loop
-       ====================================================== -->
+       ------------------------------------------------------ -->
     <style>
         .block-the-loop {
             width: 100%;
@@ -3990,12 +4043,40 @@
                 padding: 12px 28px !important;
             }
         }
+
+        body[data-theme="dark"] .block-the-loop,
+        body.dark .block-the-loop {
+            color: var(--theme-text-primary);
+        }
+
+        body[data-theme="dark"] .block-the-loop .content h2,
+        body.dark .block-the-loop .content h2 {
+            color: var(--theme-text-primary);
+        }
+
+        body[data-theme="dark"] .block-the-loop .content p,
+        body.dark .block-the-loop .content p {
+            color: var(--theme-text-secondary);
+        }
+
+        body[data-theme="dark"] .block-the-loop .button,
+        body.dark .block-the-loop .button {
+            color: #0f172a !important;
+        }
+
+        .block-the-loop .button,
+        .block-the-loop .button:link,
+        .block-the-loop .button:visited,
+        .block-the-loop .button:hover,
+        .block-the-loop .button:focus-visible {
+            color: #0f172a !important;
+        }
     </style>
 
-    <!-- ======================================================
+    <!-- ------------------------------------------------------
        GPBC ROTATING SHOWCASE STYLES
        Isolated, safe to remove
-       ====================================================== -->
+       ------------------------------------------------------ -->
     <style>
         .gpbc-rotating-showcase {
             width: 100%;
@@ -4530,10 +4611,10 @@
             showSlide(0);
         })();
 
-        // ========================================================
+        // --------------------------------------------------------
         // GPBC FEATURE SHOWCASE - Auto-rotation logic
         // Isolated, safe to remove
-        // ========================================================
+        // --------------------------------------------------------
         (function () {
             const featureSection = document.querySelector('.gpbc-feature-showcase');
             if (!featureSection) return;
@@ -4665,10 +4746,10 @@
             }
         })();
 
-        // ========================================================
+        // --------------------------------------------------------
         // GPBC LOOP SCROLL - Scroll-driven circular slider
         // Isolated, safe to remove
-        // ========================================================
+        // --------------------------------------------------------
         (function () {
             const loopSection = document.querySelector('.gpbc-loop-scroll');
             if (!loopSection) return;
@@ -4779,9 +4860,9 @@
     </script>
 
     <!-- THREE.JS & GSAP LIBRARIES -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
 
     <!-- 3D PARTICLE CROSS SCRIPT -->
     <script>
@@ -5029,56 +5110,22 @@
     </script>
 
 
-    <script src="event-flip-cards.js"></script>
+    <script src="community-carousel-v5.js" defer></script>
+    <script src="event-flip-cards.js" defer></script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->
-    <script src="navigation.js?v=20260222-ipadnavfix2"></script>
-    <script src="events.js?v=20260129a"></script>
-    <script src="homepage-events.js?v=20260129a"></script>
-    <script src="countdown.js?v=20260129a"></script>
-
-    <!-- Dynamic Service Details Update -->
-    <script>
-        (function () {
-            // Update service details based on countdown
-            function updateServiceDetails() {
-                const banner = document.getElementById('nextEventBanner');
-                const serviceName = document.getElementById('service-name-display');
-                const serviceTime = document.getElementById('service-time-display');
-                const serviceNote = document.getElementById('service-type-note');
-
-                if (!banner || !serviceName || !serviceTime || !serviceNote) return;
-
-                const bannerCard = banner.querySelector('.next-event-banner');
-                if (!bannerCard) return;
-
-                const { eventName, eventTimeLabel, eventNote } = bannerCard.dataset;
-
-                if (eventName) serviceName.textContent = eventName;
-                if (eventTimeLabel) serviceTime.textContent = eventTimeLabel;
-                if (eventNote) serviceNote.textContent = eventNote;
-            }
-
-            // Update immediately and every 5 seconds to catch countdown changes
-            updateServiceDetails();
-            setInterval(updateServiceDetails, 5000);
-
-            // Also update when page becomes visible (tab switching)
-            document.addEventListener('visibilitychange', function () {
-                if (!document.hidden) {
-                    updateServiceDetails();
-                }
-            });
-        })();
-    </script>
+    <script src="navigation.js?v=20260918-v11-theme-final3" defer></script>
+    <script src="events.js?v=20260129a" defer></script>
+    <script src="homepage-events.js?v=20260129a" defer></script>
+    <script src="countdown.js?v=20260129a" defer></script>
 
     <!-- SHAPE SYSTEM — Spiritual design interactions -->
-    <script src="shape-system.js"></script>
+    <script src="shape-system.js" defer></script>
 
     <!-- HEPTAGON CAROUSEL — Sacred geometry scroll interaction -->
-    <script src="heptagon-wheel-sacred.js"></script>
+    <script src="heptagon-wheel-sacred.js" defer></script>
 
     <!-- HOMEPAGE RESPONSIVE FIX — Dynamic header height sync (mobile/iPad only) -->
-    <script src="homepage-responsive-fix.js"></script>
+    <script src="homepage-responsive-fix.js" defer></script>
 
     <!-- SCROLL TO TOP BUTTON -->
     <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
@@ -5120,8 +5167,8 @@
         })();
     </script>
     <!-- Logo System Scripts -->
-    <script src="logo-loading.js"></script>
-    <script src="logo-loader.js"></script>
+    <script src="logo-loading.js?v=20260918-v11-theme-final3" defer></script>
+    <script src="logo-loader.js" defer></script>
     <script src="hero-upgrade.js" defer></script>
 
     <!-- Site Footer (Partial Injection) -->
@@ -5131,6 +5178,15 @@
     <script src="js/sermon-player.js" defer></script>
 
     <script type="module" src="./js/footer/footer-init.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+            });
+        }
+    </script>
 </body>
 
 </html>

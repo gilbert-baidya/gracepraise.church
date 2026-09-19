@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <script src="platform-runtime.js"></script>
+    <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gratitude Fasting 2026 | Grace and Praise Bangladeshi Church</title>
 
@@ -40,15 +40,29 @@
     <script>
         (function () {
             document.documentElement.classList.add('js-enabled');
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-                document.addEventListener('DOMContentLoaded', () => {
-                    document.body.setAttribute('data-theme', 'dark');
-                    document.body.classList.add('dark');
-                });
+
+            function getInitialTheme() {
+                if (window.Platform && typeof window.Platform.getPreferredTheme === 'function') {
+                    return window.Platform.getPreferredTheme();
+                }
+
+                try {
+                    const savedTheme = localStorage.getItem('theme');
+                    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+                } catch (error) {
+                    console.warn('[Theme] Saved preference could not be read', error);
+                }
+
+                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             }
+
+            const theme = getInitialTheme();
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+            document.addEventListener('DOMContentLoaded', () => {
+                document.body.setAttribute('data-theme', theme);
+                document.body.classList.toggle('dark', theme === 'dark');
+            });
         })();
     </script>
 
@@ -56,11 +70,11 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="redesign-styles.css?v=20260222-ipadnavfix2">
+    <link rel="stylesheet" href="redesign-styles.css?v=20260918-v11-theme-final3">
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css">
     <link rel="stylesheet" href="gratitude-fasting-enhanced.css">
-    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -519,7 +533,7 @@
             color: #9ca3af !important;
         }
     </style>
-    <script src="./js/partials.js"></script>
+    <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
 </head>
 
@@ -532,8 +546,7 @@
                     <img loading="lazy" src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
                         class="logo-image" loading="eager" decoding="async">
                 </a>
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
-                    title="Toggle dark mode">
+                <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
@@ -722,11 +735,14 @@
 
 
     <script src="devotions-db-2026.js"></script>
+    <script src="services/bible/book-map.js"></script>
+    <script src="services/bible/bible-service.js"></script>
     <script>
         // Gratitude Fasting Devotional Application
         let devotionalData = null;
         let currentDay = 1;
         let currentLang = 'en';
+        let scriptureHydrationToken = 0;
         const currentYear = new Date().getFullYear();
         const totalDays = currentYear % 100;
         const dataCandidates = [
@@ -738,6 +754,59 @@
         // Update year and days displays
         document.querySelectorAll('.year-display').forEach(el => el.textContent = currentYear);
         document.querySelectorAll('.days-display').forEach(el => el.textContent = totalDays);
+
+        function getVerseReference(devotion) {
+            return (devotion?.keyVerse || '').trim();
+        }
+
+        function getBiblePassageText(reference, language) {
+            if (!reference || !window.GPBCBibleService || typeof window.GPBCBibleService.getPassage !== 'function') {
+                return Promise.resolve('');
+            }
+
+            return Promise.resolve()
+                .then(() => window.GPBCBibleService.getPassage(reference, language))
+                .then((passage) => passage && passage.text ? passage.text.trim() : '')
+                .catch((error) => {
+                    console.warn(`[Gratitude] Bible service lookup failed for ${language}:${reference}`, error);
+                    return '';
+                });
+        }
+
+        function hydrateScriptureFromBibleService(devotion, renderToken) {
+            const reference = getVerseReference(devotion);
+            if (!reference) {
+                return;
+            }
+
+            Promise.all([
+                getBiblePassageText(reference, 'en'),
+                getBiblePassageText(reference, 'bn')
+            ]).then(([resolvedEn, resolvedBn]) => {
+                let didUpdate = false;
+
+                if (resolvedEn && resolvedEn !== (devotion.keyVerseText || '').trim()) {
+                    devotion.keyVerseText = resolvedEn;
+                    didUpdate = true;
+                }
+
+                if (resolvedBn && resolvedBn !== (devotion.keyVerseTextBn || '').trim()) {
+                    devotion.keyVerseTextBn = resolvedBn;
+                    didUpdate = true;
+                }
+
+                if (scriptureHydrationToken !== renderToken || currentDay !== devotion.day) {
+                    return;
+                }
+
+                if (!didUpdate) {
+                    return;
+                }
+
+                updateContent(devotion);
+                console.log('[Gratitude] Scripture hydrated from local Bible service');
+            });
+        }
 
         // Load devotional data
         async function loadDevotionalData() {
@@ -812,6 +881,8 @@
 
             // Display content based on language
             updateContent(devotion);
+            const renderToken = ++scriptureHydrationToken;
+            hydrateScriptureFromBibleService(devotion, renderToken);
 
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1029,8 +1100,8 @@
     </script>
 
     <!-- NAVIGATION LOCK — Centralized navigation system -->
-    <script src="navigation.js?v=20260222-ipadnavfix2"></script>
-    <script src="logo-loading.js"></script>
+    <script src="navigation.js?v=20260918-v11-theme-final3"></script>
+    <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loader.js"></script>
 
     <!-- Site Footer (Partial Injection) -->

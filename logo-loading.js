@@ -2,14 +2,17 @@
 (function () {
     'use strict';
 
+    const scriptBaseUrl = new URL('.', document.currentScript?.src || window.location.href);
+    const assetUrl = (assetPath) => new URL(assetPath, scriptBaseUrl).href;
+
     // Configuration
     const config = {
         videoOptions: [
-            'images/logo/gpbc-glow-one.mp4',
-            'images/logo/glow-shine-fav.mp4',
-            'images/logo/gpbc-dove-one-fav.mp4'
+            assetUrl('images/logo/gpbc-glow-one.mp4'),
+            assetUrl('images/logo/glow-shine-fav.mp4'),
+            assetUrl('images/logo/gpbc-dove-one-fav.mp4')
         ],
-        fallbackLogo: 'images/new-gpbc-logo-final.svg',
+        fallbackLogo: assetUrl('images/new-gpbc-logo-final.svg'),
         minDisplayTime: 500, // Minimum time to show loading screen (ms)
         maxDisplayTime: 1500, // Maximum time to keep the loader visible (ms)
         fadeOutDuration: 500 // Fade out animation duration (ms)

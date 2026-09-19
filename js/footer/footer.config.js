@@ -1,48 +1,46 @@
 export const footerConfig = {
-    ctaActions: [
-        { label: 'Plan a Visit', url: '/plan-visit.html', primary: true },
-        { label: 'Watch Online', url: '#TODO-watch-online' },
-        { label: 'Prayer Request', url: '/prayer-request.html' },
-        { label: 'Give', url: '/give.html' }
-    ],
+    ctaActions: [],
     navGroups: {
         visit: [
-            { label: 'Plan a Visit', url: '/plan-visit.html' },
-            { label: 'Calendar', url: '/calendar.html' },
-            { label: 'About Us', url: '/about.html' },
-            { label: 'Leadership', url: '/leadership.html' },
-            { label: 'Our History', url: '/history.html' }
+            { label: 'Sunday Worship', url: 'plan-visit.html' },
+            { label: '5:00 PM', url: 'plan-visit.html' },
+            { label: 'Saturday Fasting Prayer', url: 'calendar.html' },
+            { label: 'Friday Worship Practice', url: 'calendar.html' }
         ],
         connect: [
-            { label: 'Ministries', url: '/ministries.html' },
-            { label: 'Small Groups', url: '#TODO-small-groups' },
-            { label: 'Prayer Request', url: '/prayer-request.html' },
-            { label: 'Contact Us', url: '#TODO-contact-us' },
-            { label: 'SMS Opt-In', url: '/sms-opt-in.html' }
+            { label: '1325 Richardson St.', url: 'plan-visit.html' },
+            { label: 'San Bernardino, CA 92408', url: 'plan-visit.html' },
+            { label: 'Plan Your Visit →', url: 'plan-visit.html' }
         ],
         devotions: [
-            { label: 'Daily Devotion', url: '/daily-devotion.html' },
-            { label: 'Family Devotion', url: '/family-devotion.html' },
-            { label: 'Youth Devotion', url: '/youth-devotion.html' },
-            { label: 'Children Devotion', url: '/children-devotion.html' },
-            { label: 'Couples Devotion', url: '/couples-devotion.html' }
+            { label: 'Our Story', url: 'mission.html' },
+            { label: 'Our Beliefs', url: 'beliefs.html' },
+            { label: 'Our Leadership', url: 'leadership.html' },
+            { label: 'Our Pastor', url: 'pastor/' },
+            { label: 'Contact Us', url: 'contact.html' }
         ],
         resources: [
-            { label: 'Give', url: '/give.html' },
-            { label: 'Beliefs', url: '/beliefs.html' },
-            { label: 'Core Values', url: '/core-values.html' },
-            { label: 'Position Papers', url: '/position-papers.html' },
-            { label: 'Songbook', url: '/songbook.html' }
+            { label: 'Children & Youth', url: 'ministries/' },
+            { label: 'Young Adults', url: 'ministries/' },
+            { label: 'Men’s Ministry', url: 'ministries/' },
+            { label: 'Women’s Ministry', url: 'ministries/' },
+            { label: 'Outreach', url: 'ministries/' }
         ]
     },
+    connectLinks: [
+        { label: 'Events', url: 'calendar.html' },
+        { label: 'Sermons', url: 'https://youtube.com/@gpbc', external: true },
+        { label: 'Prayer Request', url: 'prayer-request.html' },
+        { label: 'Give', url: 'give.html' },
+        { label: 'Get Involved', url: 'contact.html' }
+    ],
     legalLinks: [
-        { label: 'Privacy Policy', url: '/privacy-policy.html' },
-        { label: 'Terms & Conditions', url: '/terms-conditions.html' }
+        { label: 'Privacy', url: 'privacy-policy.html' },
+        { label: 'Terms', url: 'terms-conditions.html' }
     ],
     socialLinks: [
-        { platform: 'youtube', url: '#TODO-youtube-url', label: 'Grace Praise on YouTube' },
-        { platform: 'facebook', url: '#TODO-facebook-url', label: 'Grace Praise on Facebook' },
-        { platform: 'instagram', url: '#TODO-instagram-url', label: 'Grace Praise on Instagram' },
-        { platform: 'tiktok', url: '#TODO-tiktok-url', label: 'Grace Praise on TikTok' }
+        { platform: 'youtube', url: 'https://youtube.com/@gpbc', label: 'Grace Praise on YouTube' },
+        { platform: 'facebook', url: 'https://facebook.com/graceandpraisebangladeshichurch', label: 'Grace Praise on Facebook' },
+        { platform: 'instagram', url: 'https://instagram.com/gpbc', label: 'Grace Praise on Instagram' }
     ]
 };

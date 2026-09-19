@@ -1,29 +1,29 @@
 /**
- * ============================================================================
- * GPBC SERVICE WORKER
- * ============================================================================
- * Strategy:
- *   - Static assets (CSS, JS, WebP/PNG/SVG images, fonts): Cache First,
- *     Network Fallback (instant repeat loads + offline access).
- *   - HTML navigations: Network First, Cache Fallback (always fresh when
- *     online, still available offline).
- *   - Cross-origin (fonts, CDN): Stale-While-Revalidate.
+ * ----------------------------------------------------------------------------
+ * GPBC SERVICE WORKER — V11
+ * ----------------------------------------------------------------------------
+ * Freshness strategy:
+ *   - HTML navigations: Network First, cache fallback.
+ *   - CSS/JS: Network First, cache fallback to avoid stale V11 styles/scripts.
+ *   - Images/fonts/static media: Cache First, network fallback.
+ *   - Cross-origin HTTP(S): Stale-While-Revalidate.
  *
- * Bump CACHE_VERSION to invalidate old caches on deploy.
- * ============================================================================
+ * Unsupported schemes (chrome-extension:, moz-extension:, etc.) are ignored.
+ * ----------------------------------------------------------------------------
  */
 
-const CACHE_VERSION = 'gpbc-v1';
-const STATIC_CACHE = `${CACHE_VERSION}-static`;
-const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+const CACHE_VERSION = 'gpbc-v11';
+const STATIC_CACHE = CACHE_VERSION + '-static';
+const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
+const OFFLINE_URL = '/';
 
-// Core assets precached on install (app shell)
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/manifest.json',
   '/sacred-tokens.css',
   '/redesign-styles.css',
+  '/styles.bundle.css',
   '/logo-styles.css',
   '/logo-loading.css',
   '/navigation.js',
@@ -33,124 +33,115 @@ const PRECACHE_URLS = [
   '/images/new-gpbc-logo-final.svg',
   '/images/favicons/android-chrome-192x192.png',
   '/images/favicons/android-chrome-512x512.png',
-  '/images/favicons/apple-touch-icon.png'
+  '/images/favicons/apple-touch-icon.png',
+  '/plan-visit.html',
+  '/songbook.html',
+  '/songbook-app.js',
+  '/songs-data.js',
+  '/styles-songbook.css'
 ];
 
-// File extensions treated as long-lived static assets (Cache First)
-const STATIC_ASSET_REGEX = /\.(?:css|js|mjs|woff2?|ttf|otf|eot|webp|png|jpe?g|gif|svg|ico|mp3|webm)$/i;
+const CSS_JS_REGEX = /\.(?:css|js|mjs)$/i;
+const STATIC_ASSET_REGEX = /\.(?:woff2?|ttf|otf|eot|webp|png|jpe?g|gif|svg|ico|mp3|webm)$/i;
+const SUPPORTED_PROTOCOLS = new Set(['http:', 'https:']);
 
-// ----------------------------------------------------------------------------
-// INSTALL — precache the app shell
-// ----------------------------------------------------------------------------
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(STATIC_CACHE)
-      .then((cache) => cache.addAll(PRECACHE_URLS).catch(() => {
-        // Best-effort precache: don't fail install if one asset 404s
-        return Promise.all(
-          PRECACHE_URLS.map((url) => cache.add(url).catch(() => null))
-        );
-      }))
+      .then((cache) => Promise.all(
+        PRECACHE_URLS.map((url) => cache.add(url).catch(() => null))
+      ))
       .then(() => self.skipWaiting())
   );
 });
 
-// ----------------------------------------------------------------------------
-// ACTIVATE — clean up old cache versions
-// ----------------------------------------------------------------------------
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
       .then((keys) => Promise.all(
         keys
-          .filter((key) => !key.startsWith(CACHE_VERSION))
+          .filter((key) => key.startsWith('gpbc-') && !key.startsWith(CACHE_VERSION))
           .map((key) => caches.delete(key))
       ))
       .then(() => self.clients.claim())
   );
 });
 
-// ----------------------------------------------------------------------------
-// FETCH — route by request type
-// ----------------------------------------------------------------------------
 self.addEventListener('fetch', (event) => {
-  const { request } = event;
+  const request = event.request;
 
-  // Only handle GET
   if (request.method !== 'GET') return;
 
-  const url = new URL(request.url);
+  let url;
+  try {
+    url = new URL(request.url);
+  } catch (error) {
+    return;
+  }
+
+  if (!SUPPORTED_PROTOCOLS.has(url.protocol)) return;
+
   const sameOrigin = url.origin === self.location.origin;
+  const acceptsHtml = (request.headers.get('accept') || '').includes('text/html');
 
-  // 1. HTML navigations → Network First, Cache Fallback
-  if (request.mode === 'navigate' ||
-      (request.headers.get('accept') || '').includes('text/html')) {
-    event.respondWith(networkFirst(request));
+  if (request.mode === 'navigate' || acceptsHtml) {
+    event.respondWith(networkFirst(request, RUNTIME_CACHE, OFFLINE_URL));
     return;
   }
 
-  // 2. Same-origin static assets → Cache First, Network Fallback
+  if (sameOrigin && CSS_JS_REGEX.test(url.pathname)) {
+    event.respondWith(networkFirst(request, RUNTIME_CACHE));
+    return;
+  }
+
   if (sameOrigin && STATIC_ASSET_REGEX.test(url.pathname)) {
-    event.respondWith(cacheFirst(request));
+    event.respondWith(cacheFirst(request, STATIC_CACHE));
     return;
   }
 
-  // 3. Cross-origin (fonts, CDN scripts/styles) → Stale-While-Revalidate
   if (!sameOrigin) {
-    event.respondWith(staleWhileRevalidate(request));
+    event.respondWith(staleWhileRevalidate(request, RUNTIME_CACHE));
     return;
   }
 
-  // 4. Default same-origin → Cache First
-  event.respondWith(cacheFirst(request));
+  event.respondWith(networkFirst(request, RUNTIME_CACHE));
 });
 
-// ----------------------------------------------------------------------------
-// STRATEGIES
-// ----------------------------------------------------------------------------
-
-async function cacheFirst(request) {
-  const cached = await caches.match(request);
+async function cacheFirst(request, cacheName) {
+  const cached = await caches.match(request, { ignoreSearch: false });
   if (cached) return cached;
 
   try {
     const response = await fetch(request);
-    if (response && response.status === 200 && response.type !== 'opaqueredirect') {
-      const cache = await caches.open(STATIC_CACHE);
-      cache.put(request, response.clone());
-    }
+    await cacheResponse(request, response, cacheName);
     return response;
-  } catch (err) {
-    // Offline and not cached
-    return caches.match(request);
+  } catch (error) {
+    return caches.match(request, { ignoreSearch: false });
   }
 }
 
-async function networkFirst(request) {
+async function networkFirst(request, cacheName, fallbackUrl) {
   try {
     const response = await fetch(request);
-    if (response && response.status === 200) {
-      const cache = await caches.open(RUNTIME_CACHE);
-      cache.put(request, response.clone());
-    }
+    await cacheResponse(request, response, cacheName);
     return response;
-  } catch (err) {
-    const cached = await caches.match(request);
+  } catch (error) {
+    const cached = await caches.match(request, { ignoreSearch: false });
     if (cached) return cached;
-    // Last resort: cached homepage shell
-    return caches.match('/index.html') || caches.match('/');
+    if (fallbackUrl) {
+      return caches.match(fallbackUrl) || caches.match('/index.html') || caches.match('/');
+    }
+    throw error;
   }
 }
 
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(RUNTIME_CACHE);
-  const cached = await cache.match(request);
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request, { ignoreSearch: false });
 
   const networkFetch = fetch(request)
-    .then((response) => {
-      if (response && (response.status === 200 || response.type === 'opaque')) {
-        cache.put(request, response.clone());
-      }
+    .then(async (response) => {
+      await cacheResponse(request, response, cacheName);
       return response;
     })
     .catch(() => cached);
@@ -158,9 +149,16 @@ async function staleWhileRevalidate(request) {
   return cached || networkFetch;
 }
 
-// ----------------------------------------------------------------------------
-// MESSAGE — allow pages to trigger immediate activation
-// ----------------------------------------------------------------------------
+async function cacheResponse(request, response, cacheName) {
+  if (!response || response.status !== 200 || response.type === 'opaqueredirect') return;
+
+  const url = new URL(request.url);
+  if (!SUPPORTED_PROTOCOLS.has(url.protocol)) return;
+
+  const cache = await caches.open(cacheName);
+  await cache.put(request, response.clone());
+}
+
 self.addEventListener('message', (event) => {
   if (event.data === 'SKIP_WAITING') {
     self.skipWaiting();

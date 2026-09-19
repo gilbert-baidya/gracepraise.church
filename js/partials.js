@@ -1,4 +1,14 @@
 (() => {
+    const partialsScriptUrl = document.currentScript?.src;
+
+    function getSiteRoot() {
+        if (!partialsScriptUrl) {
+            throw new Error('[Partials] Unable to determine the partial loader URL.');
+        }
+
+        return new URL('../../', partialsScriptUrl).href;
+    }
+
     async function fetchPartial(url) {
         try {
             const response = await fetch(url, { cache: 'no-cache' });
@@ -33,10 +43,9 @@
         }
     }
 
-    function normalizeInjectedPaths(container, basePath = '') {
+    function normalizeInjectedPaths(container, siteRoot) {
         if (!container) return;
 
-        const normalizedBasePath = basePath || '';
         const assets = container.querySelectorAll('[href], [src]');
 
         assets.forEach((node) => {
@@ -50,55 +59,52 @@
                 if (value.startsWith('#') || value.startsWith('//')) return;
                 if (/^(?:[a-z][a-z0-9+.-]*:|mailto:|tel:|javascript:|data:|blob:)/i.test(value)) return;
 
-                if (value.startsWith('/')) {
-                    node.setAttribute(attr, `${normalizedBasePath}${value.slice(1)}`);
-                }
+                node.setAttribute(attr, new URL(value.replace(/^\/+/, ''), siteRoot).href);
             });
         });
     }
 
-    function getBasePath() {
-        // Infer base path from existing CSS links to ensure correct relative path
-        // even in subdirectories or when opened via file:// protocol
-        const refLink = document.querySelector('link[href*="redesign-styles.css"]') ||
-            document.querySelector('link[href*="logo-styles.css"]');
+    function finalizePartials(siteRoot) {
+        const headerContainer = document.querySelector('#site-header, [data-partial="site-header"]');
+        const footerContainer = document.querySelector('#site-footer, [data-partial="site-footer"]');
+        normalizeInjectedPaths(headerContainer, siteRoot);
+        normalizeInjectedPaths(footerContainer, siteRoot);
 
-        if (!refLink) return '';
+        const footer = footerContainer?.matches('.site-footer')
+            ? footerContainer
+            : footerContainer?.querySelector('.site-footer');
+        if (footer) {
+            footer.dataset.siteRoot = siteRoot;
+        }
 
-        const href = refLink.getAttribute('href');
-        const lastSlash = href.lastIndexOf('/');
-
-        if (lastSlash === -1) return ''; // File is in same directory
-        return href.substring(0, lastSlash + 1); // e.g., "../" or "styles/"
+        // Dispatch event to signal partials are loaded
+        document.dispatchEvent(new CustomEvent('partials:loaded', { detail: { siteRoot } }));
     }
 
     async function loadPartials() {
-        const basePath = getBasePath();
+        const siteRoot = getSiteRoot();
 
-        const headerFallback = window.Platform?.getFallbackHeaderHtml?.(basePath) || 
+        const headerFallback = window.Platform?.getFallbackHeaderHtml?.(siteRoot) ||
             '<header class="fallback-header"><nav><a href="index.html">GPBC</a></nav></header>';
         
         const footerFallback = '<footer class="fallback-footer"><p>&copy; 2026 GPBC</p></footer>';
 
-        await injectPartial('#site-header', basePath + 'partials/header.html', headerFallback);
+        const headerMount = document.querySelector('#site-header, [data-partial="site-header"]');
+        if (headerMount) {
+            await injectPartial('#site-header, [data-partial="site-header"]', new URL('partials/header.html', siteRoot).href, headerFallback);
+        }
         
         // Support both old footer selector and new data-partial approach
         const legacyFooter = document.querySelector('#site-footer');
         const newFooter = document.querySelector('[data-partial="site-footer"]');
         
         if (newFooter) {
-            await injectPartial('[data-partial="site-footer"]', basePath + 'partials/site-footer.html', footerFallback);
+            await injectPartial('[data-partial="site-footer"]', new URL('partials/site-footer.html', siteRoot).href, footerFallback);
         } else if (legacyFooter) {
-            await injectPartial('#site-footer', basePath + 'partials/footer.html', footerFallback);
+            await injectPartial('#site-footer', new URL('partials/footer.html', siteRoot).href, footerFallback);
         }
 
-        const headerContainer = document.querySelector('#site-header');
-        const footerContainer = document.querySelector('#site-footer, [data-partial="site-footer"]');
-        normalizeInjectedPaths(headerContainer, basePath);
-        normalizeInjectedPaths(footerContainer, basePath);
-        
-        // Dispatch event to signal partials are loaded
-        document.dispatchEvent(new CustomEvent('partials:loaded', { detail: { basePath } }));
+        finalizePartials(siteRoot);
     }
 
     if (typeof window !== 'undefined') {
@@ -111,6 +117,7 @@
             window.Platform &&
             typeof window.Platform.initPartials === 'function') {
             await window.Platform.initPartials();
+            finalizePartials(getSiteRoot());
             return;
         }
 

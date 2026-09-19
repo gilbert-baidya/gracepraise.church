@@ -1,0 +1,308 @@
+/* Bible Reader - Sacred High-Tech CSS */
+
+.page-bible-reader {
+    background: var(--sanctuary-bg);
+    color: var(--sanctuary-text);
+    margin: 0;
+    font-family: var(--font-body);
+    overflow-x: hidden;
+}
+
+
+.bible-workspace {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+/* View State Management */
+.bible-view {
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: var(--space-xl);
+    animation: fadeIn var(--calm-duration) var(--calm-ease);
+}
+
+.bible-view.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Book Atlas (Library View) */
+.book-atlas {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+}
+
+.atlas-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.atlas-header h2 {
+    font-family: var(--font-heading);
+    color: var(--sacred-accent-gold);
+    font-size: 2.5rem;
+    letter-spacing: 0.1em;
+}
+
+.testament-section {
+    margin-bottom: var(--space-3xl);
+}
+
+.testament-title {
+    font-family: var(--font-heading);
+    border-bottom: 2px solid var(--sacred-accent-gold-glow);
+    padding-bottom: var(--space-sm);
+    margin-bottom: var(--space-xl);
+    color: var(--sacred-text-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--space-md);
+}
+
+.book-card {
+    background: var(--sacred-surface-light, rgba(255, 255, 255, 0.7));
+    border: 1px solid var(--sacred-surface-border-light, rgba(212, 185, 120, 0.2));
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s var(--calm-ease);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    backdrop-filter: blur(8px);
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--sacred-accent-gold);
+    box-shadow: 0 10px 25px var(--sacred-accent-gold-glow);
+    background: white;
+}
+
+.book-card .book-icon {
+    font-size: 1.2rem;
+    color: var(--sacred-accent-gold);
+    margin-bottom: 4px;
+}
+
+.book-card .book-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--sacred-text-primary);
+}
+
+.book-card .book-name-bn {
+    font-family: var(--font-bangla-body);
+    font-size: 0.9rem;
+    color: var(--sacred-text-secondary);
+}
+
+/* Chapter Constellation View */
+.chapter-constellation {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.constellation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: var(--space-md);
+    margin-top: var(--space-2xl);
+}
+
+.chapter-node {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--sacred-accent-gold-glow);
+    border-radius: 50%;
+    font-family: var(--font-heading);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.chapter-node:hover {
+    background: var(--sacred-accent-gold);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px var(--sacred-accent-gold-glow);
+}
+
+/* Reader Pane Redesign */
+.reader-view {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Specific visibility fix for the reader items */
+.reader-view:not(.active) .reader-header {
+    display: none;
+}
+
+.reader-header {
+    position: sticky; 
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: var(--space-md) var(--space-xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid var(--sacred-accent-gold-glow);
+    transition: all 0.3s ease;
+}
+
+/* Theme dark mode overrides for reader header */
+[data-theme*="dark"] .reader-header {
+    background: rgba(15, 23, 42, 0.8);
+    color: white;
+}
+
+#verseContent {
+    padding: var(--space-2xl);
+    max-width: 1000px;
+    margin: 20px auto 100px; /* Space for sticky header and bottom bar */
+}
+
+/* Verses */
+.verse-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-md);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.verse-row:hover {
+    background: rgba(212, 185, 120, 0.05);
+    border-color: var(--sacred-accent-gold-glow);
+}
+
+.verse-num {
+    color: var(--sacred-accent-gold);
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    margin-right: 12px;
+    font-weight: 700;
+}
+
+.verse-text-en {
+    font-family: var(--font-scripture);
+    line-height: 1.8;
+}
+
+.verse-text-bn {
+    font-family: var(--font-bangla-body);
+    line-height: 2;
+    font-size: 1.1em;
+}
+
+.verse-row.focused {
+    background: var(--sanctuary-bg);
+    box-shadow: 0 0 30px var(--sacred-accent-gold-glow);
+    border-color: var(--sacred-accent-gold);
+    transform: scale(1.02);
+}
+
+/* Floating Command Bar */
+.command-bar {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(212, 185, 120, 0.3);
+    border-radius: 50px;
+    padding: 10px 30px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    z-index: 110;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.command-bar input {
+    background: transparent;
+    border: none;
+    color: white;
+    font-family: var(--font-body);
+    width: 250px;
+    outline: none;
+    font-size: 1rem;
+}
+
+.command-bar .divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.command-btn {
+    background: transparent;
+    border: none;
+    color: var(--sacred-accent-gold);
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.2s;
+}
+
+.command-btn:hover {
+    opacity: 0.7;
+}
+
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+    .bible-workspace {
+        margin-top: 180px;
+        height: calc(100vh - 180px);
+    }
+    
+    .command-bar {
+        width: 90%;
+        bottom: 20px;
+        padding: 10px 20px;
+        gap: var(--space-md);
+    }
+    
+    .command-bar input {
+        width: 100%;
+    }
+    
+    .command-bar .divider, .command-btn span {
+        display: none;
+    }
+}

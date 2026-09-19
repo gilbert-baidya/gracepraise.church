@@ -1,0 +1,190 @@
+/* Homepage Welcome Home V4 */
+
+body.homepage .welcome-home-v4 {
+    --welcome-home-v4-bg: #f8f4ec;
+    --welcome-home-v4-text: #172b42;
+    --welcome-home-v4-muted: #5d6872;
+    --welcome-home-v4-gold: #9a6f2d;
+    --welcome-home-v4-line: rgba(154, 111, 45, 0.28);
+
+    position: relative;
+    isolation: isolate;
+    padding: clamp(5.5rem, 10vw, 9rem) clamp(1.25rem, 5vw, 4rem) clamp(5.75rem, 10vw, 9.5rem);
+    background: var(--welcome-home-v4-bg);
+    color: var(--welcome-home-v4-text);
+    text-align: center;
+    scroll-margin-top: clamp(5.5rem, 9vw, 7.5rem);
+}
+
+.welcome-home-v4,
+.welcome-home-v4 *,
+.welcome-home-v4 *::before,
+.welcome-home-v4 *::after {
+    box-sizing: border-box;
+}
+
+.welcome-home-v4__inner {
+    width: min(100%, 75rem);
+    margin: 0 auto;
+}
+
+.welcome-home-v4__intro {
+    width: min(100%, 52rem);
+    margin: 0 auto;
+}
+
+body.homepage .welcome-home-v4__eyebrow {
+    margin: 0 0 1.15rem;
+    color: var(--welcome-home-v4-gold);
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+body.homepage .welcome-home-v4__title {
+    margin: 0;
+    color: var(--welcome-home-v4-text);
+    font-family: "Cinzel", Georgia, serif;
+    font-size: clamp(3.2rem, 7vw, 6rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+    text-wrap: balance;
+}
+
+body.homepage .welcome-home-v4__lead {
+    max-width: 31rem;
+    margin: clamp(1.75rem, 3vw, 2.5rem) auto 0;
+    color: var(--welcome-home-v4-text);
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.4;
+    text-wrap: balance;
+}
+
+body.homepage .welcome-home-v4__copy {
+    max-width: 34rem;
+    margin: 1.25rem auto 0;
+    color: var(--welcome-home-v4-muted);
+    font-family: "Space Grotesk", Arial, sans-serif;
+    font-size: clamp(0.98rem, 1.3vw, 1.1rem);
+    line-height: 1.7;
+}
+
+.welcome-home-v4__visual {
+    width: min(100%, 62.5rem);
+    margin: clamp(3.5rem, 7vw, 6.5rem) auto 0;
+    overflow: hidden;
+    border-radius: 1.5rem 0.35rem 1.5rem 0.35rem;
+    background: #e8e0d2;
+    box-shadow: 0 22px 55px rgba(41, 47, 52, 0.14);
+}
+
+.welcome-home-v4__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    height: auto;
+    object-fit: cover;
+    object-position: center 48%;
+}
+
+body.homepage .welcome-home-v4__closing {
+    width: min(100%, 22rem);
+    margin: clamp(2.75rem, 5vw, 4.75rem) auto 0;
+    padding-top: clamp(1.4rem, 2.5vw, 2rem);
+    border-top: 1px solid var(--welcome-home-v4-line);
+    color: var(--welcome-home-v4-gold);
+    font-family: "Cinzel", Georgia, serif;
+    font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.35;
+    text-wrap: balance;
+}
+
+html[data-theme="dark"] body.homepage .welcome-home-v4,
+body.homepage.dark .welcome-home-v4,
+body.homepage[data-theme="dark"] .welcome-home-v4 {
+    --welcome-home-v4-bg: #172334;
+    --welcome-home-v4-text: #faf5e9;
+    --welcome-home-v4-muted: #c7d0da;
+    --welcome-home-v4-gold: #e1bb70;
+    --welcome-home-v4-line: rgba(225, 187, 112, 0.3);
+}
+
+html[data-theme="dark"] .welcome-home-v4__visual,
+body.homepage.dark .welcome-home-v4__visual,
+body.homepage[data-theme="dark"] .welcome-home-v4__visual {
+    background: #243449;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+@media (max-width: 54rem) {
+    .welcome-home-v4 {
+        padding: clamp(5rem, 12vw, 7rem) clamp(1.5rem, 6vw, 3rem) clamp(5rem, 12vw, 7rem);
+    }
+
+    body.homepage .welcome-home-v4__title {
+        font-size: clamp(3rem, 10vw, 5rem);
+    }
+
+    .welcome-home-v4__visual {
+        margin-top: clamp(3rem, 8vw, 5rem);
+    }
+}
+
+@media (max-width: 37.5rem) {
+    .welcome-home-v4 {
+        padding: 4.5rem 1.25rem 5rem;
+    }
+
+    body.homepage .welcome-home-v4__eyebrow {
+        margin-bottom: 1rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+    }
+
+    body.homepage .welcome-home-v4__title {
+        font-size: clamp(2.75rem, 14vw, 4rem);
+        letter-spacing: -0.04em;
+    }
+
+    body.homepage .welcome-home-v4__lead {
+        max-width: 19rem;
+        margin-top: 1.5rem;
+        font-size: clamp(1.2rem, 5.2vw, 1.45rem);
+    }
+
+    body.homepage .welcome-home-v4__copy {
+        max-width: 20rem;
+        margin-top: 1rem;
+        font-size: 0.96rem;
+    }
+
+    .welcome-home-v4__visual {
+        margin-top: 2.75rem;
+        border-radius: 1.1rem 0.25rem 1.1rem 0.25rem;
+    }
+
+    .welcome-home-v4__image {
+        aspect-ratio: 4 / 3.15;
+        object-position: center 45%;
+    }
+
+    body.homepage .welcome-home-v4__closing {
+        max-width: 15rem;
+        margin-top: 2.5rem;
+        font-size: 1.3rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .welcome-home-v4__visual {
+        scroll-behavior: auto;
+    }
+}

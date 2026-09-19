@@ -35,6 +35,17 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Keep V11 stylesheet/script requests fresh while still allowing browser revalidation.
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 [[redirects]]
 from = "https://pastor.gracepraise.church/*"
 to = "https://gracepraise.church/pastor/:splat"

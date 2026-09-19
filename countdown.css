@@ -787,8 +787,8 @@ body[data-theme="dark"] .event-info-emoji {
 /* Countdown timer boxes */
 body.dark .time-unit,
 body[data-theme="dark"] .time-unit {
-    background: #0f172a;
-    border-color: #334155;
+    background: #1e293b;
+    border-color: #475569;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -809,7 +809,7 @@ body[data-theme="dark"] .time-value {
 /* Time labels */
 body.dark .time-label,
 body[data-theme="dark"] .time-label {
-    color: #94a3b8;
+    color: rgba(255, 255, 255, 0.8);
     font-weight: 500;
 }
 

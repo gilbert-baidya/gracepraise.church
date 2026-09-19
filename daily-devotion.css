@@ -4450,3 +4450,380 @@
         #errorMsg {
             font-family: 'Inter', sans-serif !important;
         }
+
+/* V11 Devotion mobile polish - page-scoped, no desktop redesign. */
+@media (max-width: 1024px) {
+    body.page-daily-devotion header .nav-container {
+        min-height: 60px;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    body.page-daily-devotion header .logo {
+        flex: 0 0 auto;
+        min-height: 60px !important;
+        width: 60px !important;
+        height: 60px !important;
+        padding: 0 !important;
+    }
+
+    body.page-daily-devotion header .logo img,
+    body.page-daily-devotion header .logo-image {
+        width: 60px !important;
+        height: 60px !important;
+        max-width: 60px !important;
+        max-height: 60px !important;
+        object-fit: contain;
+    }
+
+    body.page-daily-devotion header .mobile-menu-btn {
+        display: flex !important;
+        flex: 0 0 44px;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.5rem;
+        order: 3;
+    }
+
+    body.page-daily-devotion header .nav-links:not(.mobile-open) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        left: auto !important;
+        right: 0 !important;
+        transform: translateX(100%) !important;
+    }
+
+    body.page-daily-devotion header .nav-links.mobile-open {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: translateX(0) !important;
+    }
+}
+
+@media (max-width: 640px) {
+    body.page-daily-devotion .funnel-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--spacing-lg);
+    }
+
+    body.page-daily-devotion .funnel-card {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    body.page-daily-devotion[data-theme="dark"] #reflectionText p,
+    body.page-daily-devotion[data-theme="dark"] #prayerText p,
+    body.page-daily-devotion[data-theme="dark"] [data-devotion-reflection] p,
+    body.page-daily-devotion[data-theme="dark"] [data-devotion-prayer] p,
+    html.dark body.page-daily-devotion #reflectionText p,
+    html.dark body.page-daily-devotion #prayerText p,
+    html.dark body.page-daily-devotion [data-devotion-reflection] p,
+    html.dark body.page-daily-devotion [data-devotion-prayer] p {
+        color: #dbe7f5 !important;
+        font-size: 1rem !important;
+        line-height: 1.75 !important;
+    }
+}
+
+body.page-daily-devotion .devotion-nav-btn {
+    background: color-mix(in srgb, var(--bg-card-surface, #ffffff) 86%, var(--brand-primary, #2563eb) 14%) !important;
+    border: 1px solid color-mix(in srgb, var(--brand-primary, #2563eb) 55%, var(--color-border, #cbd5e1) 45%) !important;
+    color: var(--color-primary, #1d4ed8) !important;
+    box-shadow: 0 8px 18px rgba(30, 58, 95, 0.12) !important;
+}
+
+body.page-daily-devotion .devotion-nav-btn:hover,
+body.page-daily-devotion .devotion-nav-btn:focus-visible {
+    background: color-mix(in srgb, var(--bg-card-surface, #ffffff) 74%, var(--brand-primary, #2563eb) 26%) !important;
+    border-color: var(--brand-primary, #2563eb) !important;
+    color: var(--text-heading, #0f172a) !important;
+    box-shadow: 0 10px 24px rgba(30, 58, 95, 0.18) !important;
+}
+
+body.page-daily-devotion[data-theme="dark"] .devotion-nav-btn,
+html.dark body.page-daily-devotion .devotion-nav-btn {
+    background: rgba(15, 23, 42, 0.72) !important;
+    border: 1px solid rgba(147, 197, 253, 0.55) !important;
+    color: #e8f1ff !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+body.page-daily-devotion[data-theme="dark"] .devotion-nav-btn:hover,
+body.page-daily-devotion[data-theme="dark"] .devotion-nav-btn:focus-visible,
+html.dark body.page-daily-devotion .devotion-nav-btn:hover,
+html.dark body.page-daily-devotion .devotion-nav-btn:focus-visible {
+    background: rgba(30, 41, 59, 0.88) !important;
+    border-color: rgba(191, 219, 254, 0.82) !important;
+    color: #ffffff !important;
+}
+
+/* V11 Devotion invite section redesign only. */
+body.page-daily-devotion .invite-funnel-section {
+    margin-top: var(--dd-space-xl) !important;
+    padding: var(--dd-space-lg) 0 var(--dd-space-xl) !important;
+}
+
+body.page-daily-devotion .funnel-heading {
+    margin-bottom: 0.35rem !important;
+    line-height: 1.2 !important;
+}
+
+body.page-daily-devotion .funnel-subtitle {
+    margin: 0 auto 1.25rem !important;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+body.page-daily-devotion .funnel-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+    gap: clamp(0.875rem, 1.4vw, 1.25rem) !important;
+}
+
+body.page-daily-devotion .funnel-card {
+    min-height: 188px !important;
+    height: 100% !important;
+    padding: clamp(1rem, 1.6vw, 1.25rem) !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    background: color-mix(in srgb, var(--bg-section, #ffffff) 88%, var(--bg-primary, #f8fafc) 12%) !important;
+    border: 1px solid color-mix(in srgb, var(--border-subtle, #e2e8f0) 86%, var(--brand-primary, #2563eb) 14%) !important;
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.07) !important;
+}
+
+body.page-daily-devotion .funnel-card.featured {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(250, 248, 255, 0.94)) !important;
+    border: 1px solid rgba(124, 58, 237, 0.24) !important;
+    box-shadow: 0 12px 26px rgba(76, 29, 149, 0.08) !important;
+}
+
+body.page-daily-devotion .funnel-card:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.11) !important;
+}
+
+body.page-daily-devotion .card-icon-wrapper {
+    width: 38px !important;
+    height: 38px !important;
+    margin-bottom: 0.75rem !important;
+}
+
+body.page-daily-devotion .funnel-icon {
+    width: 19px !important;
+    height: 19px !important;
+}
+
+body.page-daily-devotion .funnel-card h4 {
+    min-height: 2.6em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.45rem !important;
+    font-size: clamp(0.95rem, 1.1vw, 1.05rem) !important;
+    line-height: 1.3 !important;
+}
+
+body.page-daily-devotion .funnel-card p {
+    min-height: 2.9em;
+    margin-bottom: 0.85rem !important;
+    font-size: clamp(0.82rem, 0.95vw, 0.9rem) !important;
+    line-height: 1.45 !important;
+}
+
+body.page-daily-devotion .service-time {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.15rem;
+    margin-bottom: 0.85rem !important;
+    padding: 0.3rem 0.65rem !important;
+    font-size: clamp(0.78rem, 0.9vw, 0.86rem) !important;
+}
+
+body.page-daily-devotion .funnel-btn {
+    min-height: 40px !important;
+    padding: 0.6rem 0.9rem !important;
+    font-size: 0.86rem !important;
+}
+
+body.page-daily-devotion .invite-actions {
+    min-height: 40px;
+    align-items: center;
+    gap: 0.55rem !important;
+}
+
+body.page-daily-devotion .icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    background: color-mix(in srgb, var(--bg-card-surface, #ffffff) 92%, var(--brand-primary, #2563eb) 8%) !important;
+}
+
+body.page-daily-devotion .icon-btn svg {
+    width: 17px !important;
+    height: 17px !important;
+}
+
+body.page-daily-devotion .funnel-btn:focus-visible,
+body.page-daily-devotion .icon-btn:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.28);
+    outline-offset: 3px;
+}
+
+body.page-daily-devotion[data-theme="dark"] .funnel-subtitle,
+html.dark body.page-daily-devotion .funnel-subtitle {
+    color: #c6d3e6;
+}
+
+body.page-daily-devotion[data-theme="dark"] .funnel-card,
+html.dark body.page-daily-devotion .funnel-card {
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(20, 32, 52, 0.84)) !important;
+    border-color: rgba(148, 163, 184, 0.2) !important;
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+
+body.page-daily-devotion[data-theme="dark"] .funnel-card.featured,
+html.dark body.page-daily-devotion .funnel-card.featured {
+    background: linear-gradient(145deg, rgba(18, 24, 44, 0.94), rgba(30, 24, 54, 0.86)) !important;
+    border-color: rgba(167, 139, 250, 0.34) !important;
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(167, 139, 250, 0.08) !important;
+}
+
+body.page-daily-devotion[data-theme="dark"] .funnel-card p,
+html.dark body.page-daily-devotion .funnel-card p {
+    color: #cbd7e8 !important;
+}
+
+body.page-daily-devotion[data-theme="dark"] .icon-btn,
+html.dark body.page-daily-devotion .icon-btn {
+    background: rgba(15, 23, 42, 0.7) !important;
+    border-color: rgba(148, 163, 184, 0.28) !important;
+    color: #d7e3f4 !important;
+}
+
+@media (max-width: 820px) {
+    body.page-daily-devotion .invite-funnel-section {
+        padding-inline: 0 !important;
+    }
+
+    body.page-daily-devotion .funnel-grid {
+        gap: 0.75rem !important;
+    }
+
+    body.page-daily-devotion .funnel-card {
+        min-height: 176px !important;
+        padding: 0.95rem 0.75rem !important;
+    }
+
+    body.page-daily-devotion .card-icon-wrapper {
+        width: 34px !important;
+        height: 34px !important;
+        margin-bottom: 0.6rem !important;
+    }
+
+    body.page-daily-devotion .funnel-card h4 {
+        font-size: 0.88rem !important;
+    }
+
+    body.page-daily-devotion .funnel-card p {
+        font-size: 0.78rem !important;
+    }
+
+    body.page-daily-devotion .funnel-btn {
+        font-size: 0.78rem !important;
+        padding-inline: 0.65rem !important;
+    }
+
+    body.page-daily-devotion .invite-actions {
+        gap: 0.45rem !important;
+    }
+
+    body.page-daily-devotion .icon-btn {
+        width: 32px !important;
+        height: 32px !important;
+    }
+}
+
+@media (max-width: 640px) {
+    body.page-daily-devotion .funnel-subtitle {
+        margin-bottom: 1rem !important;
+        font-size: 0.9rem;
+    }
+
+    body.page-daily-devotion .funnel-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    body.page-daily-devotion .funnel-card {
+        min-height: 166px !important;
+        padding: 1rem !important;
+    }
+
+    body.page-daily-devotion .funnel-card h4 {
+        min-height: auto;
+        font-size: 0.98rem !important;
+    }
+
+    body.page-daily-devotion .funnel-card p {
+        min-height: auto;
+        font-size: 0.84rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    body.page-daily-devotion .date-strip-wrapper {
+        grid-template-columns: 40px minmax(0, 1fr) 40px !important;
+        gap: 6px !important;
+    }
+
+    body.page-daily-devotion .date-nav-btn {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+    }
+
+    body.page-daily-devotion #dateStrip {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        overflow-x: visible !important;
+    }
+
+    body.page-daily-devotion #dateStrip.date-pill-row::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    body.page-daily-devotion #dateStrip .date-pill {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        width: auto !important;
+        height: 42px !important;
+        min-height: 42px !important;
+        padding: 0.35rem 0.2rem !important;
+    }
+
+    body.page-daily-devotion #dateStrip .date-pill strong {
+        font-size: 0.72rem !important;
+        line-height: 1.05 !important;
+        white-space: nowrap !important;
+    }
+
+    body.page-daily-devotion #dateStrip .date-pill span {
+        font-size: 0.62rem !important;
+        line-height: 1.05 !important;
+        white-space: nowrap !important;
+    }
+}

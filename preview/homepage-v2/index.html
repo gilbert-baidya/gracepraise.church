@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hero V2 Preview · Grace and Praise Bangladeshi Church</title>
+    <meta name="description"
+        content="Isolated Hero V2 design preview for Grace and Praise Bangladeshi Church. Not the live homepage.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Fonts: reuse GPBC identity (Cinzel headings + Space Grotesk body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="homepage-v2.css">
+</head>
+
+<body>
+    <a href="#hero-content" class="v2-skip-link">Skip to main content</a>
+
+    <!-- ============================================================
+         PREVIEW-ONLY HEADER — recreated inside the preview.
+         Does NOT touch the real global navigation.
+         ============================================================ -->
+    <header class="v2-header">
+        <nav class="v2-nav" aria-label="Preview primary navigation">
+            <a class="v2-brand" href="#hero-content" aria-label="Grace and Praise Bangladeshi Church home">
+                <img src="/images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
+                    class="v2-brand-logo" width="52" height="52" loading="eager" decoding="async">
+                <span class="v2-brand-text">
+                    <span class="v2-brand-name">Grace &amp; Praise</span>
+                    <span class="v2-brand-sub">Bangladeshi Church</span>
+                </span>
+            </a>
+
+            <!-- CSS-only mobile menu toggle (no JS dependency) -->
+            <input type="checkbox" id="v2-nav-toggle" class="v2-nav-toggle-input" hidden>
+            <label for="v2-nav-toggle" class="v2-nav-toggle" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </label>
+
+            <ul class="v2-nav-links">
+                <li><a href="#hero-content" aria-current="page">Home</a></li>
+                <li><a href="#hero-content">About</a></li>
+                <li><a href="#hero-content">Ministries</a></li>
+                <li><a href="#hero-content">Next Service</a></li>
+                <li><a href="#hero-content">Calendar</a></li>
+                <li><a href="#hero-content">Gallery</a></li>
+                <li><a href="#hero-content">Prayer</a></li>
+                <li><a href="#hero-content">Devotion</a></li>
+                <li><a href="#hero-content">Give</a></li>
+                <li class="v2-nav-live">
+                    <a href="#hero-content" class="v2-watch-live">
+                        <span class="v2-live-dot" aria-hidden="true"></span>
+                        Watch Live
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ============================================================
+             HERO V2
+             ============================================================ -->
+        <section class="v2-hero" aria-labelledby="hero-heading">
+            <!-- Ambient decorative background layers (aria-hidden) -->
+            <div class="v2-hero-bg" aria-hidden="true">
+                <span class="v2-bg-glow v2-bg-glow--gold"></span>
+                <span class="v2-bg-glow v2-bg-glow--teal"></span>
+                <span class="v2-bg-glow v2-bg-glow--rose"></span>
+                <span class="v2-bg-grid"></span>
+                <span class="v2-bg-textile"></span>
+            </div>
+
+            <div class="v2-hero-inner">
+                <!-- ---------- Text column ---------- -->
+                <div class="v2-hero-content" id="hero-content">
+                    <p class="v2-eyebrow">
+                        <span class="v2-eyebrow-mark" aria-hidden="true"></span>
+                        Welcome Home
+                    </p>
+
+                    <h1 class="v2-hero-heading" id="hero-heading">
+                        <span class="v2-heading-line">Grace and Praise</span>
+                        <span class="v2-heading-line v2-heading-accent">Bangladeshi Church</span>
+                    </h1>
+
+                    <p class="v2-tagline">Living in Grace. Rising in Praise.</p>
+
+                    <p class="v2-lede">
+                        The first Bangladeshi church in Southern California<span class="v2-lede-desktop-detail">
+                            — Bangladesh roots, an American home, one family in Christ.</span>
+                    </p>
+
+                    <!-- Service details -->
+                    <dl class="v2-service">
+                        <div class="v2-service-item">
+                            <dt>Sunday</dt>
+                            <dd>5:00 PM</dd>
+                        </div>
+                        <div class="v2-service-divider" aria-hidden="true"></div>
+                        <div class="v2-service-item">
+                            <dt>Location</dt>
+                            <dd>San Bernardino, California</dd>
+                        </div>
+                    </dl>
+
+                    <p class="v2-welcome-line">
+                        Bengali &amp; English Worship <span aria-hidden="true">•</span> Everyone Welcome
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="v2-cta-group">
+                        <a href="#hero-content" class="v2-btn v2-btn--primary">Plan Your Visit</a>
+                        <a href="#hero-content" class="v2-btn v2-btn--secondary">
+                            <svg class="v2-play-icon" viewBox="0 0 12 14" aria-hidden="true" focusable="false">
+                                <path d="M1 1.2 11 7 1 12.8Z" />
+                            </svg>
+                            Watch Sermons
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ---------- Visual column ---------- -->
+                <div class="v2-hero-visual" aria-hidden="false">
+                    <!-- Southern California silhouette: San Bernardino mountains, palms, soft sunset (decorative) -->
+                    <div class="v2-socal" aria-hidden="true">
+                        <svg viewBox="0 0 600 240" preserveAspectRatio="xMidYMax meet" focusable="false">
+                            <defs>
+                                <radialGradient id="v2SunGrad" cx="50%" cy="100%" r="70%">
+                                    <stop offset="0%" stop-color="#f6d59a" stop-opacity="0.55" />
+                                    <stop offset="45%" stop-color="#e7b84a" stop-opacity="0.22" />
+                                    <stop offset="100%" stop-color="#e7b84a" stop-opacity="0" />
+                                </radialGradient>
+                                <linearGradient id="v2RidgeBack" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#1d3d63" />
+                                    <stop offset="100%" stop-color="#0f2036" />
+                                </linearGradient>
+                                <linearGradient id="v2RidgeFront" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#0f2036" />
+                                    <stop offset="100%" stop-color="#060d1a" />
+                                </linearGradient>
+                            </defs>
+
+                            <!-- soft sunset haze -->
+                            <ellipse cx="300" cy="235" rx="230" ry="150" fill="url(#v2SunGrad)" />
+
+                            <!-- distant San Bernardino ridge (Mt. San Gorgonio profile) -->
+                            <path class="v2-socal-ridge-back" fill="url(#v2RidgeBack)"
+                                d="M0 176 L70 150 L130 168 L200 120 L250 148 L330 96 L400 142 L470 118 L540 150 L600 132 L600 240 L0 240 Z" />
+                            <!-- subtle warm rim on the far ridge -->
+                            <path class="v2-socal-rim" fill="none" stroke="#f6d59a" stroke-opacity="0.28" stroke-width="1.4"
+                                d="M200 120 L250 148 L330 96 L400 142 L470 118" />
+
+                            <!-- foreground ridge -->
+                            <path fill="url(#v2RidgeFront)"
+                                d="M0 210 L90 182 L170 204 L260 170 L350 200 L440 176 L520 202 L600 184 L600 240 L0 240 Z" />
+
+                            <!-- palm silhouettes -->
+                            <g fill="#060d1a" opacity="0.92">
+                                <g transform="translate(96 208)">
+                                    <path d="M-2 0 C-3 -30 -1 -52 0 -66 C1 -52 3 -30 2 0 Z" />
+                                    <path fill="none" stroke="#060d1a" stroke-width="3.4" stroke-linecap="round"
+                                        d="M0 -66 C-16 -78 -30 -78 -42 -70 M0 -66 C-10 -84 -8 -98 2 -108 M0 -66 C16 -80 32 -80 44 -72 M0 -66 C10 -80 26 -84 40 -84 M0 -66 C-8 -80 -22 -84 -36 -84" />
+                                </g>
+                                <g transform="translate(508 204) scale(0.86)">
+                                    <path d="M-2 0 C-3 -30 -1 -52 0 -66 C1 -52 3 -30 2 0 Z" />
+                                    <path fill="none" stroke="#060d1a" stroke-width="3.4" stroke-linecap="round"
+                                        d="M0 -66 C-16 -78 -30 -78 -42 -70 M0 -66 C-10 -84 -8 -98 2 -108 M0 -66 C16 -80 32 -80 44 -72 M0 -66 C10 -80 26 -84 40 -84 M0 -66 C-8 -80 -22 -84 -36 -84" />
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Bangladeshi flowing textile ribbon (Jamdani-toned, decorative) -->
+                    <div class="v2-ribbon" aria-hidden="true">
+                        <svg viewBox="0 0 420 420" preserveAspectRatio="xMidYMid meet" focusable="false">
+                            <defs>
+                                <linearGradient id="v2RibbonGrad" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#0f7a5a" />
+                                    <stop offset="52%" stop-color="#e7b84a" />
+                                    <stop offset="100%" stop-color="#d1483c" />
+                                </linearGradient>
+                            </defs>
+                            <g fill="none" stroke="url(#v2RibbonGrad)" stroke-linecap="round">
+                                <path stroke-width="10" opacity="0.26"
+                                    d="M-30 300 C70 220 130 350 210 280 S350 170 450 250" />
+                                <path stroke-width="3.2" opacity="0.34"
+                                    d="M-30 322 C70 244 130 372 210 302 S350 192 450 272" />
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Cross focal composition (CSS/SVG, decorative) -->
+                    <div class="v2-cross-stage" role="img"
+                        aria-label="Illustrated luminous cross within a glowing halo and translucent hexagons">
+                        <div class="v2-cross-composition">
+                            <span class="v2-halo" aria-hidden="true"></span>
+                            <span class="v2-hex v2-hex--1" aria-hidden="true"></span>
+                            <span class="v2-hex v2-hex--2" aria-hidden="true"></span>
+                            <span class="v2-hex v2-hex--3" aria-hidden="true"></span>
+
+                            <svg class="v2-cross" viewBox="0 0 120 180" aria-hidden="true" focusable="false">
+                                <defs>
+                                    <linearGradient id="v2CrossGrad" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#fbe6b0" />
+                                        <stop offset="45%" stop-color="#e7b84a" />
+                                        <stop offset="100%" stop-color="#b9862a" />
+                                    </linearGradient>
+                                    <filter id="v2CrossGlow" x="-60%" y="-60%" width="220%" height="220%">
+                                        <feGaussianBlur stdDeviation="3.2" result="blur" />
+                                        <feMerge>
+                                            <feMergeNode in="blur" />
+                                            <feMergeNode in="SourceGraphic" />
+                                        </feMerge>
+                                    </filter>
+                                </defs>
+                                <g filter="url(#v2CrossGlow)">
+                                    <rect x="51" y="8" width="18" height="164" rx="6" fill="url(#v2CrossGrad)"
+                                        stroke="#3a2708" stroke-width="1.6" stroke-opacity="0.55" />
+                                    <rect x="20" y="52" width="80" height="18" rx="6" fill="url(#v2CrossGrad)"
+                                        stroke="#3a2708" stroke-width="1.6" stroke-opacity="0.55" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Glass-style replaceable photo cards -->
+                    <figure class="v2-photo-card v2-photo-card--main" data-photo-slot="MAIN_WORSHIP_PHOTO">
+                        <div class="v2-photo-frame">
+                            <img class="v2-photo-img"
+                                alt="GPBC congregation worshiping together during a church service"
+                                src="../../images/homepage/hero-v2/final/worship-desktop.webp"
+                                srcset="../../images/homepage/hero-v2/final/worship-desktop.webp 1000w,
+                                        ../../images/homepage/hero-v2/final/worship-mobile.webp 1200w"
+                                sizes="(max-width: 760px) calc(100vw - 3rem), 430px"
+                                width="1200" height="900" decoding="async" fetchpriority="high">
+                            <span class="v2-photo-badge">Worship</span>
+                        </div>
+                        <figcaption class="v2-photo-caption">Sunday Worship</figcaption>
+                    </figure>
+
+                    <figure class="v2-photo-card v2-photo-card--community" data-photo-slot="COMMUNITY_PHOTO">
+                        <div class="v2-photo-frame">
+                            <img class="v2-photo-img"
+                                alt="Members and guests gathered together at Grace and Praise Bangladeshi Church"
+                                src="../../images/homepage/hero-v2/final/community-desktop.webp"
+                                srcset="../../images/homepage/hero-v2/final/community-desktop.webp 1000w,
+                                        ../../images/homepage/hero-v2/final/community-mobile.webp 1200w"
+                                sizes="(max-width: 760px) calc(100vw - 3rem), 201px"
+                                width="1200" height="900" decoding="async" loading="lazy">
+                            <span class="v2-photo-badge">Community</span>
+                        </div>
+                        <figcaption class="v2-photo-caption">Community &amp; Fellowship</figcaption>
+                    </figure>
+
+                    <figure class="v2-photo-card v2-photo-card--family" data-photo-slot="FAMILY_PHOTO">
+                        <div class="v2-photo-frame">
+                            <img class="v2-photo-img"
+                                alt="Grace and Praise Bangladeshi Church family gathered together"
+                                src="../../images/homepage/hero-v2/final/family-desktop.webp"
+                                srcset="../../images/homepage/hero-v2/final/family-desktop.webp 1000w,
+                                        ../../images/homepage/hero-v2/final/family-mobile.webp 1200w"
+                                sizes="(max-width: 760px) calc(100vw - 3rem), 201px"
+                                width="1200" height="900" decoding="async" loading="lazy">
+                            <span class="v2-photo-badge">Family</span>
+                        </div>
+                        <figcaption class="v2-photo-caption">Church Family</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Preview watermark so this is never mistaken for production -->
+    <p class="v2-preview-flag" role="note">Hero V2 · Design Preview — not the live site</p>
+</body>
+
+</html>
