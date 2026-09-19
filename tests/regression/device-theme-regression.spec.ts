@@ -54,7 +54,9 @@ deviceTest.describe('Regression Matrix - All Devices x Day/Dark', () => {
       await waitForPageSettle(page);
       await assertNoErrorPage(page);
 
-      await expect(page.locator('#nextEventBanner .next-event-banner')).toBeVisible({ timeout: 15000 });
+      await expect(page.locator('#nextEventBanner .next-event-banner, #specialEventBanner')).toBeVisible({
+        timeout: 15000
+      });
 
       const countdownContract = await page.evaluate(() => {
         const parseRgba = (value: string): [number, number, number, number] | null => {
@@ -99,10 +101,19 @@ deviceTest.describe('Regression Matrix - All Devices x Day/Dark', () => {
           return (lighter + 0.05) / (darker + 0.05);
         };
 
-        const banner = document.querySelector('#nextEventBanner .next-event-banner') as HTMLElement | null;
-        const timeUnit = document.querySelector('#nextEventBanner .time-unit') as HTMLElement | null;
-        const timeValue = document.querySelector('#nextEventBanner .time-value') as HTMLElement | null;
-        const timeLabel = document.querySelector('#nextEventBanner .time-label') as HTMLElement | null;
+        const banner = document.querySelector(
+          '#nextEventBanner .next-event-banner, #specialEventBanner'
+        ) as HTMLElement | null;
+        const timeUnit = document.querySelector(
+          '#nextEventBanner .time-unit, #specialEventBanner .unit-group'
+        ) as HTMLElement | null;
+        const countdownSurface = timeUnit?.closest('.inline-countdown') as HTMLElement | null;
+        const timeValue = document.querySelector(
+          '#nextEventBanner .time-value, #specialEventBanner .countdown-value'
+        ) as HTMLElement | null;
+        const timeLabel = document.querySelector(
+          '#nextEventBanner .time-label, #specialEventBanner .countdown-unit'
+        ) as HTMLElement | null;
         const liveBadge = document.querySelector('#nextEventBanner .live-badge') as HTMLElement | null;
 
         if (!banner) {
@@ -126,9 +137,13 @@ deviceTest.describe('Regression Matrix - All Devices x Day/Dark', () => {
           parseRgba(window.getComputedStyle(document.body).backgroundColor) ||
           [255, 255, 255, 1];
 
-        const timeUnitBgRaw =
-          parseRgba(window.getComputedStyle(timeUnit).backgroundColor) || [255, 255, 255, 1];
-        const timeUnitBg = blend(timeUnitBgRaw, bannerBg);
+        const timeUnitBgRaw = parseRgba(window.getComputedStyle(timeUnit).backgroundColor) || [255, 255, 255, 1];
+        const countdownSurfaceBgRaw = countdownSurface
+          ? parseRgba(window.getComputedStyle(countdownSurface).backgroundColor)
+          : null;
+        const readableSurfaceBg =
+          timeUnitBgRaw[3] === 0 && countdownSurfaceBgRaw ? countdownSurfaceBgRaw : timeUnitBgRaw;
+        const timeUnitBg = blend(readableSurfaceBg, bannerBg);
 
         const valueColor = parseRgba(window.getComputedStyle(timeValue).color) || [0, 0, 0, 1];
         const labelColor = parseRgba(window.getComputedStyle(timeLabel).color) || [0, 0, 0, 1];
@@ -231,6 +246,163 @@ deviceTest.describe('Regression Matrix - All Devices x Day/Dark', () => {
           expect(devotionPayload.prayerLength).toBeGreaterThan(10);
         }
       }
+    });
+
+    const V11_ROUTES = [
+      '/index.html',
+      '/about.html',
+      '/contact.html',
+      '/ministries.html',
+      '/daily-devotion.html',
+      '/give.html',
+      '/prayer-request.html',
+      '/kids/games/index.html'
+    ];
+
+    async function clearThemeStorage(page: Page): Promise<void> {
+      await page.addInitScript(() => {
+        localStorage.removeItem('theme');
+        localStorage.removeItem('site-theme');
+      });
+    }
+
+    async function seedThemeStorage(page: Page, theme: 'light' | 'dark'): Promise<void> {
+      await page.addInitScript((storedTheme) => {
+        localStorage.setItem('theme', storedTheme);
+        localStorage.setItem('site-theme', storedTheme);
+      }, theme);
+    }
+
+    async function expectTheme(page: Page, theme: 'light' | 'dark'): Promise<void> {
+      await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+      await expect(page.locator('#darkModeToggle').first()).toHaveAttribute(
+        'aria-pressed',
+        theme === 'dark' ? 'true' : 'false'
+      );
+      await expect(page.locator('#darkModeToggle').first()).toHaveAttribute(
+        'aria-label',
+        theme === 'dark' ? 'Switch to Day mode' : 'Switch to Night mode'
+      );
+    }
+
+    deviceTest.describe('V11 real Day/Night theme behavior', () => {
+      deviceTest(`first visit follows OS dark preference (${theme})`, async ({ page }) => {
+        await page.emulateMedia({ colorScheme: 'dark' });
+        await clearThemeStorage(page);
+        await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+        await waitForPageSettle(page);
+        await expectTheme(page, 'dark');
+      });
+
+      deviceTest(`first visit follows OS light preference (${theme})`, async ({ page }) => {
+        await page.emulateMedia({ colorScheme: 'light' });
+        await clearThemeStorage(page);
+        await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+        await waitForPageSettle(page);
+        await expectTheme(page, 'light');
+      });
+
+      deviceTest(`saved Day preference overrides OS dark (${theme})`, async ({ page }) => {
+        await page.emulateMedia({ colorScheme: 'dark' });
+        await seedThemeStorage(page, 'light');
+        await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+        await waitForPageSettle(page);
+        await expectTheme(page, 'light');
+      });
+
+      deviceTest(`saved Night preference overrides OS light (${theme})`, async ({ page }) => {
+        await page.emulateMedia({ colorScheme: 'light' });
+        await seedThemeStorage(page, 'dark');
+        await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+        await waitForPageSettle(page);
+        await expectTheme(page, 'dark');
+      });
+
+      deviceTest(`toggle changes theme and persists through reload and navigation (${theme})`, async ({ page }) => {
+        await page.emulateMedia({ colorScheme: 'light' });
+        await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+        await waitForPageSettle(page);
+        await expectTheme(page, 'light');
+
+        const toggle = page.locator('#darkModeToggle').first();
+        await expect(toggle).toBeVisible();
+        await toggle.click();
+        await expectTheme(page, 'dark');
+        await expect.poll(() => page.evaluate(() => localStorage.getItem('theme'))).toBe('dark');
+
+        await page.reload({ waitUntil: 'domcontentloaded' });
+        await waitForPageSettle(page);
+        await expectTheme(page, 'dark');
+
+        await page.goto('/about.html', { waitUntil: 'domcontentloaded' });
+        await waitForPageSettle(page);
+        await expectTheme(page, 'dark');
+
+        await page.locator('#darkModeToggle').first().click();
+        await expectTheme(page, 'light');
+        await expect.poll(() => page.evaluate(() => localStorage.getItem('theme'))).toBe('light');
+      });
+
+      deviceTest(`Contact renders shared header and accessible toggle (${theme})`, async ({ page }) => {
+        await seedThemeStorage(page, 'dark');
+        await page.goto('/contact.html', { waitUntil: 'domcontentloaded' });
+        await waitForPageSettle(page);
+
+        await expect(page.locator('header')).toBeVisible();
+        await expect(page.locator('.nav-links')).toBeAttached();
+        await expect(page.locator('#darkModeToggle').first()).toBeVisible();
+        await expectTheme(page, 'dark');
+      });
+
+      deviceTest(`representative routes render themed footer with no horizontal overflow (${theme})`, async ({ page }) => {
+        await seedThemeStorage(page, 'dark');
+
+        for (const route of V11_ROUTES) {
+          await page.goto(route, { waitUntil: 'domcontentloaded' });
+          await waitForPageSettle(page);
+          await assertNoErrorPage(page);
+          await expect(page.locator('body')).toBeVisible();
+          await expect(page.locator('footer.site-footer')).toBeVisible();
+          await expect(page.locator('#darkModeToggle').first(), `${route} should expose the theme toggle`).toBeVisible();
+          await expectTheme(page, 'dark');
+
+          const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+          expect(overflow, `${route} should not horizontally overflow`).toBeLessThanOrEqual(1);
+        }
+      });
+
+      deviceTest(`desktop, tablet, and mobile widths keep theme UI stable (${theme})`, async ({ page }) => {
+        await seedThemeStorage(page, 'light');
+
+        for (const viewport of [
+          { width: 1440, height: 900 },
+          { width: 768, height: 900 },
+          { width: 390, height: 844 }
+        ]) {
+          await page.setViewportSize(viewport);
+          await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+          await waitForPageSettle(page);
+
+          await expect(page.locator('#darkModeToggle').first()).toBeVisible();
+          await expectTheme(page, 'light');
+
+          const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+          expect(overflow, `${viewport.width}px should not horizontally overflow`).toBeLessThanOrEqual(1);
+        }
+      });
+
+      deviceTest(`mobile navigation still opens with the theme toggle present (${theme})`, async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await seedThemeStorage(page, 'dark');
+        await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+        await waitForPageSettle(page);
+
+        await expect(page.locator('#darkModeToggle').first()).toBeVisible();
+        const burgerButton = page.locator('.mobile-menu-btn, button[aria-label*="menu" i]').first();
+        await expect(burgerButton).toBeVisible();
+        await burgerButton.click();
+        await expect(page.locator('.nav-links.mobile-open')).toBeVisible();
+      });
     });
   }
 });

@@ -5,6 +5,63 @@
 
     const w = window;
     const d = document;
+    const THEME_STORAGE_KEY = 'theme';
+    const VALID_THEMES = new Set(['light', 'dark']);
+
+    function readSavedTheme() {
+        try {
+            const savedTheme = w.localStorage?.getItem(THEME_STORAGE_KEY);
+            return VALID_THEMES.has(savedTheme) ? savedTheme : null;
+        } catch (error) {
+            console.warn('[PlatformRuntime] Theme preference could not be read', error);
+            return null;
+        }
+    }
+
+    function getSystemTheme() {
+        return w.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function getPreferredTheme() {
+        return readSavedTheme() || getSystemTheme() || 'light';
+    }
+
+    function applyTheme(theme, options = {}) {
+        const nextTheme = VALID_THEMES.has(theme) ? theme : getPreferredTheme();
+        const isDark = nextTheme === 'dark';
+
+        d.documentElement.setAttribute('data-theme', nextTheme);
+        d.documentElement.classList.toggle('dark', isDark);
+
+        if (d.body) {
+            d.body.setAttribute('data-theme', nextTheme);
+            d.body.classList.toggle('dark', isDark);
+        }
+
+        if (options.persist) {
+            try {
+                w.localStorage?.setItem(THEME_STORAGE_KEY, nextTheme);
+                w.localStorage?.setItem('site-theme', nextTheme);
+            } catch (error) {
+                console.warn('[PlatformRuntime] Theme preference could not be saved', error);
+            }
+        }
+
+        w.dispatchEvent(new CustomEvent('themechange', { detail: { theme: nextTheme } }));
+        return nextTheme;
+    }
+
+    function syncBodyTheme() {
+        applyTheme(d.documentElement.getAttribute('data-theme') || getPreferredTheme());
+    }
+
+    applyTheme(getPreferredTheme());
+
+    if (d.readyState === 'loading') {
+        d.addEventListener('DOMContentLoaded', syncBodyTheme, { once: true });
+    } else {
+        syncBodyTheme();
+    }
 
     // ══════════════════════════════════════════════════════════════════
     // CENTRALIZED ENVIRONMENT CONFIGURATION
@@ -37,14 +94,15 @@
     };
 
     function getFallbackHeaderHtml(basePath = '') {
+        const resolvedBasePath = basePath || '/';
         return `
 <header>
     <nav>
         <div class="nav-container">
-            <a href="${basePath}index.html#home" class="logo" aria-label="Grace and Praise Bangladeshi Church Home">
-                <img src="${basePath}images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
+            <a href="${resolvedBasePath}index.html#home" class="logo" aria-label="Grace and Praise Bangladeshi Church Home">
+                <img src="${resolvedBasePath}images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
             </a>
-            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode" type="button">
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Switch to Night mode" aria-pressed="false" title="Switch theme" type="button">
                 <span class="sun-icon">☀️</span>
                 <span class="moon-icon">🌙</span>
             </button>
@@ -54,16 +112,16 @@
                 <span></span>
             </button>
             <ul class="nav-links" id="nav-links">
-                <li><a href="${basePath}index.html#home">Home</a></li>
-                <li><a href="${basePath}calendar.html">Calendar</a></li>
+                <li><a href="${resolvedBasePath}index.html#home">Home</a></li>
+                <li><a href="${resolvedBasePath}calendar.html">Calendar</a></li>
                 <li class="nav-dropdown">
-                    <a href="${basePath}daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
+                    <a href="${resolvedBasePath}daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="${basePath}daily-devotion.html">Today's Devotion</a></li>
-                        <li><a href="${basePath}fasting-40days.html">Lent - 40 Days</a></li>
+                        <li><a href="${resolvedBasePath}daily-devotion.html">Today's Devotion</a></li>
+                        <li><a href="${resolvedBasePath}fasting-40days.html">Lent - 40 Days</a></li>
                     </ul>
                 </li>
-                <li><a href="${basePath}give.html">Give</a></li>
+                <li><a href="${resolvedBasePath}give.html">Give</a></li>
             </ul>
         </div>
     </nav>
@@ -135,9 +193,13 @@
                 if (value.startsWith('#') || value.startsWith('//')) return;
                 if (/^(?:[a-z][a-z0-9+.-]*:|mailto:|tel:|javascript:|data:|blob:)/i.test(value)) return;
 
-                // Convert root-relative links to page-base-relative links.
                 if (value.startsWith('/')) {
                     node.setAttribute(attr, `${normalizedBasePath}${value.slice(1)}`);
+                    return;
+                }
+
+                if (normalizedBasePath) {
+                    node.setAttribute(attr, `${normalizedBasePath}${value}`);
                 }
             });
         });
@@ -238,7 +300,7 @@
             return;
         }
 
-        const headerContainer = d.querySelector('#site-header');
+        const headerContainer = d.querySelector('#site-header, [data-partial="site-header"]');
         const footerContainer = d.querySelector('#site-footer');
         const newFooterMount = d.querySelector('[data-partial="site-footer"]');
 
@@ -372,7 +434,7 @@
         installGlobalErrorSafety();
         installBlankDevotionGuard();
 
-        const hasPartialTargets = !!(d.querySelector('#site-header') || d.querySelector('#site-footer'));
+        const hasPartialTargets = !!(d.querySelector('#site-header, [data-partial="site-header"]') || d.querySelector('#site-footer, [data-partial="site-footer"]'));
         if (hasPartialTargets) {
             initPartials();
         } else {
@@ -383,6 +445,8 @@
 
     w.Platform = {
         __bootstrapped: true,
+        getPreferredTheme,
+        applyTheme,
         initNavigation,
         initPartials,
         registerNavigationInitializer(fn) {

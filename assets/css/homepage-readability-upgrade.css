@@ -695,17 +695,49 @@ html[data-theme="dark"] body[data-page="home"] :where(.new-here-card,
 }
 
 /* Link readability (non-color-only and stronger contrast) */
-body.homepage main a[href]:not(.btn):not([class*="btn"]):not(.card-button),
-body[data-page="home"] main a[href]:not(.btn):not([class*="btn"]):not(.card-button) {
+body.homepage main a[href]:not(.btn):not([class*="btn"]):not(.button):not(.card-button),
+body[data-page="home"] main a[href]:not(.btn):not([class*="btn"]):not(.button):not(.card-button) {
     color: var(--home-read-link) !important;
     text-decoration-line: underline !important;
     text-underline-offset: 0.18em;
     text-decoration-thickness: 0.09em;
 }
 
-body.homepage main a[href]:not(.btn):not([class*="btn"]):not(.card-button):hover,
-body[data-page="home"] main a[href]:not(.btn):not([class*="btn"]):not(.card-button):hover {
+body.homepage main a[href]:not(.btn):not([class*="btn"]):not(.button):not(.card-button):hover,
+body[data-page="home"] main a[href]:not(.btn):not([class*="btn"]):not(.button):not(.card-button):hover {
     color: var(--home-read-link-hover) !important;
+}
+
+body.homepage main .block-the-loop a.button,
+body.homepage main .block-the-loop a.button:link,
+body.homepage main .block-the-loop a.button:visited,
+body.homepage main .block-the-loop a.button:hover,
+body.homepage main .block-the-loop a.button:focus-visible,
+body[data-page="home"] main .block-the-loop a.button,
+body[data-page="home"] main .block-the-loop a.button:link,
+body[data-page="home"] main .block-the-loop a.button:visited,
+body[data-page="home"] main .block-the-loop a.button:hover,
+body[data-page="home"] main .block-the-loop a.button:focus-visible {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+}
+
+body.homepage main .block-the-loop a[href].button:not(.btn):not([class*="btn"]):not(.card-button),
+body.homepage main .block-the-loop a[href].button:not(.btn):not([class*="btn"]):not(.card-button):link,
+body.homepage main .block-the-loop a[href].button:not(.btn):not([class*="btn"]):not(.card-button):visited,
+body.homepage main .block-the-loop a[href].button:not(.btn):not([class*="btn"]):not(.card-button):hover,
+body.homepage main .block-the-loop a[href].button:not(.btn):not([class*="btn"]):not(.card-button):focus-visible,
+body[data-page="home"] main .block-the-loop a[href].button:not(.btn):not([class*="btn"]):not(.card-button),
+body[data-page="home"] main .block-the-loop a[href].button:not(.btn):not([class*="btn"]):not(.card-button):link,
+body[data-page="home"] main .block-the-loop a[href].button:not(.btn):not([class*="btn"]):not(.card-button):visited,
+body[data-page="home"] main .block-the-loop a[href].button:not(.btn):not([class*="btn"]):not(.card-button):hover,
+body[data-page="home"] main .block-the-loop a[href].button:not(.btn):not([class*="btn"]):not(.card-button):focus-visible {
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
 }
 
 /* Mobile readability scale-up */

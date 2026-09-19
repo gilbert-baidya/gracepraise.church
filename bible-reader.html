@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
 
-    <script src="platform-runtime.js"></script>
+    <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 
     <title>Holy Bible | Grace and Praise Bangladeshi Church</title>
     
     <!-- Sacred Design Token System -->
-    <link rel="stylesheet" href="sacred-tokens.css">
-    <link rel="stylesheet" href="styles.bundle.css?v=20260222-ipadnavfix2">
+    <link rel="stylesheet" href="sacred-tokens.css?v=20260918-v11-theme-final3">
+    <link rel="stylesheet" href="styles.bundle.css?v=20260918-v11-theme-final3">
     <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="hero-upgrade.css?v=20260203c">
     <link rel="stylesheet" href="countdown.css">
@@ -18,18 +18,18 @@
     <link rel="stylesheet" href="bible-reader.css">
     
     <!-- Navigation Partial Support -->
-    <script src="./js/partials.js"></script>
+    <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
 
     <!-- Theme & JS Detection -->
     <script>
         (function () {
             document.documentElement.classList.add('js-enabled');
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-            }
+
+            const theme = window.Platform?.getPreferredTheme?.() ||
+                (window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
         })();
     </script>
 
@@ -118,7 +118,7 @@
     <div data-partial="site-footer"></div>
 
     <!-- Core Scripts -->
-    <script src="navigation.js"></script>
+    <script src="navigation.js?v=20260918-v11-theme-final3"></script>
     <script src="bible-reader.js"></script>
     <script type="module" src="./js/footer/footer-init.js"></script>
 </body>

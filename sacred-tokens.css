@@ -21,28 +21,57 @@
    1. COLOR TOKENS — Light Mode (Default)
    ══════════════════════════════════════════════════════════════════════════ */
 :root {
+    color-scheme: light;
+
+    /* V11 Day/Night semantic theme system */
+    --theme-bg-page: #fbf8f1;
+    --theme-bg-section: #f6f2ea;
+    --theme-bg-elevated: #ffffff;
+    --theme-bg-glass: rgba(255, 255, 255, 0.78);
+
+    --theme-text-primary: #102033;
+    --theme-text-secondary: #334155;
+    --theme-text-muted: #526173;
+    --theme-text-inverse: #ffffff;
+
+    --theme-accent-blue: #2563eb;
+    --theme-accent-blue-soft: #dbeafe;
+    --theme-accent-gold: #b8860b;
+    --theme-accent-gold-bright: #f59e0b;
+    --theme-accent-gold-soft: #f6e4b8;
+    --theme-accent-teal: #0f766e;
+
+    --theme-border-subtle: rgba(15, 23, 42, 0.10);
+    --theme-border-strong: rgba(15, 23, 42, 0.18);
+
+    --theme-shadow-card: 0 12px 30px rgba(15, 23, 42, 0.12);
+    --theme-shadow-elevated: 0 24px 50px rgba(15, 23, 42, 0.16);
+
+    --theme-focus-ring: #1d4ed8;
+    --theme-focus-shadow: rgba(29, 78, 216, 0.22);
+
     /* ── Primary Brand ── */
-    --color-primary: #3b82f6;
+    --color-primary: var(--theme-accent-blue);
     --color-primary-dark: #1e40af;
     --color-primary-light: #dbeafe;
-    --color-accent: #f59e0b;
-    --color-secondary: #0ea5a4;
+    --color-accent: var(--theme-accent-gold);
+    --color-secondary: var(--theme-accent-teal);
 
     /* ── Backgrounds ── */
-    --color-background: #fefdfb;
-    --color-surface: #f8fafc;
-    --color-surface-elevated: #ffffff;
+    --color-background: var(--theme-bg-page);
+    --color-surface: var(--theme-bg-section);
+    --color-surface-elevated: var(--theme-bg-elevated);
 
     /* ── Text ── */
-    --color-text-primary: #0f172a;
-    --color-text-secondary: #334155;
-    --color-text-muted: #475569;
-    --color-text-inverse: #ffffff;
+    --color-text-primary: var(--theme-text-primary);
+    --color-text-secondary: var(--theme-text-secondary);
+    --color-text-muted: var(--theme-text-muted);
+    --color-text-inverse: var(--theme-text-inverse);
     --color-scripture: #223E5A;
 
     /* ── Borders & Dividers ── */
-    --color-divider: rgba(15, 23, 42, 0.12);
-    --color-border: rgba(15, 23, 42, 0.08);
+    --color-divider: var(--theme-border-strong);
+    --color-border: var(--theme-border-subtle);
 
     /* ── Semantic ── */
     --color-success: #16a34a;
@@ -195,34 +224,62 @@
 [data-theme="dark"],
 html.dark,
 body.dark {
+    color-scheme: dark;
+
+    --theme-bg-page: #08111f;
+    --theme-bg-section: #0d1829;
+    --theme-bg-elevated: #132238;
+    --theme-bg-glass: rgba(13, 24, 41, 0.78);
+
+    --theme-text-primary: #f4efe4;
+    --theme-text-secondary: #d9e2ee;
+    --theme-text-muted: #a9b8ca;
+    --theme-text-inverse: #08111f;
+
+    --theme-accent-blue: #60a5fa;
+    --theme-accent-blue-soft: rgba(96, 165, 250, 0.18);
+    --theme-accent-gold: #d9b86c;
+    --theme-accent-gold-bright: #fbbf24;
+    --theme-accent-gold-soft: rgba(217, 184, 108, 0.18);
+    --theme-accent-teal: #2dd4bf;
+
+    --theme-border-subtle: rgba(217, 184, 108, 0.16);
+    --theme-border-strong: rgba(217, 184, 108, 0.28);
+
+    --theme-shadow-card: 0 18px 48px rgba(0, 0, 0, 0.42);
+    --theme-shadow-elevated: 0 28px 70px rgba(0, 0, 0, 0.55);
+
+    --theme-focus-ring: #f1cf8d;
+    --theme-focus-shadow: rgba(241, 207, 141, 0.22);
+
     /* Colors */
-    --color-primary: #60a5fa;
+    --color-primary: var(--theme-accent-blue);
     --color-primary-dark: #3b82f6;
     --color-primary-light: #1e3a5f;
-    --color-accent: #fbbf24;
-    --color-secondary: #2dd4bf;
+    --color-accent: var(--theme-accent-gold);
+    --color-secondary: var(--theme-accent-teal);
 
-    --color-background: #0a0f1c;
-    --color-surface: #111827;
-    --color-surface-elevated: #1f2937;
+    --color-background: var(--theme-bg-page);
+    --color-surface: var(--theme-bg-section);
+    --color-surface-elevated: var(--theme-bg-elevated);
 
-    --color-text-primary: #e2e8f0;
-    --color-text-secondary: #94a3b8;
-    --color-text-muted: #64748b;
-    --color-text-inverse: #0f172a;
+    --color-text-primary: var(--theme-text-primary);
+    --color-text-secondary: var(--theme-text-secondary);
+    --color-text-muted: var(--theme-text-muted);
+    --color-text-inverse: var(--theme-text-inverse);
     --color-scripture: #F0F6FF;
 
-    --color-divider: rgba(255, 255, 255, 0.12);
-    --color-border: rgba(255, 255, 255, 0.08);
+    --color-divider: var(--theme-border-strong);
+    --color-border: var(--theme-border-subtle);
 
     --color-success: #4ade80;
     --color-warning: #fbbf24;
     --color-error: #f87171;
 
     /* Shadows deepen in dark mode */
-    --shadow-soft: 0 4px 14px rgba(0, 0, 0, 0.25);
-    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.35);
-    --shadow-elevated: 0 14px 28px -8px rgba(0, 0, 0, 0.4);
+    --shadow-soft: var(--theme-shadow-card);
+    --shadow-card: var(--theme-shadow-card);
+    --shadow-elevated: var(--theme-shadow-elevated);
 }
 
 
@@ -295,10 +352,12 @@ body.dark {
    ══════════════════════════════════════════════════════════════════════════ */
 :root {
     /* Brand → Color */
-    --brand-primary: var(--color-primary);
-    --brand-secondary: var(--color-secondary);
-    --brand-accent: var(--color-accent);
-    --brand-warmth: var(--color-accent);
+    --brand-primary: var(--theme-accent-blue);
+    --brand-secondary: var(--theme-accent-teal);
+    --brand-accent: var(--theme-accent-gold);
+    --brand-accent-bright: var(--theme-accent-gold-bright);
+    --brand-warmth: var(--theme-accent-gold);
+    --accent-primary: var(--theme-accent-blue);
 
     /* Background */
     --bg-page: var(--color-background);
@@ -319,9 +378,11 @@ body.dark {
     --color-shadow: var(--shadow-soft);
 
     /* Borders */
-    --border-subtle: var(--color-border);
-    --divider-line: var(--color-divider);
-    --border-highlight: var(--color-primary);
+    --border-subtle: var(--theme-border-subtle);
+    --divider-line: var(--theme-border-strong);
+    --border-highlight: var(--theme-accent-blue);
+    --gpbc-focus-ring: var(--theme-focus-ring);
+    --gpbc-focus-shadow: var(--theme-focus-shadow);
 
     /* Buttons */
     --btn-primary-bg: var(--color-primary);

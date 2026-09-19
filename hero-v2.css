@@ -654,7 +654,7 @@
     .v2-hero {
         height: auto;
         min-height: 0;
-        padding-bottom: 2rem;
+        padding: clamp(2.25rem, 8vw, 3.25rem) clamp(1.25rem, 6vw, 1.5rem) 2rem !important;
     }
 
     .v2-hero-inner {
@@ -665,16 +665,87 @@
     }
 
     .v2-hero-content {
-        padding-top: 20px;
-        text-align: left;
+        width: min(100%, 34rem);
+        margin-inline: auto;
+        padding-top: 0;
+        text-align: center;
     }
 
     .v2-lede-desktop-detail {
         display: none;
     }
 
+    .v2-eyebrow {
+        justify-content: center;
+        gap: 0.5rem;
+        margin-bottom: 0.8rem;
+        font-size: clamp(0.72rem, 2.6vw, 0.82rem);
+        letter-spacing: 0.18em;
+    }
+
+    .v2-eyebrow-mark {
+        width: 28px;
+        background: linear-gradient(90deg, transparent, var(--v2-gold-500), transparent);
+    }
+
+    .v2-hero-heading {
+        margin-bottom: 0.85rem;
+        font-size: clamp(2rem, 8vw, 2.35rem);
+        line-height: 0.98;
+        letter-spacing: 0.01em;
+        text-align: center;
+    }
+
     .v2-heading-line {
         white-space: normal;
+    }
+
+    .v2-heading-accent {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.02em;
+    }
+
+    .v2-heading-accent::before {
+        content: "Bangladeshi";
+    }
+
+    .v2-heading-accent {
+        font-size: 0;
+    }
+
+    .v2-heading-accent::before,
+    .v2-heading-accent::after {
+        background: linear-gradient(120deg, var(--v2-gold-300), var(--v2-gold-500) 55%, var(--v2-gold-600));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-size: clamp(2rem, 8vw, 2.35rem);
+        line-height: 0.98;
+    }
+
+    .v2-heading-accent::after {
+        content: "Church";
+    }
+
+    .v2-tagline {
+        width: min(100%, 23rem);
+        margin-inline: auto;
+        margin-bottom: 0.85rem;
+        font-size: clamp(0.96rem, 3.8vw, 1.08rem);
+        line-height: 1.35;
+        letter-spacing: 0.05em;
+        text-align: center;
+    }
+
+    .v2-lede {
+        width: min(100%, 22rem);
+        margin-inline: auto;
+        margin-bottom: 1.45rem;
+        font-size: clamp(0.98rem, 3.8vw, 1.06rem);
+        line-height: 1.55;
+        text-align: center;
     }
 
     .v2-cta-group {

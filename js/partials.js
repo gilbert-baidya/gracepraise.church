@@ -65,7 +65,7 @@
     }
 
     function finalizePartials(siteRoot) {
-        const headerContainer = document.querySelector('#site-header');
+        const headerContainer = document.querySelector('#site-header, [data-partial="site-header"]');
         const footerContainer = document.querySelector('#site-footer, [data-partial="site-footer"]');
         normalizeInjectedPaths(headerContainer, siteRoot);
         normalizeInjectedPaths(footerContainer, siteRoot);
@@ -89,7 +89,10 @@
         
         const footerFallback = '<footer class="fallback-footer"><p>&copy; 2026 GPBC</p></footer>';
 
-        await injectPartial('#site-header', new URL('partials/header.html', siteRoot).href, headerFallback);
+        const headerMount = document.querySelector('#site-header, [data-partial="site-header"]');
+        if (headerMount) {
+            await injectPartial('#site-header, [data-partial="site-header"]', new URL('partials/header.html', siteRoot).href, headerFallback);
+        }
         
         // Support both old footer selector and new data-partial approach
         const legacyFooter = document.querySelector('#site-footer');

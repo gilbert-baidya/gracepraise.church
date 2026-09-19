@@ -5,7 +5,7 @@
     <!-- Version: 2026-01-12-mobile-dropdown-fix-v2 -->
     <meta charset="UTF-8">
 
-    <script src="platform-runtime.js"></script>
+    <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Security: Content Security Policy (CSP) - EMERGENCY HOTFIX 2026-02-13 -->
@@ -54,17 +54,17 @@
     <script src="sacred-reminder-engine.js" defer></script>
 
     <!-- Sacred Design Token System (foundation → seasons → components) -->
-    <link rel="stylesheet" href="sacred-tokens.css">
-    <link rel="stylesheet" href="styles.bundle.css?v=20260222-ipadnavfix2">
+    <link rel="stylesheet" href="sacred-tokens.css?v=20260918-v11-theme-final3">
+    <link rel="stylesheet" href="styles.bundle.css?v=20260918-v11-stay-mobile">
     <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="hero-upgrade.css?v=20260203c">
     <link rel="stylesheet" href="countdown.css">
     <link rel="stylesheet" href="welcome-home-v4.css?v=20260917a">
-    <link rel="stylesheet" href="community-carousel-v5.css">
+    <link rel="stylesheet" href="community-carousel-v5.css?v=20260918-v11-community-mobile">
     <link rel="stylesheet" href="event-flip-cards.css">
     <link rel="stylesheet" href="shape-system.css">
-    <link rel="stylesheet" href="heptagon-wheel-sacred.css">
-    <link rel="stylesheet" href="assets/css/homepage-readability-upgrade.css?v=20260304-herofinal25">
+    <link rel="stylesheet" href="heptagon-wheel-sacred.css?v=20260918-v11-home-contrast">
+    <link rel="stylesheet" href="assets/css/homepage-readability-upgrade.css?v=20260918-v11-home-contrast">
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -394,27 +394,37 @@
     <!-- Theme & JS Detection — DO NOT REMOVE -->
     <script>
         (function () {
-            // Instant JS detection
             document.documentElement.classList.add('js-enabled');
 
-            // Theme pre-detection
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-                // We'll also apply to body once it exists
-                document.addEventListener('DOMContentLoaded', () => {
-                    document.body.setAttribute('data-theme', 'dark');
-                    document.body.classList.add('dark');
-                });
+            function getInitialTheme() {
+                if (window.Platform && typeof window.Platform.getPreferredTheme === 'function') {
+                    return window.Platform.getPreferredTheme();
+                }
+
+                try {
+                    const savedTheme = localStorage.getItem('theme');
+                    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+                } catch (error) {
+                    console.warn('[Theme] Saved preference could not be read', error);
+                }
+
+                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             }
+
+            const theme = getInitialTheme();
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+            document.addEventListener('DOMContentLoaded', () => {
+                document.body.setAttribute('data-theme', theme);
+                document.body.classList.toggle('dark', theme === 'dark');
+            });
         })();
     </script>
 
     <!-- Logo System & Position Styles -->
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css?v=20260203c">
-    <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260213-tabletfix">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-stay-mobile">
     <!-- Favicon Package - Trinity Cross -->
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
@@ -426,19 +436,19 @@
     <meta name="msapplication-config" content="images/favicons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
     <!-- Centralized Footer v3 CSS -->
-    <link rel="stylesheet" href="./css/footer-v3.css">
+    <link rel="stylesheet" href="./css/footer-v3.css?v=20260918-v11-floating-control">
 
     <!-- Homepage Hero V2 — loaded last so it wins the cascade against the
          legacy hero overrides. Every rule is scoped under .v2-hero, so it
          cannot affect any other production section. -->
-    <link rel="stylesheet" href="hero-v2.css?v=20260315a">
+    <link rel="stylesheet" href="hero-v2.css?v=20260918-v11-mobile-hero">
     <!-- Homepage Plan Your Visit V3 — isolated from shared section styles. -->
     <link rel="stylesheet" href="plan-your-visit-v3.css?v=20260917d">
     <!-- Homepage Welcome Home V4 — isolated editorial section styles. -->
     <link rel="stylesheet" href="welcome-home-v4.css?v=20260917a">
     <!-- Homepage Stay Connected V8 — isolated editorial section styles. -->
-    <link rel="stylesheet" href="stay-connected-v8.css?v=20260917b">
-    <script src="./js/partials.js" defer></script>
+    <link rel="stylesheet" href="stay-connected-v8.css?v=20260918-v11-stay-mobile">
+    <script src="./js/partials.js?v=20260918-v11-theme-final3" defer></script>
 </head>
 
 <body class="homepage" data-page="home">
@@ -453,8 +463,7 @@
                     <img loading="lazy" src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
                         class="logo-image" loading="eager" decoding="async">
                 </a>
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode"
-                    title="Toggle dark mode">
+                <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
@@ -4006,6 +4015,34 @@
                 padding: 12px 28px !important;
             }
         }
+
+        body[data-theme="dark"] .block-the-loop,
+        body.dark .block-the-loop {
+            color: var(--theme-text-primary);
+        }
+
+        body[data-theme="dark"] .block-the-loop .content h2,
+        body.dark .block-the-loop .content h2 {
+            color: var(--theme-text-primary);
+        }
+
+        body[data-theme="dark"] .block-the-loop .content p,
+        body.dark .block-the-loop .content p {
+            color: var(--theme-text-secondary);
+        }
+
+        body[data-theme="dark"] .block-the-loop .button,
+        body.dark .block-the-loop .button {
+            color: #0f172a !important;
+        }
+
+        .block-the-loop .button,
+        .block-the-loop .button:link,
+        .block-the-loop .button:visited,
+        .block-the-loop .button:hover,
+        .block-the-loop .button:focus-visible {
+            color: #0f172a !important;
+        }
     </style>
 
     <!-- ======================================================
@@ -5048,7 +5085,7 @@
     <script src="community-carousel-v5.js" defer></script>
     <script src="event-flip-cards.js" defer></script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->
-    <script src="navigation.js?v=20260222-ipadnavfix2" defer></script>
+    <script src="navigation.js?v=20260918-v11-theme-final3" defer></script>
     <script src="events.js?v=20260129a" defer></script>
     <script src="homepage-events.js?v=20260129a" defer></script>
     <script src="countdown.js?v=20260129a" defer></script>
@@ -5102,7 +5139,7 @@
         })();
     </script>
     <!-- Logo System Scripts -->
-    <script src="logo-loading.js" defer></script>
+    <script src="logo-loading.js?v=20260918-v11-theme-final3" defer></script>
     <script src="logo-loader.js" defer></script>
     <script src="hero-upgrade.js" defer></script>
 

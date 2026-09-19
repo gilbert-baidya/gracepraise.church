@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <script src="platform-runtime.js"></script>
+    <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church</title>
     <meta name="description"
@@ -36,11 +36,11 @@
     <script>
         (function () {
             document.documentElement.classList.add('js-enabled');
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-            }
+
+            const theme = window.Platform?.getPreferredTheme?.() ||
+                (window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
         })();
     </script>
 
@@ -55,14 +55,14 @@
     <script src="sacred-reminder-engine.js"></script>
 
     <!-- Sacred Design Token System (foundation → seasons → components) -->
-    <link rel="stylesheet" href="sacred-tokens.css">
-    <link rel="stylesheet" href="redesign-styles.css?v=20260222-ipadnavfix2">
+    <link rel="stylesheet" href="sacred-tokens.css?v=20260918-v11-theme-final3">
+    <link rel="stylesheet" href="redesign-styles.css?v=20260918-v11-theme-final3">
     <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css">
     <link rel="stylesheet" href="lent-fasting.css?v=20260303-readability2">
     <link rel="stylesheet" href="bible-gateway-links.css">
-    <link rel="stylesheet" href="dark-mode-toggle-position.css">
+    <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
 
     <style>
         *,
@@ -1335,8 +1335,8 @@
         });
     </script>
 
-    <script src="js/partials.js"></script>
-    <script src="navigation.js?v=20260222-ipadnavfix2"></script>
+    <script src="js/partials.js?v=20260918-v11-theme-final3"></script>
+    <script src="navigation.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loader.js"></script>
 
     <!-- Site Footer (Partial Injection) -->
