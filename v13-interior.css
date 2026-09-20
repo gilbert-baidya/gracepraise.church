@@ -1,0 +1,148 @@
+/*
+ * V13 interior foundation — Phase 1
+ *
+ * This stylesheet is intentionally loaded only by the Phase 1 validation
+ * pages. Later interior families can opt in after visual approval.
+ */
+
+.v13-interior {
+    --v13-page-gutter: clamp(1rem, 4vw, 3.5rem);
+    --v13-page-shell-width: 1200px;
+    --v13-reading-width: 880px;
+    --v13-space-xs: clamp(0.75rem, 1.25vw, 1rem);
+    --v13-space-sm: clamp(1.25rem, 2vw, 1.5rem);
+    --v13-space-md: clamp(2rem, 3.5vw, 3.5rem);
+    --v13-space-lg: clamp(2.5rem, 5vw, 5rem);
+}
+
+/* navigation.js owns the fixed-header offset; the page owns only its rhythm. */
+.v13-interior main {
+    padding-top: 0;
+}
+
+/* Compact, content-driven informational hero. */
+.v13-info-page .v13-info-hero {
+    min-height: auto;
+    display: block;
+    padding: clamp(2.75rem, 5vw, 4rem) var(--v13-page-gutter) clamp(2rem, 3.5vw, 3rem);
+}
+
+.v13-info-page .v13-info-hero .hero-content {
+    display: block;
+    max-width: var(--v13-page-shell-width);
+    padding: 0;
+    animation: none;
+}
+
+.v13-info-page .v13-info-hero .hero-text {
+    display: block;
+    max-width: var(--v13-reading-width);
+    margin: 0 auto;
+    text-align: center;
+}
+
+.v13-info-page .v13-info-hero h1 {
+    margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+}
+
+.v13-info-page .v13-info-hero .tagline {
+    margin-bottom: 0;
+}
+
+/* Beliefs uses the reading tier without inheriting container side padding. */
+.v13-info-page .v13-beliefs-content {
+    padding: clamp(2.25rem, 5vw, 4rem) var(--v13-page-gutter);
+}
+
+.v13-info-page .v13-beliefs-shell {
+    width: min(var(--v13-reading-width), 100%);
+    max-width: var(--v13-reading-width);
+    margin: 0 auto;
+    padding-inline: 0;
+}
+
+.v13-info-page .v13-beliefs-card {
+    padding: clamp(1.5rem, 3vw, 2.75rem);
+}
+
+.v13-info-page .v13-beliefs-related {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.v13-info-page .v13-beliefs-back {
+    margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+/* Family Devotion: one prose shell and a deliberate content rhythm. */
+.v13-family-page .content-page {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: clamp(2.75rem, 5vw, 4rem) var(--v13-page-gutter) clamp(3rem, 5vw, 5rem);
+}
+
+.v13-family-page .content-page-header {
+    width: min(var(--v13-reading-width), 100%);
+    max-width: var(--v13-reading-width);
+    margin: 0 auto clamp(2rem, 4vw, 3rem);
+    padding: 0 0 clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.v13-family-page .content-page-body {
+    width: min(var(--v13-reading-width), 100%);
+    max-width: var(--v13-reading-width);
+    margin: 0 auto;
+}
+
+.v13-family-page .v13-family-media {
+    padding: 0;
+}
+
+.v13-family-page .v13-family-media-frame {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
+.v13-family-page .v13-family-media-frame img {
+    margin-bottom: 0;
+}
+
+.v13-family-page .v13-family-scripture {
+    margin: clamp(2rem, 3vw, 2.5rem) 0;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.v13-family-page .v13-family-launch {
+    margin: clamp(2rem, 3vw, 2.5rem) 0;
+    padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+}
+
+.v13-family-page .v13-family-expectations {
+    margin: clamp(2rem, 3vw, 2.5rem) 0;
+    padding: clamp(1.5rem, 3vw, 2rem);
+}
+
+.v13-family-page .v13-family-cta {
+    padding: clamp(1.5rem, 3vw, 2rem) 0;
+}
+
+@media (max-width: 700px) {
+    .v13-interior {
+        --v13-page-gutter: clamp(1rem, 5vw, 1.5rem);
+    }
+
+    .v13-info-page .v13-info-hero {
+        padding-top: clamp(2.25rem, 8vw, 3rem);
+        padding-bottom: clamp(1.75rem, 6vw, 2.5rem);
+    }
+
+    .v13-info-page .v13-info-hero h1 {
+        font-size: clamp(2.25rem, 10vw, 3rem);
+    }
+
+    .v13-family-page .content-page-header h1 {
+        font-size: clamp(2rem, 8.5vw, 2.7rem);
+    }
+}
