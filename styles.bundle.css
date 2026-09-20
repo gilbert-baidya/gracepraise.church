@@ -3331,7 +3331,7 @@ body[data-theme="dark"] .next-service-section::before {
    ======================================== */
 
 .bible-verse {
-    padding: var(--spacing-3xl) var(--spacing-sm);
+    padding: var(--spacing-2xl) var(--spacing-sm);
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(20, 184, 166, 0.08) 100%);
     text-align: center;
     position: relative;
@@ -3346,7 +3346,7 @@ body[data-theme="dark"] .next-service-section::before {
     max-width: 800px;
     margin: 0 auto;
     position: relative;
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
 }
 
 /* Decorative opening quote */
@@ -3398,52 +3398,6 @@ body[data-theme="dark"] .next-service-section::before {
     letter-spacing: 0.05em;
     position: relative;
     z-index: 1;
-}
-
-/* ========================================
-   Daily Devotion Promo Section
-   ======================================== */
-
-.daily-devotion-promo {
-    padding: var(--spacing-3xl) var(--spacing-sm);
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fb 100%);
-}
-
-.devotion-promo-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-2xl);
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.devotion-promo-text {
-    text-align: left;
-}
-
-.devotion-icon {
-    font-size: 3rem;
-    display: block;
-    margin-bottom: var(--spacing-md);
-}
-
-.devotion-promo-text h2 {
-    color: var(--color-primary);
-    font-size: var(--font-3xl);
-    margin-bottom: var(--spacing-md);
-}
-
-.devotion-promo-text p {
-    font-size: var(--font-lg);
-    color: var(--color-text);
-    margin-bottom: var(--spacing-lg);
-    line-height: var(--leading-relaxed);
-}
-
-.devotion-promo-preview {
-    display: flex;
-    justify-content: center;
 }
 
 .devotion-card {
@@ -4305,52 +4259,13 @@ body.dark .devotion-card {
     }
 
     .bible-verse blockquote {
-        padding: var(--spacing-md);
+        padding: var(--spacing-sm);
     }
 
     .bible-verse blockquote::before,
     .bible-verse blockquote::after {
         font-size: 3.5rem;
         opacity: 0.2;
-    }
-
-    /* Daily Devotion Promo mobile adjustments */
-    .daily-devotion-promo {
-        padding: var(--spacing-2xl) var(--spacing-md);
-    }
-
-    .devotion-promo-content {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-xl);
-    }
-
-    .devotion-promo-text {
-        text-align: center;
-        padding: 0 var(--spacing-md);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .devotion-promo-text .btn {
-        width: 100%;
-        max-width: 280px;
-    }
-
-    .devotion-icon {
-        font-size: 2.5rem;
-    }
-
-    .devotion-promo-text h2 {
-        font-size: var(--font-2xl);
-    }
-
-    .devotion-promo-text p {
-        font-size: var(--font-base);
-    }
-
-    .devotion-card {
-        padding: var(--spacing-lg);
     }
 
     /* Next Step CTA mobile adjustments */
@@ -5143,7 +5058,6 @@ body.dark .page-hero,
 body.dark .visit-section,
 body.dark .visit-section:nth-child(even),
 body.dark .need-help,
-body.dark .daily-devotion-promo,
 body.dark .special-event-details,
 body[data-theme="dark"] main,
 body[data-theme="dark"] section,
@@ -5158,7 +5072,6 @@ body[data-theme="dark"] .page-hero,
 body[data-theme="dark"] .visit-section,
 body[data-theme="dark"] .visit-section:nth-child(even),
 body[data-theme="dark"] .need-help,
-body[data-theme="dark"] .daily-devotion-promo,
 body[data-theme="dark"] .special-event-details {
     background: var(--bg-page);
     color: #cbd5e1;

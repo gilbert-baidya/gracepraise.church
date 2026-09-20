@@ -447,8 +447,6 @@ body.homepage :where(.new-here-intro,
     .weekly-gatherings-text,
     .next-service-intro,
     .feature-card p,
-    .devotion-promo-text p,
-    .devotion-verse,
     .shape-scripture,
     .slide-description,
     .trapezoid-copy,
@@ -461,8 +459,6 @@ body[data-page="home"] :where(.new-here-intro,
     .weekly-gatherings-text,
     .next-service-intro,
     .feature-card p,
-    .devotion-promo-text p,
-    .devotion-verse,
     .shape-scripture,
     .slide-description,
     .trapezoid-copy,
@@ -473,13 +469,11 @@ body[data-page="home"] :where(.new-here-intro,
 body.homepage :where(.event-tagline,
     .service-location-address,
     .stat-label,
-    .devotion-reference,
     .verse-reference,
     .flip-scroll-hint),
 body[data-page="home"] :where(.event-tagline,
     .service-location-address,
     .stat-label,
-    .devotion-reference,
     .verse-reference,
     .flip-scroll-hint) {
     color: var(--home-read-text-muted) !important;
@@ -491,7 +485,6 @@ body.homepage :where(.section-title-display,
     .new-here h2,
     .welcome h2,
     .whats-happening h2,
-    .devotion-promo-text h2,
     .shape-content-wrapper h2,
     .heptagon-left-panel h2),
 body[data-page="home"] :where(.section-title-display,
@@ -500,7 +493,6 @@ body[data-page="home"] :where(.section-title-display,
     .new-here h2,
     .welcome h2,
     .whats-happening h2,
-    .devotion-promo-text h2,
     .shape-content-wrapper h2,
     .heptagon-left-panel h2) {
     color: var(--home-read-heading) !important;
@@ -750,7 +742,6 @@ body[data-page="home"] main .block-the-loop a[href].button:not(.btn):not([class*
         .service-meta,
         .weekly-gatherings-text,
         .feature-card p,
-        .devotion-promo-text p,
         .trapezoid-copy,
         .theological-intro),
     body[data-page="home"] :where(.new-here-intro,
@@ -760,7 +751,6 @@ body[data-page="home"] main .block-the-loop a[href].button:not(.btn):not([class*
         .service-meta,
         .weekly-gatherings-text,
         .feature-card p,
-        .devotion-promo-text p,
         .trapezoid-copy,
         .theological-intro) {
         font-size: 1rem !important;
@@ -771,6 +761,19 @@ body[data-page="home"] main .block-the-loop a[href].button:not(.btn):not([class*
     body[data-page="home"] .section-title-display {
         font-size: 2rem !important;
     }
+}
+
+/* Keep scrolling homepage content visually contained beneath the fixed header. */
+body.homepage:not(.dark):not([data-theme="dark"]) header,
+body[data-page="home"]:not(.dark):not([data-theme="dark"]) header {
+    background-color: #fffcf7 !important;
+}
+
+body.homepage.dark header,
+body[data-page="home"].dark header,
+body.homepage[data-theme="dark"] header,
+body[data-page="home"][data-theme="dark"] header {
+    background-color: #2e3444 !important;
 }
 
 /* ==========================================================================
