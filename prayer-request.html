@@ -196,8 +196,9 @@
     </style>
     <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
+    <link rel="stylesheet" href="./prayer-v15.css">
 </head>
-<body>
+<body class="prayer-v15-page">
     <!-- Skip Link for Accessibility -->
     <!-- Skip to main content for keyboard users -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -297,186 +298,179 @@
     </div>
 
     <!-- Main Content -->
-    <main id="main-content">
-        <!-- Hero Section - EXACT match to redesign-mockup.html -->
-        <section class="hero">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>You Are Not Alone</h1>
-                    <p class="tagline">We would be honored to pray for you. Whatever you're walking through, we are here.</p>
+    <main id="main-content" class="prayer-v15-main">
+        <section class="prayer-v15-hero" aria-labelledby="prayer-hero-title">
+            <div class="prayer-v15-shell prayer-v15-hero__inner">
+                <div class="prayer-v15-hero__copy">
+                    <p class="prayer-v15-eyebrow">Prayer Changes Things</p>
+                    <h1 id="prayer-hero-title">You Are Not Alone</h1>
+                    <p class="prayer-v15-hero__lead">Whatever you're walking through, we would be honored to pray with you.</p>
+                    <a class="prayer-v15-button prayer-v15-button--primary" href="#prayer-form-section" data-prayer-focus>
+                        <span aria-hidden="true">🙏</span>
+                        <span>Share a Prayer Request</span>
+                        <span aria-hidden="true">→</span>
+                    </a>
+                    <div class="prayer-v15-trust-line" aria-label="Prayer request assurances">
+                        <span><span class="prayer-v15-trust-line__icon" aria-hidden="true">♙</span> Private &amp; Confidential</span>
+                        <span class="prayer-v15-trust-line__divider" aria-hidden="true"></span>
+                        <span><span class="prayer-v15-trust-line__icon" aria-hidden="true">♡</span> Personally Prayed For</span>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Intro Statement - Same pattern as Home "Welcome" intro -->
-        <section class="welcome">
-            <div class="welcome-content">
-                <p class="intro">Your prayer matters. No request is too small, and every request is handled with care and confidentiality.</p>
-            </div>
-        </section>
-
-        <!-- Trust Cards - REUSE "What's Happening" card grid -->
-        <section class="whats-happening">
-            <h2 class="sr-only">Prayer Care Highlights</h2>
-            <div class="feature-cards">
-                <article class="feature-card">
-                    <div class="card-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
-                    </div>
-                    <h3>Your Privacy Matters</h3>
-                    <p>Every prayer request is handled with the utmost care and confidentiality. Shared only with our trusted prayer team.</p>
-                </article>
-
-                <article class="feature-card">
-                    <div class="card-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </div>
-                    <h3>You Are Heard</h3>
-                    <p>Real people—your church family—will be praying for you by name, believing with you for God's peace, healing, and provision.</p>
-                </article>
-            </div>
-        </section>
-
-        <!-- Prayer Form - Emotional Centerpiece -->
-        <section class="next-step">
-            <h2>How Can We Pray for You?</h2>
-            <p>Take your time. Even a few words are enough.</p>
-            
-            <div class="prayer-form-container" style="max-width: 700px; margin-left: auto; margin-right: auto; padding: var(--spacing-3xl); background: var(--color-surface); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--color-border);">
-                <form class="prayer-form" id="prayer-form" aria-label="Prayer request form" style="display: flex; flex-direction: column; gap: var(--spacing-xl);">
-                    <div class="form-group">
-                        <label for="prayer-name" style="display: block; margin-bottom: var(--spacing-sm); color: var(--color-text); font-size: var(--font-base); font-weight: var(--font-medium);">Your Name (optional)</label>
-                        <input 
-                            type="text" 
-                            id="prayer-name" 
-                            name="name"
-                            placeholder="You may leave this blank"
-                            autocomplete="name"
-                            style="width: 100%; padding: var(--spacing-md); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-base); transition: all var(--transition-base); background: var(--color-background);"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label for="prayer-email" style="display: block; margin-bottom: var(--spacing-sm); color: var(--color-text); font-size: var(--font-base); font-weight: var(--font-medium);">Your Email (optional)</label>
-                        <input 
-                            type="email" 
-                            id="prayer-email" 
-                            name="email"
-                            placeholder="Only if you'd like us to follow up"
-                            autocomplete="email"
-                            style="width: 100%; padding: var(--spacing-md); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-base); transition: all var(--transition-base); background: var(--color-background);"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label for="prayer-request" style="display: block; margin-bottom: var(--spacing-sm); color: var(--color-text); font-size: var(--font-base); font-weight: var(--font-medium);">Your Prayer <span style="color: var(--color-secondary);">*</span></label>
-                        <textarea 
-                            id="prayer-request" 
-                            name="request"
-                            rows="5"
-                            required
-                            placeholder="You can write just a few words. God understands."
-                            aria-required="true"
-                            style="width: 100%; padding: var(--spacing-md); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-base); line-height: var(--leading-relaxed); transition: all var(--transition-base); background: var(--color-background); resize: vertical; min-height: 140px;"
-                        ></textarea>
-                    </div>
-
-                    <div style="padding: var(--spacing-lg); background: linear-gradient(135deg, rgba(201, 169, 97, 0.06) 0%, rgba(212, 175, 106, 0.06) 100%); border-radius: var(--radius-md); border-left: 3px solid var(--color-secondary);">
-                        <p style="margin: 0 0 var(--spacing-md) 0; font-size: var(--font-sm); color: var(--color-text); line-height: var(--leading-relaxed);">Your prayer is handled with care and confidentiality.</p>
-                        
-                        <label for="prayer-private" class="checkbox-label" style="display: flex; align-items: flex-start; gap: var(--spacing-sm); cursor: pointer;">
-                            <input 
-                                type="checkbox" 
-                                id="prayer-private" 
-                                name="private"
-                                value="yes"
-                                style="margin-top: 2px; width: 18px; height: 18px; cursor: pointer;"
-                            >
-                            <span style="font-size: var(--font-sm); color: var(--color-text-light); line-height: var(--leading-normal);">Keep my request private (shared only with the prayer team)</span>
-                        </label>
-                    </div>
-
-                    <div class="next-step-cta" style="text-align: center; margin-top: var(--spacing-md);">
-                        <button type="submit" class="btn btn-primary" style="padding: var(--spacing-md) var(--spacing-2xl); font-size: var(--font-lg); min-width: 240px;">Share My Prayer</button>
-                    </div>
-                    
-                    <p style="text-align: center; font-size: var(--font-sm); color: var(--color-text-light); line-height: var(--leading-relaxed); margin: var(--spacing-md) 0 0 0; font-style: italic;">We pray over every request with love and respect.</p>
-                </form>
-
-                <!-- Success Message (hidden by default) -->
-                <div class="prayer-success-message" id="prayer-success" style="display: none;">
-                    <div class="success-icon">✨</div>
-                    <h3>Thank You for Trusting Us with Your Request</h3>
-                    <p class="success-main">We are praying for you right now. You've taken a step of faith by reaching out, and we want you to know that you are deeply cared for.</p>
-                    
-                    <div class="success-assurance">
-                        <p><strong>What happens next:</strong></p>
-                        <p>Our prayer team has received your request and is already bringing your needs before God. You are not forgotten, and you are not alone in this.</p>
-                    </div>
-                    
-                    <div class="peace-verse">
-                        <p class="verse-icon">📖</p>
-                        <p class="verse-text">"Cast all your anxiety on him because he cares for you."</p>
-                        <p class="verse-reference">— 1 Peter 5:7</p>
-                    </div>
-                    
-                    <p class="success-closing">May you feel God's presence and peace in the days ahead. We're here for you.</p>
-                    
-                    <div class="success-actions">
-                        <button type="button" class="btn btn-secondary" onclick="resetPrayerForm()">Submit Another Request</button>
-                        <a href="index.html" class="btn btn-outline">Return Home</a>
+                <div class="prayer-v15-hero__art" role="img" aria-label="Warm candlelight over an open Bible in a quiet devotional setting">
+                    <img src="images/devotions/daily-devotion-hero.webp" alt="" loading="eager" decoding="async">
+                    <div class="prayer-v15-hero__art-caption">
+                        <p>Real People.<br>Real Prayers.<br>A Real God.</p>
+                        <span aria-hidden="true"></span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Care Process - REUSE "New Here" card grid pattern -->
-        <section class="new-here">
-            <h2>How We Care for Your Prayer Request</h2>
-            <p class="new-here-intro">Your trust means everything to us. Here's how we honor it.</p>
-            
-            <div class="new-here-cards">
-                <div class="new-here-card">
-                    <div class="card-icon">🙏</div>
-                    <h3>We Pray Immediately</h3>
-                    <p>Your request goes directly to our dedicated prayer team. You'll be in our prayers today and in the days to come.</p>
-                </div>
-                
-                <div class="new-here-card">
-                    <div class="card-icon">💝</div>
-                    <h3>We Handle with Care</h3>
-                    <p>Your request is treated with complete confidentiality and respect. We honor your trust by handling every prayer with sensitivity and love.</p>
-                </div>
-                
-                <div class="new-here-card">
-                    <div class="card-icon">🤝</div>
-                    <h3>We Walk with You</h3>
-                    <p>If you've shared contact info, we may reach out to check on you or offer encouragement. You're part of our church family.</p>
+        <section class="prayer-v15-reassurance" aria-labelledby="prayer-reassurance-title">
+            <div class="prayer-v15-shell">
+                <h2 id="prayer-reassurance-title" class="sr-only">Prayer request assurances</h2>
+                <div class="prayer-v15-card-grid prayer-v15-card-grid--three">
+                    <article class="prayer-v15-card prayer-v15-reassurance-card">
+                        <div class="prayer-v15-icon-circle" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img"><path d="M12 21s-7-4.35-9.5-8.5C.5 8.5 2.5 5 6 5c2 0 3.5 1.3 4.5 2.6C11.5 6.3 13 5 16 5c3.5 0 5.5 3.5 3.5 7.5C19 16.65 12 21 12 21Z"></path><path d="M12 8.5c-1.3 1.7-2 3.2-2 4.5 0 1.6 1 2.5 2 2.5s2-.9 2-2.5c0-1.3-.7-2.8-2-4.5Z"></path></svg>
+                        </div>
+                        <h3>We Pray With You</h3>
+                        <p>Every request is lifted up in sincere prayer by our church family.</p>
+                    </article>
+                    <article class="prayer-v15-card prayer-v15-reassurance-card">
+                        <div class="prayer-v15-icon-circle" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img"><rect x="3" y="10" width="18" height="11" rx="2"></rect><path d="M7 10V7a5 5 0 0 1 10 0v3"></path></svg>
+                        </div>
+                        <h3>Your Privacy Matters</h3>
+                        <p>Your prayer request is kept confidential and handled with care.</p>
+                    </article>
+                    <article class="prayer-v15-card prayer-v15-reassurance-card">
+                        <div class="prayer-v15-icon-circle" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+                        </div>
+                        <h3>You Are Heard</h3>
+                        <p>You are not just a request — you are a person loved by God and by our church family.</p>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- Bible Verse - EXACT match to Home -->
-        <section class="bible-verse" aria-label="Featured Bible Verse">
-            <blockquote>
-                <p class="verse-text">Cast all your anxiety on him because he cares for you.</p>
-                <cite class="verse-reference">— 1 Peter 5:7</cite>
-            </blockquote>
+        <section class="prayer-v15-form-section" id="prayer-form-section" aria-labelledby="prayer-form-title">
+            <div class="prayer-v15-shell">
+                <div class="prayer-v15-form-card">
+                    <div class="prayer-v15-section-heading">
+                        <p class="prayer-v15-eyebrow">Share Your Heart</p>
+                        <h2 id="prayer-form-title">How Can We Pray for You?</h2>
+                        <span class="prayer-v15-heading-rule" aria-hidden="true"></span>
+                        <p>Take your time. Even a few words are enough.</p>
+                    </div>
+
+                    <form class="prayer-form prayer-v15-form" id="prayer-form" aria-label="Prayer request form" aria-describedby="prayer-form-note">
+                        <div class="prayer-v15-fields">
+                            <div class="prayer-v15-field form-group">
+                                <label for="prayer-name">Your Name <span>(optional)</span></label>
+                                <input type="text" id="prayer-name" name="name" placeholder="Your name" autocomplete="name">
+                            </div>
+                            <div class="prayer-v15-field form-group">
+                                <label for="prayer-email">Your Email <span>(optional)</span></label>
+                                <input type="email" id="prayer-email" name="email" placeholder="you@example.com" autocomplete="email">
+                            </div>
+                        </div>
+
+                        <div class="prayer-v15-field form-group prayer-v15-field--full">
+                            <label for="prayer-request">Your Prayer Request <strong aria-hidden="true">*</strong></label>
+                            <textarea id="prayer-request" name="request" rows="6" required aria-required="true" placeholder="You can write just a few words. God understands."></textarea>
+                        </div>
+
+                        <div class="prayer-v15-privacy-note">
+                            <label for="prayer-private" class="prayer-v15-checkbox-label">
+                                <input type="checkbox" id="prayer-private" name="private" value="yes">
+                                <span>I give permission for the GPBC prayer team to pray for this request.</span>
+                            </label>
+                            <p>Your information will be kept private and confidential.</p>
+                        </div>
+
+                        <div class="prayer-v15-form-actions">
+                            <button type="submit" class="prayer-v15-button prayer-v15-button--primary">Share My Prayer</button>
+                            <p id="prayer-form-note">No request is too small. All are welcome.</p>
+                        </div>
+                    </form>
+
+                    <!-- Success Message (hidden by default) -->
+                    <div class="prayer-success-message prayer-v15-success" id="prayer-success" style="display: none;">
+                        <div class="success-icon" aria-hidden="true">✨</div>
+                        <h3>Thank You for Trusting Us with Your Request</h3>
+                        <p class="success-main">We are praying for you right now. You've taken a step of faith by reaching out, and we want you to know that you are deeply cared for.</p>
+                        <div class="success-assurance">
+                            <p><strong>What happens next:</strong></p>
+                            <p>Our prayer team has received your request and is already bringing your needs before God. You are not forgotten, and you are not alone in this.</p>
+                        </div>
+                        <div class="peace-verse">
+                            <p class="verse-icon" aria-hidden="true">📖</p>
+                            <p class="verse-text">“Cast all your anxiety on Him because He cares for you.”</p>
+                            <p class="verse-reference">— 1 Peter 5:7</p>
+                        </div>
+                        <p class="success-closing">May you feel God's presence and peace in the days ahead. We're here for you.</p>
+                        <div class="success-actions">
+                            <button type="button" class="prayer-v15-button prayer-v15-button--secondary" onclick="resetPrayerForm()">Submit Another Request</button>
+                            <a href="index.html" class="prayer-v15-button prayer-v15-button--outline">Return Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- Pastor Contact - REUSE "Next Step" callout -->
-        <section class="next-step">
-            <h2>Need Someone to Talk To?</h2>
-            <p>If you need immediate pastoral care or just want to talk with someone, please don't hesitate to reach out directly.</p>
-            <div class="next-step-cta">
-                <a href="mailto:info@gracepraise.church" class="btn btn-primary">📧 Email a Pastor</a>
+        <section class="prayer-v15-next" aria-labelledby="prayer-next-title">
+            <div class="prayer-v15-shell">
+                <div class="prayer-v15-section-heading">
+                    <h2 id="prayer-next-title">What Happens Next</h2>
+                    <span class="prayer-v15-heading-rule" aria-hidden="true"></span>
+                </div>
+                <div class="prayer-v15-card-grid prayer-v15-card-grid--three">
+                    <article class="prayer-v15-card prayer-v15-process-card">
+                        <div class="prayer-v15-icon-circle prayer-v15-icon-circle--warm" aria-hidden="true"><span>◷</span></div>
+                        <h3>We Pray Immediately</h3>
+                        <p>Your request goes directly to our dedicated prayer team. You'll be in our prayers today and in the days to come.</p>
+                    </article>
+                    <article class="prayer-v15-card prayer-v15-process-card">
+                        <div class="prayer-v15-icon-circle prayer-v15-icon-circle--warm" aria-hidden="true"><span>♡</span></div>
+                        <h3>We Handle with Care</h3>
+                        <p>Your request is treated with complete confidentiality and respect. We honor your trust by handling every prayer with sensitivity and love.</p>
+                    </article>
+                    <article class="prayer-v15-card prayer-v15-process-card">
+                        <div class="prayer-v15-icon-circle prayer-v15-icon-circle--warm" aria-hidden="true"><span>♧</span></div>
+                        <h3>We Walk with You</h3>
+                        <p>If you've shared contact info, we may reach out to check on you or offer encouragement. You're part of our church family.</p>
+                    </article>
+                </div>
             </div>
-            <p style="margin-top: var(--spacing-md); font-size: var(--font-sm); color: var(--color-text-light);"><strong>Crisis Support:</strong> If you're experiencing a life-threatening emergency, please call 911 or contact the <a href="tel:988" style="color: var(--color-primary); text-decoration: underline;">988 Suicide & Crisis Lifeline</a> (call or text 988).</p>
+        </section>
+
+        <section class="prayer-v15-scripture" aria-label="Featured Bible verse">
+            <div class="prayer-v15-shell">
+                <blockquote>
+                    <p>“Cast all your anxiety on Him because He cares for you.”</p>
+                    <cite>— 1 Peter 5:7</cite>
+                    <span class="prayer-v15-heading-rule" aria-hidden="true"></span>
+                </blockquote>
+            </div>
+        </section>
+
+        <section class="prayer-v15-pastoral" aria-labelledby="prayer-pastoral-title">
+            <div class="prayer-v15-shell prayer-v15-pastoral__inner">
+                <div class="prayer-v15-pastoral__copy">
+                    <p class="prayer-v15-eyebrow">Pastoral Care</p>
+                    <h2 id="prayer-pastoral-title">Need Someone to Talk To?</h2>
+                    <p>If you need pastoral care or would simply like to talk with someone, please don't hesitate to reach out. We're here for you.</p>
+                    <a href="mailto:info@gracepraise.church" class="prayer-v15-button prayer-v15-button--primary"><span aria-hidden="true">✉</span> Email a Pastor</a>
+                    <p class="prayer-v15-urgent"><strong>Crisis support:</strong> If you are in immediate danger or need urgent help, please contact local emergency services or call/text the <a href="tel:988">988 Suicide &amp; Crisis Lifeline</a>.</p>
+                </div>
+                <div class="prayer-v15-pastoral__art" role="img" aria-label="A quiet devotional table with a Bible and candle">
+                    <img src="images/devotions/daily-devotion-hero.webp" alt="" loading="lazy" decoding="async">
+                    <div class="prayer-v15-pastoral__caption">You matter.<br>You are loved.<br>You are never alone.<span aria-hidden="true"></span></div>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -485,6 +479,7 @@
     <!-- Legacy footer removed -->
 
 
+    <script src="prayer-v15.js" defer></script>
     <script src="prayer-form.js" defer></script>
 <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260918-v11-theme-final3"></script>
