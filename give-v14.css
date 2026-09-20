@@ -1,0 +1,1183 @@
+/*
+ * Give V14 — Give With Purpose
+ * Page-scoped styling only. Shared navigation, theme, and footer remain untouched.
+ */
+
+html:has(body.give-v14-page) {
+    contain: paint;
+    max-width: 100%;
+    overflow-x: hidden !important;
+}
+
+.give-v14-page {
+    --give-navy: #071d36;
+    --give-navy-deep: #041326;
+    --give-ink: #102a4d;
+    --give-copy: #43536a;
+    --give-muted: #728096;
+    --give-cream: #fbfaf7;
+    --give-surface: #fffdfa;
+    --give-line: #e5e0d7;
+    --give-gold: #c69c54;
+    --give-gold-soft: #ebd3a2;
+    --give-blue: #1458a6;
+    --give-shadow: 0 22px 60px rgba(8, 29, 54, 0.12);
+    background: var(--give-cream);
+    color: var(--give-copy);
+    overflow-x: hidden;
+}
+
+.give-v14-page main {
+    background: var(--give-cream);
+}
+
+.give-v14-page header .logo {
+    overflow: hidden;
+}
+
+.give-v14-page p,
+.give-v14-page h1,
+.give-v14-page h2,
+.give-v14-page h3 {
+    margin-top: 0;
+}
+
+.give-v14-container {
+    width: min(1180px, calc(100% - 48px));
+    margin: 0 auto;
+}
+
+.give-v14-eyebrow {
+    margin: 0 0 16px;
+    color: var(--give-gold);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.give-v14-heading {
+    color: var(--give-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2.5rem, 4.4vw, 4.5rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.03;
+}
+
+.give-v14-section-heading {
+    color: var(--give-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2.15rem, 3.4vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+}
+
+.give-v14-icon {
+    display: block;
+    height: 26px;
+    width: 26px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+}
+
+.give-v14-hero {
+    isolation: isolate;
+    min-height: 480px;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    background-color: var(--give-navy);
+    color: #fdfaf3;
+}
+
+.give-v14-hero::before {
+    background:
+        radial-gradient(circle at 78% 32%, rgba(231, 197, 126, 0.24), transparent 3%),
+        radial-gradient(ellipse at 82% 40%, rgba(231, 197, 126, 0.12), transparent 27%),
+        linear-gradient(112deg, rgba(4, 19, 38, 0.98) 12%, rgba(7, 29, 54, 0.84) 52%, rgba(7, 29, 54, 0.55) 100%);
+    content: '';
+    inset: 0;
+    position: absolute;
+    z-index: -2;
+}
+
+.give-v14-hero::after {
+    background:
+        linear-gradient(128deg, transparent 47%, rgba(237, 207, 144, 0.12) 48%, transparent 49%),
+        linear-gradient(122deg, transparent 61%, rgba(237, 207, 144, 0.09) 62%, transparent 63%),
+        radial-gradient(ellipse at 78% 22%, rgba(247, 224, 174, 0.16), transparent 18%);
+    content: '';
+    inset: 0;
+    opacity: 0.9;
+    position: absolute;
+    z-index: -1;
+}
+
+.give-v14-hero-cross {
+    height: 196px;
+    opacity: 0.22;
+    position: absolute;
+    right: 12%;
+    top: 24px;
+    width: 112px;
+}
+
+.give-v14-hero-cross::before,
+.give-v14-hero-cross::after {
+    background: #f4d9a5;
+    box-shadow: 0 0 34px 12px rgba(239, 206, 139, 0.25);
+    content: '';
+    position: absolute;
+}
+
+.give-v14-hero-cross::before {
+    height: 100%;
+    left: calc(50% - 7px);
+    top: 0;
+    width: 14px;
+}
+
+.give-v14-hero-cross::after {
+    height: 14px;
+    left: 0;
+    top: 58px;
+    width: 100%;
+}
+
+.give-v14-hero .give-v14-container {
+    align-items: center;
+    display: flex;
+    min-height: 480px;
+    padding: 72px 0 66px;
+}
+
+.give-v14-hero-content {
+    max-width: 720px;
+}
+
+.give-v14-hero .give-v14-eyebrow {
+    color: #e5c27e;
+    margin-bottom: 18px;
+}
+
+.give-v14-hero .give-v14-heading {
+    color: #fffaf0;
+    margin-bottom: 22px;
+    max-width: 700px;
+}
+
+.give-v14-hero-copy {
+    color: rgba(255, 250, 240, 0.86);
+    font-size: clamp(1rem, 1.45vw, 1.2rem);
+    line-height: 1.72;
+    max-width: 640px;
+}
+
+.give-v14-hero-verse {
+    border-left: 2px solid var(--give-gold);
+    margin: 34px 0 0;
+    padding: 4px 0 4px 22px;
+}
+
+.give-v14-hero-verse p {
+    color: #fffaf0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.15rem, 1.9vw, 1.55rem);
+    font-style: italic;
+    line-height: 1.35;
+}
+
+.give-v14-hero-verse cite {
+    color: #e5c27e;
+    display: block;
+    font-family: inherit;
+    font-size: 0.66rem;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+.give-v14-purpose {
+    padding: 92px 0 98px;
+}
+
+.give-v14-purpose-grid {
+    align-items: start;
+    display: grid;
+    gap: clamp(48px, 7vw, 92px);
+    grid-template-columns: minmax(0, 1fr) minmax(350px, 456px);
+}
+
+.give-v14-purpose-intro {
+    max-width: 650px;
+}
+
+.give-v14-purpose-intro .give-v14-section-heading {
+    margin-bottom: 18px;
+}
+
+.give-v14-purpose-copy {
+    color: var(--give-copy);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    max-width: 620px;
+}
+
+.give-v14-impact-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 38px;
+}
+
+.give-v14-impact-card {
+    background: rgba(255, 253, 250, 0.56);
+    border: 1px solid var(--give-line);
+    border-radius: 14px;
+    min-height: 170px;
+    padding: 22px 20px 20px;
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.give-v14-impact-card:hover {
+    border-color: rgba(198, 156, 84, 0.7);
+    box-shadow: 0 12px 28px rgba(16, 42, 77, 0.06);
+    transform: translateY(-2px);
+}
+
+.give-v14-impact-icon {
+    align-items: center;
+    border: 1px solid var(--give-gold-soft);
+    border-radius: 50%;
+    color: var(--give-gold);
+    display: inline-flex;
+    height: 44px;
+    justify-content: center;
+    margin-bottom: 16px;
+    width: 44px;
+}
+
+.give-v14-impact-icon .give-v14-icon {
+    height: 23px;
+    width: 23px;
+}
+
+.give-v14-impact-card h3 {
+    color: var(--give-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.28rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.give-v14-impact-card p {
+    color: var(--give-copy);
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+.give-v14-gift-card {
+    background: var(--give-surface);
+    border: 1px solid var(--give-line);
+    border-radius: 18px;
+    box-shadow: var(--give-shadow);
+    padding: 36px 32px 28px;
+    position: sticky;
+    top: 22px;
+}
+
+.give-v14-gift-card::before {
+    background: var(--give-gold);
+    border-radius: 18px 18px 0 0;
+    content: '';
+    height: 3px;
+    left: -1px;
+    position: absolute;
+    right: -1px;
+    top: -1px;
+}
+
+.give-v14-gift-card .give-v14-eyebrow {
+    text-align: center;
+}
+
+.give-v14-gift-card h2 {
+    color: var(--give-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 2.15rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.give-v14-gift-card > p {
+    color: var(--give-copy);
+    font-size: 0.92rem;
+    margin-bottom: 26px;
+    text-align: center;
+}
+
+.give-v14-form-group {
+    margin-bottom: 22px;
+}
+
+.give-v14-form-label {
+    color: var(--give-ink);
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 9px;
+    text-transform: uppercase;
+}
+
+.give-v14-amount-wrap {
+    position: relative;
+}
+
+.give-v14-amount-wrap::before {
+    color: var(--give-copy);
+    content: '$';
+    font-size: 1.1rem;
+    font-weight: 700;
+    left: 15px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.give-v14-input,
+.give-v14-select {
+    appearance: none;
+    background: var(--give-surface);
+    border: 1px solid #d7dce4;
+    border-radius: 8px;
+    color: var(--give-ink);
+    font: inherit;
+    min-height: 48px;
+    outline: none;
+    padding: 12px 14px;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+    width: 100%;
+}
+
+.give-v14-amount {
+    font-size: 1.08rem;
+    font-variant-numeric: tabular-nums;
+    padding-left: 31px;
+}
+
+.give-v14-select {
+    background-image: linear-gradient(45deg, transparent 50%, var(--give-blue) 50%), linear-gradient(135deg, var(--give-blue) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 20px, calc(100% - 13px) 20px;
+    background-repeat: no-repeat;
+    background-size: 5px 5px, 5px 5px;
+    padding-right: 38px;
+}
+
+.give-v14-input:focus,
+.give-v14-select:focus,
+.give-v14-copy:focus,
+.give-v14-qr-link:focus,
+.give-v14-payment:focus,
+.give-v14-preset:focus,
+.give-v14-faq summary:focus-visible {
+    border-color: var(--give-blue);
+    box-shadow: 0 0 0 3px rgba(20, 88, 166, 0.16);
+    outline: none;
+}
+
+.give-v14-presets {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin-top: 10px;
+}
+
+.give-v14-preset {
+    background: #fbfaf7;
+    border: 1px solid var(--give-line);
+    border-radius: 8px;
+    color: var(--give-ink);
+    cursor: pointer;
+    font: 700 0.75rem/1.1 inherit;
+    min-height: 38px;
+    padding: 8px 4px;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.give-v14-preset:hover,
+.give-v14-preset.active,
+.give-v14-preset.selected {
+    background: var(--give-navy);
+    border-color: var(--give-navy);
+    color: #fffaf0;
+}
+
+.give-v14-payment-stack {
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+}
+
+.give-v14-payment {
+    align-items: center;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    font: 700 0.88rem/1 inherit;
+    justify-content: center;
+    min-height: 49px;
+    padding: 12px 20px;
+    transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+    width: 100%;
+}
+
+.give-v14-payment:hover {
+    transform: translateY(-1px);
+}
+
+.give-v14-payment svg {
+    height: 17px;
+    margin-right: 9px;
+    width: 17px;
+}
+
+.give-v14-payment-primary {
+    background: var(--give-blue);
+    border: 1px solid var(--give-blue);
+    color: #fff;
+}
+
+.give-v14-payment-primary:hover {
+    background: #0f4a8d;
+}
+
+.give-v14-payment-primary > span {
+    margin-left: 8px;
+}
+
+.give-v14-payment-secondary {
+    background: transparent;
+    border: 1px solid #a8b8cb;
+    color: var(--give-ink);
+}
+
+.give-v14-payment-secondary:hover {
+    background: #f5f8fb;
+    border-color: var(--give-blue);
+}
+
+.give-v14-method-note {
+    color: var(--give-muted);
+    font-size: 0.7rem;
+    line-height: 1.45;
+    margin: 14px 0 0;
+    text-align: center;
+}
+
+.give-v14-trust-mini {
+    border-top: 1px solid var(--give-line);
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 24px;
+    padding-top: 20px;
+}
+
+.give-v14-trust-mini span {
+    align-items: center;
+    color: var(--give-muted);
+    display: flex;
+    flex-direction: column;
+    font-size: 0.63rem;
+    gap: 7px;
+    line-height: 1.25;
+    text-align: center;
+}
+
+.give-v14-trust-mini svg {
+    color: var(--give-gold);
+    height: 18px;
+    width: 18px;
+}
+
+.give-v14-other {
+    background: #f4f1eb;
+    padding: 84px 0 92px;
+}
+
+.give-v14-other-heading {
+    margin-bottom: 8px;
+}
+
+.give-v14-other-copy {
+    color: var(--give-copy);
+    margin-bottom: 34px;
+}
+
+.give-v14-other-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.give-v14-method-card {
+    background: var(--give-surface);
+    border: 1px solid var(--give-line);
+    border-radius: 14px;
+    min-height: 258px;
+    padding: 26px 24px 22px;
+    position: relative;
+}
+
+.give-v14-method-icon {
+    align-items: center;
+    border: 1px solid var(--give-gold-soft);
+    border-radius: 50%;
+    color: var(--give-gold);
+    display: inline-flex;
+    height: 48px;
+    justify-content: center;
+    margin-bottom: 18px;
+    width: 48px;
+}
+
+.give-v14-method-icon .give-v14-icon {
+    height: 25px;
+    width: 25px;
+}
+
+.give-v14-method-card h3 {
+    color: var(--give-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.34rem;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+.give-v14-method-card p {
+    color: var(--give-copy);
+    font-size: 0.86rem;
+    line-height: 1.55;
+}
+
+.give-v14-qr {
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e1ddd4;
+    display: flex;
+    height: 82px;
+    justify-content: center;
+    margin: 14px 0 13px;
+    overflow: hidden;
+    padding: 5px;
+    width: 82px;
+}
+
+.give-v14-qr canvas,
+.give-v14-qr img {
+    display: block;
+    height: 70px !important;
+    width: 70px !important;
+}
+
+.give-v14-qr-fallback {
+    color: var(--give-muted);
+    font-size: 0.58rem;
+    text-align: center;
+}
+
+.give-v14-qr-link,
+.give-v14-copy {
+    background: transparent;
+    border: 1px solid var(--give-gold);
+    border-radius: 999px;
+    color: var(--give-ink);
+    cursor: pointer;
+    display: inline-flex;
+    font: 700 0.75rem/1 inherit;
+    margin-top: 7px;
+    min-height: 35px;
+    padding: 9px 16px;
+    transition: background 180ms ease, color 180ms ease;
+}
+
+.give-v14-qr-link:hover,
+.give-v14-copy:hover {
+    background: var(--give-gold);
+    color: #fff;
+}
+
+.give-v14-bank-email {
+    color: var(--give-ink);
+    font-size: 0.77rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.give-v14-copy {
+    border-color: #d9d3c8;
+    font-size: 0.68rem;
+    margin-left: 6px;
+    margin-top: 0;
+    min-height: 29px;
+    padding: 6px 10px;
+}
+
+.give-v14-bank-meta {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 17px;
+}
+
+.give-v14-bank-meta small {
+    color: var(--give-muted);
+    font-size: 0.7rem;
+    line-height: 1.45;
+}
+
+.give-v14-address {
+    color: var(--give-ink);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin-top: 18px;
+}
+
+.give-v14-address strong {
+    font-weight: 700;
+}
+
+.give-v14-memo {
+    border-left: 2px solid var(--give-gold);
+    color: var(--give-copy);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    margin-top: 18px;
+    padding-left: 11px;
+}
+
+.give-v14-impact-row {
+    background: #fbf8f1;
+    border-bottom: 1px solid #eee7da;
+    border-top: 1px solid #eee7da;
+    padding: 28px 0;
+}
+
+.give-v14-impact-row-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.give-v14-impact-row-item {
+    align-items: center;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    min-height: 62px;
+    padding: 4px 28px;
+}
+
+.give-v14-impact-row-item + .give-v14-impact-row-item {
+    border-left: 1px solid #ded4c1;
+}
+
+.give-v14-impact-row-item svg {
+    color: var(--give-gold);
+    flex: 0 0 auto;
+    height: 30px;
+    width: 30px;
+}
+
+.give-v14-impact-row-item span {
+    color: var(--give-ink);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.45;
+    text-transform: uppercase;
+}
+
+.give-v14-impact-row-item small {
+    color: var(--give-muted);
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    margin-top: 3px;
+    text-transform: none;
+}
+
+.give-v14-gratitude {
+    background-color: #e8edf2;
+    overflow: hidden;
+    padding: 92px 0;
+    position: relative;
+}
+
+.give-v14-gratitude::before {
+    background:
+        radial-gradient(ellipse at 82% 22%, rgba(255, 250, 226, 0.9), transparent 25%),
+        linear-gradient(160deg, rgba(255, 255, 255, 0.72), transparent 52%);
+    content: '';
+    inset: 0;
+    position: absolute;
+}
+
+.give-v14-gratitude::after {
+    border-bottom: 1px solid rgba(115, 133, 150, 0.25);
+    border-radius: 50%;
+    bottom: -40%;
+    content: '';
+    height: 80%;
+    left: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.give-v14-gratitude .give-v14-container {
+    align-items: center;
+    display: grid;
+    gap: 60px;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 340px);
+    position: relative;
+    z-index: 1;
+}
+
+.give-v14-gratitude-copy {
+    max-width: 680px;
+}
+
+.give-v14-gratitude .give-v14-section-heading {
+    margin-bottom: 18px;
+}
+
+.give-v14-gratitude .give-v14-body {
+    color: var(--give-copy);
+    font-size: 1rem;
+    line-height: 1.75;
+    max-width: 650px;
+}
+
+.give-v14-closing {
+    color: var(--give-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1rem;
+    line-height: 1.55;
+    margin-top: 26px;
+}
+
+.give-v14-closing strong {
+    font-family: inherit;
+    font-weight: 600;
+}
+
+.give-v14-gratitude-verse {
+    border-left: 1px solid var(--give-gold);
+    padding: 7px 0 7px 24px;
+}
+
+.give-v14-gratitude-verse p {
+    color: var(--give-ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    line-height: 1.35;
+}
+
+.give-v14-gratitude-verse cite {
+    color: var(--give-gold);
+    display: block;
+    font-size: 0.66rem;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    margin-top: 14px;
+    text-transform: uppercase;
+}
+
+.give-v14-faq {
+    padding: 86px 0 92px;
+}
+
+.give-v14-faq .give-v14-eyebrow,
+.give-v14-faq .give-v14-section-heading {
+    text-align: center;
+}
+
+.give-v14-faq .give-v14-section-heading {
+    margin-bottom: 34px;
+}
+
+.give-v14-faq-list {
+    margin: 0 auto;
+    max-width: 920px;
+}
+
+.give-v14-faq details {
+    background: rgba(255, 253, 250, 0.62);
+    border: 1px solid var(--give-line);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.give-v14-faq summary {
+    align-items: center;
+    color: var(--give-ink);
+    cursor: pointer;
+    display: flex;
+    font-size: 0.98rem;
+    font-weight: 700;
+    justify-content: space-between;
+    list-style: none;
+    min-height: 64px;
+    padding: 16px 20px;
+}
+
+.give-v14-faq summary::-webkit-details-marker {
+    display: none;
+}
+
+.give-v14-faq summary::after {
+    border-bottom: 1.5px solid var(--give-ink);
+    border-right: 1.5px solid var(--give-ink);
+    content: '';
+    height: 8px;
+    margin-left: 18px;
+    transform: rotate(45deg) translateY(-3px);
+    transition: transform 180ms ease;
+    width: 8px;
+}
+
+.give-v14-faq details[open] summary::after {
+    transform: rotate(225deg) translateY(-2px);
+}
+
+.give-v14-faq details p {
+    border-top: 1px solid var(--give-line);
+    color: var(--give-copy);
+    font-size: 0.92rem;
+    line-height: 1.72;
+    margin: 0;
+    padding: 18px 20px 21px;
+}
+
+.give-v14-faq details a {
+    color: var(--give-blue);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+[data-theme='dark'] .give-v14-page,
+.dark .give-v14-page {
+    --give-ink: #eef3fa;
+    --give-copy: #cbd7e5;
+    --give-muted: #9daec3;
+    --give-cream: #0a1728;
+    --give-surface: #10233b;
+    --give-line: rgba(201, 218, 238, 0.18);
+    --give-gold-soft: #8f764d;
+    --give-shadow: 0 22px 60px rgba(0, 0, 0, 0.26);
+}
+
+[data-theme='dark'] .give-v14-page main,
+.dark .give-v14-page main {
+    background: var(--give-cream);
+}
+
+[data-theme='dark'] .give-v14-purpose,
+.dark .give-v14-purpose,
+[data-theme='dark'] .give-v14-faq,
+.dark .give-v14-faq {
+    background: #0a1728;
+}
+
+[data-theme='dark'] .give-v14-impact-card,
+.dark .give-v14-impact-card,
+[data-theme='dark'] .give-v14-method-card,
+.dark .give-v14-method-card,
+[data-theme='dark'] .give-v14-faq details {
+    background: #10233b;
+}
+
+[data-theme='dark'] .give-v14-other,
+.dark .give-v14-other {
+    background: #0d1d31;
+}
+
+[data-theme='dark'] .give-v14-impact-row,
+.dark .give-v14-impact-row {
+    background: #11243b;
+    border-color: rgba(215, 181, 124, 0.18);
+}
+
+[data-theme='dark'] .give-v14-gratitude,
+.dark .give-v14-gratitude {
+    background-color: #172b40;
+}
+
+[data-theme='dark'] .give-v14-input,
+[data-theme='dark'] .give-v14-select,
+.dark .give-v14-input,
+.dark .give-v14-select {
+    background: #0a1728;
+    border-color: rgba(201, 218, 238, 0.3);
+    color: var(--give-ink);
+}
+
+[data-theme='dark'] .give-v14-preset,
+.dark .give-v14-preset {
+    background: #0a1728;
+    border-color: rgba(201, 218, 238, 0.2);
+    color: var(--give-ink);
+}
+
+[data-theme='dark'] .give-v14-payment-secondary,
+.dark .give-v14-payment-secondary {
+    border-color: #71859d;
+    color: var(--give-ink);
+}
+
+@media (max-width: 1024px) {
+    .give-v14-purpose-grid {
+        gap: 42px;
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+    }
+
+    .give-v14-gift-card {
+        padding: 32px 25px 26px;
+    }
+
+    .give-v14-impact-row-item {
+        padding: 4px 16px;
+    }
+}
+
+@media (max-width: 900px) {
+    .give-v14-container {
+        width: min(100% - 34px, 620px);
+    }
+
+    .give-v14-hero,
+    .give-v14-hero .give-v14-container {
+        min-height: 0;
+    }
+
+    .give-v14-hero .give-v14-container {
+        padding: 70px 0 58px;
+    }
+
+    .give-v14-hero-cross {
+        opacity: 0.14;
+        right: 0;
+        top: 10px;
+        transform: scale(0.75);
+        transform-origin: top right;
+    }
+
+    .give-v14-purpose {
+        padding: 62px 0 68px;
+    }
+
+    .give-v14-purpose-grid,
+    .give-v14-gratitude .give-v14-container {
+        grid-template-columns: 1fr;
+    }
+
+    .give-v14-impact-grid {
+        margin-top: 28px;
+    }
+
+    .give-v14-gift-card {
+        position: static;
+    }
+
+    .give-v14-other {
+        padding: 62px 0 68px;
+    }
+
+    .give-v14-other-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .give-v14-method-card {
+        min-height: 0;
+    }
+
+    .give-v14-impact-row {
+        padding: 10px 0;
+    }
+
+    .give-v14-impact-row-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .give-v14-impact-row-item {
+        justify-content: flex-start;
+        min-height: 64px;
+        padding: 10px 2px;
+    }
+
+    .give-v14-impact-row-item + .give-v14-impact-row-item {
+        border-left: 0;
+        border-top: 1px solid #ded4c1;
+    }
+
+    .give-v14-gratitude {
+        padding: 66px 0;
+    }
+
+    .give-v14-gratitude-verse {
+        margin-top: 4px;
+    }
+
+    .give-v14-faq {
+        padding: 64px 0 70px;
+    }
+}
+
+@media (max-width: 430px) {
+    .give-v14-heading {
+        font-size: clamp(2.45rem, 13vw, 3.5rem);
+    }
+
+    .give-v14-impact-grid {
+        gap: 14px;
+        grid-template-columns: 1fr;
+        margin-top: 30px;
+    }
+
+    .give-v14-impact-card {
+        min-height: 0;
+        padding: 22px 20px 20px;
+    }
+
+    .give-v14-impact-card h3 {
+        font-size: 1.22rem;
+    }
+
+    .give-v14-impact-card p {
+        font-size: 0.9rem;
+        line-height: 1.58;
+    }
+
+    .give-v14-gift-card {
+        padding: 32px 20px 26px;
+    }
+
+    .give-v14-presets {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .give-v14-presets .give-v14-preset:last-child {
+        grid-column: span 3;
+    }
+
+    .give-v14-form-label,
+    .give-v14-method-note {
+        font-size: 0.78rem;
+    }
+
+    .give-v14-method-card {
+        padding: 28px 22px 24px;
+    }
+
+    .give-v14-method-card p:not(.give-v14-memo) {
+        font-size: 0.92rem;
+    }
+
+    .give-v14-qr {
+        height: 118px;
+        width: 118px;
+    }
+
+    .give-v14-qr canvas,
+    .give-v14-qr img {
+        height: 104px !important;
+        width: 104px !important;
+    }
+
+    .give-v14-bank-email {
+        font-size: 0.82rem;
+    }
+
+    .give-v14-copy {
+        min-height: 34px;
+        padding: 8px 12px;
+    }
+
+    .give-v14-impact-row-item {
+        min-height: 72px;
+        padding: 12px 2px;
+    }
+
+    .give-v14-impact-row-item span {
+        font-size: 0.76rem;
+    }
+
+    .give-v14-impact-row-item small {
+        font-size: 0.74rem;
+    }
+
+    .give-v14-gratitude {
+        padding: 68px 0;
+    }
+
+    .give-v14-gratitude .give-v14-body {
+        font-size: 1rem;
+        line-height: 1.72;
+    }
+
+    .give-v14-gratitude-verse {
+        margin-top: 0;
+        padding-left: 18px;
+    }
+
+    .give-v14-gratitude-verse p {
+        font-size: 1.2rem;
+    }
+
+    .give-v14-faq summary {
+        font-size: 0.9rem;
+        padding: 15px;
+    }
+
+    .give-v14-faq details p {
+        font-size: 0.86rem;
+        padding: 16px 15px 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .give-v14-page header .logo {
+        height: 56px !important;
+        min-height: 56px !important;
+        width: 56px !important;
+    }
+
+    .give-v14-page header .logo-image {
+        transform: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .give-v14-page *,
+    .give-v14-page *::before,
+    .give-v14-page *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}

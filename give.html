@@ -762,9 +762,11 @@
     </style>
     <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
+    <link rel="stylesheet" href="give-v14.css?v=20260920">
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
 </head>
 
-<body>
+<body class="give-v14-page">
     <!-- Skip Link -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -849,253 +851,191 @@
 
     <!-- Main Content -->
     <main id="main-content">
-        <!-- Hero Section -->
-        <section class="give-hero">
-            <div class="give-hero-container">
-                <h1>Give</h1>
-                <p class="give-hero-subtitle">
-                    Giving is an act of worship. Your generosity supports our church family and God's work in our
-                    community.
-                </p>
-
-                <!-- Bible Verse - Prominently Displayed -->
-                <div class="verse-card">
-                    <p class="verse-text">
-                        "Each of you should give what you have decided in your heart to give, not reluctantly or under
-                        compulsion, for God loves a cheerful giver."
-                    </p>
-                    <p class="verse-reference">— 2 Corinthians 9:7</p>
+        <section class="give-v14-hero" aria-labelledby="give-hero-title">
+            <span class="give-v14-hero-cross" aria-hidden="true"></span>
+            <div class="give-v14-container">
+                <div class="give-v14-hero-content">
+                    <p class="give-v14-eyebrow">Together for a greater purpose</p>
+                    <h1 id="give-hero-title" class="give-v14-heading">Generosity is Worship</h1>
+                    <p class="give-v14-hero-copy">Through your generosity, Grace and Praise Bangladeshi Church is able to support worship, serve the community, strengthen churches, and participate in mission work for the glory of God.</p>
+                    <blockquote class="give-v14-hero-verse">
+                        <p>“God loves a cheerful giver.”</p>
+                        <cite>2 Corinthians 9:7</cite>
+                    </blockquote>
                 </div>
             </div>
         </section>
 
-        <!-- Method Selection Section -->
-        <section class="method-selection">
-            <div class="method-selection-container">
-                <h2 class="section-title">Choose Your Giving Method</h2>
+        <section class="give-v14-purpose" aria-labelledby="purpose-title">
+            <div class="give-v14-container give-v14-purpose-grid">
+                <div class="give-v14-purpose-intro">
+                    <p class="give-v14-eyebrow">Invest in eternal things</p>
+                    <h2 id="purpose-title" class="give-v14-section-heading">Give With Purpose</h2>
+                    <p class="give-v14-purpose-copy">Your giving helps us worship God, serve people, strengthen churches, and share the Gospel both locally and beyond our community. Every gift—large or small—helps make ministry possible.</p>
 
-                <!-- Method Cards -->
-                <div class="method-cards">
-                    <!-- Online Payment Card -->
-                    <button class="method-card active" data-method="online" role="tab" aria-selected="true"
-                        aria-controls="online-content" id="tab-online">
-                        <div class="method-icon" aria-hidden="true">💳</div>
-                        <h3>Online Payment</h3>
-                        <p>Credit card, PayPal, or Venmo</p>
-                    </button>
+                    <div class="give-v14-impact-grid">
+                        <article class="give-v14-impact-card">
+                            <span class="give-v14-impact-icon" aria-hidden="true">
+                                <svg class="give-v14-icon" viewBox="0 0 24 24"><path d="M9 18V5l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="15" r="3"/></svg>
+                            </span>
+                            <h3>Worship</h3>
+                            <p>Supports worship, discipleship, prayer, and the ministry of our local church.</p>
+                        </article>
+                        <article class="give-v14-impact-card">
+                            <span class="give-v14-impact-icon" aria-hidden="true">
+                                <svg class="give-v14-icon" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c.4-3.3 2.3-5 6-5s5.6 1.7 6 5M14 15c3.7-.2 5.8 1.4 6 5"/></svg>
+                            </span>
+                            <h3>Community</h3>
+                            <p>Helps us serve families, care for people, and bring the love of Christ to our community.</p>
+                        </article>
+                        <article class="give-v14-impact-card">
+                            <span class="give-v14-impact-icon" aria-hidden="true">
+                                <svg class="give-v14-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.3 2.5 3.5 5.5 3.5 9S14.3 18.5 12 21M12 3C9.7 5.5 8.5 8.5 8.5 12s1.2 6.5 3.5 9M4.7 7.5h14.6M4.7 16.5h14.6"/></svg>
+                            </span>
+                            <h3>Mission Work</h3>
+                            <p>Helps GPBC participate in mission work and Gospel-centered ministry beyond our local congregation.</p>
+                        </article>
+                        <article class="give-v14-impact-card">
+                            <span class="give-v14-impact-icon" aria-hidden="true">
+                                <svg class="give-v14-icon" viewBox="0 0 24 24"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-5h6v5M12 3v4M9.5 5.5h5"/></svg>
+                            </span>
+                            <h3>Church Support</h3>
+                            <p>Helps strengthen churches, ministries, and ministry partners as opportunities arise.</p>
+                        </article>
+                    </div>
+                </div>
 
-                    <!-- QR Code Card -->
-                    <button class="method-card" data-method="qr" role="tab" aria-selected="false"
-                        aria-controls="qr-content" id="tab-qr">
-                        <div class="method-icon" aria-hidden="true">📱</div>
+                <aside class="give-v14-gift-card" aria-labelledby="gift-title">
+                    <p class="give-v14-eyebrow">Make a difference today</p>
+                    <h2 id="gift-title">Your Gift</h2>
+                    <p>Give securely and help make ministry possible.</p>
+                    <form onsubmit="return false;">
+                        <div class="give-v14-form-group">
+                            <label class="give-v14-form-label" for="amount">Amount</label>
+                            <div class="give-v14-amount-wrap">
+                                <input class="give-v14-input give-v14-amount" id="amount" name="amount" type="number" placeholder="0.00" min="1" step="0.01" inputmode="decimal" aria-label="Giving amount in dollars" required>
+                            </div>
+                            <div class="give-v14-presets" aria-label="Suggested giving amounts">
+                                <button class="give-v14-preset preset-btn" type="button" data-amount="25">$25</button>
+                                <button class="give-v14-preset preset-btn" type="button" data-amount="50">$50</button>
+                                <button class="give-v14-preset preset-btn" type="button" data-amount="100">$100</button>
+                                <button class="give-v14-preset preset-btn" type="button" data-amount="250">$250</button>
+                                <button class="give-v14-preset preset-btn" type="button" data-amount="custom">Custom</button>
+                            </div>
+                        </div>
+
+                        <div class="give-v14-form-group">
+                            <label class="give-v14-form-label" for="purpose">Give to</label>
+                            <select class="give-v14-select" id="purpose" name="purpose" aria-label="Select donation purpose">
+                                <option value="">General Offering</option>
+                                <option value="tithe">Tithe</option>
+                                <option value="missions">Missions</option>
+                                <option value="building">Building Fund</option>
+                                <option value="benevolence">Benevolence</option>
+                                <option value="special">Special Projects</option>
+                            </select>
+                        </div>
+
+                        <div class="give-v14-payment-stack">
+                            <button type="button" id="paypalPaymentBtn" class="give-v14-payment give-v14-payment-primary" aria-label="Continue with PayPal">
+                                <svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20 9.2 4.8h6.2c2.5 0 4 1.2 4 3.3 0 2.9-2.3 4.8-5.5 4.8h-3.2L9.5 20M10.8 12.9h4.1"/></svg>
+                                Continue with PayPal <span aria-hidden="true">→</span>
+                            </button>
+                            <button hidden type="button" id="stripePaymentBtn" class="give-v14-payment give-v14-payment-secondary" aria-label="Continue with credit or debit card">
+                                <svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg>
+                                Continue with Card
+                            </button>
+                        </div>
+                        <p class="give-v14-method-note">Select an amount first. Your secure payment opens in a new tab.</p>
+                    </form>
+
+                    <div class="give-v14-trust-mini" aria-label="Giving assurances">
+                        <span><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Secure &amp; Encrypted</span>
+                        <span><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.5-2.9 8-7 10-4.1-2-7-5.5-7-10V6l7-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Tax-Deductible</span>
+                        <span><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 12h6M9 16h6"/></svg>501(c)(3) Nonprofit</span>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="give-v14-other" aria-labelledby="other-ways-title">
+            <div class="give-v14-container">
+                <p class="give-v14-eyebrow">Simple, secure, and personal</p>
+                <h2 id="other-ways-title" class="give-v14-section-heading give-v14-other-heading">Other Ways to Give</h2>
+                <p class="give-v14-other-copy">Choose the giving method that works best for you.</p>
+
+                <div class="give-v14-other-grid">
+                    <article class="give-v14-method-card">
+                        <span class="give-v14-method-icon" aria-hidden="true"><svg class="give-v14-icon" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2M20 14v6h-6M16 16h4"/></svg></span>
                         <h3>QR Code</h3>
-                        <p>Scan to give instantly</p>
-                    </button>
+                        <p>Scan to open the existing PayPal giving link on your phone.</p>
+                        <div id="paypalQR" class="give-v14-qr" tabindex="-1" role="img" aria-label="QR code for PayPal giving"><span class="give-v14-qr-fallback">QR code loading</span></div>
+                        <button class="give-v14-qr-link" type="button" data-scroll-to="paypalQR">View QR Code</button>
+                    </article>
 
-                    <!-- Bank Transfer Card -->
-                    <button class="method-card" data-method="bank" role="tab" aria-selected="false"
-                        aria-controls="bank-content" id="tab-bank">
-                        <div class="method-icon" aria-hidden="true">🏦</div>
-                        <h3>Bank Transfer</h3>
-                        <p>Zelle or direct transfer</p>
-                    </button>
-
-                    <!-- Check Card -->
-                    <button class="method-card" data-method="check" role="tab" aria-selected="false"
-                        aria-controls="check-content" id="tab-check">
-                        <div class="method-icon" aria-hidden="true">✉️</div>
-                        <h3>Check (Mail)</h3>
-                        <p>Send by mail</p>
-                    </button>
-                </div>
-
-                <!-- Content Area -->
-                <div class="content-area">
-                    <!-- Online Payment Content -->
-                    <div id="online-content" class="content-section active" role="tabpanel"
-                        aria-labelledby="tab-online">
-                        <h2>Complete Your Gift</h2>
-                        <form class="payment-form" onsubmit="return false;">
-                            <div class="form-group">
-                                <label for="amount" class="form-label">Amount</label>
-                                <div class="amount-wrapper">
-                                    <input type="number" id="amount" name="amount" class="form-input" placeholder="0.00"
-                                        min="1" step="0.01" aria-label="Donation amount in dollars" required>
-                                </div>
-                                <div class="preset-amounts">
-                                    <button type="button" class="preset-btn" data-amount="25">$25</button>
-                                    <button type="button" class="preset-btn" data-amount="50">$50</button>
-                                    <button type="button" class="preset-btn" data-amount="100">$100</button>
-                                    <button type="button" class="preset-btn" data-amount="custom">Custom</button>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="purpose" class="form-label">Purpose (Optional)</label>
-                                <select id="purpose" name="purpose" class="form-select"
-                                    aria-label="Select donation purpose">
-                                    <option value="">General Offering</option>
-                                    <option value="tithe">Tithe</option>
-                                    <option value="missions">Missions</option>
-                                    <option value="building">Building Fund</option>
-                                    <option value="benevolence">Benevolence</option>
-                                    <option value="special">Special Projects</option>
-                                </select>
-                            </div>
-
-                            <div class="payment-buttons">
-                                <button type="button" id="paypalPaymentBtn" class="btn btn-primary" aria-label="Continue with PayPal">
-                                    <span>Continue with PayPal</span>
-                                </button>
-                                <button type="button" id="stripePaymentBtn" class="btn btn-primary"
-                                    aria-label="Continue with credit or debit card">
-                                    <span>Continue with Card</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- QR Code Content -->
-                    <div id="qr-content" class="content-section qr-section" role="tabpanel" aria-labelledby="tab-qr">
-                        <h2>Scan to Give</h2>
-                        <div class="qr-container">
-                            <div class="qr-code-placeholder" role="img" aria-label="QR code for mobile giving">
-                                QR Code<br>Here
-                            </div>
-                            <p class="qr-instructions">
-                                Point your phone camera at the QR code above or use your payment app to scan and give
-                                instantly.
-                            </p>
+                    <article class="give-v14-method-card">
+                        <span class="give-v14-method-icon" aria-hidden="true"><svg class="give-v14-icon" viewBox="0 0 24 24"><path d="M3 20h18M5 20V10h14v10M3 10l9-6 9 6M8 13v4M12 13v4M16 13v4"/></svg></span>
+                        <h3>Bank Transfer / Zelle</h3>
+                        <p>Give directly through your bank using the current Zelle recipient.</p>
+                        <div class="give-v14-bank-meta">
+                            <span class="give-v14-bank-email">gracepraisebangladeshichurch@gmail.com</span>
+                            <button class="give-v14-copy" type="button" data-copy="gracepraisebangladeshichurch@gmail.com" aria-label="Copy Zelle email">Copy</button>
                         </div>
-                    </div>
+                        <p class="give-v14-memo">Recipient: Grace and Praise Bangladeshi Church<br>Memo: GPBC Giving</p>
+                    </article>
 
-                    <!-- Bank Transfer Content -->
-                    <div id="bank-content" class="content-section" role="tabpanel" aria-labelledby="tab-bank">
-                        <h2>Bank Transfer Details</h2>
-                        <div class="bank-details">
-                            <div class="detail-card">
-                                <div class="detail-row">
-                                    <span class="detail-label">Payment Method</span>
-                                    <span class="detail-value">Zelle</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Recipient Email</span>
-                                    <span class="detail-value">
-                                        <span id="email-value">gracepraisebangladeshichurch@gmail.com</span>
-                                        <button class="copy-btn" onclick="copyToClipboard('email-value', this)"
-                                            aria-label="Copy email address">
-                                            Copy
-                                        </button>
-                                    </span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Recipient Name</span>
-                                    <span class="detail-value">Grace and Praise Bangladeshi Church</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Memo (Optional)</span>
-                                    <span class="detail-value">GPBC Giving</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Check Content -->
-                    <div id="check-content" class="content-section check-section" role="tabpanel"
-                        aria-labelledby="tab-check">
-                        <h2>Give by Check</h2>
-                        <div class="mailing-address">
-                            <h3>Mail Your Check To:</h3>
-                            <address class="address-text">
-                                <strong>Grace and Praise Bangladeshi Church</strong><br>
-                                1325 Richardson Street<br>
-                                San Bernardino, CA 92408
-                            </address>
-                        </div>
-                        <div class="memo-note">
-                            <strong>Important:</strong> Please write "GPBC Giving" in the memo line of your check.
-                        </div>
-                    </div>
+                    <article class="give-v14-method-card">
+                        <span class="give-v14-method-icon" aria-hidden="true"><svg class="give-v14-icon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></span>
+                        <h3>Check by Mail</h3>
+                        <p>Send your check to the church using the current mailing address.</p>
+                        <address class="give-v14-address"><strong>Grace and Praise Bangladeshi Church</strong><br>1325 Richardson Street<br>San Bernardino, CA 92408</address>
+                        <p class="give-v14-memo">Please write “GPBC Giving” in the memo line.</p>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- Trust & Assurance Section -->
-        <section class="trust-section">
-            <div class="trust-container">
-                <div class="trust-badges">
-                    <div class="trust-badge">
-                        <span class="trust-icon" aria-hidden="true">🔒</span>
-                        <span>Secure & Encrypted</span>
-                    </div>
-                    <div class="trust-badge">
-                        <span class="trust-icon" aria-hidden="true">✓</span>
-                        <span>Tax-Deductible</span>
-                    </div>
-                    <div class="trust-badge">
-                        <span class="trust-icon" aria-hidden="true">📋</span>
-                        <span>501(c)(3) Nonprofit</span>
-                    </div>
-                </div>
-                <p class="trust-text">
-                    All contributions are handled with integrity and transparency. Your donation supports worship,
-                    ministry, and outreach in our community. We never share your personal information. You will receive
-                    a receipt for tax purposes.
-                </p>
+        <section class="give-v14-impact-row" aria-label="Giving impact">
+            <div class="give-v14-container give-v14-impact-row-grid">
+                <div class="give-v14-impact-row-item"><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20c.4-3.5 2.2-5.2 5.5-5.2S13.1 16.5 13.5 20M13 15c3.7-.2 5.8 1.4 6.2 5"/></svg><span>Supports local &amp; mission ministry<small>Making an eternal impact</small></span></div>
+                <div class="give-v14-impact-row-item"><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5.3-8.8 11.1-8.8 11.1S3.2 14.1 3.2 8.8A4.8 4.8 0 0 1 12 6.2a4.8 4.8 0 0 1 8.8 2.6Z"/></svg><span>Trusted &amp; transparent<small>Handled with integrity</small></span></div>
+                <div class="give-v14-impact-row-item"><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 4.5C12 5 6.5 9.5 5.5 17c3.5.7 8.3-.3 10.8-3.4 2-2.5 3-6 4.2-9.1Z"/><path d="M4 21c2.5-5 6-8 11-10"/></svg><span>For God’s glory<small>Supporting ministry with purpose</small></span></div>
             </div>
         </section>
 
-        <!-- FAQ Section -->
-        <section class="faq-section">
-            <div class="faq-container">
-                <h2 class="section-title">Frequently Asked Questions</h2>
-
-                <!-- FAQ Item 1 -->
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
-                        <span>Is my gift tax-deductible?</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
-                    </button>
-                    <div class="faq-answer" id="faq-answer-1">
-                        <div class="faq-answer-content">
-                            Yes! Grace and Praise Bangladeshi Church is a registered 501(c)(3) nonprofit organization.
-                            All donations are tax-deductible to the full extent allowed by law. You will receive a
-                            receipt for your records at the end of each year or upon request.
-                        </div>
-                    </div>
+        <section class="give-v14-gratitude" aria-labelledby="gratitude-title">
+            <div class="give-v14-container">
+                <div class="give-v14-gratitude-copy">
+                    <p class="give-v14-eyebrow">A note of gratitude</p>
+                    <h2 id="gratitude-title" class="give-v14-section-heading">Thank You for Your Partnership</h2>
+                    <p class="give-v14-body">Your generosity is a beautiful expression of faith. Together, we can worship, serve our community, strengthen churches, and participate in mission work beyond our walls.</p>
+                    <p class="give-v14-body">Thank you for partnering with what God is doing through Grace and Praise Bangladeshi Church.</p>
+                    <p class="give-v14-closing">With Christ’s love,<br><strong>Grace and Praise Bangladeshi Church</strong></p>
                 </div>
+                <blockquote class="give-v14-gratitude-verse">
+                    <p>“For where your treasure is, there your heart will be also.”</p>
+                    <cite>Matthew 6:21</cite>
+                </blockquote>
+            </div>
+        </section>
 
-                <!-- FAQ Item 2 -->
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2">
-                        <span>Can I give monthly or set up recurring donations?</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
-                    </button>
-                    <div class="faq-answer" id="faq-answer-2">
-                        <div class="faq-answer-content">
-                            Yes! You can set up recurring monthly donations through PayPal, or contact our office to
-                            arrange automatic bank transfers. Monthly giving helps us plan and sustain ministry
-                            throughout the year and ensures consistent support for our programs.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- FAQ Item 3 -->
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-3">
-                        <span>Who can I contact if I need help or have questions?</span>
-                        <span class="faq-icon" aria-hidden="true">▼</span>
-                    </button>
-                    <div class="faq-answer" id="faq-answer-3">
-                        <div class="faq-answer-content">
-                            If you have questions about giving or need assistance, please contact us at <a
-                                href="mailto:info@gracepraise.church"
-                                style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">info@gracepraise.church</a>
-                            or <a href="mailto:bangladeshi.church@gmail.com"
-                                style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">bangladeshi.church@gmail.com</a>.
-                            We're here to help!
-                        </div>
-                    </div>
+        <section class="give-v14-faq" aria-labelledby="faq-title">
+            <div class="give-v14-container">
+                <p class="give-v14-eyebrow">Common questions</p>
+                <h2 id="faq-title" class="give-v14-section-heading">Frequently Asked Questions</h2>
+                <div class="give-v14-faq-list">
+                    <details class="give-v14-faq-item">
+                        <summary>Is my gift tax-deductible?</summary>
+                        <p>Yes! Grace and Praise Bangladeshi Church is a registered 501(c)(3) nonprofit organization. All donations are tax-deductible to the full extent allowed by law. You will receive a receipt for your records at the end of each year or upon request.</p>
+                    </details>
+                    <details class="give-v14-faq-item">
+                        <summary>Can I give monthly or set up recurring donations?</summary>
+                        <p>Yes! You can set up recurring monthly donations through PayPal, or contact our office to arrange automatic bank transfers. Monthly giving helps us plan and sustain ministry throughout the year and ensures consistent support for our programs.</p>
+                    </details>
+                    <details class="give-v14-faq-item">
+                        <summary>Who can I contact if I need help or have questions?</summary>
+                        <p>If you have questions about giving or need assistance, please contact us at <a href="mailto:info@gracepraise.church">info@gracepraise.church</a> or <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a>. We’re here to help!</p>
+                    </details>
                 </div>
             </div>
         </section>
@@ -1107,106 +1047,7 @@
 
 
 
-    <!-- JavaScript -->
-    <script>
-        // Method Card Selection
-        const methodCards = document.querySelectorAll('.method-card');
-        const contentSections = document.querySelectorAll('.content-section');
-
-        methodCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const method = card.dataset.method;
-
-                // Update cards
-                methodCards.forEach(c => {
-                    c.classList.remove('active');
-                    c.setAttribute('aria-selected', 'false');
-                });
-
-                card.classList.add('active');
-                card.setAttribute('aria-selected', 'true');
-
-                // Update content
-                contentSections.forEach(section => {
-                    section.classList.remove('active');
-                });
-
-                document.getElementById(`${method}-content`).classList.add('active');
-
-                // Smooth scroll to content area
-                document.querySelector('.content-area').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'nearest'
-                });
-            });
-
-            // Keyboard support
-            card.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    card.click();
-                }
-            });
-        });
-
-        // Preset Amount Buttons
-        const presetBtns = document.querySelectorAll('.preset-btn');
-        const amountInput = document.getElementById('amount');
-
-        presetBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const amount = btn.dataset.amount;
-                if (amount === 'custom') {
-                    amountInput.value = '';
-                    amountInput.focus();
-                } else {
-                    amountInput.value = amount;
-                }
-            });
-        });
-
-        // FAQ Accordion
-        const faqQuestions = document.querySelectorAll('.faq-question');
-
-        faqQuestions.forEach(question => {
-            question.addEventListener('click', () => {
-                const faqItem = question.parentElement;
-                const isOpen = faqItem.classList.contains('open');
-
-                // Close all items
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    item.classList.remove('open');
-                    item.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-                });
-
-                // Toggle current item
-                if (!isOpen) {
-                    faqItem.classList.add('open');
-                    question.setAttribute('aria-expanded', 'true');
-                }
-            });
-        });
-
-        // Copy to Clipboard Function
-        function copyToClipboard(elementId, button) {
-            const element = document.getElementById(elementId);
-            const text = element.textContent;
-
-            navigator.clipboard.writeText(text).then(() => {
-                const originalText = button.textContent;
-                button.textContent = '✓ Copied!';
-                button.classList.add('copied');
-
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.classList.remove('copied');
-                }, 2500);
-            }).catch(err => {
-                alert('Unable to copy. Please copy manually: ' + text);
-            });
-        }
-
-    </script>
+    <script src="give-v14.js?v=20260920"></script>
 
     <!-- Donations & Payment Processor -->
     <script src="donations.js"></script>

@@ -41,6 +41,13 @@ function getSelectedAmount() {
     return selectedDonationAmount;
 }
 
+function isStripePaymentConfigured() {
+    return Boolean(
+        DONATION_CONFIG.stripePaymentLink &&
+        !DONATION_CONFIG.stripePaymentLink.includes('YOUR_LIVE_STRIPE_LINK')
+    );
+}
+
 function setupAmountSelection() {
     // Amount selection buttons (.amount-btn and .preset-btn)
     const amountButtons = document.querySelectorAll('.amount-btn, .preset-btn');
@@ -86,8 +93,11 @@ function setupAmountSelection() {
 function setupPaymentButtons() {
     // Stripe payment button
     const stripeBtn = document.getElementById('stripePaymentBtn');
-    if (stripeBtn) {
+    if (stripeBtn && isStripePaymentConfigured()) {
+        stripeBtn.hidden = false;
         stripeBtn.addEventListener('click', handleStripePayment);
+    } else if (stripeBtn) {
+        stripeBtn.remove();
     }
 
     // PayPal payment button
@@ -164,7 +174,7 @@ function handleStripePayment() {
         return;
     }
     
-    if (!DONATION_CONFIG.stripePaymentLink || DONATION_CONFIG.stripePaymentLink.includes('YOUR_LIVE_STRIPE_LINK')) {
+    if (!isStripePaymentConfigured()) {
         const proceedWithPayPal = confirm(
             `Stripe direct checkout is being configured.\n\nWould you like to give $${amount.toFixed(2)} securely via PayPal instead?`
         );
