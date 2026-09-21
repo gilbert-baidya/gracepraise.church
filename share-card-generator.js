@@ -1469,12 +1469,18 @@
         }
 
         // Reuse the single canvas instance so preview and export never diverge.
-        // A duplicate #shareCardCanvas makes document.getElementById() resolve the
-        // untouched 300x150 placeholder instead of the rendered devotional card.
+        // Keep the initial placeholder inside the hidden preview host so it never
+        // contributes a 300x150 block to the document after the footer.
+        const previewContainer = document.getElementById('shareCardPreview');
         canvas = document.getElementById('shareCardCanvas');
         if (!canvas) {
             canvas = document.createElement('canvas');
             canvas.id = 'shareCardCanvas';
+        }
+        canvas.classList.add('share-card-canvas');
+        if (previewContainer && canvas.parentNode !== previewContainer) {
+            previewContainer.appendChild(canvas);
+        } else if (!canvas.parentNode) {
             document.body.appendChild(canvas);
         }
 
