@@ -7152,7 +7152,7 @@ body.homepage #home {
     }
 
     /* Ensure vertical rhythm is consistent */
-    section {
+    .homepage section {
         padding: 3.5rem 0 !important;
     }
 }

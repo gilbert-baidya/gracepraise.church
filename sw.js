@@ -1,6 +1,6 @@
 /**
  * ----------------------------------------------------------------------------
- * GPBC SERVICE WORKER — V11
+ * GPBC SERVICE WORKER — V12
  * ----------------------------------------------------------------------------
  * Freshness strategy:
  *   - HTML navigations: Network First, cache fallback.
@@ -12,7 +12,7 @@
  * ----------------------------------------------------------------------------
  */
 
-const CACHE_VERSION = 'gpbc-v11';
+const CACHE_VERSION = 'gpbc-v12';
 const STATIC_CACHE = CACHE_VERSION + '-static';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 const OFFLINE_URL = '/';
