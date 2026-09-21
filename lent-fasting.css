@@ -2180,6 +2180,19 @@ html[data-theme="dark"] body[data-contrast="high"] .devotion-hero {
 
 /* ── Responsive journey flow ──────────────────────────────────── */
 @media (max-width: 760px) {
+    :root {
+        --lent-v16-mobile-rail: 16px;
+    }
+
+    .progress-container,
+    .unlock-today-banner,
+    .devotion-controls,
+    .devotion-container {
+        width: calc(100% - var(--lent-v16-mobile-rail) - var(--lent-v16-mobile-rail)) !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .devotion-hero {
         min-height: 225px;
         padding: 2.35rem 1rem 1.55rem !important;
