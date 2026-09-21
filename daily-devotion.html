@@ -1730,21 +1730,15 @@
                 }
             }
 
-            // Set default collapsed state based on viewport
+            // Keep both reading sections open by default at every viewport.
+            // The controls remain fully collapsible through the existing
+            // aria-expanded, keyboard, and focus-preserving handlers.
             function setDefaultCollapsedState() {
-                const isMobile = window.innerWidth < 768;
                 const reflectionToggle = document.getElementById('reflectionToggle');
                 const prayerToggle = document.getElementById('prayerToggle');
 
-                if (isMobile) {
-                    // Mobile: Collapse both sections by default
-                    if (reflectionToggle) collapseSection(reflectionToggle);
-                    if (prayerToggle) collapseSection(prayerToggle);
-                } else {
-                    // Desktop: Expand both sections by default
-                    if (reflectionToggle) expandSection(reflectionToggle);
-                    if (prayerToggle) expandSection(prayerToggle);
-                }
+                if (reflectionToggle) expandSection(reflectionToggle);
+                if (prayerToggle) expandSection(prayerToggle);
             }
 
             // Initialize collapsible sections

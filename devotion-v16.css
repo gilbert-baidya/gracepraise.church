@@ -323,6 +323,7 @@ body.page-daily-devotion .devotion-container {
 body.page-daily-devotion #devotionContent {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
     gap: 24px;
     width: 100%;
     max-width: none;
@@ -674,6 +675,49 @@ body.page-daily-devotion[data-theme="dark"] .devotion-controls,
 html.dark body.page-daily-devotion .devotion-section,
 body.page-daily-devotion[data-theme="dark"] .devotion-section {
     background: var(--v16-surface);
+}
+
+/* Keep the reading-setup surface dark without changing global theme tokens. */
+html.dark body.page-daily-devotion .devotion-controls,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls {
+    background: #14283b !important;
+    color: #f8f0df;
+    border-color: rgba(220, 231, 239, 0.2) !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22) !important;
+}
+
+html.dark body.page-daily-devotion .devotion-controls .language-toggle,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .language-toggle,
+html.dark body.page-daily-devotion .devotion-controls .jump-controls select,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .jump-controls select,
+html.dark body.page-daily-devotion .devotion-controls .date-pill,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .date-pill,
+html.dark body.page-daily-devotion .devotion-controls .date-nav-btn,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .date-nav-btn,
+html.dark body.page-daily-devotion .devotion-controls #goToDateBtn,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls #goToDateBtn,
+html.dark body.page-daily-devotion .devotion-controls #todayBtn,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls #todayBtn {
+    background: #102a43 !important;
+    color: #f8f0df !important;
+    border-color: rgba(220, 231, 239, 0.2) !important;
+}
+
+html.dark body.page-daily-devotion .devotion-controls .language-toggle button.active,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .language-toggle button.active,
+html.dark body.page-daily-devotion .devotion-controls .date-pill.active,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .date-pill.active,
+html.dark body.page-daily-devotion .devotion-controls #goToDateBtn,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls #goToDateBtn {
+    background: #2f6fb1 !important;
+    color: #fffdf8 !important;
+    border-color: #c89a3b !important;
+}
+
+html.dark body.page-daily-devotion .devotion-controls :is(button, select):focus-visible,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls :is(button, select):focus-visible {
+    outline: 3px solid rgba(200, 154, 59, 0.92);
+    outline-offset: 2px;
 }
 
 html.dark body.page-daily-devotion .date-pill,

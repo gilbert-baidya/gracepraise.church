@@ -824,6 +824,10 @@
             }
         }
 
+        // Public share APIs use aspect-ratio labels; the renderer uses format keys.
+        // Normalize once at the entry point so every trigger reaches a valid config.
+        format = format === '1:1' ? 'square' : format === '9:16' ? 'story' : format;
+
         // PRODUCTION HOTFIX: Try direct binding before blocking
         if (window.__SHARE_GENERATOR_READY__ !== true) {
             console.warn('[Share Card] 🔄 Generator not ready — attempting ensureShareModalBindings');
@@ -1464,11 +1468,13 @@
             });
         }
 
-        // Setup canvas if needed
-        if (!document.getElementById('shareCardCanvas')) {
-            const canvas = document.createElement('canvas');
+        // Reuse the single canvas instance so preview and export never diverge.
+        // A duplicate #shareCardCanvas makes document.getElementById() resolve the
+        // untouched 300x150 placeholder instead of the rendered devotional card.
+        canvas = document.getElementById('shareCardCanvas');
+        if (!canvas) {
+            canvas = document.createElement('canvas');
             canvas.id = 'shareCardCanvas';
-            canvas.style.display = 'none';
             document.body.appendChild(canvas);
         }
 
