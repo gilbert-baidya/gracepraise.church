@@ -66,7 +66,7 @@
     <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css">
-    <link rel="stylesheet" href="lent-fasting.css?v=20260303-readability2">
+    <link rel="stylesheet" href="lent-fasting.css?v=20260921-v164">
     <link rel="stylesheet" href="bible-gateway-links.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
 
@@ -118,62 +118,79 @@
     <div aria-live="polite" id="sr-announce" class="sr-only"></div>
 
     <main id="main-content">
-        <!-- ═══ HERO ═══ -->
-        <div class="devotion-hero" role="banner">
-            <div class="hero-subtitle">A Sacred Journey</div>
-            <h1>Lent — 40 Days of Prayer &amp; Fasting</h1>
-            <p>Reflection · Repentance · Renewal</p>
-            <div id="lentDatesBanner" aria-label="Lent date range">
-                <!-- Ash Wednesday and Easter dates inserted dynamically -->
+        <!-- ═══ V16 JOURNEY HERO ═══ -->
+        <section class="devotion-hero" aria-labelledby="lentHeroTitle">
+            <div class="lent-hero-inner">
+                <p class="hero-subtitle">GPBC Devotion Journey</p>
+                <h1 id="lentHeroTitle">Lent</h1>
+                <p class="hero-title-line">40 Days of Prayer &amp; Fasting</p>
+                <p class="hero-supporting-line">Reflection · Repentance · Renewal</p>
+                <div class="hero-meta-row">
+                    <div id="lentDatesBanner" aria-label="Lent date range">
+                        <!-- Ash Wednesday and Easter dates inserted dynamically -->
+                    </div>
+                    <div class="hero-theme-badge" id="heroWeekTheme">
+                        <!-- e.g. "Week 1: Surrender" -->
+                    </div>
+                </div>
             </div>
-            <div class="hero-theme-badge" id="heroWeekTheme">
-                <!-- e.g. "Week 1: Surrender" -->
-            </div>
-        </div>
+        </section>
 
-        <!-- ═══ PROGRESS BAR ═══ -->
-        <div class="progress-container" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="40"
+        <!-- ═══ JOURNEY PROGRESS ═══ -->
+        <section class="progress-container" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="40"
             aria-label="Lent journey progress">
             <div class="progress-wrapper">
-                <span class="progress-label">Day <span id="currentDayProgress">1</span> of 40</span>
+                <div class="progress-copy">
+                    <span class="progress-eyebrow">Journey progress</span>
+                    <span class="progress-label">Day <span id="currentDayProgress">1</span> of 40</span>
+                </div>
                 <div class="progress-bar-bg">
                     <div class="progress-bar-fill" id="progressBarFill" style="width: 2.5%;"></div>
                 </div>
-                <span class="progress-milestone" id="progressMilestone"></span>
+                <span class="progress-milestone" id="progressMilestone" aria-live="polite"></span>
             </div>
-        </div>
+        </section>
 
-        <!-- ═══ CONTROLS ═══ -->
-        <div class="devotion-controls">
-            <div class="controls-row">
-                <div class="day-nav">
-                    <button id="prevDay" aria-label="Previous day">← Prev</button>
-                    <select id="daySelect" aria-label="Select day"></select>
-                    <button id="nextDay" aria-label="Next day">Next →</button>
+        <!-- ═══ JOURNEY CONTROLS ═══ -->
+        <section class="devotion-controls" aria-labelledby="journeyControlsTitle">
+            <div class="controls-heading">
+                <p class="section-kicker" id="journeyControlsTitle">Stay with the journey</p>
+                <p class="controls-intro">Choose a day, language, and reading contrast that helps you remain present.</p>
+            </div>
+            <div class="controls-grid">
+                <div class="day-nav" aria-label="Day navigation">
+                    <button type="button" id="prevDay" aria-label="Previous day">← <span>Previous</span></button>
+                    <label class="day-select-wrap">
+                        <span class="sr-only">Select day</span>
+                        <select id="daySelect" aria-label="Select day"></select>
+                    </label>
+                    <button type="button" id="nextDay" aria-label="Next day"><span>Next</span> →</button>
                 </div>
                 <div class="lang-toggle" role="radiogroup" aria-label="Language selection">
-                    <button id="langEn" class="active" role="radio" aria-checked="true">English</button>
-                    <button id="langBn" role="radio" aria-checked="false">বাংলা</button>
-                    <button id="langBoth" role="radio" aria-checked="false">Both</button>
+                    <button type="button" id="langEn" class="active" role="radio" aria-checked="true">English</button>
+                    <button type="button" id="langBn" role="radio" aria-checked="false">বাংলা</button>
+                    <button type="button" id="langBoth" role="radio" aria-checked="false">Both</button>
                 </div>
             </div>
 
-            <!-- High Contrast Mode Toggle -->
-            <div class="controls-row"
-                style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(139, 92, 246, 0.12);">
+            <div class="contrast-row">
+                <div>
+                    <p class="control-label">Reading support</p>
+                    <p class="contrast-description">Increase text and surface contrast for a clearer reading experience.</p>
+                </div>
                 <label class="contrast-toggle-label" for="contrastToggle">
                     <span class="contrast-toggle-text">
                         <span class="contrast-icon" aria-hidden="true">◐</span>
                         High Contrast Mode
                     </span>
-                    <div class="toggle-switch">
+                    <span class="toggle-switch">
                         <input type="checkbox" id="contrastToggle" role="switch" aria-checked="false"
                             aria-label="Enable high contrast mode for better readability" />
-                        <span class="toggle-slider"></span>
-                    </div>
+                        <span class="toggle-slider" aria-hidden="true"></span>
+                    </span>
                 </label>
             </div>
-        </div>
+        </section>
 
         <!-- ═══ DEVOTION CONTENT ═══ -->
         <div class="devotion-container">
@@ -183,18 +200,20 @@
             </div>
             <div id="errorMsg" style="display: none;"></div>
 
-            <article id="devotionContent" style="display: none;" aria-label="Daily devotion">
-                <!-- Topic Header -->
-                <div class="devotion-section topic-section">
-                    <h2 id="devotionTopic"></h2>
+            <article id="devotionContent" style="display: none;" aria-labelledby="devotionTopic devotionTopicBn">
+                <!-- Day Header -->
+                <section class="devotion-section topic-section" aria-labelledby="devotionTopic">
+                    <p class="day-header-kicker">Day <span id="dayHeaderNumber">1</span></p>
+                    <h2 id="devotionTopic" class="lang-en"></h2>
                     <p id="devotionTopicBn" class="lang-bn"></p>
                     <p id="devotionDate"></p>
                     <div class="completed-badge" id="completedBadge">✓ Completed</div>
-                </div>
+                </section>
 
                 <!-- Scripture -->
-                <section class="devotion-section scripture-section" aria-label="Scripture">
-                    <h3>📖 Key Verse</h3>
+                <section class="devotion-section scripture-section" aria-labelledby="scriptureHeading">
+                    <p class="section-kicker">Scripture</p>
+                    <h3 id="scriptureHeading">Key Verse</h3>
                     <div class="bible-verse-container">
                         <p class="scripture-text lang-en" id="verseText"></p>
                         <p class="scripture-ref lang-en" id="verseRef"></p>
@@ -216,8 +235,9 @@
                 </section>
 
                 <!-- Reflection -->
-                <section class="devotion-section reflection-section" aria-label="Reflection">
-                    <h3>💭 Reflection</h3>
+                <section class="devotion-section reflection-section" aria-labelledby="reflectionHeading">
+                    <p class="section-kicker">Reflect</p>
+                    <h3 id="reflectionHeading">Reflection</h3>
                     <div class="reflection-content" id="reflectionContent">
                         <div class="reflection-text lang-en" id="reflectionText"></div>
                         <div class="reflection-text-bn lang-bn" id="reflectionTextBn"></div>
@@ -228,20 +248,40 @@
                 </section>
 
                 <!-- Prayer -->
-                <section class="devotion-section prayer-section" aria-label="Prayer">
-                    <h3>🙏 Prayer</h3>
+                <section class="devotion-section prayer-section" aria-labelledby="prayerHeading">
+                    <p class="section-kicker">Pray</p>
+                    <h3 id="prayerHeading">Prayer</h3>
                     <div class="prayer-text lang-en" id="prayerText"></div>
                     <div class="prayer-text-bn lang-bn" id="prayerTextBn"></div>
                 </section>
 
                 <!-- Bible Promise (conditional) -->
                 <section class="devotion-section promise-section" id="promiseSection" style="display: none;"
-                    aria-label="Bible promise">
-                    <h3>🕯️ Promise</h3>
+                    aria-labelledby="promiseHeading">
+                    <p class="section-kicker">Respond</p>
+                    <h3 id="promiseHeading">Promise</h3>
                     <p class="promise-text lang-en" id="promiseText"></p>
                     <p class="promise-text-bn lang-bn" id="promiseTextBn"></p>
                 </section>
             </article>
+
+            <nav class="journey-bottom-nav" aria-label="Continue the Lent journey">
+                <div class="journey-bottom-copy">
+                    <p class="section-kicker">Continue the journey</p>
+                    <h2>One day at a time</h2>
+                    <p>Remain with the next faithful step in this season of prayer and fasting.</p>
+                </div>
+                <div class="journey-bottom-actions">
+                    <button type="button" class="journey-day-button" id="journeyPrevDay" aria-label="Go to previous day">
+                        <span aria-hidden="true">←</span>
+                        <span><strong>Previous Day</strong><small id="journeyPrevMeta">Day 1</small></span>
+                    </button>
+                    <button type="button" class="journey-day-button" id="journeyNextDay" aria-label="Go to next day">
+                        <span><strong>Next Day</strong><small id="journeyNextMeta">Day 2</small></span>
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </div>
+            </nav>
         </div>
 
         <!-- ═══ STICKY BOTTOM ACTION BAR ═══ -->
@@ -258,16 +298,18 @@
 
     <!-- ═══ FIRST VISIT WELCOME (hidden by default) ═══ -->
     <div class="welcome-overlay" id="welcomeOverlay" style="display: none;" role="dialog" aria-modal="true"
-        aria-label="Welcome">
+        aria-hidden="true"
+        aria-labelledby="welcomeTitle" aria-describedby="welcomeDescription">
         <div class="welcome-card">
-            <div class="cross-icon">✝</div>
-            <h2>Begin Your Lent Journey</h2>
-            <p>40 days of prayer, fasting, and reflection — walking with Jesus from the wilderness to resurrection.</p>
+            <div class="cross-icon" aria-hidden="true">✝</div>
+            <p class="section-kicker">A sacred beginning</p>
+            <h2 id="welcomeTitle">Begin Your Lent Journey</h2>
+            <p id="welcomeDescription">40 days of prayer, fasting, and reflection — walking with Jesus from the wilderness to resurrection.</p>
             <button class="welcome-cta" id="welcomeCta">Start Day 1 →</button>
         </div>
     </div>
 
-    <div id="site-footer"></div>
+    <div data-partial="site-footer"></div>
 
     <!-- ═══ SCRIPTS ═══ -->
     <script src="js/lent-calendar-calculator.js"></script>
@@ -467,6 +509,10 @@
                         daySelect: document.getElementById('daySelect'),
                         prevDay: document.getElementById('prevDay'),
                         nextDay: document.getElementById('nextDay'),
+                        journeyPrevDay: document.getElementById('journeyPrevDay'),
+                        journeyNextDay: document.getElementById('journeyNextDay'),
+                        journeyPrevMeta: document.getElementById('journeyPrevMeta'),
+                        journeyNextMeta: document.getElementById('journeyNextMeta'),
                         langEn: document.getElementById('langEn'),
                         langBn: document.getElementById('langBn'),
                         langBoth: document.getElementById('langBoth'),
@@ -489,6 +535,7 @@
                         currentDayProgress: document.getElementById('currentDayProgress'),
                         progressBarFill: document.getElementById('progressBarFill'),
                         progressMilestone: document.getElementById('progressMilestone'),
+                        dayHeaderNumber: document.getElementById('dayHeaderNumber'),
                         heroWeekTheme: document.getElementById('heroWeekTheme'),
                         stickyBar: document.getElementById('stickyBar'),
                         btnComplete: document.getElementById('btnComplete'),
@@ -547,7 +594,7 @@
                         } else {
                             // Fallback: use return value directly
                             this.devotions = this.devotionalData || [];
-                            console.warn('[LENT STATE BRIDGE] Using fallback:', this.devotions.length);
+                            console.info('[LENT STATE BRIDGE] Using loader return value:', this.devotions.length);
                         }
 
                         // Expose globally for defensive access
@@ -563,16 +610,14 @@
 
                         console.log('[LENT FIX SUCCESS] Initialization complete. Data count:', this.devotions.length);
 
-                        this.populateDaySelector();                        // ── Inject Today Banner + Progress Bar ──
+                        this.populateDaySelector();
+
+                        // Keep the unlock engine's today banner, but let the V16 progress
+                        // treatment remain the single visible progress control.
                         if (this.unlockState) {
-                            const heroArea = document.querySelector('.devotion-hero') ||
-                                this.elements.devotionContent?.parentElement;
-                            if (heroArea) {
-                                const banner = DevotionUnlockEngine.createTodayBanner(this.unlockState);
-                                if (banner) heroArea.insertBefore(banner, heroArea.firstChild);
-                                const progress = DevotionUnlockEngine.createProgressBar(this.unlockState);
-                                if (progress) heroArea.insertBefore(progress, banner ? banner.nextSibling : heroArea.firstChild);
-                            }
+                            const progressSection = document.querySelector('.progress-container');
+                            const banner = DevotionUnlockEngine.createTodayBanner(this.unlockState);
+                            if (progressSection && banner) progressSection.after(banner);
                         }
 
                         // Determine current day
@@ -630,6 +675,8 @@
                 addEventListeners() {
                     this.elements.prevDay.addEventListener('click', () => this.changeDay(-1));
                     this.elements.nextDay.addEventListener('click', () => this.changeDay(1));
+                    this.elements.journeyPrevDay.addEventListener('click', () => this.changeDay(-1));
+                    this.elements.journeyNextDay.addEventListener('click', () => this.changeDay(1));
                     this.elements.daySelect.addEventListener('change', (e) =>
                         this.displayDevotion(parseInt(e.target.value, 10)));
 
@@ -656,6 +703,19 @@
 
                     // Swipe navigation
                     this.initSwipeNavigation();
+
+                    // Keep the completion action available during reading without
+                    // covering the global footer at the end of the document.
+                    const updateStickyBarVisibility = () => {
+                        const footer = document.querySelector('.site-footer');
+                        if (!footer || !this.elements.stickyBar) return;
+                        const rect = footer.getBoundingClientRect();
+                        const visible = rect.top < window.innerHeight && rect.bottom > 0;
+                        this.elements.stickyBar.classList.toggle('is-footer-visible', visible);
+                    };
+                    window.addEventListener('scroll', updateStickyBarVisibility, { passive: true });
+                    window.addEventListener('resize', updateStickyBarVisibility);
+                    window.setTimeout(updateStickyBarVisibility, 1200);
 
                     // Keyboard navigation
                     document.addEventListener('keydown', (e) => {
@@ -914,7 +974,10 @@
                     const lang = this.currentLang;
                     const titleEn = safeDevotion.topic || `Day ${safeDevotion.day}`;
                     const titleBn = safeDevotion.topicBn || '';
-                    this.elements.devotionTopic.textContent = (lang === 'bn' && titleBn) ? titleBn : titleEn;
+                    if (this.elements.dayHeaderNumber) {
+                        this.elements.dayHeaderNumber.textContent = safeDevotion.day;
+                    }
+                    this.elements.devotionTopic.textContent = titleEn;
                     this.elements.devotionTopicBn.textContent = titleBn;
 
                     // Date
@@ -1123,6 +1186,7 @@
                     console.log("[LENT FIX] Devotion content made visible");
                 }, switchLanguage(lang) {
                     this.currentLang = lang;
+                    document.documentElement.setAttribute('lang', lang === 'bn' ? 'bn' : 'en');
                     // Update toggle UI
                     this.elements.langEn.classList.toggle('active', lang === 'en');
                     this.elements.langBn.classList.toggle('active', lang === 'bn');
@@ -1164,6 +1228,32 @@
                     this.elements.daySelect.value = this.currentDay;
                     this.elements.prevDay.disabled = this.currentDay === 1;
                     this.elements.nextDay.disabled = this.currentDay === this.totalDays;
+
+                    const previous = (this.devotions || []).find((devotion) => devotion.day === this.currentDay - 1);
+                    const next = (this.devotions || []).find((devotion) => devotion.day === this.currentDay + 1);
+
+                    if (this.elements.journeyPrevDay) {
+                        this.elements.journeyPrevDay.disabled = this.currentDay === 1;
+                        this.elements.journeyPrevDay.setAttribute('aria-label', previous
+                            ? `Go to previous day, Day ${previous.day}: ${previous.topic || previous.title || ''}`
+                            : 'Previous day unavailable');
+                    }
+                    if (this.elements.journeyNextDay) {
+                        this.elements.journeyNextDay.disabled = this.currentDay === this.totalDays;
+                        this.elements.journeyNextDay.setAttribute('aria-label', next
+                            ? `Go to next day, Day ${next.day}: ${next.topic || next.title || ''}`
+                            : 'Next day unavailable');
+                    }
+                    if (this.elements.journeyPrevMeta) {
+                        this.elements.journeyPrevMeta.textContent = previous
+                            ? `Day ${previous.day} · ${previous.topic || previous.title || ''}`
+                            : 'Beginning of journey';
+                    }
+                    if (this.elements.journeyNextMeta) {
+                        this.elements.journeyNextMeta.textContent = next
+                            ? `Day ${next.day} · ${next.topic || next.title || ''}`
+                            : 'End of journey';
+                    }
                 },
 
                 updateProgressBar() {
@@ -1231,7 +1321,7 @@
                         try {
                             await navigator.share({ title: `Lent Day ${this.currentDay}`, text });
                         } catch (e) {
-                            if (e.name !== 'AbortError') console.warn('[Share]', e);
+                            if (!['AbortError', 'NotAllowedError'].includes(e.name)) console.warn('[Share]', e);
                         }
                     } else if (navigator.clipboard) {
                         await navigator.clipboard.writeText(text);
@@ -1254,11 +1344,32 @@
                         const overlay = document.getElementById('welcomeOverlay');
                         const cta = document.getElementById('welcomeCta');
                         if (overlay) {
-                            overlay.style.display = 'flex';
-                            cta.addEventListener('click', () => {
+                            const previousFocus = document.activeElement;
+                            const closeWelcome = () => {
                                 overlay.style.display = 'none';
+                                overlay.setAttribute('aria-hidden', 'true');
                                 localStorage.setItem('gpbc-lent-visited-2026', '1');
-                            });
+                                document.removeEventListener('keydown', trapWelcomeFocus);
+                                if (previousFocus && typeof previousFocus.focus === 'function') {
+                                    previousFocus.focus();
+                                }
+                            };
+                            const trapWelcomeFocus = (event) => {
+                                if (event.key === 'Escape') {
+                                    event.preventDefault();
+                                    closeWelcome();
+                                    return;
+                                }
+                                if (event.key === 'Tab') {
+                                    event.preventDefault();
+                                    cta.focus();
+                                }
+                            };
+                            overlay.style.display = 'flex';
+                            overlay.setAttribute('aria-hidden', 'false');
+                            cta.addEventListener('click', closeWelcome, { once: true });
+                            document.addEventListener('keydown', trapWelcomeFocus);
+                            requestAnimationFrame(() => cta.focus());
                         }
                     }
                     localStorage.setItem('gpbc-lent-visited-2026', '1');
