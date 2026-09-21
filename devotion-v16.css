@@ -734,6 +734,25 @@ body.page-daily-devotion[data-theme="dark"] .devotion-navigation .devotion-nav-b
     background: var(--v16-surface-muted);
 }
 
+html.dark body.page-daily-devotion #shareTodayBtn,
+body.page-daily-devotion.dark #shareTodayBtn,
+body.page-daily-devotion[data-theme="dark"] #shareTodayBtn {
+    color: #fffdf8 !important;
+    background: #1b4d73 !important;
+    border-color: rgba(191, 219, 254, 0.62) !important;
+}
+
+html.dark body.page-daily-devotion #shareTodayBtn:hover,
+body.page-daily-devotion.dark #shareTodayBtn:hover,
+body.page-daily-devotion[data-theme="dark"] #shareTodayBtn:hover,
+html.dark body.page-daily-devotion #shareTodayBtn:focus-visible,
+body.page-daily-devotion.dark #shareTodayBtn:focus-visible,
+body.page-daily-devotion[data-theme="dark"] #shareTodayBtn:focus-visible {
+    color: #fffdf8 !important;
+    background: #245f8d !important;
+    border-color: #f0c96a !important;
+}
+
 html.dark body.page-daily-devotion #bibleText,
 body.page-daily-devotion[data-theme="dark"] #bibleText,
 html.dark body.page-daily-devotion #devotionTitle,
@@ -812,7 +831,12 @@ body.page-daily-devotion[data-theme="dark"] #inviteSection {
 @media (max-width: 560px) {
     body.page-daily-devotion .devotion-controls,
     body.page-daily-devotion .devotion-container {
-        width: min(100% - 28px, var(--v16-content));
+        width: min(calc(100% - 32px), var(--v16-content));
+    }
+
+    body.page-daily-devotion .devotion-container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 
     body.page-daily-devotion .devotion-hero {
@@ -845,6 +869,13 @@ body.page-daily-devotion[data-theme="dark"] #inviteSection {
     }
 
     body.page-daily-devotion .devotion-meta {
+        display: flex;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        align-items: center;
+        justify-content: center;
         text-align: center;
     }
 
@@ -863,6 +894,10 @@ body.page-daily-devotion[data-theme="dark"] #inviteSection {
         min-width: 0;
     }
 
+    body.page-daily-devotion .jump-controls select {
+        max-width: none !important;
+    }
+
     body.page-daily-devotion .jump-controls .primary {
         grid-column: 1 / 2;
     }
@@ -873,15 +908,37 @@ body.page-daily-devotion[data-theme="dark"] #inviteSection {
     }
 
     body.page-daily-devotion .date-pill {
-        min-width: 100px;
+        flex: 0 0 76px !important;
+        width: 76px !important;
+        min-width: 76px !important;
+        max-width: 76px !important;
+        height: 44px !important;
+        padding: 6px 8px !important;
+    }
+
+    body.page-daily-devotion #dateStrip .date-pill {
+        flex: 0 0 66px !important;
+        width: 66px !important;
+        min-width: 66px !important;
+        max-width: 66px !important;
     }
 
     body.page-daily-devotion .devotion-jump-bar {
-        width: calc(100% - 28px);
-        gap: 7px;
-        overflow-x: auto;
+        width: calc(100% - 32px);
+        gap: 4px;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
         justify-content: flex-start;
         white-space: nowrap;
+        scrollbar-width: none;
+    }
+
+    body.page-daily-devotion .devotion-jump-bar::-webkit-scrollbar {
+        display: none;
+    }
+
+    body.page-daily-devotion .devotion-jump-bar > * {
+        flex: 0 0 auto;
     }
 
     body.page-daily-devotion #devotionHeader {
@@ -931,6 +988,54 @@ body.page-daily-devotion[data-theme="dark"] #inviteSection {
 
     body.page-daily-devotion .devotion-navigation {
         grid-template-columns: 1fr;
+        padding: 0 !important;
+        gap: 10px;
+    }
+
+    body.page-daily-devotion .devotion-navigation .devotion-nav-btn {
+        min-width: 0;
+        width: 100%;
+    }
+
+    body.page-daily-devotion #dateStrip {
+        overflow-x: auto !important;
+        overflow-y: hidden;
+        scrollbar-width: none;
+    }
+
+    body.page-daily-devotion #dateStrip::-webkit-scrollbar {
+        display: none;
+    }
+
+    body.page-daily-devotion #dateStrip.date-pill-row::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    body.page-daily-devotion .devotion-v16-invite-details > summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        list-style: none;
+    }
+
+    body.page-daily-devotion .devotion-v16-invite-details > summary::-webkit-details-marker {
+        display: none;
+    }
+
+    body.page-daily-devotion .devotion-v16-invite-details > summary::after {
+        content: "⌄";
+        flex: 0 0 auto;
+        margin-left: 12px;
+        color: var(--v16-blue);
+        font-family: Arial, sans-serif;
+        font-size: 1.2rem;
+        line-height: 1;
+    }
+
+    body.page-daily-devotion .devotion-v16-invite-details[open] > summary::after {
+        content: "⌃";
     }
 }
 
