@@ -81,6 +81,8 @@ self.addEventListener('fetch', (event) => {
 
   if (!SUPPORTED_PROTOCOLS.has(url.protocol)) return;
 
+  if (url.origin !== self.location.origin) return;
+
   const sameOrigin = url.origin === self.location.origin;
   const acceptsHtml = (request.headers.get('accept') || '').includes('text/html');
 
