@@ -72,7 +72,7 @@ const app = {
         { id: '1ti', en: '1 Timothy', bn: '১ তীমথিয়', chapters: 6, test: 'nt', icon: '👨‍💼' },
         { id: '2ti', en: '2 Timothy', bn: '২ তীমথিয়', chapters: 4, test: 'nt', icon: '⛓️' },
         { id: 'tit', en: 'Titus', bn: 'তীত', chapters: 3, test: 'nt', icon: '🖌️' },
-        { id: 'phi', en: 'Philemon', bn: 'ফিলীমন', chapters: 1, test: 'nt', icon: '🔓' },
+        { id: 'phm', en: 'Philemon', bn: 'ফিলীমন', chapters: 1, test: 'nt', icon: '🔓' },
         { id: 'heb', en: 'Hebrews', bn: 'ইব্রীয়', chapters: 13, test: 'nt', icon: '⚓' },
         { id: 'jam', en: 'James', bn: 'যাকোব', chapters: 5, test: 'nt', icon: '⚓' },
         { id: '1pe', en: '1 Peter', bn: '১ পিতর', chapters: 5, test: 'nt', icon: '🔑' },
