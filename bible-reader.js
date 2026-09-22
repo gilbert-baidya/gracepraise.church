@@ -100,6 +100,11 @@ const app = {
         this.setupEventListeners();
         this.loadState();
         this.applyTheme();
+        window.addEventListener('themechange', (event) => {
+            this.state.theme = event.detail?.theme === 'dark' ? 'dark' : 'light';
+            this.applyTheme();
+            this.saveState();
+        });
         this.handleUrlReference(); // Handle deep links
     },
 
@@ -244,7 +249,7 @@ const app = {
 
             passageDisplay.innerText = `${book.en} ${chapter} / ${book.bn} ${chapter}`;
             container.innerHTML = verseNumbers.map((verseNumber) => `
-                <div class="verse-row ${this.state.language}-mode" data-verse="${escapeHtml(verseNumber)}" onclick="app.focusVerse(${Number(verseNumber)})">
+                <div class="verse-row ${this.state.language}-mode" role="button" tabindex="0" aria-label="Focus verse ${escapeHtml(verseNumber)}" data-verse="${escapeHtml(verseNumber)}" onclick="app.focusVerse(${Number(verseNumber)})" onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); app.focusVerse(${Number(verseNumber)}); }">
                     <div class="verse-text-en">
                         <span class="verse-num">${escapeHtml(verseNumber)}</span> ${escapeHtml(englishByVerse.get(verseNumber) || '')}
                     </div>
@@ -266,7 +271,7 @@ const app = {
         console.log('Focusing verse:', num);
         // Add illumination class to selected verse
         document.querySelectorAll('.verse-row').forEach(r => r.classList.remove('focused'));
-        const row = document.querySelector(`.verse-row[onclick*="focusVerse(${num})"]`);
+        const row = document.querySelector(`.verse-row[data-verse="${num}"]`);
         if (row) row.classList.add('focused');
     },
 

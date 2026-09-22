@@ -229,6 +229,12 @@ body.page-bible-reader .verse-row.focused {
     transform: none;
 }
 
+body.page-bible-reader .verse-row:focus-visible {
+    border-color: var(--reader-accent);
+    outline: 3px solid var(--reader-accent-soft);
+    outline-offset: 2px;
+}
+
 body.page-bible-reader .verse-text-en,
 body.page-bible-reader .verse-text-bn {
     color: var(--reader-text);
