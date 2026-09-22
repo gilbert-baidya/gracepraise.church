@@ -169,7 +169,7 @@ const app = {
         const ntBooks = this.books.filter(b => b.test === 'nt' && filterFn(b));
 
         const cardHtml = b => `
-            <div class="book-card" onclick="app.selectBook('${b.id}')">
+            <div class="book-card" role="button" tabindex="0" onclick="app.selectBook('${b.id}')" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); app.selectBook('${b.id}'); }">
                 <div class="book-icon">${b.icon}</div>
                 <div class="book-name">${b.en}</div>
                 <div class="book-name-bn">${b.bn}</div>
@@ -192,7 +192,7 @@ const app = {
         const grid = document.getElementById('chapterGrid');
         let html = '';
         for (let i = 1; i <= book.chapters; i++) {
-            html += `<div class="chapter-node" onclick="app.selectChapter(${i})">${i}</div>`;
+            html += `<div class="chapter-node" role="button" tabindex="0" onclick="app.selectChapter(${i})" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); app.selectChapter(${i}); }">${i}</div>`;
         }
         grid.innerHTML = html;
     },
@@ -277,11 +277,14 @@ const app = {
             }
         });
 
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            this.state.theme = this.state.theme === 'sanctuary' ? 'dark-sanctuary' : 'sanctuary';
-            this.applyTheme();
-            this.saveState();
-        });
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                this.state.theme = this.state.theme === 'dark' ? 'light' : 'dark';
+                this.applyTheme();
+                this.saveState();
+            });
+        }
 
         document.getElementById('langToggle').addEventListener('click', () => {
             const cycle = { 'both': 'en', 'en': 'bn', 'bn': 'both' };
@@ -298,9 +301,10 @@ const app = {
     },
 
     applyTheme() {
-        document.documentElement.setAttribute('data-theme', this.state.theme);
-        // Extra body class for specific sanctuary styling
-        document.body.className = this.state.theme.includes('dark') ? 'page-bible-reader dark-mode' : 'page-bible-reader';
+        const theme = this.state.theme === 'dark' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.body.className = theme === 'dark' ? 'page-bible-reader dark-mode' : 'page-bible-reader';
     }
 };
 
