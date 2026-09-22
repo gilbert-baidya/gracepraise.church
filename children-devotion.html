@@ -1,372 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Children Devotion | Growing in Jesus | GPBC</title>
+    <meta name="description" content="Children Devotion from Grace and Praise Bangladeshi Church is being prepared as a safe, joyful, Scripture-centered resource for children and families.">
+    <link rel="canonical" href="https://gracepraise.church/children-devotion.html">
+    <meta property="og:site_name" content="Grace and Praise Bangladeshi Church">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Children Devotion | Growing in Jesus | GPBC">
+    <meta property="og:description" content="A safe, joyful Children Devotion resource from GPBC is being prepared for children and families to grow in Jesus.">
+    <meta property="og:url" content="https://gracepraise.church/children-devotion.html">
+    <meta property="og:image" content="https://gracepraise.church/images/community-bible-study.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Children Devotion | Growing in Jesus | GPBC">
+    <meta name="twitter:description" content="A safe, joyful Children Devotion resource from GPBC is being prepared for children and families to grow in Jesus.">
+    <meta name="twitter:image" content="https://gracepraise.church/images/community-bible-study.webp">
     <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Children Devotion | Grace and Praise Bangladeshi Church</title>
-
-    <!-- SEO: Canonical + OpenGraph (auto-injected) -->
-    <link rel="canonical" href="https://gracepraise.church/children-devotion.html" />
-    <meta property="og:site_name" content="Grace and Praise Bangladeshi Church" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Children Devotion | Grace and Praise Bangladeshi Church" />
-    <meta property="og:description" content="Grace and Praise Bangladeshi Church in San Bernardino, CA — a welcoming Bengali Christian community. Join us for worship, prayer, and fellowship." />
-    <meta property="og:url" content="https://gracepraise.church/children-devotion.html" />
-    <meta property="og:image" content="https://gracepraise.church/images/logo/gpbc-og-banner.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    
-    <!-- Theme & JS Detection — DO NOT REMOVE -->
     <script>
         (function () {
             document.documentElement.classList.add('js-enabled');
-
-            function getInitialTheme() {
-                if (window.Platform && typeof window.Platform.getPreferredTheme === 'function') {
-                    return window.Platform.getPreferredTheme();
-                }
-
-                try {
-                    const savedTheme = localStorage.getItem('theme');
-                    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
-                } catch (error) {
-                    console.warn('[Theme] Saved preference could not be read', error);
-                }
-
-                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            }
-
-            const theme = getInitialTheme();
+            const saved = localStorage.getItem('theme');
+            const theme = saved === 'dark' || saved === 'light' ? saved : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', theme);
             document.documentElement.classList.toggle('dark', theme === 'dark');
-            document.addEventListener('DOMContentLoaded', () => {
-                document.body.setAttribute('data-theme', theme);
-                document.body.classList.toggle('dark', theme === 'dark');
-            });
+            document.addEventListener('DOMContentLoaded', () => { document.body.setAttribute('data-theme', theme); document.body.classList.toggle('dark', theme === 'dark'); });
         })();
     </script>
-    
     <link rel="stylesheet" href="redesign-styles.css?v=20260918-v11-theme-final3">
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css">
     <link rel="stylesheet" href="homepage-responsive-fix.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
-    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
-    <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        html {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: clip;
-            overflow-y: auto;
-        }
-
-        body {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: clip;
-            overflow-y: visible;
-        }
-
-        /* iOS SAFARI OVERFLOW GUARD — DO NOT use overflow-x: hidden or position: relative */
-        /* These break position: fixed on iOS Safari */
-        @supports (-webkit-touch-callout: none) {
-            html {
-                overflow-x: clip !important;
-            }
-
-            body {
-                overflow-x: clip !important;
-            }
-        }
-
-        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
-        img,
-        video,
-        iframe {
-            max-width: 100%;
-            height: auto;
-        }
-
-        section,
-        main,
-        .hero {
-            width: 100%;
-            max-width: 100%;
-        }
-
-        /* DARK MODE TOGGLE BUTTON */
-        .dark-mode-toggle {
-            background: rgba(45, 122, 143, 0.1);
-            border: 2px solid rgba(45, 122, 143, 0.3);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-left: 15px;
-            font-size: 20px;
-        }
-
-        .dark-mode-toggle:hover {
-            background: rgba(45, 122, 143, 0.2);
-            border-color: rgba(45, 122, 143, 0.5);
-            transform: scale(1.05);
-        }
-
-    .dark-mode-toggle .sun-icon,
-    .dark-mode-toggle .moon-icon {
-        position: absolute;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    
-    .dark-mode-toggle .sun-icon {
-        opacity: 1;
-        transform: rotate(0deg);
-    }
-    
-    .dark-mode-toggle .moon-icon {
-        opacity: 0;
-        transform: rotate(-180deg);
-    }        [data-theme="dark"] .dark-mode-toggle .sun-icon {
-            opacity: 0;
-            transform: rotate(180deg);
-        }
-
-        [data-theme="dark"] .dark-mode-toggle .moon-icon {
-            opacity: 1;
-            transform: rotate(0deg);
-        }
-
-        @media (max-width: 768px) {
-            .dark-mode-toggle {
-                width: 36px;
-                height: 36px;
-                font-size: 18px;
-                margin-left: 10px;
-            }
-        }
-    </style>
-    <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
+    <link rel="stylesheet" href="children-devotion-v16.css?v=20260922-v168">
 </head>
-
-<body>
+<body class="interior-page v16-children-placeholder">
     <a href="#main-content" class="skip-link">Skip to main content</a>
-
     <header>
-        <nav>
-            <div class="nav-container">
-                <a href="index.html#home" class="logo">
-                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
-                </a>
-                <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
-                    <span class="sun-icon">☀️</span>
-                    <span class="moon-icon">🌙</span>
-                </button>
-                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+        <div class="nav-container">
+            <a href="index.html#home" class="logo" aria-label="Grace and Praise Bangladeshi Church home"><img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"></a>
+            <nav aria-label="Primary navigation">
+                <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode"><span class="sun-icon" aria-hidden="true">☀️</span><span class="moon-icon" aria-hidden="true">🌙</span></button>
+                <button class="mobile-menu-btn" type="button" aria-label="Toggle mobile menu" aria-expanded="false"><span></span><span></span><span></span></button>
                 <ul class="nav-links">
-                    <li><a href="#live">LIVE</a></li>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="nav-dropdown">
-                        <a href="about.html" aria-haspopup="true" aria-expanded="false">About <span
-                                class="dropdown-arrow">▼</span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="about.html">About Overview</a></li>
-                            <li><a href="history.html">Our History</a></li>
-                            <li><a href="mission.html">Our Mission</a></li>
-                            <li><a href="leadership.html">Our Leadership</a></li>
-                            <li><a href="beliefs.html">Our Beliefs</a></li>
-                            <li><a href="core-values.html">Our Core Values</a></li>
-                            <li><a href="position-papers.html">Position Papers</a></li>
-                            <li><a href="testimonies.html">Testimonies</a></li>
-                            <li><a href="songbook.html">GPBC Song Book</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-dropdown">
-                        <a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span
-                                class="dropdown-arrow">▼</span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="ministries.html">Ministries Overview</a></li>
-                            <li><a href="ministries/bible-study.html">Bible Study</a></li>
-                            <li><a href="ministries/community-development.html">Community Development</a></li>
-                            <li><a href="ministries/homeless-ministry.html">Homeless Ministry</a></li>
-                            <li><a href="ministries/hospital-ministry.html">Hospital Ministry</a></li>
-                            <li><a href="ministries/kids-ministry.html">Kids Ministry</a></li>
-                            <li><a href="ministries/men-fellowship.html">Men Fellowship</a></li>
-                            <li><a href="ministries/mission-outreach.html">Mission Outreach</a></li>
-                            <li><a href="ministries/prison-ministry.html">Prison Ministry</a></li>
-                            <li><a href="ministries/support-missionaries.html">Support Missionaries</a></li>
-                            <li><a href="ministries/worship-ministry.html">Worship Ministry</a></li>
-                            <li><a href="ministries/youth-ministry.html">Youth Ministry</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#next-service">Next Service</a></li>
-                    <li><a href="calendar.html">Calendar</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="#prayer">Prayer</a></li>
-                    <li class="nav-dropdown">
-                        <a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false" class="active">Devotion
-                            <span class="dropdown-arrow">▼</span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="daily-devotion.html">Daily Devotion</a></li>
-                            <li><a href="couples-devotion.html">Couples Devotion</a></li>
-                            <li><a href="family-devotion.html">Family Devotion</a></li>
-                            <li><a href="youth-devotion.html">Youth Devotion</a></li>
-                            <li><a href="children-devotion.html" class="active">Children Devotion</a></li>
-                            <li><a href="fasting-21days.html">21 Days Fasting</a></li>
-                            <li><a href="fasting-30days.html">30 Days Fasting</a></li>
-                            <li><a href="fasting-40days.html">Lent - 40 Days</a></li>
-                            <li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="#live">LIVE</a></li><li><a href="index.html">Home</a></li>
+                    <li class="nav-dropdown"><a href="about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a><ul class="dropdown-menu"><li><a href="about.html">About Overview</a></li><li><a href="history.html">Our History</a></li><li><a href="mission.html">Our Mission</a></li><li><a href="leadership.html">Our Leadership</a></li><li><a href="beliefs.html">Our Beliefs</a></li><li><a href="core-values.html">Our Core Values</a></li><li><a href="position-papers.html">Position Papers</a></li><li><a href="testimonies.html">Testimonies</a></li><li><a href="songbook.html">GPBC Song Book</a></li></ul></li>
+                    <li class="nav-dropdown"><a href="ministries.html" aria-haspopup="true" aria-expanded="false">Ministries <span class="dropdown-arrow">▼</span></a><ul class="dropdown-menu"><li><a href="ministries.html">Ministries Overview</a></li><li><a href="ministries/bible-study.html">Bible Study</a></li><li><a href="ministries/community-development.html">Community Development</a></li><li><a href="ministries/kids-ministry.html">Kids Ministry</a></li><li><a href="ministries/youth-ministry.html">Youth Ministry</a></li><li><a href="ministries/worship-ministry.html">Worship Ministry</a></li></ul></li>
+                    <li><a href="#next-service">Next Service</a></li><li><a href="calendar.html">Calendar</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="#prayer">Prayer</a></li>
+                    <li class="nav-dropdown"><a href="daily-devotion.html" aria-haspopup="true" aria-expanded="false" class="active">Devotion <span class="dropdown-arrow">▼</span></a><ul class="dropdown-menu"><li><a href="daily-devotion.html">Daily Devotion</a></li><li><a href="couples-devotion.html">Couples Devotion</a></li><li><a href="family-devotion.html">Family Devotion</a></li><li><a href="youth-devotion.html">Youth Devotion</a></li><li><a href="children-devotion.html" class="active">Children Devotion</a></li><li><a href="fasting-21days.html">21 Days Fasting</a></li><li><a href="fasting-30days.html">30 Days Fasting</a></li><li><a href="fasting-40days.html">Lent - 40 Days</a></li><li><a href="gratitude-fasting.html">Gratitude Fasting (2026 - 26 Days)</a></li></ul></li>
                     <li><a href="give.html">Give</a></li>
                 </ul>
-            </div>
-        </nav>
+            </nav>
+        </div>
         <div class="mobile-overlay"></div>
     </header>
 
-
-
-    <main id="main-content">
-        <section class="content-page">
-            <div class="content-page-header">
-                <h1>🌈 Children Devotion</h1>
-                <p class="subtitle">Learning About Jesus in Fun and Exciting Ways!</p>
-            </div>
-
-            <div class="content-page-body">
-                <div
-                    style="text-align: center; padding: 3rem 0; position: relative; background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 50%, #dbeafe 100%); border-radius: 25px; margin: 2rem 0; border: 4px dashed #fbbf24;">
-                    <div style="position: relative; max-width: 900px; margin: 0 auto; padding: 2rem;">
-                        <img loading="lazy" src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=900&h=550&fit=crop&q=80"
-                            alt="Children learning about Jesus - Adventure with Jesus"
-                            style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 20px 60px rgba(251, 191, 36, 0.3); margin-bottom: 0; border: 4px solid white;">
-                        <div
-                            style="position: absolute; top: -15px; right: 20px; background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%); color: white; padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 700; box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5); font-size: 1rem; border: 3px solid white; transform: rotate(-5deg);">
-                            🌟 Kids
-                        </div>
-                        <div
-                            style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); background: white; padding: 1rem 2rem; border-radius: 50px; box-shadow: 0 6px 25px rgba(0,0,0,0.15); border: 3px solid #fbbf24;">
-                            <p
-                                style="margin: 0; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 800; font-size: 1.2rem;">
-                                ✨ Adventure with Jesus! ✨</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    style="background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%); padding: 2.5rem; border-radius: 20px; border: 4px solid #fbbf24; margin: 2rem 0; box-shadow: 0 8px 25px rgba(251, 191, 36, 0.2); position: relative; overflow: hidden;">
-                    <div style="position: absolute; top: 10px; left: 10px; font-size: 3rem; opacity: 0.2;">🌈</div>
-                    <div style="position: absolute; bottom: 10px; right: 10px; font-size: 3rem; opacity: 0.2;">⭐</div>
-                    <div
-                        style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1rem; position: relative; z-index: 1;">
-                        <span style="font-size: 3.5rem; color: #fbbf24; line-height: 1;">📖</span>
-                        <p
-                            style="font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 1.4rem; font-weight: 700; line-height: 1.7; color: #92400e; margin: 0;">
-                            Jesus loves the little children, all the children of the world! He wants you to know Him and
-                            follow Him every day!
-                        </p>
-                    </div>
-                    <p
-                        style="text-align: right; color: #f59e0b; font-weight: 800; font-size: 1.2rem; margin-top: 1.5rem; position: relative; z-index: 1;">
-                        — Based on Matthew 19:14
-                    </p>
-                </div>
-
-                <div
-                    style="text-align: center; padding: 3rem 0; background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(252, 211, 77, 0.1) 100%); border-radius: 25px; margin: 2rem 0; border: 3px dashed #fbbf24;">
-                    <div
-                        style="display: inline-block; background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%); padding: 0.75rem 2rem; border-radius: 50px; margin-bottom: 1.5rem; box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4); border: 3px solid white;">
-                        <h2 style="color: white; font-size: 1.6rem; margin: 0; font-weight: 800;">🎉 Coming Super Soon!
-                        </h2>
-                    </div>
-                    <p
-                        style="font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 1.3rem; color: #92400e; line-height: 1.7; max-width: 650px; margin: 0 auto 2rem; font-weight: 700;">
-                        Get ready for amazing Bible stories, fun games, and cool activities that help you learn about
-                        Jesus!
-                    </p>
-                    <div
-                        style="margin-top: 2.5rem; display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
-                        <div
-                            style="background: white; padding: 1.5rem; border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); text-align: center; border: 3px solid #fbbf24; min-width: 150px;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🦁</div>
-                            <h3 style="color: #f59e0b; font-size: 1.1rem; margin: 0.5rem 0; font-weight: 800;">Bible
-                                Heroes</h3>
-                            <p style="color: #92400e; font-size: 0.9rem; margin: 0; font-weight: 600;">Meet amazing
-                                people!</p>
-                        </div>
-                        <div
-                            style="background: white; padding: 1.5rem; border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); text-align: center; border: 3px solid #10b981; min-width: 150px;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎨</div>
-                            <h3 style="color: #10b981; font-size: 1.1rem; margin: 0.5rem 0; font-weight: 800;">Fun Games
-                            </h3>
-                            <p style="color: #065f46; font-size: 0.9rem; margin: 0; font-weight: 600;">Play and learn!
-                            </p>
-                        </div>
-                        <div
-                            style="background: white; padding: 1.5rem; border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); text-align: center; border: 3px solid #3b82f6; min-width: 150px;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">⭐</div>
-                            <h3 style="color: #3b82f6; font-size: 1.1rem; margin: 0.5rem 0; font-weight: 800;">Earn
-                                Stars</h3>
-                            <p style="color: #1e40af; font-size: 0.9rem; margin: 0; font-weight: 600;">Collect rewards!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="background: #f3f4f6; padding: 2rem; border-radius: 12px; margin: 2rem 0;">
-                    <h3 style="color: #667eea; margin-bottom: 1rem;">What to Expect:</h3>
-                    <ul style="color: #4b5563; line-height: 2; font-size: 1rem;">
-                        <li>📖 Simple Bible stories with colorful pictures</li>
-                        <li>🎨 Fun coloring pages and activities</li>
-                        <li>🎵 Children's worship songs and prayers</li>
-                        <li>⭐ Memory verses to learn each week</li>
-                        <li>🎭 Interactive games and crafts</li>
-                        <li>💖 Lessons about God's love and kindness</li>
-                    </ul>
-                </div>
-
-                <div style="text-align: center; padding: 2rem 0;">
-                    <p style="font-size: 1rem; color: #6b7280; margin-bottom: 1.5rem;">
-                        Parents, check out our Daily Devotion for the whole family:
-                    </p>
-                    <a href="daily-devotion.html"
-                        style="display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: transform 0.3s;">
-                        📖 Read Daily Devotion
-                    </a>
-                </div>
-            </div>
-        </section>
+    <main id="main-content" class="children-v16-page">
+        <section class="children-v16-hero" aria-labelledby="children-hero-title"><div class="children-v16-hero-media"><img src="images/community-bible-study.webp" alt="GPBC community members studying Scripture together" fetchpriority="high" decoding="async"></div><div class="children-v16-hero-overlay" aria-hidden="true"></div><div class="children-v16-hero-inner"><p class="children-v16-eyebrow">GPBC DEVOTION</p><h1 id="children-hero-title">Children Devotion</h1><p class="children-v16-hero-title">Growing in Jesus with joy, wonder, and faith.</p><p class="children-v16-hero-support">A safe place for children and families to discover God’s Word together.</p></div></section>
+        <div class="children-v16-shell">
+            <section class="children-v16-section children-v16-scripture" aria-labelledby="children-scripture-heading"><p class="children-v16-kicker">Children Scripture</p><h2 id="children-scripture-heading">Jesus Welcomes Children</h2><blockquote><p>“Let the little children come to me and do not hinder them, for it is to such as these that the kingdom of heaven belongs.”</p><cite>— Matthew 19:14 (NIV)</cite></blockquote><p class="children-v16-note">This Scripture anchors a gentle, joyful vision where children are seen, welcomed, and encouraged to know Jesus.</p></section>
+            <section class="children-v16-section children-v16-status" aria-labelledby="children-status-heading" role="status"><span class="children-v16-status-badge">Being prepared</span><h2 id="children-status-heading">Children Devotion is being prepared</h2><p>GPBC is preparing age-appropriate, Scripture-centered resources for children to explore God’s love, learn His Word, and grow with their families.</p><p class="children-v16-status-note">There is no Children reading journey available yet. This page will grow when the resource is ready.</p></section>
+            <section class="children-v16-section children-v16-resources" aria-labelledby="children-resources-heading"><p class="children-v16-kicker">Future focus</p><h2 id="children-resources-heading">Learning about Jesus</h2><p class="children-v16-intro">Planned Children Devotion themes will make space for wonder, questions, prayer, and joyful practice.</p><div class="children-v16-resource-grid"><article class="children-v16-resource-card"><span class="children-v16-resource-icon" aria-hidden="true">01</span><div><p class="children-v16-card-status">In preparation</p><h3>Bible Stories</h3><p>Simple stories that help children meet God’s people and promises.</p></div></article><article class="children-v16-resource-card"><span class="children-v16-resource-icon" aria-hidden="true">02</span><div><p class="children-v16-card-status">In preparation</p><h3>Creative Activities</h3><p>Coloring, crafts, memory verses, and activities that reinforce faith.</p></div></article><article class="children-v16-resource-card"><span class="children-v16-resource-icon" aria-hidden="true">03</span><div><p class="children-v16-card-status">In preparation</p><h3>Family Prayer</h3><p>Short prayers and worship moments for children and caregivers together.</p></div></article></div></section>
+            <section class="children-v16-section children-v16-expectations" aria-labelledby="children-expectations-heading"><p class="children-v16-kicker">The Children vision</p><h2 id="children-expectations-heading">What to Expect</h2><ul><li><span aria-hidden="true">01</span><span>Clear Bible stories with age-appropriate language.</span></li><li><span aria-hidden="true">02</span><span>Coloring, crafts, games, and memory verses.</span></li><li><span aria-hidden="true">03</span><span>Worship and prayer that children can join.</span></li><li><span aria-hidden="true">04</span><span>Lessons about God’s love, kindness, and following Jesus.</span></li></ul></section>
+            <section class="children-v16-section children-v16-available" aria-labelledby="children-available-heading"><p class="children-v16-kicker">Available now</p><h2 id="children-available-heading">Keep growing while Children Devotion is prepared</h2><p class="children-v16-intro">Continue meeting with God through these live GPBC resources.</p><div class="children-v16-live-grid"><a class="children-v16-live-card" href="daily-devotion.html"><span class="children-v16-live-icon" aria-hidden="true">Read</span><span><strong>Daily Devotion</strong><span>Today’s Scripture, reflection, and prayer.</span></span><span class="children-v16-arrow" aria-hidden="true">→</span></a><a class="children-v16-live-card" href="bible-reader.html"><span class="children-v16-live-icon" aria-hidden="true">Open</span><span><strong>Bible Reader</strong><span>Open the Bible and spend time in the Word.</span></span><span class="children-v16-arrow" aria-hidden="true">→</span></a></div></section>
+        </div>
     </main>
-
-    <!-- Footer -->
-    <!-- Legacy footer removed -->
-<!-- NAVIGATION LOCK — Centralized navigation system -->
-    <script src="navigation.js?v=20260918-v11-theme-final3"></script>
-    <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
-    <script src="logo-loader.js"></script>
-
-    <!-- Site Footer (Partial Injection) -->
-    <div data-partial="site-footer"></div>
-
-    <script type="module" src="./js/footer/footer-init.js"></script>
+    <script src="navigation.js?v=20260918-v11-theme-final3"></script><script src="logo-loading.js?v=20260918-v11-theme-final3"></script><script src="logo-loader.js"></script><div data-partial="site-footer"></div><script type="module" src="./js/footer/footer-init.js"></script>
 </body>
-
 </html>
