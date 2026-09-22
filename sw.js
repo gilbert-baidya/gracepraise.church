@@ -116,7 +116,7 @@ async function cacheFirst(request, cacheName) {
     await cacheResponse(request, response, cacheName);
     return response;
   } catch (error) {
-    return caches.match(request, { ignoreSearch: false });
+    return (await caches.match(request, { ignoreSearch: false })) || Response.error();
   }
 }
 
@@ -129,9 +129,12 @@ async function networkFirst(request, cacheName, fallbackUrl) {
     const cached = await caches.match(request, { ignoreSearch: false });
     if (cached) return cached;
     if (fallbackUrl) {
-      return caches.match(fallbackUrl) || caches.match('/index.html') || caches.match('/');
+      return (await caches.match(fallbackUrl, { ignoreSearch: false }))
+        || (await caches.match('/index.html', { ignoreSearch: false }))
+        || (await caches.match('/', { ignoreSearch: false }))
+        || Response.error();
     }
-    throw error;
+    return Response.error();
   }
 }
 
@@ -144,7 +147,7 @@ async function staleWhileRevalidate(request, cacheName) {
       await cacheResponse(request, response, cacheName);
       return response;
     })
-    .catch(() => cached);
+    .catch(() => cached || Response.error());
 
   return cached || networkFetch;
 }
