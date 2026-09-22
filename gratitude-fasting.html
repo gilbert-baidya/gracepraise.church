@@ -22,7 +22,7 @@
     <meta property="og:title" content="Gratitude Fasting 2026 - Grace and Praise Bangladeshi Church">
     <meta property="og:description"
         content="26 days of thanksgiving and consecration. Daily devotions with Bible verses, reflections, and prayers.">
-    <meta property="og:image" content="https://gracepraise.church/images/gratitude-fasting-share.jpg">
+    <meta property="og:image" content="https://gracepraise.church/images/devotions/daily-devotion.webp">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -30,7 +30,7 @@
     <meta property="twitter:title" content="Gratitude Fasting 2026 - Grace and Praise Bangladeshi Church">
     <meta property="twitter:description"
         content="26 days of thanksgiving and consecration. Daily devotions with Bible verses, reflections, and prayers.">
-    <meta property="twitter:image" content="https://gracepraise.church/images/gratitude-fasting-share.jpg">
+    <meta property="twitter:image" content="https://gracepraise.church/images/devotions/daily-devotion.webp">
 
     <!-- Google Fonts for Premium Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,7 +73,7 @@
     <link rel="stylesheet" href="redesign-styles.css?v=20260918-v11-theme-final3">
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css">
-    <link rel="stylesheet" href="gratitude-fasting-enhanced.css">
+    <link rel="stylesheet" href="gratitude-fasting-enhanced.css?v=20260921-v165-final">
     <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -177,7 +177,7 @@
     <style>
         .devotion-hero {
             background: linear-gradient(rgba(251, 191, 36, 0.75), rgba(245, 158, 11, 0.85)),
-                url('https://picsum.photos/seed/gratitude-fasting/1600/900') center/cover no-repeat;
+                url('daily-devotion/images/backgrounds/calm-creation/calm-forest-mist-01.webp') center/cover no-repeat;
             color: white;
             padding: 8.5rem 2rem 4rem;
             text-align: center;
@@ -446,7 +446,7 @@
         /* DARK MODE OVERRIDES - ROBUST VERIFIED */
         body[data-theme="dark"] .devotion-hero {
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
-                url('https://picsum.photos/seed/gratitude-fasting/1600/900') center/cover no-repeat !important;
+                url('daily-devotion/images/backgrounds/calm-creation/calm-forest-mist-01.webp') center/cover no-repeat !important;
         }
 
         body[data-theme="dark"] .devotion-section,
@@ -621,110 +621,156 @@
 
 
     <main id="main-content">
-        <div class="devotion-hero">
-            <h1>✨ Gratitude Fasting <span class="year-display"></span></h1>
-            <p style="font-size: 1.25rem; opacity: 0.95;"><span class="days-display"></span> Days of Thanksgiving and
-                Consecration</p>
-        </div>
+        <section class="devotion-hero" aria-labelledby="gratitudeHeroTitle">
+            <div class="gratitude-hero-inner">
+                <p class="hero-subtitle">GPBC Devotion Journey</p>
+                <h1 id="gratitudeHeroTitle">Gratitude Fasting <span class="year-display"></span></h1>
+                <p class="hero-title-line"><span class="days-display"></span> Days of Thanksgiving, Prayer &amp; Reflection</p>
+                <p class="hero-supporting-line">Gratitude · Prayer · Renewal</p>
+            </div>
+        </section>
 
         <!-- Progress Bar -->
-        <div class="progress-container">
+        <section class="progress-container" role="progressbar" aria-valuemin="1" aria-valuemax="26"
+            aria-valuenow="1" aria-label="Gratitude journey progress">
             <div class="progress-wrapper">
-                <span class="progress-label">Day <span id="currentDayProgress">1</span> of <span
-                        class="days-display"></span></span>
+                <div class="progress-copy">
+                    <span class="progress-eyebrow">Journey progress</span>
+                    <span class="progress-label">Day <span id="currentDayProgress">1</span> of <span
+                            class="days-display"></span></span>
+                </div>
                 <div class="progress-bar-bg">
                     <div class="progress-bar-fill" id="progressBarFill" style="width: 0%"></div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="devotion-controls">
-            <div class="controls-row">
-                <div class="day-nav">
-                    <button id="prevDay" aria-label="Previous day">← Prev</button>
+        <section class="devotion-controls" aria-labelledby="gratitudeControlsTitle">
+            <div class="controls-heading">
+                <p class="section-kicker" id="gratitudeControlsTitle">Stay with the journey</p>
+                <p class="controls-intro">Choose a day, language, and rhythm for your thanksgiving.</p>
+            </div>
+            <div class="controls-grid">
+                <div class="day-nav" aria-label="Day navigation">
+                    <button type="button" id="prevDay" aria-label="Previous day">← <span>Previous</span></button>
                     <select id="daySelect" aria-label="Select day">
                         <!-- Will be populated by JavaScript -->
                     </select>
-                    <button id="nextDay" aria-label="Next day">Next →</button>
+                    <button type="button" id="nextDay" aria-label="Next day"><span>Next</span> →</button>
+                    <button type="button" id="todayDay" class="today-button" aria-label="Show today’s gratitude devotion">Today</button>
                 </div>
-                <div class="lang-toggle">
-                    <button id="langEn" class="active">English</button>
-                    <button id="langBn">বাংলা</button>
+                <div class="lang-toggle" role="radiogroup" aria-label="Language selection">
+                    <button type="button" id="langEn" class="active" role="radio" aria-checked="true">English</button>
+                    <button type="button" id="langBn" role="radio" aria-checked="false">বাংলা</button>
                 </div>
             </div>
-        </div>
+        </section>
 
         <div class="devotion-container">
             <div id="loadingMsg">Loading devotional...</div>
             <div id="errorMsg" style="display: none;">Unable to load devotional content. Please try again later.</div>
 
-            <div id="devotionContent" style="display: none;">
-                <div class="devotion-section">
-                    <h2 id="devotionTopic" style="color: #f59e0b; font-size: 2rem; margin-bottom: 1rem;"></h2>
-                    <p id="devotionDate" style="color: #6b7280; margin-bottom: 1rem;"></p>
-                </div>
+            <article id="devotionContent" style="display: none;" aria-labelledby="devotionTopic">
+                <section class="devotion-section topic-section" aria-labelledby="devotionTopic">
+                    <p class="day-header-kicker">Day <span id="dayHeaderNumber">1</span></p>
+                    <h2 id="devotionTopic"></h2>
+                    <p id="devotionDate"></p>
+                </section>
 
-                <div class="devotion-section scripture-section">
-                    <h3>📖 Key Verse</h3>
+                <section class="devotion-section scripture-section" aria-labelledby="scriptureHeading">
+                    <p class="section-kicker">Scripture</p>
+                    <h3 id="scriptureHeading">Key Verse</h3>
                     <p class="scripture-text" id="verseText"></p>
                     <p class="scripture-ref" id="verseRef"></p>
-                </div>
+                </section>
 
-                <div class="devotion-section reflection-section">
-                    <h3>💭 Reflection</h3>
+                <section class="devotion-section reflection-section" aria-labelledby="reflectionHeading">
+                    <p class="section-kicker">Reflect</p>
+                    <h3 id="reflectionHeading">Reflection</h3>
                     <div class="reflection-text" id="reflectionText"></div>
-                </div>
+                </section>
 
-                <div class="devotion-section prayer-section">
-                    <h3>🙏 Prayer</h3>
+                <section class="devotion-section prayer-section" aria-labelledby="prayerHeading">
+                    <p class="section-kicker">Pray</p>
+                    <h3 id="prayerHeading">Prayer</h3>
                     <div class="prayer-text" id="prayerText"></div>
-                    <div class="promise-box">
-                        <strong>God's Promise:</strong>
-                        <p id="promiseText" style="margin-top: 0.5rem; font-style: italic;"></p>
-                    </div>
-                </div>
+                </section>
 
-                <div class="share-section">
-                    <h3>📤 Share This Devotion</h3>
-                    <div class="share-buttons">
-                        <button class="share-btn facebook" onclick="shareToFacebook()">
+                <section class="devotion-section promise-section" aria-labelledby="promiseHeading">
+                    <p class="section-kicker">Receive</p>
+                    <h3 id="promiseHeading">God's Promise</h3>
+                    <p class="promise-text" id="promiseText"></p>
+                </section>
+
+                <section class="share-section" aria-labelledby="shareHeading">
+                    <div class="share-primary-row">
+                        <div>
+                            <p class="section-kicker">Share the gratitude</p>
+                            <h3 id="shareHeading">Share This Gratitude Devotion</h3>
+                        </div>
+                        <button type="button" class="share-primary-trigger" aria-controls="shareOptions" aria-expanded="false">
+                            Share options <span aria-hidden="true">＋</span>
+                        </button>
+                    </div>
+                    <div class="share-options" id="shareOptions" hidden>
+                      <div class="share-buttons">
+                        <button type="button" class="share-btn facebook" onclick="shareToFacebook()" aria-label="Share on Facebook">
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                 <path
                                     d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                             </svg>
                             Facebook
                         </button>
-                        <button class="share-btn twitter" onclick="shareToTwitter()">
+                        <button type="button" class="share-btn twitter" onclick="shareToTwitter()" aria-label="Share on Twitter">
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                 <path
                                     d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
                             </svg>
                             Twitter
                         </button>
-                        <button class="share-btn whatsapp" onclick="shareToWhatsApp()">
+                        <button type="button" class="share-btn whatsapp" onclick="shareToWhatsApp()" aria-label="Share on WhatsApp">
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                 <path
                                     d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
                             </svg>
                             WhatsApp
                         </button>
-                        <button class="share-btn email" onclick="shareViaEmail()">
+                        <button type="button" class="share-btn email" onclick="shareViaEmail()" aria-label="Share by email">
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                 <path
                                     d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                             </svg>
                             Email
                         </button>
-                        <button class="share-btn copy" id="copyLinkBtn" onclick="copyLink()">
+                        <button type="button" class="share-btn copy" id="copyLinkBtn" onclick="copyLink()">
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                 <path
                                     d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
                             </svg>
                             <span id="copyLinkText">Copy Link</span>
                         </button>
+                      </div>
                     </div>
+                </section>
+            </article>
+
+            <nav class="journey-bottom-nav" aria-label="Continue the Gratitude journey">
+                <div class="journey-bottom-copy">
+                    <p class="section-kicker">Continue the journey</p>
+                    <h2>Give thanks, one day at a time</h2>
+                    <p>Carry this thanksgiving into the next faithful step.</p>
                 </div>
-            </div>
+                <div class="journey-bottom-actions">
+                    <button type="button" class="journey-day-button" id="journeyPrevDay" aria-label="Go to previous day">
+                        <span aria-hidden="true">←</span>
+                        <span><strong>Previous Day</strong><small id="journeyPrevMeta">Beginning of journey</small></span>
+                    </button>
+                    <button type="button" class="journey-day-button" id="journeyNextDay" aria-label="Go to next day">
+                        <span><strong>Next Day</strong><small id="journeyNextMeta">Day 2</small></span>
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </div>
+            </nav>
         </div>
     </main>
     </p>
@@ -744,15 +790,17 @@
         let currentLang = 'en';
         let scriptureHydrationToken = 0;
         const currentYear = new Date().getFullYear();
-        const totalDays = currentYear % 100;
+        let journeyYear = currentYear;
+        let totalDays = 26;
         const dataCandidates = [
             'gratitude-fasting-devotions.json',
             './gratitude-fasting-devotions.json',
             '/gratitude-fasting-devotions.json'
         ];
 
-        // Update year and days displays
-        document.querySelectorAll('.year-display').forEach(el => el.textContent = currentYear);
+        // Seed the shell before the JSON data resolves; the authoritative values
+        // are refreshed from the 26-day Gratitude dataset during initialization.
+        document.querySelectorAll('.year-display').forEach(el => el.textContent = journeyYear);
         document.querySelectorAll('.days-display').forEach(el => el.textContent = totalDays);
 
         function getVerseReference(devotion) {
@@ -830,8 +878,15 @@
                     if (!devotionalData) throw lastError || new Error('Failed to load devotional data');
                 }
 
+                journeyYear = devotionalData.year || currentYear;
+                totalDays = devotionalData.totalDays || devotionalData.devotions.length;
+                document.querySelectorAll('.year-display').forEach(el => el.textContent = journeyYear);
+                document.querySelectorAll('.days-display').forEach(el => el.textContent = totalDays);
+                document.querySelector('.progress-container')?.setAttribute('aria-valuemax', totalDays);
+
                 // Populate day selector
                 const daySelect = document.getElementById('daySelect');
+                daySelect.replaceChildren();
                 devotionalData.devotions.forEach(dev => {
                     const option = document.createElement('option');
                     option.value = dev.day;
@@ -842,7 +897,8 @@
                 // Load first day or day from URL parameter
                 const urlParams = new URLSearchParams(window.location.search);
                 const dayParam = urlParams.get('day');
-                currentDay = dayParam ? parseInt(dayParam) : 1;
+                const requestedDay = dayParam ? parseInt(dayParam, 10) : 1;
+                currentDay = Number.isFinite(requestedDay) ? Math.min(Math.max(requestedDay, 1), totalDays) : 1;
 
                 displayDevotion(currentDay);
                 document.getElementById('loadingMsg').style.display = 'none';
@@ -874,10 +930,14 @@
 
             // Update day selector
             document.getElementById('daySelect').value = day;
+            document.getElementById('dayHeaderNumber').textContent = day;
 
             // Update navigation buttons
             document.getElementById('prevDay').disabled = (day === 1);
             document.getElementById('nextDay').disabled = (day === totalDays);
+            updateJourneyNav();
+            updateTodayButton();
+            if (typeof updateProgressBar === 'function') updateProgressBar(day);
 
             // Display content based on language
             updateContent(devotion);
@@ -904,14 +964,63 @@
 
         function switchLanguage(lang) {
             currentLang = lang;
+            document.documentElement.setAttribute('lang', lang === 'bn' ? 'bn' : 'en');
 
             // Update button states
             document.getElementById('langEn').classList.toggle('active', lang === 'en');
             document.getElementById('langBn').classList.toggle('active', lang === 'bn');
+            document.getElementById('langEn').setAttribute('aria-checked', lang === 'en');
+            document.getElementById('langBn').setAttribute('aria-checked', lang === 'bn');
 
             // Update content
             const devotion = devotionalData.devotions.find(d => d.day === currentDay);
             if (devotion) updateContent(devotion);
+        }
+
+        function getTodayDay() {
+            if (!devotionalData?.devotions?.length) return 1;
+            const today = new Date();
+            const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            const exact = devotionalData.devotions.find(devotion => devotion.date === todayIso);
+            if (exact) return exact.day;
+
+            const firstDate = new Date(`${devotionalData.devotions[0].date}T00:00:00`);
+            const lastDate = new Date(`${devotionalData.devotions.at(-1).date}T00:00:00`);
+            if (today < firstDate) return 1;
+            if (today > lastDate) return totalDays;
+            return currentDay;
+        }
+
+        function updateTodayButton() {
+            const todayButton = document.getElementById('todayDay');
+            if (!todayButton) return;
+            const todayDay = getTodayDay();
+            todayButton.setAttribute('aria-label', `Show today’s Gratitude devotion, Day ${todayDay}`);
+            todayButton.title = `Go to Day ${todayDay}`;
+        }
+
+        function updateJourneyNav() {
+            const previous = devotionalData?.devotions?.find(devotion => devotion.day === currentDay - 1);
+            const next = devotionalData?.devotions?.find(devotion => devotion.day === currentDay + 1);
+            const previousButton = document.getElementById('journeyPrevDay');
+            const nextButton = document.getElementById('journeyNextDay');
+
+            if (previousButton) {
+                previousButton.disabled = !previous;
+                previousButton.setAttribute('aria-label', previous
+                    ? `Go to previous day, Day ${previous.day}: ${previous.topic}`
+                    : 'Previous day unavailable');
+            }
+            if (nextButton) {
+                nextButton.disabled = !next;
+                nextButton.setAttribute('aria-label', next
+                    ? `Go to next day, Day ${next.day}: ${next.topic}`
+                    : 'Next day unavailable');
+            }
+            const previousMeta = document.getElementById('journeyPrevMeta');
+            const nextMeta = document.getElementById('journeyNextMeta');
+            if (previousMeta) previousMeta.textContent = previous ? `Day ${previous.day} · ${previous.topic}` : 'Beginning of journey';
+            if (nextMeta) nextMeta.textContent = next ? `Day ${next.day} · ${next.topic}` : 'End of journey';
         }
 
         // Social Media Sharing Functions
@@ -1015,6 +1124,24 @@
 
         document.getElementById('langEn').addEventListener('click', () => switchLanguage('en'));
         document.getElementById('langBn').addEventListener('click', () => switchLanguage('bn'));
+        document.getElementById('todayDay').addEventListener('click', () => displayDevotion(getTodayDay()));
+        document.getElementById('journeyPrevDay').addEventListener('click', () => {
+            if (currentDay > 1) displayDevotion(currentDay - 1);
+        });
+        document.getElementById('journeyNextDay').addEventListener('click', () => {
+            if (currentDay < totalDays) displayDevotion(currentDay + 1);
+        });
+
+        const shareTrigger = document.querySelector('.share-primary-trigger');
+        const shareOptions = document.getElementById('shareOptions');
+        if (shareTrigger && shareOptions) {
+            shareTrigger.addEventListener('click', () => {
+                const isOpen = !shareOptions.hidden;
+                shareOptions.hidden = isOpen;
+                shareTrigger.setAttribute('aria-expanded', String(!isOpen));
+                shareTrigger.querySelector('span').textContent = isOpen ? '＋' : '−';
+            });
+        }
 
         // Initialize on page load
         loadDevotionalData();
@@ -1023,8 +1150,10 @@
         if (navigator.share) {
             const shareSection = document.querySelector('.share-section');
             const nativeShareBtn = document.createElement('button');
-            nativeShareBtn.className = 'share-btn';
-            nativeShareBtn.style.background = '#8b5cf6';
+            nativeShareBtn.type = 'button';
+            nativeShareBtn.className = 'share-btn native-share';
+            nativeShareBtn.setAttribute('aria-label', 'Share using this device');
+            nativeShareBtn.style.background = '#718878';
             nativeShareBtn.innerHTML = `
                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
@@ -1040,9 +1169,7 @@
                         url: url
                     });
                 } catch (err) {
-                    if (err.name !== 'AbortError') {
-                        console.log('Error sharing:', err);
-                    }
+                    if (err.name !== 'AbortError' && err.name !== 'NotAllowedError') console.warn('[Gratitude] Native share unavailable', err);
                 }
             };
 
@@ -1054,10 +1181,10 @@
     <script>
         // Update progress bar when day changes
         function updateProgressBar(day) {
-            const totalDays = document.querySelector('.days-display').textContent || 26;
             const progress = (day / totalDays) * 100;
             document.getElementById('currentDayProgress').textContent = day;
             document.getElementById('progressBarFill').style.width = progress + '%';
+            document.querySelector('.progress-container')?.setAttribute('aria-valuenow', day);
         }
 
         // Scroll reveal animations (Neutralized: IntersectionObserver can cause content to remain permanently hidden)
@@ -1077,7 +1204,8 @@
             // Update progress bar on initial load
             const urlParams = new URLSearchParams(window.location.search);
             const dayParam = urlParams.get('day');
-            const initialDay = dayParam ? parseInt(dayParam) : 1;
+            const requestedDay = dayParam ? parseInt(dayParam, 10) : 1;
+            const initialDay = Number.isFinite(requestedDay) ? Math.min(Math.max(requestedDay, 1), totalDays) : 1;
             updateProgressBar(initialDay);
         });
 

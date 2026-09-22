@@ -319,3 +319,811 @@ body {
 #errorMsg {
     font-family: 'Inter', sans-serif !important;
 }
+
+/* ========================================================================== */
+/* V16.5 GRATITUDE JOURNEY MODE                                              */
+/* A quiet, thankful visual system for the complete 26-day reading journey.  */
+/* ========================================================================== */
+
+:root {
+    --gratitude-page: #f7f2e9;
+    --gratitude-ink: #1d2c3b;
+    --gratitude-muted: #626d6c;
+    --gratitude-card: #fffdfa;
+    --gratitude-card-soft: #f3eee4;
+    --gratitude-amber: #b97d35;
+    --gratitude-honey: #d5a75b;
+    --gratitude-sage: #718878;
+    --gratitude-border: rgba(48, 65, 70, 0.14);
+    --gratitude-shadow: 0 16px 38px rgba(48, 55, 51, 0.09);
+    --gratitude-shell: 1120px;
+    --gratitude-reading: 840px;
+    --gratitude-mobile-rail: 16px;
+}
+
+html[data-theme='dark'] {
+    --gratitude-page: #0a1422;
+    --gratitude-ink: #f6f0e4;
+    --gratitude-muted: #c5d0d3;
+    --gratitude-card: #142238;
+    --gratitude-card-soft: #1a2d42;
+    --gratitude-amber: #e0b568;
+    --gratitude-honey: #e5c47e;
+    --gratitude-sage: #91ad99;
+    --gratitude-border: rgba(224, 181, 104, 0.24);
+    --gratitude-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+}
+
+body {
+    background: var(--gratitude-page) !important;
+    color: var(--gratitude-ink) !important;
+}
+
+main {
+    background: var(--gratitude-page) !important;
+}
+
+.devotion-hero {
+    min-height: 292px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    padding: 3.75rem 1.25rem 2.5rem !important;
+    text-align: left !important;
+    background:
+        linear-gradient(115deg, rgba(22, 41, 44, 0.78), rgba(33, 52, 45, 0.34) 58%, rgba(16, 33, 43, 0.8)),
+        url("daily-devotion/images/backgrounds/calm-creation/calm-forest-mist-01.webp") center / cover no-repeat !important;
+    border-radius: 0 0 30px 30px !important;
+    box-shadow: 0 18px 38px rgba(26, 44, 43, 0.18) !important;
+}
+
+.gratitude-hero-inner {
+    width: min(var(--gratitude-shell), 100%);
+    margin-inline: auto;
+}
+
+.devotion-hero .hero-subtitle,
+.devotion-hero .hero-title-line,
+.devotion-hero .hero-supporting-line {
+    color: #f4ead8 !important;
+}
+
+.devotion-hero .hero-subtitle {
+    margin: 0 0 0.7rem !important;
+    color: #e8bd71 !important;
+    font-size: 0.76rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+}
+
+.devotion-hero h1 {
+    max-width: 760px;
+    margin: 0 !important;
+    color: #fff8ed !important;
+    font-size: clamp(2.25rem, 5vw, 4.55rem) !important;
+    line-height: 1.03 !important;
+    text-wrap: balance;
+}
+
+.devotion-hero .hero-title-line {
+    margin: 1rem 0 0 !important;
+    font-size: clamp(1rem, 1.8vw, 1.22rem) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+}
+
+.devotion-hero .hero-supporting-line {
+    margin: 0.5rem 0 0 !important;
+    color: #d8e3d3 !important;
+    font-size: 0.88rem !important;
+    letter-spacing: 0.06em !important;
+}
+
+.progress-container {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    padding: 0.95rem 1rem !important;
+    background: color-mix(in srgb, var(--gratitude-card) 94%, transparent) !important;
+    border-bottom: 1px solid var(--gratitude-border) !important;
+    box-shadow: 0 5px 18px rgba(38, 50, 49, 0.06) !important;
+}
+
+.progress-wrapper {
+    width: min(var(--gratitude-shell), 100%) !important;
+    max-width: none !important;
+    margin-inline: auto !important;
+    gap: 1rem !important;
+}
+
+.progress-copy {
+    display: grid;
+    gap: 0.12rem;
+    min-width: max-content;
+}
+
+.progress-eyebrow,
+.section-kicker {
+    margin: 0 !important;
+    color: var(--gratitude-amber) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.15em !important;
+    line-height: 1.25 !important;
+    text-transform: uppercase !important;
+}
+
+.progress-label {
+    color: var(--gratitude-ink) !important;
+    font-size: 0.9rem !important;
+}
+
+.progress-bar-bg {
+    height: 7px !important;
+    background: color-mix(in srgb, var(--gratitude-sage) 18%, var(--gratitude-card-soft)) !important;
+    border-radius: 999px !important;
+}
+
+.progress-bar-fill {
+    background: linear-gradient(90deg, var(--gratitude-sage), var(--gratitude-honey)) !important;
+    box-shadow: none !important;
+}
+
+.devotion-controls {
+    width: min(var(--gratitude-shell), calc(100% - 2rem)) !important;
+    margin: 1.5rem auto 0 !important;
+    padding: 1.35rem !important;
+    background: var(--gratitude-card) !important;
+    border: 1px solid var(--gratitude-border) !important;
+    border-radius: 18px !important;
+    box-shadow: var(--gratitude-shadow) !important;
+}
+
+.controls-heading {
+    display: grid;
+    gap: 0.3rem;
+    margin-bottom: 1rem;
+}
+
+.controls-intro {
+    margin: 0 !important;
+    color: var(--gratitude-muted) !important;
+    font-size: 0.95rem !important;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+}
+
+.day-nav {
+    display: grid !important;
+    grid-template-columns: auto minmax(150px, 1fr) auto auto !important;
+    align-items: center !important;
+    gap: 0.55rem !important;
+}
+
+.day-nav button,
+.day-nav select,
+.lang-toggle button,
+.share-primary-trigger,
+.journey-bottom-actions button {
+    min-height: 44px !important;
+}
+
+.day-nav button,
+.day-nav select,
+.lang-toggle button {
+    color: var(--gratitude-ink) !important;
+    background: var(--gratitude-card-soft) !important;
+    border: 1px solid var(--gratitude-border) !important;
+    box-shadow: none !important;
+}
+
+.day-nav button:hover:not(:disabled),
+.day-nav select:hover,
+.lang-toggle button:hover,
+.day-nav button:focus-visible,
+.day-nav select:focus-visible,
+.lang-toggle button:focus-visible {
+    color: var(--gratitude-ink) !important;
+    background: color-mix(in srgb, var(--gratitude-honey) 18%, var(--gratitude-card)) !important;
+    border-color: var(--gratitude-amber) !important;
+    transform: none !important;
+}
+
+.day-nav button:disabled {
+    color: color-mix(in srgb, var(--gratitude-muted) 62%, transparent) !important;
+    background: color-mix(in srgb, var(--gratitude-card-soft) 70%, transparent) !important;
+    border-color: color-mix(in srgb, var(--gratitude-border) 68%, transparent) !important;
+    cursor: not-allowed !important;
+}
+
+.day-nav select {
+    width: 100% !important;
+    padding: 0.625rem 0.8rem !important;
+}
+
+.today-button {
+    color: var(--gratitude-ink) !important;
+    background: transparent !important;
+    border-color: var(--gratitude-amber) !important;
+}
+
+.lang-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.2rem !important;
+    padding: 0.25rem !important;
+    background: var(--gratitude-card-soft) !important;
+    border: 1px solid var(--gratitude-border) !important;
+    border-radius: 12px !important;
+}
+
+.lang-toggle button {
+    min-width: 62px !important;
+    padding: 0.625rem 0.8rem !important;
+    border: 0 !important;
+    border-radius: 8px !important;
+}
+
+.lang-toggle button.active,
+.lang-toggle button[aria-checked='true'] {
+    color: #fffaf0 !important;
+    background: var(--gratitude-amber) !important;
+    box-shadow: 0 5px 12px rgba(185, 125, 53, 0.24) !important;
+}
+
+.devotion-container {
+    width: min(var(--gratitude-reading), calc(100% - 2rem)) !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 2rem 0 4.5rem !important;
+}
+
+.devotion-section,
+.share-section {
+    margin: 0 0 1.25rem !important;
+    padding: clamp(1.35rem, 3vw, 2.35rem) !important;
+    color: var(--gratitude-ink) !important;
+    background: var(--gratitude-card) !important;
+    border: 1px solid var(--gratitude-border) !important;
+    border-radius: 18px !important;
+    box-shadow: var(--gratitude-shadow) !important;
+    backdrop-filter: none !important;
+}
+
+.devotion-section:hover {
+    box-shadow: var(--gratitude-shadow) !important;
+    transform: none !important;
+}
+
+.topic-section {
+    border-top: 4px solid var(--gratitude-amber) !important;
+}
+
+.day-header-kicker {
+    margin: 0 0 0.35rem !important;
+    color: var(--gratitude-amber) !important;
+    font-size: 0.76rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+}
+
+#dayHeaderNumber {
+    color: var(--gratitude-muted) !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+}
+
+#devotionTopic {
+    margin: 0.35rem 0 0 !important;
+    color: var(--gratitude-ink) !important;
+    font-size: clamp(1.65rem, 3.4vw, 2.6rem) !important;
+    line-height: 1.12 !important;
+}
+
+#devotionDate {
+    margin: 0.85rem 0 0 !important;
+    color: var(--gratitude-muted) !important;
+}
+
+.section-kicker {
+    margin-bottom: 0.55rem !important;
+}
+
+.devotion-section h3,
+.share-section h3 {
+    margin: 0 0 1rem !important;
+    color: var(--gratitude-ink) !important;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(1.45rem, 3vw, 2.05rem) !important;
+    line-height: 1.15 !important;
+}
+
+.scripture-section {
+    background: linear-gradient(135deg, #fff8e9, #f4ead4) !important;
+    border-color: rgba(185, 125, 53, 0.32) !important;
+    border-left: 4px solid var(--gratitude-amber) !important;
+}
+
+.scripture-section::before {
+    color: rgba(185, 125, 53, 0.09) !important;
+}
+
+.scripture-text {
+    color: #293d43 !important;
+    font-size: clamp(1.17rem, 2.5vw, 1.45rem) !important;
+    line-height: 1.8 !important;
+}
+
+.scripture-ref {
+    color: #85612f !important;
+}
+
+.reflection-section {
+    border-left: 4px solid var(--gratitude-sage) !important;
+}
+
+.prayer-section {
+    border-left: 4px solid var(--gratitude-honey) !important;
+}
+
+.promise-section {
+    background: var(--gratitude-card-soft) !important;
+    border-left: 4px solid var(--gratitude-amber) !important;
+}
+
+.reflection-text,
+.prayer-text,
+.promise-section p {
+    color: var(--gratitude-ink) !important;
+    font-size: 1.06rem !important;
+    line-height: 1.85 !important;
+}
+
+.promise-box {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.promise-box strong {
+    color: var(--gratitude-amber) !important;
+}
+
+.promise-box p {
+    margin: 0.8rem 0 0 !important;
+    color: var(--gratitude-ink) !important;
+}
+
+.share-section {
+    padding: 1.25rem !important;
+    background: #f1eadc !important;
+    border-color: rgba(113, 136, 120, 0.3) !important;
+}
+
+.share-primary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.share-primary-row h3 {
+    margin: 0 !important;
+}
+
+.share-primary-trigger {
+    flex: 0 0 auto;
+    padding: 0.65rem 1rem !important;
+    color: #fffaf0 !important;
+    background: var(--gratitude-sage) !important;
+    border: 1px solid transparent !important;
+    border-radius: 10px !important;
+    font-weight: 800 !important;
+}
+
+.share-primary-trigger:hover,
+.share-primary-trigger:focus-visible {
+    background: #5e7766 !important;
+}
+
+.share-options {
+    margin-top: 1rem;
+}
+
+.share-options[hidden] {
+    display: none !important;
+}
+
+.share-buttons {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    gap: 0.65rem !important;
+}
+
+.share-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 44px !important;
+    padding: 0.7rem 1rem !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+}
+
+#shareOptions:not([hidden]) .share-btn {
+    display: inline-flex !important;
+}
+
+.share-btn:hover,
+.share-btn:focus-visible {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 0 0 3px rgba(185, 125, 53, 0.25) !important;
+}
+
+.journey-bottom-nav {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1.8rem;
+    padding: clamp(1.35rem, 3vw, 2rem);
+    color: #f8f0e2;
+    background: #172b3d;
+    border: 1px solid rgba(213, 167, 91, 0.3);
+    border-radius: 18px;
+    box-shadow: 0 18px 38px rgba(21, 39, 53, 0.18);
+}
+
+.journey-bottom-nav .section-kicker {
+    color: #e1b768 !important;
+}
+
+.journey-bottom-nav h2 {
+    margin: 0.55rem 0 0 !important;
+    color: #fff8ed !important;
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: clamp(1.45rem, 3vw, 2rem) !important;
+    line-height: 1.16 !important;
+}
+
+.journey-bottom-nav p:not(.section-kicker) {
+    margin: 0.65rem 0 0 !important;
+    color: #c8d3d3 !important;
+    line-height: 1.65 !important;
+}
+
+.journey-bottom-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.journey-bottom-actions button {
+    display: grid;
+    gap: 0.25rem;
+    min-width: 0;
+    padding: 0.8rem 0.95rem !important;
+    color: #fff8ed !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(213, 167, 91, 0.35) !important;
+    border-radius: 12px !important;
+    text-align: left !important;
+}
+
+.journey-bottom-actions button:hover:not(:disabled),
+.journey-bottom-actions button:focus-visible {
+    background: rgba(213, 167, 91, 0.16) !important;
+    border-color: #e1b768 !important;
+}
+
+.journey-bottom-actions button:disabled {
+    opacity: 0.52;
+    cursor: not-allowed;
+}
+
+.journey-bottom-actions .journey-nav-label,
+.journey-bottom-actions .journey-nav-meta {
+    display: block;
+}
+
+.journey-bottom-actions .journey-nav-label {
+    color: #f8f0e2;
+    font-weight: 800;
+}
+
+.journey-bottom-actions .journey-nav-meta {
+    overflow: hidden;
+    color: #c8d3d3;
+    font-size: 0.82rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+:focus-visible {
+    outline: 3px solid var(--gratitude-honey) !important;
+    outline-offset: 3px !important;
+}
+
+html[data-theme='dark'] body,
+html[data-theme='dark'] main {
+    background: var(--gratitude-page) !important;
+}
+
+html[data-theme='dark'] .progress-container,
+html[data-theme='dark'] .devotion-controls,
+html[data-theme='dark'] .devotion-section,
+html[data-theme='dark'] .share-section {
+    background: var(--gratitude-card) !important;
+    border-color: var(--gratitude-border) !important;
+}
+
+html[data-theme='dark'] .progress-container {
+    background: color-mix(in srgb, var(--gratitude-card) 96%, transparent) !important;
+}
+
+html[data-theme='dark'] .progress-label,
+html[data-theme='dark'] .controls-intro,
+html[data-theme='dark'] #devotionTopic,
+html[data-theme='dark'] #devotionDate,
+html[data-theme='dark'] .devotion-section h3,
+html[data-theme='dark'] .share-section h3,
+html[data-theme='dark'] .reflection-text,
+html[data-theme='dark'] .prayer-text,
+html[data-theme='dark'] .promise-section p,
+html[data-theme='dark'] .day-nav button,
+html[data-theme='dark'] .day-nav select,
+html[data-theme='dark'] .lang-toggle button {
+    color: var(--gratitude-ink) !important;
+}
+
+html[data-theme='dark'] .devotion-section,
+html[data-theme='dark'] .share-section {
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.2) !important;
+}
+
+html[data-theme='dark'] .scripture-section {
+    background: linear-gradient(135deg, #1a2e3e, #1a2638) !important;
+    border-color: rgba(224, 181, 104, 0.36) !important;
+}
+
+html[data-theme='dark'] .scripture-text {
+    color: #f5efe3 !important;
+}
+
+html[data-theme='dark'] .scripture-ref {
+    color: #e4be72 !important;
+}
+
+html[data-theme='dark'] .promise-section {
+    background: var(--gratitude-card-soft) !important;
+}
+
+html[data-theme='dark'] .share-section {
+    background: #182c3d !important;
+}
+
+html[data-theme='dark'] .day-nav button,
+html[data-theme='dark'] .day-nav select,
+html[data-theme='dark'] .lang-toggle,
+html[data-theme='dark'] .lang-toggle button {
+    background: var(--gratitude-card-soft) !important;
+    border-color: var(--gratitude-border) !important;
+}
+
+html[data-theme='dark'] .today-button {
+    background: transparent !important;
+    border-color: var(--gratitude-amber) !important;
+}
+
+html[data-theme='dark'] .lang-toggle button.active,
+html[data-theme='dark'] .lang-toggle button[aria-checked='true'] {
+    color: #142238 !important;
+    background: var(--gratitude-amber) !important;
+}
+
+@media (min-width: 761px) {
+    .journey-bottom-nav {
+        grid-template-columns: minmax(0, 1fr) minmax(360px, 0.95fr);
+        align-items: center;
+    }
+}
+
+@media (max-width: 760px) {
+    .devotion-hero {
+        min-height: 270px !important;
+        padding: 3rem var(--gratitude-mobile-rail) 2rem !important;
+        border-radius: 0 0 22px 22px !important;
+    }
+
+    .progress-container,
+    .devotion-controls,
+    .devotion-container {
+        width: calc(100% - (var(--gratitude-mobile-rail) * 2)) !important;
+        margin-inline: auto !important;
+    }
+
+    .progress-container {
+        padding-inline: 0 !important;
+        border-bottom: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .progress-wrapper {
+        display: grid !important;
+        grid-template-columns: auto minmax(0, 1fr) !important;
+        gap: 0.65rem 0.8rem !important;
+        padding: 0.9rem 0 !important;
+    }
+
+    .progress-bar-bg {
+        grid-column: 1 / -1;
+    }
+
+    .devotion-controls {
+        margin-top: 1rem !important;
+        padding: 1rem !important;
+    }
+
+    .controls-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .day-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .day-nav select {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    .day-nav #prevDay {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .day-nav #nextDay {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .day-nav #todayDay {
+        grid-column: 1 / -1;
+        grid-row: 3;
+    }
+
+    .lang-toggle {
+        width: 100%;
+    }
+
+    .lang-toggle button {
+        flex: 1 1 0;
+    }
+
+    .devotion-container {
+        padding-top: 1.25rem !important;
+    }
+
+    .devotion-section,
+    .share-section {
+        padding: 1.25rem !important;
+        border-radius: 15px !important;
+    }
+
+    .share-primary-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .share-primary-trigger {
+        width: 100%;
+    }
+
+    .share-buttons {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .share-btn {
+        width: 100%;
+        padding-inline: 0.65rem !important;
+    }
+
+    .journey-bottom-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 380px) {
+    .devotion-hero h1 {
+        font-size: 2.1rem !important;
+    }
+
+    .progress-label {
+        font-size: 0.82rem !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fade-in-up,
+    .progress-bar-fill {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* The legacy page keeps a later inline dark-mode block. These deliberately
+   more-specific Gratitude rules keep the V16.5 palette authoritative without
+   changing the shared theme or any other devotion route. */
+html[data-theme='dark'] body[data-theme='dark'] .devotion-hero {
+    background:
+        linear-gradient(115deg, rgba(5, 16, 24, 0.84), rgba(18, 39, 42, 0.5) 58%, rgba(4, 14, 24, 0.88)),
+        url("daily-devotion/images/backgrounds/calm-creation/calm-forest-mist-01.webp") center / cover no-repeat !important;
+}
+
+html[data-theme='dark'] body[data-theme='dark'] .devotion-hero::before {
+    background: linear-gradient(135deg, rgba(224, 181, 104, 0.06), transparent 58%) !important;
+}
+
+html[data-theme='dark'] body[data-theme='dark'] .devotion-controls,
+html[data-theme='dark'] body[data-theme='dark'] .devotion-section,
+html[data-theme='dark'] body[data-theme='dark'] .share-section {
+    color: var(--gratitude-ink) !important;
+    background: var(--gratitude-card) !important;
+    border-color: var(--gratitude-border) !important;
+}
+
+html[data-theme='dark'] body[data-theme='dark'] .scripture-section {
+    background: linear-gradient(135deg, #1a2e3e, #1a2638) !important;
+    border-left-color: var(--gratitude-amber) !important;
+}
+
+html[data-theme='dark'] body[data-theme='dark'] .share-section {
+    background: #182c3d !important;
+}
+
+html[data-theme='dark'] body[data-theme='dark'] .promise-section {
+    background: var(--gratitude-card-soft) !important;
+}
+
+html[data-theme='dark'] body[data-theme='dark'] #devotionTopic,
+html[data-theme='dark'] body[data-theme='dark'] #devotionDate,
+html[data-theme='dark'] body[data-theme='dark'] .devotion-section h3,
+html[data-theme='dark'] body[data-theme='dark'] .share-section h3,
+html[data-theme='dark'] body[data-theme='dark'] .reflection-text,
+html[data-theme='dark'] body[data-theme='dark'] .prayer-text,
+html[data-theme='dark'] body[data-theme='dark'] .promise-section p,
+html[data-theme='dark'] body[data-theme='dark'] .day-nav button,
+html[data-theme='dark'] body[data-theme='dark'] .day-nav select,
+html[data-theme='dark'] body[data-theme='dark'] .lang-toggle button {
+    color: var(--gratitude-ink) !important;
+}
+
+html[data-theme='dark'] body[data-theme='dark'] .scripture-text {
+    color: #f5efe3 !important;
+}
+
+html[data-theme='dark'] body[data-theme='dark'] .scripture-ref {
+    color: #e4be72 !important;
+}
+
+html[data-theme='dark'] body[data-theme='dark'] .day-nav button,
+html[data-theme='dark'] body[data-theme='dark'] .day-nav select,
+html[data-theme='dark'] body[data-theme='dark'] .lang-toggle,
+html[data-theme='dark'] body[data-theme='dark'] .lang-toggle button {
+    background: var(--gratitude-card-soft) !important;
+    border-color: var(--gratitude-border) !important;
+}
+
+html[data-theme='dark'] body[data-theme='dark'] .lang-toggle button.active,
+html[data-theme='dark'] body[data-theme='dark'] .lang-toggle button[aria-checked='true'] {
+    color: #142238 !important;
+    background: var(--gratitude-amber) !important;
+}

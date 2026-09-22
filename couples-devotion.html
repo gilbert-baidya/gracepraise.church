@@ -54,7 +54,7 @@
     <link rel="stylesheet" href="logo-styles.css">
     <link rel="stylesheet" href="homepage-responsive-fix.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
-    <link rel="stylesheet" href="assets/css/couples-devotion.css?v=20260303-readability1">
+    <link rel="stylesheet" href="assets/css/couples-devotion.css?v=20260921-v163">
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -247,32 +247,53 @@
 
     <main id="main-content">
         <section class="content-page couples-devotion">
-            <div class="content-page-header">
-                <h1>💑 Couples Devotion</h1>
-                <p class="subtitle">Growing Together in Faith and Love</p>
+            <div class="cd-hero" aria-labelledby="couplesHeroTitle">
+                <div class="cd-hero-inner">
+                    <p class="cd-eyebrow">GPBC DEVOTION</p>
+                    <h1 id="couplesHeroTitle">Couples Devotion</h1>
+                    <p class="cd-hero-subtitle">Growing Together in Faith and Love</p>
+                </div>
             </div>
 
             <div class="content-page-body">
                 <div id="couplesDevotionApp" class="lang-en" aria-live="polite">
-                    <p id="cdStatus" class="cd-status">Loading couples devotion...</p>
-
-                    <div class="cd-controls">
-                        <div class="cd-lang-toggle" role="group" aria-label="Language toggle">
-                            <button type="button" id="cdLangEn" class="cd-btn cd-lang-btn is-active" aria-pressed="true">English</button>
-                            <button type="button" id="cdLangBn" class="cd-btn cd-lang-btn" aria-pressed="false">বাংলা</button>
+                    <section class="cd-reading-setup" aria-labelledby="cdReadingSetupTitle">
+                        <div class="cd-controls-intro">
+                            <div>
+                                <p class="cd-section-kicker" id="cdReadingSetupTitle">Reading setup</p>
+                                <p id="cdStatus" class="cd-status">Loading couples devotion...</p>
+                            </div>
+                            <div class="cd-current-date" aria-live="polite">
+                                <span>Current date</span>
+                                <strong id="cdCurrentDate">Loading date…</strong>
+                            </div>
                         </div>
 
-                        <div class="cd-date-wrap">
-                            <label for="cdDateInput" class="cd-date-label">Choose date:</label>
-                            <input id="cdDateInput" class="cd-date-input" type="date" min="2026-01-01" max="2026-12-31">
-                            <button type="button" id="cdPrevBtn" class="cd-btn">Previous</button>
-                            <button type="button" id="cdNextBtn" class="cd-btn">Next</button>
-                            <button type="button" id="cdTodayBtn" class="cd-btn">Today</button>
+                        <div class="cd-controls-grid">
+                            <div class="cd-language-block">
+                                <span class="cd-control-label">Language</span>
+                                <div class="cd-lang-toggle" role="group" aria-label="Language toggle">
+                                    <button type="button" id="cdLangEn" class="cd-btn cd-lang-btn is-active" aria-controls="couplesDevotionApp" aria-pressed="true">English</button>
+                                    <button type="button" id="cdLangBn" class="cd-btn cd-lang-btn" aria-controls="couplesDevotionApp" aria-pressed="false">বাংলা</button>
+                                </div>
+                            </div>
+
+                            <div class="cd-date-wrap">
+                                <label for="cdDateInput" class="cd-control-label">Date</label>
+                                <input id="cdDateInput" class="cd-date-input" type="date" min="2026-01-01" max="2026-12-31">
+                                <div class="cd-date-actions" aria-label="Devotion date navigation">
+                                    <button type="button" id="cdPrevBtn" class="cd-btn">Previous</button>
+                                    <button type="button" id="cdTodayBtn" class="cd-btn cd-btn-primary">Today</button>
+                                    <button type="button" id="cdNextBtn" class="cd-btn">Next</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </section>
 
                     <div class="cd-cards">
-                        <article class="cd-card cd-verse-card">
+                        <article class="cd-card cd-verse-card" aria-labelledby="cdTitleEn">
+                            <p class="cd-card-eyebrow" data-lang="en">Today’s Couples Devotion</p>
+                            <p class="cd-card-eyebrow" data-lang="bn">আজকের দম্পতি ভক্তিমূলক পাঠ</p>
                             <h2 id="cdTitleEn" data-lang="en">Couples Devotion</h2>
                             <h2 id="cdTitleBn" data-lang="bn">দম্পতি ভক্তিমূলক পাঠ</h2>
                             <p id="cdVerseRef" class="cd-verse-ref">Scripture</p>
@@ -280,50 +301,67 @@
                             <p id="cdVerseBn" data-lang="bn" class="cd-body-copy cd-lang-pane"></p>
                         </article>
 
-                        <article class="cd-card cd-reflection-card">
-                            <h3 data-lang="en">Reflection</h3>
-                            <h3 data-lang="bn">প্রতিফলন</h3>
+                        <article class="cd-card cd-reflection-card" aria-labelledby="cdReflectionHeadingEn">
+                            <p class="cd-card-eyebrow" data-lang="en">Grow together</p>
+                            <p class="cd-card-eyebrow" data-lang="bn">একসাথে বৃদ্ধি</p>
+                            <h3 id="cdReflectionHeadingEn" data-lang="en">Reflection</h3>
+                            <h3 id="cdReflectionHeadingBn" data-lang="bn">প্রতিফলন</h3>
                             <p id="cdReflectionEn" data-lang="en" class="cd-body-copy"></p>
                             <p id="cdReflectionBn" data-lang="bn" class="cd-body-copy"></p>
                         </article>
 
-                        <article class="cd-card cd-prayer-card">
-                            <h3 data-lang="en">Prayer</h3>
-                            <h3 data-lang="bn">প্রার্থনা</h3>
+                        <article class="cd-card cd-prayer-card" aria-labelledby="cdPrayerHeadingEn">
+                            <p class="cd-card-eyebrow" data-lang="en">Pray together</p>
+                            <p class="cd-card-eyebrow" data-lang="bn">একসাথে প্রার্থনা</p>
+                            <h3 id="cdPrayerHeadingEn" data-lang="en">Prayer</h3>
+                            <h3 id="cdPrayerHeadingBn" data-lang="bn">প্রার্থনা</h3>
                             <p id="cdPrayerEn" data-lang="en" class="cd-body-copy"></p>
                             <p id="cdPrayerBn" data-lang="bn" class="cd-body-copy"></p>
                         </article>
 
-                        <article class="cd-card cd-share-card">
-                            <h3 data-lang="en">Share This Devotion</h3>
-                            <h3 data-lang="bn">এই ভক্তিমূলক পাঠ শেয়ার করুন</h3>
+                        <article class="cd-card cd-share-card" aria-labelledby="cdShareHeadingEn">
+                            <p class="cd-card-eyebrow" data-lang="en">Share the encouragement</p>
+                            <p class="cd-card-eyebrow" data-lang="bn">উৎসাহ ভাগ করে নিন</p>
+                            <h3 id="cdShareHeadingEn" data-lang="en">Share This Devotion</h3>
+                            <h3 id="cdShareHeadingBn" data-lang="bn">এই ভক্তিমূলক পাঠ শেয়ার করুন</h3>
                             <p id="cdShareLineEn" data-lang="en" class="cd-share-subtitle"></p>
                             <p id="cdShareLineBn" data-lang="bn" class="cd-share-subtitle"></p>
 
-                            <div class="cd-share-row">
-                                <button type="button" id="cdSmsShare" class="cd-share-btn" data-brand="sms">SMS</button>
-                                <button type="button" id="cdWhatsAppShare" class="cd-share-btn" data-brand="whatsapp">WhatsApp</button>
-                                <button type="button" id="cdCopyLink" class="cd-share-btn" data-brand="copy">Copy Link</button>
+                            <div class="cd-primary-share">
+                                <button type="button" id="cdWebShare" class="cd-share-primary" data-brand="webshare">
+                                    <span aria-hidden="true">↗</span>
+                                    <span data-lang="en">Share This Devotion</span>
+                                    <span data-lang="bn">এই ভক্তিমূলক পাঠ শেয়ার করুন</span>
+                                </button>
+                                <p id="cdWebShareHint" class="cd-web-share-hint">Select a devotion date with content to share.</p>
                             </div>
-                            <div class="cd-share-row">
-                                <button type="button" id="cdFacebookShare" class="cd-share-btn" data-brand="facebook">Facebook</button>
-                                <button type="button" id="cdXShare" class="cd-share-btn" data-brand="x">X</button>
-                                <button type="button" id="cdWebShare" class="cd-share-btn" data-brand="webshare">Web Share</button>
-                            </div>
-                            <p id="cdWebShareHint" class="cd-web-share-hint">Select a devotion date with content to share.</p>
 
-                            <div class="cd-share-image-tools">
-                                <div class="cd-action-row">
-                                    <button type="button" id="cdGenerateImage" class="cd-action-btn cd-action-primary">Generate Share Image</button>
-                                    <button type="button" id="cdShareBackground" class="cd-action-btn">Background: Light</button>
-                                    <a id="cdDownloadImage" class="cd-download hidden" href="#">Download PNG</a>
-                                    <button type="button" id="cdCopyImage" class="cd-action-btn" disabled>Copy Image</button>
+                            <details class="cd-share-details">
+                                <summary>More ways to share</summary>
+                                <div class="cd-share-row">
+                                    <button type="button" id="cdSmsShare" class="cd-share-btn" data-brand="sms">SMS</button>
+                                    <button type="button" id="cdWhatsAppShare" class="cd-share-btn" data-brand="whatsapp">WhatsApp</button>
+                                    <button type="button" id="cdCopyLink" class="cd-share-btn" data-brand="copy">Copy Link</button>
+                                    <button type="button" id="cdFacebookShare" class="cd-share-btn" data-brand="facebook">Facebook</button>
+                                    <button type="button" id="cdXShare" class="cd-share-btn" data-brand="x">X</button>
                                 </div>
-                                <div class="cd-preview-wrap">
-                                    <img id="cdSharePreview" class="hidden" alt="Generated Couples Devotion share preview">
-                                    <p id="cdNoPreview" class="cd-preview-empty">Generate a share image preview for this devotion.</p>
+                            </details>
+
+                            <details id="cdShareImageDetails" class="cd-share-details cd-image-details">
+                                <summary>Create Share Image</summary>
+                                <div class="cd-share-image-tools">
+                                    <div class="cd-action-row">
+                                        <button type="button" id="cdGenerateImage" class="cd-action-btn cd-action-primary">Generate Share Image</button>
+                                        <button type="button" id="cdShareBackground" class="cd-action-btn">Background: Light</button>
+                                        <a id="cdDownloadImage" class="cd-download hidden" href="#">Download PNG</a>
+                                        <button type="button" id="cdCopyImage" class="cd-action-btn" disabled>Copy Image</button>
+                                    </div>
+                                    <div class="cd-preview-wrap">
+                                        <img id="cdSharePreview" class="hidden" alt="Generated Couples Devotion share preview">
+                                        <p id="cdNoPreview" class="cd-preview-empty">Generate a share image preview for this devotion.</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </details>
                         </article>
 
                         <article id="cdMissingCard" class="cd-card cd-info-card hidden">
@@ -331,6 +369,29 @@
                             <p id="cdMissingMessage" class="cd-info-copy"></p>
                         </article>
                     </div>
+
+                    <nav class="cd-devotion-nav" aria-label="Couples devotion navigation">
+                        <div>
+                            <p class="cd-section-kicker">Continue the journey</p>
+                            <p class="cd-nav-intro">Stay with the next step of your shared walk with Christ.</p>
+                        </div>
+                        <div class="cd-nav-actions">
+                            <button type="button" id="cdPrevBottomBtn" class="cd-nav-button">
+                                <span aria-hidden="true">←</span>
+                                <span>
+                                    <strong>Previous Devotion</strong>
+                                    <small id="cdPrevBottomDate">Loading date…</small>
+                                </span>
+                            </button>
+                            <button type="button" id="cdNextBottomBtn" class="cd-nav-button">
+                                <span>
+                                    <strong>Next Devotion</strong>
+                                    <small id="cdNextBottomDate">Loading date…</small>
+                                </span>
+                                <span aria-hidden="true">→</span>
+                            </button>
+                        </div>
+                    </nav>
 
                     <noscript>
                         <p class="cd-noscript">JavaScript is required to load Couples Devotion entries.</p>
@@ -346,7 +407,7 @@
     <script src="navigation.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loader.js"></script>
-    <script src="assets/js/couples-devotion.js"></script>
+    <script src="assets/js/couples-devotion.js?v=20260921-v163"></script>
 
     <!-- Site Footer (Partial Injection) -->
     <div data-partial="site-footer"></div>

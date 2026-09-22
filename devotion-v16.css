@@ -1,0 +1,1051 @@
+/*
+ * GPBC V16 Devotion Foundation — Daily reference implementation
+ *
+ * This file is intentionally scoped to the Daily Devotion page. It provides
+ * the first shared visual primitives future devotion pages can inherit without
+ * changing the global website token system.
+ */
+
+:root {
+    --v16-ivory: #f7f3ea;
+    --v16-surface: #fffdf8;
+    --v16-surface-muted: #f1f5f8;
+    --v16-navy: #102a43;
+    --v16-navy-soft: #29445d;
+    --v16-muted: #627489;
+    --v16-gold: #c89a3b;
+    --v16-blue: #2f6fb1;
+    --v16-blue-soft: #eaf2fb;
+    --v16-green: #4b8b63;
+    --v16-green-soft: #edf7ef;
+    --v16-border: #e4ddd1;
+    --v16-shadow: 0 14px 36px rgba(16, 42, 67, 0.08);
+    --v16-radius: 18px;
+    --v16-content: 1160px;
+    --v16-reading: 800px;
+}
+
+body.page-daily-devotion {
+    background: var(--v16-ivory);
+    color: var(--v16-navy);
+    overflow-x: hidden;
+}
+
+body.page-daily-devotion main {
+    background:
+        radial-gradient(circle at 8% 42%, rgba(207, 224, 235, 0.2), transparent 28rem),
+        var(--v16-ivory);
+}
+
+body.page-daily-devotion button,
+body.page-daily-devotion select,
+body.page-daily-devotion a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+body.page-daily-devotion #shareToast:not(.show) {
+    display: none !important;
+}
+
+body.page-daily-devotion :focus-visible {
+    outline: 3px solid rgba(200, 154, 59, 0.92);
+    outline-offset: 3px;
+}
+
+/* Hero */
+body.page-daily-devotion .devotion-hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 54px max(20px, calc((100vw - var(--v16-content)) / 2));
+    overflow: hidden;
+    color: #fffdf8;
+    text-align: left;
+    align-items: flex-start;
+    background:
+        linear-gradient(90deg, rgba(10, 29, 47, 0.92) 0%, rgba(10, 29, 47, 0.66) 44%, rgba(10, 29, 47, 0.16) 100%),
+        url("images/devotions/daily-devotion-hero.webp") center / cover no-repeat;
+    background-image:
+        linear-gradient(90deg, rgba(10, 29, 47, 0.92) 0%, rgba(10, 29, 47, 0.66) 44%, rgba(10, 29, 47, 0.16) 100%),
+        url("images/devotions/daily-devotion-hero.webp") !important;
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    border-bottom: 1px solid rgba(200, 154, 59, 0.28);
+}
+
+body.page-daily-devotion .devotion-hero::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 5px;
+    background: linear-gradient(90deg, transparent, var(--v16-gold), transparent);
+    opacity: 0.75;
+    z-index: -1;
+}
+
+body.page-daily-devotion .devotion-hero > * {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+}
+
+body.page-daily-devotion .devotion-hero-eyebrow {
+    margin: 0 0 12px;
+    color: #f4d99b !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+}
+
+body.page-daily-devotion .devotion-hero h1 {
+    margin: 0;
+    color: #fffdf8 !important;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(2.6rem, 5vw, 4.45rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.04;
+}
+
+body.page-daily-devotion .devotion-hero h2 {
+    margin: 12px 0 0;
+    color: rgba(255, 253, 248, 0.9) !important;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(1.08rem, 2vw, 1.55rem);
+    font-weight: 400;
+    line-height: 1.35;
+}
+
+body.page-daily-devotion .devotion-hero .devotion-date {
+    display: none;
+}
+
+/* Reading setup */
+body.page-daily-devotion .devotion-controls {
+    width: min(var(--v16-content), calc(100% - 40px));
+    max-width: var(--v16-content);
+    margin: 24px auto 0;
+    padding: 16px;
+    border: 1px solid var(--v16-border);
+    border-radius: var(--v16-radius);
+    background: rgba(255, 253, 248, 0.92);
+    box-shadow: 0 8px 24px rgba(16, 42, 67, 0.05);
+}
+
+body.page-daily-devotion .devotion-controls-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+body.page-daily-devotion .devotion-controls-row + .devotion-controls-row {
+    margin-top: 12px;
+}
+
+body.page-daily-devotion .language-toggle {
+    display: inline-flex;
+    min-height: 44px;
+    overflow: hidden;
+    border: 1px solid var(--v16-border);
+    border-radius: 12px;
+    background: var(--v16-surface);
+}
+
+body.page-daily-devotion .language-toggle button,
+body.page-daily-devotion .jump-controls button,
+body.page-daily-devotion .jump-controls select,
+body.page-daily-devotion .date-nav-btn,
+body.page-daily-devotion .date-pill {
+    min-height: 44px;
+    border: 0;
+    font: inherit;
+}
+
+body.page-daily-devotion .language-toggle button {
+    min-width: 112px;
+    padding: 0 18px;
+    color: var(--v16-navy-soft);
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+body.page-daily-devotion .language-toggle button.active {
+    color: #fff;
+    background: var(--v16-blue);
+}
+
+body.page-daily-devotion .devotion-meta {
+    color: var(--v16-muted);
+    font-size: 0.9rem;
+}
+
+body.page-daily-devotion .date-row {
+    justify-content: center;
+}
+
+body.page-daily-devotion .date-strip-wrapper {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+body.page-daily-devotion .date-strip {
+    display: flex;
+    gap: 8px;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+body.page-daily-devotion .date-nav-btn,
+body.page-daily-devotion .jump-controls button,
+body.page-daily-devotion .jump-controls select {
+    border: 1px solid var(--v16-border);
+    border-radius: 11px;
+    color: var(--v16-navy);
+    background: var(--v16-surface);
+    cursor: pointer;
+}
+
+body.page-daily-devotion .date-nav-btn {
+    display: grid;
+    place-items: center;
+    font-size: 1.15rem;
+}
+
+body.page-daily-devotion .date-pill {
+    flex: 0 0 auto;
+    min-width: 112px;
+    padding: 6px 12px;
+    border: 1px solid var(--v16-border);
+    border-radius: 11px;
+    color: var(--v16-navy-soft);
+    background: rgba(255, 253, 248, 0.84);
+    cursor: pointer;
+    text-align: center;
+}
+
+body.page-daily-devotion .date-pill strong,
+body.page-daily-devotion .date-pill span {
+    display: block;
+}
+
+body.page-daily-devotion .date-pill strong {
+    font-size: 0.78rem;
+}
+
+body.page-daily-devotion .date-pill span {
+    margin-top: 2px;
+    color: var(--v16-muted);
+    font-size: 0.7rem;
+}
+
+body.page-daily-devotion .date-pill.active {
+    border-color: var(--v16-blue);
+    color: #fff;
+    background: var(--v16-blue);
+}
+
+body.page-daily-devotion .date-pill.active span {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+body.page-daily-devotion .jump-row {
+    justify-content: flex-end;
+}
+
+body.page-daily-devotion .jump-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    width: 100%;
+}
+
+body.page-daily-devotion .jump-controls select {
+    padding: 0 12px;
+}
+
+body.page-daily-devotion .jump-controls button {
+    padding: 0 18px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+body.page-daily-devotion .jump-controls button.primary {
+    color: #fff;
+    border-color: var(--v16-navy);
+    background: var(--v16-navy);
+}
+
+/* Quiet section navigation */
+body.page-daily-devotion .devotion-jump-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: min(var(--v16-content), calc(100% - 40px));
+    max-width: var(--v16-content);
+    margin: 18px auto 0;
+    padding: 8px 12px;
+    color: var(--v16-muted);
+    font-size: 0.78rem;
+}
+
+body.page-daily-devotion .devotion-jump-bar a {
+    color: var(--v16-navy-soft);
+    text-decoration: none;
+}
+
+body.page-daily-devotion .devotion-jump-bar a:hover {
+    color: var(--v16-blue);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Primary reading canvas */
+body.page-daily-devotion .devotion-container {
+    width: min(var(--v16-content), calc(100% - 40px));
+    max-width: var(--v16-content);
+    margin: 0 auto;
+    padding: 12px 0 64px;
+}
+
+body.page-daily-devotion #devotionContent {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 24px;
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+}
+
+body.page-daily-devotion #devotionContent > #devotionHeader,
+body.page-daily-devotion #devotionContent > #scriptureSection,
+body.page-daily-devotion #devotionContent > #shareSection,
+body.page-daily-devotion #devotionContent > #inviteSection,
+body.page-daily-devotion #devotionContent > .devotion-navigation {
+    grid-column: 1 / -1;
+}
+
+body.page-daily-devotion #devotionHeader {
+    padding: 26px 0 4px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    text-align: center;
+}
+
+body.page-daily-devotion #devotionHeader .devotion-meta {
+    margin: 0 0 8px;
+    color: var(--v16-blue);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+body.page-daily-devotion #devotionTitle {
+    margin: 0;
+    color: var(--v16-navy);
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(1.65rem, 3vw, 2.35rem);
+    line-height: 1.18;
+}
+
+body.page-daily-devotion .devotion-section {
+    margin: 0;
+    border: 1px solid var(--v16-border);
+    border-radius: var(--v16-radius);
+    background: var(--v16-surface);
+    box-shadow: var(--v16-shadow);
+}
+
+body.page-daily-devotion #scriptureSection {
+    padding: 34px clamp(22px, 5vw, 56px) 38px;
+    border-top: 4px solid var(--v16-blue);
+    text-align: center;
+}
+
+body.page-daily-devotion #scriptureSection h3 {
+    margin: 0 0 22px;
+    color: var(--v16-blue);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+body.page-daily-devotion #bibleText {
+    max-width: 680px;
+    margin: 0 auto;
+    color: var(--v16-navy);
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(1.25rem, 3vw, 1.9rem);
+    font-style: italic;
+    line-height: 1.55;
+}
+
+body.page-daily-devotion #scriptureSection .bible-gateway-link-container {
+    margin-top: 26px !important;
+}
+
+body.page-daily-devotion #scriptureSection .bible-gateway-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid rgba(47, 111, 177, 0.34);
+    border-radius: 999px;
+    color: var(--v16-blue);
+    background: var(--v16-blue-soft);
+    font-size: 0.83rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body.page-daily-devotion #scriptureSection .bible-gateway-link:hover {
+    background: #dcebf9;
+}
+
+body.page-daily-devotion .reflection-section,
+body.page-daily-devotion .prayer-section {
+    overflow: hidden;
+}
+
+body.page-daily-devotion .reflection-section {
+    border-top: 4px solid var(--v16-blue);
+}
+
+body.page-daily-devotion .prayer-section {
+    border-top: 4px solid var(--v16-green);
+}
+
+body.page-daily-devotion .section-toggle {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 76px;
+    gap: 12px;
+    padding: 18px 22px;
+    border: 0;
+    color: var(--v16-navy);
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+}
+
+body.page-daily-devotion .section-toggle h3 {
+    margin: 0;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.35rem;
+}
+
+body.page-daily-devotion .section-icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--v16-blue-soft);
+    font-size: 1.1rem;
+}
+
+body.page-daily-devotion .prayer-section .section-icon {
+    background: var(--v16-green-soft);
+}
+
+body.page-daily-devotion .toggle-icon {
+    margin-left: auto;
+    color: var(--v16-muted);
+    font-size: 0.8rem;
+    transition: transform 180ms ease;
+}
+
+body.page-daily-devotion .section-toggle[aria-expanded="false"] .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+body.page-daily-devotion .section-content {
+    padding: 0 22px 26px;
+}
+
+body.page-daily-devotion .devotion-text,
+body.page-daily-devotion .devotion-text p {
+    color: var(--v16-navy-soft);
+    font-size: 1rem;
+    line-height: 1.78;
+}
+
+body.page-daily-devotion .devotion-text p {
+    margin: 0 0 1em;
+}
+
+body.page-daily-devotion .devotion-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* Sharing is secondary to the reading flow. The V16 behavior layer moves this
+ * section after Prayer and wraps the existing secondary controls in disclosure. */
+body.page-daily-devotion #shareSection {
+    padding: 22px;
+    border-top: 4px solid var(--v16-gold);
+}
+
+body.page-daily-devotion .share-devotion-title {
+    margin: 0;
+    color: var(--v16-navy);
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.35rem;
+}
+
+body.page-daily-devotion .devotion-v16-share-primary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+body.page-daily-devotion #shareTodayBtn,
+body.page-daily-devotion #shareCardTrigger {
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+body.page-daily-devotion #shareTodayBtn {
+    color: #fff;
+    border: 1px solid var(--v16-navy);
+    background: var(--v16-navy);
+}
+
+body.page-daily-devotion #shareCardTrigger {
+    color: var(--v16-navy);
+    border: 1px solid var(--v16-border);
+    background: var(--v16-surface);
+}
+
+body.page-daily-devotion .devotion-v16-share-details {
+    margin-top: 14px;
+    border-top: 1px solid var(--v16-border);
+    padding-top: 12px;
+}
+
+body.page-daily-devotion .devotion-v16-share-details summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--v16-blue);
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+body.page-daily-devotion .devotion-v16-share-details .share-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+
+body.page-daily-devotion .devotion-v16-share-details .share-action-btn {
+    min-height: 48px;
+}
+
+/* Existing invitation content remains available, but no longer competes with
+ * Scripture, Reflection, or Prayer on initial load. */
+body.page-daily-devotion #inviteSection {
+    padding: 18px;
+    border: 1px solid var(--v16-border);
+    border-radius: var(--v16-radius);
+    background: rgba(241, 245, 248, 0.72);
+}
+
+body.page-daily-devotion .devotion-v16-invite-details summary {
+    min-height: 44px;
+    color: var(--v16-navy);
+    cursor: pointer;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+body.page-daily-devotion .devotion-v16-invite-details .funnel-subtitle {
+    margin: 8px 0 18px;
+    color: var(--v16-muted);
+}
+
+body.page-daily-devotion .devotion-v16-invite-details .funnel-grid {
+    margin-top: 16px;
+}
+
+/* Previous/next */
+body.page-daily-devotion .devotion-navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 4px;
+}
+
+body.page-daily-devotion .devotion-navigation .devotion-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    padding: 14px 18px;
+    border: 1px solid var(--v16-border);
+    border-radius: 14px;
+    color: var(--v16-navy);
+    background: var(--v16-surface);
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(16, 42, 67, 0.05);
+    font-weight: 700;
+}
+
+body.page-daily-devotion .devotion-navigation .devotion-nav-btn:hover {
+    border-color: var(--v16-gold);
+    transform: translateY(-1px);
+}
+
+/* The old decorative Scripture card duplicates the live Scripture reference.
+ * Its live IDs and handlers remain in the DOM; the V16 reader uses the
+ * full Scripture block below as the single visible Scripture focal point. */
+body.page-daily-devotion .sacred-quote-card {
+    display: none !important;
+}
+
+body.page-daily-devotion .devotion-loading {
+    grid-column: 1 / -1;
+    min-height: 160px;
+    border: 1px solid var(--v16-border);
+    border-radius: var(--v16-radius);
+    background: var(--v16-surface);
+}
+
+/* Share-card modal: keep the existing engine, give it a quieter V16 surface. */
+body.page-daily-devotion #shareCardOverlay[role="dialog"] {
+    padding: 20px;
+}
+
+body.page-daily-devotion #shareCardModal {
+    width: min(620px, 100%);
+    border: 1px solid var(--v16-border);
+    border-radius: 20px;
+    box-shadow: 0 24px 80px rgba(7, 22, 38, 0.28);
+}
+
+/* Night mode */
+html.dark body.page-daily-devotion,
+body.page-daily-devotion[data-theme="dark"] {
+    --v16-ivory: #0d1c2b;
+    --v16-surface: #14283b;
+    --v16-surface-muted: #1b3349;
+    --v16-navy: #f8f0df;
+    --v16-navy-soft: #d9e1e8;
+    --v16-muted: #aabaca;
+    --v16-border: rgba(220, 231, 239, 0.16);
+    --v16-blue-soft: #183b5a;
+    --v16-green-soft: #173b2b;
+    --v16-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
+}
+
+html.dark body.page-daily-devotion main,
+body.page-daily-devotion[data-theme="dark"] main {
+    background: #0d1c2b;
+}
+
+html.dark body.page-daily-devotion .devotion-controls,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls,
+html.dark body.page-daily-devotion .devotion-section,
+body.page-daily-devotion[data-theme="dark"] .devotion-section {
+    background: var(--v16-surface);
+}
+
+/* Keep the reading-setup surface dark without changing global theme tokens. */
+html.dark body.page-daily-devotion .devotion-controls,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls {
+    background: #14283b !important;
+    color: #f8f0df;
+    border-color: rgba(220, 231, 239, 0.2) !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22) !important;
+}
+
+html.dark body.page-daily-devotion .devotion-controls .language-toggle,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .language-toggle,
+html.dark body.page-daily-devotion .devotion-controls .jump-controls select,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .jump-controls select,
+html.dark body.page-daily-devotion .devotion-controls .date-pill,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .date-pill,
+html.dark body.page-daily-devotion .devotion-controls .date-nav-btn,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .date-nav-btn,
+html.dark body.page-daily-devotion .devotion-controls #goToDateBtn,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls #goToDateBtn,
+html.dark body.page-daily-devotion .devotion-controls #todayBtn,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls #todayBtn {
+    background: #102a43 !important;
+    color: #f8f0df !important;
+    border-color: rgba(220, 231, 239, 0.2) !important;
+}
+
+html.dark body.page-daily-devotion .devotion-controls .language-toggle button.active,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .language-toggle button.active,
+html.dark body.page-daily-devotion .devotion-controls .date-pill.active,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls .date-pill.active,
+html.dark body.page-daily-devotion .devotion-controls #goToDateBtn,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls #goToDateBtn {
+    background: #2f6fb1 !important;
+    color: #fffdf8 !important;
+    border-color: #c89a3b !important;
+}
+
+html.dark body.page-daily-devotion .devotion-controls :is(button, select):focus-visible,
+body.page-daily-devotion[data-theme="dark"] .devotion-controls :is(button, select):focus-visible {
+    outline: 3px solid rgba(200, 154, 59, 0.92);
+    outline-offset: 2px;
+}
+
+html.dark body.page-daily-devotion .date-pill,
+body.page-daily-devotion[data-theme="dark"] .date-pill,
+html.dark body.page-daily-devotion .date-nav-btn,
+body.page-daily-devotion[data-theme="dark"] .date-nav-btn,
+html.dark body.page-daily-devotion .jump-controls select,
+body.page-daily-devotion[data-theme="dark"] .jump-controls select,
+html.dark body.page-daily-devotion #shareCardTrigger,
+body.page-daily-devotion[data-theme="dark"] #shareCardTrigger,
+html.dark body.page-daily-devotion .devotion-navigation .devotion-nav-btn,
+body.page-daily-devotion[data-theme="dark"] .devotion-navigation .devotion-nav-btn {
+    color: var(--v16-navy);
+    background: var(--v16-surface-muted);
+}
+
+html.dark body.page-daily-devotion #shareTodayBtn,
+body.page-daily-devotion.dark #shareTodayBtn,
+body.page-daily-devotion[data-theme="dark"] #shareTodayBtn {
+    color: #fffdf8 !important;
+    background: #1b4d73 !important;
+    border-color: rgba(191, 219, 254, 0.62) !important;
+}
+
+html.dark body.page-daily-devotion #shareTodayBtn:hover,
+body.page-daily-devotion.dark #shareTodayBtn:hover,
+body.page-daily-devotion[data-theme="dark"] #shareTodayBtn:hover,
+html.dark body.page-daily-devotion #shareTodayBtn:focus-visible,
+body.page-daily-devotion.dark #shareTodayBtn:focus-visible,
+body.page-daily-devotion[data-theme="dark"] #shareTodayBtn:focus-visible {
+    color: #fffdf8 !important;
+    background: #245f8d !important;
+    border-color: #f0c96a !important;
+}
+
+html.dark body.page-daily-devotion #bibleText,
+body.page-daily-devotion[data-theme="dark"] #bibleText,
+html.dark body.page-daily-devotion #devotionTitle,
+body.page-daily-devotion[data-theme="dark"] #devotionTitle,
+html.dark body.page-daily-devotion .section-toggle,
+body.page-daily-devotion[data-theme="dark"] .section-toggle,
+html.dark body.page-daily-devotion .share-devotion-title,
+body.page-daily-devotion[data-theme="dark"] .share-devotion-title {
+    color: var(--v16-navy);
+}
+
+html.dark body.page-daily-devotion #inviteSection,
+body.page-daily-devotion[data-theme="dark"] #inviteSection {
+    background: rgba(27, 51, 73, 0.72);
+}
+
+/* Responsive checkpoints */
+@media (max-width: 820px) {
+    body.page-daily-devotion header .nav-container {
+        min-height: 60px;
+        padding: 0 14px;
+    }
+
+    body.page-daily-devotion header .logo,
+    body.page-daily-devotion header .logo-image {
+        width: 50px !important;
+        height: 50px !important;
+        max-width: 50px !important;
+        max-height: 50px !important;
+    }
+
+    body.page-daily-devotion header .dark-mode-toggle {
+        display: flex !important;
+        position: absolute !important;
+        top: 8px !important;
+        right: 62px !important;
+        transform: none !important;
+        z-index: 1015 !important;
+    }
+
+    body.page-daily-devotion header .mobile-menu-btn {
+        display: flex !important;
+        position: relative !important;
+        z-index: 1015 !important;
+        margin-left: auto;
+    }
+
+    body.page-daily-devotion header .mobile-menu-btn span {
+        background: var(--v16-navy) !important;
+    }
+
+    html.dark body.page-daily-devotion header .mobile-menu-btn span,
+    body.page-daily-devotion[data-theme="dark"] header .mobile-menu-btn span {
+        background: #fffdf8 !important;
+    }
+
+    body.page-daily-devotion .devotion-hero {
+        min-height: 236px;
+        padding-top: 42px;
+        padding-bottom: 42px;
+    }
+
+    body.page-daily-devotion #devotionContent {
+        grid-template-columns: 1fr;
+    }
+
+    body.page-daily-devotion #devotionContent > * {
+        grid-column: 1;
+    }
+
+    body.page-daily-devotion .devotion-v16-share-details .share-actions-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    body.page-daily-devotion .devotion-controls,
+    body.page-daily-devotion .devotion-container {
+        width: min(calc(100% - 32px), var(--v16-content));
+    }
+
+    body.page-daily-devotion .devotion-container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    body.page-daily-devotion .devotion-hero {
+        min-height: 214px;
+        padding: 34px 20px 38px;
+        background-position: 62% center;
+    }
+
+    body.page-daily-devotion .devotion-hero h1 {
+        font-size: clamp(2.25rem, 12vw, 3.15rem);
+    }
+
+    body.page-daily-devotion .devotion-hero h2 {
+        max-width: 280px;
+        font-size: 1.08rem;
+    }
+
+    body.page-daily-devotion .devotion-controls-row {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    body.page-daily-devotion .language-toggle {
+        width: 100%;
+    }
+
+    body.page-daily-devotion .language-toggle button {
+        flex: 1 1 0;
+    }
+
+    body.page-daily-devotion .devotion-meta {
+        display: flex;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    body.page-daily-devotion .jump-row {
+        flex-direction: row;
+    }
+
+    body.page-daily-devotion .jump-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    body.page-daily-devotion .jump-controls select,
+    body.page-daily-devotion .jump-controls button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    body.page-daily-devotion .jump-controls select {
+        max-width: none !important;
+    }
+
+    body.page-daily-devotion .jump-controls .primary {
+        grid-column: 1 / 2;
+    }
+
+    body.page-daily-devotion .date-strip-wrapper {
+        grid-template-columns: 38px minmax(0, 1fr) 38px;
+        gap: 6px;
+    }
+
+    body.page-daily-devotion .date-pill {
+        flex: 0 0 76px !important;
+        width: 76px !important;
+        min-width: 76px !important;
+        max-width: 76px !important;
+        height: 44px !important;
+        padding: 6px 8px !important;
+    }
+
+    body.page-daily-devotion #dateStrip .date-pill {
+        flex: 0 0 66px !important;
+        width: 66px !important;
+        min-width: 66px !important;
+        max-width: 66px !important;
+    }
+
+    body.page-daily-devotion .devotion-jump-bar {
+        width: calc(100% - 32px);
+        gap: 4px;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        justify-content: flex-start;
+        white-space: nowrap;
+        scrollbar-width: none;
+    }
+
+    body.page-daily-devotion .devotion-jump-bar::-webkit-scrollbar {
+        display: none;
+    }
+
+    body.page-daily-devotion .devotion-jump-bar > * {
+        flex: 0 0 auto;
+    }
+
+    body.page-daily-devotion #devotionHeader {
+        padding-top: 20px;
+    }
+
+    body.page-daily-devotion #scriptureSection {
+        padding: 28px 18px 30px;
+    }
+
+    body.page-daily-devotion #bibleText {
+        font-size: 1.3rem;
+        line-height: 1.6;
+    }
+
+    body.page-daily-devotion .section-toggle {
+        min-height: 68px;
+        padding: 14px 16px;
+    }
+
+    body.page-daily-devotion .section-content {
+        padding: 0 16px 22px;
+    }
+
+    body.page-daily-devotion .devotion-text,
+    body.page-daily-devotion .devotion-text p {
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+
+    body.page-daily-devotion #shareSection {
+        padding: 18px 16px;
+    }
+
+    body.page-daily-devotion .devotion-v16-share-primary {
+        flex-direction: column;
+    }
+
+    body.page-daily-devotion #shareTodayBtn,
+    body.page-daily-devotion #shareCardTrigger {
+        width: 100%;
+    }
+
+    body.page-daily-devotion .devotion-v16-share-details .share-actions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    body.page-daily-devotion .devotion-navigation {
+        grid-template-columns: 1fr;
+        padding: 0 !important;
+        gap: 10px;
+    }
+
+    body.page-daily-devotion .devotion-navigation .devotion-nav-btn {
+        min-width: 0;
+        width: 100%;
+    }
+
+    body.page-daily-devotion #dateStrip {
+        overflow-x: auto !important;
+        overflow-y: hidden;
+        scrollbar-width: none;
+    }
+
+    body.page-daily-devotion #dateStrip::-webkit-scrollbar {
+        display: none;
+    }
+
+    body.page-daily-devotion #dateStrip.date-pill-row::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    body.page-daily-devotion .devotion-v16-invite-details > summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        list-style: none;
+    }
+
+    body.page-daily-devotion .devotion-v16-invite-details > summary::-webkit-details-marker {
+        display: none;
+    }
+
+    body.page-daily-devotion .devotion-v16-invite-details > summary::after {
+        content: "⌄";
+        flex: 0 0 auto;
+        margin-left: 12px;
+        color: var(--v16-blue);
+        font-family: Arial, sans-serif;
+        font-size: 1.2rem;
+        line-height: 1;
+    }
+
+    body.page-daily-devotion .devotion-v16-invite-details[open] > summary::after {
+        content: "⌃";
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.page-daily-devotion *,
+    body.page-daily-devotion *::before,
+    body.page-daily-devotion *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

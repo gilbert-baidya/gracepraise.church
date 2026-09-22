@@ -106,6 +106,7 @@
     <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
     <link rel="stylesheet" href="share-card-generator.css">
     <link rel="stylesheet" href="sacred-motion.css">
+    <link rel="stylesheet" href="devotion-v16.css">
 
     <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
@@ -199,6 +200,7 @@
     <main id="main-content">
         <!-- Hero Section -->
         <section class="devotion-hero">
+            <p class="devotion-hero-eyebrow">GPBC Devotion</p>
             <h1 id="heroTitle">Daily Devotion</h1>
             <h2 id="heroSubtitle">A Daily Word from Scripture</h2>
             <p class="devotion-date" id="devotionDate">Loading...</p>
@@ -249,7 +251,7 @@
                     <span id="sacredQuoteRefText">—</span>
                 </h2>
                 <div class="bible-verse-link-container">
-                    <a href="#" id="bibleGatewayLink" class="bible-gateway-link" target="_blank"
+                    <a href="#" id="bibleGatewayHeroLink" class="bible-gateway-link" target="_blank"
                         rel="noopener noreferrer">
                         <span class="bible-icon" aria-hidden="true">📖</span>
                         <span>Read Verse</span>
@@ -421,8 +423,6 @@
                             </div>
                         </div>
                     </div>
-                </article>
-
                 </article>
 
                 <!-- Prayer Section (Collapsible) -->
@@ -1730,21 +1730,15 @@
                 }
             }
 
-            // Set default collapsed state based on viewport
+            // Keep both reading sections open by default at every viewport.
+            // The controls remain fully collapsible through the existing
+            // aria-expanded, keyboard, and focus-preserving handlers.
             function setDefaultCollapsedState() {
-                const isMobile = window.innerWidth < 768;
                 const reflectionToggle = document.getElementById('reflectionToggle');
                 const prayerToggle = document.getElementById('prayerToggle');
 
-                if (isMobile) {
-                    // Mobile: Collapse both sections by default
-                    if (reflectionToggle) collapseSection(reflectionToggle);
-                    if (prayerToggle) collapseSection(prayerToggle);
-                } else {
-                    // Desktop: Expand both sections by default
-                    if (reflectionToggle) expandSection(reflectionToggle);
-                    if (prayerToggle) expandSection(prayerToggle);
-                }
+                if (reflectionToggle) expandSection(reflectionToggle);
+                if (prayerToggle) expandSection(prayerToggle);
             }
 
             // Initialize collapsible sections
@@ -2135,6 +2129,9 @@
 
     <!-- Share Panel Surface Verification -->
     <script src="share-panel-verification.js"></script>
+
+    <!-- V16 Daily reference foundation -->
+    <script src="devotion-v16.js"></script>
 
     <!-- SEO Manager (Can remain standalone or be managed, keeping standalone for meta tags) -->
     <script src="seo-manager.js"></script>

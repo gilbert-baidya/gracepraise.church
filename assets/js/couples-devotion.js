@@ -60,12 +60,18 @@
     whatsappShare: document.getElementById("cdWhatsAppShare"),
     webShare: document.getElementById("cdWebShare"),
     copyLink: document.getElementById("cdCopyLink"),
+    currentDate: document.getElementById("cdCurrentDate"),
+    prevBottomBtn: document.getElementById("cdPrevBottomBtn"),
+    nextBottomBtn: document.getElementById("cdNextBottomBtn"),
+    prevBottomDate: document.getElementById("cdPrevBottomDate"),
+    nextBottomDate: document.getElementById("cdNextBottomDate"),
     generateImage: document.getElementById("cdGenerateImage"),
     shareBackground: document.getElementById("cdShareBackground"),
     downloadImage: document.getElementById("cdDownloadImage"),
     copyImage: document.getElementById("cdCopyImage"),
     sharePreview: document.getElementById("cdSharePreview"),
     noPreview: document.getElementById("cdNoPreview"),
+    shareImageDetails: document.getElementById("cdShareImageDetails"),
     webShareHint: document.getElementById("cdWebShareHint"),
   };
 
@@ -465,6 +471,8 @@
 
     state.language = language;
 
+    document.documentElement.setAttribute("lang", language);
+
     if (el.app) {
       el.app.classList.remove("lang-en", "lang-bn");
       el.app.classList.add(language === "bn" ? "lang-bn" : "lang-en");
@@ -510,6 +518,23 @@
     }
   }
 
+  function updateJourneyNavigation() {
+    const previousDate = addDays(state.selectedDate, -1);
+    const nextDate = addDays(state.selectedDate, 1);
+
+    if (el.currentDate) {
+      el.currentDate.textContent = titleCaseDate(state.selectedDate);
+    }
+
+    if (el.prevBottomDate) {
+      el.prevBottomDate.textContent = titleCaseDate(previousDate);
+    }
+
+    if (el.nextBottomDate) {
+      el.nextBottomDate.textContent = titleCaseDate(nextDate);
+    }
+  }
+
   function clearGeneratedImage() {
     if (state.generatedImageUrl) {
       URL.revokeObjectURL(state.generatedImageUrl);
@@ -534,6 +559,10 @@
 
     if (el.copyImage) {
       el.copyImage.disabled = true;
+    }
+
+    if (el.shareImageDetails) {
+      el.shareImageDetails.open = false;
     }
   }
 
@@ -574,6 +603,8 @@
     if (el.dateInput) {
       el.dateInput.value = state.selectedDate;
     }
+
+    updateJourneyNavigation();
 
     try {
       await ensureMonthDataForDate(state.selectedDate);
@@ -968,6 +999,10 @@
       el.copyImage.disabled = !canCopyImage;
     }
 
+    if (el.shareImageDetails) {
+      el.shareImageDetails.open = true;
+    }
+
     const toneText = useDarkText ? "dark text" : "light text";
     setStatus(`Share image generated (${state.backgroundVariant} background, ${toneText}).`, false);
   }
@@ -1044,6 +1079,9 @@
 
     el.langEn.addEventListener("click", () => onToggleLanguage("en"));
     el.langBn.addEventListener("click", () => onToggleLanguage("bn"));
+
+    el.prevBottomBtn.addEventListener("click", onPrevDate);
+    el.nextBottomBtn.addEventListener("click", onNextDate);
 
     el.smsShare.addEventListener("click", onSmsShare);
     el.whatsappShare.addEventListener("click", onWhatsAppShare);
