@@ -3,6 +3,16 @@
  * Core State Machine & Logic
  */
 
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (character) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[character]));
+}
+
 const app = {
     state: {
         view: 'atlas', // atlas, constellation, reader
@@ -206,37 +216,50 @@ const app = {
     async renderReader() {
         const book = this.state.currentBook;
         const chapter = this.state.currentChapter;
-        document.getElementById('currentPassageDisplay').innerText = `${book.en} ${chapter} / ${book.bn} ${chapter}`;
-        
+        const reference = `${book.en} ${chapter}`;
+        const passageDisplay = document.getElementById('currentPassageDisplay');
         const container = document.getElementById('verseContent');
         container.innerHTML = '<div class="verse-loading">Illuminating the Word...</div>';
-        
-        return new Promise(resolve => {
-            // Simulating fetch
-            setTimeout(() => {
-                const verses = [
-                    { num: 1, en: "In the beginning God created the heavens and the earth.", bn: "আদিতে ঈশ্বর আকাশ ও পৃথিবী সৃষ্টি করিলেন।" },
-                    { num: 2, en: "Now the earth was formless and empty, darkness was over the surface of the deep...", bn: "পৃথিবী ঘোর ও শূন্য ছিল; এবং অন্ধকারের মহাসাগরের ওপর ছিল;" },
-                    { num: 3, en: "And God said, 'Let there be light,' and there was light.", bn: "ঈশ্বর কহিলেন, 'আলো হোক'; এবং আলো হইল।" },
-                    { num: 4, en: "God saw that the light was good, and he separated the light from the darkness.", bn: "ঈশ্বর দেখিলেন যে আলো ভাল; এবং ঈশ্বর আলো ও অন্ধকার পৃথক করিলেন।" }
-                ];
 
-                container.innerHTML = verses.map(v => `
-                    <div class="verse-row ${this.state.language}-mode" data-verse="${v.num}" onclick="app.focusVerse(${v.num})">
-                        <div class="verse-text-en">
-                            <span class="verse-num">${v.num}</span> ${v.en}
-                        </div>
-                        <div class="verse-text-bn" style="${this.state.language === 'en' ? 'display:none' : ''}">
-                            <span class="verse-num">${v.num}</span> ${v.bn}
-                        </div>
+        try {
+            const service = window.GPBCBibleService;
+            if (!service) {
+                throw new Error('GPBCBibleService is unavailable');
+            }
+
+            const [englishPassage, bengaliPassage] = await Promise.all([
+                service.getPassage(reference, 'en'),
+                service.getPassage(reference, 'bn')
+            ]);
+            const sourcePassage = englishPassage || bengaliPassage;
+
+            if (!sourcePassage) {
+                throw new Error(`Bible passage not found: ${reference}`);
+            }
+
+            const englishByVerse = new Map((englishPassage?.verses || []).map((verse) => [String(verse.verse), verse.text]));
+            const bengaliByVerse = new Map((bengaliPassage?.verses || []).map((verse) => [String(verse.verse), verse.text]));
+            const verseNumbers = [...new Set([...englishByVerse.keys(), ...bengaliByVerse.keys()])]
+                .sort((left, right) => Number(left) - Number(right));
+
+            passageDisplay.innerText = `${book.en} ${chapter} / ${book.bn} ${chapter}`;
+            container.innerHTML = verseNumbers.map((verseNumber) => `
+                <div class="verse-row ${this.state.language}-mode" data-verse="${escapeHtml(verseNumber)}" onclick="app.focusVerse(${Number(verseNumber)})">
+                    <div class="verse-text-en">
+                        <span class="verse-num">${escapeHtml(verseNumber)}</span> ${escapeHtml(englishByVerse.get(verseNumber) || '')}
                     </div>
-                `).join('');
-                
-                // Adjust for language mode
-                this.updateLanguageUI();
-                resolve();
-            }, 400);
-        });
+                    <div class="verse-text-bn">
+                        <span class="verse-num">${escapeHtml(verseNumber)}</span> ${escapeHtml(bengaliByVerse.get(verseNumber) || '')}
+                    </div>
+                </div>
+            `).join('');
+
+            this.updateLanguageUI();
+        } catch (error) {
+            passageDisplay.innerText = `${book.en} ${chapter} / ${book.bn} ${chapter}`;
+            container.innerHTML = '<p class="verse-error" role="alert">This Bible passage could not be loaded. Please try again.</p>';
+            console.error('[BibleReader] Passage load failed:', error);
+        }
     },
 
     focusVerse(num) {
