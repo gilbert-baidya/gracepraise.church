@@ -2147,6 +2147,42 @@ body.songbook-v18 .songbook-v18__reader-inline-chord {
     font-weight: 800;
 }
 
+body.songbook-v18 .songbook-v18__reader-anchored-line {
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+body.songbook-v18 .songbook-v18__reader-anchor-group {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 100%;
+    vertical-align: bottom;
+    break-inside: avoid;
+    white-space: nowrap;
+}
+
+body.songbook-v18 .songbook-v18__reader-anchor-chords {
+    display: inline-flex;
+    min-height: 1.15em;
+    align-items: end;
+    gap: 0.3em;
+    color: var(--sb18-blue-strong);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.62em;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+}
+
+body.songbook-v18 .songbook-v18__reader-anchored-chord {
+    display: inline-block;
+}
+
+body.songbook-v18 .songbook-v18__reader-anchor-lyric {
+    display: inline-block;
+}
+
 body.songbook-v18 .songbook-v18__reader-stanza-space {
     height: 0.95rem;
 }
@@ -2236,6 +2272,14 @@ body.songbook-v18.dark #songModal {
         margin-inline: -0.2rem;
         padding-inline: 0.2rem;
         white-space: pre;
+    }
+
+    body.songbook-v18 .songbook-v18__reader-anchor-group {
+        white-space: nowrap;
+    }
+
+    body.songbook-v18 .songbook-v18__reader-anchor-chords {
+        font-size: 0.58em;
     }
 
     body.songbook-v18 .songbook-v18__reader-stanza-space {

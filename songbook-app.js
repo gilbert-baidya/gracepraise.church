@@ -278,6 +278,181 @@ function parseChordLine(line) {
     return parts.length && parts.every(Boolean) ? { parts } : null;
 }
 
+/*
+ * Universal chord-over-lyric alignment.
+ *
+ * Anchors are stored as logical word positions, never as UTF-16 offsets.
+ * This keeps Bengali conjuncts/কার/hasanta stable and lets phonetic mode
+ * reuse the same logical word mapping after the text is converted.
+ */
+const SONG_GRAPHEME_SEGMENTER = typeof Intl !== 'undefined' && Intl.Segmenter
+    ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+    : null;
+const SONG_ALIGNMENT_CACHE = new WeakMap();
+
+function getGraphemeSegments(value) {
+    const text = String(value || '');
+    if (SONG_GRAPHEME_SEGMENTER) return Array.from(SONG_GRAPHEME_SEGMENTER.segment(text), part => part.segment);
+    return Array.from(text);
+}
+
+function getLyricWordTokens(line) {
+    const text = String(line || '');
+    const graphemes = getGraphemeSegments(text);
+    const graphemeStarts = [];
+    let codeUnitOffset = 0;
+    graphemes.forEach((grapheme, index) => {
+        graphemeStarts.push({ index, codeUnitOffset });
+        codeUnitOffset += grapheme.length;
+    });
+
+    return Array.from(text.matchAll(/\S+/gu)).map((match, wordIndex) => {
+        const codeUnitStart = match.index ?? 0;
+        let graphemeStart = graphemes.length;
+        for (const entry of graphemeStarts) {
+            if (entry.codeUnitOffset >= codeUnitStart) {
+                graphemeStart = entry.index;
+                break;
+            }
+        }
+        return {
+            text: match[0],
+            wordIndex,
+            graphemeStart,
+            codeUnitStart,
+            codeUnitEnd: codeUnitStart + match[0].length
+        };
+    });
+}
+
+function normalizeAlignmentToken(value) {
+    return String(value || '')
+        .toLocaleLowerCase()
+        .normalize('NFKD')
+        .replace(/[\u0300-\u036f]/gu, '')
+        .replace(/[^\p{L}\p{N}]+/gu, '');
+}
+
+function serializeChordPart(part) {
+    if (!part) return '';
+    return part.grouped
+        ? `${part.symbols[0]}(${part.symbols[1]})`
+        : part.symbols.join('');
+}
+
+function findAlignmentWordIndex(tokens, anchorText, startAt = 0) {
+    const target = normalizeAlignmentToken(anchorText);
+    if (!target) return { wordIndex: null, confidence: 'AMBIGUOUS' };
+
+    const exact = (from, allowWrap) => {
+        const indexes = allowWrap
+            ? [...Array(tokens.length).keys()]
+            : [...Array(tokens.length - from).keys()].map(index => index + from);
+        return indexes.find(index => normalizeAlignmentToken(tokens[index].text) === target);
+    };
+    const fuzzy = (from, allowWrap) => {
+        const indexes = allowWrap
+            ? [...Array(tokens.length).keys()]
+            : [...Array(tokens.length - from).keys()].map(index => index + from);
+        return indexes.find(index => {
+            const candidate = normalizeAlignmentToken(tokens[index].text);
+            return candidate && (candidate.startsWith(target) || target.startsWith(candidate));
+        });
+    };
+
+    const exactIndex = exact(startAt, false);
+    if (exactIndex !== undefined) return { wordIndex: exactIndex, confidence: 'HIGH_CONFIDENCE' };
+    const fuzzyIndex = fuzzy(startAt, false);
+    if (fuzzyIndex !== undefined) return { wordIndex: fuzzyIndex, confidence: 'MEDIUM_CONFIDENCE' };
+    const wrappedExact = exact(0, true);
+    if (wrappedExact !== undefined) return { wordIndex: wrappedExact, confidence: 'MEDIUM_CONFIDENCE' };
+    const wrappedFuzzy = fuzzy(0, true);
+    if (wrappedFuzzy !== undefined) return { wordIndex: wrappedFuzzy, confidence: 'AMBIGUOUS' };
+    return { wordIndex: null, confidence: 'AMBIGUOUS' };
+}
+
+function getNearestWordForGrapheme(tokens, targetGrapheme) {
+    if (!tokens.length) return null;
+    let selected = tokens[0];
+    tokens.forEach(token => {
+        if (token.graphemeStart <= targetGrapheme) selected = token;
+    });
+    return selected;
+}
+
+function getBengaliChordTokens(line, parsedLine) {
+    const matches = Array.from(String(line || '').matchAll(/\S+/gu));
+    return matches.map((match, index) => ({
+        chord: serializeChordPart(parsedLine?.parts?.[index]),
+        sourceColumn: match.index ?? 0
+    })).filter(item => item.chord);
+}
+
+function buildBengaliChordAlignments(song) {
+    const lines = String(song?.lyrics || '').split('\n');
+    const alignments = [];
+
+    lines.forEach((line, chordLineIndex) => {
+        const parsedLine = parseChordLine(line);
+        if (!parsedLine) return;
+
+        const nextLine = lines[chordLineIndex + 1] || '';
+        const hasLyricPair = classifySongLine(nextLine) === 'LYRIC';
+        const lyricLineIndex = hasLyricPair ? chordLineIndex + 1 : null;
+        const lyricLine = hasLyricPair ? nextLine : '';
+        const tokens = getLyricWordTokens(lyricLine);
+        const chordTokens = getBengaliChordTokens(line, parsedLine);
+        const sourceWidth = Math.max(1, line.trimEnd().length - 1);
+        const hasSourceSpacing = chordTokens.length < 2 || chordTokens.some((item, index) => (
+            index > 0 && item.sourceColumn - chordTokens[index - 1].sourceColumn > 1
+        ));
+
+        if (!hasLyricPair || !tokens.length) {
+            alignments.push({
+                chordLineIndex,
+                lyricLineIndex,
+                anchors: [],
+                confidence: 'CHORD_ONLY',
+                source: 'bengali-source-spacing',
+                sourceSpacing: hasSourceSpacing,
+                renderAnchored: false
+            });
+            return;
+        }
+
+        const anchors = chordTokens.map(item => {
+            const targetGrapheme = Math.round((item.sourceColumn / sourceWidth) * Math.max(0, getGraphemeSegments(lyricLine).length - 1));
+            const token = getNearestWordForGrapheme(tokens, targetGrapheme);
+            return {
+                chord: item.chord,
+                wordIndex: token?.wordIndex ?? null,
+                graphemeIndex: token?.graphemeStart ?? null,
+                anchor: token?.text || '',
+                sourceColumn: item.sourceColumn
+            };
+        });
+
+        const distinctWordIndexes = new Set(anchors.map(anchor => anchor.wordIndex).filter(Number.isInteger));
+        const confidence = !hasSourceSpacing && anchors.length > 1
+            ? 'AMBIGUOUS'
+            : distinctWordIndexes.size < anchors.length && anchors.length > 1
+                ? 'MEDIUM_CONFIDENCE'
+                : 'HIGH_CONFIDENCE';
+
+        alignments.push({
+            chordLineIndex,
+            lyricLineIndex,
+            anchors,
+            confidence,
+            source: 'bengali-source-spacing',
+            sourceSpacing: hasSourceSpacing,
+            renderAnchored: confidence !== 'AMBIGUOUS'
+        });
+    });
+
+    return alignments;
+}
+
 function classifySongLine(line) {
     const trimmed = line.trim();
     if (!trimmed) return 'BLANK';
@@ -1076,6 +1251,140 @@ function appendInlineReaderText(container, line) {
     if (!match) container.textContent = line;
 }
 
+function normalizeExternalChordAlignments(song, rows) {
+    const lines = String(song?.lyrics || '').split('\n');
+    return (Array.isArray(rows) ? rows : []).map(row => {
+        const lyricLineIndex = Number.isInteger(row?.lyricLineIndex) ? row.lyricLineIndex : null;
+        const tokens = lyricLineIndex === null ? [] : getLyricWordTokens(lines[lyricLineIndex] || '');
+        let nextWordIndex = 0;
+        let confidence = 'HIGH_CONFIDENCE';
+        const anchors = (Array.isArray(row?.anchors) ? row.anchors : []).map(rawAnchor => {
+            const result = Number.isInteger(rawAnchor?.wordIndex)
+                ? { wordIndex: rawAnchor.wordIndex, confidence: 'HIGH_CONFIDENCE' }
+                : findAlignmentWordIndex(tokens, rawAnchor?.anchor || rawAnchor?.word || '', nextWordIndex);
+            if (result.confidence !== 'HIGH_CONFIDENCE') confidence = result.confidence;
+            if (Number.isInteger(result.wordIndex)) nextWordIndex = result.wordIndex + 1;
+            return {
+                chord: rawAnchor?.chord || rawAnchor?.text || '',
+                wordIndex: result.wordIndex,
+                graphemeIndex: Number.isInteger(result.wordIndex) ? tokens[result.wordIndex]?.graphemeStart ?? null : null,
+                anchor: rawAnchor?.anchor || rawAnchor?.word || ''
+            };
+        }).filter(anchor => anchor.chord && Number.isInteger(anchor.wordIndex));
+
+        if (!anchors.length && lyricLineIndex !== null) confidence = 'AMBIGUOUS';
+        return {
+            ...row,
+            anchors,
+            confidence,
+            source: row?.source || 'external-source-alignment',
+            renderAnchored: Boolean(lyricLineIndex !== null && anchors.length && confidence !== 'AMBIGUOUS')
+        };
+    });
+}
+
+function applyChordAlignmentOverrides(song, alignments) {
+    const overrideTable = typeof songChordAlignmentOverrides !== 'undefined' ? songChordAlignmentOverrides : {};
+    const overrides = overrideTable?.[song?.id];
+    if (!overrides || typeof overrides !== 'object') return alignments;
+
+    const rows = alignments.slice();
+    Object.entries(overrides).forEach(([lineId, overrideAnchors]) => {
+        const lyricLineIndex = Number(lineId);
+        if (!Number.isInteger(lyricLineIndex) || !Array.isArray(overrideAnchors)) return;
+        const existing = rows.find(row => row.lyricLineIndex === lyricLineIndex);
+        const row = existing || {
+            chordLineIndex: Math.max(0, lyricLineIndex - 1),
+            lyricLineIndex,
+            source: 'manual-override'
+        };
+        const tokens = getLyricWordTokens(String(song?.lyrics || '').split('\n')[lyricLineIndex] || '');
+        row.anchors = overrideAnchors.map(anchor => ({
+            chord: anchor?.chord || '',
+            wordIndex: Number.isInteger(anchor?.wordIndex) ? anchor.wordIndex : null,
+            graphemeIndex: Number.isInteger(anchor?.wordIndex) ? tokens[anchor.wordIndex]?.graphemeStart ?? null : null,
+            anchor: tokens[anchor?.wordIndex]?.text || ''
+        })).filter(anchor => anchor.chord && Number.isInteger(anchor.wordIndex));
+        row.confidence = 'HIGH_CONFIDENCE';
+        row.source = 'manual-override';
+        row.renderAnchored = row.anchors.length > 0;
+        if (!existing) rows.push(row);
+    });
+    return rows;
+}
+
+function getSongChordAlignments(song) {
+    if (!song) return [];
+    if (SONG_ALIGNMENT_CACHE.has(song)) return SONG_ALIGNMENT_CACHE.get(song);
+
+    const rows = isEnglishSong(song)
+        ? normalizeExternalChordAlignments(song, song.chordAlignments)
+        : buildBengaliChordAlignments(song);
+    const alignments = applyChordAlignmentOverrides(song, rows);
+    SONG_ALIGNMENT_CACHE.set(song, alignments);
+    return alignments;
+}
+
+function createAnchoredReaderLine(line, alignment, isPhonetic = false) {
+    const element = document.createElement('div');
+    element.className = isPhonetic
+        ? 'songbook-v18__reader-lyric-line songbook-v18__reader-anchored-line songbook-v18__reader-lyric-line--phonetic'
+        : 'songbook-v18__reader-lyric-line songbook-v18__reader-anchored-line';
+
+    if (!showChords || !alignment?.anchors?.length) {
+        element.textContent = line;
+        return element;
+    }
+
+    const anchorsByWordIndex = new Map();
+    alignment.anchors
+        .slice()
+        .sort((left, right) => left.wordIndex - right.wordIndex)
+        .forEach(anchor => {
+            const anchors = anchorsByWordIndex.get(anchor.wordIndex) || [];
+            anchors.push(anchor);
+            anchorsByWordIndex.set(anchor.wordIndex, anchors);
+        });
+
+    const tokens = getLyricWordTokens(line);
+    const lyricTokens = Array.from(line.matchAll(/\S+/gu));
+    let cursor = 0;
+    lyricTokens.forEach((token, wordIndex) => {
+        const tokenStart = token.index ?? cursor;
+        const tokenEnd = tokenStart + token[0].length;
+        const tokenAnchors = anchorsByWordIndex.get(wordIndex) || [];
+        if (tokenStart > cursor) element.appendChild(document.createTextNode(line.slice(cursor, tokenStart)));
+
+        if (!tokenAnchors.length) {
+            element.appendChild(document.createTextNode(token[0]));
+        } else {
+            const group = document.createElement('span');
+            group.className = 'songbook-v18__reader-anchor-group';
+
+            const chordStack = document.createElement('span');
+            chordStack.className = 'songbook-v18__reader-anchor-chords';
+            tokenAnchors.forEach(anchor => {
+                const chord = document.createElement('span');
+                chord.className = 'songbook-v18__reader-inline-chord songbook-v18__reader-anchored-chord';
+                chord.textContent = getCapoAdjustedChord(anchor.chord);
+                chordStack.appendChild(chord);
+            });
+            group.appendChild(chordStack);
+
+            const lyric = document.createElement('span');
+            lyric.className = 'songbook-v18__reader-anchor-lyric';
+            lyric.textContent = token[0];
+            group.appendChild(lyric);
+            element.appendChild(group);
+        }
+        cursor = tokenEnd;
+    });
+
+    if (!tokens.length && line) element.textContent = line;
+    if (cursor < line.length) element.appendChild(document.createTextNode(line.slice(cursor)));
+    return element;
+}
+
 function createReaderLine(line, type, isPhonetic) {
     const element = document.createElement('div');
     element.className = type === 'SECTION'
@@ -1104,10 +1413,19 @@ function renderSongContent(lyrics) {
     content.replaceChildren();
     content.dataset.language = isEnglishSong(song) ? 'english' : showPhonetic ? 'phonetic' : 'bangla';
     content.dataset.chords = showChords ? 'on' : 'off';
+    content.dataset.alignment = 'universal';
     content.style.setProperty('--reader-font-size', `${currentFontSize}px`);
+
+    const alignments = getSongChordAlignments(song);
+    const alignmentByChordLine = new Map(alignments.map(alignment => [alignment.chordLineIndex, alignment]));
+    const alignmentByLyricLine = new Map(alignments.map(alignment => [alignment.lyricLineIndex, alignment]));
 
     let needsStanzaSpace = false;
     originalLines.forEach((originalLine, index) => {
+        const chordAlignment = alignmentByChordLine.get(index);
+        const lyricAlignment = alignmentByLyricLine.get(index);
+        if (chordAlignment?.renderAnchored) return;
+
         const type = classifySongLine(originalLine);
         if (type === 'BLANK') {
             if (content.lastElementChild) needsStanzaSpace = true;
@@ -1115,7 +1433,7 @@ function renderSongContent(lyrics) {
         }
         if (type === 'CHORD' && !showChords) return;
 
-        if (needsStanzaSpace) {
+        if (needsStanzaSpace && showChords) {
             const spacer = document.createElement('div');
             spacer.className = 'songbook-v18__reader-stanza-space';
             spacer.setAttribute('aria-hidden', 'true');
@@ -1124,7 +1442,11 @@ function renderSongContent(lyrics) {
         }
 
         const line = displayLines[index] ?? originalLine;
-        content.appendChild(createReaderLine(line, type, showPhonetic && type !== 'CHORD'));
+        if (lyricAlignment?.renderAnchored) {
+            content.appendChild(createAnchoredReaderLine(line, lyricAlignment, showPhonetic));
+        } else {
+            content.appendChild(createReaderLine(line, type, showPhonetic && type !== 'CHORD'));
+        }
     });
 }
 
@@ -1163,11 +1485,16 @@ function transposeChordSymbol(chord, steps) {
 }
 
 function transposeChord(chord, steps) {
-    const parsed = parseChordToken(chord);
-    if (parsed?.grouped) {
-        return `${transposeChordSymbol(parsed.symbols[0], steps)}(${transposeChordSymbol(parsed.symbols[1], steps)})`;
-    }
-    return parsed ? parsed.symbols.map(symbol => transposeChordSymbol(symbol, steps)).join(' ') : chord;
+    const optionalMatch = /^\s*\((.+)\)\s*$/u.exec(String(chord));
+    const sourceChord = optionalMatch ? optionalMatch[1] : chord;
+    const parsed = parseChordToken(sourceChord) || parseCompactChordToken(sourceChord);
+    if (!parsed) return chord;
+
+    const transposedSymbols = parsed.symbols.map(symbol => transposeChordSymbol(symbol, steps));
+    const transposed = parsed.grouped
+        ? `${transposedSymbols[0]}(${transposedSymbols[1]})`
+        : transposedSymbols.join('');
+    return optionalMatch ? `(${transposed})` : transposed;
 }
 
 function transposeChordLine(line, steps) {
