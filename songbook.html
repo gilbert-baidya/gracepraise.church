@@ -413,13 +413,47 @@
                     </div>
                 </div>
 
-                <div class="modal" id="songModal" role="dialog" aria-modal="true" aria-labelledby="songTitle" style="display: none;">
-                    <div class="modal-content">
-                        <button type="button" class="close" onclick="closeSongModal()" aria-label="Close song details">&times;</button>
-                        <h2 id="songTitle"></h2>
-                        <div class="controls"><button type="button" id="toggleChords" class="btn btn-primary">Hide Chords</button><button type="button" id="togglePhonetic" class="btn btn-primary">Show Phonetic</button><button type="button" id="increaseFontSize" class="btn btn-primary" aria-label="Increase font size">A+</button><button type="button" id="decreaseFontSize" class="btn btn-primary" aria-label="Decrease font size">A-</button><button type="button" id="toggleAdvanced" class="btn btn-secondary">Transpose ▼</button></div>
-                        <div class="controls controls-advanced" id="advancedControls" style="display: none;"><button type="button" id="transposeUp" class="btn">Transpose +</button><button type="button" id="transposeDown" class="btn">Transpose -</button></div>
-                        <div id="songContent" class="song-content"></div>
+                <div class="modal songbook-v18__reader" id="songModal" role="dialog" aria-modal="true" aria-labelledby="songTitle" aria-describedby="songContent" style="display: none;">
+                    <div class="modal-content songbook-v18__reader-dialog">
+                        <header class="songbook-v18__reader-header">
+                            <div class="songbook-v18__reader-heading">
+                                <span class="songbook-v18__reader-kicker">Song Reader</span>
+                                <h2 id="songTitle"></h2>
+                                <p id="songPhoneticTitle" class="songbook-v18__reader-phonetic-title" hidden></p>
+                            </div>
+                            <button type="button" class="close songbook-v18__reader-close" onclick="closeSongModal()" aria-label="Close song reader">&times;</button>
+                        </header>
+                        <div class="songbook-v18__reader-toolbar" role="toolbar" aria-label="Song reader controls">
+                            <div class="songbook-v18__reader-control-group songbook-v18__reader-language-group">
+                                <span class="songbook-v18__reader-control-label">Language</span>
+                                <div class="songbook-v18__reader-segmented" role="group" aria-label="Lyric language">
+                                    <button type="button" id="showBangla" class="songbook-v18__reader-control is-active" aria-pressed="true">বাংলা</button>
+                                    <button type="button" id="togglePhonetic" class="songbook-v18__reader-control" aria-pressed="false">Phonetic</button>
+                                </div>
+                            </div>
+                            <div class="songbook-v18__reader-control-group">
+                                <span class="songbook-v18__reader-control-label">Chords</span>
+                                <button type="button" id="toggleChords" class="songbook-v18__reader-control songbook-v18__reader-control--toggle" aria-pressed="true"><span class="songbook-v18__reader-control-value">ON</span></button>
+                            </div>
+                            <div class="songbook-v18__reader-control-group">
+                                <span class="songbook-v18__reader-control-label">Text</span>
+                                <div class="songbook-v18__reader-inline-controls" role="group" aria-label="Text size">
+                                    <button type="button" id="decreaseFontSize" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Decrease text size">A−</button>
+                                    <button type="button" id="increaseFontSize" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Increase text size">A+</button>
+                                </div>
+                            </div>
+                            <div class="songbook-v18__reader-control-group songbook-v18__reader-transpose-group">
+                                <span class="songbook-v18__reader-control-label">Transpose</span>
+                                <div class="songbook-v18__reader-inline-controls" role="group" aria-label="Transpose song">
+                                    <button type="button" id="transposeDown" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Transpose down">−</button>
+                                    <span id="transposeKey" class="songbook-v18__reader-key" aria-live="polite">Key: —</span>
+                                    <button type="button" id="transposeUp" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Transpose up">+</button>
+                                </div>
+                            </div>
+                            <button type="button" id="toggleAdvanced" class="songbook-v18__reader-control songbook-v18__reader-advanced-toggle" aria-expanded="true" hidden>Transpose</button>
+                        </div>
+                        <div class="controls-advanced" id="advancedControls" hidden aria-hidden="true"></div>
+                        <div id="songContent" class="song-content songbook-v18__reader-content"></div>
                     </div>
                 </div>
 

@@ -215,6 +215,108 @@ if (char === 'য়') {
     return result;
 }
 
+/*
+ * Song Reader data helpers.
+ *
+ * The library stores raw lyric text only. Phonetic text is generated at read
+ * time, with narrowly scoped manual overrides for inspected corrections. The
+ * parser below is the single source of truth for chord-only line detection.
+ */
+const CHORD_SYMBOL_SOURCE = '[A-G](?:#|b)?(?:(?:maj|min|m|dim|aug|sus|add|no|M|Δ|°|ø)?(?:\\d+)?(?:/[A-G](?:#|b)?)?)';
+const CHORD_TOKEN_RE = new RegExp(`^(${CHORD_SYMBOL_SOURCE})(?:\\((${CHORD_SYMBOL_SOURCE})\\))?$`, 'i');
+const SONG_PHONETIC_OVERRIDES = Object.freeze({
+    117: Object.freeze({
+        title: 'Ar kono nam nai, je name jibon pai,',
+        lines: Object.freeze({
+            'আর কোন নাম নাই, যে নামে জীবন পাই,': 'Ar kono nam nai, je name jibon pai,',
+            'আত্মার দানে হয় ভরপুর।': 'Atmar dane hoy bhorpur.'
+        })
+    })
+});
+
+function cleanChordToken(token) {
+    return token.trim()
+        .replace(/^\[/, '')
+        .replace(/\]$/, '')
+        .replace(/[|,;:]+$/, '');
+}
+
+function parseChordToken(token) {
+    const cleaned = cleanChordToken(token);
+    const match = CHORD_TOKEN_RE.exec(cleaned);
+    if (!match) return null;
+
+    return {
+        raw: cleaned,
+        symbols: match[2] ? [match[1], match[2]] : [match[1]],
+        grouped: Boolean(match[2])
+    };
+}
+
+function parseCompactChordToken(token) {
+    const cleaned = cleanChordToken(token);
+    let remainder = cleaned;
+    const symbols = [];
+
+    while (remainder) {
+        const match = new RegExp(`^(${CHORD_SYMBOL_SOURCE})`, 'i').exec(remainder);
+        if (!match) return null;
+        symbols.push(match[1]);
+        remainder = remainder.slice(match[1].length);
+    }
+
+    return symbols.length > 1 ? { raw: cleaned, symbols, grouped: false } : null;
+}
+
+function parseChordLine(line) {
+    const trimmed = line.trim();
+    if (!trimmed || /[\u0980-\u09FF]/u.test(trimmed)) return null;
+
+    const tokens = trimmed.split(/\s+/).filter(Boolean);
+    const parts = tokens.map(token => parseChordToken(token) || parseCompactChordToken(token));
+    return parts.length && parts.every(Boolean) ? { parts } : null;
+}
+
+function classifySongLine(line) {
+    const trimmed = line.trim();
+    if (!trimmed) return 'BLANK';
+
+    if (/^(?:\[?\s*(?:verse|chorus|bridge|intro|outro|pre-chorus|refrain|tag)(?:\s+\d+)?\s*\]?|ধূয়াঃ|ধুয়া|ধ্রুবক)\s*[:：]?$/iu.test(trimmed)) {
+        return 'SECTION';
+    }
+
+    if (parseChordLine(trimmed)) return 'CHORD';
+    if (/[\u0980-\u09FFA-Za-z0-9]/u.test(trimmed)) return 'LYRIC';
+    return 'OTHER';
+}
+
+function hasInlineChordMarkers(line) {
+    return new RegExp(`\\[${CHORD_SYMBOL_SOURCE}(?:\\(${CHORD_SYMBOL_SOURCE}\\))?\\]`, 'i').test(line);
+}
+
+function getSongPhoneticLine(song, line) {
+    const override = SONG_PHONETIC_OVERRIDES[song?.id];
+    const trimmed = line.trim();
+    if (override?.lines?.[trimmed]) {
+        return line.slice(0, line.indexOf(trimmed)) + override.lines[trimmed];
+    }
+
+    if (classifySongLine(line) === 'CHORD') return line;
+    return convertToPhonetic(line);
+}
+
+function getSongPhonetic(song) {
+    return song.lyrics.split('\n').map(line => getSongPhoneticLine(song, line)).join('\n');
+}
+
+function getSongPhoneticTitle(song) {
+    return SONG_PHONETIC_OVERRIDES[song?.id]?.title || convertToPhonetic(song.title);
+}
+
+function songHasPhonetic(song) {
+    return /[\u0980-\u09FF]/u.test(`${song?.title || ''}\n${song?.lyrics || ''}`);
+}
+
 // Service Playlist Management
 function toggleServicePlaylist(songId) {
     const song = songsDatabase.find(s => s.id === songId);
@@ -329,10 +431,8 @@ function showPresentationMode(song) {
                 return;
             }
             
-            // Check if this is a chord-only line
-            const hasBengali = /[\u0980-\u09FF]/.test(trimmed);
-            const chordPattern = /^[A-G#bmajdinsug\s]+$/;
-            const isChordLine = !hasBengali && chordPattern.test(trimmed);
+            // Use the same conservative chord classifier as the Song Reader.
+            const isChordLine = classifySongLine(trimmed) === 'CHORD';
             
             // If it's a chord line and chords are hidden, skip it
             if (isChordLine && !showChords) {
@@ -347,7 +447,7 @@ function showPresentationMode(song) {
             
             // It's a lyric line - show Bengali and phonetic
             bilingualLines.push(line); // Bengali lyric
-            const phoneticLine = convertToPhonetic(line);
+            const phoneticLine = getSongPhoneticLine(song, line);
             bilingualLines.push('<span style="color: #aaa; font-size: 0.85em;">' + phoneticLine + '</span>'); // Phonetic
         });
         
@@ -391,17 +491,6 @@ function exitPresentation() {
     window.currentPresentationIndex = 0;
 }
 
-// Chord transposition map
-const chordMap = {
-    'C': ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
-    'D': ['D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#'],
-    'E': ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'],
-    'F': ['F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E'],
-    'G': ['G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#'],
-    'A': ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'],
-    'B': ['B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#']
-};
-
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
     // CRITICAL: Ensure all modals are closed on page load
@@ -436,29 +525,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Check if song has chords
 function hasChords(song) {
-    // Check for chords in square brackets [C] [G] etc.
-    if (song.lyrics.includes('[') && song.lyrics.includes(']')) {
-        return true;
-    }
-    
-    // Check for common chord patterns (C, D, E, F, G, A, B with optional # or m)
-    const chordPattern = /\b[A-G](#|b)?(m|maj|min|sus|dim|aug|\d)?\b/g;
-    const lines = song.lyrics.split('\n');
-    
-    // Check if any line contains multiple chord-like patterns
-    for (let line of lines) {
-        const matches = line.match(chordPattern);
-        if (matches && matches.length >= 2) {
-            // Check if line has more chords than regular words (likely a chord line)
-            const words = line.trim().split(/\s+/);
-            const chordCount = matches.length;
-            if (chordCount >= words.length * 0.5) {
-                return true;
-            }
-        }
-    }
-    
-    return false;
+    return Boolean(song?.lyrics?.split('\n').some(line => (
+        classifySongLine(line) === 'CHORD' || hasInlineChordMarkers(line)
+    )));
 }
 
 // Get filtered songs based on current category and language filters.
@@ -745,36 +814,33 @@ function releaseModalFocus(modalElement) {
 function openSong(song) {
     const modal = document.getElementById('songModal');
     const title = document.getElementById('songTitle');
-    
+    if (!modal || !title || !song) return;
+
     title.textContent = song.title;
     currentTranspose = 0;
     currentFontSize = 16;
-    
-    // Reset to defaults when opening a new song
     showChords = true;
-    const chordsBtn = document.getElementById('toggleChords');
-    if (chordsBtn) chordsBtn.textContent = 'Hide Chords';
-    
-    // Keep bilingual mode if active, otherwise reset to Bengali
-    if (!showBilingualMode) {
-        showPhonetic = false;
+    showPhonetic = false;
+
+    const phoneticTitle = document.getElementById('songPhoneticTitle');
+    if (phoneticTitle) {
+        phoneticTitle.textContent = songHasPhonetic(song) ? getSongPhoneticTitle(song) : '';
+        phoneticTitle.hidden = !songHasPhonetic(song);
     }
-    
-    // Reset advanced controls to hidden on mobile
+
     const advancedControls = document.getElementById('advancedControls');
     const toggleAdvancedBtn = document.getElementById('toggleAdvanced');
     if (advancedControls && toggleAdvancedBtn) {
-        advancedControls.style.display = 'none';
-        toggleAdvancedBtn.textContent = 'Transpose ▼';
+        advancedControls.hidden = true;
+        advancedControls.setAttribute('aria-hidden', 'true');
+        toggleAdvancedBtn.hidden = true;
     }
-    
-    // Store current song globally
+
     window.currentSong = song;
-    
-    renderSongContent(song.lyrics);
+    updateReaderControls();
     modal.style.display = 'flex';
-    
-    // Lock body scroll when modal opens
+    modal.setAttribute('aria-hidden', 'false');
+    renderSongContent(song.lyrics);
     document.body.style.overflow = 'hidden';
     trapModalFocus(modal);
 }
@@ -782,156 +848,195 @@ function openSong(song) {
 // Centralized cleanup function to restore UI state
 function closeSongModal() {
     const modal = document.getElementById('songModal');
+    if (!modal) return;
     modal.style.display = 'none';
-    
-    // Restore body scroll
+    modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     releaseModalFocus(modal);
-    
-    // Clear any transient UI states
     window.currentSong = null;
 }
 
-// Render song content with chords
+function updateReaderLanguageControls() {
+    const banglaButton = document.getElementById('showBangla');
+    const phoneticButton = document.getElementById('togglePhonetic');
+    const hasPhonetic = songHasPhonetic(window.currentSong);
+
+    if (banglaButton) {
+        banglaButton.classList.toggle('is-active', !showPhonetic);
+        banglaButton.setAttribute('aria-pressed', String(!showPhonetic));
+    }
+
+    if (phoneticButton) {
+        phoneticButton.disabled = !hasPhonetic;
+        phoneticButton.classList.toggle('is-active', showPhonetic && hasPhonetic);
+        phoneticButton.setAttribute('aria-pressed', String(showPhonetic && hasPhonetic));
+        phoneticButton.setAttribute('aria-disabled', String(!hasPhonetic));
+    }
+}
+
+function updateReaderControls() {
+    updateReaderLanguageControls();
+
+    const chordsButton = document.getElementById('toggleChords');
+    if (chordsButton) {
+        const value = chordsButton.querySelector('.songbook-v18__reader-control-value');
+        if (value) value.textContent = showChords ? 'ON' : 'OFF';
+        chordsButton.setAttribute('aria-pressed', String(showChords));
+        chordsButton.setAttribute('aria-label', showChords ? 'Hide chords' : 'Show chords');
+        chordsButton.classList.toggle('is-active', showChords);
+    }
+
+    const baseKey = getSongBaseKey(window.currentSong);
+    const keyLabel = document.getElementById('transposeKey');
+    if (keyLabel) keyLabel.textContent = `Key: ${baseKey ? transposeChordSymbol(baseKey, currentTranspose) : '—'}`;
+
+    const content = document.getElementById('songContent');
+    if (content) content.style.setProperty('--reader-font-size', `${currentFontSize}px`);
+}
+
+function setReaderLanguage(language) {
+    if (language === 'phonetic' && !songHasPhonetic(window.currentSong)) return;
+    showPhonetic = language === 'phonetic';
+    updateReaderControls();
+    if (window.currentSong) renderSongContent(window.currentSong.lyrics);
+}
+
+function getSongBaseKey(song) {
+    if (!song) return null;
+    const firstChordLine = song.lyrics.split('\n').map(parseChordLine).find(Boolean);
+    const firstSymbol = firstChordLine?.parts?.[0]?.symbols?.[0];
+    return firstSymbol?.match(/^([A-G](?:#|b)?)/i)?.[1] || null;
+}
+
+function appendInlineReaderText(container, line) {
+    const inlineChordPattern = new RegExp(`\\[(${CHORD_SYMBOL_SOURCE}(?:\\(${CHORD_SYMBOL_SOURCE}\\))?)\\]`, 'gi');
+    let cursor = 0;
+    let match;
+
+    while ((match = inlineChordPattern.exec(line))) {
+        if (match.index > cursor) container.appendChild(document.createTextNode(line.slice(cursor, match.index)));
+        if (showChords) {
+            const chord = document.createElement('span');
+            chord.className = 'songbook-v18__reader-inline-chord';
+            chord.textContent = transposeChord(match[1], currentTranspose);
+            container.appendChild(chord);
+        }
+        cursor = inlineChordPattern.lastIndex;
+    }
+
+    if (cursor < line.length) container.appendChild(document.createTextNode(line.slice(cursor)));
+    if (!match) container.textContent = line;
+}
+
+function createReaderLine(line, type, isPhonetic) {
+    const element = document.createElement('div');
+    element.className = type === 'SECTION'
+        ? 'songbook-v18__reader-section'
+        : isPhonetic
+            ? 'songbook-v18__reader-lyric-line songbook-v18__reader-lyric-line--phonetic'
+            : 'songbook-v18__reader-lyric-line';
+
+    if (type === 'CHORD') {
+        element.className = 'songbook-v18__reader-chord-line';
+        element.textContent = transposeChordLine(line, currentTranspose);
+    } else {
+        appendInlineReaderText(element, line);
+    }
+    return element;
+}
+
+// Render every reader view through one line classifier and renderer.
 function renderSongContent(lyrics) {
     const content = document.getElementById('songContent');
-    content.style.fontSize = currentFontSize + 'px';
-    
-    let textToDisplay = lyrics;
-    
-    // Bilingual mode: alternate Bangla and phonetic lines
-    if (showBilingualMode) {
-        const lines = lyrics.split('\n');
-        const bilingualLines = [];
-        
-        lines.forEach(line => {
-            const trimmed = line.trim();
-            
-            // Skip empty lines
-            if (!trimmed) {
-                bilingualLines.push('');
-                return;
-            }
-            
-            // Check if this is a chord-only line
-            const hasBengali = /[\u0980-\u09FF]/.test(trimmed);
-            const chordPattern = /^[A-G#bmajdinsug\s]+$/;
-            const isChordLine = !hasBengali && chordPattern.test(trimmed);
-            
-            // If it's a chord line and chords are hidden, skip it
-            if (isChordLine && !showChords) {
-                return;
-            }
-            
-            // If it's a chord line and chords are shown, display it
-            if (isChordLine && showChords) {
-                bilingualLines.push(line);
-                return;
-            }
-            
-            // It's a lyric line - show Bengali and phonetic
-            bilingualLines.push(line); // Bengali lyric
-            const phoneticLine = convertToPhonetic(line);
-            bilingualLines.push('<span style="color: #999; font-size: 0.85em;">' + phoneticLine + '</span>'); // Phonetic
-        });
-        
-        content.innerHTML = bilingualLines.join('<br>');
-        return;
-    }
-    
-    // Convert to phonetic if enabled
-    if (showPhonetic) {
-        textToDisplay = convertToPhonetic(lyrics);
-    }
-    
-    if (showChords) {
-        // Show all content as-is (chords and lyrics), with transposition applied
-        const lines = textToDisplay.split('\n');
-        const processedLines = lines.map(line => {
-            const trimmed = line.trim();
-            if (!trimmed) return line;
-            const hasBengali = /[\u0980-\u09FF]/.test(trimmed);
-            const chordPattern = /^[A-G#bmajdinsug\s\/]+$/;
-            const isChordLine = !hasBengali && chordPattern.test(trimmed);
-            if (isChordLine) {
-                let processed = normalizeChordLine(trimmed);
-                if (currentTranspose !== 0) {
-                    processed = processed.replace(/[A-G][#b]?[a-z]*/g, chord => transposeChord(chord, currentTranspose));
-                }
-                return processed;
-            }
-            return line;
-        });
-        const finalHTML = processedLines.join('<br>');
-        content.innerHTML = finalHTML;
-        content.offsetHeight; // Force reflow
-    } else {
-        // Remove chord-only lines (lines with mostly chord patterns like F#, BF#, C, etc.)
-        const lines = textToDisplay.split('\n');
-        const lyricsOnly = lines.filter(line => {
-            const trimmed = line.trim();
-            // Skip empty lines
-            if (!trimmed) return true;
-            
-            // Check if line contains mostly Bengali/text (not just chords)
-            const hasBengali = /[\u0980-\u09FF]/.test(trimmed);
-            
-            // If has Bengali, it's a lyric line - keep it
-            if (hasBengali) return true;
-            
-            // If no Bengali, check if it's a chord line (only chord symbols)
-            const chordPattern = /^[A-G#bmajdinsug\s]+$/;
-            const looksLikeChords = chordPattern.test(trimmed);
-            
-            // Keep non-chord lines, remove chord lines
-            return !looksLikeChords;
-        });
-        
-        const finalHTML = lyricsOnly.join('<br>');
-        content.innerHTML = finalHTML;
-        content.offsetHeight; // Force reflow
-    }
+    const song = window.currentSong;
+    if (!content || !song) return;
+
+    const originalLines = lyrics.split('\n');
+    const displayLines = showPhonetic ? getSongPhonetic(song).split('\n') : originalLines;
+    content.replaceChildren();
+    content.dataset.language = showPhonetic ? 'phonetic' : 'bangla';
+    content.dataset.chords = showChords ? 'on' : 'off';
+    content.style.setProperty('--reader-font-size', `${currentFontSize}px`);
+
+    let needsStanzaSpace = false;
+    originalLines.forEach((originalLine, index) => {
+        const type = classifySongLine(originalLine);
+        if (type === 'BLANK') {
+            if (content.lastElementChild) needsStanzaSpace = true;
+            return;
+        }
+        if (type === 'CHORD' && !showChords) return;
+
+        if (needsStanzaSpace) {
+            const spacer = document.createElement('div');
+            spacer.className = 'songbook-v18__reader-stanza-space';
+            spacer.setAttribute('aria-hidden', 'true');
+            content.appendChild(spacer);
+            needsStanzaSpace = false;
+        }
+
+        const line = displayLines[index] ?? originalLine;
+        content.appendChild(createReaderLine(line, type, showPhonetic && type !== 'CHORD'));
+    });
 }
 
 // Normalize chord spacing (fixes "BF#" → "B F#", "C#F#" → "C# F#")
 function normalizeChordLine(line) {
-    return line.replace(/([A-G][#b]?(?:m|maj|dim|sus|aug|add|[0-9])*)\s*(?=[A-G])/g, '$1 ');
+    const parsed = parseChordLine(line);
+    if (!parsed) return line;
+    const leading = line.match(/^\s*/)?.[0] || '';
+    return leading + parsed.parts.map(part => part.grouped
+        ? `${part.symbols[0]}(${part.symbols[1]})`
+        : part.symbols.join(' ')).join(' ');
 }
 
-// Transpose chord
-function transposeChord(chord, steps) {
-    // Extract the base note and modifiers
-    const match = chord.match(/^([A-G][#b]?)(.*)/);
+function transposeChordSymbol(chord, steps) {
+    const match = /^([A-G](?:#|b)?)(.*)$/i.exec(chord);
     if (!match) return chord;
-    
-    let [, note, modifier] = match;
-    
-    // Normalize sharps/flats
-    note = note.replace('b', '#');
-    if (note === 'C#') note = 'C#';
-    else if (note === 'D#') note = 'D#';
-    else if (note === 'F#') note = 'F#';
-    else if (note === 'G#') note = 'G#';
-    else if (note === 'A#') note = 'A#';
-    
-    // Find in chord map
-    const baseNote = note.charAt(0);
-    if (!chordMap[baseNote]) return chord;
-    
-    const noteIndex = chordMap[baseNote].indexOf(note);
-    if (noteIndex === -1) return chord;
-    
-    const newIndex = (noteIndex + steps + 12) % 12;
-    const newNote = chordMap[baseNote][newIndex];
-    
-    return newNote + modifier;
+
+    const aliases = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11 };
+    const transposeRoot = root => {
+        const note = root.charAt(0).toUpperCase() + root.slice(1);
+        const pitch = aliases[note];
+        if (pitch === undefined) return root;
+        const names = note.includes('b') ? ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'] : ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const nextPitch = ((pitch + steps) % 12 + 12) % 12;
+        return names[nextPitch];
+    };
+
+    const note = match[1].charAt(0).toUpperCase() + match[1].slice(1);
+    const modifier = match[2];
+    const slashIndex = modifier.search(/\/[A-G](?:#|b)?$/i);
+    if (slashIndex === -1) return transposeRoot(note) + modifier;
+
+    const quality = modifier.slice(0, slashIndex);
+    const bass = modifier.slice(slashIndex + 1);
+    return `${transposeRoot(note)}${quality}/${transposeRoot(bass)}`;
+}
+
+function transposeChord(chord, steps) {
+    const parsed = parseChordToken(chord);
+    if (parsed?.grouped) {
+        return `${transposeChordSymbol(parsed.symbols[0], steps)}(${transposeChordSymbol(parsed.symbols[1], steps)})`;
+    }
+    return parsed ? parsed.symbols.map(symbol => transposeChordSymbol(symbol, steps)).join(' ') : chord;
+}
+
+function transposeChordLine(line, steps) {
+    const parsed = parseChordLine(line);
+    if (!parsed) return line;
+    const leading = line.match(/^\s*/)?.[0] || '';
+    return leading + parsed.parts.map(part => {
+        const transposed = part.symbols.map(symbol => transposeChordSymbol(symbol, steps));
+        return part.grouped ? `${transposed[0]}(${transposed[1]})` : transposed.join(' ');
+    }).join(' ');
 }
 
 // Search functionality
 function setupEventListeners() {
     const searchInput = document.getElementById('searchInput');
     const modal = document.getElementById('songModal');
-    const closeBtn = document.querySelector('.close');
+    const closeBtn = modal?.querySelector('.close');
     
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
@@ -943,8 +1048,8 @@ function setupEventListeners() {
             const lyricsMatch = song.lyrics.toLowerCase().includes(query);
             
             // Also search in phonetic version
-            const phoneticTitle = convertToPhonetic(song.title).toLowerCase();
-            const phoneticLyrics = convertToPhonetic(song.lyrics).toLowerCase();
+            const phoneticTitle = getSongPhoneticTitle(song).toLowerCase();
+            const phoneticLyrics = getSongPhonetic(song).toLowerCase();
             const phoneticMatch = phoneticTitle.includes(query) || phoneticLyrics.includes(query);
             
             return titleMatch || categoryMatch || lyricsMatch || phoneticMatch;
@@ -952,7 +1057,7 @@ function setupEventListeners() {
         renderSongList(filtered);
     });
     
-    closeBtn.onclick = () => closeSongModal();
+    if (closeBtn) closeBtn.onclick = () => closeSongModal();
     
     // Close modal when clicking outside content
     modal.onclick = (e) => {
@@ -971,51 +1076,45 @@ function setupEventListeners() {
     // Control buttons
     document.getElementById('toggleChords').onclick = function() {
         showChords = !showChords;
-        const btn = document.getElementById('toggleChords');
-        btn.textContent = showChords ? 'Hide Chords' : 'Show Chords';
-        
-        if (window.currentSong) {
-            renderSongContent(window.currentSong.lyrics);
-        }
-    };
-    
-    document.getElementById('togglePhonetic').onclick = () => {
-        showPhonetic = !showPhonetic;
-        const btn = document.getElementById('togglePhonetic');
-        btn.textContent = showPhonetic ? 'Show Bengali' : 'Show Phonetic';
+        updateReaderControls();
         if (window.currentSong) renderSongContent(window.currentSong.lyrics);
     };
-    
-    // Toggle advanced controls visibility (mobile optimization)
+
+    document.getElementById('showBangla').onclick = () => setReaderLanguage('bangla');
+    document.getElementById('togglePhonetic').onclick = () => setReaderLanguage('phonetic');
+
     const toggleAdvancedBtn = document.getElementById('toggleAdvanced');
     const advancedControls = document.getElementById('advancedControls');
     if (toggleAdvancedBtn && advancedControls) {
         toggleAdvancedBtn.onclick = () => {
-            const isVisible = advancedControls.style.display !== 'none';
-            advancedControls.style.display = isVisible ? 'none' : 'flex';
-            toggleAdvancedBtn.textContent = isVisible ? 'Transpose ▼' : 'Transpose ▲';
+            const isVisible = !advancedControls.hidden;
+            advancedControls.hidden = isVisible;
+            advancedControls.setAttribute('aria-hidden', String(isVisible));
+            toggleAdvancedBtn.setAttribute('aria-expanded', String(!isVisible));
         };
     }
-    
+
     document.getElementById('increaseFontSize').onclick = () => {
-        currentFontSize += 2;
+        currentFontSize = Math.min(28, currentFontSize + 2);
+        updateReaderControls();
         if (window.currentSong) renderSongContent(window.currentSong.lyrics);
     };
-    
+
     document.getElementById('decreaseFontSize').onclick = () => {
-        if (currentFontSize > 10) {
-            currentFontSize -= 2;
-            if (window.currentSong) renderSongContent(window.currentSong.lyrics);
-        }
+        currentFontSize = Math.max(14, currentFontSize - 2);
+        updateReaderControls();
+        if (window.currentSong) renderSongContent(window.currentSong.lyrics);
     };
-    
+
     document.getElementById('transposeUp').onclick = () => {
         currentTranspose++;
+        updateReaderControls();
         if (window.currentSong) renderSongContent(window.currentSong.lyrics);
     };
-    
+
     document.getElementById('transposeDown').onclick = () => {
         currentTranspose--;
+        updateReaderControls();
         if (window.currentSong) renderSongContent(window.currentSong.lyrics);
     };
 }
