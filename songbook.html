@@ -443,14 +443,40 @@
                                 </div>
                             </div>
                             <div class="songbook-v18__reader-control-group songbook-v18__reader-transpose-group">
-                                <span class="songbook-v18__reader-control-label">Transpose</span>
+                                <span class="songbook-v18__reader-control-label">Sounding key</span>
                                 <div class="songbook-v18__reader-inline-controls" role="group" aria-label="Transpose song">
-                                    <button type="button" id="transposeDown" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Transpose down">−</button>
+                                    <button type="button" id="transposeDown" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Decrease sounding key">−</button>
                                     <span id="transposeKey" class="songbook-v18__reader-key" aria-live="polite">Key: —</span>
-                                    <button type="button" id="transposeUp" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Transpose up">+</button>
+                                    <button type="button" id="transposeUp" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Increase sounding key">+</button>
+                                </div>
+                            </div>
+                            <div class="songbook-v18__reader-control-group songbook-v18__reader-capo-group" id="smartCapoControls" hidden>
+                                <span class="songbook-v18__reader-control-label">Capo</span>
+                                <div class="songbook-v18__reader-inline-controls" role="group" aria-label="Capo position">
+                                    <button type="button" id="capoDown" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Decrease capo">−</button>
+                                    <select id="capoSelect" class="songbook-v18__reader-capo-select" aria-label="Capo position">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                    <button type="button" id="capoUp" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Increase capo">+</button>
                                 </div>
                             </div>
                             <button type="button" id="toggleAdvanced" class="songbook-v18__reader-control songbook-v18__reader-advanced-toggle" aria-expanded="true" hidden>Transpose</button>
+                            <div id="capoSummary" class="songbook-v18__reader-capo-summary" hidden aria-live="polite">
+                                <span id="capoSummaryText"></span>
+                                <div id="capoSuggestions" class="songbook-v18__reader-suggestions" hidden aria-label="Suggested capo shapes"></div>
+                            </div>
                         </div>
                         <div class="controls-advanced" id="advancedControls" hidden aria-hidden="true"></div>
                         <div id="songContent" class="song-content songbook-v18__reader-content"></div>

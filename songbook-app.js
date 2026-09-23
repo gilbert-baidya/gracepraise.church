@@ -3,6 +3,7 @@ const SONGBOOK_COORDINATOR_EMAIL = 'gilbert.baidya@gmail.com';
 
 let currentFontSize = 16;
 let currentTranspose = 0;
+let currentCapo = 0;
 let showChords = true;
 let showPhonetic = false;
 let currentFilter = 'all'; // 'all', 'chords', or 'bilingual'
@@ -818,6 +819,7 @@ function openSong(song) {
 
     title.textContent = song.title;
     currentTranspose = 0;
+    currentCapo = 0;
     currentFontSize = 16;
     showChords = true;
     showPhonetic = false;
@@ -886,12 +888,13 @@ function updateReaderControls() {
         chordsButton.classList.toggle('is-active', showChords);
     }
 
-    const baseKey = getSongBaseKey(window.currentSong);
+    const soundingKey = getCurrentSoundingKey(window.currentSong);
     const keyLabel = document.getElementById('transposeKey');
-    if (keyLabel) keyLabel.textContent = `Key: ${baseKey ? transposeChordSymbol(baseKey, currentTranspose) : '—'}`;
+    if (keyLabel) keyLabel.textContent = `Key: ${soundingKey || '—'}`;
 
     const content = document.getElementById('songContent');
     if (content) content.style.setProperty('--reader-font-size', `${currentFontSize}px`);
+    updateCapoControls();
 }
 
 function setReaderLanguage(language) {
@@ -908,6 +911,107 @@ function getSongBaseKey(song) {
     return firstSymbol?.match(/^([A-G](?:#|b)?)/i)?.[1] || null;
 }
 
+function getCurrentSoundingKey(song = window.currentSong) {
+    const baseKey = getSongBaseKey(song);
+    return baseKey ? transposeChordSymbol(baseKey, currentTranspose) : null;
+}
+
+function getPlayingKey(song = window.currentSong, capo = currentCapo) {
+    const soundingKey = getCurrentSoundingKey(song);
+    return soundingKey ? transposeChordSymbol(soundingKey, -capo) : null;
+}
+
+function getCapoAdjustedChord(chord, capo = currentCapo) {
+    return transposeChord(chord, currentTranspose - capo);
+}
+
+function getCapoAdjustedChordLine(line, capo = currentCapo) {
+    return transposeChordLine(line, currentTranspose - capo);
+}
+
+function getCapoOptions() {
+    return Array.from({ length: 13 }, (_, capo) => capo);
+}
+
+function getSuggestedCapos(song = window.currentSong) {
+    const soundingKey = getCurrentSoundingKey(song);
+    if (!soundingKey) return [];
+
+    const commonShapeRoots = ['C', 'G', 'D', 'A', 'E'];
+    const candidates = getCapoOptions().slice(0, 8)
+        .map(capo => ({ capo, shape: getPlayingKey(song, capo) }))
+        .filter(option => commonShapeRoots.includes(option.shape));
+    const noCapo = candidates.find(option => option.capo === 0);
+    const remaining = candidates
+        .filter(option => option.capo !== 0)
+        .sort((a, b) => commonShapeRoots.indexOf(a.shape) - commonShapeRoots.indexOf(b.shape) || a.capo - b.capo);
+
+    return [noCapo, ...remaining].filter(Boolean).slice(0, 3);
+}
+
+function renderCapoSuggestions(song) {
+    const suggestions = document.getElementById('capoSuggestions');
+    if (!suggestions) return;
+
+    suggestions.replaceChildren();
+    const options = getSuggestedCapos(song);
+    suggestions.hidden = options.length === 0;
+    if (!options.length) return;
+
+    const label = document.createElement('span');
+    label.className = 'songbook-v18__reader-suggestions-label';
+    label.textContent = 'Common shapes';
+    suggestions.appendChild(label);
+
+    options.forEach(option => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'songbook-v18__reader-suggestion';
+        button.dataset.capo = String(option.capo);
+        button.classList.toggle('is-active', option.capo === currentCapo);
+        button.setAttribute('aria-pressed', String(option.capo === currentCapo));
+        button.setAttribute('aria-label', `Use capo ${option.capo}, play in ${option.shape} shapes`);
+        button.textContent = `${option.capo} → ${option.shape}`;
+        button.addEventListener('click', () => {
+            currentCapo = option.capo;
+            updateReaderControls();
+            if (window.currentSong) renderSongContent(window.currentSong.lyrics);
+        });
+        suggestions.appendChild(button);
+    });
+}
+
+function updateCapoControls() {
+    const group = document.getElementById('smartCapoControls');
+    const summary = document.getElementById('capoSummary');
+    const summaryText = document.getElementById('capoSummaryText');
+    const select = document.getElementById('capoSelect');
+    const song = window.currentSong;
+    const soundingKey = getCurrentSoundingKey(song);
+    const available = Boolean(song && soundingKey && hasChords(song));
+
+    if (select) select.value = String(currentCapo);
+    if (group) group.hidden = !available;
+    if (summary) summary.hidden = !available;
+    if (!available) return;
+
+    if (summaryText) {
+        summaryText.textContent = `Capo ${currentCapo} · Play in ${getPlayingKey(song, currentCapo)} · Sounds in ${soundingKey}`;
+    }
+
+    const capoDown = document.getElementById('capoDown');
+    const capoUp = document.getElementById('capoUp');
+    if (capoDown) capoDown.disabled = currentCapo === 0;
+    if (capoUp) capoUp.disabled = currentCapo === 12;
+    renderCapoSuggestions(song);
+}
+
+function setCapo(value) {
+    currentCapo = Math.max(0, Math.min(12, Number(value) || 0));
+    updateReaderControls();
+    if (window.currentSong) renderSongContent(window.currentSong.lyrics);
+}
+
 function appendInlineReaderText(container, line) {
     const inlineChordPattern = new RegExp(`\\[(${CHORD_SYMBOL_SOURCE}(?:\\(${CHORD_SYMBOL_SOURCE}\\))?)\\]`, 'gi');
     let cursor = 0;
@@ -918,7 +1022,7 @@ function appendInlineReaderText(container, line) {
         if (showChords) {
             const chord = document.createElement('span');
             chord.className = 'songbook-v18__reader-inline-chord';
-            chord.textContent = transposeChord(match[1], currentTranspose);
+            chord.textContent = getCapoAdjustedChord(match[1]);
             container.appendChild(chord);
         }
         cursor = inlineChordPattern.lastIndex;
@@ -938,7 +1042,7 @@ function createReaderLine(line, type, isPhonetic) {
 
     if (type === 'CHORD') {
         element.className = 'songbook-v18__reader-chord-line';
-        element.textContent = transposeChordLine(line, currentTranspose);
+        element.textContent = getCapoAdjustedChordLine(line);
     } else {
         appendInlineReaderText(element, line);
     }
@@ -1117,6 +1221,10 @@ function setupEventListeners() {
         updateReaderControls();
         if (window.currentSong) renderSongContent(window.currentSong.lyrics);
     };
+
+    document.getElementById('capoDown').onclick = () => setCapo(currentCapo - 1);
+    document.getElementById('capoUp').onclick = () => setCapo(currentCapo + 1);
+    document.getElementById('capoSelect').onchange = event => setCapo(event.target.value);
 }
 
 // Copy protection functions

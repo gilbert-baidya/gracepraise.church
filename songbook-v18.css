@@ -1933,6 +1933,76 @@ body.songbook-v18 .songbook-v18__reader-key {
     text-align: center;
 }
 
+body.songbook-v18 .songbook-v18__reader-capo-select {
+    min-width: 3rem;
+    min-height: 2.15rem;
+    padding: 0.35rem 0.45rem;
+    border: 1px solid var(--sb18-line);
+    border-radius: 0.65rem;
+    background: var(--sb18-paper);
+    color: var(--sb18-ink);
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+body.songbook-v18 .songbook-v18__reader-capo-select:focus-visible {
+    outline: 3px solid var(--sb18-gold);
+    outline-offset: 2px;
+}
+
+body.songbook-v18 .songbook-v18__reader-capo-summary {
+    display: flex;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem 0.9rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid var(--sb18-line);
+    color: var(--sb18-muted);
+    font-size: 0.74rem;
+    font-weight: 800;
+}
+
+body.songbook-v18 .songbook-v18__reader-suggestions {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+body.songbook-v18 .songbook-v18__reader-suggestions-label {
+    color: var(--sb18-muted);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+body.songbook-v18 .songbook-v18__reader-suggestion {
+    min-height: 1.8rem;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid var(--sb18-line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--sb18-blue-strong);
+    cursor: pointer;
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+body.songbook-v18 .songbook-v18__reader-suggestion:hover,
+body.songbook-v18 .songbook-v18__reader-suggestion:focus-visible,
+body.songbook-v18 .songbook-v18__reader-suggestion.is-active {
+    border-color: var(--sb18-blue);
+    background: rgba(23, 105, 232, 0.08);
+}
+
+body.songbook-v18 [hidden] {
+    display: none !important;
+}
+
 body.songbook-v18 .songbook-v18__reader-advanced-toggle,
 body.songbook-v18 #advancedControls {
     display: none !important;
@@ -2053,6 +2123,13 @@ body.songbook-v18.dark #songModal {
 
     body.songbook-v18 .songbook-v18__reader-language-group {
         grid-column: 1 / -1;
+    }
+
+    body.songbook-v18 .songbook-v18__reader-capo-summary {
+        grid-column: 1 / -1;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.45rem;
     }
 
     body.songbook-v18 .songbook-v18__reader-control-group {
