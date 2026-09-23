@@ -237,11 +237,12 @@
             <div>
                 <span class="songbook-v18__eyebrow">Worship resource</span>
                 <h1 id="songbook-title"><span>GPBC</span> Song Book</h1>
-                <p class="songbook-v18__hero-lede">Lift up your hearts in worship — One Church, Many Songs, One Living God.</p>
+                <p class="songbook-v18__hero-lede"><span class="songbook-v18__hero-lede-desktop">Lift up your hearts in worship — One Church, Many Songs, One Living God.</span><span class="songbook-v18__hero-lede-mobile">One Church. Many Songs. One Living God.</span></p>
                 <p class="songbook-v18__hero-verse">“Sing to the Lord a new song...” — Psalm 96:1</p>
             </div>
             <div class="songbook-v18__profile" aria-label="Song Book account">
                 <div id="authButton" style="display: none;">
+                    <span class="songbook-v18__auth-prompt">Sign in to personalize your Song Book</span>
                     <button onclick="signInWithGoogle()" class="btn-auth" type="button">🔐 Sign in with Google</button>
                 </div>
                 <div id="userInfo" style="display: none;">
@@ -281,6 +282,26 @@
         </div>
 
         <button class="songbook-v18__filter-toggle" id="songbookFilterToggle" type="button" aria-expanded="false" aria-controls="songbookFilterSidebar">☷ Browse &amp; Filter</button>
+
+        <section class="songbook-v18__mobile-filters" id="songbookMobileFilters" aria-labelledby="songbookMobileFiltersTitle">
+            <div class="songbook-v18__mobile-filters-heading">
+                <h2 id="songbookMobileFiltersTitle">Browse &amp; Filter</h2>
+                <button class="songbook-v18__mobile-more" id="songbookMobileMore" type="button" aria-expanded="false" aria-controls="songbookMobileMoreItems">More <span aria-hidden="true">＋</span></button>
+            </div>
+            <div class="songbook-v18__mobile-filter-row" role="list">
+                <button class="songbook-v18__filter" type="button" data-tab="#allSongsTab" role="listitem">All</button>
+                <button class="songbook-v18__filter" type="button" data-language="bangla" role="listitem">বাংলা</button>
+                <button class="songbook-v18__filter" type="button" data-language="english" role="listitem">English</button>
+                <button class="songbook-v18__filter" type="button" data-tab="#chordsOnlyTab" role="listitem">With Chords</button>
+                <button class="songbook-v18__filter" type="button" data-tab="#christmasTab" role="listitem">Christmas</button>
+                <button class="songbook-v18__filter" type="button" data-tab="#easterTab" role="listitem">Easter</button>
+            </div>
+            <div class="songbook-v18__mobile-filter-row songbook-v18__mobile-filter-row--more" id="songbookMobileMoreItems" role="list" hidden>
+                <button class="songbook-v18__filter" type="button" data-tab="#goodFridayTab" role="listitem">Good Friday</button>
+                <button class="songbook-v18__filter" type="button" data-tab="#communionTab" role="listitem">Communion</button>
+                <button class="songbook-v18__filter" type="button" data-tab="#newYearTab" role="listitem">New Year</button>
+            </div>
+        </section>
 
         <div class="songbook-v18__dashboard">
             <aside class="songbook-v18__sidebar" id="songbookFilterSidebar" aria-label="Browse and filter songs">
@@ -341,6 +362,7 @@
                         <button class="songbook-v18__text-link" id="showAllSongsBtn" type="button" aria-expanded="false">View All Songs →</button>
                     </div>
                     <div class="alphabet-index" id="alphabetIndex" role="navigation" aria-label="Bangla alphabet index"></div>
+                    <button class="songbook-v18__alphabet-more" id="songbookAlphabetMore" type="button" aria-expanded="false" aria-controls="alphabetIndex">More <span aria-hidden="true">＋</span></button>
                 </section>
 
                 <section class="songbook-v18__section songbook-v18__songs" id="recentSongsSection" aria-labelledby="recent-heading">

@@ -140,12 +140,15 @@
             title.textContent = 'Plan your next worship service';
             const copy = document.createElement('p');
             copy.textContent = 'Add songs from the library to build a service playlist. Your current selection will appear here.';
+            const mobileCopy = document.createElement('p');
+            mobileCopy.className = 'songbook-v18__service-mobile-copy';
+            mobileCopy.textContent = 'No songs selected yet.';
             const button = document.createElement('button');
             button.type = 'button';
-            button.className = 'songbook-v18__action songbook-v18__action--primary';
+            button.className = 'songbook-v18__action songbook-v18__action--primary songbook-v18__service-browse';
             button.dataset.songbookAction = 'browse';
-            button.textContent = 'Browse songs →';
-            empty.append(title, copy, button);
+            button.innerHTML = '<span class="songbook-v18__service-browse-desktop">Browse songs →</span><span class="songbook-v18__service-browse-mobile">Build Service</span>';
+            empty.append(title, copy, mobileCopy, button);
             target.appendChild(empty);
             return;
         }
@@ -166,6 +169,98 @@
         summary.className = 'songbook-v18__section-heading-copy';
         summary.textContent = `${playlist.length} song${playlist.length === 1 ? '' : 's'} in the current playlist.`;
         target.append(summary, list);
+    }
+
+    function setupAlphabetCollapse() {
+        const alphabet = $('#alphabetIndex');
+        const more = $('#songbookAlphabetMore');
+        if (!alphabet || !more || more.dataset.bound === 'true') return;
+
+        const applyState = () => {
+            const buttons = $$('.alphabet-btn', alphabet);
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const expanded = more.getAttribute('aria-expanded') === 'true';
+
+            buttons.forEach((button, index) => {
+                button.hidden = isMobile && !expanded && index >= 6;
+            });
+
+            more.hidden = !isMobile || buttons.length <= 6;
+            if (!isMobile) more.setAttribute('aria-expanded', 'false');
+            more.innerHTML = expanded && isMobile
+                ? 'Show less <span aria-hidden="true">−</span>'
+                : 'More <span aria-hidden="true">＋</span>';
+        };
+
+        more.addEventListener('click', () => {
+            const expanded = more.getAttribute('aria-expanded') === 'true';
+            more.setAttribute('aria-expanded', String(!expanded));
+            applyState();
+        });
+        more.dataset.bound = 'true';
+
+        const observer = new MutationObserver(applyState);
+        observer.observe(alphabet, { childList: true });
+        window.addEventListener('resize', applyState, { passive: true });
+        applyState();
+    }
+
+    function syncMobileFooter() {
+        const footer = document.querySelector('body.songbook-v18 .site-footer');
+        if (!footer) return;
+
+        const isMobile = window.matchMedia('(max-width: 640px)').matches;
+        const columns = $$('.sacred-footer__column', footer);
+
+        if (!isMobile) {
+            columns.forEach((column) => {
+                const toggle = $('.songbook-v18__footer-toggle', column);
+                if (!toggle) return;
+                const heading = document.createElement('h3');
+                heading.className = 'footer-nav-title';
+                heading.textContent = toggle.dataset.label || toggle.textContent.replace(/[+−]/g, '').trim();
+                toggle.replaceWith(heading);
+                const links = $('.footer-link-list', column);
+                if (links) links.hidden = false;
+            });
+            footer.removeAttribute('data-songbook-mobile-footer');
+            return;
+        }
+
+        columns.forEach((column, index) => {
+            const heading = $('.footer-nav-title', column);
+            const links = $('.footer-link-list', column);
+            if (!heading || !links || heading.classList.contains('songbook-v18__footer-toggle')) return;
+
+            const toggle = document.createElement('button');
+            toggle.type = 'button';
+            toggle.className = `${heading.className} songbook-v18__footer-toggle`;
+            toggle.dataset.label = heading.textContent.trim();
+            toggle.setAttribute('aria-controls', links.id || `${column.id}-links`);
+            toggle.setAttribute('aria-expanded', String(index === 0));
+            toggle.innerHTML = `${toggle.dataset.label}<span aria-hidden="true">${index === 0 ? '−' : '+'}</span>`;
+            links.id = links.id || `${column.id}-links`;
+            links.hidden = index !== 0;
+
+            toggle.addEventListener('click', () => {
+                const open = toggle.getAttribute('aria-expanded') === 'true';
+                columns.forEach((otherColumn) => {
+                    const otherToggle = $('.songbook-v18__footer-toggle', otherColumn);
+                    const otherLinks = $('.footer-link-list', otherColumn);
+                    if (!otherToggle || !otherLinks) return;
+                    const shouldOpen = otherToggle === toggle ? !open : false;
+                    otherToggle.setAttribute('aria-expanded', String(shouldOpen));
+                    otherToggle.lastElementChild.textContent = shouldOpen ? '−' : '+';
+                    otherLinks.hidden = !shouldOpen;
+                    otherColumn.classList.toggle('is-open', shouldOpen);
+                });
+            });
+
+            heading.replaceWith(toggle);
+            column.classList.toggle('is-open', index === 0);
+        });
+
+        footer.setAttribute('data-songbook-mobile-footer', 'true');
     }
 
     function syncCounts() {
@@ -201,6 +296,17 @@
         filterToggle?.addEventListener('click', () => {
             const isOpen = sidebar.classList.toggle('is-open');
             filterToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        const mobileMore = $('#songbookMobileMore');
+        const mobileMoreItems = $('#songbookMobileMoreItems');
+        mobileMore?.addEventListener('click', () => {
+            const expanded = mobileMore.getAttribute('aria-expanded') === 'true';
+            mobileMore.setAttribute('aria-expanded', String(!expanded));
+            if (mobileMoreItems) mobileMoreItems.hidden = expanded;
+            mobileMore.innerHTML = expanded
+                ? 'More <span aria-hidden="true">＋</span>'
+                : 'Less <span aria-hidden="true">−</span>';
         });
 
         $('#showAllSongsBtn')?.addEventListener('click', () => {
@@ -305,8 +411,13 @@
         renderFeaturedSong();
         syncServiceSummary();
         setupControls();
+        setupAlphabetCollapse();
+        syncMobileFooter();
         decorateSongCards();
         syncListView();
         syncFilterState();
     }, { once: true });
+
+    document.addEventListener('partials:loaded', syncMobileFooter);
+    window.addEventListener('resize', syncMobileFooter, { passive: true });
 })();
