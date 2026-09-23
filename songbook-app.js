@@ -223,7 +223,7 @@ if (char === 'য়') {
  * time, with narrowly scoped manual overrides for inspected corrections. The
  * parser below is the single source of truth for chord-only line detection.
  */
-const CHORD_SYMBOL_SOURCE = '[A-G](?:#|b)?(?:(?:maj|min|m|dim|aug|sus|add|no|M|Δ|°|ø)?(?:\\d+)?(?:/[A-G](?:#|b)?)?)';
+const CHORD_SYMBOL_SOURCE = '[A-G](?:#|b)?(?:(?:maj|min|m|dim|aug|sus|s|add|no|M|Δ|°|ø)?(?:\\d+)?(?:/[A-G](?:#|b)?)?)';
 const CHORD_TOKEN_RE = new RegExp(`^(${CHORD_SYMBOL_SOURCE})(?:\\((${CHORD_SYMBOL_SOURCE})\\))?$`, 'i');
 const SONG_PHONETIC_OVERRIDES = Object.freeze({
     117: Object.freeze({
@@ -318,11 +318,32 @@ function getSongPhoneticTitle(song) {
     return SONG_PHONETIC_OVERRIDES[song?.id]?.title || convertToPhonetic(song.title);
 }
 
+function normalizeSongSearchTerm(value) {
+    return String(value || '')
+        .toLocaleLowerCase()
+        .normalize('NFKD')
+        .replace(/[\u0300-\u036f]/gu, '')
+        .replace(/[^\p{L}\p{N}]+/gu, ' ')
+        .trim();
+}
+
+function getSongTitleVariants(song) {
+    return [song?.title, ...(song?.alternateTitles || [])]
+        .filter(Boolean)
+        .map(normalizeSongSearchTerm);
+}
+
 function isEnglishSong(song) {
     if (!song) return false;
     if (String(song.language || '').toLowerCase() === 'english') return true;
     const text = `${song.title || ''}\n${song.lyrics || ''}`;
     return /[A-Za-z]/u.test(text) && !/[\u0980-\u09FF]/u.test(text);
+}
+
+function getSongSourceCapo(song) {
+    if (!song) return null;
+    const value = song.sourceCapo ?? song.capo;
+    return Number.isFinite(Number(value)) ? Math.max(0, Math.min(12, Number(value))) : null;
 }
 
 function songHasPhonetic(song) {
@@ -830,7 +851,7 @@ function openSong(song) {
 
     title.textContent = song.title;
     currentTranspose = 0;
-    currentCapo = Number.isFinite(Number(song.capo)) ? Math.max(0, Math.min(12, Number(song.capo))) : 0;
+    currentCapo = getSongSourceCapo(song) ?? 0;
     currentFontSize = 16;
     showChords = true;
     showPhonetic = false;
@@ -1001,6 +1022,7 @@ function updateCapoControls() {
     const group = document.getElementById('smartCapoControls');
     const summary = document.getElementById('capoSummary');
     const summaryText = document.getElementById('capoSummaryText');
+    const sourceCapoSummary = document.getElementById('sourceCapoSummary');
     const select = document.getElementById('capoSelect');
     const song = window.currentSong;
     const soundingKey = getCurrentSoundingKey(song);
@@ -1012,7 +1034,13 @@ function updateCapoControls() {
     if (!available) return;
 
     if (summaryText) {
-        summaryText.textContent = `Capo ${currentCapo} · Play in ${getPlayingKey(song, currentCapo)} · Sounds in ${soundingKey}`;
+        summaryText.textContent = `Smart capo ${currentCapo} · Play in ${getPlayingKey(song, currentCapo)} · Sounds in ${soundingKey}`;
+    }
+
+    const sourceCapo = getSongSourceCapo(song);
+    if (sourceCapoSummary) {
+        sourceCapoSummary.hidden = sourceCapo === null;
+        sourceCapoSummary.textContent = sourceCapo === null ? '' : `Printed arrangement: capo ${sourceCapo}`;
     }
 
     const capoDown = document.getElementById('capoDown');
@@ -1161,9 +1189,19 @@ function setupEventListeners() {
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
         const baseSongs = getFilteredSongs();
+        const normalizedQuery = normalizeSongSearchTerm(query);
+        const exactTitleMatches = normalizedQuery
+            ? baseSongs.filter(song => getSongTitleVariants(song).includes(normalizedQuery))
+            : [];
+        if (exactTitleMatches.length) {
+            renderSongList(exactTitleMatches);
+            return;
+        }
         const filtered = baseSongs.filter(song => {
             // Search in title, category, and lyrics
             const titleMatch = song.title.toLowerCase().includes(query);
+            const alternateTitleMatch = (song.alternateTitles || [])
+                .some(title => String(title).toLowerCase().includes(query));
             const categoryMatch = song.category.toLowerCase().includes(query);
             const lyricsMatch = song.lyrics.toLowerCase().includes(query);
             
@@ -1172,7 +1210,7 @@ function setupEventListeners() {
             const phoneticLyrics = getSongPhonetic(song).toLowerCase();
             const phoneticMatch = phoneticTitle.includes(query) || phoneticLyrics.includes(query);
             
-            return titleMatch || categoryMatch || lyricsMatch || phoneticMatch;
+            return titleMatch || alternateTitleMatch || categoryMatch || lyricsMatch || phoneticMatch;
         });
         renderSongList(filtered);
     });

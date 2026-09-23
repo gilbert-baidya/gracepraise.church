@@ -451,10 +451,10 @@
                                 </div>
                             </div>
                             <div class="songbook-v18__reader-control-group songbook-v18__reader-capo-group" id="smartCapoControls" hidden>
-                                <span class="songbook-v18__reader-control-label">Capo</span>
-                                <div class="songbook-v18__reader-inline-controls" role="group" aria-label="Capo position">
-                                    <button type="button" id="capoDown" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Decrease capo">−</button>
-                                    <select id="capoSelect" class="songbook-v18__reader-capo-select" aria-label="Capo position">
+                                <span class="songbook-v18__reader-control-label">Smart capo</span>
+                                <div class="songbook-v18__reader-inline-controls" role="group" aria-label="Smart capo position">
+                                    <button type="button" id="capoDown" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Decrease smart capo">−</button>
+                                    <select id="capoSelect" class="songbook-v18__reader-capo-select" aria-label="Smart capo position">
                                         <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -469,12 +469,13 @@
                                         <option value="11">11</option>
                                         <option value="12">12</option>
                                     </select>
-                                    <button type="button" id="capoUp" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Increase capo">+</button>
+                                    <button type="button" id="capoUp" class="songbook-v18__reader-control songbook-v18__reader-control--compact" aria-label="Increase smart capo">+</button>
                                 </div>
                             </div>
                             <button type="button" id="toggleAdvanced" class="songbook-v18__reader-control songbook-v18__reader-advanced-toggle" aria-expanded="true" hidden>Transpose</button>
                             <div id="capoSummary" class="songbook-v18__reader-capo-summary" hidden aria-live="polite">
                                 <span id="capoSummaryText"></span>
+                                <span id="sourceCapoSummary" hidden></span>
                                 <div id="capoSuggestions" class="songbook-v18__reader-suggestions" hidden aria-label="Suggested capo shapes"></div>
                             </div>
                         </div>
