@@ -6,6 +6,7 @@ let currentTranspose = 0;
 let showChords = true;
 let showPhonetic = false;
 let currentFilter = 'all'; // 'all', 'chords', or 'bilingual'
+let currentLanguageFilter = 'all';
 let servicePlaylist = []; // Songs selected for today's service
 let showBilingualMode = false;
 let isAuthorizedUser = false;
@@ -460,13 +461,14 @@ function hasChords(song) {
     return false;
 }
 
-// Get filtered songs based on current filter
+// Get filtered songs based on current category and language filters.
 function getFilteredSongs() {
+    let filteredSongs = songsDatabase;
+
     if (currentFilter === 'chords') {
-        return songsDatabase.filter(song => hasChords(song));
-    }
-    if (currentFilter === 'christmas') {
-        return songsDatabase.filter(song => {
+        filteredSongs = songsDatabase.filter(song => hasChords(song));
+    } else if (currentFilter === 'christmas') {
+        filteredSongs = songsDatabase.filter(song => {
             const lyrics = song.lyrics.toLowerCase();
             return lyrics.includes('বড়দিন') || lyrics.includes('গোশালা') || lyrics.includes('গোয়াল ঘর') || 
                    lyrics.includes('বৈথলেহম') || lyrics.includes('বেথেল') || 
@@ -474,39 +476,46 @@ function getFilteredSongs() {
                    (lyrics.includes('স্বর্গদূত') && lyrics.includes('রাখাল')) ||
                    lyrics.includes('যাবপাত্র') || lyrics.includes('christmas');
         });
-    }
-    if (currentFilter === 'easter') {
-        return songsDatabase.filter(song => {
+    } else if (currentFilter === 'easter') {
+        filteredSongs = songsDatabase.filter(song => {
             const lyrics = song.lyrics.toLowerCase();
             return lyrics.includes('পুনরুত্থান') || lyrics.includes('easter') ||
                    (lyrics.includes('ক্রুশ') && lyrics.includes('জয়')) ||
                    (lyrics.includes('মৃত্যু') && lyrics.includes('জয়'));
         });
-    }
-    if (currentFilter === 'goodfriday') {
-        return songsDatabase.filter(song => {
+    } else if (currentFilter === 'goodfriday') {
+        filteredSongs = songsDatabase.filter(song => {
             const lyrics = song.lyrics.toLowerCase();
             return lyrics.includes('ক্রুশ') || lyrics.includes('good friday') || 
                    lyrics.includes('গুড ফ্রাইডে') || lyrics.includes('মহাশুক্রবার') ||
                    lyrics.includes('ক্রুশারোপণ') || lyrics.includes('গলগথা');
         });
-    }
-    if (currentFilter === 'communion') {
-        return songsDatabase.filter(song => {
+    } else if (currentFilter === 'communion') {
+        filteredSongs = songsDatabase.filter(song => {
             const lyrics = song.lyrics.toLowerCase();
             return lyrics.includes('প্রভুভোজ') || lyrics.includes('holy communion') ||
                    lyrics.includes('সাক্রামেন্ট') || 
                    (lyrics.includes('রুটি') && lyrics.includes('দ্রাক্ষারস'));
         });
-    }
-    if (currentFilter === 'newyear') {
-        return songsDatabase.filter(song => {
+    } else if (currentFilter === 'newyear') {
+        filteredSongs = songsDatabase.filter(song => {
             const lyrics = song.lyrics.toLowerCase();
             return lyrics.includes('নববর্ষ') || lyrics.includes('নতুন বছর') ||
                    lyrics.includes('new year') || lyrics.includes('নব বৎসর');
         });
     }
-    return songsDatabase;
+
+    if (currentLanguageFilter === 'bangla') {
+        filteredSongs = filteredSongs.filter(song => /[\u0980-\u09FF]/.test(`${song.title} ${song.lyrics}`));
+    } else if (currentLanguageFilter === 'english') {
+        filteredSongs = filteredSongs.filter(song => /[A-Za-z]/.test(`${song.title} ${song.lyrics}`) && !/[\u0980-\u09FF]/.test(`${song.title} ${song.lyrics}`));
+    }
+
+    return filteredSongs;
+}
+
+function setSongbookLanguageFilter(language) {
+    currentLanguageFilter = ['all', 'bangla', 'english'].includes(language) ? language : 'all';
 }
 
 // Setup filter tabs
@@ -644,19 +653,25 @@ function renderSongList(songs) {
     
     songs.forEach(song => {
         const card = document.createElement('div');
-        card.className = 'song-card';
+        card.className = 'song-card songbook-v18__song-card';
+        card.dataset.songId = String(song.id);
         card.setAttribute('role', 'button');
         card.setAttribute('tabindex', '0');
-        card.setAttribute('aria-label', song.title);
+        card.setAttribute('aria-label', `Open song: ${song.title}`);
         const isInPlaylist = servicePlaylist.some(s => s.id === song.id);
-        card.innerHTML = `
-            <h3>${song.title}</h3>
-            <p>${song.category}</p>
-            <button class="add-to-service-btn ${isInPlaylist ? 'in-playlist' : ''}" 
-                    onclick="event.stopPropagation(); toggleServicePlaylist(${song.id})">
-                ${isInPlaylist ? '✓ Added' : '+ Add to Service'}
-            </button>
-        `;
+        const title = document.createElement('h3');
+        title.textContent = song.title;
+        const category = document.createElement('p');
+        category.textContent = song.category || 'Worship';
+        const addButton = document.createElement('button');
+        addButton.type = 'button';
+        addButton.className = `add-to-service-btn ${isInPlaylist ? 'in-playlist' : ''}`;
+        addButton.textContent = isInPlaylist ? '✓ Added' : '+ Add to Service';
+        addButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            toggleServicePlaylist(song.id);
+        });
+        card.append(title, category, addButton);
         card.onclick = () => openSong(song);
         card.onkeydown = (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -1092,4 +1107,3 @@ document.addEventListener('visibilitychange', () => {
         }
     }
 });
-

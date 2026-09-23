@@ -149,9 +149,10 @@
     <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
     <link rel="stylesheet" href="about-child.css?v=20260922-v17-2">
+    <link rel="stylesheet" href="songbook-v18.css?v=20260922-v18-1">
     <script src="about-child.js?v=20260922-v17-2" defer></script>
 </head>
-<body class="about-child about-child--songbook">
+<body class="about-child about-child--songbook songbook-v18">
     <!-- Skip to main content for keyboard users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
@@ -231,141 +232,183 @@
     </header>
 
     
-    <main id="main-content">
-    <div class="container songbook-page">
-        <div class="page-header about-child__reveal">
-            <div class="header-content">
-                <div>
-                    <span class="about-child__eyebrow">Worship resource</span>
-                    <h1><span class="icon" aria-hidden="true">🎵</span> GPBC Song Book</h1>
-                    <p class="subtitle">Bengali and English worship songs for the Grace and Praise family • <a href="mailto:gilbert.baidya@gmail.com?subject=GPBC%20Songbook%20Contribution%20%2F%20Inquiry" class="songbook-contact-link" style="color: var(--color-primary); text-decoration: underline; font-weight: 600;" aria-label="Submit song contributions or inquiries via email to gilbert.baidya@gmail.com">Submit Song / Inquiry</a></p>
+    <main id="main-content" class="songbook-v18__main" data-songbook-v18>
+        <section class="songbook-v18__hero" aria-labelledby="songbook-title">
+            <div>
+                <span class="songbook-v18__eyebrow">Worship resource</span>
+                <h1 id="songbook-title"><span>GPBC</span> Song Book</h1>
+                <p class="songbook-v18__hero-lede">Lift up your hearts in worship — One Church, Many Songs, One Living God.</p>
+                <p class="songbook-v18__hero-verse">“Sing to the Lord a new song...” — Psalm 96:1</p>
+            </div>
+            <div class="songbook-v18__profile" aria-label="Song Book account">
+                <div id="authButton" style="display: none;">
+                    <button onclick="signInWithGoogle()" class="btn-auth" type="button">🔐 Sign in with Google</button>
                 </div>
-                <div class="auth-section">
-                    <div id="authButton" style="display: none;">
-                        <button onclick="signInWithGoogle()" class="btn-auth">🔐 Sign In</button>
-                    </div>
-                    <div id="userInfo" style="display: none;">
+                <div id="userInfo" style="display: none;">
+                    <img id="userAvatar" class="songbook-v18__avatar" src="images/new-gpbc-logo-final.svg" alt="" width="48" height="48">
+                    <div>
+                        <span class="songbook-v18__profile-label">Welcome back</span>
                         <span id="userName" class="user-name"></span>
-                        <button onclick="signOut()" class="btn-auth-small">Sign Out</button>
+                    </div>
+                    <button onclick="signOut()" class="btn-auth-small" type="button">Sign out</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="songbook-v18__actions" aria-label="Song Book actions">
+            <div class="songbook-v18__search-wrap">
+                <span class="songbook-v18__search-icon" aria-hidden="true">⌕</span>
+                <label for="searchInput" class="sr-only">Search songs</label>
+                <input type="search" id="searchInput" placeholder="Search songs... (গান খুঁজুন...)" autocomplete="off">
+                <span class="songbook-v18__shortcut" aria-hidden="true">Ctrl K</span>
+            </div>
+            <a class="songbook-v18__action-link songbook-v18__action-link--add" href="mailto:gilbert.baidya@gmail.com?subject=GPBC%20Songbook%20Contribution%20%2F%20Inquiry" aria-label="Add a song by emailing the worship coordinator">＋ Add Song</a>
+            <button class="songbook-v18__action" type="button" data-songbook-scroll="service">＋ New Playlist</button>
+            <button class="songbook-v18__action songbook-v18__action--worship songbook-v18__action--primary" type="button" onclick="startPresentation()">▶ Worship Mode</button>
+        </section>
+
+        <!-- Existing app hooks remain in the DOM so the original filter engine
+             continues to power the redesigned sidebar controls. -->
+        <div class="songbook-v18__legacy-filters" aria-hidden="true">
+            <button class="tab-btn active" id="allSongsTab" role="tab" aria-selected="true" type="button">সব গান (All Songs)</button>
+            <button class="tab-btn" id="chordsOnlyTab" role="tab" aria-selected="false" type="button">Songs with Chords</button>
+            <button class="tab-btn" id="bilingualTab" role="tab" aria-selected="false" type="button">Bilingual</button>
+            <button class="tab-btn" id="christmasTab" role="tab" aria-selected="false" type="button">Christmas</button>
+            <button class="tab-btn" id="easterTab" role="tab" aria-selected="false" type="button">Easter</button>
+            <button class="tab-btn" id="goodFridayTab" role="tab" aria-selected="false" type="button">Good Friday</button>
+            <button class="tab-btn" id="communionTab" role="tab" aria-selected="false" type="button">Holy Communion</button>
+            <button class="tab-btn" id="newYearTab" role="tab" aria-selected="false" type="button">New Year</button>
+        </div>
+
+        <button class="songbook-v18__filter-toggle" id="songbookFilterToggle" type="button" aria-expanded="false" aria-controls="songbookFilterSidebar">☷ Browse &amp; Filter</button>
+
+        <div class="songbook-v18__dashboard">
+            <aside class="songbook-v18__sidebar" id="songbookFilterSidebar" aria-label="Browse and filter songs">
+                <h2 class="songbook-v18__sidebar-heading">Browse &amp; Filter <span aria-hidden="true">☷</span></h2>
+                <ul class="songbook-v18__filter-list">
+                    <li><button class="songbook-v18__filter is-active" type="button" data-tab="#allSongsTab"><span class="songbook-v18__filter-icon" aria-hidden="true">♫</span><span class="songbook-v18__filter-label">All Songs</span><span class="songbook-v18__filter-count" data-v18-count="all">—</span></button></li>
+                    <li><button class="songbook-v18__filter" type="button" data-language="bangla"><span class="songbook-v18__filter-icon" aria-hidden="true">অ</span><span class="songbook-v18__filter-label">বাংলা</span><span class="songbook-v18__filter-count" data-v18-count="bangla">—</span></button></li>
+                    <li><button class="songbook-v18__filter" type="button" data-language="english"><span class="songbook-v18__filter-icon" aria-hidden="true">A</span><span class="songbook-v18__filter-label">English</span><span class="songbook-v18__filter-count" data-v18-count="english">—</span></button></li>
+                    <li><button class="songbook-v18__filter" type="button" data-tab="#chordsOnlyTab"><span class="songbook-v18__filter-icon" aria-hidden="true">♬</span><span class="songbook-v18__filter-label">With Chords</span><span class="songbook-v18__filter-count" data-v18-count="chords">—</span></button></li>
+                    <li><button class="songbook-v18__filter" type="button" data-tab="#christmasTab"><span class="songbook-v18__filter-icon" aria-hidden="true">✦</span><span class="songbook-v18__filter-label">Christmas</span></button></li>
+                    <li><button class="songbook-v18__filter" type="button" data-tab="#easterTab"><span class="songbook-v18__filter-icon" aria-hidden="true">✝</span><span class="songbook-v18__filter-label">Easter</span></button></li>
+                    <li><button class="songbook-v18__filter" type="button" data-tab="#goodFridayTab"><span class="songbook-v18__filter-icon" aria-hidden="true">✞</span><span class="songbook-v18__filter-label">Good Friday</span></button></li>
+                    <li><button class="songbook-v18__filter" type="button" data-tab="#communionTab"><span class="songbook-v18__filter-icon" aria-hidden="true">▣</span><span class="songbook-v18__filter-label">Holy Communion</span></button></li>
+                    <li><button class="songbook-v18__filter" type="button" data-tab="#newYearTab"><span class="songbook-v18__filter-icon" aria-hidden="true">✣</span><span class="songbook-v18__filter-label">New Year</span></button></li>
+                </ul>
+                <h3 class="songbook-v18__library-heading">My Library</h3>
+                <ul class="songbook-v18__filter-list">
+                    <li><button class="songbook-v18__library-link" type="button" data-songbook-scroll="saved"><span class="songbook-v18__filter-icon" aria-hidden="true">☷</span><span class="songbook-v18__filter-label">My Playlists</span></button></li>
+                    <li><button class="songbook-v18__library-link" type="button" data-songbook-scroll="service"><span class="songbook-v18__filter-icon" aria-hidden="true">▣</span><span class="songbook-v18__filter-label">Service Builder</span></button></li>
+                    <li><button class="songbook-v18__library-link" type="button" data-songbook-scroll="recent"><span class="songbook-v18__filter-icon" aria-hidden="true">◷</span><span class="songbook-v18__filter-label">Recently Added</span></button></li>
+                </ul>
+                <p class="songbook-v18__sidebar-note">“Let everything that has breath praise the Lord!”<strong>Psalm 150:6</strong></p>
+            </aside>
+
+            <div class="songbook-v18__content">
+                <div class="songbook-v18__feature-row">
+                    <section class="songbook-v18__panel" aria-labelledby="service-heading">
+                        <div class="songbook-v18__panel-heading">
+                            <h2 id="service-heading">▣ This Week's Service</h2>
+                            <span class="songbook-v18__section-kicker">Song Book</span>
+                        </div>
+                        <div id="v18ServiceSummary"></div>
+                    </section>
+                    <section class="songbook-v18__panel songbook-v18__featured" aria-labelledby="featured-heading">
+                        <div class="songbook-v18__panel-heading">
+                            <h2 id="featured-heading">♛ Featured Song</h2>
+                        </div>
+                        <div id="v18FeaturedSong" class="songbook-v18__featured-song"></div>
+                    </section>
+                </div>
+
+                <section class="songbook-v18__section songbook-v18__quick" aria-labelledby="quick-heading">
+                    <div class="songbook-v18__section-heading">
+                        <div><h2 id="quick-heading">⚡ Quick Access</h2><p>Everything you need for worship, in one place.</p></div>
+                    </div>
+                    <div class="songbook-v18__quick-grid">
+                        <button class="songbook-v18__quick-card" type="button" data-songbook-action="browse"><span class="songbook-v18__quick-icon" aria-hidden="true">♫</span><strong>Browse Songs</strong><small>Explore the worship library.</small></button>
+                        <button class="songbook-v18__quick-card" type="button" data-songbook-scroll="service"><span class="songbook-v18__quick-icon" aria-hidden="true">▦</span><strong>Service Builder</strong><small>Plan your next service.</small></button>
+                        <button class="songbook-v18__quick-card" type="button" data-songbook-scroll="saved"><span class="songbook-v18__quick-icon" aria-hidden="true">☷</span><strong>My Playlists</strong><small>Saved playlists for future use.</small></button>
+                        <button class="songbook-v18__quick-card is-disabled" type="button" aria-disabled="true" disabled><span class="songbook-v18__quick-icon" aria-hidden="true">♡</span><strong>Favorites</strong><small>Favorites are coming soon.</small></button>
+                        <button class="songbook-v18__quick-card" type="button" onclick="startPresentation()"><span class="songbook-v18__quick-icon" aria-hidden="true">▣</span><strong>Worship Mode</strong><small>Clean lyrics for live service.</small></button>
+                    </div>
+                </section>
+
+                <section class="songbook-v18__section songbook-v18__alphabet" aria-labelledby="alphabet-heading">
+                    <div class="songbook-v18__section-heading">
+                        <div><h2 id="alphabet-heading">▣ Browse by Alphabet <span lang="bn">(বাংলা অক্ষর)</span></h2></div>
+                        <button class="songbook-v18__text-link" id="showAllSongsBtn" type="button" aria-expanded="false">View All Songs →</button>
+                    </div>
+                    <div class="alphabet-index" id="alphabetIndex" role="navigation" aria-label="Bangla alphabet index"></div>
+                </section>
+
+                <section class="songbook-v18__section songbook-v18__songs" id="recentSongsSection" aria-labelledby="recent-heading">
+                    <div class="songbook-v18__section-heading">
+                        <div><h2 id="recent-heading">◷ Recently Added Songs</h2><p>Browse the GPBC worship library.</p></div>
+                        <button class="songbook-v18__text-link" type="button" onclick="document.getElementById('showAllSongsBtn')?.click()">View All Songs →</button>
+                    </div>
+                    <div class="song-list" id="songList" role="region" aria-label="Song catalog" aria-live="polite" aria-atomic="false">
+                        <div class="song-skeleton" aria-hidden="true"><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
+                    </div>
+                    <div id="songResultsAnnouncer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+                </section>
+
+                <section class="songbook-v18__section songbook-v18__saved saved-playlists-section" id="savedPlaylistsSection" style="display: none;" aria-labelledby="saved-heading">
+                    <div class="songbook-v18__section-heading"><div><h2 id="saved-heading">☷ Saved Service Playlists</h2><p>Your Firebase-backed playlists remain available here.</p></div></div>
+                    <div class="saved-playlists-grid" id="savedPlaylistsGrid"></div>
+                </section>
+
+                <section class="service-playlist-panel" id="servicePlaylistPanel" role="region" aria-label="Service playlist manager">
+                    <div class="playlist-header">
+                        <h2>▣ Service Playlist (<span id="playlistCount">0</span>)</h2>
+                        <div class="playlist-actions">
+                            <button class="btn-small" onclick="savePlaylistPrompt()" id="savePlaylistBtn" type="button">💾 Save</button>
+                            <button class="btn-small" onclick="startPresentation()" type="button">▶ Worship Mode</button>
+                            <button class="btn-small" onclick="clearPlaylist()" type="button">Clear</button>
+                        </div>
+                    </div>
+                    <div class="playlist-songs" id="playlistSongs"></div>
+                </section>
+
+                <!-- Copyright Notice Modal -->
+                <div id="copyrightModal" class="copyright-modal" role="dialog" aria-modal="true" aria-labelledby="copyrightTitle" style="display: none;">
+                    <div class="copyright-content">
+                        <h2 id="copyrightTitle">© All Rights Reserved</h2>
+                        <p><strong>Grace and Praise - Bangladeshi Church Song Book</strong></p>
+                        <p>This content is protected for church worship ministry use. To request copy permissions, contribute new songs, or submit corrections, please contact our worship coordinator:</p>
+                        <div class="copyright-contact"><p>Song Contributions &amp; Inquiries:</p><a href="mailto:gilbert.baidya@gmail.com?subject=GPBC%20Songbook%20Inquiry%20%2F%20Contribution" aria-label="Send email to the GPBC worship coordinator">✉️ gilbert.baidya@gmail.com</a></div>
+                        <button type="button" onclick="closeCopyrightModal()" aria-label="Close copyright notice">Close</button>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="search-container">
-            <label for="searchInput" class="sr-only">Search songs</label>
-            <input type="text" id="searchInput" placeholder="Search songs... (গান খুঁজুন...)" />
-        </div>
-
-        <div class="filter-tabs" role="tablist" aria-label="Song language and occasion filters">
-            <button class="tab-btn active" id="allSongsTab" role="tab" aria-selected="true">সব গান (All Songs)</button>
-            <button class="tab-btn" id="chordsOnlyTab" role="tab" aria-selected="false">🎸 কর্ড সহ গান (Songs with Chords)</button>
-            <button class="tab-btn" id="bilingualTab" role="tab" aria-selected="false">🌐 দ্বিভাষিক (Bilingual)</button>
-            <button class="tab-btn" id="christmasTab" role="tab" aria-selected="false">🎄 বড়দিন (Christmas)</button>
-            <button class="tab-btn" id="easterTab" role="tab" aria-selected="false">✝️ পুনরুত্থান (Easter)</button>
-            <button class="tab-btn" id="goodFridayTab" role="tab" aria-selected="false">✞ গুড ফ্রাইডে (Good Friday)</button>
-            <button class="tab-btn" id="communionTab" role="tab" aria-selected="false">🍞 প্রভুভোজ (Holy Communion)</button>
-            <button class="tab-btn" id="newYearTab" role="tab" aria-selected="false">🎊 নববর্ষ (New Year)</button>
-        </div>
-
-        <div class="saved-playlists-section" id="savedPlaylistsSection" style="display: none;">
-            <h2>📁 Saved Service Playlists</h2>
-            <div class="saved-playlists-grid" id="savedPlaylistsGrid">
-                <!-- Saved playlists will appear here -->
-            </div>
-        </div>
-
-        <div class="alphabet-index" id="alphabetIndex" role="navigation" aria-label="Bangla alphabet index">
-            <!-- Bangla alphabet buttons will be dynamically loaded here -->
-        </div>
-
-        <div class="song-list" id="songList" role="region" aria-label="Song catalog" aria-live="polite" aria-atomic="false">
-            <!-- Loading skeleton shown until songs render -->
-            <div class="song-skeleton" aria-hidden="true">
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-            </div>
-        </div>
-        <div id="songResultsAnnouncer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-
-        <!-- Service Playlist Panel -->
-        <div class="service-playlist-panel" id="servicePlaylistPanel" role="region" aria-label="Service playlist manager">
-            <div class="playlist-header">
-                <h2>📋 Service Playlist (<span id="playlistCount">0</span>)</h2>
-                <div class="playlist-actions">
-                    <button class="btn-small" onclick="savePlaylistPrompt()" id="savePlaylistBtn">💾 Save</button>
-                    <button class="btn-small" onclick="startPresentation()">▶ Start</button>
-                    <button class="btn-small" onclick="clearPlaylist()">Clear</button>
+                <!-- Presentation Mode Modal -->
+                <div class="modal" id="presentationModal" role="dialog" aria-modal="true" aria-labelledby="presentationTitle" style="display: none;">
+                    <div class="presentation-content">
+                        <div class="presentation-header"><h2 id="presentationTitle"></h2><span class="presentation-counter" id="presentationCounter"></span><button type="button" class="close" onclick="exitPresentation()" aria-label="Exit presentation (ESC)">&times;</button></div>
+                        <div class="presentation-lyrics" id="presentationContent"></div>
+                        <div class="presentation-controls"><button type="button" onclick="previousSong()" class="pres-btn">← Previous</button><button type="button" onclick="exitPresentation()" class="pres-btn">Exit (ESC)</button><button type="button" onclick="nextSong()" class="pres-btn">Next →</button></div>
+                    </div>
                 </div>
-            </div>
-            <div class="playlist-songs" id="playlistSongs"></div>
-        </div>
 
-        <!-- Copyright Notice Modal -->
-        <div id="copyrightModal" class="copyright-modal" role="dialog" aria-modal="true" aria-labelledby="copyrightTitle" style="display: none;">
-            <div class="copyright-content">
-                <h2 id="copyrightTitle">© All Rights Reserved</h2>
-                <p><strong>Grace and Praise - Bangladeshi Church Song Book</strong></p>
-                <p>This content is protected for church worship ministry use. To request copy permissions, contribute new songs, or submit corrections, please contact our worship coordinator:</p>
-                <div class="copyright-contact" style="margin: 16px 0; padding: 12px; background: rgba(102, 126, 234, 0.08); border-radius: 8px;">
-                    <p style="margin: 0 0 6px 0; font-size: 14px; color: var(--color-text, #475569);">Song Contributions &amp; Inquiries:</p>
-                    <a href="mailto:gilbert.baidya@gmail.com?subject=GPBC%20Songbook%20Inquiry%20%2F%20Contribution" class="btn-email-contact" style="color: #667eea; font-weight: 700; text-decoration: underline; word-break: break-all;" aria-label="Send email to gilbert.baidya@gmail.com">
-                        ✉️ gilbert.baidya@gmail.com
-                    </a>
+                <div class="modal" id="songModal" role="dialog" aria-modal="true" aria-labelledby="songTitle" style="display: none;">
+                    <div class="modal-content">
+                        <button type="button" class="close" onclick="closeSongModal()" aria-label="Close song details">&times;</button>
+                        <h2 id="songTitle"></h2>
+                        <div class="controls"><button type="button" id="toggleChords" class="btn btn-primary">Hide Chords</button><button type="button" id="togglePhonetic" class="btn btn-primary">Show Phonetic</button><button type="button" id="increaseFontSize" class="btn btn-primary" aria-label="Increase font size">A+</button><button type="button" id="decreaseFontSize" class="btn btn-primary" aria-label="Decrease font size">A-</button><button type="button" id="toggleAdvanced" class="btn btn-secondary">Transpose ▼</button></div>
+                        <div class="controls controls-advanced" id="advancedControls" style="display: none;"><button type="button" id="transposeUp" class="btn">Transpose +</button><button type="button" id="transposeDown" class="btn">Transpose -</button></div>
+                        <div id="songContent" class="song-content"></div>
+                    </div>
                 </div>
-                <button type="button" onclick="closeCopyrightModal()" aria-label="Close copyright notice">Close</button>
-            </div>
-        </div>
 
-        <!-- Presentation Mode Modal -->
-        <div class="modal" id="presentationModal" role="dialog" aria-modal="true" aria-labelledby="presentationTitle" style="display: none;">
-            <div class="presentation-content">
-                <div class="presentation-header">
-                    <h2 id="presentationTitle"></h2>
-                    <span class="presentation-counter" id="presentationCounter"></span>
-                    <button type="button" class="close" onclick="exitPresentation()" aria-label="Exit presentation (ESC)">&times;</button>
-                </div>
-                <div class="presentation-lyrics" id="presentationContent"></div>
-                <div class="presentation-controls">
-                    <button type="button" onclick="previousSong()" class="pres-btn">← Previous</button>
-                    <button type="button" onclick="exitPresentation()" class="pres-btn">Exit (ESC)</button>
-                    <button type="button" onclick="nextSong()" class="pres-btn">Next →</button>
-                </div>
+                <section class="songbook-v18__section songbook-v18__contribute" aria-labelledby="contribute-heading">
+                    <h2 id="contribute-heading">🎼 Contribute a Song or Request Lyrics</h2>
+                    <p>Have a Christian worship song in Bengali or English to add to our church songbook? Notice a chord or lyric correction? We welcome your contribution.</p>
+                    <a href="mailto:gilbert.baidya@gmail.com?subject=GPBC%20Songbook%20Contribution%20%2F%20Inquiry" aria-label="Email song contributions and inquiries to the GPBC worship coordinator">✉️ Email Song Contributions</a>
+                </section>
             </div>
         </div>
 
-        <div class="modal" id="songModal" role="dialog" aria-modal="true" aria-labelledby="songTitle" style="display: none;">
-            <div class="modal-content">
-                <button type="button" class="close" onclick="closeSongModal()" aria-label="Close song details">&times;</button>
-                <h2 id="songTitle"></h2>
-                <div class="controls">
-                    <button type="button" id="toggleChords" class="btn btn-primary">Hide Chords</button>
-                    <button type="button" id="togglePhonetic" class="btn btn-primary">Show Phonetic</button>
-                    <button type="button" id="increaseFontSize" class="btn btn-primary" aria-label="Increase font size">A+</button>
-                    <button type="button" id="decreaseFontSize" class="btn btn-primary" aria-label="Decrease font size">A-</button>
-                    <button type="button" id="toggleAdvanced" class="btn btn-secondary">Transpose ▼</button>
-                </div>
-                <div class="controls controls-advanced" id="advancedControls" style="display: none;">
-                    <button type="button" id="transposeUp" class="btn">Transpose +</button>
-                    <button type="button" id="transposeDown" class="btn">Transpose -</button>
-                </div>
-                <div id="songContent" class="song-content"></div>
-            </div>
-        </div>
-
-        <!-- Song Contribution & Worship Ministry Inquiry Callout -->
-        <section class="songbook-contribute-section" style="margin-top: 40px; margin-bottom: 20px; padding: 24px; background: var(--color-surface, #ffffff); border: 1px solid var(--color-border, #e2e8f0); border-radius: var(--radius-lg, 12px); text-align: center;">
-            <h3 style="margin-bottom: 8px; color: var(--color-primary, #1e3a5f); font-size: 1.25rem;">🎼 Contribute a Song or Request Lyrics</h3>
-            <p style="margin-bottom: 16px; color: var(--color-text-light, #64748b); font-size: 0.95rem; line-height: 1.6;">Have a Christian worship song in Bengali or English to add to our church songbook? Notice a chord or lyric correction? We welcome your contributions!</p>
-            <a href="mailto:gilbert.baidya@gmail.com?subject=GPBC%20Songbook%20Contribution%20%2F%20Inquiry" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-weight: 600; text-decoration: none;" aria-label="Email song contributions and inquiries to gilbert.baidya@gmail.com">
-                <span>✉️ Email Song Contributions (gilbert.baidya@gmail.com)</span>
-            </a>
-        </section>
-    </div>
     </main>
 
 
@@ -382,6 +425,7 @@
     <script src="firebase-config.js"></script>
     <script src="songs-data.js" defer></script>
     <script src="songbook-app.js" defer></script>
+    <script src="songbook-v18.js?v=20260922-v18-1" defer></script>
     <script src="navigation.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loader.js"></script>
