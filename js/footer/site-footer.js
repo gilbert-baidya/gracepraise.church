@@ -1,4 +1,4 @@
-import { footerConfig } from './footer.config.js';
+import { footerConfig } from './footer.config.js?v=20260922-v17';
 
 export function initSiteFooter() {
     const footerElement = document.getElementById('site-footer');

@@ -13,7 +13,7 @@ export const footerConfig = {
             { label: 'Plan Your Visit →', url: 'plan-visit.html' }
         ],
         devotions: [
-            { label: 'Our Story', url: 'mission.html' },
+            { label: 'Our Story', url: 'history.html' },
             { label: 'Our Beliefs', url: 'beliefs.html' },
             { label: 'Our Leadership', url: 'leadership.html' },
             { label: 'Our Pastor', url: 'pastor/' },

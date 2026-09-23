@@ -12,12 +12,13 @@
 
     <!-- SEO: Canonical + OpenGraph (auto-injected) -->
     <meta property="og:site_name" content="Grace and Praise Bangladeshi Church" />
-    <meta property="og:image" content="https://gracepraise.church/images/logo/gpbc-og-banner.jpg" />
+    <meta property="og:image" content="https://gracepraise.church/images/homepage/hero-v2/final/worship-desktop.webp" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://gracepraise.church/images/homepage/hero-v2/final/worship-desktop.webp" />
 
     <meta name="title" content="About GPBC | Grace and Praise Bangladeshi Church">
     <meta name="description"
-        content="About Grace and Praise Bangladeshi Church in San Bernardino, CA — our mission, beliefs, leadership, and community.">
+        content="Meet Grace and Praise Bangladeshi Church in San Bernardino, California—a Christ-centered Bangladeshi church family shaped by grace, worship, service, and community.">
     <meta name="keywords"
         content="GPBC about, church history, church mission, church leadership, Christian beliefs, church testimonies, Bengali worship songs, Bangladeshi church San Bernardino">
     <meta name="robots" content="index, follow">
@@ -30,14 +31,37 @@
     <meta property="og:url" content="https://gracepraise.church/about.html">
     <meta property="og:title" content="About GPBC | Grace and Praise Bangladeshi Church">
     <meta property="og:description"
-        content="About Grace and Praise Bangladeshi Church in San Bernardino, CA — our mission, beliefs, leadership, and community.">
+        content="Meet Grace and Praise Bangladeshi Church in San Bernardino, California—a Christ-centered Bangladeshi church family shaped by grace, worship, service, and community.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary">
     <meta property="twitter:url" content="https://gracepraise.church/about.html">
     <meta property="twitter:title" content="About GPBC | Grace and Praise Bangladeshi Church">
     <meta property="twitter:description"
-        content="About Grace and Praise Bangladeshi Church in San Bernardino, CA — our mission, beliefs, leadership, and community.">
+        content="Meet Grace and Praise Bangladeshi Church in San Bernardino, California—a Christ-centered Bangladeshi church family shaped by grace, worship, service, and community.">
+
+    <link rel="preload" as="image" href="images/homepage/hero-v2/final/worship-desktop.webp" type="image/webp"
+        imagesrcset="images/homepage/hero-v2/final/worship-mobile.webp 640w, images/homepage/hero-v2/final/worship-desktop.webp 1000w"
+        imagesizes="(max-width: 720px) 100vw, 52vw">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Church",
+            "name": "Grace and Praise Bangladeshi Church",
+            "alternateName": "GPBC",
+            "url": "https://gracepraise.church/about.html",
+            "image": "https://gracepraise.church/images/homepage/hero-v2/final/worship-desktop.webp",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "1325 Richardson St.",
+                "addressLocality": "San Bernardino",
+                "addressRegion": "CA",
+                "postalCode": "92408",
+                "addressCountry": "US"
+            }
+        }
+    </script>
 
     <!-- Theme & JS Detection — DO NOT REMOVE -->
     <script>
@@ -130,6 +154,7 @@
         }
     </style>
         <link rel="stylesheet" href="./css/footer-v3.css">
+        <link rel="stylesheet" href="about-v17.css?v=20260922-v17-1">
 </head>
 
 <body>
@@ -217,112 +242,237 @@
             title="JavaScript required for dark mode">☀️</span>
     </noscript>
 
-    <main id="main-content">
-        <!-- Hero Section -->
-        <section class="hero" id="about">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>About Grace and Praise Bangladeshi Church</h1>
-                    <p class="tagline">Discover our story, mission, and values as we worship, grow, and serve together.
-                    </p>
-                    <div class="cta-buttons">
-                        <a href="#learn-more" class="btn btn-primary">Explore About</a>
+    <main id="main-content" class="about-v17">
+        <section class="about-hero" id="about" aria-labelledby="about-hero-title">
+            <div class="about-hero__backdrop" aria-hidden="true"></div>
+            <div class="about-container about-hero__inner">
+                <div class="about-hero__copy" data-reveal>
+                    <p class="about-eyebrow">Grace &amp; Praise Bangladeshi Church</p>
+                    <h1 id="about-hero-title">A church family shaped by grace.</h1>
+                    <p class="about-hero__lede">Serving the Bangladeshi community in California and welcoming all who seek to worship God with passion and serve people with compassion.</p>
+                    <div class="about-actions">
+                        <a href="#identity" class="about-button about-button--gold">Explore our story <span aria-hidden="true">↓</span></a>
+                        <a href="plan-visit.html" class="about-button about-button--ghost">Plan your visit</a>
                     </div>
+                    <div class="about-hero__markers" aria-label="What shapes GPBC">
+                        <span>Bangladeshi roots</span>
+                        <span>Southern California</span>
+                        <span>Christ-centered community</span>
+                    </div>
+                </div>
+                <figure class="about-hero__media" data-reveal>
+                    <div class="about-hero__image-wrap">
+                        <picture>
+                            <source media="(max-width: 720px)" srcset="images/homepage/hero-v2/final/worship-mobile.webp">
+                            <img src="images/homepage/hero-v2/final/worship-desktop.webp" alt="Worshippers gathered at Grace and Praise Bangladeshi Church" width="1000" height="750" fetchpriority="high" decoding="async">
+                        </picture>
+                        <span class="about-hero__cross" aria-hidden="true">✦</span>
+                    </div>
+                    <figcaption>Worship, heritage, and hope—together.</figcaption>
+                </figure>
+            </div>
+            <a class="about-hero__scroll" href="#identity" aria-label="Scroll to learn who GPBC is"><span aria-hidden="true">↓</span> Begin the journey</a>
+        </section>
+
+        <nav class="about-jump-nav" aria-label="About GPBC sections">
+            <div class="about-container about-jump-nav__inner">
+                <span class="about-jump-nav__label">About GPBC</span>
+                <div class="about-jump-nav__links">
+                    <a href="#identity">Who we are</a>
+                    <a href="#story">Our story</a>
+                    <a href="#mission">Why we exist</a>
+                    <a href="#beliefs">What we believe</a>
+                    <a href="#people">Our people</a>
+                    <a href="#values">What we value</a>
+                </div>
+            </div>
+        </nav>
+
+        <section class="about-section about-identity" id="identity" aria-labelledby="identity-title">
+            <div class="about-container">
+                <div class="about-section-heading about-section-heading--wide" data-reveal>
+                    <p class="about-eyebrow">Who we are</p>
+                    <h2 id="identity-title">A spiritual home for the Bangladeshi community—and a welcoming church family for all.</h2>
+                    <p class="about-lead">We are a vibrant Christian community where people worship, grow, and serve together. Our Bangladeshi roots are part of our story; our welcome is wider than our heritage.</p>
+                </div>
+                <div class="about-identity__grid">
+                    <div class="about-copy-block" data-reveal>
+                        <p>Grace and Praise Bangladeshi Church was founded with a vision to create a spiritual home for the Bangladeshi community in California. We continue to welcome families from all backgrounds who seek to grow in their faith and serve God together.</p>
+                        <a class="about-text-link" href="history.html">Read our history <span aria-hidden="true">→</span></a>
+                    </div>
+                    <aside class="about-promise" data-reveal>
+                        <span class="about-promise__mark" aria-hidden="true">✦</span>
+                        <p class="about-promise__quote">“Passion for God, Compassion for People”</p>
+                        <p class="about-promise__note">The simple phrase that gathers our worship, our service, and our life together.</p>
+                    </aside>
                 </div>
             </div>
         </section>
 
-        <!-- About Introduction -->
-        <section class="new-here">
-            <h2>Welcome to Grace and Praise Bangladeshi Church</h2>
-            <p class="new-here-intro">
-                We are a vibrant Christian community serving the Bangladeshi population and welcoming all who seek
-                to worship God with passion and serve people with compassion. Explore the sections below to learn
-                more about who we are, what we believe, and how we serve.
-            </p>
-        </section>
-
-        <!-- About Topics Grid -->
-        <section class="new-here" id="learn-more" style="background: var(--color-background);">
-            <h2>Learn More About GPBC</h2>
-            <div class="new-here-cards" style="margin-top: var(--spacing-2xl);">
-                <!-- History Card -->
-                <a href="history.html" class="new-here-card"
-                    style="text-decoration: none; transition: all var(--transition-base);">
-                    <div class="card-icon">📖</div>
-                    <h3>Our History</h3>
-                    <p>Discover how our church began and the journey that brought us to where we are today.</p>
-                </a>
-
-                <!-- Mission Card -->
-                <a href="mission.html" class="new-here-card"
-                    style="text-decoration: none; transition: all var(--transition-base);">
-                    <div class="card-icon">🎯</div>
-                    <h3>Our Mission</h3>
-                    <p>Understand our purpose, vision, and commitment to serving God and our community.</p>
-                </a>
-
-                <!-- Leadership Card -->
-                <a href="leadership.html" class="new-here-card"
-                    style="text-decoration: none; transition: all var(--transition-base);">
-                    <div class="card-icon">👥</div>
-                    <h3>Our Leadership</h3>
-                    <p>Meet the pastors and leaders who guide and shepherd our church family.</p>
-                </a>
-
-                <!-- Beliefs Card -->
-                <a href="beliefs.html" class="new-here-card"
-                    style="text-decoration: none; transition: all var(--transition-base);">
-                    <div class="card-icon">✝️</div>
-                    <h3>Our Beliefs</h3>
-                    <p>Explore the core Christian doctrines and biblical truths we hold dear.</p>
-                </a>
-
-                <!-- Core Values Card -->
-                <a href="core-values.html" class="new-here-card"
-                    style="text-decoration: none; transition: all var(--transition-base);">
-                    <div class="card-icon">💎</div>
-                    <h3>Our Core Values</h3>
-                    <p>See the principles that shape how we worship, serve, and live out our faith.</p>
-                </a>
-
-                <!-- Position Papers Card -->
-                <a href="position-papers.html" class="new-here-card"
-                    style="text-decoration: none; transition: all var(--transition-base);">
-                    <div class="card-icon">📄</div>
-                    <h3>Position Papers</h3>
-                    <p>Read our official statements on important theological and ethical matters.</p>
-                </a>
-
-                <!-- Testimonies Card -->
-                <a href="testimonies.html" class="new-here-card"
-                    style="text-decoration: none; transition: all var(--transition-base);">
-                    <div class="card-icon">💬</div>
-                    <h3>Testimonies</h3>
-                    <p>Be inspired by stories of God's faithfulness and transformation in our community.</p>
-                </a>
-
-                <!-- Song Book Card -->
-                <a href="songbook.html" class="new-here-card"
-                    style="text-decoration: none; transition: all var(--transition-base);">
-                    <div class="card-icon">🎵</div>
-                    <h3>GPBC Song Book</h3>
-                    <p>Browse our collection of worship songs in English and Bangla.</p>
-                </a>
+        <section class="about-section about-story" id="story" aria-labelledby="story-title">
+            <div class="about-container about-story__grid">
+                <figure class="about-story__media" data-reveal>
+                    <img src="images/community-worship.webp" alt="A diverse congregation worshipping together at GPBC" width="1024" height="1024" loading="lazy" decoding="async">
+                    <figcaption>Rooted in heritage. Alive in worship.</figcaption>
+                </figure>
+                <div class="about-story__copy" data-reveal>
+                    <p class="about-eyebrow">Where we came from</p>
+                    <h2 id="story-title">From a small gathering to a thriving spiritual family.</h2>
+                    <p>Our journey began with a small group of believers who gathered to worship God and celebrate their cultural heritage. Over time, GPBC has grown into a community that embraces both Bangladeshi roots and life as followers of Christ.</p>
+                    <ol class="about-story__steps">
+                        <li><span>01</span><div><strong>A place to gather</strong><p>Believers found a spiritual home in shared worship.</p></div></li>
+                        <li><span>02</span><div><strong>A faith to grow in</strong><p>Families grew together through worship, teaching, and service.</p></div></li>
+                        <li><span>03</span><div><strong>A welcome to extend</strong><p>The church continues to welcome people from every background.</p></div></li>
+                    </ol>
+                    <a class="about-text-link" href="history.html">Spend time with the full story <span aria-hidden="true">→</span></a>
+                </div>
             </div>
         </section>
 
-        <!-- Call to Action -->
-        <section class="new-here">
-            <div class="new-here-cta">
-                <p class="cta-message">Join Us This Sunday</p>
-                <p class="new-here-intro" style="margin-bottom: var(--spacing-lg);">
-                    We would love to welcome you to our church family. Come experience worship,
-                    fellowship, and God's love in action.
-                </p>
-                <div class="cta-buttons">
-                    <a href="plan-visit.html" class="btn btn-primary">Plan Your Visit</a>
-                    <a href="calendar.html" class="btn btn-secondary">View Calendar</a>
+        <section class="about-section about-mission" id="mission" aria-labelledby="mission-title">
+            <div class="about-container">
+                <div class="about-section-heading" data-reveal>
+                    <p class="about-eyebrow">Why we exist</p>
+                    <h2 id="mission-title">Faith that becomes worship, discipleship, and compassionate service.</h2>
+                </div>
+                <div class="about-mission__grid">
+                    <div class="about-mission__statement" data-reveal>
+                        <p class="about-display-quote">We glorify God by making disciples who love Jesus, love each other, and love our community.</p>
+                        <a class="about-button about-button--dark" href="mission.html">Explore mission &amp; vision <span aria-hidden="true">→</span></a>
+                    </div>
+                    <div class="about-mission__commitments" data-reveal>
+                        <p class="about-eyebrow">Our commitments</p>
+                        <ul>
+                            <li><span aria-hidden="true">✦</span> Worship God with all our hearts in English and Bangla.</li>
+                            <li><span aria-hidden="true">✦</span> Build strong, Christ-centered families.</li>
+                            <li><span aria-hidden="true">✦</span> Equip believers for ministry and service.</li>
+                            <li><span aria-hidden="true">✦</span> Reach our community with the Gospel of Jesus Christ.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="about-vision" data-reveal>
+                    <div><p class="about-eyebrow">Our vision</p><h3>A church where every person experiences the transforming love of Jesus Christ.</h3></div>
+                    <p>We envision a church where cultural diversity is celebrated and faith is lived out through authentic worship, biblical teaching, and compassionate service.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section about-beliefs" id="beliefs" aria-labelledby="beliefs-title">
+            <div class="about-container about-beliefs__grid">
+                <div class="about-section-heading" data-reveal>
+                    <p class="about-eyebrow">What we believe</p>
+                    <h2 id="beliefs-title">The truths that guide our faith and life together.</h2>
+                    <p class="about-lead">Our beliefs are not a checklist; they are the foundation beneath our worship, our teaching, and our hope.</p>
+                    <a class="about-text-link" href="beliefs.html">Read all our beliefs <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="about-beliefs__list" data-reveal>
+                    <details open>
+                        <summary><span>01</span> The Bible <b aria-hidden="true">+</b></summary>
+                        <p>We believe the Bible is the inspired, infallible Word of God and our ultimate authority for faith and life.</p>
+                    </details>
+                    <details>
+                        <summary><span>02</span> The Trinity <b aria-hidden="true">+</b></summary>
+                        <p>We believe in one God eternally existing in three persons: Father, Son, and Holy Spirit.</p>
+                    </details>
+                    <details>
+                        <summary><span>03</span> Jesus Christ <b aria-hidden="true">+</b></summary>
+                        <p>We believe Jesus Christ is the Son of God, born of a virgin, lived a sinless life, died for our sins, rose from the dead, and will return again.</p>
+                    </details>
+                    <details>
+                        <summary><span>04</span> Salvation <b aria-hidden="true">+</b></summary>
+                        <p>We believe salvation is by grace alone, through faith alone, in Christ alone.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section about-people" id="people" aria-labelledby="people-title">
+            <div class="about-container about-people__grid">
+                <div class="about-people__copy" data-reveal>
+                    <p class="about-eyebrow">Who leads us</p>
+                    <h2 id="people-title">People who shepherd with wisdom, love, and integrity.</h2>
+                    <p>Our church is led by a dedicated team of pastors and leaders who guide us in worship, teaching, and ministry. Meet Rev. Gilbert Simon Baidya, PhD, our founding pastor, and learn more about the calling behind his service.</p>
+                    <div class="about-people__role"><strong>Rev. Gilbert Simon Baidya, PhD</strong><span>Founding Pastor</span></div>
+                    <a class="about-button about-button--gold" href="pastor/">Meet our pastor <span aria-hidden="true">→</span></a>
+                    <a class="about-text-link" href="leadership.html">Explore church leadership <span aria-hidden="true">→</span></a>
+                </div>
+                <figure class="about-people__portrait" data-reveal>
+                    <img src="images/pastor/gilbert-baidya-portrait.png" alt="Rev. Gilbert Simon Baidya, founding pastor of Grace and Praise Bangladeshi Church" width="1122" height="1402" loading="lazy" decoding="async">
+                    <figcaption>Serving together for the good of the church family.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="about-section about-values" id="values" aria-labelledby="values-title">
+            <div class="about-container">
+                <div class="about-section-heading about-section-heading--wide" data-reveal>
+                    <p class="about-eyebrow">What we value</p>
+                    <h2 id="values-title">The practices that shape our life together.</h2>
+                    <p class="about-lead">These values guide our worship, our relationships, and our service to God and others.</p>
+                </div>
+                <div class="about-values__grid" data-reveal>
+                    <article><span>01</span><h3>Worship</h3><p>We worship God with passion and authenticity in both English and Bangla.</p></article>
+                    <article><span>02</span><h3>Word</h3><p>We are committed to biblical teaching and learning God’s Word.</p></article>
+                    <article><span>03</span><h3>Love</h3><p>We love God with all our hearts and love people unconditionally.</p></article>
+                    <article><span>04</span><h3>Community</h3><p>We build authentic relationships and support one another as family.</p></article>
+                    <article><span>05</span><h3>Outreach</h3><p>We reach out to our community and the world with the Gospel of Jesus.</p></article>
+                    <article><span>06</span><h3>Excellence</h3><p>We honor God by pursuing excellence in all we do.</p></article>
+                </div>
+                <a class="about-text-link about-values__link" href="core-values.html">See all our core values <span aria-hidden="true">→</span></a>
+            </div>
+        </section>
+
+        <section class="about-section about-testimonies" id="testimonies" aria-labelledby="testimonies-title">
+            <div class="about-container">
+                <div class="about-section-heading about-section-heading--center" data-reveal>
+                    <p class="about-eyebrow">How God is working</p>
+                    <h2 id="testimonies-title">A church is made of stories.</h2>
+                    <p class="about-lead">Hear the stories of faith, hope, and transformation already shared by our GPBC family.</p>
+                </div>
+                <div class="about-testimony-carousel" data-carousel data-reveal role="region" aria-roledescription="carousel" aria-label="GPBC testimonies">
+                    <div class="about-testimony__window">
+                        <article class="about-testimony" data-testimony aria-hidden="false">
+                            <span class="about-testimony__mark" aria-hidden="true">“</span>
+                            <blockquote>Coming to GPBC has transformed my life. I found not just a church, but a family who speaks my language and understands my culture. The Lord has used this community to strengthen my faith and give me hope during difficult times. Praise God!</blockquote>
+                            <cite><strong>Rahul M.</strong><span>Member since 2020</span></cite>
+                        </article>
+                        <article class="about-testimony" data-testimony aria-hidden="true" hidden>
+                            <span class="about-testimony__mark" aria-hidden="true">“</span>
+                            <blockquote>GPBC is a place where I can grow in my relationship with God while connecting with others who share my faith and cultural background. I’m grateful for the friendships and spiritual growth I’ve experienced here.</blockquote>
+                            <cite><strong>Priya D.</strong><span>Member since 2021</span></cite>
+                        </article>
+                    </div>
+                    <div class="about-carousel__controls">
+                        <button type="button" data-carousel-prev aria-label="Previous testimony">←</button>
+                        <span data-carousel-status aria-live="polite">1 / 2</span>
+                        <button type="button" data-carousel-next aria-label="Next testimony">→</button>
+                    </div>
+                </div>
+                <a class="about-text-link about-testimonies__link" href="testimonies.html">Read more testimonies <span aria-hidden="true">→</span></a>
+            </div>
+        </section>
+
+        <section class="about-section about-resources" id="resources" aria-labelledby="resources-title">
+            <div class="about-container">
+                <div class="about-section-heading" data-reveal>
+                    <p class="about-eyebrow">Go deeper</p>
+                    <h2 id="resources-title">Resources for the life we share.</h2>
+                </div>
+                <div class="about-resources__grid" data-reveal>
+                    <a href="position-papers.html"><span class="about-resource__number">01</span><div><h3>Position papers</h3><p>Detailed statements on key doctrinal and practical positions.</p></div><span aria-hidden="true">→</span></a>
+                    <a href="songbook.html"><span class="about-resource__number">02</span><div><h3>GPBC Song Book</h3><p>Worship songs in English and Bangla for the songs we carry together.</p></div><span aria-hidden="true">→</span></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-visit" id="visit" aria-labelledby="visit-title">
+            <div class="about-container about-visit__inner" data-reveal>
+                <p class="about-eyebrow">Come experience GPBC</p>
+                <h2 id="visit-title">There is room for you in this family.</h2>
+                <p>We would love to welcome you to our church family. Come experience worship, fellowship, and God’s love in action.</p>
+                <div class="about-actions about-actions--center">
+                    <a href="plan-visit.html" class="about-button about-button--gold">Plan your visit <span aria-hidden="true">→</span></a>
+                    <a href="calendar.html" class="about-button about-button--ghost">View the calendar</a>
                 </div>
             </div>
         </section>
@@ -338,11 +488,12 @@
     <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loader.js"></script>
+    <script src="about-v17.js?v=20260922-v17" defer></script>
 
     <!-- Site Footer (Partial Injection) -->
     <div data-partial="site-footer"></div>
 
-    <script type="module" src="./js/footer/footer-init.js"></script>
+    <script type="module" src="./js/footer/footer-init.js?v=20260922-v17-1"></script>
 </body>
 
 </html>

@@ -4,7 +4,7 @@
 // Listens for partials:loaded event and initializes the footer renderer
 // =============================================================================
 
-import { initSiteFooter } from './site-footer.js';
+import { initSiteFooter } from './site-footer.js?v=20260922-v17';
 
 function initializeFooter() {
     if (!document.querySelector('.site-footer')) {
