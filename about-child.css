@@ -52,9 +52,9 @@ html[data-theme="light"] body.about-child > header.scrolled {
     border-bottom-color: rgba(215, 181, 124, 0.45) !important;
 }
 
-body.about-child:not(.dark) > header .nav-links a,
-body.about-child[data-theme="light"] > header .nav-links a,
-html[data-theme="light"] body.about-child > header .nav-links a,
+body.about-child:not(.dark) > header .nav-links > li > a,
+body.about-child[data-theme="light"] > header .nav-links > li > a,
+html[data-theme="light"] body.about-child > header .nav-links > li > a,
 body.about-child:not(.dark) > header .mobile-menu-btn span,
 body.about-child[data-theme="light"] > header .mobile-menu-btn span,
 html[data-theme="light"] body.about-child > header .mobile-menu-btn span {
@@ -62,9 +62,9 @@ html[data-theme="light"] body.about-child > header .mobile-menu-btn span {
     background-color: #ffffff !important;
 }
 
-body.about-child:not(.dark) > header .nav-links a,
-body.about-child[data-theme="light"] > header .nav-links a,
-html[data-theme="light"] body.about-child > header .nav-links a {
+body.about-child:not(.dark) > header .nav-links > li > a,
+body.about-child[data-theme="light"] > header .nav-links > li > a,
+html[data-theme="light"] body.about-child > header .nav-links > li > a {
     background-color: transparent !important;
 }
 
