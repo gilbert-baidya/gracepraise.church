@@ -296,6 +296,8 @@ function hasInlineChordMarkers(line) {
 }
 
 function getSongPhoneticLine(song, line) {
+    if (isEnglishSong(song)) return line;
+
     const override = SONG_PHONETIC_OVERRIDES[song?.id];
     const trimmed = line.trim();
     if (override?.lines?.[trimmed]) {
@@ -307,15 +309,24 @@ function getSongPhoneticLine(song, line) {
 }
 
 function getSongPhonetic(song) {
+    if (isEnglishSong(song)) return song?.lyrics || '';
     return song.lyrics.split('\n').map(line => getSongPhoneticLine(song, line)).join('\n');
 }
 
 function getSongPhoneticTitle(song) {
+    if (isEnglishSong(song)) return song?.title || '';
     return SONG_PHONETIC_OVERRIDES[song?.id]?.title || convertToPhonetic(song.title);
 }
 
+function isEnglishSong(song) {
+    if (!song) return false;
+    if (String(song.language || '').toLowerCase() === 'english') return true;
+    const text = `${song.title || ''}\n${song.lyrics || ''}`;
+    return /[A-Za-z]/u.test(text) && !/[\u0980-\u09FF]/u.test(text);
+}
+
 function songHasPhonetic(song) {
-    return /[\u0980-\u09FF]/u.test(`${song?.title || ''}\n${song?.lyrics || ''}`);
+    return !isEnglishSong(song) && /[\u0980-\u09FF]/u.test(`${song?.title || ''}\n${song?.lyrics || ''}`);
 }
 
 // Service Playlist Management
@@ -819,7 +830,7 @@ function openSong(song) {
 
     title.textContent = song.title;
     currentTranspose = 0;
-    currentCapo = 0;
+    currentCapo = Number.isFinite(Number(song.capo)) ? Math.max(0, Math.min(12, Number(song.capo))) : 0;
     currentFontSize = 16;
     showChords = true;
     showPhonetic = false;
@@ -861,7 +872,12 @@ function closeSongModal() {
 function updateReaderLanguageControls() {
     const banglaButton = document.getElementById('showBangla');
     const phoneticButton = document.getElementById('togglePhonetic');
+    const languageGroup = document.querySelector('.songbook-v18__reader-language-group');
     const hasPhonetic = songHasPhonetic(window.currentSong);
+    const isEnglish = isEnglishSong(window.currentSong);
+
+    if (languageGroup) languageGroup.hidden = isEnglish;
+    if (isEnglish) showPhonetic = false;
 
     if (banglaButton) {
         banglaButton.classList.toggle('is-active', !showPhonetic);
@@ -1058,7 +1074,7 @@ function renderSongContent(lyrics) {
     const originalLines = lyrics.split('\n');
     const displayLines = showPhonetic ? getSongPhonetic(song).split('\n') : originalLines;
     content.replaceChildren();
-    content.dataset.language = showPhonetic ? 'phonetic' : 'bangla';
+    content.dataset.language = isEnglishSong(song) ? 'english' : showPhonetic ? 'phonetic' : 'bangla';
     content.dataset.chords = showChords ? 'on' : 'off';
     content.style.setProperty('--reader-font-size', `${currentFontSize}px`);
 
