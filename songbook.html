@@ -357,12 +357,28 @@
                 </section>
 
                 <section class="songbook-v18__section songbook-v18__alphabet" aria-labelledby="alphabet-heading">
-                    <div class="songbook-v18__section-heading">
-                        <div><h2 id="alphabet-heading">▣ Browse by Alphabet <span lang="bn">(বাংলা অক্ষর)</span></h2></div>
-                        <button class="songbook-v18__text-link" id="showAllSongsBtn" type="button" aria-expanded="false">View All Songs →</button>
+                    <div class="songbook-v18__section-heading songbook-v18__index-heading">
+                        <div>
+                            <h2 id="alphabet-heading">Song Index</h2>
+                            <p>Find a song by language and first letter.</p>
+                        </div>
+                        <button class="songbook-v18__text-link" id="showAllSongsBtn" type="button" aria-expanded="false" aria-label="View all songs">View All Songs →</button>
                     </div>
-                    <div class="alphabet-index" id="alphabetIndex" role="navigation" aria-label="Bangla alphabet index"></div>
-                    <button class="songbook-v18__alphabet-more" id="songbookAlphabetMore" type="button" aria-expanded="false" aria-controls="alphabetIndex">More <span aria-hidden="true">＋</span></button>
+                    <div class="songbook-v18__index-languages" role="group" aria-label="Song language">
+                        <button class="songbook-v18__index-language is-active" type="button" data-index-language="bangla" aria-pressed="true">
+                            <span lang="bn">বাংলা</span>
+                            <span class="songbook-v18__index-language-count" data-index-count="bangla">—</span>
+                        </button>
+                        <button class="songbook-v18__index-language" type="button" data-index-language="english" aria-pressed="false">
+                            <span>English</span>
+                            <span class="songbook-v18__index-language-count" data-index-count="english">—</span>
+                        </button>
+                    </div>
+                    <div class="songbook-v18__index-jump">
+                        <span class="songbook-v18__index-label">Jump to</span>
+                        <div class="alphabet-index" id="alphabetIndex" role="group" aria-label="Bengali song index"></div>
+                    </div>
+                    <p class="songbook-v18__index-summary" id="alphabetSelectionSummary" aria-live="polite"></p>
                 </section>
 
                 <section class="songbook-v18__section songbook-v18__songs" id="recentSongsSection" aria-labelledby="recent-heading">

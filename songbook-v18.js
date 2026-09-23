@@ -10,6 +10,8 @@
 
     let showingAllSongs = false;
     let lastRenderedSongs = [];
+    let selectedIndexLetter = 'all';
+    let indexLanguage = 'bangla';
 
     const $ = (selector, scope = document) => scope.querySelector(selector);
     const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
@@ -30,6 +32,36 @@
     function languageLabel(song) {
         if (isBanglaSong(song) && isEnglishSong(song)) return 'Bilingual';
         return isBanglaSong(song) ? 'বাংলা' : 'English';
+    }
+
+    const englishIndexLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+    function formatIndexCount(value) {
+        return Number(value || 0).toLocaleString('en-US');
+    }
+
+    function indexKeyForSong(song, language) {
+        const first = Array.from(String(song?.title || '').trim())[0] || '';
+        if (/^\d/u.test(first)) return '#';
+        if (language === 'english') return /^[A-Za-z]$/.test(first) ? first.toUpperCase() : null;
+        return /[\u0980-\u09FF]/u.test(first) ? first : null;
+    }
+
+    function getIndexLanguage() {
+        return typeof currentLanguageFilter !== 'undefined' && ['bangla', 'english'].includes(currentLanguageFilter)
+            ? currentLanguageFilter
+            : indexLanguage;
+    }
+
+    function getIndexScopeSongs(language = getIndexLanguage()) {
+        const filteredSongs = typeof getFilteredSongs === 'function' ? getFilteredSongs() : [];
+        if (typeof currentLanguageFilter !== 'undefined' && currentLanguageFilter !== 'all') return filteredSongs;
+        return filteredSongs.filter((song) => language === 'bangla' ? isBanglaSong(song) : isEnglishSong(song));
+    }
+
+    function clearIndexSearch() {
+        const search = $('#searchInput');
+        if (search) search.value = '';
     }
 
     function songChip(label) {
@@ -84,15 +116,15 @@
         if (!list) return;
 
         const hasSearch = Boolean(search?.value.trim());
-        const hasSpecificAlphabet = Boolean($('.alphabet-btn.active:not(:first-child)'));
+        const hasSpecificAlphabet = selectedIndexLetter !== 'all';
         const hasFilter = typeof currentFilter !== 'undefined' && currentFilter !== 'all';
-        const hasLanguage = typeof currentLanguageFilter !== 'undefined' && currentLanguageFilter !== 'all';
-        const collapsed = !showingAllSongs && !hasSearch && !hasSpecificAlphabet && !hasFilter && !hasLanguage;
+        const collapsed = !showingAllSongs && !hasSearch && !hasSpecificAlphabet && !hasFilter;
         list.classList.toggle('is-collapsed', collapsed);
 
         const button = $('#showAllSongsBtn');
         if (button) {
-            button.textContent = collapsed ? 'View All Songs →' : 'Show Recent Songs';
+            button.textContent = collapsed ? 'View All Songs →' : 'Recently Added →';
+            button.setAttribute('aria-label', collapsed ? 'View all songs' : 'Show recently added songs');
             button.setAttribute('aria-expanded', String(!collapsed));
         }
     }
@@ -274,7 +306,7 @@
         };
 
         Object.entries(counts).forEach(([key, value]) => {
-            $$(`[data-v18-count="${key}"]`).forEach((element) => {
+            $$(`[data-v18-count="${key}"], [data-index-count="${key}"]`).forEach((element) => {
                 element.textContent = String(value);
             });
         });
@@ -285,9 +317,139 @@
             const language = button.dataset.language;
             const tabId = button.dataset.tab;
             const isLanguageActive = language && typeof currentLanguageFilter !== 'undefined' && currentLanguageFilter === language;
-            const isTabActive = tabId && $(tabId)?.classList.contains('active');
+            const isAllSongsTab = tabId === '#allSongsTab';
+            const isTabActive = tabId && $(tabId)?.classList.contains('active') && !(isAllSongsTab && currentLanguageFilter !== 'all');
             button.classList.toggle('is-active', Boolean(isLanguageActive || isTabActive));
         });
+
+        $$('.songbook-v18__index-language').forEach((button) => {
+            const isActive = typeof currentLanguageFilter !== 'undefined' && currentLanguageFilter === button.dataset.indexLanguage;
+            button.classList.toggle('is-active', isActive);
+            button.setAttribute('aria-pressed', String(isActive));
+        });
+    }
+
+    function syncIndexSummary() {
+        const summary = $('#alphabetSelectionSummary');
+        if (!summary) return;
+
+        const search = $('#searchInput');
+        if (search?.value.trim()) {
+            const count = lastRenderedSongs.length;
+            summary.textContent = `Search results · ${formatIndexCount(count)} song${count === 1 ? '' : 's'}`;
+            return;
+        }
+
+        const language = getIndexLanguage();
+        const filteredSongs = typeof getFilteredSongs === 'function' ? getFilteredSongs() : [];
+        const selectedSongs = selectedIndexLetter === 'all'
+            ? filteredSongs
+            : filteredSongs.filter((song) => indexKeyForSong(song, language) === selectedIndexLetter);
+        const count = selectedSongs.length;
+        const languageFilter = typeof currentLanguageFilter !== 'undefined' ? currentLanguageFilter : 'all';
+
+        if (selectedIndexLetter === 'all' && languageFilter === 'all') {
+            summary.textContent = `All songs · ${formatIndexCount(count)}`;
+        } else if (selectedIndexLetter === 'all') {
+            const label = language === 'bangla' ? 'সব বাংলা গান' : 'All English Songs';
+            summary.textContent = `${label} · ${formatIndexCount(count)}`;
+        } else if (language === 'bangla') {
+            summary.textContent = `${selectedIndexLetter} দিয়ে শুরু · ${formatIndexCount(count)} songs`;
+        } else {
+            summary.textContent = `Starting with ${selectedIndexLetter} · ${formatIndexCount(count)} songs`;
+        }
+    }
+
+    function syncIndexSelectionState() {
+        $$('.songbook-v18__index-letter').forEach((button) => {
+            const isSelected = button.dataset.indexLetter === selectedIndexLetter;
+            button.classList.toggle('active', isSelected);
+            button.setAttribute('aria-pressed', String(isSelected));
+        });
+    }
+
+    function handleIndexSelection(language, letter) {
+        indexLanguage = language;
+        if (letter !== 'all' && typeof currentLanguageFilter !== 'undefined' && currentLanguageFilter === 'all') {
+            setSongbookLanguageFilter(language);
+        }
+        selectedIndexLetter = letter;
+        clearIndexSearch();
+
+        const filteredSongs = typeof getFilteredSongs === 'function' ? getFilteredSongs() : [];
+        const songs = letter === 'all'
+            ? filteredSongs
+            : filteredSongs.filter((song) => indexKeyForSong(song, language) === letter);
+        if (typeof window.renderSongList === 'function') window.renderSongList(songs);
+        syncIndexSelectionState();
+        syncIndexSummary();
+        syncFilterState();
+        syncListView();
+    }
+
+    function renderSmartAlphabetIndex() {
+        const alphabetIndex = $('#alphabetIndex');
+        if (!alphabetIndex) return;
+
+        const language = getIndexLanguage();
+        const indexScope = getIndexScopeSongs(language);
+        const languageSongs = typeof songsDatabase !== 'undefined'
+            ? songsDatabase.filter((song) => language === 'bangla' ? isBanglaSong(song) : isEnglishSong(song))
+            : indexScope;
+        const supportedKeys = new Set(languageSongs.map((song) => indexKeyForSong(song, language)).filter(Boolean));
+        const availableCounts = new Map();
+        indexScope.forEach((song) => {
+            const key = indexKeyForSong(song, language);
+            if (key) availableCounts.set(key, (availableCounts.get(key) || 0) + 1);
+        });
+
+        let keys;
+        if (language === 'english') {
+            keys = [...(supportedKeys.has('#') ? ['#'] : []), ...englishIndexLetters];
+        } else {
+            keys = [...supportedKeys].sort((a, b) => a.localeCompare(b, 'bn'));
+        }
+
+        if (selectedIndexLetter !== 'all' && !keys.includes(selectedIndexLetter)) selectedIndexLetter = 'all';
+        alphabetIndex.setAttribute('aria-label', language === 'bangla' ? 'Bengali song index' : 'English song index');
+        alphabetIndex.replaceChildren();
+
+        const appendButton = (letter, label, count, isAll = false) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'alphabet-btn songbook-v18__index-letter';
+            button.dataset.indexLetter = letter;
+            button.textContent = label;
+            button.setAttribute('aria-pressed', String(selectedIndexLetter === letter));
+            const languageLabel = language === 'bangla' ? 'Bengali' : 'English';
+            const description = isAll
+                ? (typeof currentLanguageFilter !== 'undefined' && currentLanguageFilter === 'all' ? 'Show all songs' : `Show all ${languageLabel} songs`)
+                : letter === '#'
+                    ? 'Songs beginning with a number'
+                    : `Songs beginning with ${letter}`;
+            button.setAttribute('aria-label', `${description} (${formatIndexCount(count)})`);
+            button.title = description;
+            button.classList.toggle('active', selectedIndexLetter === letter);
+            if (!isAll && count === 0) {
+                button.disabled = true;
+                button.setAttribute('aria-disabled', 'true');
+                button.classList.add('is-unavailable');
+            }
+            button.addEventListener('click', () => handleIndexSelection(language, letter));
+            alphabetIndex.appendChild(button);
+        };
+
+        appendButton('all', language === 'bangla' ? 'সব' : 'All', indexScope.length, true);
+        keys.forEach((letter) => appendButton(letter, letter, availableCounts.get(letter) || 0));
+        syncIndexSummary();
+        syncFilterState();
+    }
+
+    function installSmartAlphabetIndex() {
+        if (typeof window.renderAlphabetIndex === 'function' && !window.__songbookV18AlphabetWrapped) {
+            window.renderAlphabetIndex = renderSmartAlphabetIndex;
+            window.__songbookV18AlphabetWrapped = true;
+        }
     }
 
     function setupControls() {
@@ -310,25 +472,54 @@
         });
 
         $('#showAllSongsBtn')?.addEventListener('click', () => {
-            showingAllSongs = !showingAllSongs;
+            const showingRecent = $('#showAllSongsBtn').getAttribute('aria-expanded') === 'true';
+            if (showingRecent) {
+                selectedIndexLetter = 'all';
+                clearIndexSearch();
+                showingAllSongs = false;
+                if (typeof window.renderSongList === 'function') window.renderSongList(getFilteredSongs());
+                renderSmartAlphabetIndex();
+            } else {
+                showingAllSongs = true;
+            }
             syncListView();
             if (showingAllSongs) $('#songList')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        $$('.songbook-v18__index-language').forEach((button) => {
+            button.addEventListener('click', () => {
+                const language = button.dataset.indexLanguage;
+                if (!['bangla', 'english'].includes(language) || typeof setSongbookLanguageFilter !== 'function') return;
+                indexLanguage = language;
+                selectedIndexLetter = 'all';
+                setSongbookLanguageFilter(language);
+                clearIndexSearch();
+                renderSmartAlphabetIndex();
+                if (typeof window.renderSongList === 'function') window.renderSongList(getFilteredSongs());
+                syncFilterState();
+                syncListView();
+            });
         });
 
         $$('.songbook-v18__filter').forEach((button) => {
             button.addEventListener('click', () => {
                 if (button.dataset.language && typeof setSongbookLanguageFilter === 'function') {
+                    indexLanguage = button.dataset.language;
+                    selectedIndexLetter = 'all';
                     setSongbookLanguageFilter(button.dataset.language);
-                    $('#searchInput').value = '';
+                    clearIndexSearch();
                     showingAllSongs = false;
-                    renderSongList(getFilteredSongs());
+                    renderSmartAlphabetIndex();
+                    if (typeof window.renderSongList === 'function') window.renderSongList(getFilteredSongs());
                 } else if (button.dataset.tab) {
+                    selectedIndexLetter = 'all';
                     if (button.dataset.tab === '#allSongsTab' && typeof setSongbookLanguageFilter === 'function') {
                         setSongbookLanguageFilter('all');
                     }
                     $(button.dataset.tab)?.click();
                     showingAllSongs = false;
                 }
+                window.setTimeout(() => renderSmartAlphabetIndex(), 0);
                 syncFilterState();
                 sidebar?.classList.remove('is-open');
             });
@@ -357,16 +548,20 @@
         });
 
         $('#searchInput')?.addEventListener('input', () => {
+            selectedIndexLetter = 'all';
             showingAllSongs = Boolean($('#searchInput').value.trim());
             window.setTimeout(() => {
+                renderSmartAlphabetIndex();
                 syncListView();
                 syncFilterState();
             }, 0);
         });
 
         $$('.tab-btn').forEach((tab) => tab.addEventListener('click', () => {
+            selectedIndexLetter = 'all';
             showingAllSongs = false;
             window.setTimeout(() => {
+                renderSmartAlphabetIndex();
                 syncListView();
                 syncFilterState();
             }, 0);
@@ -377,6 +572,7 @@
             new MutationObserver(() => {
                 decorateSongCards();
                 syncListView();
+                syncIndexSummary();
             }).observe(songList, { childList: true });
         }
     }
@@ -390,6 +586,7 @@
                 decorateSongCards();
                 syncListView();
                 syncFilterState();
+                syncIndexSummary();
             };
             window.__songbookV18RenderWrapped = true;
         }
@@ -406,13 +603,19 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         wrapExistingAppFunctions();
+        installSmartAlphabetIndex();
         if (!lastRenderedSongs.length && typeof songsDatabase !== 'undefined') lastRenderedSongs = songsDatabase;
+        if (typeof currentLanguageFilter !== 'undefined' && currentLanguageFilter === 'all' && typeof setSongbookLanguageFilter === 'function') {
+            setSongbookLanguageFilter('bangla');
+            if (typeof window.renderSongList === 'function') window.renderSongList(getFilteredSongs());
+        }
         syncCounts();
         renderFeaturedSong();
         syncServiceSummary();
         setupControls();
         setupAlphabetCollapse();
         syncMobileFooter();
+        renderSmartAlphabetIndex();
         decorateSongCards();
         syncListView();
         syncFilterState();
