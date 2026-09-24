@@ -68,7 +68,7 @@ function applyPreset(preset) {
             activeFilters = new Set(['gpbc-sunday-worship']);
             break;
         case 'prayer-meetings':
-            // Show ONLY prayer events (Friday Connection + Saturday Fasting)
+            // Show only the recurring prayer event series in this filtered view.
             activeFilters = new Set(['gpbc-prayer']);
             break;
         case 'christian-days':
@@ -665,7 +665,7 @@ function shareEvents() {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'];
 
-    let shareText = `📅 Grace and Praise Bangladeshi Church\n1325 Richardson Street, CA 92408\n\nCalendar Events - ${monthNames[currentMonth]} ${currentYear}\n\n`;
+    let shareText = `📅 Grace and Praise Bangladeshi Church\n1325 Richardson Street, San Bernardino, CA 92408\n\nCalendar Events - ${monthNames[currentMonth]} ${currentYear}\n\n`;
 
     monthEvents.forEach(event => {
         if (shouldDisplayEvent(event)) {

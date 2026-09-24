@@ -99,30 +99,37 @@
     <script src="/js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="/css/footer-v3.css">
 
-    <!-- Structured Data: Person -->
+    <!-- Structured Data: Pastor Profile -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Rev. Gilbert Simon Baidya, PhD",
-        "honorificPrefix": "Rev.",
-        "honorificSuffix": "PhD",
-        "jobTitle": "Founding Pastor",
-        "url": "https://gracepraise.church/pastor/",
-        "image": "https://gracepraise.church/images/pastor/gilbert-baidya-portrait.png",
-        "worksFor": {
-            "@type": "Church",
-            "name": "Grace and Praise Bangladeshi Church",
-            "url": "https://gracepraise.church/",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "1325 Richardson Street",
-                "addressLocality": "San Bernardino",
-                "addressRegion": "CA",
-                "postalCode": "92408",
-                "addressCountry": "US"
+        "@graph": [
+            {
+                "@type": "ProfilePage",
+                "@id": "https://gracepraise.church/pastor/#webpage",
+                "url": "https://gracepraise.church/pastor/",
+                "name": "Our Pastor — Rev. Gilbert Simon Baidya, PhD | Grace and Praise Bangladeshi Church",
+                "isPartOf": {
+                    "@id": "https://gracepraise.church/#website"
+                },
+                "mainEntity": {
+                    "@id": "https://gracepraise.church/pastor/#person"
+                }
+            },
+            {
+                "@type": "Person",
+                "@id": "https://gracepraise.church/pastor/#person",
+                "name": "Rev. Gilbert Simon Baidya, PhD",
+                "honorificPrefix": "Rev.",
+                "honorificSuffix": "PhD",
+                "jobTitle": "Founding Pastor",
+                "url": "https://gracepraise.church/pastor/",
+                "image": "https://gracepraise.church/images/pastor/gilbert-baidya-portrait.png",
+                "worksFor": {
+                    "@id": "https://gracepraise.church/#church"
+                }
             }
-        }
+        ]
     }
     </script>
 </head>

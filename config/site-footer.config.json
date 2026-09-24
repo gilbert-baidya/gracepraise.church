@@ -12,8 +12,10 @@
     ],
     "directionsUrl": "https://www.google.com/maps/search/?api=1&query=1325+Richardson+Street+San+Bernardino+CA+92408",
     "serviceTimes": [
-      "Sunday Worship: 10:30 AM",
-      "Prayer Gathering: Wednesday 7:00 PM"
+      "Sunday Worship: 5:00 PM",
+      "Saturday Fasting Prayer: 12:00 PM",
+      "Friday Instrument Lesson: 5:30 PM",
+      "Friday Worship Practice: 6:30 PM"
     ]
   },
   "connect": {
@@ -32,7 +34,7 @@
       },
       {
         "label": "Watch Online",
-        "href": "https://youtube.com/@gpbc",
+        "href": "https://www.youtube.com/@GracePraise.Church",
         "external": true
       },
       {
@@ -44,7 +46,7 @@
   "resources": [
     {
       "label": "Sermons",
-      "href": "https://youtube.com/@gpbc",
+      "href": "https://www.youtube.com/@GracePraise.Church",
       "external": true
     },
     {
@@ -64,7 +66,7 @@
     {
       "id": "youtube",
       "label": "YouTube",
-      "href": "https://youtube.com/@gpbc"
+      "href": "https://www.youtube.com/@GracePraise.Church"
     },
     {
       "id": "facebook",

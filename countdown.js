@@ -10,11 +10,11 @@ class CountdownSystem {
         // Weekly service display config (schedule comes from events.js when available)
         this.serviceConfig = {
             'friday-connection': {
-                displayName: 'Worship Practice & Session',
+                displayName: 'Friday Instrument Lesson',
                 icon: '🎵',
                 duration: 120,
                 detailsLabel: 'Friday at 5:30 PM PT',
-                detailsNote: 'Weekly worship practice and prayer session'
+                detailsNote: 'Weekly Friday instrument lesson'
             },
             'fasting-prayer': {
                 displayName: 'Fasting Prayer',

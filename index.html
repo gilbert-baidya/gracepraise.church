@@ -361,9 +361,7 @@
         }
       },
       "organizer": {
-        "@type": "Organization",
-        "name": "Grace and Praise Bangladeshi Church",
-        "url": "https://gracepraise.church"
+        "@id": "https://gracepraise.church/#church"
       },
       "offers": {
         "@type": "Offer",
@@ -375,48 +373,57 @@
     }
     </script>
 
-    <!-- Structured Data for Church Organization -->
+    <!-- Structured Data for Church Identity -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Church",
-      "name": "Grace and Praise Bangladeshi Church",
-      "description": "A Christ-centered Bengali Christian church serving families in San Bernardino and surrounding communities.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "1325 Richardson Street",
-        "addressLocality": "San Bernardino",
-        "addressRegion": "CA",
-        "postalCode": "92408",
-        "addressCountry": "US"
-      },
-      "telephone": "+1-909-555-0100",
-      "url": "https://gracepraise.church",
-      "sameAs": [
-        "https://www.youtube.com/@GracePraise.Church"
-      ],
-      "knowsLanguage": [
-        "en",
-        "bn"
-      ],
-      "openingHoursSpecification": [
+      "@graph": [
         {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Sunday",
-          "opens": "17:00",
-          "closes": "18:30"
+          "@type": "Church",
+          "@id": "https://gracepraise.church/#church",
+          "name": "Grace and Praise Bangladeshi Church",
+          "description": "A Christ-centered Bengali Christian church serving families in San Bernardino and surrounding communities.",
+          "url": "https://gracepraise.church/",
+          "logo": "https://gracepraise.church/images/new-gpbc-logo-final.svg",
+          "telephone": "+1-909-763-0454",
+          "email": "info@gracepraise.church",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1325 Richardson Street",
+            "addressLocality": "San Bernardino",
+            "addressRegion": "CA",
+            "postalCode": "92408",
+            "addressCountry": "US"
+          },
+          "sameAs": [
+            "https://www.youtube.com/@GracePraise.Church"
+          ],
+          "knowsLanguage": [
+            "en",
+            "bn"
+          ]
         },
         {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Friday",
-          "opens": "17:30",
-          "closes": "19:00"
+          "@type": "WebSite",
+          "@id": "https://gracepraise.church/#website",
+          "url": "https://gracepraise.church/",
+          "name": "Grace and Praise Bangladeshi Church",
+          "publisher": {
+            "@id": "https://gracepraise.church/#church"
+          },
+          "inLanguage": "en"
         },
         {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "12:00",
-          "closes": "13:30"
+          "@type": "WebPage",
+          "@id": "https://gracepraise.church/#webpage",
+          "url": "https://gracepraise.church/",
+          "name": "Grace and Praise Bangladeshi Church - San Bernardino, CA",
+          "isPartOf": {
+            "@id": "https://gracepraise.church/#website"
+          },
+          "about": {
+            "@id": "https://gracepraise.church/#church"
+          }
         }
       ]
     }
@@ -855,7 +862,7 @@
                     <div class="visit-v3__location">
                         <p class="visit-v3__church-name">Grace and Praise Bangladeshi Church</p>
                         <address class="visit-v3__address">
-                            <span>1325 Richardson St.</span>
+                            <span>1325 Richardson Street</span>
                             <span>San Bernardino, CA 92408</span>
                         </address>
                     </div>

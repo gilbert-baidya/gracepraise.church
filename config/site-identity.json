@@ -1,0 +1,47 @@
+{
+  "name": "Grace and Praise Bangladeshi Church",
+  "website": "https://gracepraise.church",
+  "address": {
+    "streetAddress": "1325 Richardson Street",
+    "addressLocality": "San Bernardino",
+    "addressRegion": "CA",
+    "postalCode": "92408",
+    "addressCountry": "US"
+  },
+  "phone": {
+    "display": "909-763-0454",
+    "schema": "+1-909-763-0454"
+  },
+  "email": "info@gracepraise.church",
+  "social": {
+    "youtube": "https://www.youtube.com/@GracePraise.Church",
+    "facebook": null,
+    "instagram": null
+  },
+  "schedule": [
+    {
+      "name": "Sunday Worship Service",
+      "dayOfWeek": "Sunday",
+      "time": "17:00",
+      "displayTime": "5:00 PM"
+    },
+    {
+      "name": "Saturday Fasting Prayer",
+      "dayOfWeek": "Saturday",
+      "time": "12:00",
+      "displayTime": "12:00 PM"
+    },
+    {
+      "name": "Friday Instrument Lesson",
+      "dayOfWeek": "Friday",
+      "time": "17:30",
+      "displayTime": "5:30 PM"
+    },
+    {
+      "name": "Friday Worship Practice",
+      "dayOfWeek": "Friday",
+      "time": "18:30",
+      "displayTime": "6:30 PM"
+    }
+  ]
+}

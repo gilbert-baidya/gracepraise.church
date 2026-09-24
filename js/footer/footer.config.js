@@ -4,11 +4,12 @@ export const footerConfig = {
         visit: [
             { label: 'Sunday Worship', url: 'plan-visit.html' },
             { label: '5:00 PM', url: 'plan-visit.html' },
-            { label: 'Saturday Fasting Prayer', url: 'calendar.html' },
-            { label: 'Friday Worship Practice', url: 'calendar.html' }
+            { label: 'Saturday Fasting Prayer — 12:00 PM', url: 'calendar.html' },
+            { label: 'Friday Instrument Lesson — 5:30 PM', url: 'calendar.html' },
+            { label: 'Friday Worship Practice — 6:30 PM', url: 'calendar.html' }
         ],
         connect: [
-            { label: '1325 Richardson St.', url: 'plan-visit.html' },
+            { label: '1325 Richardson Street', url: 'plan-visit.html' },
             { label: 'San Bernardino, CA 92408', url: 'plan-visit.html' },
             { label: 'Plan Your Visit →', url: 'plan-visit.html' }
         ],
@@ -29,7 +30,7 @@ export const footerConfig = {
     },
     connectLinks: [
         { label: 'Events', url: 'calendar.html' },
-        { label: 'Sermons', url: 'https://youtube.com/@gpbc', external: true },
+        { label: 'Sermons', url: 'https://www.youtube.com/@GracePraise.Church', external: true },
         { label: 'Prayer Request', url: 'prayer-request.html' },
         { label: 'Give', url: 'give.html' },
         { label: 'Get Involved', url: 'contact.html' }
@@ -39,7 +40,7 @@ export const footerConfig = {
         { label: 'Terms', url: 'terms-conditions.html' }
     ],
     socialLinks: [
-        { platform: 'youtube', url: 'https://youtube.com/@gpbc', label: 'Grace Praise on YouTube' },
+        { platform: 'youtube', url: 'https://www.youtube.com/@GracePraise.Church', label: 'Grace Praise on YouTube' },
         { platform: 'facebook', url: 'https://facebook.com/graceandpraisebangladeshichurch', label: 'Grace Praise on Facebook' },
         { platform: 'instagram', url: 'https://instagram.com/gpbc', label: 'Grace Praise on Instagram' }
     ]

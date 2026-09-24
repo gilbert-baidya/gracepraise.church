@@ -31,8 +31,57 @@ function attribute(tag, name) {
   return match?.[2]?.trim() ?? null;
 }
 
+function hasAttribute(tag, name) {
+  return new RegExp(`\\b${name}\\s*=`, 'i').test(tag);
+}
+
 function tags(html, tagName) {
   return [...html.matchAll(new RegExp(`<${tagName}\\b[^>]*>`, 'gi'))].map((match) => match[0]);
+}
+
+function jsonLdBlocks(html) {
+  return [...html.matchAll(/<script\b(?=[^>]*\btype\s*=\s*["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
+    .map((match) => match[1].trim());
+}
+
+function walkJsonLd(value, visit) {
+  if (Array.isArray(value)) {
+    for (const item of value) walkJsonLd(item, visit);
+    return;
+  }
+  if (!value || typeof value !== 'object') return;
+  visit(value);
+  for (const child of Object.values(value)) walkJsonLd(child, visit);
+}
+
+function typeNames(entity) {
+  return new Set(Array.isArray(entity['@type']) ? entity['@type'] : [entity['@type']]);
+}
+
+function isOrganizationEntity(entity) {
+  const types = typeNames(entity);
+  return ['Church', 'Organization', 'NGO', 'LocalBusiness'].some((type) => types.has(type));
+}
+
+function isValidEmail(value) {
+  return typeof value === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function isValidHttpUrl(value) {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+  } catch {
+    return false;
+  }
+}
+
+function hasPreviewOrLocalHost(value) {
+  return /(?:netlify\.app|localhost|127\.0\.0\.1)/i.test(value);
+}
+
+function hasPlaceholderPhone(value) {
+  return typeof value === 'string' && /(?:909[-.\s]?555[-.\s]?0100|\b\d{3}[-.\s]?555[-.\s]?\d{4}\b)/i.test(value);
 }
 
 function textContent(value) {
@@ -153,6 +202,13 @@ if (context) {
   const titleMap = new Map();
   const descriptionMap = new Map();
   const canonicalMap = new Map();
+  const organizationEntities = [];
+  const expectedChurchId = `${baseOrigin}/#church`;
+  const expectedChurchUrl = `${baseOrigin}/`;
+  const expectedChurchName = 'Grace and Praise Bangladeshi Church';
+  const expectedChurchPhone = '+1-909-763-0454';
+  const expectedWebsiteId = baseOrigin + '/#website';
+  const jsonLdUrlFields = new Set(['url', '@id', 'image', 'logo', 'sameAs', 'eventStatus', 'eventAttendanceMode', 'availability', 'contentUrl']);
   for (const page of approved) {
     const html = fs.readFileSync(path.join(rootDir, page.file), 'utf8');
     const titleTags = tags(html, 'title');
@@ -203,15 +259,115 @@ if (context) {
     }
     for (const tag of tags(html, 'img')) {
       const src = attribute(tag, 'src');
-      if (!attribute(tag, 'alt') && !/^(?:https?:|data:|blob:)/i.test(src || '')) add('warning', `${page.file}: image missing alt (${src || 'missing src'})`);
+      if (!hasAttribute(tag, 'alt') && !/^(?:https?:|data:|blob:)/i.test(src || '')) add('warning', `${page.file}: image missing alt (${src || 'missing src'})`);
       const targetFile = src && resolveLocalTarget(src, page.file, routeToFile);
       if (targetFile && !fs.existsSync(path.join(rootDir, targetFile))) add('error', `${page.file}: broken local image ${src}`);
+    }
+
+    for (const block of jsonLdBlocks(html)) {
+      let parsed;
+      try {
+        parsed = JSON.parse(block);
+      } catch (error) {
+        add('error', `${page.file}: invalid JSON-LD (${error.message})`);
+        continue;
+      }
+
+      walkJsonLd(parsed, (entity) => {
+        const types = typeNames(entity);
+        for (const [field, value] of Object.entries(entity)) {
+          if (!jsonLdUrlFields.has(field)) continue;
+          const values = Array.isArray(value) ? value : [value];
+          for (const urlValue of values) {
+            if (typeof urlValue !== 'string') continue;
+            if (!isValidHttpUrl(urlValue)) add('error', page.file + ': invalid JSON-LD ' + field + ' URL ' + urlValue);
+            if (hasPreviewOrLocalHost(urlValue)) add('error', page.file + ': preview/local JSON-LD ' + field + ' URL ' + urlValue);
+          }
+        }
+
+        for (const [field, expectedId] of [
+          ['organizer', expectedChurchId],
+          ['worksFor', expectedChurchId],
+          ['publisher', expectedChurchId],
+          ['about', expectedChurchId],
+          ['isPartOf', expectedWebsiteId]
+        ]) {
+          if (entity[field]?.['@id'] && entity[field]['@id'] !== expectedId) {
+            add('error', page.file + ': inconsistent shared ' + field + ' @id ' + entity[field]['@id']);
+          }
+        }
+
+        if (types.has('Event')) {
+          const eventDate = entity.endDate || entity.startDate;
+          if (typeof eventDate === 'string' && !Number.isNaN(Date.parse(eventDate)) && Date.parse(eventDate) < Date.now()) {
+            add('error', `${page.file}: stale Event schema date ${eventDate}`);
+          }
+        }
+
+        if (entity.email !== undefined && !isValidEmail(entity.email)) {
+          add('error', `${page.file}: malformed JSON-LD email ${entity.email}`);
+        }
+
+        if (!isOrganizationEntity(entity)) return;
+        organizationEntities.push({ page: page.file, entity });
+
+        if (entity.name && entity.name === expectedChurchName) {
+          if (entity['@id'] && entity['@id'] !== expectedChurchId) {
+            add('error', `${page.file}: organization uses wrong @id ${entity['@id']}`);
+          }
+          if (entity.url && entity.url !== expectedChurchUrl && entity.url !== baseOrigin) {
+            add('error', `${page.file}: organization uses wrong URL ${entity.url}`);
+          }
+          if (entity.telephone && entity.telephone !== expectedChurchPhone) {
+            add('error', `${page.file}: organization uses conflicting phone ${entity.telephone}`);
+          }
+        }
+
+        for (const field of ['url', '@id']) {
+          if (typeof entity[field] !== 'string') continue;
+          if (hasPreviewOrLocalHost(entity[field])) add('error', `${page.file}: organization has preview/local ${field} ${entity[field]}`);
+          if (field === 'url' && !isValidHttpUrl(entity[field])) add('error', `${page.file}: organization has invalid URL ${entity[field]}`);
+        }
+
+        if (entity.sameAs !== undefined) {
+          const sameAsValues = Array.isArray(entity.sameAs) ? entity.sameAs : [entity.sameAs];
+          for (const sameAs of sameAsValues) {
+            if (!isValidHttpUrl(sameAs) || hasPreviewOrLocalHost(sameAs)) {
+              add('error', `${page.file}: invalid JSON-LD sameAs URL ${sameAs}`);
+            }
+          }
+        }
+
+        if (hasPlaceholderPhone(entity.telephone)) {
+          add('error', `${page.file}: placeholder organization phone ${entity.telephone}`);
+        }
+      });
     }
   }
 
   for (const [value, files] of titleMap) if (files.length > 1) add('warning', `Duplicate title: "${value}" (${files.join(', ')})`);
   for (const [value, files] of descriptionMap) if (files.length > 1) add('warning', `Duplicate description (${files.join(', ')})`);
   for (const [value, files] of canonicalMap) if (files.length > 1) add('warning', `Duplicate canonical ${value} (${files.join(', ')})`);
+
+  const primaryOrganizationByName = new Map();
+  for (const { page, entity } of organizationEntities) {
+    const name = entity.name || '(unnamed organization)';
+    const fingerprint = JSON.stringify({
+      name: entity.name || null,
+      url: entity.url || null,
+      telephone: entity.telephone || null,
+      email: entity.email || null,
+      sameAs: entity.sameAs || null
+    });
+    const existing = primaryOrganizationByName.get(name);
+    if (existing && existing.fingerprint !== fingerprint) {
+      add('error', `Conflicting primary organization entities for "${name}" (${existing.page}, ${page})`);
+    } else if (existing) {
+      add('warning', `Duplicate primary organization entity for "${name}" (${existing.page}, ${page})`);
+    } else {
+      primaryOrganizationByName.set(name, { page, fingerprint });
+    }
+  }
 
   infos.push(`Audited ${approved.length} approved indexable routes.`);
   infos.push(`Sitemap contains ${sitemapUrls.length} URLs.`);

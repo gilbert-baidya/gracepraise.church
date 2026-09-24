@@ -304,8 +304,8 @@ social: [
 ## 🐛 Known Issues / TODOs
 
 ### Placeholder URLs (Marked with TODO comments)
-- Phone number: `(909) 555-1234` - Replace with real number
-- YouTube: `https://youtube.com/@gpbc` - Verify channel URL
+- Phone number: `909-763-0454` - Confirmed general contact number
+- YouTube: `https://www.youtube.com/@GracePraise.Church` - Confirmed channel URL
 - Instagram: `https://instagram.com/gpbc` - Verify handle
 - Live stream page: Currently points to `index.html#live` - Consider creating dedicated `live.html`
 

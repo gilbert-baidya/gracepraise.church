@@ -14,6 +14,9 @@
     <meta property="og:site_name" content="Grace and Praise Bangladeshi Church" />
     <meta property="og:image" content="https://gracepraise.church/images/homepage/hero-v2/final/worship-desktop.webp" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About GPBC | Grace and Praise Bangladeshi Church" />
+    <meta name="twitter:description"
+        content="Meet Grace and Praise Bangladeshi Church in San Bernardino, California—a Christ-centered Bangladeshi church family shaped by grace, worship, service, and community." />
     <meta name="twitter:image" content="https://gracepraise.church/images/homepage/hero-v2/final/worship-desktop.webp" />
 
     <meta name="title" content="About GPBC | Grace and Praise Bangladeshi Church">
@@ -33,13 +36,6 @@
     <meta property="og:description"
         content="Meet Grace and Praise Bangladeshi Church in San Bernardino, California—a Christ-centered Bangladeshi church family shaped by grace, worship, service, and community.">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary">
-    <meta property="twitter:url" content="https://gracepraise.church/about.html">
-    <meta property="twitter:title" content="About GPBC | Grace and Praise Bangladeshi Church">
-    <meta property="twitter:description"
-        content="Meet Grace and Praise Bangladeshi Church in San Bernardino, California—a Christ-centered Bangladeshi church family shaped by grace, worship, service, and community.">
-
     <link rel="preload" as="image" href="images/homepage/hero-v2/final/worship-desktop.webp" type="image/webp"
         imagesrcset="images/homepage/hero-v2/final/worship-mobile.webp 640w, images/homepage/hero-v2/final/worship-desktop.webp 1000w"
         imagesizes="(max-width: 720px) 100vw, 52vw">
@@ -47,19 +43,21 @@
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
-            "@type": "Church",
-            "name": "Grace and Praise Bangladeshi Church",
-            "alternateName": "GPBC",
-            "url": "https://gracepraise.church/about.html",
-            "image": "https://gracepraise.church/images/homepage/hero-v2/final/worship-desktop.webp",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "1325 Richardson St.",
-                "addressLocality": "San Bernardino",
-                "addressRegion": "CA",
-                "postalCode": "92408",
-                "addressCountry": "US"
-            }
+            "@graph": [
+                {
+                    "@type": "AboutPage",
+                    "@id": "https://gracepraise.church/about.html#webpage",
+                    "url": "https://gracepraise.church/about.html",
+                    "name": "About GPBC | Grace and Praise Bangladeshi Church",
+                    "isPartOf": {
+                        "@id": "https://gracepraise.church/#website"
+                    },
+                    "about": {
+                        "@id": "https://gracepraise.church/#church"
+                    },
+                    "primaryImageOfPage": "https://gracepraise.church/images/homepage/hero-v2/final/worship-desktop.webp"
+                }
+            ]
         }
     </script>
 

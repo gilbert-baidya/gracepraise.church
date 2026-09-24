@@ -9,7 +9,7 @@ class HomepageEvents {
         this.timeZone = 'America/Los_Angeles';
         // Default address fallback; updated from content.json when available
         this.churchAddress = {
-            display: '1325 Richardson Street, CA 92408',
+            display: '1325 Richardson Street, San Bernardino, CA 92408',
             mapsUrl: 'https://maps.google.com/?q=1325+Richardson+Street+CA+92408'
         };
         if (this.container) {

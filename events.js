@@ -1,19 +1,34 @@
 // Comprehensive Events Database for 2026-2036 (10 years)
 const events = [
     // GPBC RECURRING WEEKLY EVENTS (Generated for next 10 years from Jan 2026)
-    // ✨ Friday 5:30 PM - Friday Connection (Prayer)
+    // 🎼 Friday 5:30 PM - Instrument Lesson
     ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
         const date = new Date(2026, 0, 2 + (i * 7)); // Start Jan 2, 2026 (Friday)
         return {
             date: date.toISOString().split('T')[0],
-            name: '✨ Friday Connection (Prayer)',
+            name: '🎼 Friday Instrument Lesson',
             serviceKey: 'friday-connection',
             category: 'gpbc',
             eventCategory: 'GPBC',
-            eventType: 'prayer',
+            eventType: 'ministry',
             eventDay: 'Friday',
             eventTime: '5:30 PM',
-            description: 'Friday evening prayer and worship connection'
+            description: 'Weekly Friday instrument lesson'
+        };
+    }),
+    // 🎶 Friday 6:30 PM - Worship Practice
+    ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
+        const date = new Date(2026, 0, 2 + (i * 7)); // Start Jan 2, 2026 (Friday)
+        return {
+            date: date.toISOString().split('T')[0],
+            name: '🎶 Friday Worship Practice',
+            serviceKey: 'friday-worship-practice',
+            category: 'gpbc',
+            eventCategory: 'GPBC',
+            eventType: 'worship',
+            eventDay: 'Friday',
+            eventTime: '6:30 PM',
+            description: 'Weekly Friday worship practice'
         };
     }),
     // 🙌 Saturday 12:00 PM - Fasting Prayer
@@ -29,21 +44,6 @@ const events = [
             eventDay: 'Saturday',
             eventTime: '12:00 PM',
             description: 'Saturday fasting and prayer meeting'
-        };
-    }),
-    // 🙏 Sunday 4:30 PM - Sunday Connection
-    ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
-        const date = new Date(2026, 0, 4 + (i * 7)); // Start Jan 4, 2026 (Sunday)
-        return {
-            date: date.toISOString().split('T')[0],
-            name: '🙏 Sunday Connection',
-            serviceKey: 'sunday-connection',
-            category: 'gpbc',
-            eventCategory: 'GPBC',
-            eventType: 'worship',
-            eventDay: 'Sunday',
-            eventTime: '4:30 PM',
-            description: 'Sunday Connection - fellowship and spiritual connection time'
         };
     }),
     // Sunday 5:00 PM - Worship Service

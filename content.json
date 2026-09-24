@@ -11,8 +11,8 @@
       "city": "San Bernardino",
       "state": "CA",
       "zip": "92408",
-      "fullAddress": "1325 Richardson Street, CA 92408",
-      "mapsUrl": "https://maps.google.com/?q=1325+Richardson+Street+CA+92408"
+      "fullAddress": "1325 Richardson Street, San Bernardino, CA 92408",
+      "mapsUrl": "https://maps.google.com/?q=1325+Richardson+Street+San+Bernardino+CA+92408"
     }
   },
   
@@ -27,15 +27,21 @@
       "type": "Regular Service"
     },
     "friday": {
-      "name": "Worship Practice & Session",
+      "name": "Friday Instrument Lesson",
       "day": "Friday",
-      "time": "5:30 PM - 7:30 PM",
-      "description": "Weekly worship practice and fellowship."
+      "time": "5:30 PM",
+      "description": "Weekly instrument lesson."
+    },
+    "fridayWorshipPractice": {
+      "name": "Friday Worship Practice",
+      "day": "Friday",
+      "time": "6:30 PM",
+      "description": "Weekly worship practice."
     },
     "saturday": {
       "name": "Fasting Prayer",
       "day": "Saturday",
-      "time": "12:00 PM - 2:00 PM",
+      "time": "12:00 PM",
       "description": "Dedicated time for prayer and fasting."
     }
   },
@@ -70,7 +76,7 @@
   
   "social": {
     "facebook": "#",
-    "youtube": "#",
+    "youtube": "https://www.youtube.com/@GracePraise.Church",
     "instagram": "#"
   },
   
