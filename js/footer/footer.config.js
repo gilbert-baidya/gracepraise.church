@@ -20,11 +20,11 @@ export const footerConfig = {
             { label: 'Contact Us', url: 'contact.html' }
         ],
         resources: [
-            { label: 'Children & Youth', url: 'ministries/' },
-            { label: 'Young Adults', url: 'ministries/' },
-            { label: 'Men’s Ministry', url: 'ministries/' },
-            { label: 'Women’s Ministry', url: 'ministries/' },
-            { label: 'Outreach', url: 'ministries/' }
+            { label: 'Praise & Worship', url: 'ministries/worship-ministry.html' },
+            { label: 'Bible Study', url: 'ministries/bible-study.html' },
+            { label: 'Kids Ministry', url: 'ministries/kids-ministry.html' },
+            { label: 'Men Fellowship', url: 'ministries/men-fellowship.html' },
+            { label: 'Care & Outreach', url: 'ministries.html' }
         ]
     },
     connectLinks: [
