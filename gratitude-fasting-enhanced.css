@@ -405,6 +405,14 @@ main {
     text-wrap: balance;
 }
 
+/* Keep the desktop hero on one stable line while Playfair Display loads. */
+@media (min-width: 1025px) {
+    .devotion-hero h1 {
+        max-width: none;
+        white-space: nowrap;
+    }
+}
+
 .devotion-hero .hero-title-line {
     margin: 1rem 0 0 !important;
     font-size: clamp(1rem, 1.8vw, 1.22rem) !important;

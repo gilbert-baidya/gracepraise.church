@@ -27,6 +27,11 @@ test.describe('Devotion System - Fasting Regression Coverage', () => {
         await page.goto(LENT_URL);
         await page.waitForLoadState('networkidle');
 
+        const welcomeOverlay = page.locator('#welcomeOverlay');
+        if (await welcomeOverlay.isVisible().catch(() => false)) {
+            await page.locator('#welcomeCta').click();
+        }
+
         const btnEnglish = page.locator('#langEn');
         const btnBengali = page.locator('#langBn');
         const verseEn = page.locator('#verseText');

@@ -132,6 +132,15 @@
         ]
     }
     </script>
+    <!-- Reserve the measured desktop fixed-header space before runtime/CSS settle. -->
+    <style id="gpbc-desktop-header-reservation">
+        @media (min-width: 1025px) {
+            body { padding-top: 199px; }
+        }
+        @media (max-width: 1024px) {
+            body { padding-top: 0; }
+        }
+    </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>

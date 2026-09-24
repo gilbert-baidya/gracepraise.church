@@ -8,6 +8,17 @@
     const THEME_STORAGE_KEY = 'theme';
     const VALID_THEMES = new Set(['light', 'dark']);
 
+    // Reserve the measured desktop fixed-header height before external CSS
+    // finishes loading, preventing a transient zero-offset layout.
+    if (w.matchMedia?.('(min-width: 1025px)').matches) {
+        d.documentElement.style.setProperty('--gpbc-header-total-height', '199px');
+        if (d.head) {
+            const criticalLayoutStyle = d.createElement('style');
+            criticalLayoutStyle.textContent = '@media (min-width: 1025px) { body { padding-top: 199px; } }';
+            d.head.appendChild(criticalLayoutStyle);
+        }
+    }
+
     function readSavedTheme() {
         try {
             const savedTheme = w.localStorage?.getItem(THEME_STORAGE_KEY);

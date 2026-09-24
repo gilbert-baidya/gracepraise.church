@@ -12,7 +12,7 @@
  * ----------------------------------------------------------------------------
  */
 
-const CACHE_VERSION = 'gpbc-v12';
+const CACHE_VERSION = 'gpbc-v13';
 const STATIC_CACHE = CACHE_VERSION + '-static';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 const OFFLINE_URL = '/';
@@ -37,7 +37,6 @@ const PRECACHE_URLS = [
   '/plan-visit.html',
   '/songbook.html',
   '/songbook-app.js',
-  '/songs-data.js',
   '/styles-songbook.css'
 ];
 

@@ -102,9 +102,19 @@
     <link rel="stylesheet" href="share-card-generator.css">
     <link rel="stylesheet" href="sacred-motion.css">
     <link rel="stylesheet" href="devotion-v16.css">
+    <link rel="stylesheet" href="logo-loading.css">
 
     <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
+    <!-- Reserve the measured desktop fixed-header space before runtime/CSS settle. -->
+    <style id="gpbc-desktop-header-reservation">
+        @media (min-width: 1025px) {
+            body { padding-top: 199px; }
+        }
+        @media (max-width: 1024px) {
+            body { padding-top: 0; }
+        }
+    </style>
 </head>
 
 <body class="page-daily-devotion">

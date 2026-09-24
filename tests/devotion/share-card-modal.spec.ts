@@ -15,14 +15,14 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     await devotionPage.assertCoreReady();
     
     // Find share button
-    const shareButton = page.locator('.simple-share-btn, .share-button, button:has-text("Share")');
+    const shareButton = page.locator('#shareCardTrigger');
     await expect(shareButton).toBeVisible({ timeout: 5000 });
     
     // Click share button
     await shareButton.click();
     
     // Modal should open
-    const modal = page.locator('.share-card-modal, .modal, [role="dialog"]');
+    const modal = page.locator('#shareCardModal');
     await expect(modal).toBeVisible({ timeout: 3000 });
   });
   
@@ -32,7 +32,7 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     await devotionPage.assertCoreReady();
     
     // Open share modal
-    const shareButton = page.locator('.simple-share-btn, .share-button, button:has-text("Share")');
+    const shareButton = page.locator('#shareCardTrigger');
     await shareButton.click();
     
     // Canvas should be visible
@@ -60,7 +60,7 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     await devotionPage.assertCoreReady();
     
     // Open share modal
-    const shareButton = page.locator('.simple-share-btn, .share-button, button:has-text("Share")');
+    const shareButton = page.locator('#shareCardTrigger');
     await shareButton.click();
     
     // Wait for canvas to render
@@ -105,7 +105,7 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     });
     
     // Open share modal
-    const shareButton = page.locator('.simple-share-btn, .share-button, button:has-text("Share")');
+    const shareButton = page.locator('#shareCardTrigger');
     await shareButton.click();
     
     // Wait for canvas to render
@@ -131,20 +131,20 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     await devotionPage.assertCoreReady();
     
     // Open share modal
-    const shareButton = page.locator('.simple-share-btn, .share-button, button:has-text("Share")');
+    const shareButton = page.locator('#shareCardTrigger');
     await shareButton.click();
     
     // Modal should be visible
-    const modal = page.locator('.share-card-modal, .modal, [role="dialog"]');
+    const modal = page.locator('#shareCardModal');
     await expect(modal).toBeVisible();
     
     // Close modal (via close button or overlay)
-    const closeButton = page.locator('.modal-close, .close-modal, button:has-text("Close"), button:has-text("×")');
+    const closeButton = page.locator('#shareCardClose');
     if (await closeButton.count() > 0) {
       await closeButton.first().click();
     } else {
       // Try clicking overlay
-      const overlay = page.locator('.modal-overlay, .overlay');
+      const overlay = page.locator('#shareCardOverlay');
       if (await overlay.count() > 0) {
         await overlay.click({ position: { x: 10, y: 10 } });
       }
@@ -160,7 +160,7 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     await devotionPage.assertCoreReady();
     
     // Open share modal
-    const shareButton = page.locator('.simple-share-btn, .share-button, button:has-text("Share")');
+    const shareButton = page.locator('#shareCardTrigger');
     await shareButton.click();
     
     // Wait for canvas to render

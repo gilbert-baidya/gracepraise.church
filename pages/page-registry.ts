@@ -122,7 +122,7 @@ export const pageRegistry: PageRegistryEntry[] = [
     htmlPath: "daily-devotion.html",
     className: "DailyDevotionPage",
     isFullDocument: true,
-    expectedTitle: "Daily Devotion | Grace and Praise Bangladeshi Church",
+    expectedTitle: "Daily Devotion",
     create: (page: Page) => new DailyDevotionPage(page)
   },
   {

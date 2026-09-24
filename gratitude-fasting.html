@@ -533,6 +533,15 @@
     </style>
     <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
+    <!-- Reserve the measured desktop fixed-header space before runtime/CSS settle. -->
+    <style id="gpbc-desktop-header-reservation">
+        @media (min-width: 1025px) {
+            body { padding-top: 199px; }
+        }
+        @media (max-width: 1024px) {
+            body { padding-top: 0; }
+        }
+    </style>
 </head>
 
 <body>
@@ -605,7 +614,7 @@
                             <li><a href="fasting-30days.html">30 Days Fasting</a></li>
                             <li><a href="fasting-40days.html">Lent - 40 Days</a></li>
                             <li><a href="gratitude-fasting.html" class="active">Gratitude Fasting (<span
-                                        class="year-display"></span> - <span class="days-display"></span> Days)</a></li>
+                                        class="year-display">2026</span> - <span class="days-display">26</span> Days)</a></li>
                         </ul>
                     </li>
                     <li><a href="give.html">Give</a></li>
@@ -621,8 +630,8 @@
         <section class="devotion-hero" aria-labelledby="gratitudeHeroTitle">
             <div class="gratitude-hero-inner">
                 <p class="hero-subtitle">GPBC Devotion Journey</p>
-                <h1 id="gratitudeHeroTitle">Gratitude Fasting <span class="year-display"></span></h1>
-                <p class="hero-title-line"><span class="days-display"></span> Days of Thanksgiving, Prayer &amp; Reflection</p>
+                <h1 id="gratitudeHeroTitle">Gratitude Fasting <span class="year-display">2026</span></h1>
+                <p class="hero-title-line"><span class="days-display">26</span> Days of Thanksgiving, Prayer &amp; Reflection</p>
                 <p class="hero-supporting-line">Gratitude · Prayer · Renewal</p>
             </div>
         </section>
@@ -634,7 +643,7 @@
                 <div class="progress-copy">
                     <span class="progress-eyebrow">Journey progress</span>
                     <span class="progress-label">Day <span id="currentDayProgress">1</span> of <span
-                            class="days-display"></span></span>
+                            class="days-display">26</span></span>
                 </div>
                 <div class="progress-bar-bg">
                     <div class="progress-bar-fill" id="progressBarFill" style="width: 0%"></div>

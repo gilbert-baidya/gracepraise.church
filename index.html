@@ -80,6 +80,12 @@
         imagesizes="(max-width: 760px) calc(100vw - 3rem), 430px"
         fetchpriority="high">
 
+    <!-- Prevent the measured hero grid expansion while its required display/body fonts arrive. -->
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="https://fonts.gstatic.com/s/cinzel/v26/8vIJ7ww63mVu7gt79mT7PkRXMw.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2">
+
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -487,6 +493,15 @@
     <!-- Homepage Stay Connected V8 — isolated editorial section styles. -->
     <link rel="stylesheet" href="stay-connected-v8.css?v=20260918-v11-stay-mobile">
     <script src="./js/partials.js?v=20260918-v11-theme-final3" defer></script>
+    <!-- Reserve the measured desktop fixed-header space before runtime/CSS settle. -->
+    <style id="gpbc-desktop-header-reservation">
+        @media (min-width: 1025px) {
+            body { padding-top: 199px; }
+        }
+        @media (max-width: 1024px) {
+            body { padding-top: 0; }
+        }
+    </style>
 </head>
 
 <body class="homepage" data-page="home">

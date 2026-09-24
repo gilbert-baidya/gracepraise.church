@@ -12,12 +12,12 @@ test.describe('Daily Devotion - Background Intelligence', () => {
     const devotionPage = new DailyDevotionPage(page);
     await devotionPage.goto();
     await page.waitForLoadState('domcontentloaded');
-    await expect(page.locator('#devotion-root, .devotion-container, main')).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('#devotion-root')).toBeVisible({ timeout: 15000 });
   }
 
   async function readBackground(page: import('@playwright/test').Page) {
     return page.evaluate(() => {
-      const target = document.querySelector('#devotion-root, .devotion-container, .devotion-hero, main') as HTMLElement | null;
+      const target = document.querySelector('#devotion-root') as HTMLElement | null;
       if (!target) return 'none';
       return window.getComputedStyle(target).backgroundImage;
     });

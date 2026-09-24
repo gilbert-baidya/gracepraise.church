@@ -150,6 +150,15 @@
     <link rel="stylesheet" href="./css/footer-v3.css">
     <link rel="stylesheet" href="about-child.css?v=20260922-v17-2">
     <script src="about-child.js?v=20260922-v17-2" defer></script>
+    <!-- Reserve the measured desktop fixed-header space before runtime/CSS settle. -->
+    <style id="gpbc-desktop-header-reservation">
+        @media (min-width: 1025px) {
+            body { padding-top: 199px; }
+        }
+        @media (max-width: 1024px) {
+            body { padding-top: 0; }
+        }
+    </style>
 </head>
 <body class="about-child about-child--songbook">
     <!-- Skip to main content for keyboard users -->

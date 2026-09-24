@@ -216,8 +216,8 @@ body {
 /* 🆕 CRITICAL FIX: Body padding to offset fixed header (JS will update dynamically) */
 body {
     padding-top: var(--header-total-height, 70px);
-    transition: padding-top 0.3s ease;
-    will-change: padding-top;
+    /* Do not animate document flow while the fixed header offset settles. */
+    transition: none;
 }
 
 /* iOS scroll lock improvements */
@@ -8512,5 +8512,12 @@ body[data-theme="dark"] :where(.event-name,
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+}
+
+/* CLS guard: reserve the measured desktop fixed-header height before navigation JS settles. */
+@media (min-width: 1025px) {
+    :root {
+        --gpbc-header-total-height: 199px;
     }
 }

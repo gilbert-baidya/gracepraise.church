@@ -338,7 +338,10 @@
             const isFixedHeader = headerPosition === 'fixed';
             if (isFixedHeader) {
                 document.body.style.paddingTop = `${totalOffset}px`;
-            } else {
+            } else if (headerPosition === 'sticky' || headerPosition === 'absolute') {
+                // Clear the fixed-header offset only after CSS has confirmed a
+                // non-fixed layout. During stylesheet startup, preserve the
+                // CSS reservation instead of writing a transient 0px offset.
                 document.body.style.paddingTop = '0px';
             }
         }
