@@ -2,17 +2,25 @@
  * GSAP ScrollTrigger Animation for Stacking, Fanning and Flipping Cards
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Check if GSAP and ScrollTrigger are loaded
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-        console.error('GSAP or ScrollTrigger not loaded');
-        document.documentElement.classList.add('gsap-disabled');
-        document.querySelectorAll('.flip-card').forEach((card) => {
-            card.style.opacity = '1';
-            card.style.transform = 'none';
-        });
-        return;
-    }
+(() => {
+    'use strict';
+
+    let initialized = false;
+
+    function init() {
+        // GSAP is intentionally deferred until the motion sections are needed.
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+            document.documentElement.classList.add('gsap-disabled');
+            document.querySelectorAll('.flip-card').forEach((card) => {
+                card.style.opacity = '1';
+                card.style.transform = 'none';
+            });
+            return;
+        }
+
+        if (initialized) return;
+        initialized = true;
+        document.documentElement.classList.remove('gsap-disabled');
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -121,4 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Optional cleanup
         };
     });
-});
+    }
+
+    window.addEventListener('gpbc:motion-ready', init);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+        init();
+    }
+})();

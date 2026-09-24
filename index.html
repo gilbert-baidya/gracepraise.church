@@ -87,7 +87,6 @@
     <!-- Liturgical Calendar Engine + Theme Engine -->
     <script src="liturgical-calendar-engine.js" defer></script>
     <script src="liturgical-theme-engine.js" defer></script>
-    <script src="sacred-reminder-engine.js" defer></script>
 
     <!-- Sacred Design Token System (foundation → seasons → components) -->
     <link rel="stylesheet" href="sacred-tokens.css?v=20260918-v11-theme-final3">
@@ -5113,6 +5112,9 @@
                 } catch (error) {
                     console.warn('[GPBC] Motion library loading failed; using the canvas fallback.', error);
                 }
+                if (window.gsap && window.ScrollTrigger) {
+                    window.dispatchEvent(new Event('gpbc:motion-ready'));
+                }
                 boot();
             }
 
@@ -5128,7 +5130,7 @@
                         observer.disconnect();
                         startMotionLibraries();
                     }
-                }, { rootMargin: '600px 0px' });
+                }, { rootMargin: '0px 0px' });
                 observer.observe(sacredFocus);
             }
 
@@ -5146,8 +5148,46 @@
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260918-v11-theme-final3" defer></script>
     <script src="events.js?v=20260129a" defer></script>
-    <script src="homepage-events.js?v=20260129a" defer></script>
     <script src="countdown.js?v=20260129a" defer></script>
+
+    <!-- Load homepage event data only as the events section approaches the viewport. -->
+    <script>
+        (function () {
+            const eventsContainer = document.getElementById('dynamic-events-container');
+            if (!eventsContainer) return;
+
+            let loaded = false;
+            const loadHomepageEvents = () => {
+                if (loaded) return;
+                loaded = true;
+                const script = document.createElement('script');
+                script.src = 'homepage-events.js?v=20260129a';
+                script.async = true;
+                document.body.appendChild(script);
+            };
+
+            const schedule = () => {
+                if (!('IntersectionObserver' in window)) {
+                    loadHomepageEvents();
+                    return;
+                }
+
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries.some((entry) => entry.isIntersecting)) {
+                        observer.disconnect();
+                        loadHomepageEvents();
+                    }
+                }, { rootMargin: '600px 0px' });
+                observer.observe(eventsContainer);
+            };
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', schedule, { once: true });
+            } else {
+                schedule();
+            }
+        })();
+    </script>
 
     <!-- SHAPE SYSTEM — Spiritual design interactions -->
     <script src="shape-system.js" defer></script>

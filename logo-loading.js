@@ -8,9 +8,9 @@
     // Configuration
     const config = {
         videoOptions: [
-            assetUrl('images/logo/gpbc-glow-one.mp4'),
-            assetUrl('images/logo/glow-shine-fav.mp4'),
-            assetUrl('images/logo/gpbc-dove-one-fav.mp4')
+            assetUrl('images/logo/gpbc-glow-one-lite.mp4'),
+            assetUrl('images/logo/glow-shine-fav-lite.mp4'),
+            assetUrl('images/logo/gpbc-dove-one-fav-lite.mp4')
         ],
         fallbackLogo: assetUrl('images/new-gpbc-logo-final.svg'),
         minDisplayTime: 500, // Minimum time to show loading screen (ms)
