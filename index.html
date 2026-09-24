@@ -73,7 +73,12 @@
 
     <!-- LCP Preloads -->
     <link rel="preload" as="image" href="images/new-gpbc-logo-final.svg" type="image/svg+xml">
-    <link rel="preload" as="image" href="images/hero-worship-authentic.png" type="image/png">
+    <link rel="preload" as="image"
+        href="images/homepage/hero-v2/final/worship-desktop.webp"
+        type="image/webp"
+        imagesrcset="images/homepage/hero-v2/final/worship-desktop.webp 1000w, images/homepage/hero-v2/final/worship-mobile.webp 1200w"
+        imagesizes="(max-width: 760px) calc(100vw - 3rem), 430px"
+        fetchpriority="high">
 
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
@@ -90,7 +95,6 @@
     <link rel="stylesheet" href="liturgical-tokens.css">
     <link rel="stylesheet" href="hero-upgrade.css?v=20260203c">
     <link rel="stylesheet" href="countdown.css">
-    <link rel="stylesheet" href="welcome-home-v4.css?v=20260917a">
     <link rel="stylesheet" href="community-carousel-v5.css?v=20260919-v12-header-containment">
     <link rel="stylesheet" href="event-flip-cards.css">
     <link rel="stylesheet" href="shape-system.css">
@@ -495,7 +499,7 @@
         <nav>
             <div class="nav-container">
                 <a href="#home" class="logo">
-                    <img loading="lazy" src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
+                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
                         class="logo-image" loading="eager" decoding="async">
                 </a>
                 <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
@@ -1060,7 +1064,8 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church">
+                                    <img src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church"
+                                        width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="card-back-title">Worship With Us</h3>
                                 <p>Come into God's presence and experience worship, prayer, and the Word together.</p>
@@ -1080,7 +1085,8 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC">
+                                    <img src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC"
+                                        width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="card-back-title">Find Your Family</h3>
                                 <p>You were never meant to walk alone. Build meaningful relationships in the GPBC family.</p>
@@ -1100,7 +1106,8 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church">
+                                    <img src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church"
+                                        width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="card-back-title">Grow in Christ</h3>
                                 <p>Grow through Scripture, prayer, discipleship, and a deeper relationship with Jesus.</p>
@@ -1120,7 +1127,8 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community">
+                                    <img src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community"
+                                        width="1800" height="1350" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="card-back-title">Serve With Purpose</h3>
                                 <p>Use your gifts to serve God, strengthen the church, and make a difference in the lives of others.</p>
@@ -4835,10 +4843,7 @@
         })();
     </script>
 
-    <!-- THREE.JS & GSAP LIBRARIES -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <!-- THREE.JS & GSAP are loaded when the Sacred Focus section nears the viewport. -->
 
     <!-- 3D PARTICLE CROSS SCRIPT -->
     <script>
@@ -5064,6 +5069,8 @@
             }
 
             let attempts = 0;
+            let motionLoadStarted = false;
+
             function boot() {
                 if (window.THREE && !threeStarted) {
                     initThreeCross();
@@ -5077,10 +5084,58 @@
                 initFallbackCross();
             }
 
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', boot);
-            } else {
+            function loadScript(src) {
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = src;
+                    script.async = true;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+            }
+
+            async function startMotionLibraries() {
+                if (motionLoadStarted) return;
+                motionLoadStarted = true;
+
+                const prefersReducedMotion = window.matchMedia
+                    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (prefersReducedMotion) {
+                    canvas.style.display = 'none';
+                    return;
+                }
+
+                try {
+                    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js');
+                    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js');
+                    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js');
+                } catch (error) {
+                    console.warn('[GPBC] Motion library loading failed; using the canvas fallback.', error);
+                }
                 boot();
+            }
+
+            function scheduleMotionLibraries() {
+                const sacredFocus = document.getElementById('sacred-focus');
+                if (!sacredFocus || !('IntersectionObserver' in window)) {
+                    startMotionLibraries();
+                    return;
+                }
+
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries.some(entry => entry.isIntersecting)) {
+                        observer.disconnect();
+                        startMotionLibraries();
+                    }
+                }, { rootMargin: '600px 0px' });
+                observer.observe(sacredFocus);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', scheduleMotionLibraries, { once: true });
+            } else {
+                scheduleMotionLibraries();
             }
         })();
     </script>
@@ -5125,7 +5180,7 @@
                     scrollBtn.style.opacity = '0';
                     scrollBtn.style.visibility = 'hidden';
                 }
-            });
+            }, { passive: true });
 
             // Scroll to top on click
             scrollBtn.addEventListener('click', function () {
@@ -5155,14 +5210,6 @@
 
     <script type="module" src="./js/footer/footer-init.js"></script>
 
-    <!-- Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch(() => {});
-            });
-        }
-    </script>
 </body>
 
 </html>

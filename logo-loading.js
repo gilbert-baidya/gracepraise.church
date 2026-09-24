@@ -46,7 +46,7 @@
                            autoplay 
                            muted 
                            playsinline
-                           preload="auto">
+                           preload="metadata">
                         <source src="${randomVideo}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
