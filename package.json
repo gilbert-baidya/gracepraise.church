@@ -1,5 +1,7 @@
 {
   "scripts": {
+    "seo:audit": "node scripts/seo-audit.mjs",
+    "seo:sitemap": "node scripts/generate-sitemap.mjs",
     "pom:generate": "node scripts/generate-playwright-poms.js",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",

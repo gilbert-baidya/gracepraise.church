@@ -46,6 +46,95 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/preview/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/partials/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/favicon-snippet.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/heptagon-carousel-section.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/navigation-template.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/shape-sections.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[redirects]]
+from = "/give-backup.html"
+to = "/give"
+status = 301
+force = true
+
+[[redirects]]
+from = "/give-bootstrap.html"
+to = "/give"
+status = 301
+force = true
+
+[[redirects]]
+from = "/give-modern.html"
+to = "/give"
+status = 301
+force = true
+
+[[redirects]]
+from = "/give-professional.html"
+to = "/give"
+status = 301
+force = true
+
+[[redirects]]
+from = "/give-tailwind.html"
+to = "/give"
+status = 301
+force = true
+
+[[redirects]]
+from = "/give.html"
+to = "/give"
+status = 301
+force = true
+
+[[redirects]]
+from = "/give"
+to = "/give.html"
+status = 200
+force = true
+
+[[redirects]]
+from = "/fasting-40days.html"
+to = "/lent-fasting.html"
+status = 301
+force = true
+
+[[redirects]]
+from = "/ministries/index.html"
+to = "/ministries.html"
+status = 301
+force = true
+
 [[redirects]]
 from = "https://pastor.gracepraise.church/*"
 to = "https://gracepraise.church/pastor/:splat"

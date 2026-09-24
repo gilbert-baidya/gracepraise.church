@@ -6,10 +6,3 @@ Allow: /
 
 # Sitemap location
 Sitemap: https://gracepraise.church/sitemap.xml
-
-# Crawl-delay
-Crawl-delay: 10
-
-# Disallow specific paths if needed (currently allowing all)
-# Disallow: /admin/
-# Disallow: /private/
