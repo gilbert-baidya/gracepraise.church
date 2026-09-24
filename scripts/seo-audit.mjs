@@ -208,15 +208,24 @@ if (context) {
   const expectedChurchName = 'Grace and Praise Bangladeshi Church';
   const expectedChurchPhone = '+1-909-763-0454';
   const expectedWebsiteId = baseOrigin + '/#website';
-  const jsonLdUrlFields = new Set(['url', '@id', 'image', 'logo', 'sameAs', 'eventStatus', 'eventAttendanceMode', 'availability', 'contentUrl']);
+  const jsonLdUrlFields = new Set(['url', '@id', 'image', 'logo', 'sameAs', 'item', 'eventStatus', 'eventAttendanceMode', 'availability', 'contentUrl']);
+  const confirmedSameAs = new Set(['https://www.youtube.com/@GracePraise.Church']);
+  const currentYear = new Date().getFullYear();
+  const placeholderText = /^(?:home|welcome|untitled|page|test|lorem ipsum)$/i;
   for (const page of approved) {
     const html = fs.readFileSync(path.join(rootDir, page.file), 'utf8');
     const titleTags = tags(html, 'title');
     const title = titleTags.length === 1 ? textContent(html.slice(html.indexOf(titleTags[0]) + titleTags[0].length, html.indexOf('</title>', html.indexOf(titleTags[0])))) : null;
-    const descriptionTags = tags(html, 'meta').filter((tag) => /^description$/i.test(attribute(tag, 'name') || ''));
+    const metaTags = tags(html, 'meta');
+    const descriptionTags = metaTags.filter((tag) => /^description$/i.test(attribute(tag, 'name') || ''));
     const canonicalTags = tags(html, 'link').filter((tag) => /\bcanonical\b/i.test(attribute(tag, 'rel') || ''));
-    const robotsTags = tags(html, 'meta').filter((tag) => /^robots$/i.test(attribute(tag, 'name') || ''));
-    const ogTags = new Set(tags(html, 'meta').map((tag) => attribute(tag, 'property')).filter((value) => value?.startsWith('og:')));
+    const robotsTags = metaTags.filter((tag) => /^robots$/i.test(attribute(tag, 'name') || ''));
+    const ogTags = new Set(metaTags.map((tag) => attribute(tag, 'property')).filter((value) => value?.startsWith('og:')));
+    const twitterTags = new Set(metaTags.map((tag) => attribute(tag, 'name')).filter((value) => value?.startsWith('twitter:')));
+    const metaValue = (key, attr = 'name') => {
+      const tag = metaTags.find((candidate) => attribute(candidate, attr) === key);
+      return tag ? attribute(tag, 'content') : null;
+    };
 
     if (titleTags.length === 0) add('error', `${page.file}: missing <title>`);
     if (titleTags.length > 1) add('error', `${page.file}: multiple <title> elements`);
@@ -225,11 +234,32 @@ if (context) {
     if (canonicalTags.length === 0) add('warning', `${page.file}: missing canonical`);
     if (canonicalTags.length > 1) add('error', `${page.file}: multiple canonical links`);
     if (robotsTags.some((tag) => /noindex/i.test(attribute(tag, 'content') || ''))) add('error', `${page.file}: approved page contains noindex`);
-    for (const required of ['og:title', 'og:description', 'og:url', 'og:image']) {
-      if (!ogTags.has(required)) add('warning', `${page.file}: missing ${required}`);
+    for (const required of ['og:site_name', 'og:type', 'og:title', 'og:description', 'og:url', 'og:image']) {
+      if (!ogTags.has(required)) add('warning', page.file + ': missing ' + required);
     }
+    for (const required of ['twitter:card', 'twitter:title', 'twitter:description', 'twitter:image']) {
+      if (!twitterTags.has(required)) add('warning', page.file + ': missing ' + required);
+    }
+    const h1Matches = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
+    const h1Text = h1Matches[0] ? textContent(h1Matches[0][1]) : null;
+    const h1Count = h1Matches.length;
+    if (title && placeholderText.test(title.trim())) add('warning', page.file + ': placeholder page title "' + title.trim() + '"');
+    if (h1Text && placeholderText.test(h1Text)) add('warning', page.file + ': placeholder H1 "' + h1Text + '"');
 
-    const h1Count = (html.match(/<h1\b/gi) || []).length;
+    const metadataValues = [
+      title,
+      descriptionTags[0] ? attribute(descriptionTags[0], 'content') : null,
+      metaValue('og:title', 'property'),
+      metaValue('og:description', 'property'),
+      metaValue('twitter:title'),
+      metaValue('twitter:description')
+    ].filter(Boolean);
+    for (const value of metadataValues) {
+      const years = value.match(/\b(?:19|20)\d{2}\b/g) || [];
+      for (const yearText of years) {
+        if (Number(yearText) < currentYear - 1) add('warning', page.file + ': stale year reference in search metadata (' + yearText + ')');
+      }
+    }
     if (h1Count === 0) add('warning', `${page.file}: missing H1`);
     if (h1Count > 1) add('warning', `${page.file}: multiple H1 elements (${h1Count})`);
 
@@ -243,9 +273,23 @@ if (context) {
         const parsed = new URL(canonical, baseOrigin);
         if (parsed.protocol !== 'https:' || parsed.origin !== baseOrigin) add('error', `${page.file}: canonical is not production HTTPS: ${canonical}`);
         if (/netlify\.app|localhost|127\.0\.0\.1/i.test(canonical)) add('error', `${page.file}: preview/local canonical: ${canonical}`);
+        const expectedCanonical = baseOrigin + page.url;
+        if (parsed.href !== expectedCanonical) add('error', page.file + ': canonical does not match manifest route (expected ' + expectedCanonical + ', found ' + parsed.href + ')');
         canonicalMap.set(parsed.href, [...(canonicalMap.get(parsed.href) || []), page.file]);
       } catch {
         add('error', `${page.file}: malformed canonical: ${canonical}`);
+      }
+    }
+
+    const ogUrl = metaValue('og:url', 'property');
+    if (ogUrl) {
+      try {
+        const parsedOgUrl = new URL(ogUrl, baseOrigin);
+        const expectedCanonical = baseOrigin + page.url;
+        if (parsedOgUrl.protocol !== 'https:' || parsedOgUrl.origin !== baseOrigin) add('error', page.file + ': og:url is not production HTTPS: ' + ogUrl);
+        if (parsedOgUrl.href !== expectedCanonical) add('error', page.file + ': og:url does not match manifest route (expected ' + expectedCanonical + ', found ' + parsedOgUrl.href + ')');
+      } catch {
+        add('error', page.file + ': malformed og:url: ' + ogUrl);
       }
     }
 
@@ -332,6 +376,9 @@ if (context) {
         if (entity.sameAs !== undefined) {
           const sameAsValues = Array.isArray(entity.sameAs) ? entity.sameAs : [entity.sameAs];
           for (const sameAs of sameAsValues) {
+            if (typeof sameAs === 'string' && !confirmedSameAs.has(sameAs)) {
+              add('error', page.file + ': unconfirmed JSON-LD sameAs URL ' + sameAs);
+            }
             if (!isValidHttpUrl(sameAs) || hasPreviewOrLocalHost(sameAs)) {
               add('error', `${page.file}: invalid JSON-LD sameAs URL ${sameAs}`);
             }
