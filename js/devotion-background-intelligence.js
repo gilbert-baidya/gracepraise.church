@@ -239,7 +239,17 @@
             const background = this.selectBackgroundByMood(mood, theme, isDarkMode);
 
             if (background) {
-                await this.preloadBackground(background.path);
+                const loadedImage = await this.preloadBackground(background.path);
+                if (loadedImage) {
+                    const webpPath = background.path.replace(/\.png$/i, '.webp');
+                    // Keep the CSS background on the optimized asset that was
+                    // actually preloaded. The PNG remains a real fallback only
+                    // when WebP is unavailable.
+                    return {
+                        ...background,
+                        path: this.backgroundCache.has(webpPath) ? webpPath : background.path
+                    };
+                }
             }
 
             return background;

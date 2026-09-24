@@ -3,13 +3,14 @@
  *
  * Exposes:
  * - window.loadDevotionsForYear(year)
+ * - window.loadDevotionsForMonth(year, month)
  * - window.loadDevotionsForEvent(eventName)
  * - window.devotionLoader.load(eventName)
  *
  * Dispatches:
- * - devotionsLoading { year, event? }
- * - devotionsLoaded { count, source, year, event? }
- * - devotionsLoadError { error, stage, year, event? }
+ * - devotionsLoading { year, month?, event? }
+ * - devotionsLoaded { count, source, year, month?, event? }
+ * - devotionsLoadError { error, stage, year, month?, event? }
  */
 
 (function () {
@@ -26,6 +27,12 @@
     const EVENT_SOURCE_ALIASES = {
         'lent-40days': 'lent-fasting'
     };
+
+    const MONTH_NAMES = [
+        'january', 'february', 'march', 'april', 'may', 'june',
+        'july', 'august', 'september', 'october', 'november', 'december'
+    ];
+    const bundleLoadPromises = new Map();
 
     function normalizeDevotionArray(data) {
         if (Array.isArray(data)) return data;
@@ -122,6 +129,49 @@
         }
     }
 
+    function normalizeMonth(month) {
+        const numericMonth = Number(month);
+        if (!Number.isInteger(numericMonth)) return null;
+        if (numericMonth >= 1 && numericMonth <= 12) return numericMonth;
+        if (numericMonth >= 0 && numericMonth <= 11) return numericMonth + 1;
+        return null;
+    }
+
+    function monthSourcePath(year, month) {
+        const normalizedMonth = normalizeMonth(month);
+        if (!normalizedMonth || !MONTH_NAMES[normalizedMonth - 1]) return null;
+        return `devotions-data/${String(normalizedMonth).padStart(2, '0')}-${MONTH_NAMES[normalizedMonth - 1]}.json`;
+    }
+
+    function getBundledDevotions(year) {
+        const bundledKey = `DEVOTIONS_${Number(year)}_DB`;
+        return window[bundledKey] || (Number(year) === 2026 ? window.DEVOTIONS_2026_DB : null);
+    }
+
+    function loadBundledDevotions(year) {
+        const targetYear = Number(year);
+        const existing = getBundledDevotions(targetYear);
+        if (Array.isArray(existing) && existing.length > 0) {
+            return Promise.resolve(existing);
+        }
+
+        if (bundleLoadPromises.has(targetYear)) {
+            return bundleLoadPromises.get(targetYear);
+        }
+
+        const promise = new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = resolveDataUrl(`devotions-db-${targetYear}.js`);
+            script.async = true;
+            script.onload = () => resolve(getBundledDevotions(targetYear) || []);
+            script.onerror = () => resolve([]);
+            document.head.appendChild(script);
+        }).finally(() => bundleLoadPromises.delete(targetYear));
+
+        bundleLoadPromises.set(targetYear, promise);
+        return promise;
+    }
+
     const devotionLoader = {
         devotions: null, // PRODUCTION FIX: Store loaded devotions
         async load(event) {
@@ -165,7 +215,7 @@
 
             if (!devotions || devotions.length === 0) {
                 const bundledKey = `DEVOTIONS_${targetYear}_DB`;
-                const bundledDevotions = window[bundledKey] || window.DEVOTIONS_2026_DB;
+                const bundledDevotions = await loadBundledDevotions(targetYear);
                 if (Array.isArray(bundledDevotions) && bundledDevotions.length > 0) {
                     devotions = bundledDevotions;
                     sourceUsed = bundledKey;
@@ -195,6 +245,67 @@
                 error: error.message,
                 stage: 'year',
                 year: targetYear
+            });
+            return [];
+        }
+    }
+
+    async function loadDevotionsForMonth(year, month) {
+        const targetYear = Number.isFinite(Number(year))
+            ? Number(year)
+            : new Date().getFullYear();
+        const targetMonth = normalizeMonth(month);
+        const sourcePath = monthSourcePath(targetYear, targetMonth);
+
+        if (!sourcePath) {
+            return loadDevotionsForYear(targetYear);
+        }
+
+        dispatchEventSafe('devotionsLoading', {
+            year: targetYear,
+            month: targetMonth
+        });
+
+        try {
+            let devotions = normalizeDevotionArray(await fetchJsonSafe(sourcePath));
+            let sourceUsed = sourcePath;
+
+            if (!devotions || devotions.length === 0) {
+                const bundledDevotions = (await loadBundledDevotions(targetYear))
+                    .filter((entry) => {
+                        const date = String(entry?.date || '');
+                        return date.startsWith(`${targetYear}-${String(targetMonth).padStart(2, '0')}-`);
+                    });
+                if (bundledDevotions.length > 0) {
+                    devotions = bundledDevotions;
+                    sourceUsed = `DEVOTIONS_${targetYear}_DB`;
+                }
+            }
+
+            if (!devotions || devotions.length === 0) {
+                throw new Error(`No devotion data available for ${targetYear}-${String(targetMonth).padStart(2, '0')}.`);
+            }
+
+            const mergeResult = mergeVerseTextFromBundled(targetYear, devotions);
+            devotions = mergeResult.devotions;
+            window.DEVOTIONS = devotions;
+            window.DEVOTIONS_YEAR = targetYear;
+
+            console.log(`[GPBC] ✅ Final: ${devotions.length} devotions loaded for ${targetYear}-${String(targetMonth).padStart(2, '0')} from ${sourceUsed}`);
+            dispatchEventSafe('devotionsLoaded', {
+                count: devotions.length,
+                source: sourceUsed,
+                year: targetYear,
+                month: targetMonth
+            });
+            return devotions;
+        } catch (error) {
+            console.error(`[GPBC] Month devotion fetch failed for '${targetYear}-${targetMonth}':`, error);
+            dispatchEventSafe('devotionsLoadError', {
+                error: error.message,
+                stage: 'month',
+                year: targetYear,
+                month: targetMonth
             });
             return [];
         }
@@ -234,6 +345,7 @@
     }
 
     window.loadDevotionsForYear = loadDevotionsForYear;
+    window.loadDevotionsForMonth = loadDevotionsForMonth;
     window.loadDevotionsForEvent = loadDevotionsForEvent;
 
     function isDailyDevotionPage() {
@@ -249,6 +361,7 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const eventName = (urlParams.get('event') || '').trim();
+        const requestedDate = (urlParams.get('date') || '').trim();
         window.__GPBC_DEVOTIONS_BOOTSTRAPPING__ = true;
 
         const finalize = () => {
@@ -261,9 +374,21 @@
             return;
         }
 
+        if (/^\d{4}-\d{2}-\d{2}$/.test(requestedDate)) {
+            const requestedDateObject = new Date(`${requestedDate}T12:00:00`);
+            if (!Number.isNaN(requestedDateObject.getTime())) {
+                window.GPBC_INITIAL_DEVOTION_DATE = requestedDate;
+                console.log(`[GPBC] Auto-bootstrap: month for date '${requestedDate}'`);
+                loadDevotionsForMonth(requestedDateObject.getFullYear(), requestedDateObject.getMonth() + 1)
+                    .finally(finalize);
+                return;
+            }
+        }
+
         const year = new Date().getFullYear();
-        console.log(`[GPBC] Auto-bootstrap: year '${year}'`);
-        loadDevotionsForYear(year).finally(finalize);
+        const month = new Date().getMonth() + 1;
+        console.log(`[GPBC] Auto-bootstrap: month '${year}-${String(month).padStart(2, '0')}'`);
+        loadDevotionsForMonth(year, month).finally(finalize);
     }
 
     if (document.readyState === 'loading') {

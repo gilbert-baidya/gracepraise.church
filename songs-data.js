@@ -1,7 +1,7 @@
 // Song database - Extracted from Android APK
 // Total songs: 1410
 
-const songsDatabase = [
+window.SONGS_DATA = [
     {
         "id": 1,
         "title": "অক্ষয় আনন্দ ধামে, চলরে পথিক মন;",

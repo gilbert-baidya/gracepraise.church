@@ -777,7 +777,6 @@
 
 
 
-    <script src="devotions-db-2026.js"></script>
     <script src="services/bible/book-map.js"></script>
     <script src="services/bible/bible-service.js"></script>
     <script>
@@ -824,9 +823,20 @@
                 return;
             }
 
+            const currentEn = (devotion.keyVerseText || '').trim();
+            const currentBn = (devotion.keyVerseTextBn || '').trim();
+            const needsEn = !currentEn || currentEn === reference;
+            const needsBn = !currentBn || currentBn === reference;
+
+            // Gratitude records already carry both verse bodies. Only consult
+            // the local Bible index when a future record is incomplete.
+            if (!needsEn && !needsBn) {
+                return;
+            }
+
             Promise.all([
-                getBiblePassageText(reference, 'en'),
-                getBiblePassageText(reference, 'bn')
+                needsEn ? getBiblePassageText(reference, 'en') : Promise.resolve(''),
+                needsBn ? getBiblePassageText(reference, 'bn') : Promise.resolve('')
             ]).then(([resolvedEn, resolvedBn]) => {
                 let didUpdate = false;
 

@@ -9,6 +9,47 @@ let currentFilter = 'all'; // 'all', 'chords', or 'bilingual'
 let servicePlaylist = []; // Songs selected for today's service
 let showBilingualMode = false;
 let isAuthorizedUser = false;
+let songsDatabase = Array.isArray(window.SONGS_CATALOG)
+    ? window.SONGS_CATALOG.map(([id, title, category]) => ({ id, title, category }))
+    : [];
+let songsDataLoaded = false;
+let songsDataPromise = null;
+
+function ensureSongsDataLoaded() {
+    if (songsDataLoaded) return Promise.resolve(songsDatabase);
+    if (songsDataPromise) return songsDataPromise;
+
+    songsDataPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'songs-data.js';
+        script.dataset.songbookData = 'true';
+        script.onload = () => {
+            const fullSongs = Array.isArray(window.SONGS_DATA) ? window.SONGS_DATA : [];
+            if (!fullSongs.length) {
+                reject(new Error('Song lyrics data was empty'));
+                return;
+            }
+            songsDatabase = fullSongs;
+            songsDataLoaded = true;
+            resolve(songsDatabase);
+        };
+        script.onerror = () => reject(new Error('Song lyrics data failed to load'));
+        document.head.appendChild(script);
+    }).catch((error) => {
+        songsDataPromise = null;
+        console.error('[Songbook] Full song data load failed:', error);
+        throw error;
+    });
+
+    return songsDataPromise;
+}
+
+function renderSongDataLoadingState(message = 'Loading song details…') {
+    const songList = document.getElementById('songList');
+    if (songList) {
+        songList.innerHTML = `<p style="color: white; text-align: center; grid-column: 1/-1;">${message}</p>`;
+    }
+}
 
 // Bengali to English phonetic mapping
 const bengaliToPhonetic = {
@@ -215,13 +256,22 @@ if (char === 'য়') {
 }
 
 // Service Playlist Management
-function toggleServicePlaylist(songId) {
-    const song = songsDatabase.find(s => s.id === songId);
+async function toggleServicePlaylist(songId) {
     const index = servicePlaylist.findIndex(s => s.id === songId);
-    
+
     if (index > -1) {
         servicePlaylist.splice(index, 1);
     } else {
+        if (!songsDataLoaded) {
+            renderSongDataLoadingState();
+            try {
+                await ensureSongsDataLoaded();
+            } catch (error) {
+                return;
+            }
+        }
+        const song = songsDatabase.find(s => s.id === songId);
+        if (!song) return;
         servicePlaylist.push(song);
     }
     
@@ -431,10 +481,24 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     setupFilterTabs();
     updateServicePlaylistUI();
+
+    const requestedSongId = Number(new URLSearchParams(window.location.search).get('song'));
+    if (Number.isInteger(requestedSongId) && requestedSongId > 0) {
+        renderSongDataLoadingState('Loading requested song…');
+        ensureSongsDataLoaded().then(() => {
+            const requestedSong = songsDatabase.find(song => song.id === requestedSongId);
+            if (requestedSong) openSong(requestedSong);
+        }).catch(() => {
+            // The normal catalog remains usable if a deep-linked song cannot load.
+            renderSongList(getFilteredSongs());
+        });
+    }
 });
 
 // Check if song has chords
 function hasChords(song) {
+    if (!song || typeof song.lyrics !== 'string') return false;
+
     // Check for chords in square brackets [C] [G] etc.
     if (song.lyrics.includes('[') && song.lyrics.includes(']')) {
         return true;
@@ -467,7 +531,7 @@ function getFilteredSongs() {
     }
     if (currentFilter === 'christmas') {
         return songsDatabase.filter(song => {
-            const lyrics = song.lyrics.toLowerCase();
+            const lyrics = (song.lyrics || '').toLowerCase();
             return lyrics.includes('বড়দিন') || lyrics.includes('গোশালা') || lyrics.includes('গোয়াল ঘর') || 
                    lyrics.includes('বৈথলেহম') || lyrics.includes('বেথেল') || 
                    (lyrics.includes('রাখাল') && lyrics.includes('মেষ')) ||
@@ -477,7 +541,7 @@ function getFilteredSongs() {
     }
     if (currentFilter === 'easter') {
         return songsDatabase.filter(song => {
-            const lyrics = song.lyrics.toLowerCase();
+            const lyrics = (song.lyrics || '').toLowerCase();
             return lyrics.includes('পুনরুত্থান') || lyrics.includes('easter') ||
                    (lyrics.includes('ক্রুশ') && lyrics.includes('জয়')) ||
                    (lyrics.includes('মৃত্যু') && lyrics.includes('জয়'));
@@ -485,7 +549,7 @@ function getFilteredSongs() {
     }
     if (currentFilter === 'goodfriday') {
         return songsDatabase.filter(song => {
-            const lyrics = song.lyrics.toLowerCase();
+            const lyrics = (song.lyrics || '').toLowerCase();
             return lyrics.includes('ক্রুশ') || lyrics.includes('good friday') || 
                    lyrics.includes('গুড ফ্রাইডে') || lyrics.includes('মহাশুক্রবার') ||
                    lyrics.includes('ক্রুশারোপণ') || lyrics.includes('গলগথা');
@@ -493,7 +557,7 @@ function getFilteredSongs() {
     }
     if (currentFilter === 'communion') {
         return songsDatabase.filter(song => {
-            const lyrics = song.lyrics.toLowerCase();
+            const lyrics = (song.lyrics || '').toLowerCase();
             return lyrics.includes('প্রভুভোজ') || lyrics.includes('holy communion') ||
                    lyrics.includes('সাক্রামেন্ট') || 
                    (lyrics.includes('রুটি') && lyrics.includes('দ্রাক্ষারস'));
@@ -501,7 +565,7 @@ function getFilteredSongs() {
     }
     if (currentFilter === 'newyear') {
         return songsDatabase.filter(song => {
-            const lyrics = song.lyrics.toLowerCase();
+            const lyrics = (song.lyrics || '').toLowerCase();
             return lyrics.includes('নববর্ষ') || lyrics.includes('নতুন বছর') ||
                    lyrics.includes('new year') || lyrics.includes('নব বৎসর');
         });
@@ -522,7 +586,7 @@ function setupFilterTabs() {
     
     const allTabs = [allSongsTab, chordsOnlyTab, bilingualTab, christmasTab, easterTab, goodFridayTab, communionTab, newYearTab];
     
-    function setActiveTab(activeTab) {
+    async function setActiveTab(activeTab, requiresLyrics = false) {
         allTabs.forEach(tab => {
             if (tab) {
                 tab.classList.remove('active');
@@ -533,9 +597,19 @@ function setupFilterTabs() {
             activeTab.classList.add('active');
             activeTab.setAttribute('aria-selected', 'true');
         }
+        document.getElementById('searchInput').value = '';
+
+        if (requiresLyrics && !songsDataLoaded) {
+            renderSongDataLoadingState();
+            try {
+                await ensureSongsDataLoaded();
+            } catch (error) {
+                return;
+            }
+        }
+
         renderAlphabetIndex();
         renderSongList(getFilteredSongs());
-        document.getElementById('searchInput').value = '';
     }
     
     allSongsTab.addEventListener('click', () => {
@@ -547,7 +621,7 @@ function setupFilterTabs() {
     chordsOnlyTab.addEventListener('click', () => {
         currentFilter = 'chords';
         showBilingualMode = false;
-        setActiveTab(chordsOnlyTab);
+        setActiveTab(chordsOnlyTab, true);
     });
     
     bilingualTab.addEventListener('click', () => {
@@ -559,31 +633,31 @@ function setupFilterTabs() {
     christmasTab && christmasTab.addEventListener('click', () => {
         currentFilter = 'christmas';
         showBilingualMode = false;
-        setActiveTab(christmasTab);
+        setActiveTab(christmasTab, true);
     });
     
     easterTab && easterTab.addEventListener('click', () => {
         currentFilter = 'easter';
         showBilingualMode = false;
-        setActiveTab(easterTab);
+        setActiveTab(easterTab, true);
     });
     
     goodFridayTab && goodFridayTab.addEventListener('click', () => {
         currentFilter = 'goodfriday';
         showBilingualMode = false;
-        setActiveTab(goodFridayTab);
+        setActiveTab(goodFridayTab, true);
     });
     
     communionTab && communionTab.addEventListener('click', () => {
         currentFilter = 'communion';
         showBilingualMode = false;
-        setActiveTab(communionTab);
+        setActiveTab(communionTab, true);
     });
     
     newYearTab && newYearTab.addEventListener('click', () => {
         currentFilter = 'newyear';
         showBilingualMode = false;
-        setActiveTab(newYearTab);
+        setActiveTab(newYearTab, true);
     });
 }
 
@@ -727,7 +801,18 @@ function releaseModalFocus(modalElement) {
 }
 
 // Open song modal
-function openSong(song) {
+async function openSong(song) {
+    if (!song || typeof song.lyrics !== 'string') {
+        renderSongDataLoadingState();
+        try {
+            await ensureSongsDataLoaded();
+        } catch (error) {
+            return;
+        }
+        song = songsDatabase.find(candidate => candidate.id === song?.id);
+        if (!song) return;
+    }
+
     const modal = document.getElementById('songModal');
     const title = document.getElementById('songTitle');
     
@@ -918,18 +1003,29 @@ function setupEventListeners() {
     const modal = document.getElementById('songModal');
     const closeBtn = document.querySelector('.close');
     
-    searchInput.addEventListener('input', (e) => {
+    searchInput.addEventListener('input', async (e) => {
         const query = e.target.value.toLowerCase();
+        if (query.trim() && !songsDataLoaded) {
+            renderSongDataLoadingState();
+            try {
+                await ensureSongsDataLoaded();
+            } catch (error) {
+                return;
+            }
+            if (searchInput.value.toLowerCase() !== query) return;
+        }
+
         const baseSongs = getFilteredSongs();
         const filtered = baseSongs.filter(song => {
             // Search in title, category, and lyrics
             const titleMatch = song.title.toLowerCase().includes(query);
             const categoryMatch = song.category.toLowerCase().includes(query);
-            const lyricsMatch = song.lyrics.toLowerCase().includes(query);
+            const lyrics = (song.lyrics || '').toLowerCase();
+            const lyricsMatch = lyrics.includes(query);
             
             // Also search in phonetic version
             const phoneticTitle = convertToPhonetic(song.title).toLowerCase();
-            const phoneticLyrics = convertToPhonetic(song.lyrics).toLowerCase();
+            const phoneticLyrics = convertToPhonetic(song.lyrics || '').toLowerCase();
             const phoneticMatch = phoneticTitle.includes(query) || phoneticLyrics.includes(query);
             
             return titleMatch || categoryMatch || lyricsMatch || phoneticMatch;
@@ -1092,4 +1188,3 @@ document.addEventListener('visibilitychange', () => {
         }
     }
 });
-

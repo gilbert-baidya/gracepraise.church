@@ -1000,9 +1000,20 @@
                     return;
                 }
 
+                const currentEn = (data.verseText || '').trim();
+                const currentBn = (data.verseTextBn || '').trim();
+                const needsEn = !currentEn || currentEn === reference;
+                const needsBn = !currentBn || currentBn === reference;
+
+                // The monthly devotion records already contain both verse bodies.
+                // Only consult the Bible index when a record is genuinely incomplete.
+                if (!needsEn && !needsBn) {
+                    return;
+                }
+
                 Promise.all([
-                    getBiblePassageText(reference, 'en'),
-                    getBiblePassageText(reference, 'bn')
+                    needsEn ? getBiblePassageText(reference, 'en') : Promise.resolve(''),
+                    needsBn ? getBiblePassageText(reference, 'bn') : Promise.resolve('')
                 ]).then(([resolvedEn, resolvedBn]) => {
                     let didUpdate = false;
 
@@ -1144,7 +1155,11 @@
             // -----------------------------
             let currentLang = 'en';
             const today = new Date();
-            let selectedDate = today;
+            const initialDateKey = window.GPBC_INITIAL_DEVOTION_DATE || '';
+            const initialDate = /^\d{4}-\d{2}-\d{2}$/.test(initialDateKey)
+                ? new Date(`${initialDateKey}T12:00:00`)
+                : today;
+            let selectedDate = Number.isNaN(initialDate.getTime()) ? today : initialDate;
 
             // Helper: format dates
             const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -1239,9 +1254,35 @@
                 return `${monthNames[d.getMonth()]} ${d.getDate()}`;
             }
 
-            // Build lookup and ensure today has content
+            // Build a month-aware lookup. The initial route contains only the
+            // requested month; adjacent months are fetched when navigation
+            // crosses their boundary.
             const devotionByKey = new Map();
-            DEVOTIONS.forEach(item => devotionByKey.set(item.date, item));
+            const loadedMonthKeys = new Set();
+            const monthLoadPromises = new Map();
+            let availableDates = [];
+
+            function monthKeyForDate(date) {
+                return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+            }
+
+            function registerDevotions(devotions) {
+                if (!Array.isArray(devotions)) return;
+
+                devotions.forEach(item => {
+                    const dateKey = item && item.date ? String(item.date).trim() : '';
+                    if (!dateKey) return;
+                    devotionByKey.set(dateKey, item);
+                    const date = parseDateKey(dateKey);
+                    if (!Number.isNaN(date.getTime())) {
+                        loadedMonthKeys.add(monthKeyForDate(date));
+                    }
+                });
+
+                availableDates = [...devotionByKey.keys()].sort();
+            }
+
+            registerDevotions(Array.isArray(window.DEVOTIONS) ? window.DEVOTIONS : []);
 
             function defaultDevotion(key) {
                 return {
@@ -1263,7 +1304,45 @@
                 devotionByKey.set(todayKey, defaultDevotion(todayKey));
             }
 
-            let availableDates = [...devotionByKey.keys()].sort();
+            availableDates = [...devotionByKey.keys()].sort();
+
+            async function ensureDateLoaded(date) {
+                const targetDate = new Date(date);
+                const monthKey = monthKeyForDate(targetDate);
+                const dateKey = toDateKey(targetDate);
+
+                if (loadedMonthKeys.has(monthKey)) {
+                    return devotionByKey.has(dateKey);
+                }
+
+                if (monthLoadPromises.has(monthKey)) {
+                    await monthLoadPromises.get(monthKey);
+                    return devotionByKey.has(dateKey);
+                }
+
+                const loader = typeof window.loadDevotionsForMonth === 'function'
+                    ? window.loadDevotionsForMonth
+                    : null;
+                if (!loader) return devotionByKey.has(dateKey);
+
+                const loadPromise = Promise.resolve(loader(targetDate.getFullYear(), targetDate.getMonth() + 1))
+                    .then((devotions) => {
+                        if (Array.isArray(devotions) && devotions.length > 0) {
+                            registerDevotions(devotions);
+                            loadedMonthKeys.add(monthKey);
+                        }
+                        return devotions;
+                    })
+                    .catch((error) => {
+                        console.warn('[Devotion] Month navigation load failed:', error);
+                        return [];
+                    })
+                    .finally(() => monthLoadPromises.delete(monthKey));
+
+                monthLoadPromises.set(monthKey, loadPromise);
+                await loadPromise;
+                return devotionByKey.has(dateKey);
+            }
 
             // Populate month/day selects
             function populateSelectors() {
@@ -1937,23 +2016,31 @@
                 }
             }
 
-            function renderAll() {
+            let renderSequence = 0;
+
+            async function renderAll() {
+                const renderId = ++renderSequence;
                 try {
                     // Reset render lock for legitimate re-render (date change, language change, etc.)
                     window.__DEVOTION_RENDER_STARTED__ = false;
                     window.__DEVOTION_RENDER_COMPLETED__ = false;
 
                     populateSelectors();
-                    renderDateStrip();
                     applyUiTranslations(currentLang);
 
-                    // PHASE 3 — Loader control (only visible if NOT completed)
-                    if (loadingEl && !window.__DEVOTION_RENDER_COMPLETED__) {
-                        loadingEl.style.display = 'block';
-                    }
+                    if (loadingEl) loadingEl.style.display = 'block';
+
+                    const dateLoaded = await ensureDateLoaded(selectedDate);
+                    if (renderId !== renderSequence) return;
+
+                    renderDateStrip();
 
                     try {
-                        renderDevotion();
+                        if (dateLoaded || devotionByKey.has(toDateKey(selectedDate))) {
+                            renderDevotion();
+                        } else {
+                            showFallbackDevotion();
+                        }
                     } catch (error) {
                         console.error("[Devotion] Render failed:", error);
                         showFallbackDevotion();
@@ -2084,8 +2171,6 @@
     <script src="navigation.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loader.js"></script>
-    <script src="devotions-db-2026.js"></script>
-
     <!-- Sacred Background Engine -->
     <link rel="stylesheet" href="sacred-background.css">
     <script src="sacred-background-engine.js"></script>
