@@ -1,0 +1,929 @@
+/*
+ * V21 Plan Your Visit redesign
+ * Scoped to .plan-visit-page so the shared V20 shell remains untouched.
+ */
+
+body.plan-visit-page {
+    --visit-navy: #071525;
+    --visit-navy-soft: #102844;
+    --visit-gold: #e6b84e;
+    --visit-gold-light: #f8e5ad;
+    --visit-cream: #f7f4ed;
+    --visit-ink: #172235;
+    --visit-muted: #5e6876;
+    --visit-line: rgba(17, 39, 66, 0.13);
+    --visit-card: rgba(255, 255, 255, 0.84);
+    --visit-shadow: 0 24px 70px rgba(11, 28, 49, 0.12);
+    background: var(--visit-cream);
+    color: var(--visit-ink);
+}
+
+body.plan-visit-page[data-theme="dark"],
+body.plan-visit-page.dark,
+html[data-theme="dark"] body.plan-visit-page {
+    --visit-cream: #081321;
+    --visit-ink: #f3f0e8;
+    --visit-muted: #b9c2cf;
+    --visit-line: rgba(234, 226, 202, 0.16);
+    --visit-card: rgba(16, 40, 68, 0.78);
+    --visit-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    background: var(--visit-cream);
+}
+
+body.plan-visit-page main#main-content {
+    background: var(--visit-cream);
+    overflow: hidden;
+}
+
+body.plan-visit-page .visit-shell {
+    width: min(1160px, calc(100% - 2.5rem));
+    margin-inline: auto;
+}
+
+body.plan-visit-page .plan-visit-hero {
+    position: relative;
+    isolation: isolate;
+    max-width: none;
+    padding: clamp(3.5rem, 7vw, 6.5rem) 0 clamp(3.25rem, 6vw, 5.75rem);
+    color: #f7f4ed;
+    background:
+        radial-gradient(circle at 82% 22%, rgba(230, 184, 78, 0.16), transparent 28rem),
+        linear-gradient(135deg, #06111f 0%, #0b1d34 58%, #102b49 100%);
+}
+
+body.plan-visit-page .plan-visit-hero::after {
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    content: "";
+    background: linear-gradient(90deg, transparent, rgba(230, 184, 78, 0.62), transparent);
+}
+
+body.plan-visit-page .visit-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
+    align-items: center;
+    gap: clamp(2.5rem, 6vw, 6rem);
+}
+
+body.plan-visit-page .visit-hero-copy {
+    position: relative;
+    z-index: 1;
+}
+
+body.plan-visit-page .visit-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0 0 1rem;
+    color: var(--visit-gold);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+body.plan-visit-page .visit-eyebrow::before {
+    width: 2.35rem;
+    height: 2px;
+    content: "";
+    background: currentColor;
+}
+
+body.plan-visit-page .visit-hero-copy h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: #fffaf0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(3.25rem, 7vw, 6.4rem);
+    font-weight: 700;
+    letter-spacing: -0.055em;
+    line-height: 0.96;
+}
+
+body.plan-visit-page .visit-hero-copy .hero-subtitle {
+    max-width: 34rem;
+    margin: 1.55rem 0 0;
+    color: rgba(247, 244, 237, 0.8);
+    font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+    line-height: 1.65;
+}
+
+body.plan-visit-page .visit-hero-actions,
+body.plan-visit-page .cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+body.plan-visit-page .visit-hero-actions {
+    margin-top: 2rem;
+}
+
+body.plan-visit-page .visit-button,
+body.plan-visit-page .visit-hero-actions .btn,
+body.plan-visit-page .visit-arrival-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.1rem;
+    padding: 0.78rem 1.1rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+body.plan-visit-page .visit-button:hover,
+body.plan-visit-page .visit-button:focus-visible {
+    transform: translateY(-2px);
+}
+
+body.plan-visit-page .visit-button-primary {
+    color: #16243a;
+    background: var(--visit-gold);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+body.plan-visit-page .visit-button-primary:hover,
+body.plan-visit-page .visit-button-primary:focus-visible {
+    background: #f3ce71;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.24);
+}
+
+body.plan-visit-page .visit-button-secondary {
+    color: #fffaf0;
+    border-color: rgba(248, 229, 173, 0.38);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+body.plan-visit-page .visit-button-secondary:hover,
+body.plan-visit-page .visit-button-secondary:focus-visible {
+    border-color: rgba(248, 229, 173, 0.72);
+    background: rgba(255, 255, 255, 0.13);
+}
+
+body.plan-visit-page .visit-hero-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    max-width: 34rem;
+    margin-top: 2.35rem;
+    padding-top: 1.15rem;
+    border-top: 1px solid rgba(248, 229, 173, 0.25);
+}
+
+body.plan-visit-page .visit-hero-facts > div {
+    display: grid;
+    gap: 0.32rem;
+}
+
+body.plan-visit-page .visit-fact-label {
+    color: rgba(247, 244, 237, 0.62);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+body.plan-visit-page .visit-hero-facts strong {
+    color: #fffaf0;
+    font-size: 0.98rem;
+    line-height: 1.35;
+}
+
+body.plan-visit-page .visit-language-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1.6rem;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid rgba(248, 229, 173, 0.28);
+    border-radius: 999px;
+    color: rgba(255, 250, 240, 0.78);
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.74rem;
+    font-weight: 700;
+}
+
+body.plan-visit-page .visit-language-toggle:hover,
+body.plan-visit-page .visit-language-toggle:focus-visible {
+    color: #fffaf0;
+    border-color: var(--visit-gold);
+}
+
+body.plan-visit-page .visit-hero-image-wrap {
+    position: relative;
+    min-width: 0;
+}
+
+body.plan-visit-page .visit-hero-image-glow {
+    position: absolute;
+    inset: 12% -8% -10% 8%;
+    z-index: -1;
+    border-radius: 50%;
+    background: rgba(230, 184, 78, 0.2);
+    filter: blur(48px);
+}
+
+body.plan-visit-page .visit-hero-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(248, 229, 173, 0.42);
+    border-radius: 2rem;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+    object-fit: cover;
+}
+
+body.plan-visit-page .visit-hero-image-caption {
+    position: absolute;
+    right: 1.1rem;
+    bottom: 1.1rem;
+    left: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 0.75rem;
+    color: #fffaf0;
+    background: rgba(5, 15, 27, 0.68);
+    backdrop-filter: blur(12px);
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+body.plan-visit-page .visit-caption-dot {
+    width: 0.48rem;
+    height: 0.48rem;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--visit-gold);
+    box-shadow: 0 0 0 4px rgba(230, 184, 78, 0.17);
+}
+
+body.plan-visit-page .visit-section-v21 {
+    position: relative;
+    max-width: none;
+    padding: clamp(4rem, 7vw, 7rem) 0;
+    background: var(--visit-cream);
+}
+
+body.plan-visit-page .visit-section-v21.alt-bg,
+body.plan-visit-page .visit-journey-section {
+    background: color-mix(in srgb, var(--visit-cream) 88%, var(--visit-navy) 12%);
+}
+
+body.plan-visit-page .visit-section-heading {
+    max-width: 42rem;
+    margin-bottom: 2.2rem;
+}
+
+body.plan-visit-page .visit-section-heading-centered {
+    margin-inline: auto;
+    text-align: center;
+}
+
+body.plan-visit-page .visit-section-heading-centered .visit-eyebrow {
+    justify-content: center;
+}
+
+body.plan-visit-page .visit-section-heading h2,
+body.plan-visit-page .visit-section-v21 > h2 {
+    margin: 0;
+    color: var(--visit-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 4vw, 3.45rem);
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+}
+
+body.plan-visit-page .visit-section-heading > p:last-child {
+    max-width: 40rem;
+    margin: 1rem auto 0;
+    color: var(--visit-muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+body.plan-visit-page .visit-section-v21 > h2 {
+    width: min(1160px, calc(100% - 2.5rem));
+    margin-inline: auto;
+    margin-bottom: 2.2rem;
+}
+
+body.plan-visit-page .welcome-video-section {
+    padding-bottom: clamp(3.75rem, 6vw, 6rem);
+}
+
+body.plan-visit-page .visit-video-placeholder {
+    position: relative;
+    width: min(900px, 100%);
+    aspect-ratio: 16 / 9;
+    margin-inline: auto;
+    overflow: hidden;
+    border: 1px solid rgba(230, 184, 78, 0.58);
+    border-radius: 1.5rem;
+    background: var(--visit-navy);
+    box-shadow: var(--visit-shadow);
+}
+
+body.plan-visit-page .visit-video-placeholder > img,
+body.plan-visit-page .visit-video-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body.plan-visit-page .visit-video-placeholder > img {
+    object-fit: cover;
+    object-position: center 58%;
+}
+
+body.plan-visit-page .visit-video-overlay {
+    background: linear-gradient(110deg, rgba(4, 14, 25, 0.9) 8%, rgba(4, 14, 25, 0.34) 60%, rgba(4, 14, 25, 0.76));
+}
+
+body.plan-visit-page .visit-video-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    color: #fffaf0;
+    text-align: center;
+}
+
+body.plan-visit-page .visit-coming-soon {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    padding: 0.42rem 0.65rem;
+    border: 1px solid rgba(248, 229, 173, 0.55);
+    border-radius: 999px;
+    color: var(--visit-gold-light);
+    background: rgba(4, 14, 25, 0.58);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+body.plan-visit-page .visit-play-mark {
+    display: grid;
+    width: 4.6rem;
+    height: 4.6rem;
+    place-items: center;
+    padding-left: 0.18rem;
+    border: 1px solid rgba(248, 229, 173, 0.76);
+    border-radius: 50%;
+    color: var(--visit-gold-light);
+    background: rgba(4, 14, 25, 0.46);
+    box-shadow: 0 0 0 12px rgba(230, 184, 78, 0.1);
+    font-size: 1.2rem;
+}
+
+body.plan-visit-page .visit-video-content strong {
+    color: var(--visit-gold-light);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.2em;
+}
+
+body.plan-visit-page .visit-video-label {
+    font-size: clamp(0.9rem, 2vw, 1.08rem);
+    font-weight: 700;
+}
+
+body.plan-visit-page .visit-video-note {
+    margin: 1.3rem auto 0;
+    color: var(--visit-muted);
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+body.plan-visit-page .info-card {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(1160px, calc(100% - 2.5rem));
+    margin-inline: auto;
+    overflow: hidden;
+    border: 1px solid var(--visit-line);
+    border-radius: 1.35rem;
+    background: var(--visit-card);
+    box-shadow: var(--visit-shadow);
+}
+
+body.plan-visit-page .info-item {
+    display: flex;
+    gap: 1.15rem;
+    min-height: 12rem;
+    padding: clamp(1.6rem, 4vw, 2.7rem);
+}
+
+body.plan-visit-page .info-item + .info-item {
+    border-left: 1px solid var(--visit-line);
+}
+
+body.plan-visit-page .info-icon {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid rgba(230, 184, 78, 0.38);
+    border-radius: 0.85rem;
+    background: rgba(230, 184, 78, 0.12);
+    font-size: 1.2rem;
+}
+
+body.plan-visit-page .info-item h3 {
+    margin: 0 0 0.6rem;
+    color: var(--visit-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.42rem;
+}
+
+body.plan-visit-page .info-item p {
+    margin: 0.35rem 0 0;
+    color: var(--visit-muted);
+    line-height: 1.6;
+}
+
+body.plan-visit-page .info-item p strong {
+    color: var(--visit-ink);
+}
+
+body.plan-visit-page .info-item a {
+    color: #a87512;
+    font-weight: 800;
+}
+
+body.plan-visit-page[data-theme="dark"] .info-item a,
+body.plan-visit-page.dark .info-item a,
+html[data-theme="dark"] body.plan-visit-page .info-item a {
+    color: var(--visit-gold-light);
+}
+
+body.plan-visit-page .visit-weekly-rhythm {
+    width: min(1160px, calc(100% - 2.5rem));
+    margin: 3rem auto 0;
+}
+
+body.plan-visit-page .visit-subsection-heading {
+    margin-bottom: 1.2rem;
+}
+
+body.plan-visit-page .visit-subsection-heading .visit-eyebrow {
+    margin-bottom: 0.55rem;
+}
+
+body.plan-visit-page .visit-subsection-heading h3 {
+    margin: 0;
+    color: var(--visit-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+body.plan-visit-page .visit-rhythm-grid,
+body.plan-visit-page .visit-journey-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+body.plan-visit-page .visit-rhythm-card {
+    display: grid;
+    gap: 0.38rem;
+    padding: 1.25rem;
+    border: 1px solid var(--visit-line);
+    border-radius: 1rem;
+    background: var(--visit-card);
+}
+
+body.plan-visit-page .visit-rhythm-day {
+    color: #a87512;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+body.plan-visit-page .visit-rhythm-card strong,
+body.plan-visit-page .visit-rhythm-card > span:last-child {
+    color: var(--visit-ink);
+}
+
+body.plan-visit-page .add-to-calendar {
+    width: min(1160px, calc(100% - 2.5rem));
+    margin: 1.5rem auto 0;
+    padding: 1.25rem 1.4rem;
+    border: 1px solid var(--visit-line);
+    border-radius: 1rem;
+    background: rgba(230, 184, 78, 0.08);
+}
+
+body.plan-visit-page .calendar-intro,
+body.plan-visit-page .calendar-note {
+    color: var(--visit-muted);
+}
+
+body.plan-visit-page .calendar-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+body.plan-visit-page .calendar-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--visit-line);
+    border-radius: 999px;
+    color: var(--visit-ink);
+    background: var(--visit-card);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body.plan-visit-page .section-cta {
+    width: min(1160px, calc(100% - 2.5rem));
+    margin: 1.6rem auto 0;
+}
+
+body.plan-visit-page .section-cta .btn,
+body.plan-visit-page .visit-final-cta-v21 .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.9rem;
+    border-radius: 999px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+body.plan-visit-page .expect-content,
+body.plan-visit-page .language-content,
+body.plan-visit-page .arrival-content {
+    width: min(1160px, calc(100% - 2.5rem));
+    margin-inline: auto;
+}
+
+body.plan-visit-page .expect-content .intro-text {
+    max-width: 46rem;
+    margin: 0 0 1.5rem;
+    color: var(--visit-muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+body.plan-visit-page .expect-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body.plan-visit-page .expect-list li {
+    position: relative;
+    min-height: 5rem;
+    padding: 1.25rem 1.25rem 1.25rem 3.2rem;
+    border: 1px solid var(--visit-line);
+    border-radius: 1rem;
+    color: var(--visit-ink);
+    background: var(--visit-card);
+    line-height: 1.55;
+}
+
+body.plan-visit-page .expect-list li::before {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    color: var(--visit-gold);
+    content: "✦";
+    font-size: 1.2rem;
+}
+
+body.plan-visit-page .reassurance {
+    max-width: 46rem;
+    margin: 1.5rem auto 0;
+    color: var(--visit-muted);
+    font-style: italic;
+    line-height: 1.7;
+}
+
+body.plan-visit-page .language-content {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 1rem;
+}
+
+body.plan-visit-page .language-block {
+    padding: clamp(1.5rem, 4vw, 2.6rem);
+    border: 1px solid var(--visit-line);
+    border-radius: 1.25rem;
+    background: var(--visit-card);
+    box-shadow: var(--visit-shadow);
+}
+
+body.plan-visit-page .language-block h3 {
+    margin: 0 0 0.8rem;
+    color: var(--visit-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.45rem;
+}
+
+body.plan-visit-page .language-block p {
+    margin: 0;
+    color: var(--visit-muted);
+    line-height: 1.7;
+}
+
+body.plan-visit-page .visit-journey-grid {
+    width: min(1160px, calc(100% - 2.5rem));
+    margin-inline: auto;
+}
+
+body.plan-visit-page .visit-journey-step {
+    padding: 1.6rem;
+    border-top: 2px solid var(--visit-gold);
+}
+
+body.plan-visit-page .visit-step-number {
+    display: block;
+    margin-bottom: 1.35rem;
+    color: #a87512;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+}
+
+body.plan-visit-page .visit-journey-step h3 {
+    margin: 0 0 0.55rem;
+    color: var(--visit-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.65rem;
+}
+
+body.plan-visit-page .visit-journey-step p {
+    margin: 0;
+    color: var(--visit-muted);
+    line-height: 1.65;
+}
+
+body.plan-visit-page .highlights-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(1160px, calc(100% - 2.5rem));
+    gap: 0.9rem;
+    margin-inline: auto;
+}
+
+body.plan-visit-page .highlight-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    border: 1px solid var(--visit-line);
+    border-radius: 1rem;
+    background: var(--visit-card);
+}
+
+body.plan-visit-page .highlight-icon {
+    font-size: 1.35rem;
+}
+
+body.plan-visit-page .highlight-content h3,
+body.plan-visit-page .highlight-content p {
+    margin: 0.2rem 0;
+    color: var(--visit-ink);
+}
+
+body.plan-visit-page .highlight-content p {
+    color: var(--visit-muted);
+    font-size: 0.88rem;
+}
+
+body.plan-visit-page .visit-arrival-section {
+    padding-top: clamp(3.75rem, 6vw, 6rem);
+}
+
+body.plan-visit-page .arrival-content {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+body.plan-visit-page .arrival-content p {
+    margin: 0;
+    padding: 1.4rem;
+    border: 1px solid var(--visit-line);
+    border-radius: 1rem;
+    color: var(--visit-muted);
+    background: var(--visit-card);
+    line-height: 1.7;
+}
+
+body.plan-visit-page .arrival-content strong {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: var(--visit-ink);
+}
+
+body.plan-visit-page .visit-arrival-button {
+    width: fit-content;
+    margin: 1.4rem max(1.25rem, calc((100% - 1160px) / 2)) 0;
+}
+
+body.plan-visit-page .visit-final-cta-v21 {
+    max-width: none;
+    padding: clamp(4rem, 8vw, 7rem) 1.25rem;
+    color: #f7f4ed;
+    background:
+        radial-gradient(circle at 20% 25%, rgba(230, 184, 78, 0.15), transparent 25rem),
+        linear-gradient(135deg, #06111f 0%, #102b49 100%);
+    text-align: center;
+}
+
+body.plan-visit-page .visit-final-cta-v21 h2 {
+    margin: 0;
+    color: #fffaf0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.2rem, 5vw, 4.25rem);
+    letter-spacing: -0.045em;
+}
+
+body.plan-visit-page .visit-final-cta-v21 > p {
+    max-width: 38rem;
+    margin: 1rem auto 1.8rem;
+    color: rgba(247, 244, 237, 0.78);
+    line-height: 1.7;
+}
+
+body.plan-visit-page .visit-final-cta-v21 .cta-buttons {
+    justify-content: center;
+}
+
+body.plan-visit-page .visit-final-cta-v21 .btn-primary {
+    color: #16243a;
+    background: var(--visit-gold);
+}
+
+body.plan-visit-page .visit-final-cta-v21 .btn-secondary {
+    color: #fffaf0;
+    border: 1px solid rgba(248, 229, 173, 0.4);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+body.plan-visit-page .pastor-connect {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    body.plan-visit-page .visit-hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    body.plan-visit-page .visit-hero-copy h1 {
+        max-width: none;
+    }
+
+    body.plan-visit-page .visit-hero-image-wrap {
+        width: min(620px, 100%);
+        margin-inline: auto;
+    }
+
+    body.plan-visit-page .language-content,
+    body.plan-visit-page .arrival-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    body.plan-visit-page .visit-shell,
+    body.plan-visit-page .visit-section-v21 > h2,
+    body.plan-visit-page .info-card,
+    body.plan-visit-page .visit-weekly-rhythm,
+    body.plan-visit-page .add-to-calendar,
+    body.plan-visit-page .expect-content,
+    body.plan-visit-page .language-content,
+    body.plan-visit-page .visit-journey-grid,
+    body.plan-visit-page .highlights-list,
+    body.plan-visit-page .arrival-content {
+        width: min(100% - 2rem, 36rem);
+    }
+
+    body.plan-visit-page .plan-visit-hero {
+        padding-top: 3rem;
+        padding-bottom: 3.5rem;
+    }
+
+    body.plan-visit-page .visit-hero-grid {
+        gap: 2.5rem;
+    }
+
+    body.plan-visit-page .visit-hero-copy h1 {
+        font-size: clamp(3.2rem, 15vw, 5rem);
+    }
+
+    body.plan-visit-page .visit-hero-copy .hero-subtitle {
+        margin-top: 1.2rem;
+        font-size: 1rem;
+    }
+
+    body.plan-visit-page .visit-hero-actions,
+    body.plan-visit-page .visit-final-cta-v21 .cta-buttons {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    body.plan-visit-page .visit-hero-actions .visit-button,
+    body.plan-visit-page .visit-final-cta-v21 .btn {
+        width: 100%;
+    }
+
+    body.plan-visit-page .visit-hero-facts {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+
+    body.plan-visit-page .visit-hero-image {
+        border-radius: 1.25rem;
+    }
+
+    body.plan-visit-page .visit-section-v21 {
+        padding: 3.75rem 0;
+    }
+
+    body.plan-visit-page .visit-section-v21 > h2 {
+        margin-bottom: 1.6rem;
+    }
+
+    body.plan-visit-page .visit-video-placeholder {
+        border-radius: 1rem;
+    }
+
+    body.plan-visit-page .visit-coming-soon {
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+
+    body.plan-visit-page .visit-play-mark {
+        width: 3.7rem;
+        height: 3.7rem;
+    }
+
+    body.plan-visit-page .info-card,
+    body.plan-visit-page .expect-list,
+    body.plan-visit-page .visit-rhythm-grid,
+    body.plan-visit-page .visit-journey-grid,
+    body.plan-visit-page .highlights-list {
+        grid-template-columns: 1fr;
+    }
+
+    body.plan-visit-page .info-item + .info-item {
+        border-top: 1px solid var(--visit-line);
+        border-left: 0;
+    }
+
+    body.plan-visit-page .info-item {
+        min-height: 0;
+        padding: 1.35rem;
+    }
+
+    body.plan-visit-page .calendar-buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    body.plan-visit-page .calendar-link {
+        justify-content: center;
+    }
+
+    body.plan-visit-page .visit-arrival-button {
+        width: min(100% - 2rem, 36rem);
+        margin-inline: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.plan-visit-page .visit-button {
+        transition: none;
+    }
+}
