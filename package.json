@@ -21,6 +21,7 @@
     "test:tablet": "playwright test --project='iPad Pro 11 Portrait'",
     "test:mobile": "playwright test --project='iPhone 14'",
     "test:report": "playwright show-report",
+    "test:phonetic-v2": "node --test tests/phonetic-v2.test.js",
     "test:debug": "playwright test --debug",
     "dashboard": "./open-dashboard.sh"
   },
