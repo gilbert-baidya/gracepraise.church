@@ -82,6 +82,11 @@ self.addEventListener('fetch', (event) => {
 
   if (url.origin !== self.location.origin) return;
 
+  // V21 Admin is an isolated, authenticated workspace. Keep it out of the
+  // public site's runtime caches so an old public cache cannot serve stale
+  // Admin HTML, CSS, or scripts.
+  if (url.pathname === '/admin/v21' || url.pathname.startsWith('/admin/v21/')) return;
+
   const sameOrigin = url.origin === self.location.origin;
   const acceptsHtml = (request.headers.get('accept') || '').includes('text/html');
 

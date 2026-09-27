@@ -1,0 +1,17 @@
+{
+  "name": "gpbc-v21-functions",
+  "private": true,
+  "description": "Trusted backend operations for the GPBC V21 Admin Control Center.",
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "lint": "node --check index.js && node --check lib/website-control-service.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.5.0",
+    "firebase-functions": "^6.4.0"
+  }
+}

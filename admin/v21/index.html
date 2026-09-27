@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#102a43">
+  <title>GPBC Admin Control Center</title>
+  <link rel="icon" href="../../images/logo/GPBC_Favicon.ico">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="admin-shell">
+    <header class="admin-header">
+      <a class="brand" href="./" aria-label="GPBC Admin Control Center home">
+        <img src="../../images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church logo">
+        <span>
+          <strong>GPBC</strong>
+          <small>Admin Control Center</small>
+        </span>
+      </a>
+      <button class="button button-quiet" id="headerSignOut" type="button" hidden>Sign Out</button>
+    </header>
+
+    <main id="main-content" class="admin-main">
+      <section id="authView" class="auth-card" aria-labelledby="auth-title">
+        <div class="eyebrow">Restricted access</div>
+        <h1 id="auth-title">GPBC Admin Control Center</h1>
+        <p class="intro">Manage the future website configuration from a calm, protected workspace.</p>
+
+        <div id="authError" class="message message-error" role="alert" aria-live="assertive" hidden></div>
+        <div id="authBusy" class="message message-info" role="status" aria-live="polite" hidden>Checking the secure sign-in service…</div>
+
+        <form id="loginForm" class="login-form" novalidate>
+          <div class="field">
+            <label for="adminEmail">Email address</label>
+            <input id="adminEmail" name="email" type="email" autocomplete="username" inputmode="email" required>
+          </div>
+          <div class="field">
+            <label for="adminPassword">Password</label>
+            <input id="adminPassword" name="password" type="password" autocomplete="current-password" required>
+          </div>
+          <button id="signInButton" class="button button-primary button-wide" type="submit">
+            <span class="button-label">Sign In</span>
+            <span class="button-spinner" aria-hidden="true" hidden></span>
+          </button>
+        </form>
+
+        <p class="restricted-note">Admin accounts are provisioned separately. Public registration is not available.</p>
+      </section>
+
+      <section id="authCheckingView" class="status-card" aria-labelledby="checking-title" hidden>
+        <div class="loading-orb" aria-hidden="true"></div>
+        <h1 id="checking-title">Checking administrator access</h1>
+        <p>We are verifying the signed-in account before opening the control center.</p>
+      </section>
+
+      <section id="accessDeniedView" class="status-card status-card-denied" aria-labelledby="denied-title" hidden>
+        <div class="status-icon" aria-hidden="true">!</div>
+        <h1 id="denied-title">Access Denied</h1>
+        <p>You are signed in, but this account does not have administrator access.</p>
+        <p id="accessDeniedReason" class="muted">Administrator access requires an explicit Firebase Auth role claim. No dashboard controls are available to this account.</p>
+        <button class="button button-secondary" id="accessDeniedSignOut" type="button">Sign Out</button>
+      </section>
+
+      <section id="dashboardView" class="dashboard" aria-labelledby="dashboard-title" hidden>
+        <div class="dashboard-heading">
+          <div>
+            <div class="eyebrow">Website configuration</div>
+            <h1 id="dashboard-title">GPBC Admin Control Center</h1>
+            <p class="intro">Review the controlled feature registry and prepare a draft configuration.</p>
+          </div>
+          <div class="draft-badge" aria-label="Current editing mode">
+            <span class="draft-badge-dot" aria-hidden="true"></span>
+            <span>Editing: Draft Configuration</span>
+          </div>
+        </div>
+
+        <div id="dashboardNotice" class="message" role="status" aria-live="polite" hidden></div>
+
+        <section id="localDraftPanel" class="local-draft-panel" aria-labelledby="local-draft-title" hidden>
+          <div>
+            <h2 id="local-draft-title">Local Draft Found</h2>
+            <p id="localDraftMessage">A Phase 2 browser draft is available for review.</p>
+          </div>
+          <div class="local-draft-actions">
+            <button class="button button-secondary" id="importLocalDraftButton" type="button">Import Local Draft</button>
+            <button class="button button-quiet-light" id="discardLocalDraftButton" type="button">Discard Local Draft</button>
+          </div>
+        </section>
+
+        <div class="summary-grid" aria-label="Website control status">
+          <article class="summary-card summary-live">
+            <span class="summary-label">Live</span>
+            <strong id="countLive">0</strong>
+          </article>
+          <article class="summary-card summary-hidden">
+            <span class="summary-label">Hidden</span>
+            <strong id="countHidden">0</strong>
+          </article>
+          <article class="summary-card summary-coming">
+            <span class="summary-label">Coming Soon</span>
+            <strong id="countComingSoon">0</strong>
+          </article>
+          <article class="summary-card summary-preview">
+            <span class="summary-label">Admin Preview</span>
+            <strong id="countAdminPreview">0</strong>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel feature-panel" aria-labelledby="features-title">
+            <div class="panel-heading">
+              <div>
+                <h2 id="features-title">Approved Feature Controls</h2>
+                <p>These selections are draft-only. Public website integration is not active in Phase 4.</p>
+              </div>
+              <span id="unsavedBadge" class="unsaved-badge" hidden>Unsaved Changes</span>
+            </div>
+
+            <div id="featureGroups" class="feature-groups"></div>
+
+            <div class="action-bar">
+              <div>
+                <strong id="saveStateLabel">Firestore draft not loaded</strong>
+                <span id="lastSavedLabel" class="muted">Draft storage is server-backed after authorization.</span>
+              </div>
+              <div class="action-buttons">
+                <button class="button button-primary" id="saveDraftButton" type="button">Save Draft</button>
+                <button class="button button-secondary" id="publishButton" type="button" disabled title="Writes Firestore published storage only; the public website remains disconnected.">Publish Configuration <span class="button-note">Storage only</span></button>
+              </div>
+            </div>
+          </section>
+
+          <aside class="side-column">
+            <section class="panel security-panel" aria-labelledby="security-title">
+              <h2 id="security-title">Access Status</h2>
+              <dl class="status-list">
+                <div><dt>Signed in as</dt><dd id="signedInAs">—</dd></div>
+                <div><dt>Authentication</dt><dd class="status-ok">Implemented</dd></div>
+                <div><dt>Role check</dt><dd class="status-ok">admin claim + rules</dd></div>
+                <div><dt>Draft storage</dt><dd class="status-ok">Firestore</dd></div>
+                <div><dt>Trusted backend</dt><dd class="status-ok">Callable Functions</dd></div>
+                <div><dt>Public website</dt><dd class="status-ok">Not connected</dd></div>
+              </dl>
+              <p class="small-note">Draft saves and publishing use the trusted backend. Public website integration is not enabled yet.</p>
+            </section>
+
+            <section class="panel publish-warning-panel" aria-label="Publish warning">
+              <strong>Phase 4 safety notice</strong>
+              <p>Public website integration is not enabled yet. Publishing here updates configuration storage only.</p>
+            </section>
+
+            <section class="panel changes-panel" aria-labelledby="changes-title">
+              <h2 id="changes-title">Recent Changes</h2>
+              <ol id="recentChanges" class="recent-changes">
+                <li class="muted">No changes in this session.</li>
+              </ol>
+            </section>
+
+            <section class="panel revisions-panel" aria-labelledby="revisions-title">
+              <div class="panel-heading panel-heading-compact">
+                <div>
+                  <h2 id="revisions-title">Revision History</h2>
+                  <p>Recent immutable snapshots only.</p>
+                </div>
+              </div>
+              <ol id="recentRevisions" class="recent-revisions">
+                <li class="muted">No saved revisions yet.</li>
+              </ol>
+            </section>
+
+            <section class="panel protected-panel" aria-labelledby="protected-title">
+              <h2 id="protected-title">Protected System Components</h2>
+              <p class="small-note">These components are read-only and excluded from feature controls.</p>
+              <ul id="protectedComponents" class="protected-list"></ul>
+            </section>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="admin-footer">
+      <span>Grace and Praise Bangladeshi Church</span>
+      <span>V21 foundation · Draft only</span>
+    </footer>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js" defer></script>
+  <script src="./admin-config.js" defer></script>
+  <script src="./admin-auth.js" defer></script>
+  <script src="./admin-firestore.js" defer></script>
+  <script src="./admin.js" defer></script>
+</body>
+</html>

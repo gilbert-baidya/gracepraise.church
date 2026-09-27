@@ -1,0 +1,230 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.admin == true;
+    }
+
+    function featureIds() {
+      return [
+        'homepage.hero',
+        'homepage.sacredFocus',
+        'homepage.planVisit',
+        'homepage.welcomeHome',
+        'homepage.community',
+        'homepage.specialEvents',
+        'homepage.featuredEvents',
+        'homepage.transformationalLoop',
+        'homepage.lordsPrayerWheel',
+        'homepage.stayConnected',
+        'pages.about',
+        'pages.about.history',
+        'pages.about.mission',
+        'pages.about.leadership',
+        'pages.about.beliefs',
+        'pages.about.coreValues',
+        'pages.about.positionPapers',
+        'pages.about.testimonies',
+        'pages.planVisit',
+        'pages.calendar',
+        'pages.gallery',
+        'pages.contact',
+        'pages.prayer',
+        'pages.giving',
+        'pages.songbook',
+        'pages.pastor',
+        'devotions.daily',
+        'devotions.bibleReader',
+        'devotions.couples',
+        'devotions.family',
+        'devotions.youth',
+        'devotions.children',
+        'devotions.fasting21',
+        'devotions.fasting30',
+        'devotions.lent',
+        'devotions.gratitudeFasting',
+        'ministries.overview',
+        'ministries.bibleStudy',
+        'ministries.communityDevelopment',
+        'ministries.homeless',
+        'ministries.hospital',
+        'ministries.kids',
+        'ministries.menFellowship',
+        'ministries.missionOutreach',
+        'ministries.prison',
+        'ministries.supportMissionaries',
+        'ministries.worship',
+        'ministries.youth',
+        'resources.kidsGames',
+        'resources.youthGames'
+      ];
+    }
+
+    function allowedStates() {
+      return ['LIVE', 'HIDDEN', 'COMING_SOON', 'ADMIN_PREVIEW'];
+    }
+
+    function allowedActions() {
+      return ['DRAFT_CREATED', 'DRAFT_UPDATED', 'DRAFT_RESTORED', 'PUBLISH_PREPARED', 'PUBLISHED'];
+    }
+
+    function validFeature(features, featureId) {
+      return features[featureId].keys().hasOnly(['state'])
+        && features[featureId].state in allowedStates();
+    }
+
+    function validFeatures(features) {
+      return features.keys().hasOnly(featureIds())
+        && features.keys().hasAll(featureIds())
+        && validFeature(features, 'homepage.hero')
+        && validFeature(features, 'homepage.sacredFocus')
+        && validFeature(features, 'homepage.planVisit')
+        && validFeature(features, 'homepage.welcomeHome')
+        && validFeature(features, 'homepage.community')
+        && validFeature(features, 'homepage.specialEvents')
+        && validFeature(features, 'homepage.featuredEvents')
+        && validFeature(features, 'homepage.transformationalLoop')
+        && validFeature(features, 'homepage.lordsPrayerWheel')
+        && validFeature(features, 'homepage.stayConnected')
+        && validFeature(features, 'pages.about')
+        && validFeature(features, 'pages.about.history')
+        && validFeature(features, 'pages.about.mission')
+        && validFeature(features, 'pages.about.leadership')
+        && validFeature(features, 'pages.about.beliefs')
+        && validFeature(features, 'pages.about.coreValues')
+        && validFeature(features, 'pages.about.positionPapers')
+        && validFeature(features, 'pages.about.testimonies')
+        && validFeature(features, 'pages.planVisit')
+        && validFeature(features, 'pages.calendar')
+        && validFeature(features, 'pages.gallery')
+        && validFeature(features, 'pages.contact')
+        && validFeature(features, 'pages.prayer')
+        && validFeature(features, 'pages.giving')
+        && validFeature(features, 'pages.songbook')
+        && validFeature(features, 'pages.pastor')
+        && validFeature(features, 'devotions.daily')
+        && validFeature(features, 'devotions.bibleReader')
+        && validFeature(features, 'devotions.couples')
+        && validFeature(features, 'devotions.family')
+        && validFeature(features, 'devotions.youth')
+        && validFeature(features, 'devotions.children')
+        && validFeature(features, 'devotions.fasting21')
+        && validFeature(features, 'devotions.fasting30')
+        && validFeature(features, 'devotions.lent')
+        && validFeature(features, 'devotions.gratitudeFasting')
+        && validFeature(features, 'ministries.overview')
+        && validFeature(features, 'ministries.bibleStudy')
+        && validFeature(features, 'ministries.communityDevelopment')
+        && validFeature(features, 'ministries.homeless')
+        && validFeature(features, 'ministries.hospital')
+        && validFeature(features, 'ministries.kids')
+        && validFeature(features, 'ministries.menFellowship')
+        && validFeature(features, 'ministries.missionOutreach')
+        && validFeature(features, 'ministries.prison')
+        && validFeature(features, 'ministries.supportMissionaries')
+        && validFeature(features, 'ministries.worship')
+        && validFeature(features, 'ministries.youth')
+        && validFeature(features, 'resources.kidsGames')
+        && validFeature(features, 'resources.youthGames');
+    }
+
+    function validDraft(data) {
+      return data.keys().hasOnly([
+          'schemaVersion', 'status', 'features', 'createdAt', 'createdBy',
+          'updatedAt', 'updatedBy', 'revision'
+        ])
+        && data.schemaVersion == 1
+        && data.status == 'draft'
+        && data.features is map
+        && validFeatures(data.features)
+        && data.createdAt is timestamp
+        && data.createdBy is string
+        && data.updatedAt is timestamp
+        && data.updatedBy is string
+        && data.revision is int
+        && data.revision > 0;
+    }
+
+    function validPublished(data) {
+      return data.keys().hasOnly([
+          'schemaVersion', 'status', 'features', 'revision',
+          'publishedAt', 'publishedBy', 'sourceDraftRevision'
+        ])
+        && data.schemaVersion == 1
+        && data.status == 'published'
+        && data.features is map
+        && validFeatures(data.features)
+        && data.publishedAt is timestamp
+        && data.publishedBy is string
+        && data.sourceDraftRevision is int
+        && data.sourceDraftRevision > 0
+        && data.revision is int
+        && data.revision > 0;
+    }
+
+    function validRevision(data) {
+      return data.keys().hasOnly([
+          'schemaVersion', 'status', 'source', 'action', 'features',
+          'revision', 'previousRevision', 'createdAt', 'createdBy', 'actorEmail'
+        ])
+        && data.schemaVersion == 1
+        && data.status == 'snapshot'
+        && data.source in ['draft', 'published']
+        && data.action in allowedActions()
+        && data.features is map
+        && validFeatures(data.features)
+        && data.revision is int
+        && data.revision > 0
+        && data.previousRevision is int
+        && data.previousRevision >= 0
+        && data.createdAt is timestamp
+        && data.createdBy is string
+        && data.actorEmail is string;
+    }
+
+    function validAudit(data) {
+      return data.keys().hasOnly([
+          'action', 'uid', 'userEmail', 'timestamp', 'fromRevision',
+          'toRevision', 'changedFeatures'
+        ])
+        && data.action in allowedActions()
+        && data.uid is string
+        && data.userEmail is string
+        && data.timestamp is timestamp
+        && data.fromRevision is int
+        && data.fromRevision >= 0
+        && data.toRevision is int
+        && data.toRevision >= data.fromRevision
+        && data.changedFeatures is list
+        && data.changedFeatures.hasOnly(featureIds());
+    }
+
+    match /websiteControl/{documentId} {
+      allow read: if isAdmin();
+      // All mutations go through the trusted Functions/Admin SDK path. The
+      // Admin SDK bypasses client rules; denying browser writes prevents a
+      // signed-in Admin browser from fabricating audit or publish metadata.
+      allow create, update, delete: if false;
+    }
+
+    match /websiteControl/published {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /websiteControlRevisions/{revisionId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /websiteControlAudit/{auditId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if false;
+    }
+  }
+}
