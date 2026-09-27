@@ -11,7 +11,7 @@
     <!-- Security: Content Security Policy (CSP) - EMERGENCY HOTFIX 2026-02-13 -->
     <!-- Allows all verified external dependencies to restore site functionality -->
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://script.google.com https://www.google.com https://www.gstatic.com https://upload-widget.cloudinary.com https://identity.netlify.com https://unpkg.com https://translate.google.com https://cdn.tailwindcss.com; script-src-elem 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://script.google.com https://www.google.com https://www.gstatic.com https://upload-widget.cloudinary.com https://identity.netlify.com https://unpkg.com https://translate.google.com https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; media-src 'self' https://player.vimeo.com https://*.vimeocdn.com https://vimeo.com; frame-src 'self' https://player.vimeo.com https://www.youtube.com; connect-src 'self' https://script.google.com https://www.gstatic.com https://api.cloudinary.com; object-src 'none'; base-uri 'self'; form-action 'self' https://script.google.com;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://script.google.com https://www.google.com https://www.gstatic.com https://upload-widget.cloudinary.com https://identity.netlify.com https://unpkg.com https://translate.google.com https://cdn.tailwindcss.com; script-src-elem 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://script.google.com https://www.google.com https://www.gstatic.com https://upload-widget.cloudinary.com https://identity.netlify.com https://unpkg.com https://translate.google.com https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; media-src 'self' https://player.vimeo.com https://*.vimeocdn.com https://vimeo.com; frame-src 'self' https://player.vimeo.com https://www.youtube.com; connect-src 'self' https://script.google.com https://www.gstatic.com https://api.cloudinary.com https://us-central1-grace-and-praise-bangladesh.cloudfunctions.net; object-src 'none'; base-uri 'self'; form-action 'self' https://script.google.com;">
 
     <title>Grace and Praise Bangladeshi Church | San Bernardino, CA</title>
 
@@ -490,6 +490,7 @@
     <link rel="stylesheet" href="plan-your-visit-v3.css?v=20260917d">
     <!-- Homepage Welcome Home V4 — isolated editorial section styles. -->
     <link rel="stylesheet" href="welcome-home-v4.css?v=20260917a">
+    <link rel="stylesheet" href="website-control.css">
     <!-- Homepage Stay Connected V8 — isolated editorial section styles. -->
     <link rel="stylesheet" href="stay-connected-v8.css?v=20260918-v11-stay-mobile">
     <script src="./js/partials.js?v=20260918-v11-theme-final3" defer></script>
@@ -862,7 +863,7 @@
 
 
         <!-- PLAN YOUR VISIT V3 -->
-        <section class="visit-v3" id="plan-your-visit" aria-labelledby="plan-your-visit-heading">
+        <section class="visit-v3" id="plan-your-visit" data-gpbc-feature="homepage.planVisit" aria-labelledby="plan-your-visit-heading">
             <span class="visit-v3__legacy-anchor" id="next-service" aria-hidden="true"></span>
             <span class="visit-v3__legacy-anchor" id="new-here" aria-hidden="true"></span>
 
@@ -950,7 +951,7 @@
         </section>
 
         <!-- Welcome Home V4 -->
-        <section class="welcome-home-v4" id="about" aria-labelledby="welcome-home-v4-heading">
+        <section class="welcome-home-v4" id="about" data-gpbc-feature="homepage.welcomeHome" aria-labelledby="welcome-home-v4-heading">
             <div class="welcome-home-v4__inner">
                 <div class="welcome-home-v4__intro">
                     <p class="welcome-home-v4__eyebrow">Welcome to GPBC</p>
@@ -970,7 +971,7 @@
             </div>
         </section>
 
-        <section class="community-v5" id="community-v5" aria-labelledby="community-v5-heading">
+        <section class="community-v5" id="community-v5" data-gpbc-feature="homepage.community" aria-labelledby="community-v5-heading">
             <div class="community-v5__inner">
                 <div class="community-v5__intro">
                     <p class="community-v5__eyebrow">Life Together</p>
@@ -5158,6 +5159,8 @@
     </script>
 
 
+    <script src="shared/website-control-schema.js" defer></script>
+    <script src="website-control.js" defer></script>
     <script src="community-carousel-v5.js" defer></script>
     <script src="event-flip-cards.js" defer></script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->

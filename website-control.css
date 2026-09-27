@@ -1,0 +1,4 @@
+/* ACTIVE mode keeps marked sections in flow while Published state loads. */
+html[data-gpbc-control-mode="ACTIVE"][data-gpbc-control-pending="true"] [data-gpbc-feature] {
+    visibility: hidden;
+}

@@ -182,7 +182,7 @@ function dependencyImpacts(changedIds) {
     }));
 }
 
-module.exports = Object.freeze({
+const exportedSchema = Object.freeze({
   SCHEMA_VERSION,
   ALLOWED_STATES,
   FEATURE_DEFINITIONS,
@@ -194,3 +194,11 @@ module.exports = Object.freeze({
   changedFeatureIds,
   dependencyImpacts
 });
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = exportedSchema;
+}
+
+if (typeof window !== 'undefined') {
+  window.GPBCWebsiteControlSchema = exportedSchema;
+}

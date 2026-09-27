@@ -211,6 +211,25 @@ function createService({ db, FieldValue }) {
     };
   }
 
+  async function getPublishedPublicConfig() {
+    const snapshot = await document(COLLECTIONS.control, IDS.published).get();
+    if (!snapshot.exists) {
+      throw new BackendOperationError('not-found', 'Published configuration is not available.');
+    }
+
+    const published = validateStored(snapshot.data(), 'published');
+    const features = schema.FEATURE_IDS.reduce((map, featureId) => {
+      map[featureId] = { state: published.features[featureId].state };
+      return map;
+    }, {});
+
+    return {
+      schemaVersion: schema.SCHEMA_VERSION,
+      revision: published.revision,
+      features
+    };
+  }
+
   async function publishWebsiteConfiguration(data, context) {
     const auth = requireAdmin(context);
     requirePositiveRevision(data?.expectedDraftRevision, 'A valid Draft revision is required before publishing.');
@@ -339,6 +358,7 @@ function createService({ db, FieldValue }) {
   return Object.freeze({
     saveDraft,
     validateDraftForPublish,
+    getPublishedPublicConfig,
     publishWebsiteConfiguration,
     restoreWebsiteRevision
   });

@@ -129,6 +129,28 @@ test('callable Draft, Publish, and Restore operations enforce Auth claims and pe
   assert.equal(publishedSnapshot.data().sourceDraftRevision, 1);
   assert.equal(publishedSnapshot.data().publishedBy, adminUser.uid);
 
+  const publicResponse = await fetch(`${functionBase}/getPublishedWebsiteConfiguration`, {
+    headers: { origin: 'http://127.0.0.1:8080' }
+  });
+  const publicBody = await publicResponse.json();
+  assert.equal(publicResponse.ok, true, JSON.stringify(publicBody));
+  assert.match(publicResponse.headers.get('cache-control') || '', /max-age=30/);
+  assert.deepEqual(Object.keys(publicBody).sort(), ['features', 'revision', 'schemaVersion']);
+  assert.equal(publicBody.schemaVersion, schema.SCHEMA_VERSION);
+  assert.equal(publicBody.revision, 1);
+  assert.equal(publicBody.features['pages.prayer'].state, 'HIDDEN');
+  assert.equal('publishedBy' in publicBody, false);
+  assert.equal('publishedAt' in publicBody, false);
+  assert.equal('sourceDraftRevision' in publicBody, false);
+
+  const publicPostResponse = await fetch(`${functionBase}/getPublishedWebsiteConfiguration`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', origin: 'http://127.0.0.1:8080' },
+    body: '{}'
+  });
+  assert.equal(publicPostResponse.status, 405);
+  assert.deepEqual(await publicPostResponse.json(), { error: 'Method not allowed.' });
+
   const draftRevision = (await db.collection('websiteControlRevisions').get()).docs
     .find((document) => document.data().source === 'draft' && document.data().revision === 1);
   assert.ok(draftRevision, 'The initial Draft revision must be available for restore.');

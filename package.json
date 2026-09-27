@@ -28,6 +28,7 @@
     "test:v21:backend": "npm --prefix functions test",
     "test:v21:backend:lint": "npm --prefix functions run lint",
     "test:v21:admin": "playwright test tests/admin/v21-control-center.spec.ts --project='Desktop Chrome'",
+    "test:v21:adapter": "playwright test tests/website-control/website-control.spec.ts --project='Desktop Chrome'",
     "test:debug": "playwright test --debug",
     "dashboard": "./open-dashboard.sh"
   },
