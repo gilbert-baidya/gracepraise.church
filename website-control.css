@@ -54,6 +54,23 @@ html[data-gpbc-control-mode="ACTIVE"][data-gpbc-control-pending="true"] [data-gp
     outline-offset: 3px;
 }
 
+/* A dependent link remains discoverable in COMING_SOON with a non-colour
+   treatment and accessible label. HIDDEN surfaces use the native hidden state
+   and are removed from layout and keyboard navigation by the adapter. */
+.gpbc-control-coming-soon-link {
+    text-decoration-style: dotted;
+    text-underline-offset: 0.2em;
+}
+
+[data-gpbc-feature-link][hidden] {
+    display: none !important;
+}
+
+.gpbc-control-coming-soon-link:focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+}
+
 @media (max-width: 40rem) {
     .gpbc-route-state {
         min-height: 46vh;

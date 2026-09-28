@@ -12,13 +12,22 @@
     'homepage.community'
   ]);
   const CONTROLLED_ROUTES = Object.freeze({
+    'pages.planVisit': Object.freeze({
+      featureId: 'pages.planVisit',
+      pageName: 'Plan Your Visit',
+      paths: Object.freeze(['/plan-visit.html']),
+      script: 'plan-visit.js',
+      stateSource: 'configured'
+    }),
     'pages.gallery': Object.freeze({
       featureId: 'pages.gallery',
       pageName: 'Gallery',
       paths: Object.freeze(['/gallery.html']),
-      script: 'gallery.js'
+      script: 'gallery.js',
+      stateSource: 'effective'
     })
   });
+  const CONTROLLED_SURFACES = Object.freeze(schema?.CONTROLLED_SURFACE_DEFINITIONS || []);
   const ROUTE_LINKS = Object.freeze({
     'pages.planVisit': ['plan-visit.html'],
     'pages.calendar': ['calendar.html'],
@@ -31,19 +40,8 @@
     'homepage.community': 'Community carousel must tolerate the section being absent.',
     'homepage.planVisit': 'No feature-specific runtime dependency identified.',
     'homepage.welcomeHome': 'No feature-specific runtime dependency identified.',
-    'pages.gallery': 'Gallery page script is loaded only after a LIVE route decision.'
-  });
-  const ROUTE_STATE_COPY = Object.freeze({
-    HIDDEN: Object.freeze({
-      title: 'Gallery Unavailable',
-      message: 'This page is currently unavailable. Please return to the home page for the latest church information.',
-      linkLabel: 'Return Home'
-    }),
-    COMING_SOON: Object.freeze({
-      title: 'Gallery Coming Soon',
-      message: 'Our church gallery is being prepared. Please check back soon.',
-      linkLabel: 'Return Home'
-    })
+    'pages.gallery': 'Gallery page script is loaded only after a LIVE route decision.',
+    'pages.planVisit': 'Plan Your Visit runtime is loaded only after a LIVE route decision.'
   });
 
   const state = {
@@ -56,7 +54,8 @@
     diagnostics: [],
     loadedAt: null,
     routeInitialized: false,
-    routeState: null
+    routeState: null,
+    surfaceObserver: null
   };
 
   function options() {
@@ -87,6 +86,10 @@
     return `[data-gpbc-route-feature="${featureId.replace(/"/g, '')}"]`;
   }
 
+  function surfaceElements(surface) {
+    return [...document.querySelectorAll(surface.selector)];
+  }
+
   function normalizePathname(pathname) {
     let normalized = String(pathname || '/');
     try {
@@ -103,6 +106,20 @@
   function resolveControlledRoute(pathname = window.location.pathname) {
     const normalized = normalizePathname(pathname);
     return Object.values(CONTROLLED_ROUTES).find((route) => route.paths.includes(normalized)) || null;
+  }
+
+  function stateForSurface(surface, config = state.config) {
+    const selectedState = surface.stateSource === 'configured'
+      ? ownState(surface.featureId, config)
+      : resolveState(surface.featureId, config);
+    return selectedState === 'ADMIN_PREVIEW' ? 'HIDDEN' : selectedState;
+  }
+
+  function stateForRoute(route, config = state.config) {
+    const selectedState = route.stateSource === 'configured'
+      ? ownState(route.featureId, config)
+      : resolveState(route.featureId, config);
+    return selectedState === 'ADMIN_PREVIEW' ? 'HIDDEN' : selectedState;
   }
 
   function validatePublishedConfig(payload) {
@@ -170,6 +187,23 @@
       .filter((href) => targets.some((target) => href.split('#')[0].endsWith(target)));
   }
 
+  function surfaceDiagnostics(featureId) {
+    return CONTROLLED_SURFACES
+      .filter((surface) => surface.featureId === featureId)
+      .map((surface) => {
+        const elements = surfaceElements(surface);
+        const expectedAction = stateForSurface(surface, state.config);
+        return {
+          surfaceId: surface.id,
+          dependentSelector: surface.selector,
+          surfaceType: surface.surfaceType,
+          domPresence: elements.length > 0 ? 'PRESENT' : 'ABSENT',
+          expectedActiveAction: expectedAction === 'LIVE' ? 'SHOW_NORMAL' : `CONTROL_${expectedAction}`,
+          actualShadowAction: state.mode === MODES.SHADOW ? 'NONE — SHADOW MODE' : `CONTROL_${expectedAction}`
+        };
+      });
+  }
+
   function buildShadowReport() {
     if (!schema) return [];
     const currentRoute = resolveControlledRoute();
@@ -182,19 +216,22 @@
       const effectiveState = resolveState(featureId, state.config);
       const activeTarget = ACTIVE_TEST_FEATURES.includes(featureId);
       const routeMatch = currentRoute?.featureId === featureId;
+      const routeState = routeMatch ? stateForRoute(currentRoute, state.config) : null;
       const expectedAction = state.mode === MODES.ACTIVE && (activeTarget || routeMatch)
-        ? (routeMatch && effectiveState !== 'LIVE' ? `CONTROLLED_ROUTE_${effectiveState}` : effectiveState)
+        ? (routeMatch && routeState !== 'LIVE' ? `CONTROLLED_ROUTE_${routeState}` : routeState || effectiveState)
         : 'NO_DOM_CHANGE';
       const wouldApply = routeMatch
-        ? (effectiveState === 'LIVE' ? 'LIVE_ROUTE' : `CONTROLLED_ROUTE_${effectiveState}`)
+        ? (routeState === 'LIVE' ? 'LIVE_ROUTE' : `CONTROLLED_ROUTE_${routeState}`)
         : (activeTarget ? effectiveState : 'NO_DOM_CHANGE');
       return {
         featureId,
         configuredState,
         effectiveState,
+        routeState,
         routeMatch: routeMatch ? currentRoute.paths[0] : 'NONE',
         domPresence: elements.length > 0 ? 'PRESENT' : 'ABSENT',
         dependentLinksFound: linksFor(featureId),
+        dependentSurfaces: surfaceDiagnostics(featureId),
         expectedAction,
         wouldApply,
         actualAction: state.mode === MODES.SHADOW ? 'NONE — SHADOW MODE' : expectedAction,
@@ -204,10 +241,66 @@
     });
   }
 
+  function applySurfaceState(surface) {
+    const surfaceState = stateForSurface(surface, state.config);
+    surfaceElements(surface).forEach((element) => {
+      const target = surface.hideContainer ? element.closest(surface.hideContainer) || element : element;
+      if (!Object.prototype.hasOwnProperty.call(element.dataset, 'gpbcOriginalTabIndex')) {
+        element.dataset.gpbcOriginalTabIndex = element.getAttribute('tabindex') || '';
+      }
+      if (!Object.prototype.hasOwnProperty.call(element.dataset, 'gpbcOriginalAriaLabel')) {
+        element.dataset.gpbcOriginalAriaLabel = element.getAttribute('aria-label') || '';
+      }
+
+      target.dataset.gpbcControlState = surfaceState;
+      element.dataset.gpbcControlState = surfaceState;
+      target.classList.toggle('gpbc-control-coming-soon', surfaceState === 'COMING_SOON');
+      element.classList.toggle('gpbc-control-coming-soon-link', surfaceState === 'COMING_SOON');
+
+      if (surfaceState === 'HIDDEN') {
+        target.hidden = true;
+        target.setAttribute('aria-hidden', 'true');
+        target.setAttribute('inert', '');
+        element.tabIndex = -1;
+        return;
+      }
+
+      target.hidden = false;
+      target.removeAttribute('aria-hidden');
+      target.removeAttribute('inert');
+      const originalTabIndex = element.dataset.gpbcOriginalTabIndex;
+      if (originalTabIndex) element.setAttribute('tabindex', originalTabIndex);
+      else element.removeAttribute('tabindex');
+
+      if (surfaceState === 'COMING_SOON') {
+        const originalLabel = element.dataset.gpbcOriginalAriaLabel || element.textContent.replace(/\s+/g, ' ').trim();
+        element.setAttribute('aria-label', `${originalLabel} — coming soon`);
+        element.title = 'Coming soon';
+      } else {
+        const originalAriaLabel = element.dataset.gpbcOriginalAriaLabel;
+        if (originalAriaLabel) element.setAttribute('aria-label', originalAriaLabel);
+        else element.removeAttribute('aria-label');
+        element.removeAttribute('title');
+      }
+    });
+  }
+
+  function applyControlledSurfaces() {
+    if (state.mode !== MODES.ACTIVE || !state.config) return;
+    CONTROLLED_SURFACES.forEach(applySurfaceState);
+  }
+
+  function observeControlledSurfaces() {
+    if (state.surfaceObserver || !document.body || typeof MutationObserver !== 'function') return;
+    state.surfaceObserver = new MutationObserver(() => applyControlledSurfaces());
+    state.surfaceObserver.observe(document.body, { childList: true, subtree: true });
+  }
+
   function applyActiveMode() {
     if (state.mode !== MODES.ACTIVE || !state.config) return;
 
-    ACTIVE_TEST_FEATURES.forEach((featureId) => {
+    const surfaceFeatureIds = new Set(CONTROLLED_SURFACES.map((surface) => surface.featureId));
+    ACTIVE_TEST_FEATURES.filter((featureId) => !surfaceFeatureIds.has(featureId)).forEach((featureId) => {
       const effectiveState = resolveState(featureId, state.config);
       document.querySelectorAll(featureSelector(featureId)).forEach((element) => {
         element.dataset.gpbcControlState = effectiveState;
@@ -221,6 +314,8 @@
         }
       });
     });
+    applyControlledSurfaces();
+    observeControlledSurfaces();
   }
 
   function setBoundaryState(status, pending = false) {
@@ -243,7 +338,7 @@
   }
 
   function updateRouteMetadata(route, routeState) {
-    const copy = ROUTE_STATE_COPY[routeState];
+    const copy = routeStateCopy(route, routeState);
     if (!copy) return;
 
     document.title = `${copy.title} | Grace and Praise Bangladeshi Church`;
@@ -262,6 +357,34 @@
     robots.content = 'noindex, nofollow';
   }
 
+  function routeStateCopy(route, routeState) {
+    if (!['HIDDEN', 'COMING_SOON'].includes(routeState)) return null;
+    if (route.featureId === 'pages.gallery') {
+      return routeState === 'HIDDEN'
+        ? {
+            title: 'Gallery Unavailable',
+            message: 'This page is currently unavailable. Please return to the home page for the latest church information.',
+            linkLabel: 'Return Home'
+          }
+        : {
+            title: 'Gallery Coming Soon',
+            message: 'Our church gallery is being prepared. Please check back soon.',
+            linkLabel: 'Return Home'
+          };
+    }
+    return routeState === 'HIDDEN'
+      ? {
+          title: `${route.pageName} Unavailable`,
+          message: 'This page is currently unavailable. Please return to the home page for the latest church information.',
+          linkLabel: 'Return Home'
+        }
+      : {
+          title: `${route.pageName} Coming Soon`,
+          message: `Our ${route.pageName.toLowerCase()} page is being prepared. Please check back soon.`,
+          linkLabel: 'Return Home'
+        };
+  }
+
   function removeRouteState() {
     const stateElement = document.getElementById('gpbc-route-state');
     if (stateElement) stateElement.remove();
@@ -277,7 +400,7 @@
   }
 
   function renderControlledRouteState(route, routeState) {
-    const copy = ROUTE_STATE_COPY[routeState];
+    const copy = routeStateCopy(route, routeState);
     if (!copy) return;
 
     controlledRouteElements(route).forEach((element) => {
@@ -332,7 +455,7 @@
 
     state.routeInitialized = true;
     const activeDecision = state.mode === MODES.ACTIVE && state.config
-      ? resolveState(route.featureId, state.config)
+      ? stateForRoute(route, state.config)
       : 'LIVE';
 
     if (state.mode === MODES.ACTIVE && ['HIDDEN', 'COMING_SOON'].includes(activeDecision)) {
@@ -442,6 +565,7 @@
     DEFAULT_MODE,
     ACTIVE_TEST_FEATURES,
     CONTROLLED_ROUTES,
+    CONTROLLED_SURFACES,
     load,
     getState: snapshot,
     getPublishedConfig: () => state.config ? JSON.parse(JSON.stringify(state.config)) : null,

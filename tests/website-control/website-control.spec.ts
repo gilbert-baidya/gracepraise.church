@@ -262,6 +262,220 @@ test.describe('V21 public website-control adapter', () => {
     }
   });
 
+  test('Plan Your Visit route controls page content and skips page runtime when unavailable', async ({ page }) => {
+    const pageErrors: string[] = [];
+    page.on('pageerror', (error) => pageErrors.push(error.message));
+    let currentState: FeatureState = 'LIVE';
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.planVisit': currentState }))
+      });
+    });
+    await configurePage(page, 'ACTIVE');
+
+    for (const state of ['LIVE', 'HIDDEN', 'COMING_SOON', 'ADMIN_PREVIEW'] as FeatureState[]) {
+      currentState = state;
+      await page.goto('/plan-visit.html', { waitUntil: 'domcontentloaded' });
+      await waitForAdapter(page);
+      const publicState = state === 'ADMIN_PREVIEW' ? 'HIDDEN' : state;
+      if (publicState === 'LIVE') {
+        expect(await page.locator('#main-content').isHidden()).toBe(false);
+        await expect(page.locator('script[data-gpbc-route-script="pages.planVisit"]')).toHaveCount(1);
+        await expect(page.locator('#addToGoogleCal')).not.toHaveAttribute('href', '#');
+        expect(await page.locator('#upcomingHighlights').count()).toBe(1);
+      } else {
+        await expect(page.locator('#gpbc-route-state h1')).toHaveText(`Plan Your Visit ${publicState === 'HIDDEN' ? 'Unavailable' : 'Coming Soon'}`);
+        expect(await page.locator('#main-content').isHidden()).toBe(true);
+        expect(await page.locator('script[data-gpbc-route-script="pages.planVisit"]').count()).toBe(0);
+        expect(await page.locator('meta[name="robots"]').getAttribute('content')).toBe('noindex, nofollow');
+      }
+      expect(await page.locator('header').isVisible()).toBe(true);
+    }
+    expect(pageErrors).toEqual([]);
+  });
+
+  test('Plan Your Visit homepage/page combination matrix controls dependent surfaces without broken links', async ({ page }) => {
+    let currentConfig = publishedConfig();
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(currentConfig)
+      });
+    });
+    await configurePage(page, 'ACTIVE');
+
+    const combinations: Array<[FeatureState, FeatureState, boolean, boolean, boolean]> = [
+      ['LIVE', 'LIVE', false, false, false],
+      ['HIDDEN', 'LIVE', true, false, false],
+      ['LIVE', 'HIDDEN', false, true, false],
+      ['LIVE', 'COMING_SOON', false, false, true],
+      ['LIVE', 'ADMIN_PREVIEW', false, true, false],
+      ['HIDDEN', 'HIDDEN', true, true, false]
+    ];
+
+    for (const [homepageState, pageState, sectionHidden, linksHidden, linksComingSoon] of combinations) {
+      currentConfig = publishedConfig({
+        'homepage.planVisit': homepageState,
+        'pages.planVisit': pageState
+      });
+      await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+      await waitForAdapter(page);
+      await expect(page.locator('[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="footer"]')).toHaveCount(5);
+
+      expect(await marker(page, 'homepage.planVisit')).toMatchObject({
+        hidden: sectionHidden,
+        controlState: homepageState === 'ADMIN_PREVIEW' ? 'HIDDEN' : homepageState
+      });
+      const links = await page.locator('[data-gpbc-feature-link="pages.planVisit"]').evaluateAll((elements) => elements.map((element) => {
+        const target = element.closest('li') || element;
+        return {
+          hidden: (target as HTMLElement).hidden,
+          ariaHidden: target.getAttribute('aria-hidden'),
+          tabIndex: (element as HTMLAnchorElement).tabIndex,
+          comingSoon: element.classList.contains('gpbc-control-coming-soon-link'),
+          ariaLabel: element.getAttribute('aria-label') || ''
+        };
+      }));
+      expect(links.length).toBe(9);
+      expect(links.every((link) => link.hidden === linksHidden)).toBe(true);
+      expect(links.every((link) => link.tabIndex === -1)).toBe(linksHidden);
+      expect(links.every((link) => link.comingSoon === linksComingSoon)).toBe(true);
+      if (linksComingSoon) expect(links.every((link) => link.ariaLabel.toLowerCase().includes('coming soon'))).toBe(true);
+
+      const planVisitReport = await page.evaluate(() => (window as any).GPBCWebsiteControl
+        .buildShadowReport()
+        .find((entry: any) => entry.featureId === 'pages.planVisit'));
+      expect(planVisitReport.dependentSurfaces).toEqual(expect.arrayContaining([
+        expect.objectContaining({ surfaceType: 'homepage-cta', dependentSelector: expect.stringContaining('data-gpbc-feature-link') }),
+        expect.objectContaining({ surfaceType: 'footer-link', domPresence: 'PRESENT' })
+      ]));
+    }
+  });
+
+  test('Plan Your Visit dependent surfaces preserve navigation framework and shadow diagnostics', async ({ page }) => {
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.planVisit': 'HIDDEN' }))
+      });
+    });
+    await configurePage(page, 'SHADOW');
+    await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    await expect(page.locator('[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="footer"]')).toHaveCount(5);
+
+    const diagnostics = await page.evaluate(() => {
+      const report = (window as any).GPBCWebsiteControl.buildShadowReport();
+      return report.find((entry: any) => entry.featureId === 'pages.planVisit');
+    });
+    expect(diagnostics.dependentSurfaces).toEqual(expect.arrayContaining([
+      expect.objectContaining({ surfaceType: 'homepage-cta', domPresence: 'PRESENT', expectedActiveAction: 'CONTROL_HIDDEN', actualShadowAction: 'NONE — SHADOW MODE' }),
+      expect.objectContaining({ surfaceType: 'footer-link', domPresence: 'PRESENT' })
+    ]));
+    expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"]:visible').count()).toBe(9);
+    expect(await page.locator('header .nav-links').isVisible()).toBe(true);
+    await page.setViewportSize({ width: 390, height: 900 });
+    expect(await page.locator('header .mobile-menu-btn').isVisible()).toBe(true);
+    expect(await page.locator('header .nav-links').count()).toBe(1);
+    expect(await page.locator('header [data-gpbc-feature-link="pages.planVisit"]').count()).toBe(0);
+  });
+
+  test('shared footer bootstrap applies Plan Your Visit control on secondary pages', async ({ page }) => {
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.planVisit': 'HIDDEN' }))
+      });
+    });
+    await configurePage(page, 'ACTIVE');
+    await page.goto('/contact.html', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    await expect(page.locator('[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="footer"]')).toHaveCount(5);
+    expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="contact-cta"]').isHidden()).toBe(true);
+    expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"]').evaluateAll((elements) => elements.every((element) => {
+      const target = element.closest('li') || element;
+      return (target as HTMLElement).hidden && (element as HTMLAnchorElement).tabIndex === -1;
+    }))).toBe(true);
+    expect(await page.locator('#main-content').isHidden()).toBe(false);
+  });
+
+  test('Plan Your Visit route failure matrix always preserves the existing page', async ({ page }) => {
+    const failures: DeliveryFailure[] = [
+      { name: '404', status: 404, body: JSON.stringify({ error: 'not found' }) },
+      { name: '500', status: 500, body: JSON.stringify({ error: 'temporary failure' }) },
+      { name: 'malformed JSON', status: 200, body: 'not-json' },
+      { name: 'unsupported schema', status: 200, body: JSON.stringify({ ...publishedConfig(), schemaVersion: 999 }) },
+      { name: 'missing revision', status: 200, body: JSON.stringify({ schemaVersion: schema.SCHEMA_VERSION, features: publishedConfig().features }) },
+      { name: 'missing pages.planVisit', status: 200, body: JSON.stringify({ ...publishedConfig(), features: { ...publishedConfig().features, 'pages.planVisit': undefined } }) },
+      { name: 'malformed dependency metadata', status: 200, body: JSON.stringify({ ...publishedConfig(), features: { ...publishedConfig().features, 'pages.planVisit': { state: 'LIVE', dependencies: ['homepage.planVisit'] } } }) },
+      { name: 'offline', status: 200, abort: true, body: '' },
+      { name: 'timeout', status: 200, delay: 1400, body: JSON.stringify(publishedConfig()) }
+    ];
+    let failure = failures[0];
+    await page.route(endpointRoute, async (route) => {
+      if (failure.abort) {
+        await route.abort('failed');
+        return;
+      }
+      if (failure.delay) await new Promise((resolve) => setTimeout(resolve, failure.delay));
+      await route.fulfill({ status: failure.status, contentType: 'application/json', body: failure.body });
+    });
+    await configurePage(page, 'ACTIVE');
+
+    for (const nextFailure of failures) {
+      failure = nextFailure;
+      await page.goto('/plan-visit.html', { waitUntil: 'domcontentloaded' });
+      await waitForAdapter(page);
+      expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState())).toMatchObject({
+        status: 'fallback',
+        source: 'fallback',
+        revision: null
+      });
+      expect(await page.locator('#main-content').isHidden(), nextFailure.name).toBe(false);
+      expect(await page.locator('#gpbc-route-state').count(), nextFailure.name).toBe(0);
+      await expect(page.locator('script[data-gpbc-route-script="pages.planVisit"]')).toHaveCount(1);
+      await expect.poll(() => page.locator('#addToGoogleCal').getAttribute('href'), { timeout: 10000 }).not.toBe('#');
+    }
+  });
+
+  test('Plan Your Visit states remain responsive, themed, and reject public preview hints', async ({ page }) => {
+    let currentState: FeatureState = 'COMING_SOON';
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.planVisit': currentState }))
+      });
+    });
+    await page.addInitScript(() => localStorage.setItem('theme', 'dark'));
+    await configurePage(page, 'ACTIVE');
+
+    for (const state of ['LIVE', 'HIDDEN', 'COMING_SOON', 'ADMIN_PREVIEW'] as FeatureState[]) {
+      currentState = state;
+      for (const width of [375, 390, 768, 1024, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto('/plan-visit.html?preview=true&admin=true', { waitUntil: 'domcontentloaded' });
+        await waitForAdapter(page);
+        const overflow = await page.evaluate(() => ({
+          scrollWidth: document.documentElement.scrollWidth,
+          clientWidth: document.documentElement.clientWidth
+        }));
+        expect(overflow.scrollWidth, `${state} horizontal overflow at ${width}px`).toBeLessThanOrEqual(overflow.clientWidth);
+        expect(await page.locator('header').isVisible()).toBe(true);
+        expect(await page.locator('html').getAttribute('data-theme')).toBe('dark');
+        expect(await page.locator('#main-content').isHidden()).toBe(state !== 'LIVE');
+        expect(await page.locator('.gpbc-route-state__link').isVisible()).toBe(state !== 'LIVE');
+        expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState().routeState)).toBe(state === 'LIVE' ? null : (state === 'ADMIN_PREVIEW' ? 'HIDDEN' : state));
+        expect(await page.locator('#darkModeToggle').isVisible()).toBe(true);
+      }
+    }
+  });
+
   test('Gallery route control suppresses normal content and page script for HIDDEN and COMING_SOON', async ({ page }) => {
     const pageErrors: string[] = [];
     page.on('pageerror', (error) => pageErrors.push(error.message));

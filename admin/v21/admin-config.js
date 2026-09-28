@@ -114,6 +114,16 @@
     return map;
   }, {}));
 
+  const CONTROLLED_SURFACE_DEFINITIONS = Object.freeze([
+    { id: 'homepage.planVisit.section', featureId: 'homepage.planVisit', surfaceType: 'homepage-section' },
+    { id: 'homepage.planVisit.cta', featureId: 'pages.planVisit', surfaceType: 'homepage-cta' },
+    { id: 'about.planVisit.cta', featureId: 'pages.planVisit', surfaceType: 'about-cta' },
+    { id: 'contact.planVisit.cta', featureId: 'pages.planVisit', surfaceType: 'contact-cta' },
+    { id: 'positionPapers.planVisit.cta', featureId: 'pages.planVisit', surfaceType: 'position-papers-cta' },
+    { id: 'navigation.planVisit.link', featureId: 'pages.planVisit', surfaceType: 'navigation-link' },
+    { id: 'footer.planVisit.link', featureId: 'pages.planVisit', surfaceType: 'footer-link' }
+  ]);
+
   const validState = (state) => Object.prototype.hasOwnProperty.call(FEATURE_STATES, state);
 
   function createDefaultConfig() {
@@ -237,6 +247,7 @@
     FEATURE_STATE_LABELS,
     FEATURE_STATE_DESCRIPTIONS,
     FEATURE_REGISTRY,
+    CONTROLLED_SURFACE_DEFINITIONS,
     PROTECTED_COMPONENTS,
     createDefaultConfig,
     createDraftConfig,

@@ -79,6 +79,69 @@ const FEATURE_ID_SET = new Set(FEATURE_IDS);
 const STATE_SET = new Set(ALLOWED_STATES);
 const FEATURE_MAP_KEYS = Object.freeze(['state']);
 
+// Surface metadata is intentionally separate from feature dependencies. A
+// feature may depend on another feature for admin impact reporting while a
+// public surface still needs its own configured state (for example, the
+// homepage visit section can remain visible while its destination is hidden).
+const CONTROLLED_SURFACE_DEFINITIONS = Object.freeze([
+  {
+    id: 'homepage.planVisit.section',
+    featureId: 'homepage.planVisit',
+    surfaceType: 'homepage-section',
+    selector: '[data-gpbc-feature="homepage.planVisit"]',
+    stateSource: 'configured',
+    hideContainer: null
+  },
+  {
+    id: 'homepage.planVisit.cta',
+    featureId: 'pages.planVisit',
+    surfaceType: 'homepage-cta',
+    selector: '[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="homepage-cta"]',
+    stateSource: 'configured',
+    hideContainer: null
+  },
+  {
+    id: 'about.planVisit.cta',
+    featureId: 'pages.planVisit',
+    surfaceType: 'about-cta',
+    selector: '[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="about-cta"]',
+    stateSource: 'configured',
+    hideContainer: null
+  },
+  {
+    id: 'contact.planVisit.cta',
+    featureId: 'pages.planVisit',
+    surfaceType: 'contact-cta',
+    selector: '[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="contact-cta"]',
+    stateSource: 'configured',
+    hideContainer: null
+  },
+  {
+    id: 'positionPapers.planVisit.cta',
+    featureId: 'pages.planVisit',
+    surfaceType: 'position-papers-cta',
+    selector: '[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="position-papers-cta"]',
+    stateSource: 'configured',
+    hideContainer: null
+  },
+  {
+    id: 'navigation.planVisit.link',
+    featureId: 'pages.planVisit',
+    surfaceType: 'navigation-link',
+    selector: '[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="navigation"]',
+    stateSource: 'configured',
+    hideContainer: 'li'
+  },
+  {
+    id: 'footer.planVisit.link',
+    featureId: 'pages.planVisit',
+    surfaceType: 'footer-link',
+    selector: '[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="footer"]',
+    stateSource: 'configured',
+    hideContainer: 'li'
+  }
+].map((surface) => Object.freeze(surface)));
+
 function isRecord(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }
@@ -187,6 +250,7 @@ const exportedSchema = Object.freeze({
   ALLOWED_STATES,
   FEATURE_DEFINITIONS,
   FEATURE_IDS,
+  CONTROLLED_SURFACE_DEFINITIONS,
   validateFeatureMap,
   validateDraftPayload,
   validateStoredDocument,

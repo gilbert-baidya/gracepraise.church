@@ -2,16 +2,16 @@ export const footerConfig = {
     ctaActions: [],
     navGroups: {
         visit: [
-            { label: 'Sunday Worship', url: 'plan-visit.html' },
-            { label: '5:00 PM', url: 'plan-visit.html' },
+            { label: 'Sunday Worship', url: 'plan-visit.html', featureId: 'pages.planVisit', surface: 'footer' },
+            { label: '5:00 PM', url: 'plan-visit.html', featureId: 'pages.planVisit', surface: 'footer' },
             { label: 'Saturday Fasting Prayer — 12:00 PM', url: 'calendar.html' },
             { label: 'Friday Instrument Lesson — 5:30 PM', url: 'calendar.html' },
             { label: 'Friday Worship Practice — 6:30 PM', url: 'calendar.html' }
         ],
         connect: [
-            { label: '1325 Richardson Street', url: 'plan-visit.html' },
-            { label: 'San Bernardino, CA 92408', url: 'plan-visit.html' },
-            { label: 'Plan Your Visit →', url: 'plan-visit.html' }
+            { label: '1325 Richardson Street', url: 'plan-visit.html', featureId: 'pages.planVisit', surface: 'footer' },
+            { label: 'San Bernardino, CA 92408', url: 'plan-visit.html', featureId: 'pages.planVisit', surface: 'footer' },
+            { label: 'Plan Your Visit →', url: 'plan-visit.html', featureId: 'pages.planVisit', surface: 'footer' }
         ],
         devotions: [
             { label: 'Our Story', url: 'history.html' },

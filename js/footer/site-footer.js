@@ -70,7 +70,10 @@ function buildLinkList(links) {
     let html = '<ul class="footer-link-list">';
     links.forEach(link => {
         const externalAttributes = link.external ? ' target="_blank" rel="noopener noreferrer"' : '';
-        html += `<li><a href="${resolveFooterUrl(link.url)}" class="footer-link"${externalAttributes}>${link.label}</a></li>`;
+        const featureAttributes = link.featureId
+            ? ` data-gpbc-feature-link="${link.featureId}" data-gpbc-surface="${link.surface || 'link'}"`
+            : '';
+        html += `<li><a href="${resolveFooterUrl(link.url)}" class="footer-link"${featureAttributes}${externalAttributes}>${link.label}</a></li>`;
     });
     html += '</ul>';
     return html;
