@@ -35,7 +35,7 @@ exports.getWebsiteDraftPreview = expose((data, context) => service.getWebsiteDra
 exports.publishWebsiteConfiguration = expose((data, context) => service.publishWebsiteConfiguration(data, context));
 exports.restoreWebsiteRevision = expose((data, context) => service.restoreWebsiteRevision(data, context));
 
-exports.getPublishedWebsiteConfiguration = onRequest({ cors: true }, async (request, response) => {
+exports.getPublishedWebsiteConfiguration = onRequest({ cors: true, invoker: 'public' }, async (request, response) => {
   if (request.method !== 'GET') {
     response.set('Allow', 'GET');
     response.set('Cache-Control', 'no-store');
