@@ -58,6 +58,9 @@
     <link rel="stylesheet" href="logo-loading.css">
     <link rel="stylesheet" href="logo-styles.css">
     <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
+    <link rel="stylesheet" href="website-control.css">
+    <script src="shared/website-control-schema.js" defer></script>
+    <script src="website-control.js" defer></script>
     
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -525,7 +528,7 @@
         </div>
     </div>
 
-    <main id="main-content">
+    <main id="main-content" data-gpbc-route-feature="pages.gallery">
         <section class="gallery-hero hero">
             <div class="hero-content">
                 <div class="hero-text">
@@ -559,7 +562,7 @@
         </section>
     </main>
 
-    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="lightbox" id="lightbox" data-gpbc-route-feature="pages.gallery" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
         <button type="button" class="lightbox-close" onclick="closeLightbox()" aria-label="Close photo lightbox">&times;</button>
         <div class="lightbox-content">
             <img loading="lazy" id="lightboxImg" src="" alt="Expanded church gallery photo">
@@ -577,7 +580,6 @@
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260918-v11-theme-final3"></script>
     <script src="countdown.js"></script>
-    <script src="gallery.js"></script>
     <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loader.js"></script>
 

@@ -2,3 +2,64 @@
 html[data-gpbc-control-mode="ACTIVE"][data-gpbc-control-pending="true"] [data-gpbc-feature] {
     visibility: hidden;
 }
+
+/* Route-controlled content stays in flow until the published decision arrives. */
+html[data-gpbc-control-mode="ACTIVE"][data-gpbc-control-pending="true"] [data-gpbc-route-feature] {
+    visibility: hidden;
+}
+
+.gpbc-route-state {
+    display: grid;
+    min-height: min(52vh, 34rem);
+    place-items: center;
+    padding: clamp(3rem, 8vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+    text-align: center;
+}
+
+.gpbc-route-state__panel {
+    width: min(100%, 42rem);
+    padding: clamp(2rem, 5vw, 4rem);
+    border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    border-radius: 1.25rem;
+    background: color-mix(in srgb, Canvas 94%, currentColor 6%);
+    box-shadow: 0 1rem 3rem color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.gpbc-route-state__panel h1 {
+    margin: 0;
+}
+
+.gpbc-route-state__panel p {
+    max-width: 34rem;
+    margin: 1rem auto 0;
+    line-height: 1.7;
+}
+
+.gpbc-route-state__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.1rem;
+    border-radius: 999px;
+    background: currentColor;
+    color: Canvas;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.gpbc-route-state__link:focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+}
+
+@media (max-width: 40rem) {
+    .gpbc-route-state {
+        min-height: 46vh;
+    }
+
+    .gpbc-route-state__panel {
+        padding: 1.75rem 1.25rem;
+    }
+}

@@ -1,6 +1,7 @@
 let allPhotos = [];
 let currentFilter = 'all';
 let previousFocusedElement = null;
+let galleryInitialized = false;
 
 async function loadGalleryPhotos() {
     try {
@@ -103,16 +104,6 @@ function displayPhotos() {
     });
 }
 
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        currentFilter = btn.dataset.category;
-        displayPhotos();
-    });
-});
-
 function openLightbox(index, photos) {
     const photo = photos[index];
     const lightbox = document.getElementById('lightbox');
@@ -152,36 +143,60 @@ function closeLightbox() {
     }
 }
 
-document.addEventListener('keydown', (e) => {
-    const lightbox = document.getElementById('lightbox');
-    if (!lightbox || !lightbox.classList.contains('active')) return;
+function initGallery() {
+    if (galleryInitialized) return;
+    galleryInitialized = true;
 
-    if (e.key === 'Escape') {
-        closeLightbox();
-        return;
-    }
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-    if (e.key === 'Tab') {
-        const focusables = lightbox.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        if (!focusables.length) return;
+            currentFilter = btn.dataset.category;
+            displayPhotos();
+        });
+    });
 
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
+    document.addEventListener('keydown', (e) => {
+        const lightbox = document.getElementById('lightbox');
+        if (!lightbox || !lightbox.classList.contains('active')) return;
 
-        if (e.shiftKey && document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
+        if (e.key === 'Escape') {
+            closeLightbox();
+            return;
         }
-    }
-});
 
-document.getElementById('lightbox').addEventListener('click', (e) => {
-    if (e.target.id === 'lightbox') {
-        closeLightbox();
-    }
-});
+        if (e.key === 'Tab') {
+            const focusables = lightbox.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (!focusables.length) return;
 
-document.addEventListener('DOMContentLoaded', loadGalleryPhotos);
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+    });
+
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+        lightbox.addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+    }
+
+    loadGalleryPhotos();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGallery, { once: true });
+} else {
+    initGallery();
+}

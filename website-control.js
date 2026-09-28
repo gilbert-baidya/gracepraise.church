@@ -11,17 +11,39 @@
     'homepage.welcomeHome',
     'homepage.community'
   ]);
+  const CONTROLLED_ROUTES = Object.freeze({
+    'pages.gallery': Object.freeze({
+      featureId: 'pages.gallery',
+      pageName: 'Gallery',
+      paths: Object.freeze(['/gallery.html']),
+      script: 'gallery.js'
+    })
+  });
   const ROUTE_LINKS = Object.freeze({
     'pages.planVisit': ['plan-visit.html'],
     'pages.calendar': ['calendar.html'],
     'pages.about': ['about.html'],
     'pages.prayer': ['prayer-request.html'],
-    'pages.giving': ['give.html']
+    'pages.giving': ['give.html'],
+    'pages.gallery': ['gallery.html']
   });
   const JS_RISK_NOTES = Object.freeze({
     'homepage.community': 'Community carousel must tolerate the section being absent.',
     'homepage.planVisit': 'No feature-specific runtime dependency identified.',
-    'homepage.welcomeHome': 'No feature-specific runtime dependency identified.'
+    'homepage.welcomeHome': 'No feature-specific runtime dependency identified.',
+    'pages.gallery': 'Gallery page script is loaded only after a LIVE route decision.'
+  });
+  const ROUTE_STATE_COPY = Object.freeze({
+    HIDDEN: Object.freeze({
+      title: 'Gallery Unavailable',
+      message: 'This page is currently unavailable. Please return to the home page for the latest church information.',
+      linkLabel: 'Return Home'
+    }),
+    COMING_SOON: Object.freeze({
+      title: 'Gallery Coming Soon',
+      message: 'Our church gallery is being prepared. Please check back soon.',
+      linkLabel: 'Return Home'
+    })
   });
 
   const state = {
@@ -32,7 +54,9 @@
     config: null,
     error: null,
     diagnostics: [],
-    loadedAt: null
+    loadedAt: null,
+    routeInitialized: false,
+    routeState: null
   };
 
   function options() {
@@ -57,6 +81,28 @@
 
   function featureSelector(featureId) {
     return `[data-gpbc-feature="${featureId.replace(/"/g, '')}"]`;
+  }
+
+  function routeFeatureSelector(featureId) {
+    return `[data-gpbc-route-feature="${featureId.replace(/"/g, '')}"]`;
+  }
+
+  function normalizePathname(pathname) {
+    let normalized = String(pathname || '/');
+    try {
+      normalized = new URL(normalized, window.location.origin).pathname;
+    } catch (error) {
+      normalized = normalized.split('?')[0].split('#')[0];
+    }
+    normalized = normalized.replace(/\\/g, '/').replace(/\/+/g, '/');
+    if (!normalized.startsWith('/')) normalized = `/${normalized}`;
+    if (normalized.length > 1) normalized = normalized.replace(/\/+$/, '');
+    return normalized || '/';
+  }
+
+  function resolveControlledRoute(pathname = window.location.pathname) {
+    const normalized = normalizePathname(pathname);
+    return Object.values(CONTROLLED_ROUTES).find((route) => route.paths.includes(normalized)) || null;
   }
 
   function validatePublishedConfig(payload) {
@@ -126,19 +172,33 @@
 
   function buildShadowReport() {
     if (!schema) return [];
+    const currentRoute = resolveControlledRoute();
     return schema.FEATURE_IDS.map((featureId) => {
-      const elements = [...document.querySelectorAll(featureSelector(featureId))];
+      const elements = [
+        ...document.querySelectorAll(featureSelector(featureId)),
+        ...document.querySelectorAll(routeFeatureSelector(featureId))
+      ];
       const configuredState = ownState(featureId, state.config);
       const effectiveState = resolveState(featureId, state.config);
       const activeTarget = ACTIVE_TEST_FEATURES.includes(featureId);
+      const routeMatch = currentRoute?.featureId === featureId;
+      const expectedAction = state.mode === MODES.ACTIVE && (activeTarget || routeMatch)
+        ? (routeMatch && effectiveState !== 'LIVE' ? `CONTROLLED_ROUTE_${effectiveState}` : effectiveState)
+        : 'NO_DOM_CHANGE';
+      const wouldApply = routeMatch
+        ? (effectiveState === 'LIVE' ? 'LIVE_ROUTE' : `CONTROLLED_ROUTE_${effectiveState}`)
+        : (activeTarget ? effectiveState : 'NO_DOM_CHANGE');
       return {
         featureId,
         configuredState,
         effectiveState,
+        routeMatch: routeMatch ? currentRoute.paths[0] : 'NONE',
         domPresence: elements.length > 0 ? 'PRESENT' : 'ABSENT',
         dependentLinksFound: linksFor(featureId),
-        expectedAction: state.mode === MODES.ACTIVE && activeTarget ? effectiveState : 'NO_DOM_CHANGE',
-        potentialJsRisk: JS_RISK_NOTES[featureId] || 'Not assessed for Phase 5 ACTIVE mode.',
+        expectedAction,
+        wouldApply,
+        actualAction: state.mode === MODES.SHADOW ? 'NONE — SHADOW MODE' : expectedAction,
+        potentialJsRisk: JS_RISK_NOTES[featureId] || 'Not assessed for Phase 6 ACTIVE mode.',
         potentialLayoutRisk: elements.length > 0 ? 'Review section collapse and adjoining spacing.' : 'No marked DOM boundary found.'
       };
     });
@@ -173,6 +233,118 @@
     }
   }
 
+  function controlledRouteElements(route) {
+    return [...document.querySelectorAll(routeFeatureSelector(route.featureId))];
+  }
+
+  function setMetaContent(selector, content) {
+    const meta = document.querySelector(selector);
+    if (meta) meta.setAttribute('content', content);
+  }
+
+  function updateRouteMetadata(route, routeState) {
+    const copy = ROUTE_STATE_COPY[routeState];
+    if (!copy) return;
+
+    document.title = `${copy.title} | Grace and Praise Bangladeshi Church`;
+    setMetaContent('meta[name="description"]', copy.message);
+    setMetaContent('meta[property="og:title"]', document.title);
+    setMetaContent('meta[property="og:description"]', copy.message);
+    setMetaContent('meta[name="twitter:title"]', document.title);
+    setMetaContent('meta[name="twitter:description"]', copy.message);
+
+    let robots = document.querySelector('meta[name="robots"]');
+    if (!robots) {
+      robots = document.createElement('meta');
+      robots.name = 'robots';
+      document.head.appendChild(robots);
+    }
+    robots.content = 'noindex, nofollow';
+  }
+
+  function removeRouteState() {
+    const stateElement = document.getElementById('gpbc-route-state');
+    if (stateElement) stateElement.remove();
+    state.routeState = null;
+  }
+
+  function restoreRouteElements(route) {
+    controlledRouteElements(route).forEach((element) => {
+      element.hidden = false;
+      element.removeAttribute('aria-hidden');
+      element.removeAttribute('inert');
+    });
+  }
+
+  function renderControlledRouteState(route, routeState) {
+    const copy = ROUTE_STATE_COPY[routeState];
+    if (!copy) return;
+
+    controlledRouteElements(route).forEach((element) => {
+      element.hidden = true;
+      element.setAttribute('aria-hidden', 'true');
+      element.setAttribute('inert', '');
+    });
+
+    let stateElement = document.getElementById('gpbc-route-state');
+    if (!stateElement) {
+      stateElement = document.createElement('main');
+      stateElement.id = 'gpbc-route-state';
+      stateElement.className = 'gpbc-route-state';
+      const anchor = controlledRouteElements(route)[0];
+      if (anchor?.parentNode) anchor.parentNode.insertBefore(stateElement, anchor);
+      else document.body.appendChild(stateElement);
+    }
+
+    const titleId = 'gpbc-route-state-title';
+    stateElement.replaceChildren();
+    stateElement.setAttribute('aria-labelledby', titleId);
+
+    const panel = document.createElement('div');
+    panel.className = 'gpbc-route-state__panel';
+    const title = document.createElement('h1');
+    title.id = titleId;
+    title.textContent = copy.title;
+    const message = document.createElement('p');
+    message.textContent = copy.message;
+    const link = document.createElement('a');
+    link.className = 'gpbc-route-state__link';
+    link.href = 'index.html#home';
+    link.textContent = copy.linkLabel;
+    panel.append(title, message, link);
+    stateElement.appendChild(panel);
+    state.routeState = routeState;
+    updateRouteMetadata(route, routeState);
+  }
+
+  function loadControlledRouteScript(route) {
+    if (!route.script || document.querySelector(`script[data-gpbc-route-script="${route.featureId}"]`)) return;
+    const script = document.createElement('script');
+    script.dataset.gpbcRouteScript = route.featureId;
+    script.src = new URL(route.script, window.location.href).href;
+    document.body.appendChild(script);
+  }
+
+  function initializeControlledRoute() {
+    if (state.routeInitialized) return;
+    const route = resolveControlledRoute();
+    if (!route) return;
+
+    state.routeInitialized = true;
+    const activeDecision = state.mode === MODES.ACTIVE && state.config
+      ? resolveState(route.featureId, state.config)
+      : 'LIVE';
+
+    if (state.mode === MODES.ACTIVE && ['HIDDEN', 'COMING_SOON'].includes(activeDecision)) {
+      renderControlledRouteState(route, activeDecision);
+      return;
+    }
+
+    removeRouteState();
+    restoreRouteElements(route);
+    loadControlledRouteScript(route);
+  }
+
   function snapshot() {
     return {
       mode: state.mode,
@@ -181,6 +353,7 @@
       revision: state.revision,
       error: state.error,
       loadedAt: state.loadedAt,
+      routeState: state.routeState,
       diagnostics: state.diagnostics.map((item) => ({ ...item }))
     };
   }
@@ -197,6 +370,7 @@
     if (state.mode === MODES.DISABLED) {
       state.status = 'disabled';
       setBoundaryState(state.status);
+      initializeControlledRoute();
       return snapshot();
     }
 
@@ -205,6 +379,7 @@
       state.error = 'fetch-unavailable';
       setBoundaryState(state.status);
       state.diagnostics = buildShadowReport();
+      initializeControlledRoute();
       return snapshot();
     }
 
@@ -229,6 +404,7 @@
       setBoundaryState(state.status);
       state.diagnostics = buildShadowReport();
       applyActiveMode();
+      initializeControlledRoute();
       return snapshot();
     } catch (error) {
       state.status = 'fallback';
@@ -238,6 +414,7 @@
       state.revision = null;
       setBoundaryState(state.status);
       state.diagnostics = buildShadowReport();
+      initializeControlledRoute();
       return snapshot();
     } finally {
       if (timeout) window.clearTimeout(timeout);
@@ -247,8 +424,13 @@
   function boot() {
     if (options().autoLoad === false) {
       setBoundaryState('idle');
+      initializeControlledRoute();
       return;
     }
+
+    // SHADOW and DISABLED must preserve the existing route immediately. ACTIVE
+    // waits for the published decision while the route boundary stays hidden.
+    if (state.mode !== MODES.ACTIVE) initializeControlledRoute();
     window.setTimeout(() => load(), 0);
   }
 
@@ -259,10 +441,13 @@
     MODES,
     DEFAULT_MODE,
     ACTIVE_TEST_FEATURES,
+    CONTROLLED_ROUTES,
     load,
     getState: snapshot,
     getPublishedConfig: () => state.config ? JSON.parse(JSON.stringify(state.config)) : null,
     resolveFeatureState: (featureId) => resolveState(featureId, state.config),
+    resolveControlledRoute,
+    renderControlledRouteState,
     buildShadowReport
   });
 

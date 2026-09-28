@@ -261,4 +261,252 @@ test.describe('V21 public website-control adapter', () => {
       expect((await marker(page, 'homepage.community')).hidden).toBe(true);
     }
   });
+
+  test('Gallery route control suppresses normal content and page script for HIDDEN and COMING_SOON', async ({ page }) => {
+    const pageErrors: string[] = [];
+    page.on('pageerror', (error) => pageErrors.push(error.message));
+    let currentConfig = publishedConfig({ 'pages.gallery': 'HIDDEN' });
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(currentConfig)
+      });
+    });
+    await configurePage(page, 'ACTIVE');
+
+    for (const [configuredState, effectiveState, heading] of [
+      ['HIDDEN', 'HIDDEN', 'Gallery Unavailable'],
+      ['COMING_SOON', 'COMING_SOON', 'Gallery Coming Soon'],
+      ['ADMIN_PREVIEW', 'HIDDEN', 'Gallery Unavailable']
+    ] as const) {
+      currentConfig = publishedConfig({ 'pages.gallery': configuredState });
+      await page.goto('/gallery.html', { waitUntil: 'domcontentloaded' });
+      await waitForAdapter(page);
+
+      await expect(page.locator('#gpbc-route-state h1')).toHaveText(heading);
+      await expect(page.locator('.gpbc-route-state__link')).toHaveAttribute('href', 'index.html#home');
+      expect(await page.locator('#main-content').getAttribute('aria-hidden')).toBe('true');
+      expect(await page.locator('#main-content').isHidden()).toBe(true);
+      expect(await page.locator('#lightbox').isHidden()).toBe(true);
+      expect(await page.locator('header').isVisible()).toBe(true);
+      expect(await page.locator('.gallery-hero').isVisible()).toBe(false);
+      expect(await page.locator('script[data-gpbc-route-script="pages.gallery"]').count()).toBe(0);
+      expect(await page.locator('meta[name="robots"]').getAttribute('content')).toBe('noindex, nofollow');
+      expect(await page.title()).toContain(heading);
+
+      const galleryReport = await page.evaluate(() => (window as any).GPBCWebsiteControl
+        .buildShadowReport()
+        .find((entry: any) => entry.featureId === 'pages.gallery'));
+      expect(galleryReport).toMatchObject({
+        configuredState,
+        effectiveState,
+        routeMatch: '/gallery.html',
+        expectedAction: `CONTROLLED_ROUTE_${effectiveState}`,
+        domPresence: 'PRESENT'
+      });
+    }
+    expect(pageErrors).toEqual([]);
+  });
+
+  test('Gallery route preserves current behavior in SHADOW, LIVE, and delivery fallback modes', async ({ page }) => {
+    let responseMode: 'live' | 'hidden' | 'failure' = 'hidden';
+    await page.route(endpointRoute, async (route) => {
+      if (responseMode === 'failure') {
+        await route.fulfill({ status: 500, body: 'temporary failure' });
+        return;
+      }
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.gallery': responseMode === 'hidden' ? 'HIDDEN' : 'LIVE' }))
+      });
+    });
+    await configurePage(page, 'SHADOW');
+    await page.goto('/gallery.html', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    await expect(page.locator('script[data-gpbc-route-script="pages.gallery"]')).toHaveCount(1);
+    expect(await page.locator('#main-content').isHidden()).toBe(false);
+    expect(await page.locator('#gpbc-route-state').count()).toBe(0);
+    expect(await page.locator('.gallery-hero').isVisible()).toBe(true);
+    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl
+      .buildShadowReport()
+      .find((entry: any) => entry.featureId === 'pages.gallery'))).toMatchObject({
+      configuredState: 'HIDDEN',
+      effectiveState: 'HIDDEN',
+      routeMatch: '/gallery.html',
+      expectedAction: 'NO_DOM_CHANGE',
+      wouldApply: 'CONTROLLED_ROUTE_HIDDEN',
+      actualAction: 'NONE — SHADOW MODE'
+    });
+
+    responseMode = 'live';
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    expect(await page.locator('#main-content').isHidden()).toBe(false);
+    expect(await page.locator('#gpbc-route-state').count()).toBe(0);
+    expect(await page.title()).toBe('Church Gallery - Grace and Praise Bangladeshi Church');
+
+    await configurePage(page, 'ACTIVE');
+    responseMode = 'failure';
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    await expect(page.locator('script[data-gpbc-route-script="pages.gallery"]')).toHaveCount(1);
+    expect(await page.locator('#main-content').isHidden()).toBe(false);
+    expect(await page.locator('#gpbc-route-state').count()).toBe(0);
+    expect(await page.locator('.gallery-hero').isVisible()).toBe(true);
+    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState())).toMatchObject({
+      mode: 'ACTIVE',
+      status: 'fallback',
+      source: 'fallback'
+    });
+  });
+
+  test('Gallery route failure matrix always restores normal public behavior', async ({ page }) => {
+    const failures: DeliveryFailure[] = [
+      { name: '404', status: 404, body: JSON.stringify({ error: 'not found' }) },
+      { name: '500', status: 500, body: JSON.stringify({ error: 'temporary failure' }) },
+      { name: 'malformed JSON', status: 200, body: 'not-json' },
+      { name: 'malformed schema', status: 200, body: JSON.stringify({ ...publishedConfig(), schemaVersion: 999 }) },
+      { name: 'missing feature map', status: 200, body: JSON.stringify({ ...publishedConfig(), features: {} }) },
+      { name: 'missing revision', status: 200, body: JSON.stringify({ schemaVersion: schema.SCHEMA_VERSION, features: publishedConfig().features }) },
+      { name: 'offline', status: 200, abort: true, body: '' },
+      { name: 'timeout', status: 200, delay: 1400, body: JSON.stringify(publishedConfig()) }
+    ];
+    let failure = failures[0];
+    await page.route(endpointRoute, async (route) => {
+      if (failure.abort) {
+        await route.abort('failed');
+        return;
+      }
+      if (failure.delay) await new Promise((resolve) => setTimeout(resolve, failure.delay));
+      await route.fulfill({ status: failure.status, contentType: 'application/json', body: failure.body });
+    });
+    await configurePage(page, 'ACTIVE');
+
+    for (const nextFailure of failures) {
+      failure = nextFailure;
+      await page.goto('/gallery.html', { waitUntil: 'domcontentloaded' });
+      await waitForAdapter(page);
+      expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState())).toMatchObject({
+        status: 'fallback',
+        source: 'fallback',
+        revision: null
+      });
+      expect(await page.locator('#main-content').isHidden(), nextFailure.name).toBe(false);
+      expect(await page.locator('#gpbc-route-state').count(), nextFailure.name).toBe(0);
+      await expect(page.locator('script[data-gpbc-route-script="pages.gallery"]')).toHaveCount(1);
+    }
+  });
+
+  test('Gallery route control preserves theme handling and rejects public preview hints', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('gpbcWebsiteControlState', 'ADMIN_PREVIEW');
+      localStorage.setItem('websiteControlMode', 'ACTIVE');
+    });
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.gallery': 'LIVE' }))
+      });
+    });
+    await configurePage(page, 'ACTIVE');
+    await page.goto('/gallery.html?preview=true&admin=true', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+
+    expect(await page.locator('#main-content').isHidden()).toBe(false);
+    expect(await page.locator('#gpbc-route-state').count()).toBe(0);
+    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.resolveControlledRoute('/gallery'))).toBeNull();
+    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState().routeState)).toBeNull();
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    expect(await page.locator('#main-content').isVisible()).toBe(true);
+    expect(await page.locator('#gpbc-route-state').count()).toBe(0);
+  });
+
+  test('Gallery controlled state inherits day/night theme and keeps the global toggle usable', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('theme', 'dark'));
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.gallery': 'COMING_SOON' }))
+      });
+    });
+    await configurePage(page, 'ACTIVE');
+    await page.goto('/gallery.html', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+
+    expect(await page.locator('#gpbc-route-state').isVisible()).toBe(true);
+    expect(await page.locator('html').getAttribute('data-theme')).toBe('dark');
+    expect(await page.locator('body').getAttribute('data-theme')).toBe('dark');
+    expect(await page.locator('#darkModeToggle').isVisible()).toBe(true);
+
+    await page.locator('#darkModeToggle').click();
+    await expect.poll(() => page.locator('html').getAttribute('data-theme')).toBe('light');
+    expect(await page.locator('#gpbc-route-state').isVisible()).toBe(true);
+  });
+
+  test('Gallery LIVE, HIDDEN, COMING_SOON, and ADMIN_PREVIEW states stay responsive at all supported widths', async ({ page }) => {
+    let currentState: FeatureState = 'LIVE';
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.gallery': currentState }))
+      });
+    });
+    await configurePage(page, 'ACTIVE');
+
+    for (const state of ['LIVE', 'HIDDEN', 'COMING_SOON', 'ADMIN_PREVIEW'] as FeatureState[]) {
+      currentState = state;
+      for (const width of [375, 390, 768, 1024, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto('/gallery.html', { waitUntil: 'domcontentloaded' });
+        await waitForAdapter(page);
+        const overflow = await page.evaluate(() => ({
+          scrollWidth: document.documentElement.scrollWidth,
+          clientWidth: document.documentElement.clientWidth
+        }));
+        expect(overflow.scrollWidth, `${state} horizontal overflow at ${width}px`).toBeLessThanOrEqual(overflow.clientWidth);
+        expect(await page.locator('header').isVisible()).toBe(true);
+        expect(await page.locator('.gpbc-route-state__link').isVisible()).toBe(state !== 'LIVE');
+        expect(await page.locator('#main-content').isHidden()).toBe(state !== 'LIVE');
+      }
+    }
+  });
+
+  test('Gallery route remains overflow-safe at supported widths and survives back/forward navigation', async ({ page }) => {
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.gallery': 'HIDDEN' }))
+      });
+    });
+    await configurePage(page, 'ACTIVE');
+
+    for (const width of [375, 390, 768, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto('/gallery.html', { waitUntil: 'domcontentloaded' });
+      await waitForAdapter(page);
+      const overflow = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth
+      }));
+      expect(overflow.scrollWidth, `horizontal overflow at ${width}px`).toBeLessThanOrEqual(overflow.clientWidth);
+      expect(await page.locator('#gpbc-route-state').isVisible()).toBe(true);
+    }
+
+    await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+    await page.goto('/gallery.html', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    await page.goBack({ waitUntil: 'domcontentloaded' });
+    await page.goForward({ waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    await expect(page.locator('#gpbc-route-state h1')).toHaveText('Gallery Unavailable');
+    expect(await page.locator('script[data-gpbc-route-script="pages.gallery"]').count()).toBe(0);
+  });
 });
