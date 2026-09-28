@@ -30,7 +30,15 @@ function makeFirestore() {
     return value;
   };
   const clone = (value) => resolve(JSON.parse(JSON.stringify(value)));
-  const ref = (collection, id) => ({ path: `${collection}/${id}`, collection, id });
+  const ref = (collection, id) => ({
+    path: `${collection}/${id}`,
+    collection,
+    id,
+    async get() {
+      const data = docs.get(`${collection}/${id}`);
+      return { exists: Boolean(data), data: () => clone(data) };
+    }
+  });
   const db = {
     failCommit: false,
     collection(collection) {
@@ -118,6 +126,31 @@ test('trusted Publish creates Published storage, revision, and audit atomically'
   assert.equal(firestore.docs.get('websiteControl/published').publishedBy, 'admin-uid');
   assert.equal(firestore.docs.get('websiteControl/published').sourceDraftRevision, 1);
   assert.equal(firestore.docs.get('websiteControlAudit/generated-4').action, 'PUBLISHED');
+});
+
+test('trusted Draft Preview returns only sanitized Draft state for Admins', async () => {
+  const firestore = makeFirestore();
+  const service = serviceFor(firestore);
+  await service.saveDraft({ config: makeConfig({
+    'pages.planVisit': 'COMING_SOON',
+    'pages.gallery': 'ADMIN_PREVIEW'
+  }), expectedRevision: 0 }, makeContext());
+
+  const preview = await service.getWebsiteDraftPreview({}, makeContext());
+  assert.deepEqual(Object.keys(preview).sort(), ['features', 'preview', 'revision', 'schemaVersion']);
+  assert.equal(preview.preview, true);
+  assert.equal(preview.revision, 1);
+  assert.equal(preview.features['pages.planVisit'].state, 'COMING_SOON');
+  assert.equal(preview.features['pages.gallery'].state, 'ADMIN_PREVIEW');
+  assert.equal('uid' in preview, false);
+  assert.equal('email' in preview, false);
+  assert.equal('audit' in preview, false);
+  assert.equal('published' in preview, false);
+
+  await assert.rejects(
+    service.getWebsiteDraftPreview({}, makeContext('member', { email: 'member@example.test' })),
+    (error) => error instanceof BackendOperationError && error.code === 'permission-denied'
+  );
 });
 
 test('trusted Restore to Draft creates a new revision and never directly changes Published', async () => {

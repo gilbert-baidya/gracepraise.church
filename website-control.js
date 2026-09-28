@@ -6,6 +6,13 @@
   const DEFAULT_MODE = MODES.SHADOW;
   const DEFAULT_TIMEOUT_MS = 1200;
   const PUBLIC_ENDPOINT = 'https://us-central1-grace-and-praise-bangladesh.cloudfunctions.net/getPublishedWebsiteConfiguration';
+  const PREVIEW_QUERY_PARAM = 'gpbc-preview';
+  const PREVIEW_SCRIPT = 'website-preview.js';
+  const KILL_SWITCH = Object.freeze({
+    enabled: false,
+    fallbackMode: MODES.SHADOW,
+    reason: 'Emergency public adapter disable switch is code-owned and inactive.'
+  });
   const ACTIVE_TEST_FEATURES = Object.freeze([
     'homepage.planVisit',
     'homepage.welcomeHome',
@@ -55,7 +62,13 @@
     loadedAt: null,
     routeInitialized: false,
     routeState: null,
-    surfaceObserver: null
+    surfaceObserver: null,
+    preview: Object.freeze({ active: false, revision: null }),
+    previewLoaderPromise: null,
+    observability: {
+      counts: {},
+      lastEvent: null
+    }
   };
 
   function options() {
@@ -65,7 +78,27 @@
 
   function normalizeMode(value) {
     const mode = String(value || DEFAULT_MODE).toUpperCase();
+    if (KILL_SWITCH.enabled) return KILL_SWITCH.fallbackMode;
     return Object.values(MODES).includes(mode) ? mode : DEFAULT_MODE;
+  }
+
+  function isPreviewIntent() {
+    try {
+      return new URLSearchParams(window.location.search).get(PREVIEW_QUERY_PARAM) === '1';
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function recordObservation(eventName) {
+    const counts = state.observability.counts;
+    counts[eventName] = (counts[eventName] || 0) + 1;
+    state.observability.lastEvent = { name: eventName, at: new Date().toISOString() };
+    if (typeof window.dispatchEvent === 'function' && typeof window.CustomEvent === 'function') {
+      window.dispatchEvent(new CustomEvent('gpbc:control-observability', {
+        detail: { name: eventName, mode: state.mode, source: state.source }
+      }));
+    }
   }
 
   function currentMode() {
@@ -112,14 +145,18 @@
     const selectedState = surface.stateSource === 'configured'
       ? ownState(surface.featureId, config)
       : resolveState(surface.featureId, config);
-    return selectedState === 'ADMIN_PREVIEW' ? 'HIDDEN' : selectedState;
+    return selectedState === 'ADMIN_PREVIEW'
+      ? (state.preview.active ? 'LIVE' : 'HIDDEN')
+      : selectedState;
   }
 
   function stateForRoute(route, config = state.config) {
     const selectedState = route.stateSource === 'configured'
       ? ownState(route.featureId, config)
       : resolveState(route.featureId, config);
-    return selectedState === 'ADMIN_PREVIEW' ? 'HIDDEN' : selectedState;
+    return selectedState === 'ADMIN_PREVIEW'
+      ? (state.preview.active ? 'LIVE' : 'HIDDEN')
+      : selectedState;
   }
 
   function validatePublishedConfig(payload) {
@@ -150,14 +187,40 @@
     };
   }
 
+  function validatePreviewConfig(payload) {
+    if (!schema || !payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      throw new Error('Draft Preview configuration is not an object.');
+    }
+    const expectedKeys = ['features', 'preview', 'revision', 'schemaVersion'].sort().join('|');
+    if (Object.keys(payload).sort().join('|') !== expectedKeys) {
+      throw new Error('Draft Preview configuration contains unsupported or missing fields.');
+    }
+    if (payload.preview !== true) throw new Error('Draft Preview authorization was not confirmed.');
+    if (payload.schemaVersion !== schema.SCHEMA_VERSION) throw new Error('Draft Preview schema version is unsupported.');
+    if (!Number.isInteger(payload.revision) || payload.revision < 1) throw new Error('Draft Preview revision is invalid.');
+    const errors = schema.validateFeatureMap(payload.features);
+    if (errors.length > 0) throw new Error(errors[0]);
+    return {
+      schemaVersion: payload.schemaVersion,
+      revision: payload.revision,
+      preview: true,
+      features: schema.FEATURE_IDS.reduce((map, featureId) => {
+        map[featureId] = { state: payload.features[featureId].state };
+        return map;
+      }, {})
+    };
+  }
+
   function ownState(featureId, config) {
     return config?.features?.[featureId]?.state || 'LIVE';
   }
 
   function resolveState(featureId, config = state.config, visiting = new Set()) {
     if (!schema || !schema.FEATURE_IDS.includes(featureId)) return 'HIDDEN';
-    const selectedState = ownState(featureId, config);
-    if (selectedState === 'HIDDEN' || selectedState === 'ADMIN_PREVIEW') return 'HIDDEN';
+    const configuredState = ownState(featureId, config);
+    if (configuredState === 'HIDDEN') return 'HIDDEN';
+    if (configuredState === 'ADMIN_PREVIEW' && !state.preview.active) return 'HIDDEN';
+    const selectedState = configuredState === 'ADMIN_PREVIEW' ? 'LIVE' : configuredState;
 
     const definition = schema.FEATURE_DEFINITIONS.find((item) => item.id === featureId);
     if (!definition || visiting.has(featureId)) return selectedState;
@@ -328,6 +391,84 @@
     }
   }
 
+  function removePreviewBanner() {
+    document.getElementById('gpbc-admin-preview-banner')?.remove();
+    document.documentElement.removeAttribute('data-gpbc-preview');
+  }
+
+  function renderPreviewBanner(revision) {
+    let banner = document.getElementById('gpbc-admin-preview-banner');
+    if (!banner) {
+      banner = document.createElement('aside');
+      banner.id = 'gpbc-admin-preview-banner';
+      banner.className = 'gpbc-admin-preview-banner';
+      banner.setAttribute('role', 'status');
+      banner.setAttribute('aria-label', 'GPBC administrator preview status');
+      document.body.prepend(banner);
+    }
+    banner.replaceChildren();
+    const copy = document.createElement('div');
+    copy.className = 'gpbc-admin-preview-banner__copy';
+    const title = document.createElement('strong');
+    title.textContent = 'GPBC ADMIN PREVIEW';
+    const status = document.createElement('span');
+    status.textContent = `Draft Revision ${revision} · Not visible to public visitors`;
+    copy.append(title, status);
+    const returnLink = document.createElement('a');
+    returnLink.href = new URL('admin/v21/index.html', window.location.origin).href;
+    returnLink.textContent = 'Return to Admin';
+    returnLink.className = 'gpbc-admin-preview-banner__link';
+    banner.append(copy, returnLink);
+    document.documentElement.dataset.gpbcPreview = 'active';
+  }
+
+  function ensurePreviewSession() {
+    if (window.GPBCWebsitePreview && typeof window.GPBCWebsitePreview.load === 'function') {
+      return Promise.resolve(window.GPBCWebsitePreview);
+    }
+    if (state.previewLoaderPromise) return state.previewLoaderPromise;
+
+    state.previewLoaderPromise = new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[data-gpbc-preview-script="${PREVIEW_SCRIPT}"]`);
+      if (existing) {
+        existing.addEventListener('load', () => resolve(window.GPBCWebsitePreview), { once: true });
+        existing.addEventListener('error', () => reject(new Error('preview-session-script-unavailable')), { once: true });
+        return;
+      }
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = new URL(PREVIEW_SCRIPT, window.location.origin).href;
+      script.dataset.gpbcPreviewScript = PREVIEW_SCRIPT;
+      script.addEventListener('load', () => {
+        if (window.GPBCWebsitePreview && typeof window.GPBCWebsitePreview.load === 'function') {
+          resolve(window.GPBCWebsitePreview);
+        } else {
+          reject(new Error('preview-session-unavailable'));
+        }
+      }, { once: true });
+      script.addEventListener('error', () => reject(new Error('preview-session-script-unavailable')), { once: true });
+      document.head.appendChild(script);
+    });
+    return state.previewLoaderPromise;
+  }
+
+  function handlePreviewAuthLost() {
+    if (!state.preview.active) return;
+    recordObservation('preview_session_ended');
+    state.preview = Object.freeze({ active: false, revision: null });
+    removePreviewBanner();
+    state.routeInitialized = false;
+    state.config = null;
+    state.revision = null;
+    state.mode = currentMode();
+    loadPublished({ forcePublished: true, previewFallback: true });
+  }
+
+  function beginPreviewSessionMonitoring() {
+    if (!window.GPBCWebsitePreview || typeof window.GPBCWebsitePreview.onAuthLost !== 'function') return;
+    window.GPBCWebsitePreview.onAuthLost(handlePreviewAuthLost);
+  }
+
   function controlledRouteElements(route) {
     return [...document.querySelectorAll(routeFeatureSelector(route.featureId))];
   }
@@ -477,12 +618,20 @@
       error: state.error,
       loadedAt: state.loadedAt,
       routeState: state.routeState,
+      preview: { ...state.preview },
+      killSwitch: { ...KILL_SWITCH },
+      observability: {
+        counts: { ...state.observability.counts },
+        lastEvent: state.observability.lastEvent ? { ...state.observability.lastEvent } : null
+      },
       diagnostics: state.diagnostics.map((item) => ({ ...item }))
     };
   }
 
-  async function load(loadOptions = {}) {
+  async function loadPublished(loadOptions = {}) {
     state.mode = normalizeMode(loadOptions.mode || currentMode());
+    state.preview = Object.freeze({ active: false, revision: null });
+    removePreviewBanner();
     setBoundaryState('loading', state.mode === MODES.ACTIVE);
     state.error = null;
     state.config = null;
@@ -524,6 +673,7 @@
       state.source = 'published';
       state.status = 'ready';
       state.loadedAt = new Date().toISOString();
+      recordObservation('published_config_loaded');
       setBoundaryState(state.status);
       state.diagnostics = buildShadowReport();
       applyActiveMode();
@@ -535,6 +685,7 @@
       state.error = error?.name === 'AbortError' ? 'timeout' : (error?.message || 'configuration-unavailable');
       state.config = null;
       state.revision = null;
+      recordObservation('published_config_fallback');
       setBoundaryState(state.status);
       state.diagnostics = buildShadowReport();
       initializeControlledRoute();
@@ -542,6 +693,53 @@
     } finally {
       if (timeout) window.clearTimeout(timeout);
     }
+  }
+
+  async function loadPreview(loadOptions = {}) {
+    state.mode = MODES.ACTIVE;
+    state.preview = Object.freeze({ active: false, revision: null });
+    state.status = 'preview-authenticating';
+    state.source = 'preview';
+    state.error = null;
+    state.config = null;
+    state.revision = null;
+    state.routeInitialized = false;
+    recordObservation('preview_attempted');
+    setBoundaryState('loading', true);
+
+    try {
+      const previewApi = await ensurePreviewSession();
+      beginPreviewSessionMonitoring();
+      const payload = await previewApi.load();
+      const previewConfig = validatePreviewConfig(payload);
+      state.preview = Object.freeze({ active: true, revision: previewConfig.revision });
+      state.config = previewConfig;
+      state.revision = previewConfig.revision;
+      state.source = 'draft-preview';
+      state.status = 'preview-ready';
+      state.loadedAt = new Date().toISOString();
+      renderPreviewBanner(previewConfig.revision);
+      recordObservation('preview_authorized');
+      setBoundaryState(state.status);
+      state.diagnostics = buildShadowReport();
+      applyActiveMode();
+      initializeControlledRoute();
+      return snapshot();
+    } catch (error) {
+      state.error = error?.message || 'preview-unavailable';
+      recordObservation('preview_fallback');
+      removePreviewBanner();
+      state.preview = Object.freeze({ active: false, revision: null });
+      state.routeInitialized = false;
+      // A failed preview never exposes Draft. The ordinary Published/SHADOW
+      // path is the only fallback, even when the URL contains preview intent.
+      return loadPublished({ ...loadOptions, forcePublished: true, previewFallback: true });
+    }
+  }
+
+  async function load(loadOptions = {}) {
+    if (isPreviewIntent() && !loadOptions.forcePublished) return loadPreview(loadOptions);
+    return loadPublished(loadOptions);
   }
 
   function boot() {
@@ -553,20 +751,23 @@
 
     // SHADOW and DISABLED must preserve the existing route immediately. ACTIVE
     // waits for the published decision while the route boundary stays hidden.
-    if (state.mode !== MODES.ACTIVE) initializeControlledRoute();
+    if (state.mode !== MODES.ACTIVE && !isPreviewIntent()) initializeControlledRoute();
     window.setTimeout(() => load(), 0);
   }
 
-  state.mode = currentMode();
+  state.mode = isPreviewIntent() ? MODES.ACTIVE : currentMode();
   setBoundaryState('idle', state.mode === MODES.ACTIVE);
 
   const api = Object.freeze({
     MODES,
     DEFAULT_MODE,
+    KILL_SWITCH,
     ACTIVE_TEST_FEATURES,
     CONTROLLED_ROUTES,
     CONTROLLED_SURFACES,
     load,
+    loadPreview,
+    isPreviewIntent,
     getState: snapshot,
     getPublishedConfig: () => state.config ? JSON.parse(JSON.stringify(state.config)) : null,
     resolveFeatureState: (featureId) => resolveState(featureId, state.config),

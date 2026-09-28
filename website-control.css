@@ -66,12 +66,70 @@ html[data-gpbc-control-mode="ACTIVE"][data-gpbc-control-pending="true"] [data-gp
     display: none !important;
 }
 
+/* Trusted Draft Preview is system infrastructure, not a feature-controlled
+   surface. It stays above public content and remains visible on every route. */
+.gpbc-admin-preview-banner {
+    position: fixed;
+    z-index: 2147483000;
+    inset: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 3.25rem;
+    padding: 0.55rem clamp(1rem, 4vw, 3rem);
+    background: #5b1f1f;
+    color: #fff8ef;
+    box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 22%);
+    font: 600 0.875rem/1.35 system-ui, sans-serif;
+}
+
+.gpbc-admin-preview-banner__copy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+}
+
+.gpbc-admin-preview-banner__copy strong {
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+}
+
+.gpbc-admin-preview-banner__copy span {
+    font-weight: 500;
+}
+
+.gpbc-admin-preview-banner__link {
+    flex: 0 0 auto;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid rgb(255 248 239 / 75%);
+    border-radius: 999px;
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.gpbc-admin-preview-banner__link:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
 .gpbc-control-coming-soon-link:focus-visible {
     outline: 3px solid Highlight;
     outline-offset: 3px;
 }
 
 @media (max-width: 40rem) {
+    .gpbc-admin-preview-banner {
+        align-items: flex-start;
+        padding: 0.65rem 1rem;
+    }
+
+    .gpbc-admin-preview-banner__copy {
+        gap: 0.15rem 0.65rem;
+    }
+
     .gpbc-route-state {
         min-height: 46vh;
     }

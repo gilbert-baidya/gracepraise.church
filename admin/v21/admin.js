@@ -37,8 +37,13 @@
     'saveStateLabel',
     'lastSavedLabel',
     'saveDraftButton',
+    'previewDraftButton',
     'publishButton',
     'signedInAs',
+    'comparisonSummary',
+    'comparisonList',
+    'readinessSummary',
+    'readinessList',
     'recentChanges',
     'recentRevisions',
     'protectedComponents'
@@ -50,12 +55,15 @@
   let isDirty = false;
   let activeUserId = null;
   let serverRevision = 0;
+  let publishedConfig = null;
+  let publishedRevision = 0;
   let serverAvailable = false;
   let pendingLocalDraft = null;
   let recentChanges = [];
   let recentRevisions = [];
   let publishInProgress = false;
   let restoreInProgress = false;
+  let readinessBlocking = false;
 
   function cacheDom() {
     ids.forEach((id) => {
@@ -92,12 +100,18 @@
       select.disabled = disabled;
     });
     if (dom.saveDraftButton) dom.saveDraftButton.disabled = disabled;
+    updatePreviewButton();
     updatePublishButton();
+  }
+
+  function updatePreviewButton() {
+    if (!dom.previewDraftButton) return;
+    dom.previewDraftButton.disabled = !serverAvailable || isDirty || serverRevision < 1 || publishInProgress || restoreInProgress;
   }
 
   function updatePublishButton() {
     if (!dom.publishButton) return;
-    dom.publishButton.disabled = !serverAvailable || isDirty || serverRevision < 1 || publishInProgress || restoreInProgress;
+    dom.publishButton.disabled = !serverAvailable || isDirty || serverRevision < 1 || publishInProgress || restoreInProgress || readinessBlocking;
   }
 
   function setLocalDraftPanel(visible, message = '') {
@@ -315,6 +329,131 @@
         : (isDirty ? 'Save Draft creates a new Firestore revision.' : formatDate(currentConfig.updatedAt));
     }
     updatePublishButton();
+    updatePreviewButton();
+    renderDraftComparison();
+  }
+
+  function stateLabel(state) {
+    return configApi.FEATURE_STATE_LABELS[state] || state || 'Live';
+  }
+
+  function renderDraftComparison() {
+    if (!dom.comparisonList || !dom.comparisonSummary || !currentConfig || !configApi) return;
+    const baseline = publishedConfig?.features || {};
+    const changes = configApi.FEATURE_REGISTRY.filter((definition) => {
+      const publishedState = baseline[definition.id]?.state || definition.defaultState;
+      return publishedState !== currentConfig.features[definition.id].state;
+    });
+    const publishedLabel = publishedConfig ? `Published Revision ${publishedRevision}` : 'No Published configuration';
+    dom.comparisonSummary.textContent = changes.length === 0
+      ? `${publishedLabel} · No changes`
+      : `${publishedLabel} · ${changes.length} feature change${changes.length === 1 ? '' : 's'}`;
+    dom.comparisonList.replaceChildren();
+    if (changes.length === 0) {
+      dom.comparisonList.appendChild(createElement('li', 'muted', 'Draft matches Published storage.'));
+      return;
+    }
+    changes.forEach((definition) => {
+      const publishedState = baseline[definition.id]?.state || definition.defaultState;
+      const draftState = currentConfig.features[definition.id].state;
+      const item = createElement('li', 'comparison-item');
+      item.dataset.changeState = draftState;
+      item.appendChild(createElement('strong', '', definition.displayName));
+      item.appendChild(createElement('span', '', `Published: ${stateLabel(publishedState)} · Draft: ${stateLabel(draftState)}`));
+      dom.comparisonList.appendChild(item);
+    });
+  }
+
+  function appendReadinessItem(status, label, detail) {
+    const item = createElement('li', 'readiness-item');
+    item.dataset.status = status;
+    const icon = status === 'safe' ? '✓' : (status === 'warning' ? '⚠' : '✕');
+    item.appendChild(createElement('strong', '', `${icon} ${label}`));
+    item.appendChild(createElement('span', '', detail));
+    dom.readinessList?.appendChild(item);
+  }
+
+  async function inspectRouteHealth(route) {
+    try {
+      const response = await fetch(new URL(`/${route.path}`, window.location.origin).href, { credentials: 'omit', cache: 'no-store' });
+      if (!response.ok) return { status: 'blocking', label: `${route.pageName} route`, detail: `Route returned HTTP ${response.status}.` };
+      const html = await response.text();
+      const parsed = new DOMParser().parseFromString(html, 'text/html');
+      const rootFound = Boolean(parsed.querySelector(route.rootSelector));
+      const adapterFound = html.includes('website-control.js');
+      if (!rootFound || !adapterFound) {
+        return {
+          status: 'blocking',
+          label: `${route.pageName} route`,
+          detail: `${rootFound ? 'Root marker found' : 'Missing controlled DOM root'}; ${adapterFound ? 'adapter bootstrap found' : 'missing adapter bootstrap'}.`
+        };
+      }
+      return { status: 'safe', label: `${route.pageName} route`, detail: `Route, feature marker, and adapter bootstrap are ready.` };
+    } catch (error) {
+      return { status: 'warning', label: `${route.pageName} route`, detail: 'Route health could not be fetched from this Admin session.' };
+    }
+  }
+
+  async function inspectSurfaceHealth() {
+    const staticSources = [
+      { label: 'Homepage surfaces', path: 'index.html', selector: '[data-gpbc-feature="homepage.planVisit"], [data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="homepage-cta"]', expectedCount: 5, featureId: 'homepage.planVisit / pages.planVisit' },
+      { label: 'About CTA surface', path: 'about.html', selector: '[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="about-cta"]', expectedCount: 2, featureId: 'pages.planVisit' },
+      { label: 'Contact CTA surface', path: 'contact.html', selector: '[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="contact-cta"]', expectedCount: 1, featureId: 'pages.planVisit' },
+      { label: 'Position Papers CTA surface', path: 'position-papers.html', selector: '[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="position-papers-cta"]', expectedCount: 1, featureId: 'pages.planVisit' }
+    ];
+    const results = await Promise.all(staticSources.map(async (source) => {
+      try {
+        const response = await fetch(new URL(`/${source.path}`, window.location.origin).href, { credentials: 'omit', cache: 'no-store' });
+        const html = response.ok ? await response.text() : '';
+        const parsed = new DOMParser().parseFromString(html, 'text/html');
+        const count = parsed.querySelectorAll(source.selector).length;
+        const expectedAction = currentConfig.features[source.featureId.split(' / ')[0]]?.state || 'LIVE';
+        if (count === 0) {
+          return { status: 'blocking', label: source.label, detail: `Expected marker is missing from ${source.path}; feature association ${source.featureId}.` };
+        }
+        if (count !== source.expectedCount) {
+          return { status: 'warning', label: source.label, detail: `${count} markers found in ${source.path}; expected ${source.expectedCount}. Feature ${source.featureId}; expected ACTIVE action CONTROL_${expectedAction}.` };
+        }
+        return { status: 'safe', label: source.label, detail: `${count} markers found in ${source.path}. Feature ${source.featureId}; expected ACTIVE action CONTROL_${expectedAction}.` };
+      } catch (error) {
+        return { status: 'warning', label: source.label, detail: `Could not inspect ${source.path} from this Admin session.` };
+      }
+    }));
+    results.push({ status: 'safe', label: 'Footer surface', detail: '5 renderer-owned markers configured for injected footer links; feature association pages.planVisit.' });
+    results.push({ status: 'warning', label: 'Navigation surface', detail: 'No Plan Your Visit navigation marker is currently registered in the public header.' });
+    return results;
+  }
+
+  async function runReadinessChecks() {
+    if (!dom.readinessList || !configApi || !currentConfig) return;
+    dom.readinessList.replaceChildren();
+    if (dom.readinessSummary) dom.readinessSummary.textContent = 'Running route, dependency, and controlled-surface checks…';
+    const checks = [];
+    const validation = configApi.validateConfig(currentConfig);
+    checks.push(validation.valid
+      ? { status: 'safe', label: 'Draft schema', detail: 'All 50 feature entries and states are valid.' }
+      : { status: 'blocking', label: 'Draft schema', detail: validation.errors[0] });
+
+    const knownIds = new Set(configApi.FEATURE_REGISTRY.map((definition) => definition.id));
+    const unknownDependencies = configApi.FEATURE_REGISTRY.flatMap((definition) => definition.dependencies
+      .filter((dependencyId) => !knownIds.has(dependencyId))
+      .map((dependencyId) => `${definition.id} → ${dependencyId}`));
+    checks.push(unknownDependencies.length === 0
+      ? { status: 'safe', label: 'Dependency registry', detail: 'All configured dependency references resolve to approved feature IDs.' }
+      : { status: 'blocking', label: 'Dependency registry', detail: `Unknown dependency metadata: ${unknownDependencies.join(', ')}.` });
+
+    const routeResults = await Promise.all(configApi.CONTROLLED_ROUTE_DEFINITIONS.map(inspectRouteHealth));
+    checks.push(...routeResults);
+    checks.push(...await inspectSurfaceHealth());
+
+    readinessBlocking = checks.some((check) => check.status === 'blocking');
+    checks.forEach((check) => appendReadinessItem(check.status, check.label, check.detail));
+    if (dom.readinessSummary) {
+      dom.readinessSummary.textContent = readinessBlocking
+        ? 'Blocking checks must be resolved before Publish Configuration.'
+        : 'No blocking readiness checks found. Review warnings before publishing.';
+    }
+    updatePublishButton();
   }
 
   function readStoredDraft() {
@@ -404,6 +543,9 @@
   async function loadServerDraft() {
     serverAvailable = false;
     serverRevision = 0;
+    publishedConfig = null;
+    publishedRevision = 0;
+    readinessBlocking = false;
     pendingLocalDraft = null;
     setLocalDraftPanel(false);
     setFeatureControlsDisabled(true);
@@ -412,9 +554,19 @@
     try {
       const result = await firestoreApi.loadDraft();
       applyServerDraft(result);
+      try {
+        const published = await firestoreApi.loadPublished();
+        publishedConfig = published.config ? configApi.cloneConfig(published.config) : null;
+        publishedRevision = published.revision || 0;
+      } catch (error) {
+        publishedConfig = null;
+        publishedRevision = 0;
+      }
+      renderDraftComparison();
       inspectLocalDraft();
       await loadRecentServerAudit();
       await loadRecentServerRevisions();
+      await runReadinessChecks();
       if (result.status === 'missing') {
         setDashboardNotice('No server Draft exists yet. Safe all-LIVE defaults are loaded; Save Draft will initialize Firestore.', 'warning');
       } else {
@@ -422,6 +574,8 @@
       }
     } catch (error) {
       currentConfig = configApi.createDefaultConfig();
+      publishedConfig = null;
+      publishedRevision = 0;
       serverAvailable = false;
       serverRevision = 0;
       isDirty = false;
@@ -434,6 +588,7 @@
           : 'Configuration service unavailable. The saved server draft could not be loaded. Changes cannot be safely published.',
         'error'
       );
+      renderDraftComparison();
     }
   }
 
@@ -489,6 +644,7 @@
       applyServerDraft(latest);
       await loadRecentServerAudit();
       await loadRecentServerRevisions();
+      await runReadinessChecks();
       setDashboardNotice(`Draft saved to Firestore as Revision ${latest.revision}. The public website remains unchanged.`, 'success');
     } catch (error) {
       setDashboardNotice(
@@ -504,9 +660,24 @@
     }
   }
 
+  function previewDraft() {
+    if (!serverAvailable || isDirty || serverRevision < 1 || publishInProgress || restoreInProgress) return;
+    const previewUrl = new URL('../../index.html?gpbc-preview=1', window.location.href).href;
+    const previewWindow = window.open(previewUrl, '_blank', 'noopener,noreferrer');
+    if (previewWindow) {
+      setDashboardNotice(`Trusted Draft Preview opened for saved Revision ${serverRevision}. Only this authenticated Admin session can load it.`, 'success');
+    } else {
+      setDashboardNotice('The browser blocked the Preview window. Allow pop-ups for the Admin Control Center and try again.', 'warning');
+    }
+  }
+
   async function publishConfiguration() {
     if (!serverAvailable || isDirty || serverRevision < 1 || publishInProgress) return;
-    const confirmed = window.confirm('Publish this validated Draft to Firestore published storage? The public website will remain unchanged in Phase 4.');
+    if (readinessBlocking) {
+      setDashboardNotice('Publish is blocked until the Activation Readiness checks are safe.', 'error');
+      return;
+    }
+    const confirmed = window.confirm('Publish this validated Draft to Firestore published storage? The public website will remain unchanged until a future activation step.');
     if (!confirmed) return;
 
     publishInProgress = true;
@@ -518,8 +689,13 @@
         setDashboardNotice('Dependency review passed. Writing Published configuration storage only…', 'warning');
       }
       const result = await firestoreApi.publishDraft(serverRevision);
+      const published = await firestoreApi.loadPublished();
+      publishedConfig = published.config ? configApi.cloneConfig(published.config) : null;
+      publishedRevision = published.revision || 0;
       await loadRecentServerAudit();
       await loadRecentServerRevisions();
+      renderDraftComparison();
+      await runReadinessChecks();
       setDashboardNotice(`Published Configuration Revision ${result.revision} is stored in Firestore. Public website integration is not enabled yet.`, 'success');
     } catch (error) {
       setDashboardNotice(
@@ -550,6 +726,7 @@
       applyServerDraft(latest);
       await loadRecentServerAudit();
       await loadRecentServerRevisions();
+      await runReadinessChecks();
       setDashboardNotice(`Revision restored to Draft Revision ${result.revision}. Review it before any future publish.`, 'success');
     } catch (error) {
       setDashboardNotice(
@@ -605,7 +782,11 @@
       activeUserId = null;
       serverAvailable = false;
       serverRevision = 0;
+      publishedConfig = null;
+      publishedRevision = 0;
+      readinessBlocking = false;
       publishInProgress = false;
+      updatePreviewButton();
       updatePublishButton();
       setHidden(dom.headerSignOut, true);
       setView('auth');
@@ -654,6 +835,7 @@
     dom.headerSignOut?.addEventListener('click', handleSignOut);
     dom.accessDeniedSignOut?.addEventListener('click', handleSignOut);
     dom.saveDraftButton?.addEventListener('click', saveDraft);
+    dom.previewDraftButton?.addEventListener('click', previewDraft);
     dom.publishButton?.addEventListener('click', publishConfiguration);
     dom.importLocalDraftButton?.addEventListener('click', importLocalDraft);
     dom.discardLocalDraftButton?.addEventListener('click', discardLocalDraft);

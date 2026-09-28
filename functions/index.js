@@ -31,6 +31,7 @@ function expose(handler) {
 
 exports.saveWebsiteDraft = expose((data, context) => service.saveDraft(data, context));
 exports.validateWebsiteDraftForPublish = expose((data, context) => service.validateDraftForPublish(data, context));
+exports.getWebsiteDraftPreview = expose((data, context) => service.getWebsiteDraftPreview(data, context));
 exports.publishWebsiteConfiguration = expose((data, context) => service.publishWebsiteConfiguration(data, context));
 exports.restoreWebsiteRevision = expose((data, context) => service.restoreWebsiteRevision(data, context));
 

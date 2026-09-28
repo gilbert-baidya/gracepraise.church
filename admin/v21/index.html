@@ -129,6 +129,7 @@
               </div>
               <div class="action-buttons">
                 <button class="button button-primary" id="saveDraftButton" type="button">Save Draft</button>
+                <button class="button button-secondary" id="previewDraftButton" type="button" disabled title="Save the Draft before opening the trusted Admin Preview.">Preview Draft</button>
                 <button class="button button-secondary" id="publishButton" type="button" disabled title="Writes Firestore published storage only; the public website remains disconnected.">Publish Configuration <span class="button-note">Storage only</span></button>
               </div>
             </div>
@@ -149,8 +150,32 @@
             </section>
 
             <section class="panel publish-warning-panel" aria-label="Publish warning">
-              <strong>Phase 4 safety notice</strong>
-              <p>Public website integration is not enabled yet. Publishing here updates configuration storage only.</p>
+              <strong>Activation safety notice</strong>
+              <p>Preview reads the saved Draft through a trusted Admin session. Publishing updates storage only; the public website remains unchanged.</p>
+            </section>
+
+            <section class="panel comparison-panel" aria-labelledby="comparison-title">
+              <div class="panel-heading panel-heading-compact">
+                <div>
+                  <h2 id="comparison-title">Draft vs Published</h2>
+                  <p id="comparisonSummary">Load both configurations to compare changes.</p>
+                </div>
+              </div>
+              <ol id="comparisonList" class="comparison-list">
+                <li class="muted">No comparison available yet.</li>
+              </ol>
+            </section>
+
+            <section class="panel readiness-panel" aria-labelledby="readiness-title">
+              <div class="panel-heading panel-heading-compact">
+                <div>
+                  <h2 id="readiness-title">Activation Readiness</h2>
+                  <p id="readinessSummary">Checks run after the saved Draft loads.</p>
+                </div>
+              </div>
+              <ul id="readinessList" class="readiness-list">
+                <li class="muted">Readiness checks have not run.</li>
+              </ul>
             </section>
 
             <section class="panel changes-panel" aria-labelledby="changes-title">

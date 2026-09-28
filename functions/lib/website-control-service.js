@@ -230,6 +230,30 @@ function createService({ db, FieldValue }) {
     };
   }
 
+  async function getWebsiteDraftPreview(data, context) {
+    requireAdmin(context);
+    const snapshot = await document(COLLECTIONS.control, IDS.draft).get();
+    if (!snapshot.exists) {
+      throw new BackendOperationError('not-found', 'Create and save a Draft before opening Preview.');
+    }
+
+    const draft = validateStored(snapshot.data(), 'draft');
+    const features = schema.FEATURE_IDS.reduce((map, featureId) => {
+      map[featureId] = { state: draft.features[featureId].state };
+      return map;
+    }, {});
+
+    // This is the complete Preview payload. Do not add authorship, audit,
+    // Firestore, or Auth metadata here: the browser only needs state and
+    // revision to exercise the same public adapter.
+    return {
+      schemaVersion: schema.SCHEMA_VERSION,
+      revision: draft.revision,
+      preview: true,
+      features
+    };
+  }
+
   async function publishWebsiteConfiguration(data, context) {
     const auth = requireAdmin(context);
     requirePositiveRevision(data?.expectedDraftRevision, 'A valid Draft revision is required before publishing.');
@@ -359,6 +383,7 @@ function createService({ db, FieldValue }) {
     saveDraft,
     validateDraftForPublish,
     getPublishedPublicConfig,
+    getWebsiteDraftPreview,
     publishWebsiteConfiguration,
     restoreWebsiteRevision
   });

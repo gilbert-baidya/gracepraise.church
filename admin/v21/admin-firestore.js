@@ -169,6 +169,19 @@
     };
   }
 
+  function toPublishedResult(data) {
+    validateServerDocument(data, 'published');
+    return {
+      status: 'found',
+      revision: data.revision,
+      config: configApi.createDraftConfig(data.features, {
+        updatedAt: timestampToIso(data.publishedAt),
+        updatedBy: typeof data.publishedBy === 'string' ? data.publishedBy : null
+      }),
+      raw: data
+    };
+  }
+
   async function loadDraft() {
     try {
       const db = getDb();
@@ -182,6 +195,17 @@
         };
       }
       return toDraftResult(snapshot.data());
+    } catch (error) {
+      throw mapFirestoreError(error);
+    }
+  }
+
+  async function loadPublished() {
+    try {
+      const db = getDb();
+      const snapshot = await db.collection(DRAFT_COLLECTION).doc(PUBLISHED_ID).get();
+      if (!snapshot.exists) return { status: 'missing', revision: 0, config: null, raw: null };
+      return toPublishedResult(snapshot.data());
     } catch (error) {
       throw mapFirestoreError(error);
     }
@@ -264,6 +288,7 @@
   window.GPBCAdminFirestore = Object.freeze({
     AdminDataError,
     loadDraft,
+    loadPublished,
     saveDraft,
     loadRecentAudit,
     loadRecentRevisions,

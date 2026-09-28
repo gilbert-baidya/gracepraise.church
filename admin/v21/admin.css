@@ -394,6 +394,61 @@ h2 {
   line-height: 1.5;
 }
 
+.comparison-list,
+.readiness-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.comparison-item,
+.readiness-item {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #edf1f3;
+  border-radius: 0.55rem;
+  background: #fbfcfd;
+}
+
+.comparison-item strong,
+.readiness-item strong {
+  color: var(--navy-900);
+}
+
+.comparison-item span,
+.readiness-item span {
+  overflow-wrap: anywhere;
+}
+
+.comparison-item[data-change-state="HIDDEN"] {
+  border-left: 3px solid var(--danger);
+}
+
+.comparison-item[data-change-state="COMING_SOON"] {
+  border-left: 3px solid var(--gold-500);
+}
+
+.comparison-item[data-change-state="ADMIN_PREVIEW"] {
+  border-left: 3px solid var(--navy-800);
+}
+
+.readiness-item[data-status="safe"] {
+  border-left: 3px solid var(--success);
+}
+
+.readiness-item[data-status="warning"] {
+  border-left: 3px solid var(--gold-500);
+}
+
+.readiness-item[data-status="blocking"] {
+  border-left: 3px solid var(--danger);
+}
+
 .status-card {
   text-align: center;
 }

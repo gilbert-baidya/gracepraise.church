@@ -124,6 +124,23 @@
     { id: 'footer.planVisit.link', featureId: 'pages.planVisit', surfaceType: 'footer-link' }
   ]);
 
+  const CONTROLLED_ROUTE_DEFINITIONS = Object.freeze([
+    {
+      featureId: 'pages.gallery',
+      pageName: 'Gallery',
+      path: 'gallery.html',
+      rootSelector: '[data-gpbc-route-feature="pages.gallery"]',
+      script: 'gallery.js'
+    },
+    {
+      featureId: 'pages.planVisit',
+      pageName: 'Plan Your Visit',
+      path: 'plan-visit.html',
+      rootSelector: '[data-gpbc-route-feature="pages.planVisit"]',
+      script: 'plan-visit.js'
+    }
+  ]);
+
   const validState = (state) => Object.prototype.hasOwnProperty.call(FEATURE_STATES, state);
 
   function createDefaultConfig() {
@@ -248,6 +265,7 @@
     FEATURE_STATE_DESCRIPTIONS,
     FEATURE_REGISTRY,
     CONTROLLED_SURFACE_DEFINITIONS,
+    CONTROLLED_ROUTE_DEFINITIONS,
     PROTECTED_COMPONENTS,
     createDefaultConfig,
     createDraftConfig,

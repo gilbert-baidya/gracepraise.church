@@ -41,7 +41,7 @@ async function configurePage(page: Page, mode: string) {
 async function waitForAdapter(page: Page) {
   await page.waitForFunction(() => {
     const status = (window as any).GPBCWebsiteControl?.getState?.().status;
-    return ['ready', 'fallback', 'disabled'].includes(status);
+    return ['ready', 'fallback', 'disabled', 'preview-ready'].includes(status);
   });
 }
 
@@ -722,5 +722,80 @@ test.describe('V21 public website-control adapter', () => {
     await waitForAdapter(page);
     await expect(page.locator('#gpbc-route-state h1')).toHaveText('Gallery Unavailable');
     expect(await page.locator('script[data-gpbc-route-script="pages.gallery"]').count()).toBe(0);
+  });
+
+  test('trusted Draft Preview renders sanitized Draft only for the preview session', async ({ page }) => {
+    let publicRequests = 0;
+    await page.route(endpointRoute, async (route) => {
+      publicRequests += 1;
+      await route.fulfill({ contentType: 'application/json', body: JSON.stringify(publishedConfig()) });
+    });
+    await page.route('**/website-preview.js', async (route) => {
+      const preview = {
+        ...publishedConfig({
+          'homepage.planVisit': 'ADMIN_PREVIEW',
+          'pages.planVisit': 'COMING_SOON',
+          'pages.gallery': 'ADMIN_PREVIEW'
+        }),
+        preview: true
+      };
+      await route.fulfill({
+        contentType: 'application/javascript',
+        body: `window.GPBCWebsitePreview = { load: async () => ${JSON.stringify(preview)}, onAuthLost: (callback) => { window.__previewAuthLost = callback; } };`
+      });
+    });
+    await configurePage(page, 'SHADOW');
+    await page.goto('/index.html?gpbc-preview=1', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+
+    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState())).toMatchObject({
+      mode: 'ACTIVE',
+      status: 'preview-ready',
+      source: 'draft-preview',
+      preview: { active: true, revision: 8 }
+    });
+    expect(publicRequests).toBe(0);
+    await expect(page.locator('#gpbc-admin-preview-banner')).toContainText('GPBC ADMIN PREVIEW');
+    await expect(page.locator('#gpbc-admin-preview-banner')).toContainText('Draft Revision 8');
+    expect(await page.locator('[data-gpbc-feature="homepage.planVisit"]').isHidden()).toBe(false);
+    expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"]').evaluateAll((elements) => elements.every((element) => !(element as HTMLElement).hidden))).toBe(true);
+    expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"]').evaluateAll((elements) => elements.every((element) => element.classList.contains('gpbc-control-coming-soon-link')))).toBe(true);
+
+    await page.goto('/gallery.html?gpbc-preview=1', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    expect(await page.locator('#main-content').isHidden()).toBe(false);
+    await expect(page.locator('#gpbc-admin-preview-banner')).toBeVisible();
+    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.resolveFeatureState('pages.gallery'))).toBe('LIVE');
+
+    await page.evaluate(() => (window as any).__previewAuthLost());
+    await page.waitForFunction(() => (window as any).GPBCWebsiteControl.getState().source === 'published');
+    expect(await page.locator('#gpbc-admin-preview-banner').count()).toBe(0);
+    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState().preview.active)).toBe(false);
+  });
+
+  test('failed trusted Preview falls back to Published behavior and never exposes Draft', async ({ page }) => {
+    let publicRequests = 0;
+    await page.route(endpointRoute, async (route) => {
+      publicRequests += 1;
+      await route.fulfill({ contentType: 'application/json', body: JSON.stringify(publishedConfig()) });
+    });
+    await page.route('**/website-preview.js', async (route) => {
+      await route.fulfill({
+        contentType: 'application/javascript',
+        body: 'window.GPBCWebsitePreview = { load: async () => { throw new Error("preview-admin-required"); }, onAuthLost: () => {} };'
+      });
+    });
+    await configurePage(page, 'SHADOW');
+    await page.goto('/index.html?gpbc-preview=1', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+
+    expect(publicRequests).toBe(1);
+    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState())).toMatchObject({
+      status: 'ready',
+      source: 'published',
+      preview: { active: false }
+    });
+    expect(await page.locator('#gpbc-admin-preview-banner').count()).toBe(0);
+    expect(await page.locator('[data-gpbc-feature="homepage.planVisit"]').isHidden()).toBe(false);
   });
 });

@@ -239,12 +239,15 @@ test.describe('V21 Admin Control Center trusted backend contract', () => {
     await openAdmin(page);
     await expect(page.locator('#dashboardView')).toBeVisible();
     await expect(page.locator('.state-select')).toHaveCount(50);
+    await expect(page.locator('#comparisonSummary')).toBeVisible();
+    await expect(page.locator('#readinessList .readiness-item')).not.toHaveCount(0);
     await expect(page.locator('.feature-id').filter({ hasText: 'homepage.planVisit' }).locator('..').locator('.dependency-note'))
       .toContainText('Plan Your Visit');
 
     await page.locator('.state-select[data-feature-id="pages.prayer"]').selectOption('HIDDEN');
     await page.locator('#saveDraftButton').click();
     await expect(page.locator('#dashboardNotice')).toContainText('Draft saved to Firestore as Revision 1');
+    await expect(page.locator('#previewDraftButton')).toBeEnabled();
     await expect(page.locator('#publishButton')).toBeEnabled();
     await expect(page.locator('#recentRevisions .recent-revision')).toHaveCount(1);
 

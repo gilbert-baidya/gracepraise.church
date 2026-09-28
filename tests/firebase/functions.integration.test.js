@@ -81,6 +81,10 @@ test('callable Draft, Publish, and Restore operations enforce Auth claims and pe
     callFunction('saveWebsiteDraft', memberToken, { config: makeConfig(), expectedRevision: 0 }),
     'permission-denied'
   );
+  await expectCallableError(
+    callFunction('getWebsiteDraftPreview', null, {}),
+    'unauthenticated'
+  );
 
   const firstSave = await callFunction('saveWebsiteDraft', adminToken, {
     config: makeConfig({ 'pages.prayer': 'HIDDEN' }),
@@ -121,6 +125,16 @@ test('callable Draft, Publish, and Restore operations enforce Auth claims and pe
   const validation = await callFunction('validateWebsiteDraftForPublish', adminToken, { expectedDraftRevision: 1 });
   assert.equal(validation.publicIntegration, false);
   assert.equal(validation.revision, 1);
+
+  const draftPreview = await callFunction('getWebsiteDraftPreview', adminToken, {});
+  assert.deepEqual(Object.keys(draftPreview).sort(), ['features', 'preview', 'revision', 'schemaVersion']);
+  assert.equal(draftPreview.preview, true);
+  assert.equal(draftPreview.revision, 1);
+  assert.equal(draftPreview.features['pages.prayer'].state, 'HIDDEN');
+  assert.equal('publishedBy' in draftPreview, false);
+  assert.equal('uid' in draftPreview, false);
+  assert.equal('email' in draftPreview, false);
+  await expectCallableError(callFunction('getWebsiteDraftPreview', memberToken, {}), 'permission-denied');
 
   const published = await callFunction('publishWebsiteConfiguration', adminToken, { expectedDraftRevision: 1 });
   assert.equal(published.status, 'published-storage-only');
