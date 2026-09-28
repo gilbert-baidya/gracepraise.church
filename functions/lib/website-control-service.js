@@ -1,7 +1,7 @@
 'use strict';
 
-const schema = require('../../shared/website-control-schema');
-const runtime = require('../../shared/website-control-runtime');
+const schema = require('../shared/website-control-schema');
+const runtime = require('../shared/website-control-runtime');
 
 const COLLECTIONS = Object.freeze({
   control: 'websiteControl',

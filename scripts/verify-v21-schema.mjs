@@ -5,6 +5,20 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const serverSchema = require('../shared/website-control-schema.js');
 const runtime = require('../shared/website-control-runtime.js');
+const mirrorPairs = [
+  ['shared/website-control-schema.js', 'functions/shared/website-control-schema.js'],
+  ['shared/website-control-runtime.js', 'functions/shared/website-control-runtime.js']
+];
+
+for (const [canonicalPath, mirrorPath] of mirrorPairs) {
+  const canonical = fs.readFileSync(new URL(`../${canonicalPath}`, import.meta.url));
+  const mirror = fs.readFileSync(new URL(`../${mirrorPath}`, import.meta.url));
+  if (!canonical.equals(mirror)) {
+    throw new Error(`Functions deployment mirror drift detected: ${canonicalPath} != ${mirrorPath}.`);
+  }
+  console.log(`Functions deployment mirror alignment passed: ${mirrorPath} matches ${canonicalPath}.`);
+}
+
 const runtimeSource = fs.readFileSync(new URL('../shared/website-control-runtime.js', import.meta.url), 'utf8');
 const browserSource = fs.readFileSync(new URL('../admin/v21/admin-config.js', import.meta.url), 'utf8');
 const sandbox = { window: {} };
