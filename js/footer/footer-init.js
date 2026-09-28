@@ -20,7 +20,8 @@ function ensureWebsiteControl() {
         document.head.appendChild(stylesheet);
     }
 
-    websiteControlPromise = import('../../shared/website-control-schema.js')
+    websiteControlPromise = import('../../shared/website-control-runtime.js')
+        .then(() => import('../../shared/website-control-schema.js'))
         .then(() => import('../../website-control.js'))
         .then(() => undefined);
     return websiteControlPromise;

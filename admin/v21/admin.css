@@ -449,6 +449,55 @@ h2 {
   border-left: 3px solid var(--danger);
 }
 
+.readiness-item[data-status="info"] {
+  border-left: 3px solid var(--blue-200);
+}
+
+.activation-health-panel {
+  margin-bottom: 1.25rem;
+}
+
+.activation-health-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+}
+
+.activation-health-grid div {
+  min-width: 0;
+  padding: 0.7rem;
+  background: #fbfcfd;
+  border: 1px solid #edf1f3;
+  border-radius: 0.55rem;
+}
+
+.activation-health-grid dt {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.activation-health-grid dd {
+  margin: 0.25rem 0 0;
+  color: var(--navy-900);
+  font-size: 0.88rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.health-pill {
+  padding: 0.35rem 0.55rem;
+  color: var(--navy-900);
+  background: var(--blue-100);
+  border: 1px solid var(--blue-200);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
 .status-card {
   text-align: center;
 }
@@ -664,6 +713,19 @@ h2 {
   font-size: 0.66rem;
   overflow-wrap: anywhere;
 }
+
+.capability-badge {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--navy-900);
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.capability-active-ready { color: var(--success); }
+.capability-shadow-only { color: var(--warning); }
+.capability-system-protected { color: var(--muted); }
 
 .state-select {
   min-height: 2.5rem;
@@ -907,6 +969,10 @@ h2 {
   }
 
   .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .activation-health-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

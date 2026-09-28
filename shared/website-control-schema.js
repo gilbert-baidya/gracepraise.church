@@ -78,6 +78,7 @@ const FEATURE_IDS = Object.freeze(FEATURE_DEFINITIONS.map((definition) => defini
 const FEATURE_ID_SET = new Set(FEATURE_IDS);
 const STATE_SET = new Set(ALLOWED_STATES);
 const FEATURE_MAP_KEYS = Object.freeze(['state']);
+const INITIAL_PUBLISHED_STATE = 'LIVE';
 
 // Surface metadata is intentionally separate from feature dependencies. A
 // feature may depend on another feature for admin impact reporting while a
@@ -245,18 +246,27 @@ function dependencyImpacts(changedIds) {
     }));
 }
 
+function createInitialBaselineFeatures() {
+  return FEATURE_DEFINITIONS.reduce((features, definition) => {
+    features[definition.id] = { state: INITIAL_PUBLISHED_STATE };
+    return features;
+  }, {});
+}
+
 const exportedSchema = Object.freeze({
   SCHEMA_VERSION,
   ALLOWED_STATES,
   FEATURE_DEFINITIONS,
   FEATURE_IDS,
+  INITIAL_PUBLISHED_STATE,
   CONTROLLED_SURFACE_DEFINITIONS,
   validateFeatureMap,
   validateDraftPayload,
   validateStoredDocument,
   validateRevisionDocument,
   changedFeatureIds,
-  dependencyImpacts
+  dependencyImpacts,
+  createInitialBaselineFeatures
 });
 
 if (typeof module !== 'undefined' && module.exports) {

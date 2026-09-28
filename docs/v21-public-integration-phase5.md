@@ -30,9 +30,9 @@ The real response includes the complete shared feature registry. Published autho
 - `SHADOW`: fetch and validate Published configuration, generate diagnostics, and make no DOM change.
 - `ACTIVE`: fetch and validate Published configuration, then apply behavior only to the explicitly selected low-risk test markers.
 
-The checked-in default is `SHADOW`. A page or future release can provide `window.GPBC_WEBSITE_CONTROL_CONFIG.mode`; an admin-only preview must use a trusted application surface, not a query-string flag.
+The checked-in default is `SHADOW`, owned by `shared/website-control-runtime.js`. Pages and route scripts do not provide a mode; the adapter only accepts endpoint/test plumbing, and an admin-only preview uses a trusted application surface rather than a query-string authorization flag.
 
-The adapter uses the shared browser/server schema, a 1.2-second timeout, `credentials: omit`, and fallback behavior that leaves the existing page visible when delivery fails. It does not block initial rendering or add a loading overlay. In opt-in ACTIVE mode, the three marked sections use temporary `visibility: hidden` while the request is pending, preserving their layout boxes; the boundary is removed on success, timeout, or any validation failure.
+The adapter uses the shared browser/server schema, a 1.2-second timeout, `credentials: omit`, and fallback behavior that leaves the existing page visible when delivery fails. It does not block initial rendering or add a loading overlay. In ACTIVE mode, the approved homepage markers and controlled routes use temporary `visibility: hidden` while the request is pending, preserving their layout boxes; the boundary is removed on success, timeout, or any validation failure.
 
 ## Phase 5 ACTIVE test features
 

@@ -44,6 +44,15 @@
     'comparisonList',
     'readinessSummary',
     'readinessList',
+    'runtimeMode',
+    'publishedRevision',
+    'draftRevision',
+    'activeReadyCount',
+    'shadowOnlyCount',
+    'blockingIssueCount',
+    'warningCount',
+    'publicEndpointStatus',
+    'lastValidation',
     'recentChanges',
     'recentRevisions',
     'protectedComponents'
@@ -64,6 +73,7 @@
   let publishInProgress = false;
   let restoreInProgress = false;
   let readinessBlocking = false;
+  let readinessWarnings = 0;
 
   function cacheDom() {
     ids.forEach((id) => {
@@ -178,6 +188,10 @@
         information.appendChild(createElement('span', 'feature-name', definition.displayName));
         information.appendChild(createElement('span', 'feature-description', definition.description));
         information.appendChild(createElement('span', 'feature-id', definition.id));
+        const capabilityBadge = createElement('span', `capability-badge capability-${definition.capability.toLowerCase().replace(/_/g, '-')}`, `${definition.capabilityLabel} · ${definition.capabilityDescription}`);
+        capabilityBadge.title = definition.capabilityDescription;
+        capabilityBadge.setAttribute('aria-label', `${definition.displayName}: ${definition.capabilityLabel}. ${definition.capabilityDescription}`);
+        information.appendChild(capabilityBadge);
 
         if (definition.dependencies.length > 0) {
           const dependencyNames = definition.dependencies.map((dependencyId) => {
@@ -331,6 +345,27 @@
     updatePublishButton();
     updatePreviewButton();
     renderDraftComparison();
+    renderActivationHealth();
+  }
+
+  function renderActivationHealth(checks = []) {
+    if (!configApi) return;
+    const capabilityCounts = configApi.getCapabilityCounts();
+    const blocking = checks.filter((check) => check.status === 'blocking').length;
+    const warnings = checks.filter((check) => check.status === 'warning').length;
+    if (dom.runtimeMode) dom.runtimeMode.textContent = window.GPBCWebsiteControlRuntime?.DEFAULT_MODE || 'SHADOW';
+    if (dom.publishedRevision) dom.publishedRevision.textContent = publishedRevision ? String(publishedRevision) : '—';
+    if (dom.draftRevision) dom.draftRevision.textContent = serverRevision ? String(serverRevision) : '—';
+    if (dom.activeReadyCount) dom.activeReadyCount.textContent = String(capabilityCounts.ACTIVE_READY || 0);
+    if (dom.shadowOnlyCount) dom.shadowOnlyCount.textContent = String(capabilityCounts.SHADOW_ONLY || 0);
+    if (dom.blockingIssueCount) dom.blockingIssueCount.textContent = checks.length ? String(blocking) : '—';
+    if (dom.warningCount) dom.warningCount.textContent = checks.length ? String(warnings) : '—';
+    if (dom.publicEndpointStatus) {
+      dom.publicEndpointStatus.textContent = 'Local/emulator helper';
+      dom.publicEndpointStatus.dataset.status = 'info';
+    }
+    if (dom.lastValidation && checks.length) dom.lastValidation.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    readinessWarnings = warnings;
   }
 
   function stateLabel(state) {
@@ -367,7 +402,7 @@
   function appendReadinessItem(status, label, detail) {
     const item = createElement('li', 'readiness-item');
     item.dataset.status = status;
-    const icon = status === 'safe' ? '✓' : (status === 'warning' ? '⚠' : '✕');
+    const icon = status === 'safe' ? '✓' : (status === 'warning' ? '⚠' : (status === 'info' ? 'i' : '✕'));
     item.appendChild(createElement('strong', '', `${icon} ${label}`));
     item.appendChild(createElement('span', '', detail));
     dom.readinessList?.appendChild(item);
@@ -442,17 +477,45 @@
       ? { status: 'safe', label: 'Dependency registry', detail: 'All configured dependency references resolve to approved feature IDs.' }
       : { status: 'blocking', label: 'Dependency registry', detail: `Unknown dependency metadata: ${unknownDependencies.join(', ')}.` });
 
+    const capabilityCounts = configApi.getCapabilityCounts();
+    const capabilityRegistryValid = capabilityCounts.ACTIVE_READY === 5
+      && capabilityCounts.SHADOW_ONLY === configApi.FEATURE_REGISTRY.length - 5;
+    checks.push(capabilityRegistryValid
+      ? { status: 'safe', label: 'Capability registry', detail: 'Five features are ACTIVE-ready; the remaining 45 registered features are Shadow-only.' }
+      : { status: 'blocking', label: 'Capability registry', detail: 'The ACTIVE-ready allowlist does not match the reviewed V21 release scope.' });
+
+    const capabilityWarnings = configApi.getCapabilityWarnings(currentConfig, publishedConfig);
+    if (capabilityWarnings.length > 0) {
+      checks.push({
+        status: 'warning',
+        label: 'Shadow-only feature states',
+        detail: capabilityWarnings.map((warning) => warning.message).join(' ')
+      });
+    } else {
+      checks.push({ status: 'safe', label: 'Shadow-only feature states', detail: 'No unsupported public change is requested by this Draft.' });
+    }
+
+    checks.push({
+      status: 'info',
+      label: 'Public endpoint health',
+      detail: 'Use the local/emulator-only public-config health helper for HTTP, schema, revision, and metadata checks. Production is not called from readiness.'
+    });
+
     const routeResults = await Promise.all(configApi.CONTROLLED_ROUTE_DEFINITIONS.map(inspectRouteHealth));
     checks.push(...routeResults);
     checks.push(...await inspectSurfaceHealth());
 
     readinessBlocking = checks.some((check) => check.status === 'blocking');
+    readinessWarnings = checks.filter((check) => check.status === 'warning').length;
     checks.forEach((check) => appendReadinessItem(check.status, check.label, check.detail));
     if (dom.readinessSummary) {
       dom.readinessSummary.textContent = readinessBlocking
         ? 'Blocking checks must be resolved before Publish Configuration.'
-        : 'No blocking readiness checks found. Review warnings before publishing.';
+        : readinessWarnings > 0
+          ? 'No blocking checks found. Review Shadow-only warnings before publishing.'
+          : 'No blocking readiness checks found. Review the workflow before publishing.';
     }
+    renderActivationHealth(checks);
     updatePublishButton();
   }
 
@@ -688,6 +751,9 @@
       if (Array.isArray(validation.dependencyImpacts) && validation.dependencyImpacts.length > 0) {
         setDashboardNotice('Dependency review passed. Writing Published configuration storage only…', 'warning');
       }
+      if (Array.isArray(validation.capabilityWarnings) && validation.capabilityWarnings.length > 0) {
+        setDashboardNotice('Shadow-only states are being stored for future work; they will not change the public website in the current release.', 'warning');
+      }
       const result = await firestoreApi.publishDraft(serverRevision);
       const published = await firestoreApi.loadPublished();
       publishedConfig = published.config ? configApi.cloneConfig(published.config) : null;
@@ -696,7 +762,7 @@
       await loadRecentServerRevisions();
       renderDraftComparison();
       await runReadinessChecks();
-      setDashboardNotice(`Published Configuration Revision ${result.revision} is stored in Firestore. Public website integration is not enabled yet.`, 'success');
+      setDashboardNotice(`Published successfully · Published Revision: ${result.revision}. Public configuration has been updated. The runtime remains SHADOW; changes may take approximately 30–60 seconds for fresh requests and up to approximately 5 minutes for stale cache revalidation.`, 'success');
     } catch (error) {
       setDashboardNotice(
         error && error.message

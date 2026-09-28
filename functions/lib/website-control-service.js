@@ -1,6 +1,7 @@
 'use strict';
 
 const schema = require('../../shared/website-control-schema');
+const runtime = require('../../shared/website-control-runtime');
 
 const COLLECTIONS = Object.freeze({
   control: 'websiteControl',
@@ -78,6 +79,17 @@ function validateDraftInput(data) {
   }
   requireNonNegativeRevision(data.expectedRevision, 'The loaded Draft revision is invalid.');
   return payload;
+}
+
+function capabilityWarnings(features) {
+  return schema.FEATURE_IDS
+    .filter((featureId) => runtime.capabilityFor(featureId, schema.FEATURE_IDS) === runtime.CAPABILITIES.SHADOW_ONLY)
+    .filter((featureId) => features?.[featureId]?.state && features[featureId].state !== 'LIVE')
+    .map((featureId) => ({
+      featureId,
+      capability: runtime.CAPABILITIES.SHADOW_ONLY,
+      state: features[featureId].state
+    }));
 }
 
 function createService({ db, FieldValue }) {
@@ -207,6 +219,7 @@ function createService({ db, FieldValue }) {
       revision: draft.revision,
       changedFeatures,
       dependencyImpacts: schema.dependencyImpacts(changedFeatures),
+      capabilityWarnings: capabilityWarnings(draft.features),
       publicIntegration: false
     };
   }
@@ -308,6 +321,7 @@ function createService({ db, FieldValue }) {
         sourceDraftRevision: draft.revision,
         changedFeatures,
         dependencyImpacts: schema.dependencyImpacts(changedFeatures),
+        capabilityWarnings: capabilityWarnings(draft.features),
         publicIntegration: false
       };
     });

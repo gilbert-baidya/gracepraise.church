@@ -123,6 +123,7 @@ test('trusted Publish creates Published storage, revision, and audit atomically'
   const result = await service.publishWebsiteConfiguration({ expectedDraftRevision: 1 }, makeContext());
   assert.equal(result.status, 'published-storage-only');
   assert.equal(result.publicIntegration, false);
+  assert.deepEqual(result.capabilityWarnings.map((warning) => warning.featureId), ['pages.prayer']);
   assert.equal(firestore.docs.get('websiteControl/published').publishedBy, 'admin-uid');
   assert.equal(firestore.docs.get('websiteControl/published').sourceDraftRevision, 1);
   assert.equal(firestore.docs.get('websiteControlAudit/generated-4').action, 'PUBLISHED');

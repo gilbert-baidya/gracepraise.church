@@ -22,7 +22,24 @@
     ADMIN_PREVIEW: 'Reserved for an authenticated admin preview.'
   });
 
+  const runtime = window.GPBCWebsiteControlRuntime;
   const SCHEMA_VERSION = 1;
+  const CAPABILITIES = runtime?.CAPABILITIES || Object.freeze({
+    ACTIVE_READY: 'ACTIVE_READY',
+    SHADOW_ONLY: 'SHADOW_ONLY',
+    SYSTEM_PROTECTED: 'SYSTEM_PROTECTED'
+  });
+  const ACTIVE_READY_FEATURE_IDS = Object.freeze(runtime?.ACTIVE_READY_FEATURE_IDS || []);
+  const CAPABILITY_LABELS = Object.freeze({
+    ACTIVE_READY: 'ACTIVE-ready',
+    SHADOW_ONLY: 'Shadow-only',
+    SYSTEM_PROTECTED: 'Protected / system'
+  });
+  const CAPABILITY_DESCRIPTIONS = Object.freeze({
+    ACTIVE_READY: 'Proven V21 adapter coverage; ACTIVE may control this feature.',
+    SHADOW_ONLY: 'Registered and previewable, but ACTIVE preserves the existing website behavior.',
+    SYSTEM_PROTECTED: 'Not a public feature control; lifecycle and safety remain code-owned.'
+  });
 
   const feature = (id, displayName, group, description, dependencies = []) => Object.freeze({
     id,
@@ -31,7 +48,12 @@
     description,
     dependencies: Object.freeze(dependencies),
     defaultState: FEATURE_STATES.LIVE,
-    dependencyControlled: dependencies.length > 0
+    dependencyControlled: dependencies.length > 0,
+    capability: ACTIVE_READY_FEATURE_IDS.includes(id) ? CAPABILITIES.ACTIVE_READY : CAPABILITIES.SHADOW_ONLY,
+    capabilityLabel: ACTIVE_READY_FEATURE_IDS.includes(id) ? CAPABILITY_LABELS.ACTIVE_READY : CAPABILITY_LABELS.SHADOW_ONLY,
+    capabilityDescription: ACTIVE_READY_FEATURE_IDS.includes(id)
+      ? CAPABILITY_DESCRIPTIONS.ACTIVE_READY
+      : CAPABILITY_DESCRIPTIONS.SHADOW_ONLY
   });
 
   // Code-owned semantic registry. Selectors and lifecycle behavior stay out of
@@ -147,6 +169,10 @@
     return createDraftConfig();
   }
 
+  function createInitialBaselineConfig() {
+    return createDraftConfig();
+  }
+
   function createDraftConfig(features = null, metadata = {}) {
     const source = features && typeof features === 'object' ? features : {};
     return {
@@ -258,22 +284,57 @@
     }));
   }
 
+  function getCapabilityCounts() {
+    return FEATURE_REGISTRY.reduce((counts, definition) => {
+      counts[definition.capability] = (counts[definition.capability] || 0) + 1;
+      return counts;
+    }, {
+      [CAPABILITIES.ACTIVE_READY]: 0,
+      [CAPABILITIES.SHADOW_ONLY]: 0,
+      [CAPABILITIES.SYSTEM_PROTECTED]: 0
+    });
+  }
+
+  function getCapabilityWarnings(config, baseline = null) {
+    const previous = baseline?.features || {};
+    return FEATURE_REGISTRY
+      .filter((definition) => definition.capability === CAPABILITIES.SHADOW_ONLY)
+      .filter((definition) => {
+        const currentState = config?.features?.[definition.id]?.state || definition.defaultState;
+        const previousState = previous[definition.id]?.state || definition.defaultState;
+        return currentState !== definition.defaultState || currentState !== previousState;
+      })
+      .map((definition) => ({
+        featureId: definition.id,
+        displayName: definition.displayName,
+        state: config?.features?.[definition.id]?.state || definition.defaultState,
+        message: `${definition.displayName} is Shadow-only. This setting is stored and previewable but will not change the public website in the current release.`
+      }));
+  }
+
   window.GPBCAdminConfig = Object.freeze({
     SCHEMA_VERSION,
     FEATURE_STATES,
     FEATURE_STATE_LABELS,
     FEATURE_STATE_DESCRIPTIONS,
+    CAPABILITIES,
+    ACTIVE_READY_FEATURE_IDS,
+    CAPABILITY_LABELS,
+    CAPABILITY_DESCRIPTIONS,
     FEATURE_REGISTRY,
     CONTROLLED_SURFACE_DEFINITIONS,
     CONTROLLED_ROUTE_DEFINITIONS,
     PROTECTED_COMPONENTS,
     createDefaultConfig,
+    createInitialBaselineConfig,
     createDraftConfig,
     cloneConfig,
     normalizeConfig,
     validateFeatureMap,
     validateConfig,
     countStates,
-    getGroupDefinitions
+    getGroupDefinitions,
+    getCapabilityCounts,
+    getCapabilityWarnings
   });
 })();

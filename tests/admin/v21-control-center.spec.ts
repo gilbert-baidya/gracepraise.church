@@ -252,7 +252,8 @@ test.describe('V21 Admin Control Center trusted backend contract', () => {
     await expect(page.locator('#recentRevisions .recent-revision')).toHaveCount(1);
 
     await page.locator('#publishButton').click();
-    await expect(page.locator('#dashboardNotice')).toContainText('Public website integration is not enabled yet');
+    await expect(page.locator('#dashboardNotice')).toContainText('Published successfully');
+    await expect(page.locator('#dashboardNotice')).toContainText('runtime remains SHADOW');
     await expect(page.locator('#recentRevisions .recent-revision')).toHaveCount(2);
     const publishedStorageOnly = await page.evaluate(() => {
       const harness = (window as any).__v21Harness;

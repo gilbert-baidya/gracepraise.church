@@ -23,6 +23,7 @@
     "test:report": "playwright show-report",
     "test:phonetic-v2": "node --test tests/phonetic-v2.test.js",
     "test:v21:schema": "node scripts/verify-v21-schema.mjs",
+    "test:v21:public-config": "node scripts/check-v21-public-config.mjs",
     "test:v21:rules": "firebase emulators:exec --only firestore,auth \"node --test tests/firebase/firestore.rules.test.js\"",
     "test:v21:functions": "firebase emulators:exec --only auth,firestore,functions \"node --test tests/firebase/functions.integration.test.js\"",
     "test:v21:backend": "npm --prefix functions test",

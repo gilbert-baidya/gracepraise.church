@@ -4,8 +4,11 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const serverSchema = require('../shared/website-control-schema.js');
+const runtime = require('../shared/website-control-runtime.js');
+const runtimeSource = fs.readFileSync(new URL('../shared/website-control-runtime.js', import.meta.url), 'utf8');
 const browserSource = fs.readFileSync(new URL('../admin/v21/admin-config.js', import.meta.url), 'utf8');
 const sandbox = { window: {} };
+vm.runInNewContext(runtimeSource, sandbox, { filename: 'website-control-runtime.js' });
 vm.runInNewContext(browserSource, sandbox, { filename: 'admin-config.js' });
 const browserRegistry = sandbox.window.GPBCAdminConfig.FEATURE_REGISTRY;
 const browserSurfaces = sandbox.window.GPBCAdminConfig.CONTROLLED_SURFACE_DEFINITIONS;
@@ -32,3 +35,11 @@ if (JSON.stringify(browserSurfaceIds) !== JSON.stringify(serverSurfaceIds)) {
 }
 
 console.log(`Controlled surface alignment passed: ${serverSurfaceIds.length} surface definitions match.`);
+
+const activeReady = browserRegistry
+  .filter((feature) => feature.capability === runtime.CAPABILITIES.ACTIVE_READY)
+  .map((feature) => feature.id);
+if (JSON.stringify(activeReady.slice().sort()) !== JSON.stringify(runtime.ACTIVE_READY_FEATURE_IDS.slice().sort())) {
+  throw new Error('Browser capability registry does not match the centralized ACTIVE-ready allowlist.');
+}
+console.log(`Capability alignment passed: ${activeReady.length} ACTIVE-ready and ${browserRegistry.length - activeReady.length} Shadow-only feature IDs.`);

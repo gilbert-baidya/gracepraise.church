@@ -1,10 +1,10 @@
 /* ACTIVE mode keeps marked sections in flow while Published state loads. */
-html[data-gpbc-control-mode="ACTIVE"][data-gpbc-control-pending="true"] [data-gpbc-feature] {
+html[data-gpbc-control-status="loading"][data-gpbc-control-pending="true"] [data-gpbc-feature] {
     visibility: hidden;
 }
 
 /* Route-controlled content stays in flow until the published decision arrives. */
-html[data-gpbc-control-mode="ACTIVE"][data-gpbc-control-pending="true"] [data-gpbc-route-feature] {
+html[data-gpbc-control-status="loading"][data-gpbc-control-pending="true"] [data-gpbc-route-feature] {
     visibility: hidden;
 }
 

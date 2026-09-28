@@ -125,6 +125,7 @@ test('callable Draft, Publish, and Restore operations enforce Auth claims and pe
   const validation = await callFunction('validateWebsiteDraftForPublish', adminToken, { expectedDraftRevision: 1 });
   assert.equal(validation.publicIntegration, false);
   assert.equal(validation.revision, 1);
+  assert.deepEqual(validation.capabilityWarnings.map((warning) => warning.featureId), ['pages.prayer']);
 
   const draftPreview = await callFunction('getWebsiteDraftPreview', adminToken, {});
   assert.deepEqual(Object.keys(draftPreview).sort(), ['features', 'preview', 'revision', 'schemaVersion']);
@@ -165,18 +166,35 @@ test('callable Draft, Publish, and Restore operations enforce Auth claims and pe
   assert.equal(publicPostResponse.status, 405);
   assert.deepEqual(await publicPostResponse.json(), { error: 'Method not allowed.' });
 
-  const draftRevision = (await db.collection('websiteControlRevisions').get()).docs
-    .find((document) => document.data().source === 'draft' && document.data().revision === 1);
-  assert.ok(draftRevision, 'The initial Draft revision must be available for restore.');
-  const restored = await callFunction('restoreWebsiteRevision', adminToken, {
-    revisionId: draftRevision.id,
+  const secondSave = await callFunction('saveWebsiteDraft', adminToken, {
+    config: makeConfig({ 'pages.prayer': 'COMING_SOON' }),
     expectedRevision: 1
   });
+  assert.equal(secondSave.revision, 2);
+  const secondPublished = await callFunction('publishWebsiteConfiguration', adminToken, { expectedDraftRevision: 2 });
+  assert.equal(secondPublished.revision, 2);
+
+  const firstDraftRevision = (await db.collection('websiteControlRevisions').get()).docs
+    .find((document) => document.data().source === 'draft' && document.data().revision === 1);
+  assert.ok(firstDraftRevision, 'The initial Draft revision must be available for restore.');
+  const restored = await callFunction('restoreWebsiteRevision', adminToken, {
+    revisionId: firstDraftRevision.id,
+    expectedRevision: 2
+  });
   assert.equal(restored.status, 'restored');
-  assert.equal(restored.revision, 2);
-  assert.equal((await db.collection('websiteControl').doc('draft').get()).data().revision, 2);
-  assert.equal((await db.collection('websiteControl').doc('published').get()).data().revision, 1);
+  assert.equal(restored.revision, 3);
+  const restoredPreview = await callFunction('getWebsiteDraftPreview', adminToken, {});
+  assert.equal(restoredPreview.revision, 3);
+  assert.equal(restoredPreview.features['pages.prayer'].state, 'HIDDEN');
+  const republished = await callFunction('publishWebsiteConfiguration', adminToken, { expectedDraftRevision: 3 });
+  assert.equal(republished.revision, 3);
+  assert.equal((await db.collection('websiteControl').doc('draft').get()).data().revision, 3);
+  assert.equal((await db.collection('websiteControl').doc('published').get()).data().revision, 3);
+  assert.equal((await db.collection('websiteControl').doc('published').get()).data().features['pages.prayer'].state, 'HIDDEN');
   assert.equal((await db.collection('websiteControlAudit').where('action', '==', 'DRAFT_RESTORED').get()).size, 1);
-  assert.equal((await db.collection('websiteControlRevisions').get()).size, 3);
+  assert.equal((await db.collection('websiteControlRevisions').get()).size, 6);
+  const historicalSecondPublished = (await db.collection('websiteControlRevisions').get()).docs
+    .find((document) => document.data().source === 'published' && document.data().revision === 2);
+  assert.equal(historicalSecondPublished.data().features['pages.prayer'].state, 'COMING_SOON');
   assert.equal(memberUser.uid.length > 0, true);
 });

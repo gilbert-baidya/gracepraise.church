@@ -2,22 +2,19 @@
   'use strict';
 
   const schema = window.GPBCWebsiteControlSchema;
-  const MODES = Object.freeze({ DISABLED: 'DISABLED', SHADOW: 'SHADOW', ACTIVE: 'ACTIVE' });
-  const DEFAULT_MODE = MODES.SHADOW;
+  const runtime = window.GPBCWebsiteControlRuntime;
+  const MODES = runtime?.MODES || Object.freeze({ DISABLED: 'DISABLED', SHADOW: 'SHADOW', ACTIVE: 'ACTIVE' });
+  const DEFAULT_MODE = runtime?.DEFAULT_MODE || MODES.SHADOW;
   const DEFAULT_TIMEOUT_MS = 1200;
   const PUBLIC_ENDPOINT = 'https://us-central1-grace-and-praise-bangladesh.cloudfunctions.net/getPublishedWebsiteConfiguration';
   const PREVIEW_QUERY_PARAM = 'gpbc-preview';
   const PREVIEW_SCRIPT = 'website-preview.js';
-  const KILL_SWITCH = Object.freeze({
-    enabled: false,
+  const KILL_SWITCH = runtime?.KILL_SWITCH || Object.freeze({
+    enabled: true,
     fallbackMode: MODES.SHADOW,
-    reason: 'Emergency public adapter disable switch is code-owned and inactive.'
+    reason: 'Runtime contract unavailable; safe fallback is SHADOW.'
   });
-  const ACTIVE_TEST_FEATURES = Object.freeze([
-    'homepage.planVisit',
-    'homepage.welcomeHome',
-    'homepage.community'
-  ]);
+  const ACTIVE_READY_FEATURES = runtime?.ACTIVE_READY_FEATURE_IDS || Object.freeze([]);
   const CONTROLLED_ROUTES = Object.freeze({
     'pages.planVisit': Object.freeze({
       featureId: 'pages.planVisit',
@@ -102,7 +99,7 @@
   }
 
   function currentMode() {
-    return normalizeMode(options().mode || document.documentElement.dataset.gpbcControlMode);
+    return normalizeMode(runtime?.getRuntimeMode?.() || DEFAULT_MODE);
   }
 
   function endpoint() {
@@ -277,7 +274,7 @@
       ];
       const configuredState = ownState(featureId, state.config);
       const effectiveState = resolveState(featureId, state.config);
-      const activeTarget = ACTIVE_TEST_FEATURES.includes(featureId);
+      const activeTarget = ACTIVE_READY_FEATURES.includes(featureId);
       const routeMatch = currentRoute?.featureId === featureId;
       const routeState = routeMatch ? stateForRoute(currentRoute, state.config) : null;
       const expectedAction = state.mode === MODES.ACTIVE && (activeTarget || routeMatch)
@@ -363,7 +360,7 @@
     if (state.mode !== MODES.ACTIVE || !state.config) return;
 
     const surfaceFeatureIds = new Set(CONTROLLED_SURFACES.map((surface) => surface.featureId));
-    ACTIVE_TEST_FEATURES.filter((featureId) => !surfaceFeatureIds.has(featureId)).forEach((featureId) => {
+    ACTIVE_READY_FEATURES.filter((featureId) => !surfaceFeatureIds.has(featureId)).forEach((featureId) => {
       const effectiveState = resolveState(featureId, state.config);
       document.querySelectorAll(featureSelector(featureId)).forEach((element) => {
         element.dataset.gpbcControlState = effectiveState;
@@ -382,7 +379,6 @@
   }
 
   function setBoundaryState(status, pending = false) {
-    document.documentElement.dataset.gpbcControlMode = state.mode;
     document.documentElement.dataset.gpbcControlStatus = status;
     if (pending) {
       document.documentElement.dataset.gpbcControlPending = 'true';
@@ -437,7 +433,11 @@
       }
       const script = document.createElement('script');
       script.async = true;
-      script.src = new URL(PREVIEW_SCRIPT, window.location.origin).href;
+      const scriptUrl = new URL(PREVIEW_SCRIPT, window.location.origin);
+      // Preview is an authenticated, short-lived session. A cache-busting
+      // token prevents a stale preview helper from surviving a route change.
+      scriptUrl.searchParams.set('gpbc-preview-script', String(Date.now()));
+      script.src = scriptUrl.href;
       script.dataset.gpbcPreviewScript = PREVIEW_SCRIPT;
       script.addEventListener('load', () => {
         if (window.GPBCWebsitePreview && typeof window.GPBCWebsitePreview.load === 'function') {
@@ -629,7 +629,9 @@
   }
 
   async function loadPublished(loadOptions = {}) {
-    state.mode = normalizeMode(loadOptions.mode || currentMode());
+    // Runtime mode is resolved only by the shared contract. Callers may
+    // provide endpoint/timeout plumbing, but cannot select the public mode.
+    state.mode = normalizeMode(currentMode());
     state.preview = Object.freeze({ active: false, revision: null });
     removePreviewBanner();
     setBoundaryState('loading', state.mode === MODES.ACTIVE);
@@ -726,14 +728,16 @@
       initializeControlledRoute();
       return snapshot();
     } catch (error) {
-      state.error = error?.message || 'preview-unavailable';
+      const previewError = error?.message || 'preview-unavailable';
       recordObservation('preview_fallback');
       removePreviewBanner();
       state.preview = Object.freeze({ active: false, revision: null });
       state.routeInitialized = false;
       // A failed preview never exposes Draft. The ordinary Published/SHADOW
       // path is the only fallback, even when the URL contains preview intent.
-      return loadPublished({ ...loadOptions, forcePublished: true, previewFallback: true });
+      await loadPublished({ ...loadOptions, forcePublished: true, previewFallback: true });
+      state.error = `preview:${previewError}`;
+      return snapshot();
     }
   }
 
@@ -762,7 +766,8 @@
     MODES,
     DEFAULT_MODE,
     KILL_SWITCH,
-    ACTIVE_TEST_FEATURES,
+    ACTIVE_READY_FEATURES,
+    ACTIVE_TEST_FEATURES: ACTIVE_READY_FEATURES,
     CONTROLLED_ROUTES,
     CONTROLLED_SURFACES,
     load,

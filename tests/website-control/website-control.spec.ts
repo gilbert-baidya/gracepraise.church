@@ -31,10 +31,8 @@ function publishedConfig(overrides: Record<string, FeatureState> = {}) {
 
 async function configurePage(page: Page, mode: string) {
   await page.addInitScript(({ configuredMode, configuredEndpoint }) => {
-    (window as any).GPBC_WEBSITE_CONTROL_CONFIG = {
-      mode: configuredMode,
-      endpoint: configuredEndpoint
-    };
+    (window as any).__GPBC_V21_TEST_HARNESS__ = { runtimeMode: configuredMode };
+    (window as any).GPBC_WEBSITE_CONTROL_CONFIG = { endpoint: configuredEndpoint };
   }, { configuredMode: mode, configuredEndpoint: endpointUrl });
 }
 
@@ -147,6 +145,70 @@ test.describe('V21 public website-control adapter', () => {
       domPresence: 'ABSENT'
     });
     expect(pageErrors).toEqual([]);
+  });
+
+  test('Phase 9 multi-feature ACTIVE scope preserves dependencies, footer, and route safety', async ({ page }) => {
+    const pageErrors: string[] = [];
+    page.on('pageerror', (error) => pageErrors.push(error.message));
+    const currentConfig = publishedConfig({
+      'homepage.planVisit': 'HIDDEN',
+      'homepage.community': 'HIDDEN',
+      'pages.gallery': 'COMING_SOON',
+      'pages.planVisit': 'LIVE'
+    });
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(currentConfig)
+      });
+    });
+    await configurePage(page, 'ACTIVE');
+
+    await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    expect(await marker(page, 'homepage.planVisit')).toMatchObject({ hidden: true, controlState: 'HIDDEN' });
+    expect(await marker(page, 'homepage.community')).toMatchObject({ hidden: true, controlState: 'HIDDEN' });
+    await expect(page.locator('[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="footer"]')).toHaveCount(5);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+
+    await page.goto('/plan-visit.html', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    expect(await page.locator('#main-content').isHidden()).toBe(false);
+    await expect(page.locator('script[data-gpbc-route-script="pages.planVisit"]')).toHaveCount(1);
+
+    await page.goto('/gallery.html', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    await expect(page.locator('#gpbc-route-state h1')).toHaveText('Gallery Coming Soon');
+    await expect(page.locator('script[data-gpbc-route-script="pages.gallery"]')).toHaveCount(0);
+    expect(await page.locator('header').isVisible()).toBe(true);
+    expect(await page.locator('footer').isVisible()).toBe(true);
+    expect(pageErrors).toEqual([]);
+  });
+
+  test('ACTIVE preserves unsupported registered features and ignores browser mode injection', async ({ page }) => {
+    await page.addInitScript(() => {
+      (window as any).GPBC_WEBSITE_CONTROL_CONFIG = { mode: 'DISABLED' };
+      document.documentElement.dataset.gpbcControlMode = 'DISABLED';
+      localStorage.setItem('websiteControlMode', 'DISABLED');
+    });
+    await page.route(endpointRoute, async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.giving': 'HIDDEN', 'pages.songbook': 'COMING_SOON' }))
+      });
+    });
+    await configurePage(page, 'ACTIVE');
+    await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+    await waitForAdapter(page);
+    const report = await page.evaluate(() => (window as any).GPBCWebsiteControl.buildShadowReport());
+    expect(report.find((entry: any) => entry.featureId === 'pages.giving')).toMatchObject({
+      expectedAction: 'NO_DOM_CHANGE',
+      wouldApply: 'NO_DOM_CHANGE'
+    });
+    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState().mode)).toBe('ACTIVE');
+    expect(await page.locator('header').isVisible()).toBe(true);
   });
 
   test('dependency resolution propagates HIDDEN and COMING_SOON safely', async ({ page }) => {
@@ -730,20 +792,20 @@ test.describe('V21 public website-control adapter', () => {
       publicRequests += 1;
       await route.fulfill({ contentType: 'application/json', body: JSON.stringify(publishedConfig()) });
     });
-    await page.route('**/website-preview.js', async (route) => {
-      const preview = {
-        ...publishedConfig({
-          'homepage.planVisit': 'ADMIN_PREVIEW',
-          'pages.planVisit': 'COMING_SOON',
-          'pages.gallery': 'ADMIN_PREVIEW'
-        }),
-        preview: true
+    const preview = {
+      ...publishedConfig({
+        'homepage.planVisit': 'ADMIN_PREVIEW',
+        'pages.planVisit': 'COMING_SOON',
+        'pages.gallery': 'ADMIN_PREVIEW'
+      }),
+      preview: true
+    };
+    await page.addInitScript(({ previewPayload }) => {
+      (window as any).GPBCWebsitePreview = {
+        load: async () => previewPayload,
+        onAuthLost: (callback: () => void) => { (window as any).__previewAuthLost = callback; }
       };
-      await route.fulfill({
-        contentType: 'application/javascript',
-        body: `window.GPBCWebsitePreview = { load: async () => ${JSON.stringify(preview)}, onAuthLost: (callback) => { window.__previewAuthLost = callback; } };`
-      });
-    });
+    }, { previewPayload: preview });
     await configurePage(page, 'SHADOW');
     await page.goto('/index.html?gpbc-preview=1', { waitUntil: 'domcontentloaded' });
     await waitForAdapter(page);
@@ -779,11 +841,11 @@ test.describe('V21 public website-control adapter', () => {
       publicRequests += 1;
       await route.fulfill({ contentType: 'application/json', body: JSON.stringify(publishedConfig()) });
     });
-    await page.route('**/website-preview.js', async (route) => {
-      await route.fulfill({
-        contentType: 'application/javascript',
-        body: 'window.GPBCWebsitePreview = { load: async () => { throw new Error("preview-admin-required"); }, onAuthLost: () => {} };'
-      });
+    await page.addInitScript(() => {
+      (window as any).GPBCWebsitePreview = {
+        load: async () => { throw new Error('preview-admin-required'); },
+        onAuthLost: () => {}
+      };
     });
     await configurePage(page, 'SHADOW');
     await page.goto('/index.html?gpbc-preview=1', { waitUntil: 'domcontentloaded' });
