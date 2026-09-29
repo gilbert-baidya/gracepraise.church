@@ -116,6 +116,33 @@ test('trusted Draft save rejects malformed configuration and non-Admin callers',
   );
 });
 
+test('all Admin service operations reject unauthenticated, non-Admin, and admin=false callers', async () => {
+  const firestore = makeFirestore();
+  const service = serviceFor(firestore);
+  const operations = [
+    (context) => service.saveDraft({ config: makeConfig(), expectedRevision: 0 }, context),
+    (context) => service.validateDraftForPublish({ expectedDraftRevision: 1 }, context),
+    (context) => service.getWebsiteDraftPreview({}, context),
+    (context) => service.publishWebsiteConfiguration({ expectedDraftRevision: 1 }, context),
+    (context) => service.restoreWebsiteRevision({ revisionId: 'revision-id', expectedRevision: 1 }, context)
+  ];
+  const nonAdminContexts = [
+    {},
+    makeContext('member', { email: 'member@example.test' }),
+    makeContext('false-admin', { admin: false, email: 'false-admin@example.test' })
+  ];
+
+  for (const context of nonAdminContexts) {
+    for (const operation of operations) {
+      await assert.rejects(
+        () => operation(context),
+        (error) => error instanceof BackendOperationError
+          && (context.auth ? error.code === 'permission-denied' : error.code === 'unauthenticated')
+      );
+    }
+  }
+});
+
 test('trusted Publish creates Published storage, revision, and audit atomically', async () => {
   const firestore = makeFirestore();
   const service = serviceFor(firestore);

@@ -2,6 +2,8 @@
 
 const assert = require('node:assert/strict');
 const test = require('node:test');
+const fs = require('node:fs');
+const path = require('node:path');
 const functions = require('../index');
 
 const adminFunctionNames = [
@@ -12,11 +14,13 @@ const adminFunctionNames = [
   'restoreWebsiteRevision'
 ];
 
-test('published configuration is public while Admin callables remain protected', () => {
+test('published configuration is public while Admin callables remain application-protected', () => {
   const publicEndpoint = functions.getPublishedWebsiteConfiguration.__endpoint;
+  const source = fs.readFileSync(path.join(__dirname, '..', 'index.js'), 'utf8');
 
   assert.deepEqual(publicEndpoint.httpsTrigger.invoker, ['public']);
   assert.deepEqual(publicEndpoint.region, ['us-central1']);
+  assert.match(source, /return onCall\(\{ invoker: 'public' \}/);
 
   for (const name of adminFunctionNames) {
     const endpoint = functions[name].__endpoint;

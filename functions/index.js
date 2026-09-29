@@ -16,7 +16,7 @@ const service = createService({
 });
 
 function expose(handler) {
-  return onCall(async (request) => {
+  return onCall({ invoker: 'public' }, async (request) => {
     try {
       return await handler(request.data || {}, request);
     } catch (error) {
