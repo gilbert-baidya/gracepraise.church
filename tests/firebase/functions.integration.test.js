@@ -5,7 +5,7 @@ const test = require('node:test');
 const admin = require('../../functions/node_modules/firebase-admin');
 const schema = require('../../shared/website-control-schema');
 
-const projectId = process.env.GCLOUD_PROJECT || 'grace-and-praise-bangladesh';
+const projectId = process.env.GCLOUD_PROJECT || 'admin-gpbc-website';
 const functionHost = process.env.FIREBASE_FUNCTIONS_EMULATOR_HOST || '127.0.0.1:5001';
 const authHost = process.env.FIREBASE_AUTH_EMULATOR_HOST || '127.0.0.1:9099';
 const functionBase = `http://${functionHost}/${projectId}/us-central1`;

@@ -2,12 +2,13 @@
   'use strict';
 
   const FIREBASE_CONFIG = Object.freeze({
-    apiKey: 'AIzaSyBfgN7unrb14jNnrdvDkqAobBNkIXHGsvg',
-    authDomain: 'grace-and-praise-bangladesh.firebaseapp.com',
-    projectId: 'grace-and-praise-bangladesh',
-    storageBucket: 'grace-and-praise-bangladesh.firebasestorage.app',
-    messagingSenderId: '442116018308',
-    appId: '1:442116018308:web:7cfb041fad8b68256432d1'
+    apiKey: 'AIzaSyDVk2zgUvrJ9la3ovbI6z8NhyvB1_VYTjI',
+    authDomain: 'admin-gpbc-website.firebaseapp.com',
+    projectId: 'admin-gpbc-website',
+    storageBucket: 'admin-gpbc-website.firebasestorage.app',
+    messagingSenderId: '935536706617',
+    appId: '1:935536706617:web:5d44b8785e5dd0c99eb9e8',
+    measurementId: 'G-0LXZHC0CLP'
   });
   const APP_NAME = 'gpbc-v21-preview';
   const REGION = 'us-central1';

@@ -7,7 +7,7 @@ domains, or public `ACTIVE` mode.
 Target Firebase project:
 
 ```text
-grace-and-praise-bangladesh
+admin-gpbc-website
 ```
 
 The first production website release is `SHADOW`. The public hardcoded site
@@ -19,7 +19,7 @@ Admin workflow, and endpoint are observed.
 Perform these checks in the approved Firebase/Google Cloud account:
 
 1. Verify that the selected project ID is exactly
-   `grace-and-praise-bangladesh` and that the Firebase Console is showing the
+   `admin-gpbc-website` and that the Firebase Console is showing the
    same project.
 2. Confirm Firestore is in Native mode. Do not convert or recreate a database
    without a separate approved migration plan.
@@ -40,7 +40,7 @@ Review the rules and indexes from the approved feature-branch commit, then run
 these commands manually from the repository root:
 
 ```bash
-firebase deploy --only firestore:rules,firestore:indexes --project grace-and-praise-bangladesh
+firebase deploy --only firestore:rules,firestore:indexes --project admin-gpbc-website
 ```
 
 Verify the command output names the intended project before confirming. This
@@ -53,7 +53,7 @@ After the security deployment is reviewed, deploy only the V21 Functions
 codebase:
 
 ```bash
-firebase deploy --only functions:gpbc-v21 --project grace-and-praise-bangladesh
+firebase deploy --only functions:gpbc-v21 --project admin-gpbc-website
 ```
 
 The expected deployed Function names are:
@@ -107,7 +107,7 @@ The required order is:
    ```bash
    node tools/initialize-website-control.js \
      --dry-run \
-     --project-id grace-and-praise-bangladesh
+     --project-id admin-gpbc-website
    ```
 
 2. Verify the output reports 50 recognized features and an all-`LIVE` baseline.
@@ -119,7 +119,7 @@ The required order is:
    node tools/initialize-website-control.js \
      --write \
      --confirm-production \
-     --project-id grace-and-praise-bangladesh
+     --project-id admin-gpbc-website
    ```
 
    The tool refuses to replace existing documents unless
@@ -129,8 +129,8 @@ The required order is:
 
    ```bash
    npm run test:v21:public-config -- \
-     --project-id grace-and-praise-bangladesh \
-     --endpoint https://us-central1-grace-and-praise-bangladesh.cloudfunctions.net/getPublishedWebsiteConfiguration \
+     --project-id admin-gpbc-website \
+     --endpoint https://us-central1-admin-gpbc-website.cloudfunctions.net/getPublishedWebsiteConfiguration \
      --allow-production-read
    ```
 

@@ -27,7 +27,7 @@ Trusted Functions author Draft, Published, revision, and audit writes with the a
 Before production activation, configure and verify:
 
 1. Firebase Auth email/password provider and authorized domains.
-2. Create the Firestore database in Native mode for project `grace-and-praise-bangladesh`.
+2. Create the Firestore database in Native mode for project `admin-gpbc-website`.
 3. Install Functions dependencies inside `functions/` and deploy Rules/Functions/indexes only from a trusted review-approved environment.
 4. Assign `admin: true` only through a trusted Firebase Admin SDK process, Cloud Function, or equivalent server-side tool. The repository includes a local Application Default Credentials workflow at `tools/set-admin-claim.js`.
 5. Add the approved Admin domain to Firebase Auth authorized domains.

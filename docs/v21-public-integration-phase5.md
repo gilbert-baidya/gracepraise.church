@@ -6,7 +6,7 @@ Phase 5 connects the static public website to the published V21 configuration th
 
 The trusted backend exposes:
 
-`GET https://us-central1-grace-and-praise-bangladesh.cloudfunctions.net/getPublishedWebsiteConfiguration`
+`GET https://us-central1-admin-gpbc-website.cloudfunctions.net/getPublishedWebsiteConfiguration`
 
 The response contains only:
 

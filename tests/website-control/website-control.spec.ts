@@ -7,7 +7,7 @@ import { expect, test, type Page } from '@playwright/test';
 const schema = require('../../shared/website-control-schema');
 
 const endpointRoute = '**/__v21/published-config';
-const endpointUrl = 'https://us-central1-grace-and-praise-bangladesh.cloudfunctions.net/__v21/published-config';
+const endpointUrl = 'https://us-central1-admin-gpbc-website.cloudfunctions.net/__v21/published-config';
 
 type FeatureState = 'LIVE' | 'HIDDEN' | 'COMING_SOON' | 'ADMIN_PREVIEW';
 type DeliveryFailure = { name: string; status: number; body: string; delay?: number; abort?: boolean };

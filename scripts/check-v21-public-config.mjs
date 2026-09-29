@@ -6,7 +6,7 @@ const valueAfter = (flag) => {
   const index = args.indexOf(flag);
   return index >= 0 ? args[index + 1] : undefined;
 };
-const projectId = valueAfter('--project-id') || process.env.GCLOUD_PROJECT || 'grace-and-praise-bangladesh';
+const projectId = valueAfter('--project-id') || process.env.GCLOUD_PROJECT || 'admin-gpbc-website';
 const endpoint = valueAfter('--endpoint') || `http://127.0.0.1:5001/${projectId}/us-central1/getPublishedWebsiteConfiguration`;
 const allowProductionRead = args.includes('--allow-production-read');
 const isProductionEndpoint = endpoint.includes('cloudfunctions.net');

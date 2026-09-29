@@ -6,7 +6,7 @@
   const MODES = runtime?.MODES || Object.freeze({ DISABLED: 'DISABLED', SHADOW: 'SHADOW', ACTIVE: 'ACTIVE' });
   const DEFAULT_MODE = runtime?.DEFAULT_MODE || MODES.SHADOW;
   const DEFAULT_TIMEOUT_MS = 1200;
-  const PUBLIC_ENDPOINT = 'https://us-central1-grace-and-praise-bangladesh.cloudfunctions.net/getPublishedWebsiteConfiguration';
+  const PUBLIC_ENDPOINT = 'https://us-central1-admin-gpbc-website.cloudfunctions.net/getPublishedWebsiteConfiguration';
   const PREVIEW_QUERY_PARAM = 'gpbc-preview';
   const PREVIEW_SCRIPT = 'website-preview.js';
   const KILL_SWITCH = runtime?.KILL_SWITCH || Object.freeze({

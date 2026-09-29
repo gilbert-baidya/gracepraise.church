@@ -3,8 +3,8 @@
 
 const schema = require('../shared/website-control-schema');
 
-const EXPECTED_PRODUCTION_PROJECT = 'grace-and-praise-bangladesh';
-const EMULATOR_PROJECT = 'demo-grace-and-praise-bangladesh';
+const EXPECTED_PRODUCTION_PROJECT = 'admin-gpbc-website';
+const EMULATOR_PROJECT = 'demo-admin-gpbc-website';
 const args = new Set(process.argv.slice(2));
 
 function valueAfter(flag) {

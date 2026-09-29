@@ -140,7 +140,7 @@ say this explicitly; it must not promise instant propagation.
 The initial baseline tool is server/Admin-SDK-only and defaults to dry-run:
 
 ```bash
-node tools/initialize-website-control.js --dry-run --project-id grace-and-praise-bangladesh
+node tools/initialize-website-control.js --dry-run --project-id admin-gpbc-website
 ```
 
 It displays the target project, validates the 50-feature all-LIVE baseline,
@@ -153,7 +153,7 @@ the repository.
 The public endpoint health helper is local/emulator-first:
 
 ```bash
-npm run test:v21:public-config -- --project-id demo-grace-and-praise-bangladesh
+npm run test:v21:public-config -- --project-id demo-admin-gpbc-website
 ```
 
 It requires HTTP 200, the supported schema, a positive revision, exactly 50
@@ -165,7 +165,7 @@ mutate data and refuses production endpoints unless explicitly authorized.
 Do not perform these steps as part of Phase 9. Before a future release:
 
 1. Confirm the Firebase project ID is exactly
-   `grace-and-praise-bangladesh` and Firestore is in Native mode.
+   `admin-gpbc-website` and Firestore is in Native mode.
 2. Confirm Email/Password Auth is enabled and the approved Auth domains are
    present.
 3. Confirm billing/Blaze requirements for callable Functions are understood.
