@@ -10,7 +10,10 @@
     appId: '1:935536706617:web:5d44b8785e5dd0c99eb9e8',
     measurementId: 'G-0LXZHC0CLP'
   });
-  const APP_NAME = 'gpbc-v21-preview';
+  // Reuse the Admin app name so Firebase Auth persistence is shared with the
+  // authenticated Admin Control Center tab. The Preview tab still performs
+  // its own admin-claim check before invoking the callable backend.
+  const APP_NAME = 'gpbc-v21-admin';
   const REGION = 'us-central1';
   const listeners = new Set();
   let auth = null;
