@@ -26,6 +26,9 @@ npm-debug.log*
 playwright-report/
 test-results/
 
+# Generated Netlify publication artifact
+/public-build/
+
 # Backup files
 *.bak
 *.backup*

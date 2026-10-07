@@ -1,5 +1,7 @@
 {
   "scripts": {
+    "build:production": "node scripts/build-production.mjs",
+    "test:production-artifact": "node --test tests/production-artifact.test.mjs",
     "studio:vendor-export": "node scripts/vendor-studio-export.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
     "seo:sitemap": "node scripts/generate-sitemap.mjs",

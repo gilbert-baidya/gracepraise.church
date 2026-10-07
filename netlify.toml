@@ -1,16 +1,17 @@
 [build]
-  publish = "."
+  command = "npm run build:production"
+  publish = "public-build"
   
 [build.environment]
   NODE_VERSION = "18"
 
 # Only build on production branch
 [context.production]
-  publish = "."
+  publish = "public-build"
 
 # Don't auto-publish on every commit - save credits
 [context.deploy-preview]
-  publish = "."
+  publish = "public-build"
 
 # Global Security Headers
 [[headers]]

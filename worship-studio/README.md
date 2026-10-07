@@ -19,7 +19,7 @@ Bangla records contain `id`, `title`, `category`, and `lyrics`. English records 
 
 ## Existing Songbook trace
 
-- Route: Netlify serves the static repository root; `/songbook` resolves through the existing static-page behavior to `songbook.html`.
+- Route: Netlify serves a generated public-site artifact; `/songbook` resolves through the existing static-page behavior to `songbook.html`.
 - Loading: `songbook.html` loads `songs-catalog.js` immediately. `songbook-app.js` injects `songs-data.js` when lyrics are first needed and combines those records with `window.GPBC_ENGLISH_SONGS`.
 - Search: `songbook-app.js` normalizes Unicode text and searches titles, alternate titles, and lyrics after full data is loaded.
 - Lyrics/chords: lyrics and chord rows are stored together in each song's raw `lyrics` string. A conservative chord-line parser plus `song-chord-alignments.js` / `english-songbook-alignment.js` supports the reader.
@@ -49,9 +49,9 @@ These protections are distinct:
 
 - **UI use:** the hostname check disables the normal Studio UI on non-local hosts. Client-side code can be bypassed.
 - **Indexing:** robots metadata and any `X-Robots-Tag` header request that cooperative crawlers avoid indexing. They do not restrict access.
-- **File publication:** the existing Netlify `publish = "."` can physically include this directory in a future deployment. Neither the UI gate nor robots directives exclude files from the deployed artifact.
+- **File publication:** Netlify publishes `public-build/`, assembled by `npm run build:production`. The assembler physically excludes this directory and rejects Studio paths, references and byte-identical assets copied under alternate names. Neither the UI gate nor robots directives provide that exclusion.
 
-This milestone must remain local-only operationally: do not deploy it. The unnecessary Studio-only Netlify header addition has been removed; no publish directory or deployment settings were changed for this local audit. Before any future publication, establish an explicit artifact-exclusion or authorized-publication decision. Trusted authorization and server-backed storage remain separate future work, not part of this milestone.
+This milestone remains local-only. The production-readiness safeguard changes only the publication boundary; the repository's Studio files remain in place for development. Production authentication, protected delivery and server-backed storage remain separate future work. See [publication build documentation](../docs/production-publication.md) before changing the artifact selection rules.
 
 Local development requires no login on the exact loopback hostnames listed above. Every other hostname defaults to denied UI access, not an unauthenticated production session. The decision uses only `window.location.hostname`; no query parameter, cookie, browser-storage value, environment fallback, or hidden override enables local bypass. Automated tests cover direct access on `127.0.0.1` and `localhost`, a routed IPv6-loopback origin, and denial on production, non-local, deceptive loopback-suffix, and LAN hostnames even with client-side override attempts.
 
