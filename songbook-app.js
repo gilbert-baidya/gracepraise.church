@@ -110,162 +110,163 @@ const conjunctMap = {
     'ল্য': 'lyo', 'ক্য': 'kyo', 'খ্য': 'khyo', 'গ্য': 'gyo'
 };
 
+const ACTIVE_PHONETIC_WORD_OVERRIDES = Object.freeze({
+    'ওহে': Object.freeze({ phonetic: 'ohe', source: 'user-confirmed style', fixedCase: true }),
+    'যীশু': Object.freeze({ phonetic: 'Jishu', source: 'user-confirmed worship name', fixedCase: true }),
+    'যীশুর': Object.freeze({ phonetic: 'Jishur', source: 'existing reviewed name', fixedCase: true }),
+    'যীশুকে': Object.freeze({ phonetic: 'Jishuke', source: 'same reviewed name + explicit case vowel', fixedCase: true }),
+    'যীশুতে': Object.freeze({ phonetic: 'Jishute', source: 'same reviewed name + explicit case vowel', fixedCase: true }),
+    'কর': Object.freeze({ phonetic: 'koro', source: 'retain established imperative pronunciation' }),
+    'বল': Object.freeze({ phonetic: 'bolo', source: 'retain established imperative pronunciation' }),
+    'এস': Object.freeze({ phonetic: 'eso', source: 'retain established imperative pronunciation' }),
+    'দেখ': Object.freeze({ phonetic: 'dekho', source: 'retain established imperative pronunciation' }),
+    'রাখ': Object.freeze({ phonetic: 'rakho', source: 'retain established imperative pronunciation' }),
+    'যত': Object.freeze({ phonetic: 'joto', source: 'retain established final-vowel exception' }),
+    'কত': Object.freeze({ phonetic: 'koto', source: 'retain established final-vowel exception' }),
+    'যেন': Object.freeze({ phonetic: 'jeno', source: 'retain established final-vowel exception' }),
+    'কেন': Object.freeze({ phonetic: 'keno', source: 'retain established final-vowel exception' }),
+    'কোন': Object.freeze({ phonetic: 'kono', source: 'retain established worship-lyric form; contextual alternative kon needs review' }),
+    'বড়': Object.freeze({ phonetic: 'boro', source: 'retain established final-vowel exception; canonical nukta spelling' }),
+    'ছোট': Object.freeze({ phonetic: 'chhoto', source: 'retain established final-vowel exception' }),
+    'ভাল': Object.freeze({ phonetic: 'bhalo', source: 'retain established final-vowel exception' }),
+    'দেহ': Object.freeze({ phonetic: 'deho', source: 'retain established final-vowel exception' }),
+    'চল': Object.freeze({ phonetic: 'cholo', source: 'retain established imperative pronunciation' }),
+    'মত': Object.freeze({ phonetic: 'moto', source: 'retain established final-vowel exception' }),
+    'ছিল': Object.freeze({ phonetic: 'chhilo', source: 'retain established past-tense final vowel' }),
+    'যাব': Object.freeze({ phonetic: 'jabo', source: 'retain established future-tense final vowel' }),
+    'পাব': Object.freeze({ phonetic: 'pabo', source: 'retain established future-tense final vowel' }),
+    'হব': Object.freeze({ phonetic: 'hobo', source: 'retain established future-tense final vowel' }),
+    'দেব': Object.freeze({ phonetic: 'debo', source: 'retain established future-tense final vowel' }),
+    'গেল': Object.freeze({ phonetic: 'gelo', source: 'retain established past-tense final vowel' }),
+    'এল': Object.freeze({ phonetic: 'elo', source: 'retain established past-tense final vowel' }),
+    'হল': Object.freeze({ phonetic: 'holo', source: 'retain established past-tense final vowel' }),
+    'দিল': Object.freeze({ phonetic: 'dilo', source: 'retain established past-tense final vowel' }),
+    'পেল': Object.freeze({ phonetic: 'pelo', source: 'retain established past-tense final vowel' }),
+    'নিল': Object.freeze({ phonetic: 'nilo', source: 'retain established past-tense final vowel' }),
+    'হইল': Object.freeze({ phonetic: 'hoilo', source: 'retain established archaic past-tense final vowel' }),
+    'করিল': Object.freeze({ phonetic: 'korilo', source: 'retain established archaic past-tense final vowel' }),
+    'উঠিল': Object.freeze({ phonetic: 'uthilo', source: 'retain established archaic past-tense final vowel' }),
+    'পাইল': Object.freeze({ phonetic: 'pailo', source: 'retain established archaic past-tense final vowel' }),
+    'নামিল': Object.freeze({ phonetic: 'namilo', source: 'retain established archaic past-tense final vowel' }),
+    'উদিল': Object.freeze({ phonetic: 'udilo', source: 'retain established archaic past-tense final vowel' }),
+    'সব': Object.freeze({ phonetic: 'sob', source: 'high-confidence noun ending; s/sh style remains review-only' }),
+    'গৌরব': Object.freeze({ phonetic: 'gourob', source: 'high-confidence noun ending' }),
+    'মানব': Object.freeze({ phonetic: 'manob', source: 'high-confidence noun ending' }),
+    'অভাব': Object.freeze({ phonetic: 'obhab', source: 'high-confidence noun ending' }),
+    'ভাব': Object.freeze({ phonetic: 'bhab', source: 'high-confidence noun ending' }),
+    'হাত': Object.freeze({ phonetic: 'hat', source: 'high-confidence noun ending' }),
+    'রাত': Object.freeze({ phonetic: 'rat', source: 'high-confidence noun ending' }),
+    'গীত': Object.freeze({ phonetic: 'git', source: 'high-confidence noun ending' }),
+    'দূত': Object.freeze({ phonetic: 'dut', source: 'high-confidence noun ending' }),
+    'আঘাত': Object.freeze({ phonetic: 'aghat', source: 'high-confidence noun ending' }),
+    'প্রভাত': Object.freeze({ phonetic: 'probhat', source: 'high-confidence noun ending' }),
+    'জগত': Object.freeze({ phonetic: 'jogot', source: 'high-confidence noun ending' }),
+    'সঙ্গীত': Object.freeze({ phonetic: 'songit', source: 'high-confidence noun ending' }),
+    'উৎস': Object.freeze({ phonetic: 'utsho', source: 'high-confidence lexical final-vowel exception' }),
+    'একই': Object.freeze({ phonetic: 'eki', source: 'high-confidence clitic vowel exception' }),
+    'তব': Object.freeze({ phonetic: 'tobo', source: 'retain established poetic final vowel' }),
+    'মম': Object.freeze({ phonetic: 'momo', source: 'retain established poetic final vowel' }),
+    'আনন্দ': Object.freeze({ phonetic: 'anondo', source: 'retain established final-cluster vowel' }),
+    'ধন্য': Object.freeze({ phonetic: 'dhonno', source: 'high-confidence lexical ya-phala exception' }),
+    'অন্য': Object.freeze({ phonetic: 'onno', source: 'high-confidence lexical ya-phala exception' }),
+    'সত্য': Object.freeze({ phonetic: 'shotto', source: 'high-confidence lexical ya-phala exception' }),
+    'আমরা': Object.freeze({ phonetic: 'amra', source: 'high-confidence medial vowel deletion' }),
+    'তোমরা': Object.freeze({ phonetic: 'tomra', source: 'high-confidence medial vowel deletion' }),
+    'দুঃখ': Object.freeze({ phonetic: 'dukkho', source: 'high-confidence lexical visarga exception' }),
+    'দুঃখে': Object.freeze({ phonetic: 'dukkhe', source: 'same lexical exception + explicit case vowel' }),
+    'দুঃখের': Object.freeze({ phonetic: 'dukkher', source: 'same lexical exception + possessive ending' }),
+    'ঈশ্বর': Object.freeze({ phonetic: 'Ishshor', source: 'high-confidence worship-name pronunciation', fixedCase: true }),
+    'ঈশ্বরের': Object.freeze({ phonetic: 'Ishshorer', source: 'same worship name + possessive ending', fixedCase: true }),
+    'ঈশ্বরকে': Object.freeze({ phonetic: 'Ishshorke', source: 'same worship name + case ending', fixedCase: true })
+});
+
+const PHONETIC_VOWEL_SIGNS = 'ািীুূৃেৈোৌ';
+const PHONETIC_CONSONANTS = 'কখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়ৎ';
+const ACTIVE_PHONETIC_VERB_STEMS = Object.freeze({
+    'কর': 'kor', 'বল': 'bol', 'চল': 'chol', 'ধর': 'dhor', 'দেখ': 'dekh', 'রাখ': 'rakh',
+    'শুন': 'shun', 'থাক': 'thak', 'উঠ': 'uth', 'বস': 'bos', 'পার': 'par', 'জান': 'jan', 'মান': 'man'
+});
+const ACTIVE_PHONETIC_VERB_ENDINGS = Object.freeze({
+    'তে': 'te', 'তেন': 'ten', 'ব': 'bo', 'বি': 'bi', 'বেন': 'ben', 'বেই': 'bei',
+    'ল': 'lo', 'লি': 'li', 'লে': 'le', 'লেন': 'len', 'লাম': 'lam', 'লেই': 'lei',
+    'ছি': 'chhi', 'ছো': 'chho', 'ছে': 'chhe', 'ছেন': 'chhen'
+});
+
+function normalizeActivePhoneticWord(word) {
+    return word.normalize('NFC').replace(/ড়/gu, 'ড়').replace(/ঢ়/gu, 'ঢ়').replace(/য়/gu, 'য়');
+}
+
+function convertPhoneticWord(source) {
+    const word = normalizeActivePhoneticWord(source);
+    const override = ACTIVE_PHONETIC_WORD_OVERRIDES[word];
+    if (override) return override.phonetic;
+    for (const [stem, phonetic] of Object.entries(ACTIVE_PHONETIC_VERB_STEMS)) {
+        if (word.startsWith(stem)) {
+            const ending = ACTIVE_PHONETIC_VERB_ENDINGS[word.slice(stem.length)];
+            if (ending) return phonetic + ending;
+        }
+    }
+    const consonantSound = char => ({ 'ড়': 'r', 'ঢ়': 'rh', 'য়': 'y' })[char] || bengaliToPhonetic[char];
+    let output = '';
+    let index = 0;
+    while (index < word.length) {
+        const char = word[index];
+        if (!PHONETIC_CONSONANTS.includes(char)) {
+            output += bengaliToPhonetic[char] ?? char;
+            index += 1;
+            continue;
+        }
+        let cluster = char;
+        let sound = consonantSound(char);
+        index += 1;
+        while (word[index] === '্' && PHONETIC_CONSONANTS.includes(word[index + 1] || '\0')) {
+            cluster += '্' + word[index + 1];
+            sound += consonantSound(word[index + 1]);
+            index += 2;
+        }
+        if (conjunctMap[cluster]) sound = conjunctMap[cluster].replace(/o$/u, '');
+        const explicitVowel = PHONETIC_VOWEL_SIGNS.includes(word[index] || '\0');
+        const deadConsonant = word[index] === '্';
+        if (explicitVowel) {
+            sound += bengaliToPhonetic[word[index]];
+            index += 1;
+        } else if (deadConsonant) {
+            index += 1;
+        } else if (char !== 'ৎ' && (
+            (index < word.length && !(char === 'র' && 'ইও'.includes(word[index])))
+            || (index === word.length && Boolean(conjunctMap[cluster]))
+            || (index === word.length && 'বতহ'.includes(char))
+        )) {
+            sound += 'o';
+        }
+        // Preserve ambiguous verb/adjective endings until lexical review; never strip explicit vowels.
+        output += sound;
+    }
+    return output;
+}
+
 function convertToPhonetic(bengaliText) {
-    let result = '';
-    let i = 0;
-    let isStartOfLine = true;
-    
-    while (i < bengaliText.length) {
-        const char = bengaliText[i]; 
-        // ✅ Special handling for য় (TOP LEVEL)
-if (char === 'য়') {
-    let phonetic = 'y';
-
-    if (i + 1 < bengaliText.length && 'ািীুূেৈোৌ'.includes(bengaliText[i + 1])) {
-        const vowelSign = bengaliText[i + 1];
-        phonetic += bengaliToPhonetic[vowelSign];
-        i += 2;
-    } else {
-        phonetic += 'o';
-        i++;
-    }
-
-    if (isStartOfLine && phonetic.trim()) {
-        phonetic = phonetic.charAt(0).toUpperCase() + phonetic.slice(1);
-        isStartOfLine = false;
-    }
-
-    result += phonetic;
-    continue;
-}
-        
-        // Handle newlines
-        if (char === '\n') {
-            result += char;
-            isStartOfLine = true;
-            i++;
-            continue;
+    let atLineStart = true;
+    return String(bengaliText).replace(/[\u0980-\u09FF]+|[^\u0980-\u09FF]+/gu, part => {
+        if (!/[\u0980-\u09FF]/u.test(part)) {
+            const lastNewline = part.lastIndexOf('\n');
+            if (lastNewline >= 0) atLineStart = true;
+            if (/\p{L}/u.test(part.slice(lastNewline + 1))) atLineStart = false;
+            return part;
         }
-        
-        // Check for special 3-character conjuncts first
-        if (i + 3 < bengaliText.length) {
-            const threeChar = bengaliText.substring(i, i + 4);
-            if (conjunctMap[threeChar]) {
-                let phonetic = conjunctMap[threeChar];
-                
-                // Check for vowel sign after conjunct
-                if (i + 4 < bengaliText.length && 'ািীুূৃেৈোৌ'.includes(bengaliText[i + 4])) {
-                    phonetic += bengaliToPhonetic[bengaliText[i + 4]];
-                    i += 5;
-                } else {
-                    i += 4;
-                }
-                
-                if (isStartOfLine && phonetic) {
-                    phonetic = phonetic.charAt(0).toUpperCase() + phonetic.slice(1);
-                    isStartOfLine = false;
-                }
-                result += phonetic;
-                continue;
-            }
-        }
-        
-        // Check for 2-character conjuncts
-        if (i + 2 < bengaliText.length && bengaliText[i + 1] === '্') {
-            const twoChar = bengaliText.substring(i, i + 3);
-            if (conjunctMap[twoChar]) {
-                let phonetic = conjunctMap[twoChar];
-                
-                // Check for vowel sign after conjunct
-                if (i + 3 < bengaliText.length && 'ািীুূৃেৈোৌ'.includes(bengaliText[i + 3])) {
-                    phonetic += bengaliToPhonetic[bengaliText[i + 3]];
-                    i += 4;
-                } else {
-                    i += 3;
-                }
-                
-                if (isStartOfLine && phonetic) {
-                    phonetic = phonetic.charAt(0).toUpperCase() + phonetic.slice(1);
-                    isStartOfLine = false;
-                }
-                result += phonetic;
-                continue;
-            }
-            
-            // Generic conjunct handling
-            const c1 = bengaliText[i];
-            const c2 = bengaliText[i + 2];
-            let phonetic = (bengaliToPhonetic[c1] || c1) + (bengaliToPhonetic[c2] || c2);
-            
-            // Check for vowel sign
-            if (i + 3 < bengaliText.length && 'ািীুূৃেৈোৌ'.includes(bengaliText[i + 3])) {
-                phonetic += bengaliToPhonetic[bengaliText[i + 3]];
-                i += 4;
-            } else {
-                i += 3;
-            }
-            
-            if (isStartOfLine && phonetic) {
+        // Bengali punctuation/digits are separators, not pronunciation-bearing words.
+        return part.replace(/[অ-হড়ঢ়য়ৎ][\u0980-\u09FF]*?(?=[০-৯।॥]|\s|$)|[০-৯।॥]/gu, token => {
+            if (/^[০-৯]$/u.test(token)) return bengaliToPhonetic[token];
+            if (token === '।' || token === '॥') return token;
+            const normalized = normalizeActivePhoneticWord(token);
+            let phonetic = convertPhoneticWord(token);
+            if (atLineStart && !ACTIVE_PHONETIC_WORD_OVERRIDES[normalized]?.fixedCase) {
                 phonetic = phonetic.charAt(0).toUpperCase() + phonetic.slice(1);
-                isStartOfLine = false;
             }
-            result += phonetic;
-            continue;
-        }
-        
-        // Handle consonant + vowel sign
-        if ('কখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য'.includes(char)) {
-            let phonetic = bengaliToPhonetic[char] || char;
-            
-              // Check for vowel sign
-    if (i + 1 < bengaliText.length && 'ািীুূৃেৈোৌ'.includes(bengaliText[i + 1])) {
-        const vowelSign = bengaliText[i + 1];
-        phonetic += bengaliToPhonetic[vowelSign];
-        i += 2;
-    } else {
-        phonetic += 'o';   // inherent vowel (IMPORTANT)
-        i++;
-    }
-    
-    if (isStartOfLine && phonetic && phonetic.trim()) {
-        phonetic = phonetic.charAt(0).toUpperCase() + phonetic.slice(1);
-        isStartOfLine = false;
-    }
-    result += phonetic;
-    continue;
-}
-        
-        // Handle regular characters
-        if (bengaliToPhonetic[char] !== undefined) {
-            let phonetic = bengaliToPhonetic[char];
-            if (isStartOfLine && phonetic && phonetic.trim()) {
-                phonetic = phonetic.charAt(0).toUpperCase() + phonetic.slice(1);
-                isStartOfLine = false;
-            }
-            result += phonetic;
-        } else {
-            let outputChar = char;
-            if (isStartOfLine && char.trim()) {
-                outputChar = char.toUpperCase();
-                isStartOfLine = false;
-            }
-            result += outputChar;
-        }
-        
-        if (char.trim() && isStartOfLine) {
-            isStartOfLine = false;
-        }
-        
-        i++;
-    }
-    
-    // Replace 'jdi' with 'jodi'
-    result = result.replace(/\bjdi\b/gi, 'jodi');
-    
-    // Clean up any remaining য় that wasn't caught
-    result = result.replace(/য়/g, 'y');
-    
-    return result;
+            atLineStart = false;
+            return phonetic;
+        });
+    });
 }
 
 /*
@@ -560,6 +561,41 @@ function getSongTitleVariants(song) {
         .map(normalizeSongSearchTerm);
 }
 
+const SONG_SEARCH_CACHE = new WeakMap();
+
+function getSongSearchFields(song, includePhonetic = false) {
+    let fields = SONG_SEARCH_CACHE.get(song);
+    if (!fields) {
+        fields = {
+            titles: getSongTitleVariants(song),
+            lyrics: normalizeSongSearchTerm(song.lyrics),
+            category: normalizeSongSearchTerm(song.category)
+        };
+        SONG_SEARCH_CACHE.set(song, fields);
+    }
+    if (includePhonetic && fields.phoneticTitles === undefined) {
+        fields.phoneticTitles = [getSongPhoneticTitle(song),
+            ...(song.alternateTitles || []).map(title => getSongPhoneticLine(song, title))]
+            .map(normalizeSongSearchTerm);
+        fields.phoneticLyrics = normalizeSongSearchTerm(getSongPhonetic(song));
+    }
+    return fields;
+}
+
+function matchSongSearch(song, query) {
+    const normalized = normalizeSongSearchTerm(query);
+    if (!normalized) return 'all';
+    const fields = getSongSearchFields(song);
+    if (fields.titles.some(title => title.includes(normalized))) return 'title';
+    if (fields.lyrics.includes(normalized)) return 'lyrics';
+    if (fields.category.includes(normalized)) return 'category';
+    if (!/[a-z]/iu.test(normalized) || isEnglishSong(song)) return null;
+    const phonetic = getSongSearchFields(song, true);
+    if (phonetic.phoneticTitles.some(title => title.includes(normalized))) return 'phonetic-title';
+    if (phonetic.phoneticLyrics.includes(normalized)) return 'phonetic-lyrics';
+    return null;
+}
+
 function isEnglishSong(song) {
     if (!song) return false;
     if (String(song.language || '').toLowerCase() === 'english') return true;
@@ -762,6 +798,7 @@ function exitPresentation() {
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
+    if (!document.getElementById('songList')) return;
     // CRITICAL: Ensure all modals are closed on page load
     const songModal = document.getElementById('songModal');
     const presentationModal = document.getElementById('presentationModal');
@@ -1239,13 +1276,14 @@ function getCapoOptions() {
     return Array.from({ length: 13 }, (_, capo) => capo);
 }
 
-function getSuggestedCapos(song = window.currentSong) {
-    const soundingKey = getCurrentSoundingKey(song);
+function getSuggestedCapos(song = window.currentSong, steps = currentTranspose) {
+    const baseKey = getSongBaseKey(song);
+    const soundingKey = baseKey ? transposeChordSymbol(baseKey, steps) : null;
     if (!soundingKey) return [];
 
     const commonShapeRoots = ['C', 'G', 'D', 'A', 'E'];
     const candidates = getCapoOptions().slice(0, 8)
-        .map(capo => ({ capo, shape: getPlayingKey(song, capo) }))
+        .map(capo => ({ capo, shape: transposeChordSymbol(soundingKey, -capo) }))
         .filter(option => commonShapeRoots.includes(option.shape));
     const noCapo = candidates.find(option => option.capo === 0);
     const remaining = candidates
@@ -1608,7 +1646,7 @@ function setupEventListeners() {
     const closeBtn = modal?.querySelector('.close');
     
     searchInput.addEventListener('input', async (e) => {
-        const query = e.target.value.toLowerCase();
+        const query = e.target.value.toLowerCase().trim();
         if (query.trim() && !songsDataLoaded) {
             renderSongDataLoadingState();
             try {
@@ -1616,7 +1654,7 @@ function setupEventListeners() {
             } catch (error) {
                 return;
             }
-            if (searchInput.value.toLowerCase() !== query) return;
+            if (searchInput.value.toLowerCase().trim() !== query) return;
         }
 
         const baseSongs = getFilteredSongs();
@@ -1628,22 +1666,7 @@ function setupEventListeners() {
             renderSongList(exactTitleMatches);
             return;
         }
-        const filtered = baseSongs.filter(song => {
-            // Search in title, category, and lyrics
-            const titleMatch = song.title.toLowerCase().includes(query);
-            const alternateTitleMatch = (song.alternateTitles || [])
-                .some(title => String(title).toLowerCase().includes(query));
-            const categoryMatch = song.category.toLowerCase().includes(query);
-            const lyrics = (song.lyrics || '').toLowerCase();
-            const lyricsMatch = lyrics.includes(query);
-            
-            // Also search in phonetic version
-            const phoneticTitle = getSongPhoneticTitle(song).toLowerCase();
-            const phoneticLyrics = getSongPhonetic(song).toLowerCase();
-            const phoneticMatch = phoneticTitle.includes(query) || phoneticLyrics.includes(query);
-            
-            return titleMatch || alternateTitleMatch || categoryMatch || lyricsMatch || phoneticMatch;
-        });
+        const filtered = baseSongs.filter(song => matchSongSearch(song, query));
         renderSongList(filtered);
     });
     
@@ -1787,6 +1810,7 @@ function contactSongCoordinator() {
 
 // Safety cleanup: Ensure UI state is restored when leaving the page or switching tabs
 window.addEventListener('beforeunload', () => {
+    if (!document.getElementById('songList')) return;
     document.body.style.overflow = '';
     document.body.classList.remove('menu-open');
 });
@@ -1799,4 +1823,22 @@ document.addEventListener('visibilitychange', () => {
             closeSongModal();
         }
     }
+});
+
+// Pure reader helpers shared with the local Studio; no authentication or UI state is exposed.
+window.GPBCSongbookPresentation = Object.freeze({
+    getSongSearchFields,
+    matchSongSearch,
+    parseChordLine,
+    getLyricWordTokens,
+    getSongChordAlignments,
+    getSongPhoneticLine,
+    getSongPhoneticTitle,
+    getSongBaseKey,
+    getSongSourceCapo,
+    getSuggestedCapos,
+    transposeChord,
+    transposeChordLine,
+    transposeChordSymbol,
+    isEnglishSong
 });

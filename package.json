@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "studio:vendor-export": "node scripts/vendor-studio-export.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
     "seo:sitemap": "node scripts/generate-sitemap.mjs",
     "perf:audit": "node scripts/performance-audit.mjs",
@@ -22,6 +23,8 @@
     "test:mobile": "playwright test --project='iPhone 14'",
     "test:report": "playwright show-report",
     "test:phonetic-v2": "node --test tests/phonetic-v2.test.js",
+    "test:worship-studio": "node --test tests/worship-studio/*.test.mjs",
+    "test:worship-studio:e2e": "playwright test tests/worship-studio/worship-studio.spec.ts tests/worship-studio/presentation-modes.spec.ts tests/worship-studio/cold-start.spec.ts tests/worship-studio/phonetic-search.spec.ts tests/worship-studio/theme-export.spec.ts tests/worship-studio/chord-propagation.spec.ts --project='Desktop Chrome'",
     "test:v21:schema": "node scripts/verify-v21-schema.mjs",
     "test:v21:public-config": "node scripts/check-v21-public-config.mjs",
     "test:v21:rules": "firebase emulators:exec --only firestore,auth \"node --test tests/firebase/firestore.rules.test.js\"",
@@ -38,7 +41,16 @@
     "dotenv": "^17.2.4",
     "fs-extra": "^11.3.3",
     "openai": "^6.21.0",
-    "p-limit": "^7.3.0"
+    "p-limit": "^7.3.0",
+    "pptxgenjs": "^4.0.1",
+    "html-to-image": "^1.11.13",
+    "jspdf": "^4.2.1",
+    "jszip": "^3.10.2"
+  },
+  "overrides": {
+    "pptxgenjs": {
+      "image-size": "^2.0.3"
+    }
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^5.0.2",

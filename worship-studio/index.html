@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <title>GPBC Worship Song Studio · Local milestone</title>
+    <link rel="stylesheet" href="./studio.css?studio-startup=11&amp;layout=2">
+</head>
+<body>
+    <div id="localAccessGate" class="access-gate" hidden>
+        <section class="access-gate__card" aria-labelledby="accessGateTitle">
+            <p class="eyebrow">Local development milestone</p>
+            <h1 id="accessGateTitle">Worship Song Studio is disabled on this host</h1>
+            <p>This local-development UI gate is not authentication and does not prevent these files from being published. Run it on localhost to continue.</p>
+        </section>
+    </div>
+
+    <div id="studioApp" class="studio-shell" hidden>
+        <header class="studio-header">
+            <div>
+                <p class="eyebrow">Grace &amp; Praise Bangladesh Church</p>
+                <h1>Worship Song Studio</h1>
+                <p class="studio-header__flow">Songbook <span>→</span> Sunday Set <span>→</span> Auto Layout <span>→</span> Manual Edit <span>→</span> Preview</p>
+            </div>
+            <div class="catalog-status" aria-live="polite">
+                <strong id="catalogCount">Loading catalog…</strong>
+                <span id="catalogDetail">Reading the existing Songbook</span>
+            </div>
+        </header>
+
+        <main>
+            <section class="panel set-toolbar" aria-labelledby="setDetailsTitle">
+                <div>
+                    <p class="section-kicker">Sunday set</p>
+                    <h2 id="setDetailsTitle">Plan the service</h2>
+                </div>
+                <label>
+                    <span>Service date</span>
+                    <input id="serviceDate" type="date" required>
+                </label>
+                <label class="set-name-field">
+                    <span>Set name</span>
+                    <input id="setName" type="text" maxlength="80" value="Sunday Worship" autocomplete="off">
+                </label>
+                <div class="toolbar-actions">
+                    <button id="newSetButton" class="button button--quiet" type="button">New set</button>
+                    <button id="saveSetButton" class="button" type="button">Save set</button>
+                </div>
+                <label class="saved-set-field">
+                    <span>Saved on this browser</span>
+                    <select id="savedSets" aria-label="Saved Sunday sets">
+                        <option value="">Choose a saved set…</option>
+                    </select>
+                </label>
+                <button id="loadSetButton" class="button button--quiet" type="button">Reload saved set</button>
+                <p id="saveStatus" class="save-status" role="status"></p>
+            </section>
+
+            <section class="panel theme-export-toolbar" aria-labelledby="themeExportTitle">
+                <div>
+                    <p class="section-kicker">Theme Studio · local downloads</p>
+                    <h2 id="themeExportTitle">Style &amp; export</h2>
+                </div>
+                <label>
+                    <span>Theme</span>
+                    <select id="themeSelector" aria-label="Theme"></select>
+                </label>
+                <label class="section-label-setting">
+                    <input id="showSectionLabels" type="checkbox" checked>
+                    <span>Show section labels</span>
+                </label>
+                <p id="themeRecommendation" class="helper-text"></p>
+                <div class="export-actions" role="group" aria-label="Export selected mode">
+                    <button id="downloadPptx" class="button button--accent" type="button" disabled>Download PPTX</button>
+                    <button id="downloadPdf" class="button" type="button" disabled>Download PDF</button>
+                    <button id="downloadPng" class="button" type="button" disabled>Download PNG Slides</button>
+                </div>
+                <p class="helper-text">Exports the selected mode exactly as previewed, without regenerating. PPTX/PDF use high-resolution slide images, not editable text boxes. PPTX notes retain Unicode lyrics and chord metadata. PNG pack: 3200×1800 per slide.</p>
+                <p id="exportStatus" class="save-status" role="status">Generate and review the selected mode to enable downloads.</p>
+            </section>
+
+            <div class="builder-grid">
+                <section class="panel catalog-panel" aria-labelledby="catalogTitle">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="section-kicker">Master source · read only</p>
+                            <h2 id="catalogTitle">Songbook</h2>
+                        </div>
+                        <span class="source-badge">IDs preserved</span>
+                    </div>
+                    <label class="search-field" for="songSearch">
+                        <span>Search title or lyrics</span>
+                        <input id="songSearch" type="search" placeholder="Bangla, English, or phonetic (e.g. doya)…" autocomplete="off">
+                    </label>
+                    <p id="searchHelp" class="helper-text">Enter at least two characters to search the full catalog.</p>
+                    <div id="searchResults" class="search-results" aria-live="polite"></div>
+                </section>
+
+                <section class="panel set-panel" aria-labelledby="selectedSongsTitle">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="section-kicker">Selected songs</p>
+                            <h2 id="selectedSongsTitle">Service order <span id="selectedSongCount">0</span></h2>
+                        </div>
+                    </div>
+                    <p class="helper-text">Reorder songs here. Each song’s section sequence controls full verse/chorus repetition during generation.</p>
+                    <div id="selectedSongs" class="selected-songs"></div>
+                    <div class="layout-actions">
+                        <div>
+                            <strong>Congregation layout</strong>
+                            <span>16:9 · 54pt · prefer 3 lyric lines · up to 4 rendered lines</span>
+                        </div>
+                        <button id="generateSlidesButton" class="button button--accent" type="button" disabled>Generate slides</button>
+                    </div>
+                </section>
+            </div>
+
+            <section class="panel slides-panel" aria-labelledby="slidesTitle">
+                <nav id="presentationModes" class="presentation-modes" aria-label="Presentation mode">
+                    <button type="button" data-mode="congregation" aria-pressed="true">Congregation</button>
+                    <button type="button" data-mode="musician" aria-pressed="false">Musician</button>
+                    <button type="button" data-mode="phoneticChords" aria-pressed="false">Phonetic + Chords</button>
+                    <button type="button" data-mode="phonetic" aria-pressed="false">Phonetic</button>
+                </nav>
+                <div class="panel-heading slides-heading">
+                    <div>
+                        <p class="section-kicker">Manual edit &amp; preview</p>
+                        <h2 id="slidesTitle"><span id="modeTitle">Congregation</span> slides <span id="slideCount">0</span></h2>
+                    </div>
+                    <p id="layoutStatus" class="layout-status" role="status">Add songs, choose their order, then generate.</p>
+                </div>
+                <div class="slide-spec" role="note">
+                    <strong>Presentation geometry:</strong> each preview uses a 1600×900 logical 16:9 canvas. Congregation stays 54pt (72 CSS px); chorded modes fit from 54pt down to 48pt with half-size chords. Each slide reports its actual size. The whole canvas is scaled only for the browser preview.
+                </div>
+                <div id="slidesEmpty" class="empty-state">
+                    <span aria-hidden="true">▣</span>
+                    <p>No slides yet. Generated slides remain independent of the master Songbook.</p>
+                </div>
+                <div id="slidesList" class="slides-list"></div>
+            </section>
+        </main>
+    </div>
+
+    <template id="searchResultTemplate">
+        <article class="search-result">
+            <div>
+                <span class="search-result__id"></span>
+                <h3 class="search-result__title"></h3>
+                <p class="search-result__excerpt"></p>
+            </div>
+            <button class="button button--small search-result__add" type="button">Add</button>
+        </article>
+    </template>
+
+    <script src="../songs-catalog.js"></script>
+    <script src="../english-songbook-data.js"></script>
+    <script src="../english-songbook-alignment.js"></script>
+    <script src="../song-chord-alignments.js"></script>
+    <script type="module" src="./studio-app.mjs?studio-startup=11"></script>
+</body>
+</html>
