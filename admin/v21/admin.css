@@ -188,6 +188,46 @@ h2 {
   font-size: 0.82rem;
 }
 
+.worship-resource-actions {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.worship-resource-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.1rem 0.8rem;
+  align-items: center;
+  padding: 0.8rem;
+  color: var(--ink);
+  background: linear-gradient(135deg, var(--gold-100), #fff);
+  border: 1px solid #ead9a8;
+  border-radius: 0.65rem;
+  text-decoration: none;
+}
+
+.worship-resource-link strong,
+.worship-resource-link span {
+  min-width: 0;
+}
+
+.worship-resource-link span {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.worship-resource-link b {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--navy-800);
+  font-size: 0.75rem;
+}
+
+.worship-resource-link:hover {
+  border-color: var(--gold-500);
+  box-shadow: 0 8px 20px rgba(16, 42, 67, 0.08);
+}
+
 .login-form {
   display: grid;
   gap: 1rem;

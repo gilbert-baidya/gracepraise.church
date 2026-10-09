@@ -27,6 +27,8 @@
     "test:phonetic-v2": "node --test tests/phonetic-v2.test.js",
     "test:worship-studio": "node --test tests/worship-studio/*.test.mjs",
     "test:worship-studio:e2e": "playwright test tests/worship-studio/worship-studio.spec.ts tests/worship-studio/presentation-modes.spec.ts tests/worship-studio/cold-start.spec.ts tests/worship-studio/phonetic-search.spec.ts tests/worship-studio/theme-export.spec.ts tests/worship-studio/chord-propagation.spec.ts --project='Desktop Chrome'",
+    "test:bible-slide-builder": "node --test tests/bible-slide-builder/*.test.mjs",
+    "test:bible-slide-builder:e2e": "playwright test tests/bible-slide-builder/bible-slide-builder.spec.ts --project='Desktop Chrome'",
     "test:v21:schema": "node scripts/verify-v21-schema.mjs",
     "test:v21:public-config": "node scripts/check-v21-public-config.mjs",
     "test:v21:rules": "firebase emulators:exec --only firestore,auth \"node --test tests/firebase/firestore.rules.test.js\"",
@@ -36,7 +38,8 @@
     "test:v21:admin": "playwright test tests/admin/v21-control-center.spec.ts --project='Desktop Chrome'",
     "test:v21:adapter": "playwright test tests/website-control/website-control.spec.ts --project='Desktop Chrome'",
     "test:debug": "playwright test --debug",
-    "dashboard": "./open-dashboard.sh"
+    "dashboard": "./open-dashboard.sh",
+    "local:review": "node scripts/serve-local-review.mjs"
   },
   "dependencies": {
     "axios": "^1.13.5",

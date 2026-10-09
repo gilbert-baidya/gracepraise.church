@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#132d31">
+  <title>GPBC Bible Slide Builder · Local</title>
+  <link rel="icon" href="../images/logo/GPBC_Favicon.ico">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#builderMain">Skip to builder</a>
+
+  <section id="localAccessGate" class="access-gate" aria-labelledby="accessGateTitle">
+    <div class="access-gate__mark" aria-hidden="true">GPBC</div>
+    <p class="eyebrow">Repository-only milestone</p>
+    <h1 id="accessGateTitle">Bible Slide Builder is disabled on this host</h1>
+    <p>This protected local workflow opens only on <code>localhost</code>, <code>127.0.0.1</code>, or <code>::1</code>. The hostname gate fails closed and does not accept query, cookie, or browser-storage bypasses.</p>
+  </section>
+
+  <div id="builderApp" class="builder-shell" hidden>
+    <header class="builder-header">
+      <a class="brand" href="../" aria-label="Grace and Praise Bangladeshi Church home">
+        <img src="../images/new-gpbc-logo-final.svg" alt="">
+        <span><strong>GPBC</strong><small>Bible Slide Builder</small></span>
+      </a>
+      <div class="header-actions">
+        <span class="local-pill">LOCAL TOOL</span>
+        <a href="./review.html">Review gallery</a>
+        <a href="../admin/v21/">Admin</a>
+      </div>
+    </header>
+
+    <main id="builderMain" class="builder-main">
+      <section class="hero" aria-labelledby="builderTitle">
+        <div>
+          <p class="eyebrow">Sanctuary Scripture presentation</p>
+          <h1 id="builderTitle">Bible Slide Builder</h1>
+          <p>Build measured 16:9 Bangla, English, or bilingual Scripture slides from GPBC’s locked XML sources.</p>
+        </div>
+        <div id="sourceLock" class="source-lock" role="status" aria-live="polite" data-tone="loading">
+          <span class="source-lock__icon" aria-hidden="true">⌁</span>
+          <span><strong id="sourceLockTitle">VERIFYING SOURCES</strong><small id="sourceLockDetail">Checking both authoritative XML files…</small></span>
+        </div>
+      </section>
+
+      <div id="appNotice" class="notice" role="status" aria-live="polite" hidden></div>
+
+      <section class="workspace-grid">
+        <aside class="control-column" aria-label="Scripture set controls">
+          <section class="panel set-panel" aria-labelledby="setDetailsTitle">
+            <div class="panel-heading">
+              <div><p class="step">01</p><h2 id="setDetailsTitle">Service set</h2></div>
+              <span class="source-badge">SOURCE LOCKED</span>
+            </div>
+            <div class="field-grid field-grid--two">
+              <label class="field"><span>Service date</span><input id="serviceDate" type="date" required></label>
+              <label class="field"><span>Set name</span><input id="setName" type="text" maxlength="80" value="Sunday Scripture Set" required></label>
+            </div>
+            <label class="field"><span>Program type</span>
+              <select id="programType">
+                <option>Sunday Worship</option><option>Prayer Meeting</option><option>Holy Communion</option>
+                <option>Good Friday</option><option>Easter</option><option>Christmas</option>
+                <option>Thanksgiving</option><option>Funeral / Memorial</option><option>Wedding</option>
+                <option>Baptism</option><option>Youth Worship</option><option>Bible Study</option>
+                <option>Revival</option><option>Fasting Prayer</option>
+              </select>
+            </label>
+            <div class="field-grid field-grid--two">
+              <label class="field"><span>Language</span>
+                <select id="languageMode"><option value="bn">Bangla</option><option value="bilingual">Bangla + English</option><option value="en">English</option></select>
+              </label>
+              <label class="field"><span>Theme</span><select id="themeSelector"></select></label>
+            </div>
+          </section>
+
+          <section class="panel passage-panel" aria-labelledby="passageTitle">
+            <div class="panel-heading"><div><p class="step">02</p><h2 id="passageTitle">Add passage</h2></div></div>
+            <label class="field"><span>Fast reference entry</span>
+              <div class="inline-field"><input id="fastReference" type="text" placeholder="John 14:1-6 or যোহন ১৪:১-৬" autocomplete="off"><button id="parseReferenceButton" class="button button-secondary" type="button">Parse</button></div>
+            </label>
+            <p id="parsedReference" class="field-help" aria-live="polite">Or choose the reference below.</p>
+            <label class="field"><span>Book / পুস্তক</span><select id="bookSelector"></select></label>
+            <div class="field-grid field-grid--three">
+              <label class="field"><span>Chapter</span><select id="chapterSelector"></select></label>
+              <label class="field"><span>Start verse</span><select id="startVerse"></select></label>
+              <label class="field"><span>End verse</span><select id="endVerse"></select></label>
+            </div>
+            <label class="field"><span>Focus verse <small>(optional)</small></span><select id="focusVerse"><option value="">None</option></select></label>
+            <div class="button-row">
+              <button id="addPassageButton" class="button button-primary" type="button">Add passage</button>
+              <button id="cancelPassageEdit" class="button button-quiet" type="button" hidden>Cancel edit</button>
+            </div>
+          </section>
+
+          <section class="panel options-panel" aria-labelledby="optionsTitle">
+            <div class="panel-heading"><div><p class="step">03</p><h2 id="optionsTitle">Presentation details</h2></div></div>
+            <div class="toggle-list">
+              <label><input id="showTranslationLabel" type="checkbox" checked><span>Translation label</span></label>
+              <label><input id="showProgramBadge" type="checkbox" checked><span>Program badge</span></label>
+              <label><input id="showPageCounter" type="checkbox" checked><span>Passage page counter</span></label>
+              <label><input id="includeOpening" type="checkbox"><span>Opening Scripture Reading slide</span></label>
+              <label><input id="includeClosing" type="checkbox"><span>Closing Word of the Lord slide</span></label>
+            </div>
+            <label class="field range-field"><span>Readability overlay <output id="overlayValue">72%</output></span><input id="overlayIntensity" type="range" min="45" max="90" value="72"></label>
+          </section>
+
+          <section class="panel saved-panel" aria-labelledby="savedTitle">
+            <div class="panel-heading"><div><p class="step">04</p><h2 id="savedTitle">Save / reload</h2></div></div>
+            <label class="field"><span>Saved Scripture sets</span><select id="savedSets"><option value="">No saved sets</option></select></label>
+            <div class="button-row button-row--wrap">
+              <button id="saveSetButton" class="button button-primary" type="button">Save set</button>
+              <button id="loadSetButton" class="button button-secondary" type="button">Reload saved set</button>
+              <button id="newSetButton" class="button button-quiet" type="button">New set</button>
+              <button id="reviewSetButton" class="button button-quiet" type="button">Load review set</button>
+            </div>
+            <p id="saveStatus" class="field-help">Sets stay in this browser profile.</p>
+          </section>
+        </aside>
+
+        <section class="work-column">
+          <section class="panel selected-panel" aria-labelledby="selectedTitle">
+            <div class="panel-heading panel-heading--actions">
+              <div><p class="step">SCRIPTURE SET</p><h2 id="selectedTitle">Selected passages <span id="passageCount">0</span></h2></div>
+              <button id="generateSlidesButton" class="button button-gold" type="button" disabled>Generate slides</button>
+            </div>
+            <ol id="passageList" class="passage-list"></ol>
+            <div id="passageEmpty" class="empty-state"><strong>No passages yet.</strong><span>Add one reference or load the review set.</span></div>
+          </section>
+
+          <section class="panel preview-panel" aria-labelledby="previewTitle">
+            <div class="panel-heading panel-heading--actions">
+              <div><p class="step">LIVE PREVIEW</p><h2 id="previewTitle">Approved presentation <span id="slideCount">0</span></h2><p id="layoutStatus">Generate a set to create measured slides.</p></div>
+              <div class="button-row button-row--wrap">
+                <button id="addBlankSlide" class="button button-quiet" type="button" disabled>Add pause slide</button>
+                <button id="resetLayoutButton" class="button button-secondary" type="button" disabled>Reset auto-layout</button>
+              </div>
+            </div>
+            <div id="slidesEmpty" class="empty-state empty-state--preview"><strong>16:9 preview</strong><span>Bangla stays at 54pt; overflow creates another slide.</span></div>
+            <div id="slidesList" class="slides-list"></div>
+          </section>
+
+          <section class="panel export-panel" aria-labelledby="exportTitle">
+            <div class="panel-heading panel-heading--actions">
+              <div><p class="step">DOWNLOAD</p><h2 id="exportTitle">Export approved slides</h2><p id="exportStatus">Generate and review slides to enable downloads.</p></div>
+              <div class="button-row button-row--wrap">
+                <button id="downloadPptx" class="button button-secondary" type="button" disabled>Download PPTX</button>
+                <button id="downloadPdf" class="button button-secondary" type="button" disabled>Download PDF</button>
+                <button id="downloadPng" class="button button-primary" type="button" disabled>Download PNG Slides</button>
+              </div>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+    <footer class="builder-footer"><span>Grace and Praise Bangladeshi Church</span><span>Scripture content is never AI-rewritten.</span></footer>
+  </div>
+
+  <script type="module" src="./bible-slide-app.mjs"></script>
+</body>
+</html>

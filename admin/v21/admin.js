@@ -5,6 +5,7 @@
   const authApi = window.GPBCAdminAuth;
   const firestoreApi = window.GPBCAdminFirestore;
   const STORAGE_KEY = 'gpbc-v21-admin-draft';
+  const LOCAL_TOOL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
 
   const dom = {};
   const ids = [
@@ -164,6 +165,23 @@
     configApi.PROTECTED_COMPONENTS.forEach((component) => {
       dom.protectedComponents.appendChild(createElement('li', '', component));
     });
+  }
+
+  function renderLocalWorshipResources() {
+    const panel = document.getElementById('worshipResources');
+    const actions = document.getElementById('worshipResourceActions');
+    if (!panel || !actions || !LOCAL_TOOL_HOSTS.has(window.location.hostname)) return;
+    const tools = [
+      { name: 'Worship Song Studio', detail: 'Songbook presentation workflow', path: '../../worship-studio/' },
+      { name: 'Bible Slide Builder', detail: 'Bangla-first Scripture presentations', path: '../../bible-slide-builder/' }
+    ];
+    actions.replaceChildren(...tools.map((tool) => {
+      const link = createElement('a', 'worship-resource-link');
+      link.href = new URL(tool.path, window.location.href).href;
+      link.append(createElement('strong', '', tool.name), createElement('span', '', tool.detail), createElement('b', '', 'Open →'));
+      return link;
+    }));
+    panel.hidden = false;
   }
 
   function renderFeatureGroups() {
@@ -894,6 +912,7 @@
 
   function init() {
     cacheDom();
+    renderLocalWorshipResources();
     renderProtectedComponents();
     renderRecentChanges();
 
