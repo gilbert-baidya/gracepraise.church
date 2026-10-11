@@ -1,8 +1,15 @@
+export const SLIDE_SAFE_AREA = Object.freeze({
+    left: 140,
+    right: 140,
+    top: 90,
+    bottom: 100
+});
+
 export const SLIDE_GEOMETRY = Object.freeze({
     width: 1600,
     height: 900,
-    safeWidth: 1360,
-    bodyHeight: 585,
+    safeWidth: 1600 - 140 - 140,
+    bodyHeight: 900 - 90 - 100 - 125 - 78, // padding-top, padding-bottom, header height, footer height
     banglaFontPx: 72,
     banglaLineHeight: 94,
     englishFontPx: 45,
@@ -151,20 +158,6 @@ function boundaryCandidates(text) {
     return output;
 }
 
-function takeFittingPrefix(text, measureWidth, maxLines, prefix = '') {
-    if (!text) return ['', ''];
-    if (lineCount(text, measureWidth, SLIDE_GEOMETRY.safeWidth, prefix) <= maxLines) return [text, ''];
-    const candidates = boundaryCandidates(text)
-        .filter(candidate => candidate.index > 0 && candidate.index < text.length)
-        .filter(candidate => lineCount(text.slice(0, candidate.index), measureWidth, SLIDE_GEOMETRY.safeWidth, prefix) <= maxLines);
-    if (!candidates.length) throw new Error('A Scripture fragment cannot fit within the measured slide geometry.');
-    const furthest = Math.max(...candidates.map(candidate => candidate.index));
-    const nearEnd = candidates.filter(candidate => candidate.index >= furthest * 0.72);
-    nearEnd.sort((left, right) => left.priority - right.priority || right.index - left.index);
-    const splitAt = nearEnd[0].index;
-    return [text.slice(0, splitAt), text.slice(splitAt)];
-}
-
 function sourceSegment(verse, index = 0, bnText = verse.bn.text, enText = verse.en.text) {
     return {
         verseNumber: verse.number,
@@ -176,50 +169,64 @@ function sourceSegment(verse, index = 0, bnText = verse.bn.text, enText = verse.
     };
 }
 
-function splitOversizeVerse(verse, mode, measurer) {
-    const initial = sourceSegment(verse);
-    if (measureSegment(initial, mode, measurer) <= SLIDE_GEOMETRY.bodyHeight) return [initial];
-    const chunks = [];
-    let bnRemaining = mode === 'en' ? '' : verse.bn.text;
-    let enRemaining = mode === 'bn' ? '' : verse.en.text;
-    let index = 0;
-    const bnMaxLines = mode === 'bilingual' ? 4 : Math.floor(SLIDE_GEOMETRY.bodyHeight / SLIDE_GEOMETRY.banglaLineHeight);
-    const enMaxLines = mode === 'bilingual' ? 3 : Math.floor(SLIDE_GEOMETRY.bodyHeight / SLIDE_GEOMETRY.englishLineHeight);
-    while (bnRemaining || enRemaining) {
-        const [bnText, nextBn] = bnRemaining
-            ? takeFittingPrefix(bnRemaining, measurer.bn, bnMaxLines, `${toBengaliDigits(verse.number)}  `)
-            : ['', ''];
-        const [enText, nextEn] = enRemaining
-            ? takeFittingPrefix(enRemaining, measurer.en, enMaxLines, `${verse.number}  `)
-            : ['', ''];
-        let candidate = sourceSegment(verse, index, bnText, enText);
-        if (measureSegment(candidate, mode, measurer) > SLIDE_GEOMETRY.bodyHeight) {
-            const reducedBnLines = mode === 'bilingual' ? 3 : bnMaxLines;
-            const reducedEnLines = mode === 'bilingual' ? 2 : enMaxLines;
-            const [smallerBn, smallerBnRest] = bnRemaining
-                ? takeFittingPrefix(bnRemaining, measurer.bn, reducedBnLines, `${toBengaliDigits(verse.number)}  `)
-                : ['', ''];
-            const [smallerEn, smallerEnRest] = enRemaining
-                ? takeFittingPrefix(enRemaining, measurer.en, reducedEnLines, `${verse.number}  `)
-                : ['', ''];
-            candidate = sourceSegment(verse, index, smallerBn, smallerEn);
-            bnRemaining = smallerBnRest;
-            enRemaining = smallerEnRest;
-        } else {
-            bnRemaining = nextBn;
-            enRemaining = nextEn;
-        }
-        if (!candidate.bnText && !candidate.enText) throw new Error(`Unable to paginate verse ${verse.number}.`);
-        chunks.push(candidate);
-        index += 1;
-    }
-    return chunks;
-}
 
-function slidesFit(segments, mode, measurer) {
+function slidesFit(segments, mode, measurer, evaluateGeometry) {
     if (!segments.length) return true;
+    if (evaluateGeometry) return evaluateGeometry(segments, mode);
     const content = segments.reduce((height, segment) => height + measureSegment(segment, mode, measurer), 0);
     return content + SLIDE_GEOMETRY.verseGap * (segments.length - 1) <= SLIDE_GEOMETRY.bodyHeight;
+}
+
+function splitOversizeVerse(verse, mode, measurer, evaluateGeometry) {
+    const initial = sourceSegment(verse);
+    const checkFit = (segs, m) => slidesFit(segs, m, measurer, evaluateGeometry);
+    if (checkFit([initial], mode)) return [initial];
+
+    if (mode === 'bilingual') {
+        const bnInitial = sourceSegment(verse, 0, verse.bn.text, '');
+        const bnChunks = (checkFit([bnInitial], 'bilingual') ? [bnInitial] : splitOversizeVerse(verse, 'bn', measurer, evaluateGeometry))
+            .map(chunk => ({ ...chunk, enText: '' }));
+        
+        const enInitial = sourceSegment(verse, bnChunks.length, '', verse.en.text);
+        let enChunks = checkFit([enInitial], 'bilingual') ? [enInitial] : splitOversizeVerse(verse, 'en', measurer, evaluateGeometry);
+        enChunks = enChunks.map((c, i) => ({ ...c, continuationIndex: bnChunks.length + i, bnText: '', enText: c.enText || c.bnText }));
+        
+        return [...bnChunks, ...enChunks];
+    }
+
+    const chunks = [];
+    const isEn = mode === 'en';
+    let remaining = isEn ? verse.en.text : verse.bn.text;
+    let index = 0;
+
+    while (remaining) {
+        const tail = sourceSegment(verse, index, isEn ? '' : remaining, isEn ? remaining : '');
+        if (checkFit([tail], mode)) {
+            chunks.push(tail);
+            break;
+        }
+        let candidates = boundaryCandidates(remaining);
+        candidates = candidates.filter(c => c.index > 0 && c.index < remaining.length);
+        candidates.sort((a, b) => b.index - a.index);
+        
+        let found = false;
+        for (const candidate of candidates) {
+            const prefix = remaining.slice(0, candidate.index);
+            const candidateSeg = sourceSegment(verse, index, isEn ? '' : prefix, isEn ? prefix : '');
+            if (checkFit([candidateSeg], mode)) {
+                chunks.push(candidateSeg);
+                remaining = remaining.slice(candidate.index);
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found) {
+            throw new Error(`Verse ${verse.number} cannot fit within the measured slide geometry without changing Scripture.`);
+        }
+        index++;
+    }
+    return chunks;
 }
 
 function makeSlide(passage, segments, mode, themeId, manual = false) {
@@ -253,13 +260,13 @@ function makeSlide(passage, segments, mode, themeId, manual = false) {
     };
 }
 
-function rebalanceOrphan(slides, mode, measurer, passage) {
+function rebalanceOrphan(slides, mode, measurer, passage, evaluateGeometry) {
     if (slides.length < 2 || slides.at(-1).segments.length !== 1) return;
     const previous = slides.at(-2);
     const last = slides.at(-1);
     if (previous.segments.length < 3 || previous.segments.at(-1).verseNumber === last.segments[0].verseNumber) return;
     const donated = previous.segments.at(-1);
-    if (!slidesFit([donated, ...last.segments], mode, measurer)) return;
+    if (!slidesFit([donated, ...last.segments], mode, measurer, evaluateGeometry)) return;
     previous.segments.pop();
     const previousReplacement = makeSlide(passage, previous.segments, mode, previous.themeId, previous.manual);
     const lastReplacement = makeSlide(passage, [donated, ...last.segments], mode, last.themeId, last.manual);
@@ -291,6 +298,7 @@ export function generatePassageSlides(passage, options = {}) {
     if (!Object.hasOwn(LANGUAGE_MODES, mode)) throw new Error(`Unknown Scripture language mode: ${mode}`);
     const themeId = options.themeId || 'shepherds-peace';
     const measurer = options.measurer || createApproximateMeasurer();
+    const evaluateGeometry = options.evaluateGeometry;
     const focusVerse = Number(options.focusVerse) || null;
     const slides = [];
     let current = [];
@@ -299,20 +307,25 @@ export function generatePassageSlides(passage, options = {}) {
         current = [];
     };
     for (const verse of passage.verses) {
-        const chunks = splitOversizeVerse(verse, mode, measurer).map(segment => ({
+        const chunks = splitOversizeVerse(verse, mode, measurer, evaluateGeometry).map(segment => ({
             ...segment,
             focus: verse.number === focusVerse
         }));
+        for (const language of mode === 'bilingual' ? ['bn', 'en'] : [mode]) {
+            if (chunks.map(segment => segment[`${language}Text`]).join('') !== verse[language].text) {
+                throw new Error(`Scripture integrity check failed for verse ${verse.number} (${language}).`);
+            }
+        }
         if (verse.number === focusVerse) flush();
         for (const segment of chunks) {
-            if (current.length && (!slidesFit([...current, segment], mode, measurer)
+            if (current.length && (!slidesFit([...current, segment], mode, measurer, evaluateGeometry)
                 || segment.continuationIndex > 0)) flush();
             current.push(segment);
             if (segment.continuationIndex > 0 || verse.number === focusVerse) flush();
         }
     }
     flush();
-    rebalanceOrphan(slides, mode, measurer, passage);
+    rebalanceOrphan(slides, mode, measurer, passage, evaluateGeometry);
     const contentSlides = slides.map((slide, index) => ({ ...slide, pageNumber: index + 1, pageTotal: slides.length }));
     const output = [];
     if (options.includeOpening) output.push(titleSlide(passage, mode, themeId));

@@ -21,9 +21,17 @@
   </style>
 </head>
 <body>
+  <section id="localAccessGate" class="access-gate" aria-labelledby="accessGateTitle">
+    <div class="access-gate__mark" aria-hidden="true">GPBC</div>
+    <p class="eyebrow">GPBC Worship Tools</p>
+    <h1 id="accessGateTitle">Checking your Songbook session</h1>
+    <p id="accessGateDetail" role="status">Please wait while Firebase restores your sign-in.</p>
+    <a href="../songbook.html">Back to Songbook</a>
+  </section>
+  <div id="builderApp" hidden>
   <header class="builder-header">
     <a class="brand" href="./"><img src="../images/new-gpbc-logo-final.svg" alt=""><span><strong>GPBC</strong><small>Bible Slide Builder</small></span></a>
-    <div class="header-actions"><span class="local-pill">LOCAL REVIEW</span><a href="./">Open builder</a></div>
+    <div class="header-actions"><span class="local-pill">WORSHIP TOOL</span><a href="../songbook.html">← Back to Songbook</a><a href="./">Open builder</a></div>
   </header>
   <main class="review-main">
     <section class="review-heading">
@@ -33,6 +41,12 @@
     <div id="reviewStatus" class="review-status">Loading authoritative passages…</div>
     <section id="reviewGallery" class="review-gallery" aria-label="Bible Slide Builder visual review gallery"></section>
   </main>
-  <script type="module" src="./review-gallery.mjs"></script>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="../firebase-config.js"></script>
+  <script>
+    protectSongbookTool(() => import('./review-gallery.mjs'));
+  </script>
 </body>
 </html>

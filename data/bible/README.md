@@ -1,10 +1,10 @@
-# Licensed Bible Infrastructure
+# Bible Source Infrastructure
 
 This directory holds the future Bible engine source files and generated lookup indexes for Grace and Praise Bangladeshi Church.
 
 ## Source Files
 
-The licensed source XML files live in [`/data/bible/source/`](/Users/gbaidya/Documents/Project cool/Calendar 2026/data/bible/source):
+The repository source XML files live in [`source/`](./source/):
 
 - `en-niv-1984.xml`
   - English source
@@ -13,11 +13,17 @@ The licensed source XML files live in [`/data/bible/source/`](/Users/gbaidya/Doc
   - Bangla source
   - Translation: Bengali (BSI) 2016 O.V. Bible
 
-These files are treated as the canonical licensed Bible sources for future integration work. They should not be edited by the build script or by application code.
+These files are canonical inputs, not evidence of redistribution permission. They should not be edited by the build script or by application code.
+
+## Copyright and public access
+
+No permission document establishing public redistribution of these complete translations is recorded here. Repository possession and the earlier "licensed" description do not establish that permission. Before release, the owner must provide evidence covering full NIV 1984 and BSI 2016 O.V. XML distribution, derived indexes, and presentation/export use, including required attribution and restrictions.
+
+The production build excludes both complete XML files from publication to prevent public distribution, while retaining the existing derived JSON indexes for ministry lookup. Complete XML files remain available only in the local review and development environment. Songbook authentication protects the Builder UI in normal browser use; it does not authorize static-file delivery on the server. `noindex` and hidden links do not make the translations private. Public deployment of complete translations remains subject to explicit owner/legal sign-off; no Bible text was replaced or modified.
 
 ## Generated Indexes
 
-The index builder writes JSON lookup files into [`/data/bible/index/`](/Users/gbaidya/Documents/Project cool/Calendar 2026/data/bible/index):
+The index builder writes JSON lookup files into [`index/`](./index/):
 
 - `niv1984.json`
 - `bsi2016ov.json`
@@ -46,7 +52,7 @@ node scripts/build-bible-index.js
 
 The script:
 
-- reads the licensed XML source files
+- reads the repository XML source files
 - handles uppercase and lowercase XML tags
 - trims whitespace
 - ignores empty verse nodes
@@ -55,7 +61,7 @@ The script:
 
 ## Service Module
 
-The runtime lookup API lives in [`/services/bible/bible-service.js`](/Users/gbaidya/Documents/Project cool/Calendar 2026/services/bible/bible-service.js).
+The runtime lookup API lives in [`services/bible/bible-service.js`](../../services/bible/bible-service.js).
 
 Supported language mapping:
 

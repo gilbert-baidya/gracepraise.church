@@ -2,7 +2,7 @@ import {
     SOURCE_MANIFEST,
     bookOptions,
     chapterOptions,
-    createBilingualPassage,
+    createPassage,
     loadAuthoritativeBibles,
     parseReferenceInput,
     verseOptions
@@ -28,22 +28,27 @@ import {
 } from './scripture-storage.mjs';
 import { exportScriptureSlides } from './scripture-export.mjs';
 
-const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
-const app = document.getElementById('builderApp');
-const gate = document.getElementById('localAccessGate');
+const controls = document.getElementById('builderControls');
+const retryInitialization = document.getElementById('retryInitialization');
+retryInitialization.addEventListener('click', () => window.location.reload());
 
-if (LOCAL_HOSTS.has(window.location.hostname)) {
-    gate.hidden = true;
-    app.hidden = false;
-    startBuilder().catch(error => {
-        console.error('[Bible Slide Builder]', error);
-        const lock = document.getElementById('sourceLock');
-        lock.dataset.tone = 'error';
-        document.getElementById('sourceLockTitle').textContent = 'SOURCE CHECK FAILED';
-        document.getElementById('sourceLockDetail').textContent = error.message;
-        showGlobalNotice(error.message, 'error');
-    });
-}
+startBuilder().then(() => {
+    controls.disabled = false;
+    controls.setAttribute('aria-busy', 'false');
+    document.getElementById('sourceLock').dataset.tone = 'success';
+    document.getElementById('sourceLockTitle').textContent = 'SOURCE LOCK VERIFIED';
+    document.getElementById('sourceLockDetail').textContent = `${SOURCE_MANIFEST.bn.filename} + ${SOURCE_MANIFEST.en.filename} · SHA-256 exact`;
+}).catch(error => {
+    console.error('[Bible Slide Builder]', error);
+    controls.disabled = true;
+    controls.setAttribute('aria-busy', 'false');
+    retryInitialization.hidden = false;
+    const lock = document.getElementById('sourceLock');
+    lock.dataset.tone = 'error';
+    document.getElementById('sourceLockTitle').textContent = 'SOURCE CHECK FAILED';
+    document.getElementById('sourceLockDetail').textContent = error.message;
+    showGlobalNotice(`${error.message} Retry initialization to reload the Builder; saved sets will not be removed.`, 'error');
+});
 
 function localDate(date = new Date()) {
     const offset = date.getTimezoneOffset() * 60_000;
@@ -116,7 +121,7 @@ async function startBuilder() {
     const elements = Object.fromEntries([
         'sourceLock', 'sourceLockTitle', 'sourceLockDetail', 'serviceDate', 'setName', 'programType',
         'languageMode', 'themeSelector', 'fastReference', 'parseReferenceButton', 'parsedReference',
-        'bookSelector', 'chapterSelector', 'startVerse', 'endVerse', 'focusVerse', 'addPassageButton',
+        'bookSelector', 'chapterSelector', 'startVerse', 'endVerse', 'focusVerse', 'addPassagePreview', 'addPassageButton',
         'cancelPassageEdit', 'showTranslationLabel', 'showProgramBadge', 'showPageCounter', 'includeOpening',
         'includeClosing', 'overlayIntensity', 'overlayValue', 'savedSets', 'saveSetButton', 'loadSetButton',
         'newSetButton', 'reviewSetButton', 'saveStatus', 'passageList', 'passageCount', 'passageEmpty',
@@ -128,9 +133,6 @@ async function startBuilder() {
     let themeTouched = false;
     let resizeObserver;
 
-    elements.sourceLock.dataset.tone = 'success';
-    elements.sourceLockTitle.textContent = 'SOURCE LOCK VERIFIED';
-    elements.sourceLockDetail.textContent = `${SOURCE_MANIFEST.bn.filename} + ${SOURCE_MANIFEST.en.filename} · SHA-256 exact`;
     elements.serviceDate.value = currentSet.date;
     elements.themeSelector.replaceChildren(...SCRIPTURE_THEMES.map(theme => new Option(theme.name, theme.id)));
     elements.bookSelector.replaceChildren(...bookOptions().map(book => new Option(`${book.name} — ${book.bnName}`, String(book.number))));
@@ -149,7 +151,7 @@ async function startBuilder() {
         currentSet.name = elements.setName.value.trim() || 'Scripture Set';
         currentSet.id = createScriptureSetId(currentSet.date, currentSet.name);
         currentSet.programType = elements.programType.value;
-        currentSet.languageMode = elements.languageMode.value;
+        currentSet.languageMode = elements.languageMode.value; syncPassagePreview();
         currentSet.themeId = elements.themeSelector.value;
         currentSet.settings = settingsFromControls(elements);
     }
@@ -184,6 +186,35 @@ async function startBuilder() {
         if (endPreferred && values.includes(Number(endPreferred))) elements.endVerse.value = String(endPreferred);
         else if (elements.startVerse.value) elements.endVerse.value = elements.startVerse.value;
         if (focusPreferred && values.includes(Number(focusPreferred))) elements.focusVerse.value = String(focusPreferred);
+        syncPassagePreview();
+    }
+
+    function syncPassagePreview() {
+        const selection = selectedReference();
+        if (!selection) {
+            elements.addPassagePreview.hidden = true;
+            elements.addPassageButton.disabled = true;
+            return;
+        }
+        try {
+            const passage = createPassage(sources, selection, elements.languageMode.value);
+            elements.addPassagePreview.hidden = false;
+            elements.addPassagePreview.className = 'empty-state';
+            elements.addPassagePreview.innerHTML = `<strong>Ready to add:</strong><span>${displayPassageReference(passage).en}<br>${displayPassageReference(passage).bn}</span>`;
+            elements.addPassageButton.disabled = false;
+        } catch (error) {
+            elements.addPassagePreview.hidden = false;
+            elements.addPassagePreview.className = 'empty-state empty-state--preview';
+            
+            let message = error.message;
+            if (message.includes('Bilingual source alignment requires review at')) {
+                const parts = message.split(';');
+                message = `Bilingual verse alignment differs at ${parts[0].replace('Bilingual source alignment requires review at ', '')}. Please adjust the range, use Bangla-only/English-only, or review the alignment.`;
+            }
+            
+            elements.addPassagePreview.innerHTML = `<strong>Cannot add passage</strong><span style="color: var(--danger);">${message}</span>`;
+            elements.addPassageButton.disabled = true;
+        }
     }
 
     function selectedReference() {
@@ -206,7 +237,7 @@ async function startBuilder() {
     }
 
     function resolvePassageRequest(request) {
-        const passage = createBilingualPassage(sources, request);
+        const passage = createPassage(sources, request, currentSet.languageMode || elements.languageMode.value);
         return {
             ...passage,
             id: request.id || passage.id,
@@ -290,21 +321,21 @@ async function startBuilder() {
         elements.bookSelector.value = String(request.bookNumber);
         populateChapters(request.chapter);
         populateVerses(request.startVerse, request.endVerse, request.focusVerse);
-        elements.addPassageButton.textContent = 'Update passage';
+        elements.addPassageButton.textContent = 'Update Passage →';
         elements.cancelPassageEdit.hidden = false;
         elements.addPassageButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function cancelEdit() {
         editingPassageId = null;
-        elements.addPassageButton.textContent = 'Add passage';
+        elements.addPassageButton.textContent = 'Add Passage →';
         elements.cancelPassageEdit.hidden = true;
     }
 
     function addOrUpdatePassage() {
         try {
             const selection = selectedReference();
-            const passage = createBilingualPassage(sources, selection);
+            const passage = createPassage(sources, selection, elements.languageMode.value);
             const id = editingPassageId || passage.id;
             const request = {
                 id,
@@ -336,14 +367,11 @@ async function startBuilder() {
     function parseFastReference() {
         try {
             const parsed = parseReferenceInput(elements.fastReference.value);
-            createBilingualPassage(sources, parsed);
             elements.bookSelector.value = String(parsed.bookNumber);
             populateChapters(parsed.chapter);
             populateVerses(parsed.startVerse, parsed.endVerse);
-            const passage = createBilingualPassage(sources, parsed);
-            const reference = displayPassageReference(passage);
             elements.parsedReference.dataset.tone = 'success';
-            elements.parsedReference.textContent = `Parsed: ${reference.en} | ${reference.bn}`;
+            elements.parsedReference.textContent = 'Parsed successfully.';
         } catch (error) {
             elements.parsedReference.dataset.tone = 'error';
             elements.parsedReference.textContent = error.message;
@@ -352,12 +380,35 @@ async function startBuilder() {
 
     function generationOptions() {
         syncSetFromControls();
+        const evaluateGeometry = (segments, mode) => {
+            const slide = { 
+                id: 'temp', 
+                kind: 'scripture', 
+                languageMode: mode, 
+                segments, 
+                themeId: currentSet.themeId,
+                reference: { en: 'Temp', bn: 'Temp' } 
+            };
+            const canvas = renderScriptureCanvas(document, slide, currentSet.settings);
+            const frame = document.createElement('div');
+            frame.style.width = '1600px';
+            frame.style.height = '900px';
+            frame.style.visibility = 'hidden';
+            frame.style.position = 'absolute';
+            frame.append(canvas);
+            document.body.append(frame);
+            updateCanvasScale(frame, canvas);
+            const result = inspectCanvasGeometry(canvas);
+            frame.remove();
+            return result.fits;
+        };
         return {
             languageMode: currentSet.languageMode,
             themeId: currentSet.themeId,
             includeOpening: currentSet.settings.includeOpening,
             includeClosing: currentSet.settings.includeClosing,
-            measurer
+            measurer,
+            evaluateGeometry
         };
     }
 
@@ -369,7 +420,7 @@ async function startBuilder() {
             if (message) setNotice(`${currentSet.slides.length} measured slides generated from ${passages.length} passage${passages.length === 1 ? '' : 's'}.`, 'success');
             setSaveStatus('Generated presentation has unsaved changes.', 'changed');
         } catch (error) {
-            setNotice(error.message, 'error');
+            console.error("GENERATE ERROR:", error); setNotice(error.message, 'error');
         }
     }
 
@@ -543,7 +594,7 @@ async function startBuilder() {
             elements.slidesList.append(card);
         }
         observePreviews();
-        requestAnimationFrame(() => {
+        document.fonts.ready.then(() => requestAnimationFrame(() => {
             document.querySelectorAll('.scripture-slide-editor').forEach(card => {
                 const geometry = inspectCanvasGeometry(card.querySelector('.scripture-canvas'));
                 card.classList.toggle('scripture-slide-editor--overflow', !geometry.fits);
@@ -553,7 +604,7 @@ async function startBuilder() {
                     label.textContent = `Overflow ${Math.ceil(geometry.overflowX)} × ${Math.ceil(geometry.overflowY)} px — export blocked; split this slide`;
                 }
             });
-        });
+        }));
     }
 
     function refreshSavedSets(preferredId = '') {
@@ -619,7 +670,7 @@ async function startBuilder() {
         currentSet.themeId = 'shepherds-peace';
         currentSet.passages = reviewReferences.map(reference => {
             const parsed = parseReferenceInput(reference);
-            const passage = createBilingualPassage(sources, parsed);
+            const passage = createPassage(sources, parsed);
             return { id: passage.id, ...parsed, focusVerse: reference === 'John 3:16-18' ? 16 : null, themeId: currentSet.themeId };
         });
         currentSet.id = createScriptureSetId(currentSet.date, currentSet.name);
@@ -644,7 +695,7 @@ async function startBuilder() {
             elements.exportStatus.textContent = `${result.filename} prepared with ${result.slideCount} approved slides.`;
         } catch (error) {
             elements.exportStatus.textContent = `Export failed: ${error.message}`;
-            setNotice(error.message, 'error');
+            console.error("GENERATE ERROR:", error); setNotice(error.message, 'error');
         } finally {
             const disabled = currentSet.slides.length === 0;
             [elements.downloadPptx, elements.downloadPdf, elements.downloadPng].forEach(value => { value.disabled = disabled; });
@@ -653,8 +704,11 @@ async function startBuilder() {
 
     elements.bookSelector.addEventListener('change', () => populateChapters());
     elements.chapterSelector.addEventListener('change', () => populateVerses());
+    elements.endVerse.addEventListener('change', syncPassagePreview);
+    elements.focusVerse.addEventListener('change', syncPassagePreview);
+
     elements.startVerse.addEventListener('change', () => {
-        if (Number(elements.endVerse.value) < Number(elements.startVerse.value)) elements.endVerse.value = elements.startVerse.value;
+        if (Number(elements.endVerse.value) < Number(elements.startVerse.value)) elements.endVerse.value = elements.startVerse.value; syncPassagePreview();
     });
     elements.parseReferenceButton.addEventListener('click', parseFastReference);
     elements.fastReference.addEventListener('keydown', event => {
@@ -689,7 +743,7 @@ async function startBuilder() {
         setSaveStatus('Theme changed without altering Scripture or pagination.', 'changed');
     });
     elements.languageMode.addEventListener('change', () => {
-        currentSet.languageMode = elements.languageMode.value;
+        currentSet.languageMode = elements.languageMode.value; syncPassagePreview();
         if (currentSet.slides.length) generateSlides(false);
     });
     for (const id of ['showTranslationLabel', 'showProgramBadge', 'showPageCounter']) {

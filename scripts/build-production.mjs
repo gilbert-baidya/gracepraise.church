@@ -5,12 +5,17 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 export const PUBLICATION_DIRECTORY = 'public-build';
+export const PRESENTATION_RUNTIME_FILES = [
+    'js/presentation-library-loader.mjs',
+    ...['html-to-image.js', 'pptxgen.bundle.js', 'jspdf.umd.min.js', 'jszip.min.js']
+        .flatMap(file => [`assets/presentation/vendor/${file}`, `assets/presentation/vendor/${file}.LICENSE.txt`])
+];
 const EXCLUDED_DIRECTORIES = new Set([
-    'worship-studio', 'bible-slide-builder', 'test', 'tests', 'node_modules', 'functions', 'scripts', 'tools',
+    'worship-studio', 'test', 'tests', 'node_modules', 'functions', 'scripts', 'tools',
     'pages', 'docs', 'qa', 'audit_screenshots', 'visual-audit-results',
     'test-results', 'playwright-report', 'blob-report', 'coverage',
     'session-state', 'copilot', 'public-build', 'dist', 'src', 'tmp', 'temp',
-    'logs', 'cache', 'backups', 'scratch'
+    'logs', 'cache', 'backups', 'scratch', 'debug', 'patches', 'artifacts'
 ]);
 const WEB_EXTENSIONS = new Set([
     '.html', '.css', '.js', '.mjs', '.json', '.xml', '.txt', '.svg', '.png',
@@ -24,8 +29,10 @@ const ROOT_DEVELOPMENT_FILES = new Set([
     'trace_css.js', 'screenshot.js', 'devotion-screenshot.js',
     'devotion-screenshot-dark.js', 'footer-screenshot.js'
 ]);
-const LOCAL_TOOL_NAMES = /(?:worship-studio|bible-slide-builder|studio-app\.mjs|studio\.css|chord-propagation\.mjs|presentation-modes\.mjs|slide-export\.mjs|bible-slide-app\.mjs|bible-data-adapter\.mjs|scripture-(?:layout|renderer|storage|themes|export)\.mjs)/iu;
+const LOCAL_TOOL_NAMES = /(?:worship-studio|studio-app\.mjs|studio\.css|chord-propagation\.mjs|presentation-modes\.mjs|slide-export\.mjs)/iu;
 const DEVELOPMENT_NAME = /(?:^test[-_.]|[-_.]tests?\.(?:html|js|mjs|json)$|[-_]SAMPLE\.|[-_]TEMPLATE\.|\.backup|\.bak(?:$|[.-])|\.tmp$|\.temp$|\.log$|\.map$)/iu;
+const DEVELOPMENT_ARTIFACT_NAME = /(?:^|[-_.])(?:debug|patch|probe|scratch|temp|tmp|trace|playwright|coverage|test-results|test-report|test-dashboard|audit-report)(?:$|[-_.])/iu;
+const RUNTIME_NAME_EXCEPTIONS = new Set(['light-mode-typography-patch.css']);
 const TEXT_EXTENSIONS = new Set(['.html', '.css', '.js', '.mjs', '.json', '.xml', '.txt', '.svg', '.md', '.yml']);
 
 export function validateRelativePath(relative) {
@@ -46,9 +53,11 @@ export function isProductionFile(relative) {
     if (lowerParts.some(part => part.startsWith('.') || EXCLUDED_DIRECTORIES.has(part))
         || relative.startsWith('services/ai/')
         || relative.startsWith('data/bible/source/')
+        || relative.startsWith('bible-slide-builder/review-artifacts/')
         || ['config/ai-providers.config.js', 'config/devotion-image-config.json', 'config/seo-pages.json'].includes(relative)
         || lowerParts.some(part => /(?:^|[-_])(?:fixtures?|playwright|test-results|screenshots?)(?:$|[-_])/u.test(part))
         || LOCAL_TOOL_NAMES.test(relative) || DEVELOPMENT_NAME.test(name)
+        || (!RUNTIME_NAME_EXCEPTIONS.has(relative) && lowerParts.some(part => DEVELOPMENT_ARTIFACT_NAME.test(part)))
         || /(?:secret|credential|service[-_]?account|private[-_]?key)/iu.test(name)) return false;
     if (parts.length === 1 && (ROOT_DEVELOPMENT_FILES.has(name)
         || (name.endsWith('.txt') && /^[A-Z_0-9.-]+$/u.test(name)))) return false;
@@ -76,7 +85,8 @@ async function listFiles(root, prefix = '', publication = false) {
         validateRelativePath(relative);
         if (entry.isSymbolicLink()) throw new Error(`Symlink is not allowed in publication: ${relative}`);
         if (entry.isDirectory()) {
-            if (publication && !isProductionFile(`${relative}/__directory_check__.html`)) {
+            if (publication
+                && !isProductionFile(`${relative}/__directory_check__.html`)) {
                 throw new Error(`Excluded directory found in publication: ${relative}`);
             }
             files.push(...await listFiles(root, relative, publication));
@@ -91,7 +101,7 @@ const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 
 async function localToolAssetHashes(root) {
     const hashes = new Set();
-    for (const directory of ['worship-studio', 'bible-slide-builder']) {
+    for (const directory of ['worship-studio']) {
         const tool = path.join(root, directory);
         try {
             if ((await fs.lstat(tool)).isSymbolicLink()) throw new Error(`${directory} source must not be a symlink.`);
@@ -100,7 +110,7 @@ async function localToolAssetHashes(root) {
             throw error;
         }
         for (const relative of await listFiles(tool)) {
-            if (/\.(?:html|css|mjs|js)$/iu.test(relative)) {
+            if (!relative.startsWith('vendor/') && /\.(?:html|css|mjs|js)$/iu.test(relative)) {
                 hashes.add(digest(await fs.readFile(await assertRegularFile(tool, relative))));
             }
         }
@@ -171,6 +181,6 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const root = fileURLToPath(new URL('../', import.meta.url));
     const trackedFiles = execFileSync('git', ['ls-files', '-z', '--cached'], { cwd: root })
         .toString('utf8').split('\0').filter(Boolean);
-    const { files } = await assembleProduction({ root, trackedFiles });
-    console.log(`Production artifact: ${PUBLICATION_DIRECTORY}/ (${files.length} files). Local Studios, authoritative XML, and development files excluded.`);
+    const { files } = await assembleProduction({ root, trackedFiles: [...trackedFiles, ...PRESENTATION_RUNTIME_FILES] });
+    console.log(`Production artifact: ${PUBLICATION_DIRECTORY}/ (${files.length} files). Songbook and Bible Slide Builder included; local Studio, authoritative XML, and development files excluded.`);
 }

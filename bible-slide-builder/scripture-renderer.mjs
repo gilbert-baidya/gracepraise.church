@@ -119,17 +119,96 @@ export function renderScriptureCanvas(documentObject, slide, settings = {}) {
 }
 
 export function updateCanvasScale(frame, canvas) {
-    const available = frame.clientWidth;
-    const scale = Math.min(1, available / 1600);
+    const isFullscreen = !!document.fullscreenElement && document.fullscreenElement.contains(frame);
+    
+    let availableWidth = frame.parentElement?.clientWidth || frame.clientWidth;
+    let availableHeight = Infinity;
+    
+    if (isFullscreen) {
+        availableWidth = document.fullscreenElement.clientWidth;
+        availableHeight = document.fullscreenElement.clientHeight;
+        document.fullscreenElement.style.display = 'flex';
+        document.fullscreenElement.style.alignItems = 'center';
+        document.fullscreenElement.style.justifyContent = 'center';
+    }
+    
+    const scale = Math.min(1, availableWidth / 1600, availableHeight / 900);
+    
     canvas.style.transform = `scale(${scale})`;
+    frame.style.width = `${1600 * scale}px`;
     frame.style.height = `${900 * scale}px`;
+    
     return scale;
 }
 
 export function inspectCanvasGeometry(canvas) {
-    const body = canvas.querySelector('.scripture-body');
-    if (!body) return { fits: true, overflowX: 0, overflowY: 0 };
-    const overflowX = Math.max(0, body.scrollWidth - body.clientWidth);
-    const overflowY = Math.max(0, body.scrollHeight - body.clientHeight);
-    return { fits: overflowX <= 1 && overflowY <= 1, overflowX, overflowY };
+    const scale = canvas.getBoundingClientRect().width / 1600 || 1;
+    const canvasRect = canvas.getBoundingClientRect();
+    
+    const safeLeft = 140 * scale;
+    const safeRight = 140 * scale;
+    const safeTopPad = 90 * scale;
+    const safeBottomPad = 100 * scale;
+    
+    const safeRect = {
+        left: canvasRect.left + safeLeft,
+        right: canvasRect.right - safeRight,
+        top: canvasRect.top + safeTopPad,
+        bottom: canvasRect.bottom - safeBottomPad
+    };
+    
+    let overflowX = 0;
+    let overflowY = 0;
+    
+    const elements = canvas.querySelectorAll([
+        '.scripture-reference-ribbon',
+        '.scripture-verse__number',
+        '.scripture-verse__text',
+        '.scripture-footer__identity',
+        '.scripture-footer__meta',
+        '.scripture-footer__serial'
+    ].join(', '));
+    
+    for (const el of elements) {
+        const rect = el.getBoundingClientRect();
+        if (rect.width === 0 && rect.height === 0) continue;
+        
+        const leftOverflow = safeRect.left - rect.left;
+        const rightOverflow = rect.right - safeRect.right;
+        if (leftOverflow > overflowX) overflowX = leftOverflow;
+        if (rightOverflow > overflowX) overflowX = rightOverflow;
+    }
+    
+    const ribbon = canvas.querySelector('.scripture-reference-ribbon');
+    let contentTopBound = safeRect.top;
+    if (ribbon) {
+        const ribbonRect = ribbon.getBoundingClientRect();
+        if (safeRect.top - ribbonRect.top > overflowY) overflowY = safeRect.top - ribbonRect.top;
+        contentTopBound = ribbonRect.bottom;
+    }
+    
+    const footer = canvas.querySelector('.scripture-footer');
+    let contentBottomBound = safeRect.bottom;
+    if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        if (footerRect.bottom - safeRect.bottom > overflowY) overflowY = footerRect.bottom - safeRect.bottom;
+        contentBottomBound = footerRect.top;
+    }
+    
+    const pairs = canvas.querySelectorAll('.scripture-pair');
+    for (const pair of pairs) {
+        const rect = pair.getBoundingClientRect();
+        if (rect.width === 0 && rect.height === 0) continue;
+        if (contentTopBound - rect.top > overflowY) overflowY = contentTopBound - rect.top;
+        if (rect.bottom - contentBottomBound > overflowY) overflowY = rect.bottom - contentBottomBound;
+    }
+    
+    overflowX = overflowX / scale;
+    overflowY = overflowY / scale;
+    
+    return { 
+        fits: overflowX <= 2.5 && overflowY <= 2.5, 
+        overflowX: Math.max(0, overflowX), 
+        overflowY: Math.max(0, overflowY) 
+    };
 }

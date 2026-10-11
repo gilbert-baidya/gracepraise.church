@@ -1,16 +1,12 @@
-import { createBilingualPassage, loadAuthoritativeBibles, parseReferenceInput } from './bible-data-adapter.mjs';
+import { createPassage, loadAuthoritativeBibles, parseReferenceInput } from './bible-data-adapter.mjs';
 import { createCanvasMeasurer, generatePassageSlides } from './scripture-layout.mjs';
 import { renderScriptureCanvas, updateCanvasScale } from './scripture-renderer.mjs';
 
-const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
-if (!LOCAL_HOSTS.has(window.location.hostname)) {
-    document.getElementById('reviewStatus').textContent = 'Review gallery is available only on an exact loopback hostname.';
-} else {
-    buildGallery().catch(error => {
-        document.getElementById('reviewStatus').textContent = error.message;
-        document.getElementById('gallerySourceLock').dataset.tone = 'error';
-    });
-}
+buildGallery().catch(error => {
+    console.error('[Bible Slide Builder review]', error);
+    document.getElementById('reviewStatus').textContent = error.message;
+    document.getElementById('gallerySourceLock').dataset.tone = 'error';
+});
 
 async function buildGallery() {
     const sources = await loadAuthoritativeBibles();
@@ -29,7 +25,7 @@ async function buildGallery() {
     const gallery = document.getElementById('reviewGallery');
     const frames = [];
     for (const item of cases) {
-        const passage = createBilingualPassage(sources, parseReferenceInput(item.reference));
+        const passage = createPassage(sources, parseReferenceInput(item.reference));
         const slides = generatePassageSlides(passage, {
             languageMode: item.mode,
             themeId: item.theme,

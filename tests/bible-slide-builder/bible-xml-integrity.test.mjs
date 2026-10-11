@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 import {
     SOURCE_MANIFEST,
-    createBilingualPassage,
+    createPassage,
     parseBibleXml,
     parseReferenceInput
 } from '../../bible-slide-builder/bible-data-adapter.mjs';
@@ -70,7 +70,7 @@ test('known passages remain exact from XML through bilingual slide generation an
     };
 
     for (const expected of KNOWN_PASSAGES) {
-        const passage = createBilingualPassage(sources, parseReferenceInput(expected.input));
+        const passage = createPassage(sources, parseReferenceInput(expected.input));
         assert.equal(passage.book, expected.book, `${expected.input} canonical book`);
         assert.equal(passage.bnBook, expected.bnBook, `${expected.input} Bangla book`);
         assert.equal(passage.chapter, expected.chapter, `${expected.input} chapter`);

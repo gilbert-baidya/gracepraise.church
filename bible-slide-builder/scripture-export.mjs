@@ -1,4 +1,4 @@
-import { loadClassicScript } from '../worship-studio/songbook-adapter.mjs';
+import { loadClassicScript } from '../js/presentation-library-loader.mjs';
 
 export const SCRIPTURE_EXPORT_RESOLUTION = Object.freeze({ width: 3200, height: 1800 });
 let libraryPromise;
@@ -7,9 +7,9 @@ function loadLibraries() {
     if (!libraryPromise) {
         libraryPromise = Promise.all([
             'html-to-image.js', 'pptxgen.bundle.js', 'jspdf.umd.min.js', 'jszip.min.js'
-        ].map(file => loadClassicScript(`../worship-studio/vendor/${file}?bible-slide-export=1`))).then(() => {
+        ].map(file => loadClassicScript(`../assets/presentation/vendor/${file}?bible-slide-export=1`))).then(() => {
             if (!window.htmlToImage?.toPng || !window.PptxGenJS || !window.jspdf?.jsPDF || !window.JSZip) {
-                throw new Error('The local presentation export libraries did not expose their required APIs.');
+                throw new Error('The presentation export libraries did not expose their required APIs.');
             }
         }).catch(error => {
             libraryPromise = undefined;

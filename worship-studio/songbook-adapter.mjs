@@ -1,3 +1,5 @@
+import { loadClassicScript } from '../js/presentation-library-loader.mjs';
+export { loadClassicScript };
 const BENGALI_RANGE = /[\u0980-\u09FF]/u;
 
 export function normalizeSearchTerm(value) {
@@ -52,34 +54,6 @@ export function createCatalog({ bengaliSongs = [], englishSongs = [] } = {}) {
             english: englishSongs.length,
             total: songs.length
         })
-    });
-}
-
-export function loadClassicScript(source) {
-    return new Promise((resolve, reject) => {
-        let existing = document.querySelector(`script[data-studio-source="${source}"]`);
-        if (existing?.dataset.failed === 'true') {
-            existing.remove();
-            existing = null;
-        }
-        if (existing?.dataset.loaded === 'true') {
-            resolve();
-            return;
-        }
-
-        const script = existing || document.createElement('script');
-        script.src = source;
-        script.async = true;
-        script.dataset.studioSource = source;
-        script.addEventListener('load', () => {
-            script.dataset.loaded = 'true';
-            resolve();
-        }, { once: true });
-        script.addEventListener('error', () => {
-            script.dataset.failed = 'true';
-            reject(new Error(`Could not load ${source}`));
-        }, { once: true });
-        if (!existing) document.head.appendChild(script);
     });
 }
 

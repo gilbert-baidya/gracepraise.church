@@ -6,7 +6,7 @@ import {
     SOURCE_MANIFEST,
     auditBiblePair,
     bookOptions,
-    createBilingualPassage,
+    createPassage,
     parseBibleXml,
     parseReferenceInput,
     validateReference
@@ -51,7 +51,7 @@ function memoryStorage() {
 }
 
 function storageSet(overrides = {}) {
-    const passage = createBilingualPassage(sources, parseReferenceInput('Psalm 23:1-2'));
+    const passage = createPassage(sources, parseReferenceInput('Psalm 23:1-2'));
     const slides = generatePassageSlides(passage, { languageMode: 'bn', themeId: 'shepherds-peace' });
     return {
         schemaVersion: 1,
@@ -133,13 +133,13 @@ test('invalid ranges, chapters, verses, and unreviewed bilingual alignment fail 
     assert.throws(() => validateReference({ bookNumber: 43, chapter: 999, startVerse: 1, endVerse: 1 }, sources), /does not contain/u);
     assert.throws(() => validateReference({ bookNumber: 43, chapter: 3, startVerse: 999, endVerse: 999 }, sources), /does not contain/u);
     assert.throws(
-        () => createBilingualPassage(sources, parseReferenceInput('Genesis 1:6-7')),
+        () => createPassage(sources, parseReferenceInput('Genesis 1:6-7')),
         /alignment requires review/u
     );
 });
 
 test('Bangla, English, bilingual, focus, title, continuation, and geometry behaviors preserve text', () => {
-    const passage = createBilingualPassage(sources, parseReferenceInput('John 14:1-6'));
+    const passage = createPassage(sources, parseReferenceInput('John 14:1-6'));
     for (const languageMode of ['bn', 'bilingual', 'en']) {
         const slides = generatePassageSlides(passage, {
             languageMode,
@@ -173,6 +173,63 @@ test('Bangla, English, bilingual, focus, title, continuation, and geometry behav
     assert.ok(manual && manual.length === 2);
     assert.equal(manual.flatMap(slide => slide.segments).map(segment => segment.bnText).join(''), longSlides[0].segments.map(segment => segment.bnText).join(''));
     assert.equal(SLIDE_GEOMETRY.banglaFontPx, 72);
+});
+
+test('forced continuation boundaries preserve every source character, verse number and export fragment', () => {
+    const passage = {
+        id: 'exact-boundaries', bookNumber: 19, book: 'Psalms', bnBook: 'গীতসংহিতা',
+        chapter: 1, startVerse: 7, endVerse: 8, translations: {},
+        verses: [7, 8].map(number => ({
+            number,
+            bn: { text: '  ঈশ্বরের অনুগ্রহে,\t আমরা  চলি।\nশেষ\u00a0কথা।  ', sourceNodeId: `bn-${number}` },
+            en: { text: '  Alpha beta,\t gamma  delta!\nLast\u00a0word.  ', sourceNodeId: `en-${number}` }
+        }))
+    };
+    for (const languageMode of ['bn', 'en', 'bilingual']) {
+        const slides = generatePassageSlides(passage, {
+            languageMode, includeOpening: true, includeClosing: true,
+            evaluateGeometry: (segments, mode) => segments.reduce((length, segment) =>
+                length + (mode === 'en' ? 0 : segment.bnText.length)
+                    + (mode === 'bn' ? 0 : segment.enText.length), 0) <= 12
+        });
+        const scripture = slides.filter(slide => slide.kind === 'scripture');
+        assert.ok(scripture.length > 2);
+        assert.ok(scripture.every(slide => slide.segments.every(segment => [7, 8].includes(segment.verseNumber))));
+        const manifest = buildScriptureExportManifest({ slides, sourceLock: {} });
+        for (const language of languageMode === 'bilingual' ? ['bn', 'en'] : [languageMode]) {
+            const reconstructed = reassembleSlideText(slides, language).get(passage.id);
+            for (const verse of passage.verses) {
+                assert.equal(reconstructed.get(verse.number), verse[language].text);
+                const field = language === 'bn' ? 'bangla' : 'english';
+                const exported = manifest.slides.flatMap(slide => slide.exactScripture || [])
+                    .filter(segment => segment.verseNumber === verse.number)
+                    .map(segment => segment[field]).join('');
+                assert.equal(exported, verse[language].text);
+            }
+        }
+    }
+});
+
+test('bilingual continuations include each language once when only the combined verse overflows', () => {
+    const passage = {
+        id: 'combined-overflow', bookNumber: 19, book: 'Psalms', bnBook: 'গীতসংহিতা',
+        chapter: 1, startVerse: 1, endVerse: 1,
+        verses: [{ number: 1, bn: { text: 'বাংলা কথা', sourceNodeId: 'bn' }, en: { text: 'English words', sourceNodeId: 'en' } }]
+    };
+    const slides = generatePassageSlides(passage, {
+        languageMode: 'bilingual',
+        evaluateGeometry: (segments, mode) => mode !== 'bilingual' || segments.every(segment => !(segment.bnText && segment.enText))
+    });
+    for (const language of ['bn', 'en']) {
+        assert.equal(reassembleSlideText(slides, language).get(passage.id).get(1), passage.verses[0][language].text);
+    }
+});
+
+test('an impossible measured fragment fails explicitly rather than emitting an overflowing slide', () => {
+    const passage = createPassage(sources, parseReferenceInput('John 3:16'));
+    assert.throws(() => generatePassageSlides(passage, {
+        languageMode: 'en', evaluateGeometry: () => false
+    }), /cannot fit/i);
 });
 
 test('saved-set revisions retain prior presentation copies and corrupt storage is not cleared', () => {

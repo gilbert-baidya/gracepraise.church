@@ -344,7 +344,7 @@ function uniqueId(reference) {
     return `passage-${reference.bookNumber}-${reference.chapter}-${reference.startVerse}-${reference.endVerse}`;
 }
 
-export function createBilingualPassage(sources, reference) {
+export function createPassage(sources, reference, mode = 'bilingual') {
     const request = validateReference(reference, sources);
     const bnBook = sources.bn.booksByNumber.get(request.bookNumber);
     const enBook = sources.en.booksByNumber.get(request.bookNumber);
@@ -356,15 +356,27 @@ export function createBilingualPassage(sources, reference) {
     for (let number = request.startVerse; number <= request.endVerse; number += 1) {
         const bn = bnChapter.versesByNumber.get(number);
         const en = enChapter.versesByNumber.get(number);
-        if (bn.canonicalNumbers.length !== 1 || bn.canonicalNumbers[0] !== number
-            || en.canonicalNumbers.length !== 1 || en.canonicalNumbers[0] !== number) {
+        
+        const bnValid = bn && bn.canonicalNumbers.length === 1 && bn.canonicalNumbers[0] === number;
+        const enValid = en && en.canonicalNumbers.length === 1 && en.canonicalNumbers[0] === number;
+        
+        if (mode === 'bilingual' && (!bnValid || !enValid)) {
             throw new Error(`Bilingual source alignment requires review at ${enBook.name} ${request.chapter}:${number}; no verses were paired.`);
+        } else if (mode === 'bn' && !bnValid) {
+            throw new Error(`Bangla source contains a merged verse at ${bnBook.bnName} ${request.chapter}:${number}. Please adjust the range.`);
+        } else if (mode === 'en' && !enValid) {
+            throw new Error(`English source alignment requires review at ${enBook.name} ${request.chapter}:${number}.`);
         }
-        if (seenBnNodes.has(bn.id) || seenEnNodes.has(en.id)) {
-            throw new Error(`Duplicate source assignment detected at ${enBook.name} ${request.chapter}:${number}.`);
+        
+        if (mode === 'bn' || mode === 'bilingual') {
+            if (seenBnNodes.has(bn.id)) throw new Error(`Duplicate source assignment detected at ${enBook.name} ${request.chapter}:${number}.`);
+            seenBnNodes.add(bn.id);
         }
-        seenBnNodes.add(bn.id);
-        seenEnNodes.add(en.id);
+        if (mode === 'en' || mode === 'bilingual') {
+            if (seenEnNodes.has(en.id)) throw new Error(`Duplicate source assignment detected at ${enBook.name} ${request.chapter}:${number}.`);
+            seenEnNodes.add(en.id);
+        }
+        
         verses.push(Object.freeze({
             number,
             bn: Object.freeze({ text: bn.text, sourceText: bn.sourceText, sourceNodeId: bn.id }),

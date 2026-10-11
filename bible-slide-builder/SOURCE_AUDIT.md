@@ -7,7 +7,7 @@ Audit date: 2026-10-09. The audit parses the checked-in bytes without rewriting 
 | Filename | `bn-bsi-2016-ov.xml` | `en-niv-1984.xml` |
 | SHA-256 | `223ef4d4db4d989592dfd84b7f2095e017694bfd76dbe12c9612f906dd27b6b8` | `5fbe1d7bc934f0e118f53ed111fae334b3c1d78219e32ce6007e41401d39951c` |
 | Detected encoding | XML declaration UTF-8; UTF-8 bytes; CRLF | XML declaration UTF-8; UTF-8 bytes with BOM |
-| Translation metadata | `Bengali (BSI) 2016 O.V. Bible, পবিএ বাইবেল O.V` | `biblename="ENGLISHNIV"` (repository license metadata identifies NIV 1984) |
+| Translation metadata | `Bengali (BSI) 2016 O.V. Bible, পবিএ বাইবেল O.V` | `biblename="ENGLISHNIV"` (repository source documentation identifies NIV 1984) |
 | Books | 66 | 66 |
 | Chapters | 1,189 | 1,189 |
 | Raw verse elements | 31,083 | 31,102 |
@@ -63,3 +63,7 @@ The integrity suite reads both XML files and verifies exact book, chapter, verse
 - Romans 8:31–34
 
 The test hashes both source files before parsing and again after final slide generation. A changed byte, missing punctuation mark, duplicate verse, omitted verse, wrong pairing, or export-metadata difference fails the suite.
+
+## Redistribution status
+
+This is a technical source-integrity audit, not a copyright clearance. No documented permission establishing full public redistribution has been verified. The production build excludes complete XML files to keep raw translation text out of public deployments until rights are established. See [Bible source documentation](../data/bible/README.md) for the required owner/legal confirmation before release.

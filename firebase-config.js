@@ -48,34 +48,92 @@ function buildSignInErrorMessage(error) {
   return 'Sign in failed: ' + error.message;
 }
 
-function initializeFirebase() {
+function observeSongbookAuth(onChange, onError) {
   if (typeof firebase === 'undefined') {
-    console.error('Firebase SDK not loaded');
-    return;
+    throw new Error('Firebase SDK not loaded. Reload the page to try again.');
   }
-  
-  firebase.initializeApp(firebaseConfig);
+
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   auth = firebase.auth();
-  database = firebase.database();
-  
-  // Listen for authentication state changes
-  auth.onAuthStateChanged((user) => {
-    currentUser = user;
-    isSigningIn = false; // Reset flag when auth state changes
-    if (user) {
-      // Authenticated users with valid session tokens are permitted
-      // For elevated role checks, query user claims or /admins path in database
-      isAuthorized = true;
-      updateUIForAuth(user, isAuthorized);
-    } else {
-      isAuthorized = false;
-      updateUIForAuth(null, false);
-      // Disable copying when signed out
-      if (typeof disableCopyForUnauthorizedUser === 'function') {
-        disableCopyForUnauthorizedUser();
-      }
+  return auth.onAuthStateChanged(onChange, onError);
+}
+
+const LOCAL_TOOL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
+
+const SONGBOOK_TOOL_DESTINATIONS = new Set([
+  '/bible-slide-builder/',
+  '/bible-slide-builder/review.html'
+]);
+
+function requestedSongbookTool() {
+  const requested = new URLSearchParams(window.location.search).get('returnTo');
+  return SONGBOOK_TOOL_DESTINATIONS.has(requested) ? requested : null;
+}
+
+function protectSongbookTool(start) {
+  const app = document.getElementById('builderApp');
+  const gate = document.getElementById('localAccessGate');
+  let started = false;
+  let allowed = false;
+  const fail = (error) => {
+    allowed = false;
+    app.hidden = true;
+    gate.hidden = false;
+    console.error('[Songbook authentication]', error);
+    document.getElementById('accessGateTitle').textContent = 'Unable to verify your Songbook session';
+    document.getElementById('accessGateDetail').textContent = error.message;
+  };
+  const check = (user) => {
+    allowed = Boolean(user);
+    if (!allowed) {
+      app.hidden = true;
+      gate.hidden = false;
+      const destination = window.location.pathname.endsWith('/review.html')
+        ? '/bible-slide-builder/review.html' : '/bible-slide-builder/';
+      window.location.replace(`/songbook.html?returnTo=${encodeURIComponent(destination)}#authButton`);
+      return;
     }
+    gate.hidden = true;
+    app.hidden = false;
+    if (!started) {
+      started = true;
+      Promise.resolve().then(start).catch(fail);
+    }
+  };
+  try {
+    let unsubscribe = observeSongbookAuth(check, fail);
+    // A back/forward-cache restore must recheck Firebase instead of exposing stale UI.
+    window.addEventListener('pagehide', () => { app.hidden = true; });
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted && allowed) {
+        unsubscribe();
+        unsubscribe = observeSongbookAuth(check, fail);
+      }
+    });
+  } catch (error) {
+    fail(error);
+  }
+}
+
+function initializeFirebase() {
+  observeSongbookAuth((user) => {
+    currentUser = user;
+    isSigningIn = false;
+    isAuthorized = Boolean(user);
+    const destination = requestedSongbookTool();
+    if (user && destination) {
+      window.location.replace(destination);
+      return;
+    }
+    updateUIForAuth(user, isAuthorized);
+    if (!user && typeof disableCopyForUnauthorizedUser === 'function') {
+      disableCopyForUnauthorizedUser();
+    }
+  }, (error) => {
+    console.error('[Songbook authentication]', error);
+    alert('Unable to verify your sign-in session: ' + error.message);
   });
+  database = firebase.database();
 }
 
 // Sign in with Google
@@ -140,6 +198,9 @@ function updateUIForAuth(user, authorized) {
   const userName = document.getElementById('userName');
   const savePlaylistBtn = document.getElementById('savePlaylistBtn');
   const savedPlaylistsSection = document.getElementById('savedPlaylistsSection');
+  const bibleSlideBuilderLink = document.getElementById('bibleSlideBuilderLink');
+  const isLocalToolHost = typeof window !== 'undefined' && LOCAL_TOOL_HOSTS.has(window.location.hostname);
+  if (bibleSlideBuilderLink) bibleSlideBuilderLink.hidden = !user || !authorized || !isLocalToolHost;
   
   if (user) {
     authButton.style.display = 'none';

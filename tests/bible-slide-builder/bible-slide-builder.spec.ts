@@ -1,15 +1,19 @@
 import { test, expect, type Page } from '@playwright/test';
 import fs from 'node:fs/promises';
 import JSZip from 'jszip';
+import { mockSongbookSession } from '../fixtures/songbook-session';
 
 const testOrigin = new URL(process.env.BASE_URL ?? 'http://127.0.0.1:8080');
 const testPort = testOrigin.port || '80';
+test.beforeEach(async ({ page }) => {
+  await mockSongbookSession(page);
+});
 
 async function addReference(page: Page, reference: string) {
   await page.getByLabel('Fast reference entry').fill(reference);
   await page.getByRole('button', { name: 'Parse' }).click();
-  await expect(page.locator('#parsedReference')).toContainText('Parsed:');
-  await page.getByRole('button', { name: 'Add passage' }).click();
+  await expect(page.locator('#parsedReference')).toContainText('Parsed successfully.');
+  await page.getByRole('button', { name: 'Add Passage →' }).click();
 }
 
 async function openBuilder(page: Page) {
@@ -98,9 +102,21 @@ test.describe('GPBC Bible Slide Builder local milestone', () => {
   test('exports the approved live preview to a PNG package with exact manifest text', async ({ page }) => {
     await addReference(page, 'John 3:16');
     await page.getByRole('button', { name: 'Generate slides' }).click();
+    
+    const badRequests = [];
+    page.on('request', req => {
+      const url = req.url();
+      if (url.includes('%23')) badRequests.push(url);
+    });
+    page.on('response', res => {
+      const url = res.url();
+      if (res.status() === 404 && !url.includes('favicon')) badRequests.push('404: ' + url);
+    });
+
     const downloadPromise = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Download PNG Slides' }).click();
     const download = await downloadPromise;
+    expect(badRequests).toEqual([]);
     expect(download.suggestedFilename()).toMatch(/^GPBC_\d{4}-\d{2}-\d{2}_Sunday-Scripture-Set\.zip$/u);
     const file = await download.path();
     expect(file).toBeTruthy();
@@ -119,9 +135,36 @@ test.describe('GPBC Bible Slide Builder local milestone', () => {
     expect(png.readUInt32BE(16)).toBe(3200);
     expect(png.readUInt32BE(20)).toBe(1800);
   });
+
+  for (const format of ['pptx', 'pdf'] as const) {
+    test(`exports approved Scripture slides to ${format.toUpperCase()} without changing slide text`, async ({ page }) => {
+      await addReference(page, 'John 3:16');
+      await page.getByRole('button', { name: 'Generate slides' }).click();
+      const before = await page.locator('.scripture-verse__text').allTextContents();
+      const downloadPromise = page.waitForEvent('download');
+      await page.getByRole('button', { name: `Download ${format.toUpperCase()}`, exact: true }).click();
+      const download = await downloadPromise;
+      expect(download.suggestedFilename()).toMatch(new RegExp(`\\.${format}$`));
+      const file = await download.path();
+      expect(file).toBeTruthy();
+      const bytes = await fs.readFile(file!);
+      if (format === 'pptx') {
+        const zip = await JSZip.loadAsync(bytes);
+        expect(zip.file('ppt/slides/slide1.xml')).toBeTruthy();
+        const notes = await zip.file('ppt/notesSlides/notesSlide1.xml')!.async('string');
+        expect(notes).toContain('exactScripture');
+        expect(notes).toContain(before[0]);
+      } else {
+        expect(bytes.subarray(0, 5).toString()).toBe('%PDF-');
+        expect(bytes.length).toBeGreaterThan(1000);
+      }
+      await expect(page.locator('#exportStatus')).toContainText('prepared with');
+      expect(await page.locator('.scripture-verse__text').allTextContents()).toEqual(before);
+    });
+  }
 });
 
-test.describe('strict loopback access and Admin launcher safety', () => {
+test.describe('authenticated host access and Admin launcher safety', () => {
   for (const hostname of ['127.0.0.1', 'localhost', '[::1]']) {
     test(`${hostname} opens the Builder directly`, async ({ page }) => {
       if (hostname === '[::1]') {
@@ -138,7 +181,7 @@ test.describe('strict loopback access and Admin launcher safety', () => {
   }
 
   for (const hostname of ['gracepraise.church', 'builder.invalid', 'localhost.example.com', '127.0.0.1.example.com', 'evil-localhost.com', '192.168.1.10']) {
-    test(`${hostname} cannot bypass the local gate`, async ({ page, context }) => {
+    test(`${hostname} cannot bypass authentication`, async ({ page, context }) => {
       let xmlRequested = false;
       await page.route(`http://${hostname}/**`, async route => {
         const url = new URL(route.request().url());
@@ -148,12 +191,13 @@ test.describe('strict loopback access and Admin launcher safety', () => {
       });
       await context.addCookies([{ name: 'localBypass', value: 'true', url: `http://${hostname}/` }]);
       await page.addInitScript(() => {
+        localStorage.setItem('gpbc-test-songbook-user', 'false');
         localStorage.setItem('localBypass', 'true');
         localStorage.setItem('isLocalDevelopment', 'true');
       });
       await page.goto(`http://${hostname}/bible-slide-builder/?localBypass=true&isLocalDevelopment=true`);
-      await expect(page.locator('#localAccessGate')).toBeVisible();
-      await expect(page.locator('#builderApp')).toBeHidden();
+      await expect(page).toHaveURL(/songbook\.html\?returnTo=/u);
+      await expect(page.locator('#bibleSlideBuilderLink')).toBeHidden();
       expect(xmlRequested).toBe(false);
     });
   }
@@ -188,4 +232,64 @@ test('review gallery renders nine verified live scenarios', async ({ page }) => 
     .toHaveAttribute('data-scripture-theme', 'communion');
   await expect(page.locator('.review-card').filter({ hasText: 'Bethlehem Night' }).locator('.scripture-canvas'))
     .toHaveAttribute('data-scripture-theme', 'bethlehem');
+});
+test.describe('Long Verse Regression', () => {
+  test('Numbers 1:1 paginates safely without overflow or text mutation across all modes', async ({ page }) => {
+    await page.goto('/bible-slide-builder/');
+    await page.getByLabel('Fast reference entry').fill('Numbers 1:1');
+    await page.getByRole('button', { name: 'Parse' }).click();
+    await page.getByRole('button', { name: 'Add Passage →' }).click();
+    
+    for (const mode of ['bn', 'bilingual', 'en']) {
+      await page.getByLabel('Language').selectOption(mode);
+      await page.getByRole('button', { name: 'Generate slides' }).click();
+      await expect(page.locator('.scripture-slide-editor--overflow')).toHaveCount(0);
+      const slides = page.locator('.scripture-slide-editor');
+      expect(await slides.count()).toBeGreaterThanOrEqual(1);
+      const sourceText = await page.evaluate(async () => {
+        const adapterPath = '/bible-slide-builder/bible-data-adapter.mjs';
+        const adapter = await import(adapterPath);
+        const sources = await adapter.loadAuthoritativeBibles();
+        const passage = adapter.createPassage(sources, adapter.parseReferenceInput('Numbers 1:1'));
+        return { bn: passage.verses[0].bn.text, en: passage.verses[0].en.text };
+      });
+      for (const language of mode === 'bilingual' ? ['bn', 'en'] : [mode]) {
+        const fragments = await page.locator(`.scripture-verse--${language} .scripture-verse__text`).allTextContents();
+        expect(fragments.join('')).toBe(language === 'bn' ? sourceText.bn : sourceText.en);
+      }
+    }
+  });
+});
+
+test('Add Passage button remains visible and handles bilingual mismatch gracefully across viewports', async ({ page, isMobile }) => {
+  await page.goto('/bible-slide-builder/');
+
+  await page.getByLabel('Fast reference entry').fill('Genesis 1:2-8');
+  await page.getByRole('button', { name: 'Parse' }).click();
+  
+  await expect(page.getByRole('button', { name: 'Add Passage →' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Add Passage →' })).toBeDisabled();
+  await expect(page.locator('#addPassagePreview')).toContainText('Bangla source contains a merged verse');
+
+  await page.getByLabel('Language').selectOption('en');
+  await expect(page.locator('#addPassagePreview')).toContainText('Ready to add');
+  await expect(page.getByRole('button', { name: 'Add Passage →' })).toBeEnabled();
+
+  await page.getByLabel('Language').selectOption('bilingual');
+  await expect(page.locator('#addPassagePreview')).toContainText('Bilingual verse alignment differs at Genesis 1:6');
+  await expect(page.getByRole('button', { name: 'Add Passage →' })).toBeDisabled();
+
+  await page.getByLabel('Fast reference entry').fill('Psalm 23:1-4');
+  await page.getByRole('button', { name: 'Parse' }).click();
+  await expect(page.locator('#addPassagePreview')).toContainText('Ready to add');
+  await expect(page.getByRole('button', { name: 'Add Passage →' })).toBeEnabled();
+  await page.getByRole('button', { name: 'Add Passage →' }).click();
+  await expect(page.locator('#passageCount')).toHaveText('1');
+
+  await page.getByLabel('Fast reference entry').fill('John 3:16-18');
+  await page.getByRole('button', { name: 'Parse' }).click();
+  await expect(page.locator('#addPassagePreview')).toContainText('Ready to add');
+  await expect(page.getByRole('button', { name: 'Add Passage →' })).toBeEnabled();
+  await page.getByRole('button', { name: 'Add Passage →' }).click();
+  await expect(page.locator('#passageCount')).toHaveText('2');
 });

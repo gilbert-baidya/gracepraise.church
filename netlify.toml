@@ -3,7 +3,7 @@
   publish = "public-build"
   
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "22.22.3"
 
 # Only build on production branch
 [context.production]

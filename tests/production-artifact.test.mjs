@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { assembleProduction, isProductionFile, verifyProductionArtifact } from '../scripts/build-production.mjs';
+import { assembleProduction, isProductionFile, verifyProductionArtifact, PRESENTATION_RUNTIME_FILES } from '../scripts/build-production.mjs';
 
 const repository = fileURLToPath(new URL('../', import.meta.url));
 async function fixture(t, entries = { 'index.html': '<h1>Home</h1>' }) {
@@ -22,12 +22,13 @@ test('publication selects web runtime/CMS content, not development or private fi
     for (const file of ['index.html', 'songbook-app.js', 'admin/v21/admin-auth.js', 'admin/config.yml',
         'content/gallery/20251217-dewri-family.md', 'data/bible/index/niv1984.json',
         'services/bible/bible-service.js', 'images/logo-gpbc-test-no-bg.svg', 'manifest.json',
-        'share-panel-verification.js']) {
+        'share-panel-verification.js', 'light-mode-typography-patch.css', 'bible-slide-builder/index.html',
+        'bible-slide-builder/scripture-layout.mjs']) {
         assert.equal(isProductionFile(file), true, file);
     }
-    for (const file of ['worship-studio/index.html', 'bible-slide-builder/index.html',
-        'bible-slide-builder/scripture-layout.mjs', 'data/bible/source/en-niv-1984.xml',
-        'data/bible/source/bn-bsi-2016-ov.xml', 'tests/example.js', 'node_modules/lib.js',
+    for (const file of ['worship-studio/index.html', 'bible-slide-builder/review-artifacts/01.png',
+        'data/bible/source/en-niv-1984.xml', 'data/bible/source/bn-bsi-2016-ov.xml',
+        'data/bible/source/unapproved.xml', 'tests/example.js', 'node_modules/lib.js',
         '.github/workflows/ci.yml', '.git/config', '.env', '.env.production', 'functions/index.js',
         'scripts/build-production.mjs', 'pages/index.ts', 'docs/guide.md', 'package.json',
         'test-dashboard.html', 'HOME_PAGE_TEST.html', 'js/smart-share-ai-tests.js',
@@ -55,6 +56,27 @@ test('production assembly preserves content bytes and replaces stale generated f
     assert.equal(await fs.readFile(path.join(root, 'worship-studio/index.html'), 'utf8'), 'LOCAL STUDIO');
     assert.equal(await fs.readFile(path.join(root, 'bible-slide-builder/index.html'), 'utf8'), 'LOCAL BIBLE BUILDER');
     assert.equal(await fs.readFile(path.join(root, 'data/bible/source/en-niv-1984.xml'), 'utf8'), '<XMLBIBLE>PRIVATE AUTHORITATIVE SOURCE</XMLBIBLE>');
+});
+
+test('staged development artifacts are excluded without deleting their source files', async t => {
+    const excluded = [
+        'debug-export.mjs', 'debug-layout.mjs', 'patch.js', 'patch-test.js',
+        'assets/debug/probe.js', 'js/export.debug.js', 'assets/patches/fix.js',
+        'development/audit-report.json', 'report/test-report.html', 'test-dashboard.html',
+        'images/layout-trace.png', 'temporary/page.tmp.html', 'debug.json',
+        'artifacts/run.json', 'coverage/report.json', 'test-results/output.json'
+    ];
+    const entries = { 'index.html': 'HOME', ...Object.fromEntries(excluded.map(file => [file, 'KEEP LOCAL'])) };
+    const root = await fixture(t, entries);
+    const { output, files } = await assembleProduction({ root, trackedFiles: Object.keys(entries) });
+    assert.deepEqual(files, ['index.html']);
+    for (const file of excluded) {
+        assert.equal(isProductionFile(file), false, file);
+        assert.equal(await fs.readFile(path.join(root, file), 'utf8'), 'KEEP LOCAL');
+        await assert.rejects(fs.access(path.join(output, file)));
+    }
+    await fs.writeFile(path.join(output, 'debug-layout.mjs'), 'ACCIDENTAL COPY');
+    await assert.rejects(verifyProductionArtifact(output), /Excluded file/);
 });
 
 test('unsafe inventory paths cannot escape the source or publication directory', async t => {
@@ -101,10 +123,6 @@ test('verification rejects local-tool paths, references, alternate copies and ar
     await assert.rejects(verifyProductionArtifact(output, { sourceRoot: root }), /alternate path/);
     await fs.writeFile(path.join(output, 'renamed.js'), 'import("./chord-propagation.mjs")');
     await assert.rejects(verifyProductionArtifact(output, { sourceRoot: root }), /Local-tool reference/);
-    await fs.writeFile(path.join(output, 'renamed.js'), 'unique Bible local app bytes');
-    await assert.rejects(verifyProductionArtifact(output, { sourceRoot: root }), /alternate path/);
-    await fs.writeFile(path.join(output, 'renamed.js'), 'import(".\/scripture-layout.mjs")');
-    await assert.rejects(verifyProductionArtifact(output, { sourceRoot: root }), /Local-tool reference/);
     await fs.unlink(path.join(output, 'renamed.js'));
     await fs.symlink(path.join(root, 'index.html'), path.join(output, 'alias.html'));
     await assert.rejects(verifyProductionArtifact(output, { sourceRoot: root }), /Symlink/);
@@ -132,13 +150,14 @@ test('real production artifact includes major site routes/assets and excludes al
         'prayer-request.html', 'plan-visit.html', 'daily-devotion.html', 'calendar.html',
         'assets/css/homepage-readability-upgrade.css', 'songs-data.js', 'songs-catalog.js',
         'song-chord-alignments.js', 'english-songbook-data.js', 'sw.js', 'robots.txt', 'sitemap.xml',
-        'shared/website-control-runtime.js', 'data/bible/index/niv1984.json', 'content/settings/logo.json']) {
+        'shared/website-control-runtime.js', 'data/bible/index/niv1984.json', 'content/settings/logo.json',
+        ...PRESENTATION_RUNTIME_FILES]) {
         assert.ok(files.includes(required), required);
         assert.deepEqual(await fs.readFile(path.join(output, required)), await fs.readFile(path.join(repository, required)));
     }
     assert.ok(files.every(isProductionFile));
     const tracked = execFileSync('git', ['ls-files', '-z'], { cwd: repository }).toString().split('\0').filter(Boolean);
-    assert.deepEqual([...files].sort(), tracked.filter(isProductionFile).sort());
+    assert.deepEqual([...files].sort(), [...new Set([...tracked, ...PRESENTATION_RUNTIME_FILES])].filter(isProductionFile).sort());
     const published = new Set(files);
     const sourceFiles = new Set(tracked);
     for (const file of files.filter(file => /\.(?:html|css|js|mjs)$/u.test(file))) {
@@ -154,9 +173,10 @@ test('real production artifact includes major site routes/assets and excludes al
     }
     const config = await fs.readFile(path.join(repository, 'netlify.toml'), 'utf8');
     assert.ok(!files.some(file => file.startsWith('worship-studio/')));
-    assert.ok(!files.some(file => file.startsWith('bible-slide-builder/')));
+    assert.ok(files.includes('bible-slide-builder/index.html'));
     assert.ok(!files.some(file => file.startsWith('data/bible/source/')));
     assert.equal((config.match(/publish = "public-build"/gu) || []).length, 3);
     assert.ok(config.includes('command = "npm run build:production"'));
+    assert.ok(config.includes('NODE_VERSION = "22.22.3"'));
     assert.ok(!config.includes('publish = "."'));
 });
