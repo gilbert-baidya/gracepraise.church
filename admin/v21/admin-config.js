@@ -86,6 +86,7 @@
     feature('pages.prayer', 'Prayer Request', 'Pages', 'Prayer request form and connected prayer CTAs.', ['homepage.sacredFocus', 'homepage.stayConnected']),
     feature('pages.giving', 'Giving', 'Pages', 'Giving route, aliases, and connected payment CTAs.', ['homepage.specialEvents', 'homepage.stayConnected']),
     feature('pages.songbook', 'Songbook', 'Pages', 'Songbook route and navigation entry.'),
+    feature('pages.bibleSlideBuilder', 'Bible Slide Builder', 'Pages', 'Authenticated Scripture presentation tool navigation entry.'),
     feature('pages.pastor', 'Pastor', 'Pages', 'Pastor route and footer destination.'),
 
     feature('devotions.daily', 'Daily Devotion', 'Devotions', 'Daily devotion experience and PWA entry point.', ['homepage.stayConnected']),
@@ -143,7 +144,9 @@
     { id: 'contact.planVisit.cta', featureId: 'pages.planVisit', surfaceType: 'contact-cta' },
     { id: 'positionPapers.planVisit.cta', featureId: 'pages.planVisit', surfaceType: 'position-papers-cta' },
     { id: 'navigation.planVisit.link', featureId: 'pages.planVisit', surfaceType: 'navigation-link' },
-    { id: 'footer.planVisit.link', featureId: 'pages.planVisit', surfaceType: 'footer-link' }
+    { id: 'footer.planVisit.link', featureId: 'pages.planVisit', surfaceType: 'footer-link' },
+    { id: 'navigation.songbook.link', featureId: 'pages.songbook', surfaceType: 'navigation-link' },
+    { id: 'navigation.bibleSlideBuilder.link', featureId: 'pages.bibleSlideBuilder', surfaceType: 'navigation-link' }
   ]);
 
   const CONTROLLED_ROUTE_DEFINITIONS = Object.freeze([

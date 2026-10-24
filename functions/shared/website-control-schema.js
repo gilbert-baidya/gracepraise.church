@@ -41,6 +41,7 @@ const FEATURE_DEFINITIONS = Object.freeze([
   { id: 'pages.prayer', dependencies: ['homepage.sacredFocus', 'homepage.stayConnected'] },
   { id: 'pages.giving', dependencies: ['homepage.specialEvents', 'homepage.stayConnected'] },
   { id: 'pages.songbook', dependencies: [] },
+  { id: 'pages.bibleSlideBuilder', dependencies: [] },
   { id: 'pages.pastor', dependencies: [] },
 
   { id: 'devotions.daily', dependencies: ['homepage.stayConnected'] },
@@ -138,6 +139,22 @@ const CONTROLLED_SURFACE_DEFINITIONS = Object.freeze([
     featureId: 'pages.planVisit',
     surfaceType: 'footer-link',
     selector: '[data-gpbc-feature-link="pages.planVisit"][data-gpbc-surface="footer"]',
+    stateSource: 'configured',
+    hideContainer: 'li'
+  },
+  {
+    id: 'navigation.songbook.link',
+    featureId: 'pages.songbook',
+    surfaceType: 'navigation-link',
+    selector: '[data-gpbc-feature-link="pages.songbook"][data-gpbc-surface="navigation"]',
+    stateSource: 'configured',
+    hideContainer: 'li'
+  },
+  {
+    id: 'navigation.bibleSlideBuilder.link',
+    featureId: 'pages.bibleSlideBuilder',
+    surfaceType: 'navigation-link',
+    selector: '[data-gpbc-feature-link="pages.bibleSlideBuilder"][data-gpbc-surface="navigation"]',
     stateSource: 'configured',
     hideContainer: 'li'
   }

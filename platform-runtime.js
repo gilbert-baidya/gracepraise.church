@@ -131,8 +131,8 @@
                         <li class="nav-dropdown-nested">
                             <a href="${resolvedBasePath}songbook.html" aria-haspopup="true" aria-expanded="false">Tools <span class="dropdown-arrow">▶</span></a>
                             <ul class="dropdown-menu-nested">
-                                <li><a href="${resolvedBasePath}songbook.html">Songbook</a></li>
-                                <li><a href="${resolvedBasePath}bible-slide-builder/">Bible Slide Builder</a></li>
+                                <li><a href="${resolvedBasePath}songbook.html" data-gpbc-feature-link="pages.songbook" data-gpbc-surface="navigation">Songbook</a></li>
+                                <li><a href="${resolvedBasePath}bible-slide-builder/" data-gpbc-feature-link="pages.bibleSlideBuilder" data-gpbc-surface="navigation">Bible Slide Builder</a></li>
                             </ul>
                         </li>
                     </ul>
