@@ -26,8 +26,7 @@ test('publication selects web runtime/CMS content, not development or private fi
         'bible-slide-builder/scripture-layout.mjs']) {
         assert.equal(isProductionFile(file), true, file);
     }
-    for (const file of ['worship-studio/index.html', 'bible-slide-builder/review-artifacts/01.png',
-        'data/bible/source/en-niv-1984.xml', 'data/bible/source/bn-bsi-2016-ov.xml',
+    for (const file of [    'worship-studio/index.html', 'bible-slide-builder/review-artifacts/01.png',
         'data/bible/source/unapproved.xml', 'tests/example.js', 'node_modules/lib.js',
         '.github/workflows/ci.yml', '.git/config', '.env', '.env.production', 'functions/index.js',
         'scripts/build-production.mjs', 'pages/index.ts', 'docs/guide.md', 'package.json',
@@ -44,7 +43,7 @@ test('production assembly preserves content bytes and replaces stale generated f
     const entries = { 'index.html': '<h1>Home</h1>', 'about.html': 'About',
         'admin/config.yml': 'backend: git-gateway', 'worship-studio/index.html': 'LOCAL STUDIO',
         'bible-slide-builder/index.html': 'LOCAL BIBLE BUILDER',
-        'data/bible/source/en-niv-1984.xml': '<XMLBIBLE>PRIVATE AUTHORITATIVE SOURCE</XMLBIBLE>',
+        'data/bible/source/en-niv-1984.xml': '<XMLBIBLE>AUTHORITATIVE SOURCE</XMLBIBLE>',
         '.env': 'SECRET', 'tests/fixture.json': '{}', 'node_modules/library.js': 'DEV' };
     const root = await fixture(t, entries);
     const first = await assembleProduction({ root, trackedFiles: Object.keys(entries) });
@@ -55,7 +54,7 @@ test('production assembly preserves content bytes and replaces stale generated f
     await assert.rejects(fs.access(path.join(second.output, 'stale.html')));
     assert.equal(await fs.readFile(path.join(root, 'worship-studio/index.html'), 'utf8'), 'LOCAL STUDIO');
     assert.equal(await fs.readFile(path.join(root, 'bible-slide-builder/index.html'), 'utf8'), 'LOCAL BIBLE BUILDER');
-    assert.equal(await fs.readFile(path.join(root, 'data/bible/source/en-niv-1984.xml'), 'utf8'), '<XMLBIBLE>PRIVATE AUTHORITATIVE SOURCE</XMLBIBLE>');
+    assert.equal(await fs.readFile(path.join(root, 'data/bible/source/en-niv-1984.xml'), 'utf8'), '<XMLBIBLE>AUTHORITATIVE SOURCE</XMLBIBLE>');
 });
 
 test('staged development artifacts are excluded without deleting their source files', async t => {
@@ -174,7 +173,8 @@ test('real production artifact includes major site routes/assets and excludes al
     const config = await fs.readFile(path.join(repository, 'netlify.toml'), 'utf8');
     assert.ok(!files.some(file => file.startsWith('worship-studio/')));
     assert.ok(files.includes('bible-slide-builder/index.html'));
-    assert.ok(!files.some(file => file.startsWith('data/bible/source/')));
+    assert.ok(files.includes('data/bible/source/bn-bsi-2016-ov.xml'));
+    assert.ok(files.includes('data/bible/source/en-niv-1984.xml'));
     assert.equal((config.match(/publish = "public-build"/gu) || []).length, 3);
     assert.ok(config.includes('command = "npm run build:production"'));
     assert.ok(config.includes('NODE_VERSION = "22.22.3"'));

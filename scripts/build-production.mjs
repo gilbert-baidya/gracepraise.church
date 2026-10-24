@@ -10,6 +10,10 @@ export const PRESENTATION_RUNTIME_FILES = [
     ...['html-to-image.js', 'pptxgen.bundle.js', 'jspdf.umd.min.js', 'jszip.min.js']
         .flatMap(file => [`assets/presentation/vendor/${file}`, `assets/presentation/vendor/${file}.LICENSE.txt`])
 ];
+const APPROVED_BIBLE_SOURCE_FILES = new Set([
+    'data/bible/source/bn-bsi-2016-ov.xml',
+    'data/bible/source/en-niv-1984.xml'
+]);
 const EXCLUDED_DIRECTORIES = new Set([
     'worship-studio', 'test', 'tests', 'node_modules', 'functions', 'scripts', 'tools',
     'pages', 'docs', 'qa', 'audit_screenshots', 'visual-audit-results',
@@ -52,7 +56,7 @@ export function isProductionFile(relative) {
     const name = parts.at(-1);
     if (lowerParts.some(part => part.startsWith('.') || EXCLUDED_DIRECTORIES.has(part))
         || relative.startsWith('services/ai/')
-        || relative.startsWith('data/bible/source/')
+        || (relative.startsWith('data/bible/source/') && !APPROVED_BIBLE_SOURCE_FILES.has(relative))
         || relative.startsWith('bible-slide-builder/review-artifacts/')
         || ['config/ai-providers.config.js', 'config/devotion-image-config.json', 'config/seo-pages.json'].includes(relative)
         || lowerParts.some(part => /(?:^|[-_])(?:fixtures?|playwright|test-results|screenshots?)(?:$|[-_])/u.test(part))
@@ -86,6 +90,7 @@ async function listFiles(root, prefix = '', publication = false) {
         if (entry.isSymbolicLink()) throw new Error(`Symlink is not allowed in publication: ${relative}`);
         if (entry.isDirectory()) {
             if (publication
+                && relative !== 'data/bible/source'
                 && !isProductionFile(`${relative}/__directory_check__.html`)) {
                 throw new Error(`Excluded directory found in publication: ${relative}`);
             }
@@ -182,5 +187,5 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const trackedFiles = execFileSync('git', ['ls-files', '-z', '--cached'], { cwd: root })
         .toString('utf8').split('\0').filter(Boolean);
     const { files } = await assembleProduction({ root, trackedFiles: [...trackedFiles, ...PRESENTATION_RUNTIME_FILES] });
-    console.log(`Production artifact: ${PUBLICATION_DIRECTORY}/ (${files.length} files). Songbook and Bible Slide Builder included; local Studio, authoritative XML, and development files excluded.`);
+    console.log(`Production artifact: ${PUBLICATION_DIRECTORY}/ (${files.length} files). Songbook and Bible Slide Builder included; local Studio and development files excluded.`);
 }

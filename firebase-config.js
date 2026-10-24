@@ -58,8 +58,6 @@ function observeSongbookAuth(onChange, onError) {
   return auth.onAuthStateChanged(onChange, onError);
 }
 
-const LOCAL_TOOL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
-
 const SONGBOOK_TOOL_DESTINATIONS = new Set([
   '/bible-slide-builder/',
   '/bible-slide-builder/review.html'
@@ -199,8 +197,7 @@ function updateUIForAuth(user, authorized) {
   const savePlaylistBtn = document.getElementById('savePlaylistBtn');
   const savedPlaylistsSection = document.getElementById('savedPlaylistsSection');
   const bibleSlideBuilderLink = document.getElementById('bibleSlideBuilderLink');
-  const isLocalToolHost = typeof window !== 'undefined' && LOCAL_TOOL_HOSTS.has(window.location.hostname);
-  if (bibleSlideBuilderLink) bibleSlideBuilderLink.hidden = !user || !authorized || !isLocalToolHost;
+  if (bibleSlideBuilderLink) bibleSlideBuilderLink.hidden = !user || !authorized;
   
   if (user) {
     authButton.style.display = 'none';

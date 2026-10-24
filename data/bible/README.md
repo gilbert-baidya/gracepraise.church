@@ -19,7 +19,7 @@ These files are canonical inputs, not evidence of redistribution permission. The
 
 No permission document establishing public redistribution of these complete translations is recorded here. Repository possession and the earlier "licensed" description do not establish that permission. Before release, the owner must provide evidence covering full NIV 1984 and BSI 2016 O.V. XML distribution, derived indexes, and presentation/export use, including required attribution and restrictions.
 
-The production build excludes both complete XML files from publication to prevent public distribution, while retaining the existing derived JSON indexes for ministry lookup. Complete XML files remain available only in the local review and development environment. Songbook authentication protects the Builder UI in normal browser use; it does not authorize static-file delivery on the server. `noindex` and hidden links do not make the translations private. Public deployment of complete translations remains subject to explicit owner/legal sign-off; no Bible text was replaced or modified.
+The complete XML files are published for the authenticated Bible Slide Builder under the confirmed GPBC redistribution permission. Songbook authentication protects the Builder UI in normal browser use; it does not authorize static-file delivery on the server. `noindex` and hidden links do not make the translations private. No Bible text was replaced or modified.
 
 ## Generated Indexes
 
