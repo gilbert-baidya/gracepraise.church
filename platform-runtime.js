@@ -124,6 +124,19 @@
             </button>
             <ul class="nav-links" id="nav-links">
                 <li><a href="${resolvedBasePath}index.html#home">Home</a></li>
+                <li class="nav-dropdown">
+                    <a href="${resolvedBasePath}about.html" aria-haspopup="true" aria-expanded="false">About <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="${resolvedBasePath}about.html">About Overview</a></li>
+                        <li class="nav-dropdown-nested">
+                            <a href="${resolvedBasePath}songbook.html" aria-haspopup="true" aria-expanded="false">Tools <span class="dropdown-arrow">▶</span></a>
+                            <ul class="dropdown-menu-nested">
+                                <li><a href="${resolvedBasePath}songbook.html">Songbook</a></li>
+                                <li><a href="${resolvedBasePath}bible-slide-builder/">Bible Slide Builder</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
                 <li><a href="${resolvedBasePath}calendar.html">Calendar</a></li>
                 <li class="nav-dropdown">
                     <a href="${resolvedBasePath}daily-devotion.html" aria-haspopup="true" aria-expanded="false">Devotion <span class="dropdown-arrow">▼</span></a>
