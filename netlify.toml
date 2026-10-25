@@ -13,6 +13,13 @@
 [context.deploy-preview]
   publish = "public-build"
 
+[[redirects]]
+  from = "/*"
+  to = "/admin/v21/:splat"
+  status = 200
+  force = true
+  conditions = { Host = ["admin.gracepraise.church"] }
+
 # Global Security Headers
 [[headers]]
   for = "/*"
