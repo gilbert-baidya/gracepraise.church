@@ -14,11 +14,10 @@
   publish = "public-build"
 
 [[redirects]]
-  from = "/*"
+  from = "https://admin.gracepraise.church/*"
   to = "/admin/v21/:splat"
   status = 200
   force = true
-  conditions = { Host = ["admin.gracepraise.church"] }
 
 # Global Security Headers
 [[headers]]
