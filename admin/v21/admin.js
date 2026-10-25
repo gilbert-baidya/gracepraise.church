@@ -17,6 +17,7 @@
     'adminEmail',
     'adminPassword',
     'signInButton',
+    'googleSignInButton',
     'button-label',
     'button-spinner',
     'authError',
@@ -837,6 +838,21 @@
       return;
     }
 
+    async function handleGoogleLogin() {
+      setAuthError('');
+      setSignInLoading(true);
+      setHidden(dom.authBusy, false);
+      if (dom.googleSignInButton) dom.googleSignInButton.disabled = true;
+      try {
+        await authApi.signInWithGoogle();
+      } catch (error) {
+        setSignInLoading(false);
+        setHidden(dom.authBusy, true);
+        if (dom.googleSignInButton) dom.googleSignInButton.disabled = false;
+        setAuthError(error && error.message ? error.message : 'Google sign-in could not be completed. Please try again.');
+      }
+    }
+
     setSignInLoading(true);
     setHidden(dom.authBusy, false);
     try {
@@ -917,6 +933,7 @@
     renderRecentChanges();
 
     dom.loginForm?.addEventListener('submit', handleLogin);
+    dom.googleSignInButton?.addEventListener('click', handleGoogleLogin);
     dom.headerSignOut?.addEventListener('click', handleSignOut);
     dom.accessDeniedSignOut?.addEventListener('click', handleSignOut);
     dom.saveDraftButton?.addEventListener('click', saveDraft);

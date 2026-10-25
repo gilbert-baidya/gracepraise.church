@@ -40,7 +40,13 @@
       return 'Sign-in is temporarily unavailable. Please wait a moment and try again.';
     }
     if (code === 'auth/operation-not-allowed') {
-      return 'Admin email sign-in is not enabled for this Firebase project yet.';
+      return 'This sign-in provider is not enabled for the Admin Firebase project yet.';
+    }
+    if (code === 'auth/popup-closed-by-user') {
+      return 'Google sign-in was cancelled. Please try again.';
+    }
+    if (code === 'auth/popup-blocked') {
+      return 'The Google sign-in window was blocked. Allow pop-ups for this Admin site and try again.';
     }
     if (code === 'auth/unauthorized-domain') {
       return 'This Admin domain is not authorized for Firebase sign-in yet.';
@@ -133,6 +139,19 @@
       friendlyError.code = error && error.code;
       throw friendlyError;
     }
+
+    async function signInWithGoogle() {
+      const currentAuth = getFirebaseAuth();
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const result = await currentAuth.signInWithPopup(provider);
+        return result.user;
+      } catch (error) {
+        const friendlyError = new Error(friendlyAuthError(error));
+        friendlyError.code = error && error.code;
+        throw friendlyError;
+      }
+    }
   }
 
   async function signOut() {
@@ -143,6 +162,7 @@
   window.GPBCAdminAuth = Object.freeze({
     subscribe,
     signIn,
+    signInWithGoogle,
     signOut,
     friendlyAuthError,
     getFirebaseAuth
