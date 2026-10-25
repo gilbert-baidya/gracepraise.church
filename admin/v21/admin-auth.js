@@ -139,18 +139,18 @@
       friendlyError.code = error && error.code;
       throw friendlyError;
     }
+  }
 
-    async function signInWithGoogle() {
-      const currentAuth = getFirebaseAuth();
-      try {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        const result = await currentAuth.signInWithPopup(provider);
-        return result.user;
-      } catch (error) {
-        const friendlyError = new Error(friendlyAuthError(error));
-        friendlyError.code = error && error.code;
-        throw friendlyError;
-      }
+  async function signInWithGoogle() {
+    const currentAuth = getFirebaseAuth();
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await currentAuth.signInWithPopup(provider);
+      return result.user;
+    } catch (error) {
+      const friendlyError = new Error(friendlyAuthError(error));
+      friendlyError.code = error && error.code;
+      throw friendlyError;
     }
   }
 

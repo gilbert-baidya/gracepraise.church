@@ -838,21 +838,6 @@
       return;
     }
 
-    async function handleGoogleLogin() {
-      setAuthError('');
-      setSignInLoading(true);
-      setHidden(dom.authBusy, false);
-      if (dom.googleSignInButton) dom.googleSignInButton.disabled = true;
-      try {
-        await authApi.signInWithGoogle();
-      } catch (error) {
-        setSignInLoading(false);
-        setHidden(dom.authBusy, true);
-        if (dom.googleSignInButton) dom.googleSignInButton.disabled = false;
-        setAuthError(error && error.message ? error.message : 'Google sign-in could not be completed. Please try again.');
-      }
-    }
-
     setSignInLoading(true);
     setHidden(dom.authBusy, false);
     try {
@@ -861,6 +846,21 @@
       setSignInLoading(false);
       setHidden(dom.authBusy, true);
       setAuthError(error && error.message ? error.message : 'Sign-in could not be completed. Please try again.');
+    }
+  }
+
+  async function handleGoogleLogin() {
+    setAuthError('');
+    setSignInLoading(true);
+    setHidden(dom.authBusy, false);
+    if (dom.googleSignInButton) dom.googleSignInButton.disabled = true;
+    try {
+      await authApi.signInWithGoogle();
+    } catch (error) {
+      setSignInLoading(false);
+      setHidden(dom.authBusy, true);
+      if (dom.googleSignInButton) dom.googleSignInButton.disabled = false;
+      setAuthError(error && error.message ? error.message : 'Google sign-in could not be completed. Please try again.');
     }
   }
 
