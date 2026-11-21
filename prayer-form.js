@@ -9,6 +9,7 @@
     if (!form) return;
 
     let submissionId = null;
+    let submittedFields = null;
 
     function createSubmissionId() {
         if (window.crypto && typeof window.crypto.randomUUID === 'function') {
@@ -55,7 +56,20 @@
             return;
         }
 
+        const prayerFields = {
+            name: sanitizedName || (isPrivate ? 'Anonymous (Confidential)' : 'Anonymous Friend'),
+            email: sanitizedEmail || 'Not provided',
+            isAnonymous: !sanitizedName || isPrivate,
+            categories: isPrivate ? 'Confidential / Pastoral Team' : 'General Prayer Request',
+            details: sanitizedRequest
+        };
+        const currentFields = JSON.stringify(prayerFields);
+        if (submissionId && submittedFields !== currentFields) {
+            if (!window.confirm('Your previous prayer request may already have been delivered. Send your edited request as a new submission?')) return;
+            submissionId = null;
+        }
         if (!submissionId) submissionId = createSubmissionId();
+        submittedFields = currentFields;
 
         // Set loading state
         if (errorMessage) errorMessage.hidden = true;
@@ -70,11 +84,7 @@
             action: 'addPrayerRequest',
             prayer: {
                 submissionId,
-                name: sanitizedName || (isPrivate ? 'Anonymous (Confidential)' : 'Anonymous Friend'),
-                email: sanitizedEmail || 'Not provided',
-                isAnonymous: !sanitizedName || isPrivate,
-                categories: isPrivate ? 'Confidential / Pastoral Team' : 'General Prayer Request',
-                details: sanitizedRequest,
+                ...prayerFields,
                 status: 'Active',
                 timestamp: new Date().toISOString()
             }
@@ -98,13 +108,14 @@
             }
 
             submissionId = null;
+            submittedFields = null;
             form.style.display = 'none';
             if (successMessage) {
                 successMessage.style.display = 'block';
                 successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         } catch (error) {
-            console.warn('[Prayer Form] Submission failed:', error.message);
+            console.warn('[Prayer Form] Submission failed:', error instanceof Error ? error.message : String(error));
             if (errorMessage) {
                 errorMessage.hidden = false;
                 errorMessage.focus();

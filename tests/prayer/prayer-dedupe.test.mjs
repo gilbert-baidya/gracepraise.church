@@ -12,6 +12,7 @@ function fixture(initialRows, maxColumns = 26) {
   let exists = Boolean(initialRows);
   let held = false;
   const calls = { acquired: 0, released: 0 };
+  const styles = [];
   const locked = () => assert.equal(held, true, 'sheet access must hold the script lock');
   const sheet = {
     getLastRow() { locked(); return rows.length; },
@@ -26,6 +27,7 @@ function fixture(initialRows, maxColumns = 26) {
       const range = {
         getValues() {
           locked();
+          assert.equal(row, 1, 'only headers should be downloaded');
           return Array.from({ length: height }, (_, r) => Array.from({ length: width }, (_, c) => rows[row - 1 + r]?.[column - 1 + c] ?? ''));
         },
         setValue(value) {
@@ -34,9 +36,18 @@ function fixture(initialRows, maxColumns = 26) {
           rows[row - 1][column - 1] = value;
           return range;
         },
-        setFontWeight() { locked(); return range; },
-        setBackground() { locked(); return range; },
-        setFontColor() { locked(); return range; },
+        setFontWeight(value) { locked(); styles.push([row, column, 'weight', value]); return range; },
+        setBackground(value) { locked(); styles.push([row, column, 'background', value]); return range; },
+        setFontColor(value) { locked(); styles.push([row, column, 'color', value]); return range; },
+        createTextFinder(needle) {
+          const finder = {
+            useRegularExpression(value) { assert.equal(value, false); return finder; },
+            matchCase(value) { assert.equal(value, true); return finder; },
+            matchEntireCell(value) { assert.equal(value, true); return finder; },
+            findNext() { locked(); return rows.slice(row - 1, row - 1 + height).find(values => values[column - 1] === needle) || null; }
+          };
+          return finder;
+        },
       };
       return range;
     },
@@ -53,7 +64,7 @@ function fixture(initialRows, maxColumns = 26) {
   const context = vm.createContext({ LockService: { getScriptLock: () => lock }, SpreadsheetApp: spreadsheetApp });
   vm.runInContext(source, context);
   context.createJsonResponse = value => JSON.parse(JSON.stringify(value));
-  return { rows, sheet, lock, calls, spreadsheetApp, submit: fields => context.addPrayerRequest(spreadsheet, { prayer: { ...prayer, ...fields } }) };
+  return { rows, sheet, lock, calls, styles, spreadsheetApp, submit: fields => context.addPrayerRequest(spreadsheet, { prayer: { ...prayer, ...fields } }) };
 }
 
 test('a lost response retry returns success without appending the prayer twice', () => {
@@ -73,6 +84,20 @@ test('distinct IDs append distinct prayers', () => {
   f.submit({ submissionId: 'second' });
   assert.equal(f.rows.length, 3);
   assert.deepEqual(f.rows.slice(1).map(row => row[6]), ['first', 'second']);
+});
+
+test('ID lookup is literal, case-sensitive and matches entire cells', () => {
+  const f = fixture();
+  for (const submissionId of ['a.b', 'axb', 'A.B', 'a.b-more']) f.submit({ submissionId });
+  assert.equal(f.rows.length, 5);
+  assert.equal(f.submit({ submissionId: 'a.b' }).duplicate, true);
+  assert.equal(f.rows.length, 5);
+});
+
+test('the migrated ID header uses the existing header styling', () => {
+  const f = fixture([headers]);
+  f.submit({ submissionId: 'styled-id' });
+  assert.deepEqual(f.styles, [[1, 7, 'weight', 'bold'], [1, 7, 'background', '#9b59b6'], [1, 7, 'color', 'white']]);
 });
 
 test('migrating an existing sheet preserves custom columns and existing rows', () => {

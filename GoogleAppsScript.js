@@ -183,11 +183,12 @@ function addPrayerRequest(ss, data) {
         if (submissionColumn > prayerSheet.getMaxColumns()) {
           prayerSheet.insertColumnAfter(lastColumn);
         }
-        prayerSheet.getRange(1, submissionColumn).setValue('Submission ID');
+        prayerSheet.getRange(1, submissionColumn).setValue('Submission ID')
+          .setFontWeight('bold').setBackground('#9b59b6').setFontColor('white');
       }
       const lastRow = prayerSheet.getLastRow();
       if (lastRow > 1 && prayerSheet.getRange(2, submissionColumn, lastRow - 1, 1)
-        .getValues().some(row => row[0] === submissionId)) {
+        .createTextFinder(submissionId).useRegularExpression(false).matchCase(true).matchEntireCell(true).findNext()) {
         return createJsonResponse({ success: true, duplicate: true });
       }
     }

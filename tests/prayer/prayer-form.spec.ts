@@ -130,6 +130,53 @@ for (const unavailable of ['randomUUID', 'crypto']) {
   });
 }
 
+for (const field of ['name', 'email', 'request', 'private']) {
+  test(`edited ${field} retry requires consent and sends a new ID`, async ({ page }) => {
+    const prayers: any[] = [];
+    await page.route('https://script.google.com/**', async route => {
+      prayers.push(route.request().postDataJSON().prayer);
+      if (prayers.length === 1) return route.abort();
+      await route.fulfill({ json: { success: true }, headers: { 'access-control-allow-origin': '*' } });
+    });
+    await page.goto('/prayer-request.html');
+    await page.locator('#prayer-request').fill('Original prayer.');
+    const submit = page.locator('#prayer-form button[type="submit"]');
+    await submit.click();
+    await expect(page.locator('#prayer-error')).toBeVisible();
+    const input = page.locator(`#prayer-${field}`);
+    if (field === 'private') await input.check();
+    else await input.fill(field === 'email' ? 'edited@example.com' : 'Edited prayer');
+    page.once('dialog', async dialog => {
+      expect(dialog.message()).toContain('may already have been delivered');
+      await dialog.dismiss();
+    });
+    await submit.click();
+    expect(prayers).toHaveLength(1);
+    await expect(submit).toBeEnabled();
+    await expect(page.locator('#prayer-success')).toBeHidden();
+    if (field === 'private') await expect(input).toBeChecked();
+    else await expect(input).toHaveValue(field === 'email' ? 'edited@example.com' : 'Edited prayer');
+    page.once('dialog', dialog => dialog.accept());
+    await submit.click();
+    await expect(page.locator('#prayer-success')).toBeVisible();
+    expect(prayers).toHaveLength(2);
+    expect(prayers[1].submissionId).not.toBe(prayers[0].submissionId);
+    const property = field === 'request' ? 'details' : field === 'private' ? 'categories' : field;
+    expect(prayers[1][property]).not.toBe(prayers[0][property]);
+  });
+}
+
+test('non-Error rejections retain diagnostics and show the retry state', async ({ page }) => {
+  const warnings: string[] = [];
+  page.on('console', message => { if (message.type() === 'warning') warnings.push(message.text()); });
+  await page.goto('/prayer-request.html');
+  await page.evaluate(() => { window.fetch = async () => { throw 'network unavailable'; }; });
+  await page.locator('#prayer-request').fill('Please pray.');
+  await page.locator('#prayer-form button[type="submit"]').click();
+  await expect(page.locator('#prayer-error')).toBeVisible();
+  expect(warnings.some(message => message.includes('network unavailable'))).toBe(true);
+});
+
 test('empty prayer does not send a request', async ({ page }) => {
   let requests = 0;
   await page.route('https://script.google.com/**', async route => {

@@ -32,6 +32,10 @@ jobs:
 
     - name: Install Playwright browsers
       run: npx playwright install chromium webkit firefox --with-deps
+
+    - name: Test prayer backend deduplication
+      if: matrix.shardIndex == 1
+      run: npm run test:prayer
       
     - name: Start local HTTP server
       run: |
