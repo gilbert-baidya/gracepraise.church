@@ -12,11 +12,8 @@ const DONATION_CONFIG = {
     zelleEmail: 'gracepraisebangladeshichurch@gmail.com'
 };
 
-let selectedDonationAmount = 0;
-
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    setupAmountSelection();
     setupPaymentButtons();
     generateDonationQRCodes();
 });
@@ -32,62 +29,11 @@ function openSecureLink(url) {
     document.body.removeChild(a);
 }
 
-function getSelectedAmount() {
-    const amountInput = document.getElementById('amount') || document.getElementById('customAmount');
-    if (amountInput && amountInput.value) {
-        const val = parseFloat(amountInput.value);
-        if (!isNaN(val) && val > 0) return val;
-    }
-    return selectedDonationAmount;
-}
-
 function isStripePaymentConfigured() {
     return Boolean(
         DONATION_CONFIG.stripePaymentLink &&
         !DONATION_CONFIG.stripePaymentLink.includes('YOUR_LIVE_STRIPE_LINK')
     );
-}
-
-function setupAmountSelection() {
-    // Amount selection buttons (.amount-btn and .preset-btn)
-    const amountButtons = document.querySelectorAll('.amount-btn, .preset-btn');
-    const amountInput = document.getElementById('amount') || document.getElementById('customAmount');
-
-    amountButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const amountAttr = this.dataset.amount;
-            
-            // Remove selected state from all buttons
-            amountButtons.forEach(b => {
-                b.classList.remove('selected', 'active');
-            });
-            
-            // Add selected state to clicked button
-            this.classList.add('selected', 'active');
-            
-            if (amountAttr === 'custom') {
-                if (amountInput) {
-                    amountInput.value = '';
-                    amountInput.focus();
-                }
-                selectedDonationAmount = 0;
-            } else {
-                const parsed = parseFloat(amountAttr);
-                selectedDonationAmount = !isNaN(parsed) ? parsed : 0;
-                if (amountInput && selectedDonationAmount > 0) {
-                    amountInput.value = selectedDonationAmount;
-                }
-            }
-        });
-    });
-    
-    // Custom amount input listener
-    if (amountInput) {
-        amountInput.addEventListener('input', function() {
-            amountButtons.forEach(b => b.classList.remove('selected', 'active'));
-            selectedDonationAmount = parseFloat(this.value) || 0;
-        });
-    }
 }
 
 function setupPaymentButtons() {
@@ -166,21 +112,8 @@ function generateDonationQRCodes() {
 }
 
 function handleStripePayment() {
-    const amount = getSelectedAmount();
-    if (amount <= 0) {
-        alert('Please select or enter a donation amount first.');
-        const amountInput = document.getElementById('amount') || document.getElementById('customAmount');
-        if (amountInput) amountInput.focus();
-        return;
-    }
-    
     if (!isStripePaymentConfigured()) {
-        const proceedWithPayPal = confirm(
-            `Stripe direct checkout is being configured.\n\nWould you like to give $${amount.toFixed(2)} securely via PayPal instead?`
-        );
-        if (proceedWithPayPal) {
-            handlePayPalPayment();
-        }
+        handlePayPalPayment();
         return;
     }
     
@@ -189,29 +122,6 @@ function handleStripePayment() {
 }
 
 function handlePayPalPayment() {
-    const amount = getSelectedAmount();
-    if (amount <= 0) {
-        alert('Please select or enter a donation amount first.');
-        const amountInput = document.getElementById('amount') || document.getElementById('customAmount');
-        if (amountInput) amountInput.focus();
-        return;
-    }
-    
     // Open PayPal donation portal in new secure tab
     openSecureLink(DONATION_CONFIG.paypalPaymentLink);
-}
-
-function handleDigitalWalletPayment() {
-    const amount = getSelectedAmount();
-    if (amount <= 0) {
-        alert('Please select or enter a donation amount.');
-        return;
-    }
-    
-    if (!window.PaymentRequest) {
-        alert('Digital wallet payments are not supported on this device/browser.\n\nPlease use PayPal, Zelle, Venmo, or Cash App.');
-        return;
-    }
-    
-    alert(`Digital Wallet Payment\n\nAmount: $${amount.toFixed(2)}\n\nTo enable Apple Pay/Google Pay via Stripe, configure live Stripe keys.`);
 }

@@ -1,0 +1,37 @@
+import { test, expect } from '@playwright/test';
+
+const paypalUrl = 'https://www.paypal.com/ncp/payment/V3AF32ZHJSAME';
+
+test('giving card explains the PayPal handoff without local amount or purpose controls', async ({ page }) => {
+  await page.goto('/give.html');
+  const card = page.locator('.give-v14-gift-card');
+  await expect(card.locator('input, select, label, [data-amount]')).toHaveCount(0);
+  await expect(card.getByText("You'll enter your gift amount securely on PayPal.", { exact: false })).toBeVisible();
+  await expect(card.getByRole('button', { name: 'Continue with PayPal', exact: true })).toBeVisible();
+  await expect(page.locator('#stripePaymentBtn')).toBeHidden();
+  await expect(page.locator('#paypalQR')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Bank Transfer / Zelle' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Copy Zelle email' })).toBeVisible();
+});
+
+test('PayPal opens the unchanged URL directly without any selection', async ({ page, context }) => {
+  const requests: string[] = [];
+  const dialogs: string[] = [];
+  await context.route('https://www.paypal.com/**', async route => {
+    requests.push(route.request().url());
+    await route.fulfill({ contentType: 'text/html', body: '<h1>PayPal navigation intercepted</h1>' });
+  });
+  page.on('dialog', async dialog => {
+    dialogs.push(dialog.message());
+    await dialog.dismiss();
+  });
+  await page.goto('/give.html');
+  const popupPromise = page.waitForEvent('popup', { timeout: 5000 });
+  await page.getByRole('button', { name: 'Continue with PayPal', exact: true }).click();
+  const popup = await popupPromise;
+  await expect(popup).toHaveURL(paypalUrl);
+  expect(requests).toEqual([paypalUrl]);
+  expect(dialogs).toEqual([]);
+  await expect(page).toHaveURL(/\/give\.html$/);
+  await popup.close();
+});
