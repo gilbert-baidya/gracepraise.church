@@ -236,45 +236,42 @@ test.describe('V21 public website-control adapter', () => {
     expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.resolveFeatureState('homepage.planVisit'))).toBe('COMING_SOON');
   });
 
-  test('malformed, unavailable, and timed-out delivery always falls back visibly', async ({ page }) => {
-    const failures: DeliveryFailure[] = [
-      { name: '404', status: 404, body: JSON.stringify({ error: 'not found' }) },
-      { name: '500', status: 500, body: JSON.stringify({ error: 'temporary failure' }) },
-      { name: 'malformed JSON', status: 200, body: 'not-json' },
-      { name: 'unsupported schema', status: 200, body: JSON.stringify({ ...publishedConfig(), schemaVersion: 999 }) },
-      { name: 'missing feature', status: 200, body: JSON.stringify({ ...publishedConfig(), features: {} }) },
-      { name: 'unknown feature', status: 200, body: JSON.stringify({ ...publishedConfig(), features: { ...publishedConfig().features, 'unknown.feature': { state: 'LIVE' } } }) },
-      { name: 'unknown state', status: 200, body: JSON.stringify(publishedConfig({ 'homepage.planVisit': 'UNKNOWN' as FeatureState })) },
-      { name: 'missing revision', status: 200, body: JSON.stringify({ schemaVersion: schema.SCHEMA_VERSION, features: publishedConfig().features }) },
-      { name: 'empty response', status: 200, body: '' },
-      { name: 'offline', status: 200, abort: true, body: '' },
-      { name: 'timeout', status: 200, delay: 1400, body: JSON.stringify(publishedConfig()) }
-    ];
+  const deliveryFailures: DeliveryFailure[] = [
+    { name: '404', status: 404, body: JSON.stringify({ error: 'not found' }) },
+    { name: '500', status: 500, body: JSON.stringify({ error: 'temporary failure' }) },
+    { name: 'malformed JSON', status: 200, body: 'not-json' },
+    { name: 'unsupported schema', status: 200, body: JSON.stringify({ ...publishedConfig(), schemaVersion: 999 }) },
+    { name: 'missing feature', status: 200, body: JSON.stringify({ ...publishedConfig(), features: {} }) },
+    { name: 'unknown feature', status: 200, body: JSON.stringify({ ...publishedConfig(), features: { ...publishedConfig().features, 'unknown.feature': { state: 'LIVE' } } }) },
+    { name: 'unknown state', status: 200, body: JSON.stringify(publishedConfig({ 'homepage.planVisit': 'UNKNOWN' as FeatureState })) },
+    { name: 'missing revision', status: 200, body: JSON.stringify({ schemaVersion: schema.SCHEMA_VERSION, features: publishedConfig().features }) },
+    { name: 'empty response', status: 200, body: '' },
+    { name: 'offline', status: 200, abort: true, body: '' },
+    { name: 'timeout', status: 200, delay: 1400, body: JSON.stringify(publishedConfig()) }
+  ];
 
-    let failure = failures[0];
-    await page.route(endpointRoute, async (route) => {
-      if (failure.abort) {
-        await route.abort('failed');
-        return;
-      }
-      if (failure.delay) await new Promise((resolve) => setTimeout(resolve, failure.delay));
-      await route.fulfill({ status: failure.status, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: failure.body });
-    });
-    await configurePage(page, 'ACTIVE');
-    await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+  for (const failure of deliveryFailures) {
+    test(`malformed, unavailable, and timed-out delivery always falls back visibly (${failure.name})`, async ({ page }) => {
+      await page.route(endpointRoute, async (route) => {
+        if (failure.abort) {
+          await route.abort('failed');
+          return;
+        }
+        if (failure.delay) await new Promise((resolve) => setTimeout(resolve, failure.delay));
+        await route.fulfill({ status: failure.status, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: failure.body });
+      });
+      await configurePage(page, 'ACTIVE');
+      await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
 
-    for (const nextFailure of failures) {
-      failure = nextFailure;
-      await page.reload({ waitUntil: 'domcontentloaded' });
       await waitForAdapter(page);
       expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState())).toMatchObject({
         status: 'fallback',
         source: 'fallback',
         revision: null
       });
-      expect((await marker(page, 'homepage.planVisit')).hidden, nextFailure.name).toBe(false);
-    }
-  });
+      expect((await marker(page, 'homepage.planVisit')).hidden, failure.name).toBe(false);
+    });
+  }
 
   test('ACTIVE loading preserves section layout while awaiting configuration', async ({ page }) => {
     const start = new Date('2026-11-21T12:00:00Z');

@@ -2,6 +2,9 @@ const issues: Record<string, Record<string, string>> = {
   '/give.html': {
     images: 'Generated PayPal QR image has no alt attribute.'
   },
+  '/give-backup.html': {
+    console: 'Legacy embedded PayPal Hosted Buttons SDK fails CORS for /ncp/api/form-fields/V3AF32ZHJSAME from the localhost CI origin (run 44893931316). Live SDK integration remains in nightly; production impact is unverified.'
+  },
   '/calendar.html': {
     console: 'Cloudinary uses a placeholder cloud name (HTTP 400); Sheets loading also depends on external Apps Script.'
   },

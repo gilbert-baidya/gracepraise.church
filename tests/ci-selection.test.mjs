@@ -17,7 +17,7 @@ function collect(suite) {
     for (const group of suites) {
       for (const spec of group.specs ?? []) {
         for (const result of spec.tests) {
-          cases.push({ file: spec.file, project: result.projectName, title: spec.title, tags: spec.tags });
+          cases.push({ file: spec.file, project: result.projectName, title: spec.title, pageTitle: group.title, tags: spec.tags });
         }
       }
       visit(group.suites ?? []);
@@ -59,4 +59,19 @@ test('nightly collects every spec file and keeps quarantined assertions executab
   const key = entry => `${entry.project}:${entry.file}:${entry.title}`;
   const nightKeys = new Set(nightly.map(key));
   assert(pr.every(entry => nightKeys.has(key(entry))));
+});
+
+test('legacy Give Backup live PayPal console checks run nightly without removing other PR coverage', () => {
+  const consoleChecks = entry =>
+    entry.file.endsWith('auto-generated-page-tests.spec.ts') && entry.title === 'loads successfully without errors' ||
+    entry.file.endsWith('auto-generated-coverage.spec.ts') && entry.title === 'Give Backup - has no console errors';
+  const backup = entry => entry.title === 'Give Backup - has no console errors' ||
+    entry.file.endsWith('auto-generated-page-tests.spec.ts') && entry.pageTitle === 'give-backup.html - Auto Generated Suite';
+  const checks = nightly.filter(entry => backup(entry) && consoleChecks(entry));
+  assert(checks.some(entry => entry.project === 'Desktop Chrome' && entry.file.endsWith('auto-generated-page-tests.spec.ts')));
+  assert(checks.some(entry => entry.project === 'Desktop Chrome' && entry.file.endsWith('auto-generated-coverage.spec.ts')));
+  assert(checks.every(entry => entry.tags.includes('quarantine')));
+  assert(!pr.some(entry => backup(entry) && consoleChecks(entry)));
+  assert(pr.some(entry => entry.title === 'Give Backup - loads successfully with HTTP 200'));
+  assert(pr.some(entry => backup(entry) && entry.title === 'displays header and footer correctly'));
 });
