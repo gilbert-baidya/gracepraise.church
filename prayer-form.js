@@ -4,8 +4,22 @@
 (function() {
     const form = document.getElementById('prayer-form');
     const successMessage = document.getElementById('prayer-success');
+    const errorMessage = document.getElementById('prayer-error');
     
     if (!form) return;
+
+    let submissionId = null;
+    let submittedFields = null;
+
+    function createSubmissionId() {
+        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+            return window.crypto.randomUUID();
+        }
+        if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+            return 'prayer-' + Array.from(window.crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('');
+        }
+        return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+    }
 
     function sanitizeInput(str) {
         if (!str || typeof str !== 'string') return '';
@@ -42,7 +56,23 @@
             return;
         }
 
+        const prayerFields = {
+            name: sanitizedName || (isPrivate ? 'Anonymous (Confidential)' : 'Anonymous Friend'),
+            email: sanitizedEmail || 'Not provided',
+            isAnonymous: !sanitizedName || isPrivate,
+            categories: isPrivate ? 'Confidential / Pastoral Team' : 'General Prayer Request',
+            details: sanitizedRequest
+        };
+        const currentFields = JSON.stringify(prayerFields);
+        if (submissionId && submittedFields !== currentFields) {
+            if (!window.confirm('Your previous prayer request may already have been delivered. Send your edited request as a new submission?')) return;
+            submissionId = null;
+        }
+        if (!submissionId) submissionId = createSubmissionId();
+        submittedFields = currentFields;
+
         // Set loading state
+        if (errorMessage) errorMessage.hidden = true;
         if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting your prayer...';
@@ -53,11 +83,8 @@
         const payload = {
             action: 'addPrayerRequest',
             prayer: {
-                name: sanitizedName || (isPrivate ? 'Anonymous (Confidential)' : 'Anonymous Friend'),
-                email: sanitizedEmail || 'Not provided',
-                isAnonymous: !sanitizedName || isPrivate,
-                categories: isPrivate ? 'Confidential / Pastoral Team' : 'General Prayer Request',
-                details: sanitizedRequest,
+                submissionId,
+                ...prayerFields,
                 status: 'Active',
                 timestamp: new Date().toISOString()
             }
@@ -73,21 +100,30 @@
             });
 
             if (!response.ok) {
-                console.warn(`[Prayer Form] Endpoint responded with HTTP status ${response.status}`);
+                throw new Error(`Endpoint responded with HTTP status ${response.status}`);
             }
-        } catch (error) {
-            console.warn('[Prayer Form] Network note:', error.message);
-        } finally {
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalBtnText;
+            const result = await response.json();
+            if (result?.success !== true) {
+                throw new Error('Endpoint did not confirm the prayer request');
             }
 
-            // Hide form, show success message
+            submissionId = null;
+            submittedFields = null;
             form.style.display = 'none';
             if (successMessage) {
                 successMessage.style.display = 'block';
                 successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        } catch (error) {
+            console.warn('[Prayer Form] Submission failed:', error instanceof Error ? error.message : String(error));
+            if (errorMessage) {
+                errorMessage.hidden = false;
+                errorMessage.focus();
+            }
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
             }
         }
     });
@@ -97,6 +133,9 @@
 function resetPrayerForm() {
     const form = document.getElementById('prayer-form');
     const successMessage = document.getElementById('prayer-success');
+    const errorMessage = document.getElementById('prayer-error');
+
+    if (errorMessage) errorMessage.hidden = true;
     
     if (form) {
         form.reset();

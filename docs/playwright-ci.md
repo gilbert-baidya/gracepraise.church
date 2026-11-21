@@ -70,7 +70,7 @@ after fixing the site issue, not the assertion.
 | Test | Reason |
 | --- | --- |
 | Both smoke suites: Give image alt checks | Generated PayPal QR has no alt attribute. |
-| Both smoke suites: Give Backup console checks | Legacy embedded PayPal Hosted Buttons SDK fails CORS for its form-fields API from the localhost CI origin. Live SDK integration remains executable nightly; production impact is unverified. Other Give Backup checks remain in the PR gate. |
+| Both smoke suites: Give Backup console checks; generated coverage: Give Backup uncaught exceptions | Legacy embedded PayPal Hosted Buttons SDK fails CORS for its form-fields API from the localhost CI origin and can emit an unhandled promise rejection (run 44913487166). Live SDK integration remains executable nightly; production impact is unverified. Other Give Backup checks remain in the PR gate. |
 | Both smoke suites: Calendar console checks | Placeholder Cloudinary configuration returns HTTP 400; Apps Script is an external dependency. |
 | Generated POM smoke: Gallery console check | Gallery resources return HTTP 404. |
 | Both smoke suites: Prayer Request overflow | Body scroll width measured 2005px at a 1920px viewport; visible clipping impact is unverified. |
