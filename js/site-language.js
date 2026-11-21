@@ -69,7 +69,7 @@
       setAttribute(element, 'aria-label', element.dataset[current === 'bn' ? 'labelBn' : 'labelEn']);
       setAttribute(element, 'lang', current);
     });
-    document.querySelectorAll('main:not([data-site-bilingual]), main[data-site-bilingual] > section:not(.visit-essentials), .site-footer, body > header, #site-header header, .admin-header, header .nav-links').forEach(element => {
+    document.querySelectorAll('main:not([data-site-bilingual]), main[data-site-bilingual] > section:not(.visit-essentials), .site-footer, body > header, #site-header header, .admin-header, header .nav-links, a.skip-link, a.v2-skip-link, a.sr-only[href^="#"], a.sr-only-focusable[href^="#"]').forEach(element => {
       if (!element.hasAttribute('lang')) setAttribute(element, 'lang', 'en');
     });
     if (!syncingContent) {

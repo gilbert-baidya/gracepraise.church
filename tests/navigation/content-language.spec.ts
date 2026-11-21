@@ -1,5 +1,32 @@
 import { test, expect } from '@playwright/test';
 
+for (const route of ['index.html', 'daily-devotion.html']) {
+  test(`${route} keeps English skip controls English in Bengali mode`, async ({ page }) => {
+    await page.goto('/' + route + '?lang=bn');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
+    await expect(page.locator('a.skip-link').first()).toHaveAttribute('lang', 'en');
+    await page.evaluate(() => {
+      for (const variant of ['v2-skip-link', 'sr-only', 'sr-only-focusable']) {
+        const link = document.createElement('a');
+        link.className = variant;
+        link.href = '#main-content';
+        link.textContent = 'Skip to main content';
+        document.body.prepend(link);
+      }
+      const bengali = document.createElement('a');
+      bengali.className = 'skip-link explicit-bengali-skip';
+      bengali.lang = 'bn';
+      bengali.href = '#main-content';
+      bengali.textContent = 'মূল বিষয়বস্তুতে যান';
+      document.body.prepend(bengali);
+    });
+    for (const variant of ['v2-skip-link', 'sr-only', 'sr-only-focusable']) {
+      await expect(page.locator('a.' + variant).first()).toHaveAttribute('lang', 'en');
+    }
+    await expect(page.locator('.explicit-bengali-skip')).toHaveAttribute('lang', 'bn');
+  });
+}
+
 test('Bible Reader labels Bengali names and passages without relabeling English UI', async ({ page }) => {
   await page.goto('/bible-reader.html?lang=bn');
   await expect(page.locator('#site-header [data-site-language]')).toHaveCount(2);
