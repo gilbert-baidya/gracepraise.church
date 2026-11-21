@@ -1,0 +1,101 @@
+html:root body.give-one-step { padding-top: 0 !important; }
+html:root body.give-one-step > header { position: relative !important; inset: auto !important; padding: 0 !important; height: auto !important; min-height: 104px; background: var(--gpbc-page); border-bottom: 1px solid var(--gpbc-divider); box-shadow: none; }
+html:root body.give-one-step header nav, html:root body.give-one-step .nav-container { min-height: 104px; background: transparent; }
+html:root body.give-one-step header nav { padding: 0 !important; }
+html:root body.give-one-step .nav-container { max-width: 1200px; padding: 0 !important; margin: auto; }
+html:root body.give-one-step header .logo { width: auto !important; max-width: 200px !important; height: auto !important; min-height: 48px !important; gap: 8px; text-decoration: none !important; flex-shrink: 1; }
+html:root body.give-one-step .logo-image { width: 44px !important; height: 44px !important; flex-shrink: 0; transform: none !important; }
+.give-brand { display: flex; flex-direction: column; color: var(--gpbc-text); white-space: nowrap; }
+.give-brand strong { font-size: 14px; line-height: 20px; }
+.give-brand small { font-size: 10px; line-height: 18px; color: var(--gpbc-text-secondary); }
+html:root body.give-one-step .nav-links { margin-right: 140px; gap: 12px; }
+html:root body.give-one-step .nav-links > li > a { font-size: 12px; padding-inline: 4px; }
+html:root body.give-one-step #darkModeToggle, #give-language { position: absolute !important; top: 28px !important; width: 48px !important; min-height: 48px; height: 48px !important; border: 1px solid var(--gpbc-control-border); border-radius: 12px; background: var(--gpbc-surface); color: var(--gpbc-text); transform: none !important; margin: 0; }
+html:root body.give-one-step #darkModeToggle { right: max(20px, calc((100vw - 1200px) / 2)) !important; }
+#give-language { right: max(80px, calc((100vw - 1200px) / 2 + 60px)); font: 600 14px/24px var(--gpbc-font-body); }
+html:root body.give-one-step main { margin: 0 !important; padding: 0 !important; }
+.give-flow { max-width: 1240px; padding: 56px 20px 64px; margin: auto; display: grid; grid-template-columns: minmax(0, 1fr) 532px; grid-template-areas: "intro action" "note action"; column-gap: 88px; row-gap: 32px; align-items: start; }
+.give-intro { grid-area: intro; min-width: 0; }
+.give-eyebrow { margin: 0 0 24px; font-size: 12px; line-height: 20px; color: var(--gpbc-gold-text); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.give-intro h1 { margin: 0 0 24px; text-wrap: balance; }
+.give-intro-copy { margin: 0; font-size: 18px; line-height: 30px; color: var(--gpbc-text-secondary); }
+.give-phone { display: none; }
+.give-action-column { grid-area: action; min-width: 0; }
+html:root body.give-one-step .give-card { padding: 24px !important; border: 1px solid var(--gpbc-divider); border-radius: 20px; background: var(--gpbc-surface); }
+.give-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+html:root body.give-one-step .give-card h2 { margin: 0; font-size: 28px !important; line-height: 38px !important; }
+.give-heart { color: var(--gpbc-gold-text); font-size: 26px; line-height: 32px; }
+.give-card-intro { margin: 4px 0 24px; color: var(--gpbc-text-secondary); font-size: 16px; line-height: 26px; }
+.give-frequency { border: 0; padding: 0; margin: 0 0 24px; min-width: 0; }
+.give-frequency legend { font-size: 14px; line-height: 22px; margin-bottom: 8px; color: var(--gpbc-text-secondary); }
+.give-frequency label { display: flex; gap: 12px; align-items: center; min-height: 52px; padding: 12px 16px; border: 1px solid var(--gpbc-control-border); border-radius: 12px; background: var(--gpbc-surface-quiet); font-weight: 600; cursor: pointer; }
+html:root body.give-one-step input[type="radio"] { width: 20px; height: 20px; min-height: 0; padding: 0; margin: 0; accent-color: var(--gpbc-text); flex: 0 0 auto; }
+.give-cadence { display: flex; align-items: start; gap: 16px; margin-bottom: 24px; }
+.give-cadence > .give-heart { border: 1px solid var(--gpbc-divider); border-radius: 50%; width: 44px; height: 44px; text-align: center; line-height: 42px; flex: 0 0 44px; }
+html:root body.give-one-step .give-cadence h3 { font: 600 16px/24px var(--gpbc-font-body) !important; margin: 0 0 4px; }
+.give-cadence p { font-size: 16px; line-height: 26px; margin: 0; color: var(--gpbc-text-secondary); }
+html:root body.give-one-step .give-small { font-size: 14px; line-height: 22px; color: var(--gpbc-text-secondary); }
+.give-cadence .give-small { margin-top: 6px; }
+.give-privacy { border-top: 1px solid var(--gpbc-divider); padding-top: 20px; margin: 0 0 20px; font-size: 12px; line-height: 20px; color: var(--gpbc-text-secondary); }
+html:root body.give-one-step #give-paypal { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 56px !important; border-radius: 12px; text-decoration: none !important; font-size: 16px; line-height: 24px; }
+#give-paypal[aria-disabled="true"] { cursor: progress; }
+#give-confirmation { text-align: center; margin: 12px 0 0; }
+#give-status { margin: 16px 0 0; color: var(--gpbc-text); font-size: 14px; line-height: 24px; }
+#give-return { display: inline-block; min-height: 48px; padding-top: 16px; }
+#give-return[hidden], #give-status[hidden], #give-confirmation[hidden] { display: none; }
+.give-receipts { text-align: center; margin: 20px 0 0; font-size: 14px; line-height: 24px; }
+.give-receipts a { display: inline-block; min-height: 48px; padding: 10px 0; }
+.give-note { grid-area: note; }
+.give-note blockquote { border-left: 2px solid var(--gpbc-gold-fill); padding-left: 24px; margin: 0 0 36px; }
+html:root body.give-one-step .give-note blockquote p { font-family: var(--gpbc-font-heading) !important; font-size: 24px; line-height: 36px; color: var(--gpbc-gold-text); font-style: italic; margin: 0 0 8px; }
+.give-note cite { font-style: normal; font-size: 14px; color: var(--gpbc-text-secondary); }
+.give-impact { background: var(--gpbc-surface-quiet); border-block: 1px solid var(--gpbc-divider); padding: 44px 20px; }
+.give-impact-inner { max-width: 1200px; margin: auto; }
+html:root body.give-one-step .give-impact h2 { font-size: 32px !important; line-height: 44px !important; margin: 0 0 28px; }
+.give-ministry-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+html:root body.give-one-step .give-ministry-grid h3 { font: 600 16px/24px var(--gpbc-font-body) !important; margin: 0 0 8px; }
+.give-ministry-grid p, .give-ministry-grid a { font-size: 14px; line-height: 24px; color: var(--gpbc-text-secondary); }
+.give-ministry-grid p { margin: 0 0 12px; }
+.give-ministry-grid aside { padding-left: 32px; border-left: 1px solid var(--gpbc-divider); }
+.give-ministry-grid a { display: inline-block; min-height: 48px; }
+html:root body.give-one-step :is(.give-flow, .give-impact) :focus-visible, html:root body.give-one-step #give-language:focus-visible { outline: 3px solid #1265B0 !important; outline-offset: 3px !important; }
+html:root[data-theme="dark"] body.give-one-step :is(.give-flow, .give-impact) :focus-visible, html:root[data-theme="dark"] body.give-one-step #give-language:focus-visible { outline-color: #8EC5FF !important; }
+html:root body.give-one-step .give-note :lang(bn), html:root body.give-one-step main :lang(bn), html:root body.give-one-step :lang(bn) { font-family: var(--gpbc-font-bengali) !important; letter-spacing: normal !important; text-transform: none !important; }
+@media (max-width: 1100px) {
+    .give-flow { max-width: 740px; grid-template-columns: minmax(0, 1fr); grid-template-areas: "intro" "action" "note"; gap: 32px; }
+}
+@media (max-width: 1024px) {
+    html:root body.give-one-step header nav, html:root body.give-one-step .nav-container { min-height: 72px; height: auto; }
+    html:root body.give-one-step > header { min-height: 72px; }
+    html:root body.give-one-step .nav-container { padding: 0 20px !important; }
+    html:root body.give-one-step #darkModeToggle, #give-language { top: 12px !important; }
+    html:root body.give-one-step #darkModeToggle { right: 80px !important; }
+    #give-language { right: 140px; }
+    html:root body.give-one-step .mobile-menu-btn { display: flex; position: absolute !important; top: 12px !important; right: 20px !important; width: 48px !important; height: 48px !important; margin: 0; transform: none !important; }
+    html:root body.give-one-step .nav-links:not(.active) { display: none; }
+    html:root body.give-one-step header .logo { max-width: calc(100% - 176px) !important; }
+    html:root body.give-one-step .nav-links { margin-right: 0; }
+    html:root body.give-one-step .logo-image { width: 32px !important; height: 32px !important; }
+    .give-brand strong { font-size: 12px; }
+    .give-brand small { font-size: 10px; }
+}
+@media (max-width: 700px) {
+    .give-flow { padding: 28px 20px 36px; gap: 22px; }
+    .give-desktop { display: none; }
+    .give-phone { display: inline; }
+    .give-eyebrow { font-size: 10px; margin-bottom: 16px; }
+    .give-intro h1 { margin-bottom: 12px; }
+    html:root body.give-one-step .give-card { padding: 20px !important; }
+    .give-card-intro { margin-bottom: 16px; }
+    .give-frequency { margin-bottom: 20px; }
+    .give-cadence { margin-bottom: 20px; gap: 12px; }
+    html:root body.give-one-step #give-paypal { min-height: 54px !important; }
+    .give-privacy { margin-bottom: 16px; padding-top: 16px; }
+    #give-confirmation { margin-top: 10px; }
+    .give-receipts { margin-top: 10px; }
+    .give-ministry-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .give-ministry-grid aside { border-left: 0; border-top: 1px solid var(--gpbc-divider); padding: 24px 0 0; }
+}
+@media (max-width: 360px) {
+    .give-brand { display: none; }
+}

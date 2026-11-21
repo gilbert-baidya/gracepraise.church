@@ -2,72 +2,195 @@ import { test, expect } from '@playwright/test';
 
 const paypalUrl = 'https://www.paypal.com/ncp/payment/V3AF32ZHJSAME';
 
-test('giving card explains the PayPal handoff without local amount or purpose controls', async ({ page }) => {
+test('one-time is the only offered frequency, with one exact PayPal destination', async ({ page }) => {
   await page.goto('/give.html');
-  const card = page.locator('.give-v14-gift-card');
-  await expect(card.locator('input, select, label, [data-amount]')).toHaveCount(0);
-  await expect(card.getByText("You'll enter your gift amount securely on PayPal.", { exact: false })).toBeVisible();
-  await expect(card.getByRole('button', { name: 'Continue with PayPal', exact: true })).toBeVisible();
-  await expect(page.locator('#stripePaymentBtn')).toBeHidden();
-  await expect(page.locator('#paypalQR')).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Bank Transfer / Zelle' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Copy Zelle email' })).toBeVisible();
+  await expect(page.locator('h1')).toHaveCount(1);
+  await expect(page.getByRole('group', { name: 'Gift frequency' })).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'One time', exact: true })).toBeChecked();
+  await expect(page.getByRole('radio')).toHaveCount(1);
+  await expect(page.locator('#giving-card').getByText(/monthly/i)).toHaveCount(0);
+  await expect(page.locator('#giving-card input:not([type="radio"]), #giving-card select, #giving-card textarea')).toHaveCount(0);
+  await expect(page.locator('#give-paypal')).toHaveAttribute('href', paypalUrl);
+  await expect(page.locator('#give-paypal')).not.toHaveAttribute('target');
+  await expect(page.locator('#give-confirmation')).toHaveText('You’ll review and confirm your gift on PayPal.');
+  await expect(page.getByRole('link', { name: 'Receipts & giving help' })).toHaveAttribute('href', 'mailto:info@gracepraise.church');
+  await expect(page.locator('.give-action-column > .give-receipts')).toBeVisible();
+  await expect(page.locator('#stripePaymentBtn, #paypalQR')).toHaveCount(0);
 });
 
-test('PayPal opens the unchanged URL directly without any selection', async ({ page, context }) => {
+test('PayPal handoff is intercepted in the same tab with no invented parameters', async ({ page, context }) => {
   const requests: string[] = [];
-  const dialogs: string[] = [];
   await context.route('https://www.paypal.com/**', async route => {
-    if (route.request().isNavigationRequest() && route.request().resourceType() === 'document') {
-      requests.push(route.request().url());
-    }
-    await route.fulfill({ contentType: 'text/html', body: '<h1>PayPal navigation intercepted</h1>' });
-  });
-  page.on('dialog', async dialog => {
-    dialogs.push(dialog.message());
-    await dialog.dismiss();
+    requests.push(route.request().url());
+    await route.fulfill({ contentType: 'text/html', body: '<h1>Intercepted provider handoff; no payment</h1>' });
   });
   await page.goto('/give.html');
-  const popupPromise = page.waitForEvent('popup', { timeout: 5000 });
-  await page.getByRole('button', { name: 'Continue with PayPal', exact: true }).click();
-  const popup = await popupPromise;
-  await expect(popup).toHaveURL(paypalUrl);
+  await page.getByRole('link', { name: 'Continue to PayPal' }).click();
+  await expect(page).toHaveURL(paypalUrl);
   expect(requests).toEqual([paypalUrl]);
-  expect(dialogs).toEqual([]);
+  expect(context.pages()).toHaveLength(1);
+  await page.goBack();
+  await expect(page.locator('#give-status')).toContainText('Check PayPal before retrying');
+  await expect(page.getByRole('radio')).toBeChecked();
+  await expect(page.locator('#give-return')).toHaveAttribute('href', '/give.html?frequency=once&lang=en#giving-card');
+  await page.reload();
+  await expect(page.locator('#give-status')).toContainText('Check PayPal before retrying');
+});
+
+test('opening prevents duplicates and restores an unconfirmed action if handoff fails', async ({ page, context }) => {
+  let requests = 0;
+  await context.route('https://www.paypal.com/**', async route => {
+    requests++;
+    await route.fulfill({ status: 204, body: '' });
+  });
+  await page.goto('/give.html');
+  await page.clock.install();
+  const state = await page.locator('#give-paypal').evaluate(link => {
+    (link as HTMLAnchorElement).click();
+    (link as HTMLAnchorElement).click();
+    return { disabled: link.getAttribute('aria-disabled'), label: link.textContent };
+  });
+  expect(state.disabled).toBe('true');
+  expect(state.label).toContain('Opening PayPal…');
+  await expect.poll(() => requests).toBe(1);
+  await expect(page.locator('#give-paypal')).toHaveAttribute('aria-disabled', 'true');
+  await page.clock.fastForward(8100);
+  await expect(page.locator('#give-paypal')).toHaveAttribute('aria-disabled', 'false');
+  await expect(page.locator('#give-action-label')).toHaveText('Continue to PayPal');
+  await expect(page.locator('#give-status')).toContainText('Check PayPal before retrying');
+  expect(requests).toBe(1);
   await expect(page).toHaveURL(/\/give\.html$/);
-  await popup.close();
 });
 
-test('mobile note styling stays scoped to the giving card', async ({ page }) => {
+test('unconfirmed return survives blocked storage and a fresh reload', async ({ page, context }) => {
+  await page.addInitScript(() => {
+    Storage.prototype.getItem = () => { throw new Error('Storage blocked'); };
+    Storage.prototype.setItem = () => { throw new Error('Storage blocked'); };
+  });
+  await context.route('https://www.paypal.com/**', route => route.fulfill({
+    contentType: 'text/html', body: '<h1>Intercepted; no payment</h1>'
+  }));
+  await page.goto('/give.html');
+  await page.getByRole('link', { name: 'Continue to PayPal' }).click();
+  await expect(page).toHaveURL(paypalUrl);
+  await page.goBack();
+  await page.reload();
+  await expect(page.locator('#give-status')).toContainText('Check PayPal before retrying');
+  await expect(page.getByRole('radio')).toBeChecked();
+});
+
+test('legacy monthly intent never silently reaches one-time checkout', async ({ page, context }) => {
+  const requests: string[] = [];
+  await context.route('https://www.paypal.com/**', async route => {
+    requests.push(route.request().url());
+    await route.fulfill({ body: 'Intercepted; no payment' });
+  });
+  await page.goto('/give.html?frequency=monthly&lang=en');
+  await expect(page.getByRole('radio')).not.toBeChecked();
+  await expect(page.locator('#give-cadence-title')).toHaveText('Monthly giving is being set up');
+  await expect(page.locator('#give-paypal')).toHaveAttribute('href', 'mailto:info@gracepraise.church');
+  await expect(page.locator('#give-action-label')).toHaveText('Ask about monthly giving');
+  await page.locator('#give-language').click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
+  await expect(page.locator('#give-paypal')).toHaveAttribute('href', 'mailto:info@gracepraise.church');
+  await page.locator('#darkModeToggle').click();
+  await page.reload();
+  await expect(page.locator('#give-paypal')).toHaveAttribute('href', 'mailto:info@gracepraise.church');
+  await expect(page.getByRole('radio')).not.toBeChecked();
+  await page.getByRole('radio').check();
+  await expect(page.locator('#give-paypal')).toHaveAttribute('href', paypalUrl);
+  expect(requests).toEqual([]);
+});
+
+test('untrusted success, pending and cancel parameters do not confirm a payment', async ({ page }) => {
+  for (const query of ['status=completed', 'pending=1', 'cancel=1']) {
+    await page.goto('/give.html?' + query);
+    await expect(page.locator('#give-status')).toHaveText(/could not be confirmed.*Check PayPal before retrying/);
+    await expect(page.locator('#give-return')).toBeVisible();
+    await expect(page.locator('#give-paypal')).toHaveAttribute('href', paypalUrl);
+  }
+});
+
+test('locale works with blocked storage and preserves focus, URL and theme', async ({ page }) => {
+  await page.addInitScript(() => {
+    Storage.prototype.getItem = () => { throw new Error('Storage blocked'); };
+    Storage.prototype.setItem = () => { throw new Error('Storage blocked'); };
+  });
+  await page.goto('/give.html?source=church&lang=invalid#giving-card');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await page.locator('#darkModeToggle').click();
+  const theme = await page.locator('html').getAttribute('data-theme');
+  const toggle = page.locator('#give-language');
+  await toggle.focus();
+  await toggle.press('Enter');
+  await expect(toggle).toBeFocused();
+  await expect(page).toHaveURL(/source=church&lang=bn#giving-card$/);
+  await expect(page.locator('html')).toHaveAttribute('data-theme', theme!);
+  await expect(page.locator('#give-action-label')).toHaveText('পেপ্যালে এগিয়ে যান');
+  await expect(page.locator('#give-confirmation')).toHaveAttribute('lang', 'bn');
+  await expect(page.getByRole('radio')).toBeChecked();
+});
+
+test('saved locale fallback, corrupt session state and native keyboard controls are safe', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('gpbc-language', 'bn');
+    sessionStorage.setItem('gpbc-give-handoff', '{bad-json');
+  });
+  await page.goto('/give.html?lang=en');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await page.goto('/give.html?lang=invalid');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
+  const radio = page.getByRole('radio');
+  await radio.focus();
+  await radio.press('ArrowRight');
+  await expect(radio).toBeChecked();
+  await expect(radio).toHaveCSS('outline-width', '3px');
+  await expect(radio).toHaveCSS('outline-offset', '3px');
+  await radio.press('Tab');
+  await expect(page.locator('#give-paypal')).toBeFocused();
+});
+
+test('giving reflows in both languages/themes and keeps the phone action above the fold', async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 844 });
+    for (const language of ['en', 'bn']) {
+      await page.goto('/give.html?lang=' + language);
+      await page.evaluate(() => document.fonts.ready);
+      if (language === 'bn') {
+        for (const selector of ['#give-cadence-title', '#gift-title', '.give-note blockquote p']) {
+          await expect(page.locator(selector)).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
+        }
+      }
+      for (const theme of ['light', 'dark']) {
+        await page.evaluate(value => {
+          document.documentElement.dataset.theme = value;
+          document.body.dataset.theme = value;
+          document.body.classList.toggle('dark', value === 'dark');
+        }, theme);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), width + language + theme).toBeLessThanOrEqual(1);
+        if (width === 390) {
+          const action = await page.locator('#give-paypal').boundingBox();
+          expect(action!.y + action!.height, language + theme).toBeLessThanOrEqual(844);
+        }
+        await expect(page.locator('#give-paypal')).toHaveCSS('color', 'rgb(16, 32, 51)');
+        await expect(page.locator('#give-paypal')).toHaveCSS('background-color', 'rgb(230, 184, 78)');
+      }
+    }
+  }
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/give.html');
-  const outsideSize = await page.evaluate(() => {
-    const parent = document.createElement('div');
-    parent.style.fontSize = '40px';
-    const note = document.createElement('div');
-    note.className = 'give-v14-method-note';
-    note.textContent = 'Other method';
-    parent.appendChild(note);
-    document.body.appendChild(parent);
-    return getComputedStyle(note).fontSize;
-  });
-  expect(outsideSize).toBe('40px');
-  await expect(page.locator('.give-v14-gift-card .give-v14-method-note')).toBeVisible();
+  await page.goto('/give.html?lang=bn');
+  await page.addStyleTag({ content: 'main { zoom: 2; }' });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+  await page.locator('#give-paypal').focus();
+  await expect(page.locator('#give-paypal')).toBeInViewport();
 });
 
-test('configured Stripe button still opens its own intercepted payment link', async ({ page, context }) => {
-  const stripeUrl = 'https://buy.stripe.com/review-placeholder';
-  await page.route(url => url.pathname === '/donations.js', async route => {
-    const response = await route.fetch();
-    await route.fulfill({ response, body: (await response.text()).replace('https://buy.stripe.com/YOUR_LIVE_STRIPE_LINK_HERE', stripeUrl) });
-  });
-  await context.route('https://buy.stripe.com/**', route => route.fulfill({ contentType: 'text/html', body: '<h1>Stripe navigation intercepted</h1>' }));
+test('without JavaScript the one-time provider link and help remain usable', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
   await page.goto('/give.html');
-  const button = page.locator('#stripePaymentBtn');
-  await expect(button).toBeVisible();
-  const popupPromise = page.waitForEvent('popup');
-  await button.click();
-  const popup = await popupPromise;
-  await expect(popup).toHaveURL(stripeUrl);
-  await popup.close();
+  await expect(page.getByRole('radio')).toBeChecked();
+  await expect(page.getByRole('link', { name: 'Continue to PayPal' })).toHaveAttribute('href', paypalUrl);
+  await expect(page.getByRole('link', { name: 'Receipts & giving help' })).toBeVisible();
+  await context.close();
 });
