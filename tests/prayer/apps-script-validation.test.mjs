@@ -19,6 +19,7 @@ function fixture() {
     return {
       rows,
       appendRow(values) { writes++; rows.push(Array.from(values)); },
+      deleteRow(row) { writes++; rows.splice(row - 1, 1); },
       getLastRow: () => rows.length,
       getLastColumn: () => Math.max(0, ...rows.map(row => row.length)),
       getMaxColumns: () => 26,
@@ -56,7 +57,61 @@ function fixture() {
   });
   vm.runInContext(source, context);
   context.createJsonResponse = value => JSON.parse(JSON.stringify(value));
-  return { context, sheets, writes: () => writes, post: data => context.doPost({ postData: { contents: JSON.stringify(data) } }) };
+  return { context, sheets, writes: () => writes, post: data => context.doPost({ postData: { contents: JSON.stringify(data) } }), get: (parameter = {}) => context.doGet({ parameter }) };
+}
+
+for (const action of ['addEvent', 'deleteEvent', 'addPrayerRequest', 'addSong', 'addTestimony']) {
+  test(`GET ${action} is rejected without any sheet writes`, () => {
+    const f = fixture();
+    const rows = f.sheets.get('Events').rows;
+    rows.push(['Date', 'Name', 'Category', 'Description', 'Added By', 'Contact', 'Owner', 'Timestamp', 'Image URL']);
+    rows.push(['2026-11-25', 'Existing event', 'gpbc', '', '', '', 'test-owner', '', '']);
+    const before = rows.map(row => [...row]);
+    const result = f.get({
+      action, owner: 'test-owner',
+      event: JSON.stringify({ date: '2026-11-25', name: 'Existing event', category: 'gpbc' }),
+      prayer: JSON.stringify({ submissionId: 'get-test', details: 'Please pray.' }),
+      song: JSON.stringify({ title: 'GET test' }),
+      testimony: JSON.stringify({ text: 'GET test' }),
+    });
+    assert.deepEqual(result, { error: 'Use POST for this action' });
+    assert.equal(f.writes(), 0);
+    assert.equal(f.sheets.size, 1);
+    assert.deepEqual(rows, before);
+  });
+}
+
+for (const parameter of [{}, { action: 'getEvents' }]) {
+  for (const populated of [false, true]) {
+    test(`GET ${parameter.action || 'default'} reads ${populated ? 'populated' : 'empty'} events without writes`, () => {
+      const f = fixture();
+      const event = { date: '2026-11-25', name: 'Read test', category: 'gpbc', description: 'Details', addedBy: 'Friend', contact: 'test@example.com', owner: 'test-owner', timestamp: '2026-11-21', imageUrl: '' };
+      if (populated) {
+        f.sheets.get('Events').rows.push(Object.keys(event), Object.values(event));
+      }
+      assert.deepEqual(f.get(parameter), { events: populated ? [event] : [] });
+      assert.equal(f.writes(), 0);
+    });
+  }
+}
+
+for (const populated of [false, true]) {
+  test(`GET getSongs reads ${populated ? 'populated' : 'empty'} existing Songs sheet without writes`, () => {
+    const f = fixture();
+    assert.equal(f.post({ action: 'addSong', song: { title: 'Read test', language: 'english', category: 'worship', lyrics: 'Full lyrics', chords: ['G', 'C'] } }).success, true);
+    if (!populated) f.sheets.get('Songs').rows.splice(1);
+    const writes = f.writes();
+    const result = f.get({ action: 'getSongs' });
+    if (populated) {
+      assert.equal(result.songs.length, 6);
+      assert.equal(result.songs.at(-1).title, 'Read test');
+      assert.equal(result.songs.at(-1).lyrics, 'Full lyrics');
+      assert.deepEqual(result.songs.at(-1).chords, ['G', 'C']);
+    } else {
+      assert.deepEqual(result, { songs: [] });
+    }
+    assert.equal(f.writes(), writes);
+  });
 }
 
 for (const entry of cases) {

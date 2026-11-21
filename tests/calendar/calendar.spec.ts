@@ -66,6 +66,30 @@ test('renders mocked Sheets events in the calendar and monthly list', async ({ p
   await expect(page.locator('#monthEvents')).toContainText(sheetEvent.name);
 });
 
+test('sheet event HTML stays literal in calendar markers, monthly lists and upcoming cards', async ({ page }) => {
+  const name = 'Stored-XSS regression <img src=x onerror="window.__calendarXssExecuted=true">';
+  await page.addInitScript(() => { (window as any).__calendarXssExecuted = false; });
+  await page.route('**/x', route => route.fulfill({ status: 404, body: 'Not an image' }));
+  await page.route('https://script.google.com/**', async route => {
+    expect(route.request().method()).toBe('POST');
+    expect(route.request().postDataJSON()).toEqual({ action: 'getEvents' });
+    await route.fulfill({
+      json: { events: [{ ...sheetEvent, name }] },
+      headers: { 'access-control-allow-origin': '*' },
+    });
+  });
+  await page.goto('/calendar.html');
+  for (const selector of ['.calendar-grid .event-marker', '#monthEvents .event-item', '#upcomingEventsList .upcoming-event-card']) {
+    const surface = page.locator(selector).filter({ hasText: 'Stored-XSS regression' });
+    await expect(surface).toHaveCount(1);
+    await expect(surface).toBeVisible();
+    await expect(surface).toContainText(name);
+    await expect(surface.locator('img')).toHaveCount(0);
+    await expect(surface.locator('[onerror]')).toHaveCount(0);
+  }
+  expect(await page.evaluate(() => (window as any).__calendarXssExecuted)).toBe(false);
+});
+
 for (const allowed of [false, true]) {
   test(`Sheets response origin is ${allowed ? 'allowed with PR #6' : 'blocked without PR #6'}`, async ({ page }) => {
     let responseRequests = 0;
