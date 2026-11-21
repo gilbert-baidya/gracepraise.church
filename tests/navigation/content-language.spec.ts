@@ -2,6 +2,9 @@ import { test, expect } from '@playwright/test';
 
 test('Bible Reader labels Bengali names and passages without relabeling English UI', async ({ page }) => {
   await page.goto('/bible-reader.html?lang=bn');
+  await expect(page.locator('#site-header [data-site-language]')).toHaveCount(2);
+  await expect(page.locator('[data-site-language]')).toHaveCount(2);
+  await expect(page.locator('#atlasView .site-language-row')).toHaveCount(0);
   await expect(page.locator('main')).toHaveAttribute('lang', 'en');
   await expect(page.locator('.book-name-bn').first()).toHaveAttribute('lang', 'bn');
   await expect(page.locator('.book-name').first()).toHaveAttribute('lang', 'en');

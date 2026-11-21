@@ -1382,7 +1382,7 @@
                     localStorage.setItem('gpbc-lent-visited-2026', '1');
 
                     // Restore language preference
-                    const savedLang = localStorage.getItem('gpbc-lent-lang');
+                    const savedLang = window.GPBCLanguage?.language || localStorage.getItem('gpbc-lent-lang');
                     if (savedLang && ['en', 'bn', 'both'].includes(savedLang)) {
                         this.switchLanguage(savedLang);
                     }

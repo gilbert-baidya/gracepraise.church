@@ -1,5 +1,18 @@
 import { test, expect } from '@playwright/test';
 
+test('Lent shared query language takes precedence over its legacy saved language', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('gpbc-lent-lang', 'bn');
+    localStorage.setItem('gpbc-lent-visited-2026', '1');
+  });
+  await page.goto('/lent-fasting.html?lang=en&day=3');
+  await expect(page.locator('#devotionTopic')).not.toBeEmpty();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await expect(page.locator('#langEn')).toHaveClass(/active/);
+  await expect(page.locator('#devotionTopic')).toBeVisible();
+  await expect(page.locator('#devotionTopicBn')).toBeHidden();
+});
+
 test('Lent has independently annotated English and Bengali regions under its English UI', async ({ page }) => {
   await page.goto('/lent-fasting.html?day=3');
   await expect(page.locator('#devotionTopic')).not.toBeEmpty({ timeout: 15000 });
