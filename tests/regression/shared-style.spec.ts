@@ -352,3 +352,14 @@ test('shared controls remain usable when font downloads fail', async ({ page }) 
   await expect(page.locator('h1')).toBeVisible();
   expect(await page.locator('h1').evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThan(0);
 });
+
+test('Visit Sunday Worship highlight heading uses Bengali typography in Bangla mode', async ({ page }) => {
+  await page.goto('/plan-visit.html');
+  await page.locator('#langToggleBtn').click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
+  const heading = page.locator('#upcomingHighlights .sunday-worship h3:visible');
+  await expect(heading).toHaveCount(1);
+  await expect(heading).toHaveText('রবিবার উপাসনা সেবা');
+  expect(await heading.evaluate(node => node.matches(':lang(bn)'))).toBe(true);
+  expect(await heading.evaluate(node => getComputedStyle(node).fontFamily)).toMatch(/^"?Noto Sans Bengali/);
+});
