@@ -107,6 +107,41 @@ test.describe('Navigation - Burger Menu', () => {
 });
 
 test.describe('Navigation - Dropdown Menus', () => {
+  deviceTest('should toggle mobile Tools without intercepting child navigation', async ({ page, deviceInfo }) => {
+    deviceTest.skip(deviceInfo.isDesktop, 'Dropdown behavior differs on desktop');
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+    const homepage = page.url();
+    const tools = page.locator('.nav-dropdown-nested').filter({
+      has: page.locator(':scope > a', { hasText: 'Tools' })
+    });
+    const toolsLink = tools.locator(':scope > a');
+
+    await openMobileMenu(page);
+    await openTopLevelDropdown(page, 'About');
+    await toolsLink.tap();
+    await expect(page).toHaveURL(homepage);
+    await expect(toolsLink).toHaveAttribute('aria-expanded', 'true');
+    await expect(tools).toHaveClass(/mobile-dropdown-open/);
+
+    await toolsLink.locator('.dropdown-arrow').tap();
+    await expect(page).toHaveURL(homepage);
+    await expect(toolsLink).toHaveAttribute('aria-expanded', 'false');
+    await expect(tools).not.toHaveClass(/mobile-dropdown-open/);
+
+    await toolsLink.tap();
+    await tools.getByRole('link', { name: 'Songbook', exact: true }).tap();
+    await expect(page).toHaveURL(/songbook/);
+
+    await page.goto('/');
+    await openMobileMenu(page);
+    await openTopLevelDropdown(page, 'About');
+    await toolsLink.tap();
+    await tools.getByRole('link', { name: 'Bible Slide Builder', exact: true }).tap();
+    await expect(page).not.toHaveURL(homepage);
+    await expect(page).toHaveURL(/bible-slide-builder|songbook.*[?&]returnTo=%2Fbible-slide-builder%2F/i);
+  });
   
   deviceTest('should toggle Devotion dropdown', async ({ page, deviceInfo }) => {
     deviceTest.skip(deviceInfo.isDesktop, 'Dropdown behavior differs on desktop');
