@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="/assets/css/site-language.css">
+    <script src="/js/site-language.js" defer></script>
     <meta charset="UTF-8">
 
     <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
@@ -53,6 +55,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Serif+Bengali:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="page-bible-reader">
+    <span class="site-language-anchor" id="gpbc-language-en" aria-hidden="true"></span><span class="site-language-anchor" id="gpbc-language-bn" aria-hidden="true"></span>
     <div id="site-header"></div>
 
     <main id="main-content" class="bible-workspace" data-current-view="atlas">
@@ -61,7 +64,8 @@
             <header class="atlas-header">
                 <h1>THE SACRED CANON</h1>
                 <p>Explore the Divine Text, Book by Book</p>
-            </header>
+            <div class="site-language-row"><span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn" style="display:none">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" lang="en" data-site-language="en">English</a><a href="?lang=bn#gpbc-language-bn" lang="bn" data-site-language="bn">বাংলা</a></div></div>
+</header>
             
             <div id="testamentContainer">
                 <!-- OT Section -->

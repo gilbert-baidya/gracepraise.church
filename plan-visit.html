@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="/assets/css/site-language.css">
+    <script src="/js/site-language.js" defer></script>
     <meta charset="UTF-8">
     
     <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
@@ -96,8 +98,10 @@
     <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
     <link rel="stylesheet" href="assets/css/shared-style.css">
+    <link rel="stylesheet" href="assets/css/visit-essentials.css">
 </head>
-<body class="plan-visit-page gpbc-shared">
+<body class="plan-visit-page gpbc-shared visit-essentials-page">
+    <span class="site-language-anchor" id="gpbc-language-en" aria-hidden="true"></span><span class="site-language-anchor" id="gpbc-language-bn" aria-hidden="true"></span>
     <!-- Skip to main content for keyboard users -->
 <a href="#main-content" class="skip-link" lang="en">Skip to main content</a>
 
@@ -107,12 +111,12 @@
         <div class="nav-container">
             <a href="index.html#home" class="logo">
                 <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
-            </a>
+            <span class="visit-brand-copy" lang="en"><strong>GRACE &amp; PRAISE</strong><small>Bangladeshi Church</small></span></a>
             <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
                 <span class="sun-icon">☀️</span>
                 <span class="moon-icon">🌙</span>
             </button>
-            <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+            <button data-label-en="Toggle mobile menu" data-label-bn="মেনু খুলুন বা বন্ধ করুন" class="mobile-menu-btn" aria-label="Toggle mobile menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -179,10 +183,29 @@
         </div>
     </nav>
     <div class="mobile-overlay"></div>
+<div class="site-language-row"><span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn" style="display:none">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" lang="en" data-site-language="en">English</a><a href="?lang=bn#gpbc-language-bn" lang="bn" data-site-language="bn">বাংলা</a></div></div>
 </header>
 
     <!-- Main Content -->
-    <main id="main-content" data-gpbc-route-feature="pages.planVisit">
+    <main id="main-content" data-gpbc-route-feature="pages.planVisit" data-site-bilingual>
+<section class="visit-essentials"  aria-labelledby="visit-essentials-heading">
+ <div class="visit-essentials-grid"><div class="visit-essentials-copy">
+ <p class="visit-essentials-eyebrow"><span lang="en" data-lang="en">A church family. A welcome for everyone.</span><span lang="bn" data-lang="bn" style="display:none">একটি পরিবার। সবার জন্য স্বাগতম।</span></p>
+ <h1 id="visit-essentials-heading"><span lang="en" data-lang="en">Plan your visit.</span><span lang="bn" data-lang="bn" style="display:none">আপনার প্রথম রবিবার।</span></h1>
+ <p class="visit-essentials-intro"><span lang="en" data-lang="en">Come as you are. Join our church family for worship, prayer and a Bible-based message.</span><span lang="bn" data-lang="bn" style="display:none">যেমন আছেন তেমনই আসুন। উপাসনা, প্রার্থনা ও বাইবেলের বার্তার জন্য আমাদের সঙ্গে যোগ দিন।</span></p>
+ </div><article class="visit-summary" aria-labelledby="visit-summary-title">
+  <p class="visit-summary-title" id="visit-summary-title"><span lang="en" data-lang="en">Your Sunday at a glance</span><span lang="bn" data-lang="bn" style="display:none">এক নজরে রবিবারের তথ্য</span></p>
+  <div class="visit-summary-service"><svg class="visit-essentials-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg><strong class="visit-summary-time"><span lang="en" data-lang="en">Sunday · 5:00 PM</span><span lang="bn" data-lang="bn" style="display:none">রবিবার · সন্ধ্যা ৫:০০টা</span></strong><p class="visit-summary-language"><span lang="en" data-lang="en">Bengali &amp; English · About 90 minutes</span><span lang="bn" data-lang="bn" style="display:none">বাংলা ও ইংরেজি · প্রায় ৯০ মিনিট</span></p></div>
+  <address class="visit-summary-address" lang="en"><svg class="visit-essentials-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M19 10c0 5-7 12-7 12S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="9" r="2"/></svg>1325 Richardson Street<br><span>San Bernardino, CA 92408</span></address>
+  <div class="visit-summary-logistics">
+    <p><svg class="visit-essentials-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m4 10 2-6h12l2 6v8H4Zm0 0h16M7 18v3m10-3v3M7 13h2m6 0h2"/></svg><strong><span lang="en" data-lang="en">Free parking</span><span lang="bn" data-lang="bn" style="display:none">বিনামূল্যে পার্কিং</span></strong> · <span lang="en" data-lang="en">At the building and nearby.</span><span lang="bn" data-lang="bn" style="display:none">ভবনে ও আশেপাশে।</span></p>
+    <p><svg class="visit-essentials-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="8" cy="5" r="3"/><circle cx="18" cy="7" r="2"/><path d="M2 22v-6a6 6 0 0 1 12 0v6m1-9a4 4 0 0 1 7 3v6"/></svg><strong><span lang="en" data-lang="en">Kids check-in</span><span lang="bn" data-lang="bn" style="display:none">শিশুদের চেক-ইন</span></strong> · <span lang="en" data-lang="en">Ask a greeter when you arrive.</span><span lang="bn" data-lang="bn" style="display:none">এসে স্বাগতকারীকে জিজ্ঞেস করুন।</span></p>
+  </div>
+  <a class="visit-summary-directions gpbc-button-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=1325+Richardson+Street%2C+San+Bernardino%2C+CA+92408" target="_blank" rel="noopener noreferrer"><span lang="en" data-lang="en">Get directions</span><span lang="bn" data-lang="bn" style="display:none">দিকনির্দেশনা নিন</span><span aria-hidden="true">↗</span><span class="map-announcement"><span lang="en" data-lang="en">opens map in a new tab</span><span lang="bn" data-lang="bn" style="display:none">নতুন ট্যাবে মানচিত্র খুলবে</span></span></a>
+  <p class="visit-summary-arrival"><span lang="en" data-lang="en">Arrive around 4:45–4:50 PM. We’ll help you settle in.</span><span lang="bn" data-lang="bn" style="display:none">বিকেল ৪:৪৫–৪:৫০টার মধ্যে আসুন। আমরা সাহায্য করব।</span></p>
+</article></div>
+ <p class="visit-essentials-next"><a class="visit-expect-link" href="#what-to-expect"><span lang="en" data-lang="en">What to expect on Sunday</span><span lang="bn" data-lang="bn" style="display:none">রবিবার কী আশা করবেন</span> <span aria-hidden="true">→</span></a></p>
+</section>
         <!-- V21 Plan Your Visit hero: compact, clear, and welcoming for first-time guests. -->
         <section class="plan-visit-hero visit-hero-v21" aria-labelledby="visit-hero-title">
             <div class="visit-shell visit-hero-grid">
@@ -191,20 +214,20 @@
                         <span data-lang="en" lang="en">First time at GPBC?</span>
                         <span data-lang="bn" lang="bn" style="display:none;">GPBC-তে প্রথমবার?</span>
                     </p>
-                    <h1 id="visit-hero-title">
+                    <h2 id="visit-hero-title">
                         <span data-lang="en" lang="en">Plan Your Visit</span>
                         <span data-lang="bn" lang="bn" style="display:none;">আপনার ভ্রমণের পরিকল্পনা করুন</span>
-                    </h1>
+                    </h2>
                     <p class="hero-subtitle">
                         <span data-lang="en" lang="en">We’d love to welcome you this Sunday. Here’s everything you need to know before you arrive.</span>
                         <span data-lang="bn" lang="bn" style="display:none;">এই রবিবার আপনাকে স্বাগত জানাতে আমরা আনন্দিত। আসার আগে আপনার যা জানা দরকার, সবকিছু এখানে আছে।</span>
                     </p>
                     <div class="visit-hero-actions">
-                        <a class="visit-button visit-button-primary" href="https://www.google.com/maps/search/?api=1&amp;query=1325+Richardson+Street+San+Bernardino+CA+92408" target="_blank" rel="noopener noreferrer">
+                        <a class="visit-button visit-button-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=1325+Richardson+Street%2C+San+Bernardino%2C+CA+92408" target="_blank" rel="noopener noreferrer">
                             <span data-lang="en" lang="en">Get Directions</span>
                             <span data-lang="bn" lang="bn" style="display:none;">দিকনির্দেশনা নিন</span>
                             <span aria-hidden="true">↗</span>
-                        </a>
+                        <span class="map-announcement"><span lang="en" data-lang="en">opens map in a new tab</span><span lang="bn" data-lang="bn" style="display:none">নতুন ট্যাবে মানচিত্র খুলবে</span></span></a>
                         <a class="visit-button visit-button-secondary" href="#what-to-expect">
                             <span data-lang="en" lang="en">What to Expect</span>
                             <span data-lang="bn" lang="bn" style="display:none;">কী আশা করবেন</span>
@@ -222,11 +245,6 @@
                             <strong lang="en">1325 Richardson Street</strong>
                         </div>
                     </div>
-                    <button class="visit-language-toggle" id="langToggleBtn" type="button" data-lang-btn="en" aria-label="Switch language">
-                        <span aria-hidden="true">文</span>
-                        <span data-lang="en" lang="bn">বাংলা</span>
-                        <span data-lang="bn" lang="en" style="display:none;">English</span>
-                    </button>
                 </div>
                 <div class="visit-hero-image-wrap">
                     <div class="visit-hero-image-glow" aria-hidden="true"></div>
@@ -311,10 +329,10 @@
                             <span data-lang="bn" lang="bn" style="display:none;">অবস্থান</span>
                         </h3>
                         <p lang="en"><strong>1325 Richardson Street, San Bernardino, CA 92408</strong></p>
-                        <p><a href="https://www.google.com/maps/search/?api=1&amp;query=1325+Richardson+Street+San+Bernardino+CA+92408" target="_blank" rel="noopener noreferrer">
+                        <p><a href="https://www.google.com/maps/dir/?api=1&amp;destination=1325+Richardson+Street%2C+San+Bernardino%2C+CA+92408" target="_blank" rel="noopener noreferrer">
                             <span data-lang="en" lang="en">Get Directions →</span>
                             <span data-lang="bn" lang="bn" style="display:none;">দিকনির্দেশনা পান →</span>
-                        </a></p>
+                        <span class="map-announcement"><span lang="en" data-lang="en">opens map in a new tab</span><span lang="bn" data-lang="bn" style="display:none">নতুন ট্যাবে মানচিত্র খুলবে</span></span></a></p>
                     </div>
                 </div>
             </div>
@@ -561,11 +579,11 @@
                     <span data-lang="bn" lang="bn" style="display:none;"> আপনি এলে কাউকে জানান এটা আপনার প্রথমবার! আমাদের স্বাগতকারীরা আপনাকে সাহায্য করতে খুশি হবে।</span>
                 </p>
             </div>
-            <a class="visit-button visit-button-primary visit-arrival-button" href="https://www.google.com/maps/search/?api=1&amp;query=1325+Richardson+Street+San+Bernardino+CA+92408" target="_blank" rel="noopener noreferrer">
+            <a class="visit-button visit-button-primary visit-arrival-button" href="https://www.google.com/maps/dir/?api=1&amp;destination=1325+Richardson+Street%2C+San+Bernardino%2C+CA+92408" target="_blank" rel="noopener noreferrer">
                 <span data-lang="en" lang="en">Get Directions</span>
                 <span data-lang="bn" lang="bn" style="display:none;">দিকনির্দেশনা নিন</span>
                 <span aria-hidden="true">↗</span>
-            </a>
+            <span class="map-announcement"><span lang="en" data-lang="en">opens map in a new tab</span><span lang="bn" data-lang="bn" style="display:none">নতুন ট্যাবে মানচিত্র খুলবে</span></span></a>
         </section>
 
         <!-- Closing CTA -->
@@ -579,10 +597,10 @@
                 <span data-lang="bn" lang="bn" style="display:none;">আপনি এখানে স্বাগত। আমাদের সঙ্গে উপাসনা করুন, প্রশ্ন করুন এবং নিজের গতিতে এগিয়ে চলুন।</span>
             </p>
             <div class="cta-buttons">
-                <a href="https://www.google.com/maps/search/?api=1&amp;query=1325+Richardson+Street+San+Bernardino+CA+92408" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.google.com/maps/dir/?api=1&amp;destination=1325+Richardson+Street%2C+San+Bernardino%2C+CA+92408" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                     <span data-lang="en" lang="en">Get Directions</span>
                     <span data-lang="bn" lang="bn" style="display:none;">দিকনির্দেশনা নিন</span>
-                </a>
+                <span class="map-announcement"><span lang="en" data-lang="en">opens map in a new tab</span><span lang="bn" data-lang="bn" style="display:none">নতুন ট্যাবে মানচিত্র খুলবে</span></span></a>
                 <a href="prayer-request.html" class="btn btn-secondary">
                     <span data-lang="en" lang="en">Request Prayer</span>
                     <span data-lang="bn" lang="bn" style="display:none;">প্রার্থনা সহায়তা</span>

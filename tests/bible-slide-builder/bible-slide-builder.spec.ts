@@ -207,8 +207,8 @@ test.describe('authenticated host access and Admin launcher safety', () => {
     await page.goto('/admin/v21/index.html');
     await expect(page.locator('#worshipResources')).not.toHaveAttribute('hidden', '');
     await expect(page.locator('#worshipResourceActions a')).toHaveCount(2);
-    await expect(page.locator('#worshipResourceActions a').nth(0)).toHaveAttribute('href', /\/worship-studio\/$/u);
-    await expect(page.locator('#worshipResourceActions a').nth(1)).toHaveAttribute('href', /\/bible-slide-builder\/$/u);
+    await expect(page.locator('#worshipResourceActions a').nth(0)).toHaveAttribute('href', /\/worship-studio\/\?lang=en$/u);
+    await expect(page.locator('#worshipResourceActions a').nth(1)).toHaveAttribute('href', /\/bible-slide-builder\/\?lang=en$/u);
 
     const hostname = 'localhost.example.com';
     await page.route(`http://${hostname}/**`, async route => {

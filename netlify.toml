@@ -19,6 +19,30 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/plan-visit"
+  to = "/plan-visit.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/plan-visit/"
+  to = "/plan-visit.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gallery"
+  to = "/gallery.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gallery/"
+  to = "/gallery.html"
+  status = 301
+  force = true
+
 # Global Security Headers
 [[headers]]
   for = "/*"

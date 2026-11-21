@@ -19,14 +19,14 @@
     'pages.planVisit': Object.freeze({
       featureId: 'pages.planVisit',
       pageName: 'Plan Your Visit',
-      paths: Object.freeze(['/plan-visit.html']),
+      paths: Object.freeze(['/plan-visit.html', '/plan-visit']),
       script: 'plan-visit.js',
       stateSource: 'configured'
     }),
     'pages.gallery': Object.freeze({
       featureId: 'pages.gallery',
       pageName: 'Gallery',
-      paths: Object.freeze(['/gallery.html']),
+      paths: Object.freeze(['/gallery.html', '/gallery']),
       script: 'gallery.js',
       stateSource: 'effective'
     })
@@ -244,7 +244,7 @@
     if (targets.length === 0) return [];
     return [...document.querySelectorAll('a[href]')]
       .map((link) => link.getAttribute('href') || '')
-      .filter((href) => targets.some((target) => href.split('#')[0].endsWith(target)));
+      .filter((href) => targets.some((target) => href.split('#')[0].split('?')[0].endsWith(target)));
   }
 
   function surfaceDiagnostics(featureId) {
