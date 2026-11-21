@@ -1,9 +1,32 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import test from 'node:test';
 
 const require = createRequire(import.meta.url);
+
+test('scheduled coverage has its own concurrency group while push/manual and PR grouping stay shared', () => {
+  const document = require('yaml').parseDocument(readFileSync(new URL('../.github/workflows/playwright-ci.yml', import.meta.url), 'utf8'));
+  assert.deepEqual(document.errors, []);
+  const workflow = document.toJS();
+  const evaluate = (template, eventName, ref = 'refs/heads/main', number) => template.replace(/\$\{\{(.*?)\}\}/g, (_, expression) =>
+    new Function('github', `return (${expression});`)({ workflow: workflow.name, event_name: eventName, ref, event: { pull_request: { number } } }));
+  const group = (eventName, ref, number) => evaluate(workflow.concurrency.group, eventName, ref, number);
+  assert.equal(workflow.concurrency['cancel-in-progress'], true);
+  assert.equal(group('schedule'), `${workflow.name}-nightly`);
+  assert.equal(group('push'), `${workflow.name}-refs/heads/main`);
+  assert.equal(group('workflow_dispatch'), group('push'));
+  assert.notEqual(group('schedule'), group('push'));
+  assert.notEqual(group('schedule'), group('workflow_dispatch'));
+  assert.equal(group('pull_request', 'refs/pull/123/merge', 123), `${workflow.name}-123`);
+  assert.notEqual(group('pull_request', 'refs/pull/124/merge', 124), group('pull_request', 'refs/pull/123/merge', 123));
+  assert.equal(group('workflow_dispatch', 'refs/heads/feature'), group('push', 'refs/heads/feature'));
+  assert(workflow.on.schedule.some(entry => entry.cron === '15 3 * * *'));
+  assert.equal(evaluate(workflow.jobs.test.env.PLAYWRIGHT_SUITE, 'schedule'), 'nightly');
+  assert.equal(evaluate(workflow.jobs.test.env.PLAYWRIGHT_SUITE, 'push'), 'pr');
+  assert.equal(workflow.jobs['merge-reports'].if, '${{ !cancelled() }}');
+});
 
 function collect(suite) {
   const env = { ...process.env, PRODUCTION_BASE_URL: 'http://127.0.0.1:8082' };
