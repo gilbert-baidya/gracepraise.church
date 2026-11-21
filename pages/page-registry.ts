@@ -94,7 +94,7 @@ export const pageRegistry: PageRegistryEntry[] = [
     htmlPath: "calendar.html",
     className: "CalendarPage",
     isFullDocument: true,
-    expectedTitle: "Calendar 2026 - Grace and Praise Bangladeshi Church | Events & Services",
+    expectedTitle: "Calendar - Grace and Praise Bangladeshi Church | Events & Services",
     create: (page: Page) => new CalendarPage(page)
   },
   {
