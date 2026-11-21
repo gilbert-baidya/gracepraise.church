@@ -345,11 +345,13 @@
         "nav",
         "main",
         "footer",
-        "form",
         "h1",
         "#darkModeToggle",
         "#main-content",
-        "#gift-title"
+        "#gift-title",
+        ".give-v14-gift-card",
+        "#paypalPaymentBtn",
+        "#paypal-handoff-note"
       ]
     },
     {
