@@ -16,6 +16,8 @@ async function openMobileMenu(page: Page): Promise<void> {
     .locator('.mobile-menu-btn, .mobile-menu-toggle, .burger-menu-btn, button[aria-label*="menu" i]')
     .first();
   await expect(menuButton).toBeVisible({ timeout: 10000 });
+  await page.waitForFunction(() => (window as any).PLATFORM_NAV_READY === true, undefined, { timeout: 10000 });
+  await expect(menuButton).toHaveAttribute('aria-controls', 'nav-links');
   await menuButton.click();
   await page.waitForTimeout(250);
 }

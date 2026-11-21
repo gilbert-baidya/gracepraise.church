@@ -114,7 +114,7 @@ test.describe('Page Load - All Pages', () => {
       expect(criticalErrors).toHaveLength(0);
     });
 
-    test(`${pageInfo.name} - has no uncaught JavaScript exceptions`, async ({ page }) => {
+    test(`${pageInfo.name} - has no uncaught JavaScript exceptions`, quarantineFor(pageInfo.path, 'exceptions'), async ({ page }) => {
       const pageErrors: Error[] = [];
       page.on('pageerror', exception => {
         pageErrors.push(exception);

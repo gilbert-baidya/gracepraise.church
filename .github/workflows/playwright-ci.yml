@@ -39,6 +39,10 @@ jobs:
     - name: Install Playwright browsers
       run: npx playwright install chromium webkit firefox --with-deps
 
+    - name: Test prayer backend deduplication
+      if: matrix.shardIndex == 1
+      run: npm run test:prayer
+
     - name: Validate suite selection
       if: matrix.shardIndex == 1
       run: node --test tests/ci-selection.test.mjs tests/ci-sharding.test.mjs

@@ -61,17 +61,19 @@ test('nightly collects every spec file and keeps quarantined assertions executab
   assert(pr.every(entry => nightKeys.has(key(entry))));
 });
 
-test('legacy Give Backup live PayPal console checks run nightly without removing other PR coverage', () => {
-  const consoleChecks = entry =>
+test('legacy Give Backup live PayPal console and exception checks run nightly without removing other PR coverage', () => {
+  const integrationChecks = entry =>
     entry.file.endsWith('auto-generated-page-tests.spec.ts') && entry.title === 'loads successfully without errors' ||
-    entry.file.endsWith('auto-generated-coverage.spec.ts') && entry.title === 'Give Backup - has no console errors';
-  const backup = entry => entry.title === 'Give Backup - has no console errors' ||
+    entry.file.endsWith('auto-generated-coverage.spec.ts') && ['Give Backup - has no console errors', 'Give Backup - has no uncaught JavaScript exceptions'].includes(entry.title);
+  const backup = entry => ['Give Backup - has no console errors', 'Give Backup - has no uncaught JavaScript exceptions'].includes(entry.title) ||
     entry.file.endsWith('auto-generated-page-tests.spec.ts') && entry.pageTitle === 'give-backup.html - Auto Generated Suite';
-  const checks = nightly.filter(entry => backup(entry) && consoleChecks(entry));
+  const checks = nightly.filter(entry => backup(entry) && integrationChecks(entry));
   assert(checks.some(entry => entry.project === 'Desktop Chrome' && entry.file.endsWith('auto-generated-page-tests.spec.ts')));
   assert(checks.some(entry => entry.project === 'Desktop Chrome' && entry.file.endsWith('auto-generated-coverage.spec.ts')));
   assert(checks.every(entry => entry.tags.includes('quarantine')));
-  assert(!pr.some(entry => backup(entry) && consoleChecks(entry)));
+  assert(checks.some(entry => entry.project === 'Desktop Chrome' && entry.title === 'Give Backup - has no uncaught JavaScript exceptions'));
+  assert(!pr.some(entry => backup(entry) && integrationChecks(entry)));
+  assert(pr.some(entry => entry.title === 'Home - has no uncaught JavaScript exceptions'));
   assert(pr.some(entry => entry.title === 'Give Backup - loads successfully with HTTP 200'));
   assert(pr.some(entry => backup(entry) && entry.title === 'displays header and footer correctly'));
 });
