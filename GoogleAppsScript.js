@@ -6,9 +6,11 @@ function doGet(e) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const eventsSheet = ss.getSheetByName('Events') || ss.getSheets()[0];
   
-  // If there's an action parameter, use it
+  // GET is read-only so a link or <img> tag cannot add or delete data.
   if (e.parameter && e.parameter.action) {
-    return doPost(e);
+    if (e.parameter.action === 'getEvents') return getEvents(eventsSheet);
+    if (e.parameter.action === 'getSongs') return getSongs(ss);
+    return createJsonResponse({ error: 'Use POST for this action' });
   }
   
   // Default: return events for browser access
@@ -69,14 +71,22 @@ function doPost(e) {
       return addTestimony(ss, data);
     }
     
-    return createJsonResponse({ 
-      error: 'Unknown action: ' + data.action,
-      receivedData: data
-    });
+    return createJsonResponse({ error: 'Unknown action' });
     
   } catch (error) {
-    return createJsonResponse({ error: 'Execution error: ' + error.toString() });
+    return createJsonResponse({ error: 'Execution error' });
   }
+}
+
+// Stops spreadsheet formula injection (=, +, -, @) and oversized cells.
+function sanitizeCell(value, maxLength) {
+  let text = value === undefined || value === null ? '' : String(value);
+  text = text.slice(0, maxLength || 2000);
+  return /^[=+\-@\t\r]/.test(text) ? "'" + text : text;
+}
+
+function sanitizeRow(values) {
+  return values.map(value => (typeof value === 'number' || typeof value === 'boolean') ? value : sanitizeCell(value, 5000));
 }
 
 function getEvents(sheet) {
@@ -109,7 +119,7 @@ function addEvent(sheet, data) {
   const event = data.event;
   
   // Add new row with event data including imageUrl
-  sheet.appendRow([
+  sheet.appendRow(sanitizeRow([
     event.date,                                      // Column A: Date
     event.name,                                      // Column B: Name
     event.category,                                  // Column C: Category
@@ -119,7 +129,7 @@ function addEvent(sheet, data) {
     event.owner || '',                              // Column G: Owner
     event.timestamp || new Date().toISOString(),    // Column H: Timestamp
     event.imageUrl || ''                            // Column I: Image URL
-  ]);
+  ]));
   
   return createJsonResponse({ success: true, message: 'Event added successfully' });
 }
@@ -194,14 +204,14 @@ function addPrayerRequest(ss, data) {
     }
     const timestamp = new Date().toLocaleString();
   
-    const row = [
+    const row = sanitizeRow([
       timestamp,
       prayer.name,
       prayer.isAnonymous ? 'Yes' : 'No',
       prayer.categories,
       prayer.details,
       prayer.status || 'Active'
-    ];
+    ]);
     if (submissionColumn) {
       while (row.length < submissionColumn) row.push('');
       row[submissionColumn - 1] = submissionId;
@@ -285,7 +295,7 @@ function addSong(ss, data) {
   const lastRow = songsSheet.getLastRow();
   const newId = lastRow > 1 ? songsSheet.getRange(lastRow, 1).getValue() + 1 : 1;
   
-  songsSheet.appendRow([
+  songsSheet.appendRow(sanitizeRow([
     newId,
     song.title,
     song.language,
@@ -297,7 +307,7 @@ function addSong(ss, data) {
     Array.isArray(song.chords) ? song.chords.join(', ') : song.chords || '',
     song.submittedBy,
     new Date().toLocaleString()
-  ]);
+  ]));
   
   return createJsonResponse({ success: true, message: 'Song added successfully', id: newId });
 }
@@ -356,7 +366,7 @@ function addTestimony(ss, data) {
   const lastRow = testimonySheet.getLastRow();
   const newId = lastRow > 1 ? testimonySheet.getRange(lastRow, 1).getValue() + 1 : 1;
   
-  testimonySheet.appendRow([
+  testimonySheet.appendRow(sanitizeRow([
     newId,
     testimony.name,
     testimony.memberSince || 'Recent member',
@@ -364,7 +374,7 @@ function addTestimony(ss, data) {
     testimony.language,
     new Date().toLocaleString(),
     'Pending Review'
-  ]);
+  ]));
   
   return createJsonResponse({ success: true, message: 'Testimony submitted successfully', id: newId });
 }

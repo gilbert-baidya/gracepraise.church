@@ -9,6 +9,13 @@ let currentFilter = 'all';
 let currentLanguage = 'all';
 let searchTerm = '';
 
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[ch]);
+}
+
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadSongsFromSheet();
@@ -46,7 +53,7 @@ async function loadSongsFromSheet() {
             <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
                 <p style="color: #dc3545; font-weight: bold;">⚠️ Could not load songs from database</p>
                 <p style="color: #666; margin-top: 10px;">Make sure you deployed the updated Google Apps Script with song functions.</p>
-                <p style="color: #666; font-size: 0.9em; margin-top: 10px;">Error: ${error.message}</p>
+                <p style="color: #666; font-size: 0.9em; margin-top: 10px;">Error: ${escapeHtml(error.message)}</p>
                 <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">🔄 Retry</button>
             </div>
         `;
@@ -123,14 +130,14 @@ function displaySongs() {
     }
 
     grid.innerHTML = filteredSongs.map(song => `
-        <div class="song-card" onclick="showSong(${song.id})">
-            <h3>${song.title}</h3>
+        <div class="song-card" onclick="showSong(${Number(song.id)})">
+            <h3>${escapeHtml(song.title)}</h3>
             <div class="song-info">
-                ${song.key ? `<span class="song-tag key">Key: ${song.key}</span>` : ''}
-                <span class="song-tag">${getCategoryIcon(song.category)} ${song.category}</span>
+                ${song.key ? `<span class="song-tag key">Key: ${escapeHtml(song.key)}</span>` : ''}
+                <span class="song-tag">${getCategoryIcon(song.category)} ${escapeHtml(song.category)}</span>
                 <span class="song-tag">${getLanguageIcon(song.language)} ${getLanguageName(song.language)}</span>
             </div>
-            <p class="song-preview">${song.preview}</p>
+            <p class="song-preview">${escapeHtml(song.preview)}</p>
         </div>
     `).join('');
 }
@@ -143,11 +150,11 @@ function showSong(songId) {
     const details = document.getElementById('songDetails');
 
     details.innerHTML = `
-        <h2>${song.title}</h2>
+        <h2>${escapeHtml(song.title)}</h2>
         <div class="song-meta">
-            ${song.key ? `<div class="meta-item"><strong>Key:</strong> ${song.key}</div>` : ''}
-            ${song.tempo ? `<div class="meta-item"><strong>Tempo:</strong> ${song.tempo}</div>` : ''}
-            <div class="meta-item"><strong>Category:</strong> ${getCategoryIcon(song.category)} ${song.category}</div>
+            ${song.key ? `<div class="meta-item"><strong>Key:</strong> ${escapeHtml(song.key)}</div>` : ''}
+            ${song.tempo ? `<div class="meta-item"><strong>Tempo:</strong> ${escapeHtml(song.tempo)}</div>` : ''}
+            <div class="meta-item"><strong>Category:</strong> ${getCategoryIcon(song.category)} ${escapeHtml(song.category)}</div>
             <div class="meta-item"><strong>Language:</strong> ${getLanguageIcon(song.language)} ${getLanguageName(song.language)}</div>
         </div>
 
@@ -155,7 +162,7 @@ function showSong(songId) {
             <div class="chords-section">
                 <h3>🎸 Chords Used</h3>
                 <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    ${song.chords.map(chord => `<span style="padding: 8px 15px; background: white; border-radius: 8px; font-weight: bold; color: #856404;">${chord}</span>`).join('')}
+                    ${song.chords.map(chord => `<span style="padding: 8px 15px; background: white; border-radius: 8px; font-weight: bold; color: #856404;">${escapeHtml(chord)}</span>`).join('')}
                 </div>
             </div>
         ` : ''}
@@ -166,12 +173,12 @@ function showSong(songId) {
         </div>
 
         <div class="action-buttons">
-            <button class="btn btn-primary" onclick="printSong(${song.id})">🖨️ Print</button>
-            <button class="btn btn-secondary" onclick="downloadSong(${song.id})">📥 Download PDF</button>
+            <button class="btn btn-primary" onclick="printSong(${Number(song.id)})">🖨️ Print</button>
+            <button class="btn btn-secondary" onclick="downloadSong(${Number(song.id)})">📥 Download PDF</button>
         </div>
 
         <p style="margin-top: 20px; color: #666; font-size: 0.9em; text-align: center;">
-            Submitted by: ${song.submittedBy}
+            Submitted by: ${escapeHtml(song.submittedBy)}
         </p>
     `;
 
@@ -179,7 +186,7 @@ function showSong(songId) {
 }
 
 function formatLyrics(lyrics) {
-    const lines = lyrics.split('\n');
+    const lines = String(lyrics ?? '').split('\n');
     let html = '';
     let currentVerse = '';
 
@@ -189,11 +196,11 @@ function formatLyrics(lyrics) {
                 html += '</div>';
             }
             currentVerse = line;
-            html += `<div class="verse"><div class="verse-label">${line}</div>`;
+            html += `<div class="verse"><div class="verse-label">${escapeHtml(line)}</div>`;
         } else if (line.trim() && /^[A-G]/.test(line.trim()) && line.includes(' ')) {
-            html += `<div class="chord-line">${line}</div>`;
+            html += `<div class="chord-line">${escapeHtml(line)}</div>`;
         } else if (line.trim()) {
-            html += `<div class="verse-text">${line}</div>`;
+            html += `<div class="verse-text">${escapeHtml(line)}</div>`;
         }
     });
 
@@ -241,7 +248,7 @@ function printSong(songId) {
     printWindow.document.write(`
         <html>
         <head>
-            <title>${song.title}</title>
+            <title>${escapeHtml(song.title)}</title>
             <style>
                 body { font-family: Arial, sans-serif; padding: 20px; }
                 h1 { color: #667eea; }
@@ -251,8 +258,8 @@ function printSong(songId) {
             </style>
         </head>
         <body>
-            <h1>${song.title}</h1>
-            <p><strong>Key:</strong> ${song.key || 'N/A'} | <strong>Tempo:</strong> ${song.tempo || 'N/A'}</p>
+            <h1>${escapeHtml(song.title)}</h1>
+            <p><strong>Key:</strong> ${escapeHtml(song.key || 'N/A')} | <strong>Tempo:</strong> ${escapeHtml(song.tempo || 'N/A')}</p>
             <hr>
             ${formatLyrics(song.lyrics)}
             <hr>

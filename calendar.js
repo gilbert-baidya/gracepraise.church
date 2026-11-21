@@ -23,6 +23,22 @@ const CLOUDINARY_CLOUD_NAME = window.CLOUDINARY_CLOUD_NAME || 'YOUR_CLOUDINARY_C
 const CLOUDINARY_UPLOAD_PRESET = window.CLOUDINARY_UPLOAD_PRESET || 'YOUR_CLOUDINARY_UPLOAD_PRESET';
 let cloudinaryWidget = null;
 
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[ch]);
+}
+
+function safeImageUrl(url) {
+    if (!url) return '';
+    try {
+        const parsed = new URL(String(url), window.location.href);
+        return parsed.protocol === 'https:' ? parsed.href : '';
+    } catch (e) {
+        return '';
+    }
+}
+
 // Initialize EmailJS for notifications (only if configured)
 if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
     emailjs.init(EMAILJS_PUBLIC_KEY);
@@ -443,7 +459,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
                 const isFriendly = isFirstTimeFriendly(event);
                 const friendlyBadge = isFriendly ? '<span class="visitor-friendly-badge" title="A great service to start your journey with us">👋</span> ' : '';
 
-                eventMarker.innerHTML = `${friendlyBadge}${newIcon}${categoryEmojis[event.category]} ${event.name}`;
+                eventMarker.innerHTML = `${friendlyBadge}${newIcon}${categoryEmojis[event.category]} ${escapeHtml(event.name)}`;
 
                 // Add special styling for new events
                 if (isNew) {
@@ -543,7 +559,7 @@ function renderMonthEvents() {
             }
 
             eventItem.innerHTML = `
-                <div class="event-name">${categoryEmojis[event.category]} ${event.name}${newBadge}</div>
+                <div class="event-name">${categoryEmojis[event.category]} ${escapeHtml(event.name)}${newBadge}</div>
                 <div class="event-date">${formattedDate}</div>
                 ${friendlyBadge}
             `;
@@ -583,7 +599,7 @@ function showEventDetail(event) {
 
     // Add event image if available
     const descriptionElement = document.getElementById('eventDescription');
-    if (event.imageUrl) {
+    if (safeImageUrl(event.imageUrl)) {
         const imageContainer = document.createElement('div');
         imageContainer.className = 'event-detail-image';
         imageContainer.style.cssText = `
@@ -591,7 +607,7 @@ function showEventDetail(event) {
             text-align: center;
         `;
         imageContainer.innerHTML = `
-            <img src="${event.imageUrl}" alt="${event.name}" style="max-width: 100%; max-height: 400px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+            <img src="${escapeHtml(safeImageUrl(event.imageUrl))}" alt="${escapeHtml(event.name)}" style="max-width: 100%; max-height: 400px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
         `;
         descriptionElement.parentNode.insertBefore(imageContainer, descriptionElement.nextSibling);
     }
@@ -608,8 +624,8 @@ function showEventDetail(event) {
             color: #666;
         `;
         contactInfo.innerHTML = `
-            <strong>📋 Added by:</strong> ${event.addedBy || 'Unknown'}<br>
-            ${event.contact ? `<strong>📞 Contact:</strong> ${event.contact}` : ''}
+            <strong>📋 Added by:</strong> ${escapeHtml(event.addedBy || 'Unknown')}<br>
+            ${event.contact ? `<strong>📞 Contact:</strong> ${escapeHtml(event.contact)}` : ''}
         `;
         const insertAfter = document.querySelector('.event-detail-image') || descriptionElement;
         insertAfter.parentNode.insertBefore(contactInfo, insertAfter.nextSibling);
@@ -719,9 +735,9 @@ function displayUpcomingEvents() {
             eventCard.className = 'upcoming-event-card';
 
             eventCard.innerHTML = `
-                <div class="event-date">${reminder.dateFormatted}</div>
-                <div class="event-title">${reminder.name}</div>
-                <div class="event-category">${categoryEmojis[reminder.category]} ${reminder.category}</div>
+                <div class="event-date">${escapeHtml(reminder.dateFormatted)}</div>
+                <div class="event-title">${escapeHtml(reminder.name)}</div>
+                <div class="event-category">${categoryEmojis[reminder.category]} ${escapeHtml(reminder.category)}</div>
             `;
 
             // Add click to show event details
