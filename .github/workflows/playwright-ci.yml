@@ -21,6 +21,7 @@ jobs:
       CI: true
       PLAYWRIGHT_SUITE: ${{ github.event_name == 'schedule' && 'nightly' || 'pr' }}
       PRODUCTION_BASE_URL: http://127.0.0.1:8082
+      PLAYWRIGHT_BLOB_OUTPUT_NAME: report-${{ matrix.shardIndex }}.zip
     
     steps:
     - name: Checkout repository
@@ -40,7 +41,7 @@ jobs:
 
     - name: Validate suite selection
       if: matrix.shardIndex == 1
-      run: node --test tests/ci-selection.test.mjs
+      run: node --test tests/ci-selection.test.mjs tests/ci-sharding.test.mjs
       
     - name: Start local HTTP server
       run: |
@@ -54,7 +55,7 @@ jobs:
         timeout 30 bash -c 'until curl -f http://127.0.0.1:8082; do sleep 1; done'
         
     - name: Run Playwright tests (Shard ${{ matrix.shardIndex }}/4)
-      run: npx playwright test --shard=${{ matrix.shardIndex }}/4 --global-timeout=${{ github.event_name == 'schedule' && '3000000' || '1080000' }}
+      run: node scripts/run-playwright-ci.mjs --shard=${{ matrix.shardIndex }}/4 --global-timeout=${{ github.event_name == 'schedule' && '3000000' || '1200000' }}
         
     - name: Upload blob report to GitHub Actions Artifacts
       if: always()
