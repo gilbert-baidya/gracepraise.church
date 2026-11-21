@@ -13,7 +13,7 @@ The push/PR/manual gate uses `PLAYWRIGHT_SUITE=pr`:
 - `Production Chrome` checks `public-build/` on port 8082 against the source
   server on port 8080. Both servers are started after a production build.
 
-Eight shards use two workers each, one retry, an 18-minute test budget and a
+Four shards use two workers each, one retry, an 18-minute test budget and a
 25-minute job timeout. The scheduled 03:15 UTC nightly uses the same coverage
 plus visual/performance and `@quarantine` tests, with a 50-minute test budget
 and 60-minute job timeout. Nightly failures are not marked continue-on-error.
