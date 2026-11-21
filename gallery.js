@@ -2,32 +2,48 @@ let allPhotos = [];
 let currentFilter = 'all';
 let previousFocusedElement = null;
 let galleryInitialized = false;
+let galleryLoadState = 'idle';
 
 async function loadGalleryPhotos() {
+    if (galleryLoadState === 'loading') return;
+    galleryLoadState = 'loading';
+    displayPhotos();
     try {
-        const response = await fetch('/content/gallery/');
-        const text = await response.text();
-        
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
-        const links = Array.from(doc.querySelectorAll('a')).filter(a => a.href.endsWith('.md'));
-        
-        for (const link of links) {
-            const mdResponse = await fetch(link.href);
-            const mdText = await mdResponse.text();
-            
-            const photo = parseFrontmatter(mdText);
-            if (photo) {
-                allPhotos.push(photo);
-            }
+        const response = await fetch('/content/gallery/index.json');
+        let files;
+        if (response.status === 404) {
+            const listing = await fetch('/content/gallery/');
+            if (!listing.ok) throw new Error(`Gallery listing returned HTTP ${listing.status}`);
+            const doc = new DOMParser().parseFromString(await listing.text(), 'text/html');
+            files = Array.from(doc.querySelectorAll('a[href]'))
+                .map(link => new URL(link.getAttribute('href'), new URL('/content/gallery/', location.origin)))
+                .filter(url => url.origin === location.origin && /^\/content\/gallery\/[^/]+\.md$/u.test(url.pathname))
+                .map(url => url.pathname);
+        } else {
+            if (!response.ok) throw new Error(`Gallery manifest returned HTTP ${response.status}`);
+            files = await response.json();
         }
-        
-        allPhotos.sort((a, b) => new Date(b.date) - new Date(a.date));
-        
+        if (!Array.isArray(files) || !files.every(file => typeof file === 'string' && /^\/content\/gallery\/[^/]+\.md$/u.test(file))) {
+            throw new Error('Invalid gallery manifest');
+        }
+        const photos = [];
+        for (let start = 0; start < files.length; start += 4) {
+            photos.push(...await Promise.all(files.slice(start, start + 4).map(async file => {
+                const mdResponse = await fetch(file);
+                if (!mdResponse.ok) throw new Error(`Gallery entry returned HTTP ${mdResponse.status}`);
+                const photo = parseFrontmatter(await mdResponse.text());
+                if (!photo || !photo.image) throw new Error('Invalid gallery entry');
+                return photo;
+            })));
+        }
+        allPhotos = photos.sort((a, b) => new Date(b.date) - new Date(a.date));
+        galleryLoadState = 'loaded';
         displayPhotos();
     } catch (error) {
         console.error('Error loading gallery:', error);
-        document.getElementById('noPhotos').style.display = 'block';
+        allPhotos = [];
+        galleryLoadState = 'error';
+        displayPhotos();
     }
 }
 
@@ -55,6 +71,12 @@ function parseFrontmatter(markdown) {
 function displayPhotos() {
     const grid = document.getElementById('galleryGrid');
     const noPhotos = document.getElementById('noPhotos');
+    document.getElementById('galleryError').hidden = galleryLoadState !== 'error';
+    if (galleryLoadState !== 'loaded') {
+        grid.style.display = 'none';
+        noPhotos.style.display = 'none';
+        return;
+    }
     
     const filteredPhotos = currentFilter === 'all' 
         ? allPhotos 
@@ -147,9 +169,11 @@ function initGallery() {
     if (galleryInitialized) return;
     galleryInitialized = true;
 
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    document.getElementById('retryGallery')?.addEventListener('click', loadGalleryPhotos);
+
+    document.querySelectorAll('.filter-btn[data-category]').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.filter-btn[data-category]').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
             currentFilter = btn.dataset.category;
