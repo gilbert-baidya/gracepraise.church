@@ -68,6 +68,11 @@ export abstract class BasePage {
       return;
     }
 
+    if (normalized === '/ministries/index.html') {
+      await expect(this.page).toHaveURL(/\/ministries\.html(?:[?#].*)?$/);
+      return;
+    }
+
     if (normalized.endsWith('/index.html')) {
       const folderPath = normalized.slice(0, -'index.html'.length);
       const filePattern = escapeRegExp(normalized);

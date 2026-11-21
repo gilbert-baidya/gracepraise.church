@@ -1,5 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
+const { FEATURE_IDS } = require('../../shared/website-control-schema');
+
 type HarnessOptions = {
   adminClaim?: boolean;
   errorCode?: string;
@@ -238,7 +240,7 @@ test.describe('V21 Admin Control Center trusted backend contract', () => {
   test('authorized Admin saves, publishes to storage only, and restores Draft revisions', async ({ page }) => {
     await openAdmin(page);
     await expect(page.locator('#dashboardView')).toBeVisible();
-    await expect(page.locator('.state-select')).toHaveCount(50);
+    await expect(page.locator('.state-select')).toHaveCount(FEATURE_IDS.length);
     await expect(page.locator('#comparisonSummary')).toBeVisible();
     await expect(page.locator('#readinessList .readiness-item')).not.toHaveCount(0);
     await expect(page.locator('.feature-id').filter({ hasText: 'homepage.planVisit' }).locator('..').locator('.dependency-note'))
