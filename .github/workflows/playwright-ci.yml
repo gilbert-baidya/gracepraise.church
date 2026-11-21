@@ -60,7 +60,7 @@ jobs:
         retention-days: 1
 
   merge-reports:
-    if: always()
+    if: ${{ !cancelled() }}
     needs: [test]
     runs-on: ubuntu-24.04
     
