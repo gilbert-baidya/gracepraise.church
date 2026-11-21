@@ -1,0 +1,492 @@
+@font-face {
+    font-family: Lora;
+    src: url('../fonts/lora/lora-400.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('../fonts/inter/inter-400.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('../fonts/inter/inter-600.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans Bengali';
+    src: url('../fonts/notosansbengali/notosansbengali-400.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans Bengali';
+    src: url('../fonts/notosansbengali/notosansbengali-500.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans Bengali';
+    src: url('../fonts/notosansbengali/notosansbengali-600.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+}
+
+:root {
+    color-scheme: light;
+    --gpbc-page: #FAF7F0;
+    --gpbc-surface: #FFFFFF;
+    --gpbc-surface-quiet: #F0EBE2;
+    --gpbc-text: #102033;
+    --gpbc-text-secondary: #566476;
+    --gpbc-gold-fill: #E6B84E;
+    --gpbc-gold-label: #102033;
+    --gpbc-gold-text: #805B16;
+    --gpbc-link: #1D4ED8;
+    --gpbc-control-border: #7B8794;
+    --gpbc-divider: #D8D1C6;
+    --gpbc-success: #166534;
+    --gpbc-error: #B42318;
+    --gpbc-font-body: Inter, 'Noto Sans Bengali', system-ui, sans-serif;
+    --gpbc-font-heading: Lora, Georgia, 'Noto Sans Bengali', serif;
+    --gpbc-font-bengali: 'Noto Sans Bengali', sans-serif;
+    --gpbc-space-1: 4px;
+    --gpbc-space-2: 8px;
+    --gpbc-space-4: 16px;
+    --gpbc-space-6: 24px;
+    --gpbc-space-8: 32px;
+    --gpbc-space-12: 48px;
+    --gpbc-space-16: 64px;
+    --gpbc-radius-card: 20px;
+    --gpbc-radius-control: 12px;
+    --gpbc-content-width: 1200px;
+    --gpbc-gutter: 20px;
+    --gpbc-section-gap: 64px;
+    --gpbc-h1-size: 64px;
+    --gpbc-h1-leading: 76px;
+    --gpbc-h1-half-size: 48px;
+    --gpbc-h1-half-leading: 60px;
+    --gpbc-h2-size: 40px;
+    --gpbc-h2-leading: 52px;
+    --gpbc-h2-bengali-size: 36px;
+    --gpbc-h2-bengali-leading: 50px;
+    --gpbc-card-size: 28px;
+    --gpbc-card-leading: 38px;
+    --gpbc-body-size: 18px;
+    --gpbc-body-leading: 30px;
+    --gpbc-control-size: 16px;
+    --gpbc-control-leading: 24px;
+    --gpbc-support-size: 14px;
+    --gpbc-support-leading: 22px;
+}
+
+:root:is([data-theme='dark'], .dark), body:is([data-theme='dark'], .dark) {
+    color-scheme: dark;
+    --gpbc-page: #0B1420;
+    --gpbc-surface: #142235;
+    --gpbc-surface-quiet: #1B2D43;
+    --gpbc-text: #F5F1E8;
+    --gpbc-text-secondary: #B7C2D0;
+    --gpbc-gold-text: #F1CB78;
+    --gpbc-link: #8FBCFF;
+    --gpbc-control-border: #788A9F;
+    --gpbc-divider: #33465C;
+    --gpbc-success: #86EFAC;
+    --gpbc-error: #FDA29B;
+}
+
+html:root body, html:root body:is([data-theme], .dark) {
+    --font-body: var(--gpbc-font-body);
+    --font-heading: var(--gpbc-font-heading);
+    --font-bangla-body: var(--gpbc-font-bengali);
+    --font-bangla-heading: var(--gpbc-font-bengali);
+    --bg-page: var(--gpbc-page);
+    --bg-section: var(--gpbc-surface-quiet);
+    --bg-card: var(--gpbc-surface);
+    --bg-card-surface: var(--gpbc-surface);
+    --text-heading: var(--gpbc-text);
+    --text-body: var(--gpbc-text-secondary);
+    --text-primary: var(--gpbc-text);
+    --text-secondary: var(--gpbc-text-secondary);
+    --text-muted: var(--gpbc-text-secondary);
+    --link-body: var(--gpbc-link);
+    --link-body-hover: var(--gpbc-link);
+    --link-body-visited: var(--gpbc-link);
+    --gpbc-focus-ring: var(--gpbc-link);
+    --color-background: var(--gpbc-page);
+    --color-surface: var(--gpbc-surface);
+    --color-surface-elevated: var(--gpbc-surface);
+    --color-text-primary: var(--gpbc-text);
+    --color-text-secondary: var(--gpbc-text-secondary);
+    --give-cream: var(--gpbc-page);
+    --give-surface: var(--gpbc-surface);
+    --give-copy: var(--gpbc-text-secondary);
+    --give-ink: var(--gpbc-text);
+    --prayer-ivory: var(--gpbc-page);
+    --prayer-white: var(--gpbc-surface);
+    --prayer-ink: var(--gpbc-text);
+    --prayer-ink-soft: var(--gpbc-text-secondary);
+    --prayer-muted: var(--gpbc-text-secondary);
+    --prayer-serif: var(--gpbc-font-heading);
+    --visit-cream: var(--gpbc-page);
+    --visit-card: var(--gpbc-surface);
+    --visit-ink: var(--gpbc-text);
+    --visit-muted: var(--gpbc-text-secondary);
+    background: var(--gpbc-page) !important;
+    color: var(--gpbc-text) !important;
+    font-family: var(--gpbc-font-body);
+    font-size: var(--gpbc-body-size);
+    line-height: var(--gpbc-body-leading);
+    font-synthesis: style;
+}
+
+:root body :is(p, li, a, button, input, textarea, select, label, small, summary, blockquote, figcaption, table,
+    div, span, strong, em, time, dt, dd, cite) {
+    font-family: var(--gpbc-font-body) !important;
+}
+
+:root body :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--gpbc-font-heading) !important;
+    font-weight: 400 !important;
+    color: var(--gpbc-text);
+    letter-spacing: -0.02em;
+    overflow-wrap: break-word;
+}
+
+:root body :is(h1, h2, h3, h4, h5, h6) * {
+    font-family: inherit !important;
+}
+
+html:root body.gpbc-shared h1 {
+    font-size: var(--gpbc-h1-size) !important;
+    line-height: var(--gpbc-h1-leading) !important;
+}
+
+html:root body.gpbc-shared h2 {
+    font-size: var(--gpbc-h2-size) !important;
+    line-height: var(--gpbc-h2-leading) !important;
+}
+
+html:root body.gpbc-shared h3 {
+    font-size: var(--gpbc-card-size) !important;
+    line-height: var(--gpbc-card-leading) !important;
+}
+
+html:root body.gpbc-shared .gpbc-heading-half {
+    font-size: var(--gpbc-h1-half-size) !important;
+    line-height: var(--gpbc-h1-half-leading) !important;
+}
+
+body .gpbc-support {
+    font-size: var(--gpbc-support-size);
+    line-height: var(--gpbc-support-leading);
+    color: var(--gpbc-text-secondary);
+}
+
+body :is(button, input, textarea, select, label) {
+    font-weight: 600;
+}
+
+body :is(.slick-prev, .slick-next, .slick-dots li button)::before {
+    font-family: var(--gpbc-font-body) !important;
+}
+
+body .slick-prev::before { content: '‹'; }
+body .slick-next::before { content: '›'; }
+body .slick-dots li button::before { content: '•'; }
+
+body a {
+    color: var(--gpbc-link) !important;
+    text-decoration-line: underline !important;
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 1px;
+}
+
+html:root body #featured-events .flip-card .flip-card-back a.gpbc-control-coming-soon-link,
+html:root body #block_gpbc_transformational_loop a.button.gpbc-control-coming-soon-link,
+html:root body a.gpbc-control-coming-soon-link {
+    text-decoration-line: underline !important;
+    text-decoration-style: dotted !important;
+}
+
+html:root body #specialEventBanner a.banner-link {
+    background: var(--gpbc-gold-fill) !important;
+    color: var(--gpbc-gold-label) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+body a.gpbc-admin-preview-banner__link {
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+body .site-footer {
+    --gpbc-link: #8FBCFF;
+}
+
+body :focus-visible {
+    outline: 3px solid var(--gpbc-link) !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 3px var(--gpbc-surface) !important;
+}
+
+body a.skip-link {
+    position: fixed !important;
+    left: 20px !important;
+    transform: none !important;
+    transition: none !important;
+    max-width: calc(100vw - 40px);
+    height: auto;
+    color: var(--gpbc-page) !important;
+    -webkit-text-fill-color: currentColor !important;
+    background: var(--gpbc-text) !important;
+}
+
+body a.skip-link:not(:focus) {
+    top: -10000px !important;
+}
+
+body a.skip-link:focus {
+    top: 12px !important;
+}
+
+body :is(.gpbc-card, .card, .info-card, .event-card, .visit-rhythm-card,
+    .give-v14-impact-card, .give-v14-method-card, .give-v14-gift-card,
+    .prayer-v15-card, .prayer-v15-form-card, .devotion-section) {
+    --gpbc-h2-size: var(--gpbc-card-size);
+    --gpbc-h2-leading: var(--gpbc-card-leading);
+    --gpbc-h2-bengali-size: 24px;
+    --gpbc-h2-bengali-leading: 36px;
+    background: var(--gpbc-surface) !important;
+    color: var(--gpbc-text);
+    border: 1px solid var(--gpbc-divider) !important;
+    border-radius: var(--gpbc-radius-card) !important;
+    padding: var(--gpbc-space-6) !important;
+    box-shadow: none;
+}
+
+html:root body #featured-events .flip-card .flip-card-back a.card-button,
+html:root body #featured-events .flip-card .flip-card-back a.card-button:is(:link, :visited, :hover, :active, :focus, :focus-visible),
+html:root body :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-v3__button, .visit-v3__directions, .block-the-loop .button,
+    .visit-button-primary, .prayer-v15-button--primary, #paypalPaymentBtn,
+    #shareTodayBtn, .share-today-btn, button.primary) {
+    background: var(--gpbc-gold-fill) !important;
+    color: var(--gpbc-gold-label) !important;
+    -webkit-text-fill-color: currentColor !important;
+    border: 1px solid var(--gpbc-gold-fill) !important;
+    border-radius: var(--gpbc-radius-control) !important;
+    min-height: 52px !important;
+    padding: 12px 24px !important;
+    font-size: var(--gpbc-control-size) !important;
+    font-weight: 600 !important;
+    line-height: var(--gpbc-control-leading) !important;
+    white-space: normal;
+    text-align: center;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+body :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-v3__button, .visit-v3__directions, .block-the-loop .button,
+    .visit-button-primary, .prayer-v15-button--primary, #paypalPaymentBtn,
+    .share-today-btn, button.primary, #featured-events .card-button) * {
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+html:root body.page-daily-devotion #shareTodayBtn,
+html:root body.page-daily-devotion #shareTodayBtn:is(:hover, :focus-visible),
+html:root body.page-daily-devotion .devotion-controls #goToDateBtn {
+    background: var(--gpbc-gold-fill) !important;
+    color: var(--gpbc-gold-label) !important;
+    -webkit-text-fill-color: currentColor !important;
+    border-color: var(--gpbc-gold-fill) !important;
+}
+
+body :is(.gpbc-button-secondary, .btn-secondary, .v2-btn--secondary,
+    .visit-button-secondary, .prayer-v15-button--secondary, .prayer-v15-button--outline) {
+    background: var(--gpbc-surface) !important;
+    color: var(--gpbc-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+    border: 1px solid var(--gpbc-control-border) !important;
+    border-radius: var(--gpbc-radius-control) !important;
+    min-height: 52px !important;
+    padding: 12px 24px !important;
+    font-size: var(--gpbc-control-size) !important;
+    font-weight: 600 !important;
+    line-height: var(--gpbc-control-leading) !important;
+    white-space: normal;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+html:root body :is(input:not([type='checkbox'], [type='radio'], [type='range'], [type='hidden']), textarea, select, .gpbc-input) {
+    background: var(--gpbc-surface) !important;
+    color: var(--gpbc-text) !important;
+    border: 1px solid var(--gpbc-control-border) !important;
+    border-radius: var(--gpbc-radius-control) !important;
+    min-height: 52px !important;
+    max-width: 100%;
+    padding: 12px 16px !important;
+    font-size: var(--gpbc-control-size) !important;
+    line-height: var(--gpbc-control-leading) !important;
+}
+
+body ::placeholder {
+    color: var(--gpbc-text-secondary) !important;
+    opacity: 1;
+}
+
+html:root body :is(input, textarea, select)[aria-invalid='true'] {
+    border-color: var(--gpbc-error) !important;
+}
+
+body :is(.gpbc-error, .error-message, [role='alert']) {
+    color: var(--gpbc-error) !important;
+}
+
+body :is(.gpbc-success, .success-message, .prayer-v15-success),
+body .prayer-v15-success :is(h3, p) {
+    color: var(--gpbc-success) !important;
+}
+
+.gpbc-reading {
+    max-width: 65ch;
+}
+
+.gpbc-icon-control {
+    min-width: 48px;
+    min-height: 48px;
+}
+
+:root body :is(:lang(bn), [lang='bn'], [data-lang='bn']:not([lang])), :root body:lang(bn) {
+    --gpbc-control-leading: 26px;
+    --gpbc-support-leading: 24px;
+    font-family: var(--gpbc-font-bengali) !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+
+body :is(h1, h2, h3, h4, h5, h6):lang(bn) {
+    font-weight: 500 !important;
+}
+
+body :is(h1, h2, h3, h4, h5, h6) :lang(bn) {
+    font-weight: 500 !important;
+}
+
+body :is(button, input, textarea, select, label):lang(bn) {
+    line-height: 26px;
+}
+
+html:root body.gpbc-shared .gpbc-heading-half:lang(bn) {
+    font-size: 42px !important;
+    line-height: 58px !important;
+}
+
+html:root body.gpbc-shared h1:lang(bn) {
+    font-size: 56px !important;
+    line-height: 73px !important;
+}
+
+html:root body.gpbc-shared h2:lang(bn) {
+    font-size: var(--gpbc-h2-bengali-size) !important;
+    line-height: var(--gpbc-h2-bengali-leading) !important;
+}
+
+html:root body.gpbc-shared h3:lang(bn) {
+    font-size: 24px !important;
+    line-height: 36px !important;
+}
+
+body.page-daily-devotion .devotion-jump-bar {
+    flex-wrap: wrap !important;
+}
+
+html:root body.gpbc-shared .block-the-loop .heading h2 {
+    font-size: clamp(17.6px, 2.5vw, 24px) !important;
+    line-height: 1.3 !important;
+}
+
+@media (min-width: 761px) {
+    html:root body.gpbc-shared .v2-hero-heading {
+        font-size: clamp(32px, 4.5vw, var(--gpbc-h1-size)) !important;
+        line-height: 1.1875 !important;
+    }
+}
+
+@media (max-width: 767px) {
+    html:root body.gpbc-shared .block-the-loop .heading h2 {
+        font-size: 16px !important;
+        line-height: 22px !important;
+    }
+}
+
+@media (max-width: 760px) {
+    body .calendar-section .navigation[aria-label='Calendar month navigation'] {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    body #currentMonth {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        min-width: 0;
+        text-align: center;
+    }
+
+    body #prevMonth { grid-column: 1; grid-row: 2; justify-self: start; }
+    body #nextMonth { grid-column: 2; grid-row: 2; justify-self: end; }
+
+    :root {
+        --gpbc-h1-size: 36px;
+        --gpbc-h1-leading: 44px;
+        --gpbc-h1-half-size: 36px;
+        --gpbc-h1-half-leading: 44px;
+        --gpbc-h2-size: 28px;
+        --gpbc-h2-leading: 38px;
+        --gpbc-h2-bengali-size: 28px;
+        --gpbc-h2-bengali-leading: 40px;
+        --gpbc-section-gap: 40px;
+    }
+
+    body.page-daily-devotion .devotion-controls .jump-controls {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr) !important;
+    }
+
+    html:root body.gpbc-shared h1:lang(bn) {
+        font-size: 36px !important;
+        line-height: 50px !important;
+    }
+
+    html:root body.gpbc-shared .gpbc-heading-half:lang(bn) {
+        font-size: 36px !important;
+        line-height: 50px !important;
+    }
+
+    body .v2-heading-accent {
+        line-height: 0;
+    }
+
+    body .v2-heading-accent::before,
+    body .v2-heading-accent::after {
+        font-size: var(--gpbc-h1-size);
+        line-height: var(--gpbc-h1-leading);
+    }
+}

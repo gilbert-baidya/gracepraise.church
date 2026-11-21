@@ -79,13 +79,6 @@
     <!-- LCP Preloads -->
     <link rel="preload" as="image" href="images/new-gpbc-logo-final.svg" type="image/svg+xml">
 
-    <!-- Google Fonts for Premium Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
     <!-- Liturgical Calendar Engine + Theme Engine (must run before CSS) -->
     <script src="liturgical-calendar-engine.js"></script>
     <script src="liturgical-theme-engine.js"></script>
@@ -115,9 +108,13 @@
             body { padding-top: 0; }
         }
     </style>
+    <link rel="stylesheet" href="sacred-background.css">
+    <link rel="stylesheet" href="css/sacred-surface-tokens.css">
+    <link rel="stylesheet" href="website-control.css" data-gpbc-control-style="true">
+    <link rel="stylesheet" href="assets/css/shared-style.css">
 </head>
 
-<body class="page-daily-devotion">
+<body class="page-daily-devotion gpbc-shared">
     <!-- Skip to main content for keyboard users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -979,6 +976,12 @@
                 return (data?.verseText || reference).trim();
             }
 
+            function getFieldLanguage(data, field) {
+                const translated = data?.[`${field}Bn`];
+                return currentLang === 'bn' && translated &&
+                    (field !== 'verseText' || translated.trim() !== getVerseReference(data)) ? 'bn' : 'en';
+            }
+
             function buildCurrentDevotionData(data) {
                 const lang = currentLang === 'bn' ? 'Bn' : '';
                 const verseReference = getVerseReference(data);
@@ -1052,7 +1055,7 @@
                     }
 
                     const devotionData = setCurrentDevotionData(buildCurrentDevotionData(data));
-                    renderScripture(devotionData.verseReference || devotionData.verse, devotionData.verseText);
+                    renderScripture(devotionData.verseReference || devotionData.verse, devotionData.verseText, getFieldLanguage(data, 'verseText'));
 
                     if (window.SeoManager) {
                         window.SeoManager.update(data, selectedDate);
@@ -1139,10 +1142,26 @@
                 }, 300);
             }
 
-            function renderScripture(reference, verseText) {
+            function renderDevotionSubtitle(date, reference) {
+                if (!headerSubtitle) return;
+                const dateSpan = document.createElement('span');
+                dateSpan.lang = currentLang;
+                dateSpan.textContent = date;
+                const referenceSpan = document.createElement('span');
+                referenceSpan.lang = 'en';
+                referenceSpan.textContent = reference;
+                headerSubtitle.lang = 'en';
+                headerSubtitle.replaceChildren(dateSpan, document.createTextNode(' — '), referenceSpan);
+            }
+
+            function renderScripture(reference, verseText, language = 'en') {
                 const globalData = getCurrentDevotionData() || {};
                 const safeReference = (globalData.verseReference || globalData.verse || reference || 'Psalm 46:1').trim();
                 const safeVerseText = (globalData.verseText || verseText || safeReference).trim();
+                const verseRefEl = document.getElementById('verseRef');
+                if (verseEl) verseEl.lang = language;
+                if (referenceEl) referenceEl.lang = 'en';
+                if (verseRefEl) verseRefEl.lang = 'en';
 
                 if (window.safeSetText) {
                     window.safeSetText('#bibleReference', safeReference);
@@ -1151,18 +1170,18 @@
                 } else {
                     if (referenceEl) referenceEl.textContent = safeReference;
                     if (verseEl) verseEl.textContent = safeVerseText;
-                    const verseRefEl = document.getElementById('verseRef');
                     if (verseRefEl) verseRefEl.textContent = safeReference;
                 }
             }
 
-            function renderNarrativeSection(selector, elementId, content) {
+            function renderNarrativeSection(selector, elementId, content, language = 'en') {
+                const target = safeSelect(selector);
+                if (target) target.lang = language;
                 const wrapped = `<div id="${elementId}"><p>${content || ''}</p></div>`;
                 if (window.safeSetHTML) {
                     window.safeSetHTML(selector, wrapped);
                     return;
                 }
-                const target = safeSelect(selector);
                 if (target) target.innerHTML = wrapped;
             }
 
@@ -1397,6 +1416,7 @@
                     const d = parseDateKey(key);
                     const pill = document.createElement('button');
                     pill.className = 'date-pill';
+                    pill.lang = 'en';
                     pill.setAttribute('data-date', key);
                     pill.innerHTML = `<strong>${monthNames[d.getMonth()]} ${d.getDate()}</strong><span>${d.toLocaleDateString('en-US', { weekday: 'short' })}</span>`;
                     if (toDateKey(selectedDate) === key) {
@@ -1500,26 +1520,32 @@
                 fallbackEl.style.display = 'none';
 
                 // STEP 4: Render Hero Card (Sacred Quote)
-                if (dateElement) dateElement.textContent = devotionData.date;
-                if (metaLabel) metaLabel.textContent = devotionData.dateShort;
+                if (dateElement) {
+                    dateElement.textContent = devotionData.date;
+                    dateElement.lang = currentLang;
+                }
+                if (metaLabel) {
+                    metaLabel.textContent = devotionData.dateShort;
+                    metaLabel.lang = 'en';
+                }
                 updateSacredQuoteCard(devotionData.date, devotionData.verseReference || devotionData.verse);
                 console.log("[Devotion] Hero Rendered");
 
                 // STEP 5: Render Main Card
+                if (headerTitle) headerTitle.lang = getFieldLanguage(data, 'title');
                 if (window.safeSetText) {
                     window.safeSetText('#devotionTitle', devotionData.title);
-                    window.safeSetText('#devotionSubtitle', `${devotionData.date} — ${devotionData.verse}`);
                 } else {
                     if (headerTitle) headerTitle.textContent = devotionData.title;
-                    if (headerSubtitle) headerSubtitle.textContent = `${devotionData.date} — ${devotionData.verse}`;
                 }
+                renderDevotionSubtitle(devotionData.date, devotionData.verse);
 
-                renderScripture(devotionData.verseReference || devotionData.verse, devotionData.verseText);
+                renderScripture(devotionData.verseReference || devotionData.verse, devotionData.verseText, getFieldLanguage(data, 'verseText'));
 
                 bindBibleGatewayLinks(devotionData.verseReference || devotionData.verse);
 
-                renderNarrativeSection('[data-devotion-reflection]', 'reflectionText', devotionData.reflection);
-                renderNarrativeSection('[data-devotion-prayer]', 'prayerText', devotionData.prayer);
+                renderNarrativeSection('[data-devotion-reflection]', 'reflectionText', devotionData.reflection, getFieldLanguage(data, 'reflection'));
+                renderNarrativeSection('[data-devotion-prayer]', 'prayerText', devotionData.prayer, getFieldLanguage(data, 'prayer'));
                 console.log("[Devotion] Main Rendered");
 
                 // STEP 6: Initialize Share Engine
@@ -1561,11 +1587,13 @@
                 const refEl = document.getElementById('sacredQuoteRefText');
 
                 if (dateEl) {
+                    dateEl.lang = currentLang;
                     dateEl.textContent = date || 'Loading...';
                     console.log("[Devotion] ✅ Sacred Quote Date updated:", date);
                 }
 
                 if (refEl) {
+                    refEl.lang = 'en';
                     refEl.textContent = reference || '—';
                     console.log("[Devotion] ✅ Sacred Quote Reference updated:", reference);
                 }
@@ -1915,6 +1943,18 @@
             // Language toggle
             function applyUiTranslations(lang) {
                 const t = uiText[lang] || uiText.en;
+                function setUiText(element, key) {
+                    if (!element) return;
+                    element.textContent = t[key];
+                    element.lang = t[key] === uiText.en[key] ? 'en' : lang;
+                }
+                function setUiLabel(element, key) {
+                    if (!element) return;
+                    element.setAttribute('aria-label', t[key]);
+                    element.lang = t[key] === uiText.en[key] ? 'en' : lang;
+                }
+                if (langEnBtn) langEnBtn.lang = 'en';
+                if (langBnBtn) langBnBtn.lang = 'bn';
                 const heroTitle = document.getElementById('heroTitle');
                 const heroSubtitle = document.getElementById('heroSubtitle');
                 const sharePrompt = document.getElementById('sharePrompt');
@@ -1937,35 +1977,35 @@
                 const actionTestimoniesTitle = document.getElementById('actionTestimoniesTitle');
                 const actionTestimoniesDesc = document.getElementById('actionTestimoniesDesc');
 
-                if (heroTitle) heroTitle.textContent = t.heroTitle;
-                if (heroSubtitle) heroSubtitle.textContent = t.heroSubtitle;
-                if (sharePrompt) sharePrompt.textContent = t.sharePrompt;
-                if (prevLabel) prevLabel.textContent = t.prevDevotion;
-                if (nextLabel) nextLabel.textContent = t.nextDevotion;
-                if (goToDateBtn) goToDateBtn.textContent = t.go;
-                if (todayBtn) todayBtn.textContent = t.today;
-                if (shareFacebookLabel) shareFacebookLabel.textContent = t.facebook;
-                if (shareWhatsAppLabel) shareWhatsAppLabel.textContent = t.whatsapp;
-                if (copyLinkText) copyLinkText.textContent = t.copyLink;
-                if (headerSubtitle) headerSubtitle.textContent = t.devotionSubtitle;
-                if (dateStrip) dateStrip.setAttribute('aria-label', t.ariaChooseDate);
-                if (prevDayBtn) prevDayBtn.setAttribute('aria-label', t.ariaPrevDay);
-                if (nextDayBtn) nextDayBtn.setAttribute('aria-label', t.ariaNextDay);
-                if (shareFacebookBtn) shareFacebookBtn.setAttribute('aria-label', t.ariaShareFacebook);
-                if (shareWhatsAppBtn) shareWhatsAppBtn.setAttribute('aria-label', t.ariaShareWhatsApp);
-                if (copyLinkBtn) copyLinkBtn.setAttribute('aria-label', t.ariaCopyLink);
-                if (prevBtn) prevBtn.setAttribute('aria-label', t.ariaPrevDevotion);
-                if (nextBtn) nextBtn.setAttribute('aria-label', t.ariaNextDevotion);
-                if (reflectionHeading) reflectionHeading.textContent = t.reflectionHeading;
-                if (prayerHeading) prayerHeading.textContent = t.prayerHeading;
-                if (actionSectionTitle) actionSectionTitle.textContent = t.actionSectionTitle;
-                if (actionSectionDesc) actionSectionDesc.textContent = t.actionSectionDesc;
-                if (actionPrayerTitle) actionPrayerTitle.textContent = t.actionPrayerTitle;
-                if (actionPrayerDesc) actionPrayerDesc.textContent = t.actionPrayerDesc;
-                if (actionServicesTitle) actionServicesTitle.textContent = t.actionServicesTitle;
-                if (actionServicesDesc) actionServicesDesc.textContent = t.actionServicesDesc;
-                if (actionTestimoniesTitle) actionTestimoniesTitle.textContent = t.actionTestimoniesTitle;
-                if (actionTestimoniesDesc) actionTestimoniesDesc.textContent = t.actionTestimoniesDesc;
+                setUiText(heroTitle, 'heroTitle');
+                setUiText(heroSubtitle, 'heroSubtitle');
+                setUiText(sharePrompt, 'sharePrompt');
+                setUiText(prevLabel, 'prevDevotion');
+                setUiText(nextLabel, 'nextDevotion');
+                setUiText(goToDateBtn, 'go');
+                setUiText(todayBtn, 'today');
+                setUiText(shareFacebookLabel, 'facebook');
+                setUiText(shareWhatsAppLabel, 'whatsapp');
+                setUiText(copyLinkText, 'copyLink');
+                setUiText(headerSubtitle, 'devotionSubtitle');
+                setUiLabel(dateStrip, 'ariaChooseDate');
+                setUiLabel(prevDayBtn, 'ariaPrevDay');
+                setUiLabel(nextDayBtn, 'ariaNextDay');
+                setUiLabel(shareFacebookBtn, 'ariaShareFacebook');
+                setUiLabel(shareWhatsAppBtn, 'ariaShareWhatsApp');
+                setUiLabel(copyLinkBtn, 'ariaCopyLink');
+                setUiLabel(prevBtn, 'ariaPrevDevotion');
+                setUiLabel(nextBtn, 'ariaNextDevotion');
+                setUiText(reflectionHeading, 'reflectionHeading');
+                setUiText(prayerHeading, 'prayerHeading');
+                setUiText(actionSectionTitle, 'actionSectionTitle');
+                setUiText(actionSectionDesc, 'actionSectionDesc');
+                setUiText(actionPrayerTitle, 'actionPrayerTitle');
+                setUiText(actionPrayerDesc, 'actionPrayerDesc');
+                setUiText(actionServicesTitle, 'actionServicesTitle');
+                setUiText(actionServicesDesc, 'actionServicesDesc');
+                setUiText(actionTestimoniesTitle, 'actionTestimoniesTitle');
+                setUiText(actionTestimoniesDesc, 'actionTestimoniesDesc');
             }
 
             function setLang(lang) {
@@ -2003,8 +2043,9 @@
                     if (fallbackEl) fallbackEl.style.display = 'none';
 
                     // STEP 3 — Populate main devotion
+                    if (headerTitle) headerTitle.lang = 'en';
                     safeSetTextById('devotionTitle', fallback.title);
-                    safeSetTextById('devotionSubtitle', `${fallback.date} — ${fallback.verse}`);
+                    renderDevotionSubtitle(fallback.date, fallback.verse);
                     const fallbackData = setCurrentDevotionData(fallback);
                     renderScripture(fallbackData.verseReference || fallbackData.verse, fallbackData.verseText || fallbackData.verse);
 
@@ -2188,11 +2229,9 @@
     <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loader.js"></script>
     <!-- Sacred Background Engine -->
-    <link rel="stylesheet" href="sacred-background.css">
     <script src="sacred-background-engine.js"></script>
 
     <!-- Sacred Surface Tokens (Light + Dark Mode) -->
-    <link rel="stylesheet" href="css/sacred-surface-tokens.css">
 
     <!-- Devotion Background Intelligence -->
     <script src="js/devotion-background-intelligence.js"></script>

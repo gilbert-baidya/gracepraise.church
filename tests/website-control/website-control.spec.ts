@@ -211,6 +211,31 @@ test.describe('V21 public website-control adapter', () => {
     expect(await page.locator('header').isVisible()).toBe(true);
   });
 
+  test('COMING_SOON links keep dotted underlines on the shared-style homepage', async ({ page }) => {
+    let state: FeatureState = 'COMING_SOON';
+    await page.route(endpointRoute, route => route.fulfill({
+      contentType: 'application/json',
+      headers: { 'access-control-allow-origin': '*' },
+      body: JSON.stringify(publishedConfig({ 'pages.planVisit': state }))
+    }));
+    await configurePage(page, 'ACTIVE');
+    await page.goto('/index.html');
+    await waitForAdapter(page);
+    const links = page.locator('a.gpbc-control-coming-soon-link');
+    await expect.poll(() => links.count()).toBeGreaterThan(0);
+    for (const theme of ['light', 'dark']) {
+      await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+      for (const link of await links.all()) {
+        await expect(link).toHaveCSS('text-decoration-line', 'underline');
+        await expect(link).toHaveCSS('text-decoration-style', 'dotted');
+      }
+    }
+    state = 'LIVE';
+    await page.reload();
+    await waitForAdapter(page);
+    await expect(links).toHaveCount(0);
+  });
+
   test('dependency resolution propagates HIDDEN and COMING_SOON safely', async ({ page }) => {
     let currentConfig = publishedConfig({ 'pages.planVisit': 'HIDDEN' });
     await page.route(endpointRoute, async (route) => {
@@ -832,6 +857,13 @@ test.describe('V21 public website-control adapter', () => {
     expect(publicRequests).toBe(0);
     await expect(page.locator('#gpbc-admin-preview-banner')).toContainText('GPBC ADMIN PREVIEW');
     await expect(page.locator('#gpbc-admin-preview-banner')).toContainText('Draft Revision 8');
+    for (const theme of ['light', 'dark']) {
+      await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+      const banner = page.locator('#gpbc-admin-preview-banner');
+      await expect(banner).toHaveCSS('background-color', 'rgb(91, 31, 31)');
+      await expect(banner).toHaveCSS('color', 'rgb(255, 248, 239)');
+      await expect(banner.getByRole('link', { name: 'Return to Admin' })).toHaveCSS('color', 'rgb(255, 248, 239)');
+    }
     expect(await page.locator('[data-gpbc-feature="homepage.planVisit"]').isHidden()).toBe(false);
     expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"]').evaluateAll((elements) => elements.every((element) => !(element as HTMLElement).hidden))).toBe(true);
     expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"]').evaluateAll((elements) => elements.every((element) => element.classList.contains('gpbc-control-coming-soon-link')))).toBe(true);

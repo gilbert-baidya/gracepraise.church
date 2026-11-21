@@ -1,0 +1,19 @@
+GPBC shared typography (SIL Open Font License 1.1)
+
+Lora 400 Latin and Inter 400/600 Latin are unmodified Fontsource 5.3.0
+WOFF2 releases, downloaded from:
+https://cdn.jsdelivr.net/npm/@fontsource/lora@5.3.0/files/lora-latin-400-normal.woff2
+https://cdn.jsdelivr.net/npm/@fontsource/inter@5.3.0/files/inter-latin-400-normal.woff2
+https://cdn.jsdelivr.net/npm/@fontsource/inter@5.3.0/files/inter-latin-600-normal.woff2
+
+Noto Sans Bengali originates from google/fonts commit:
+06bfe0d62a98375cb09c942fa18e68bd32cff057
+ofl/notosansbengali/NotoSansBengali[wdth,wght].ttf
+https://github.com/google/fonts/tree/06bfe0d62a98375cb09c942fa18e68bd32cff057/ofl/notosansbengali
+
+FontTools 4.65.0 instantiated wght=400/500/600, wdth=100 and converted
+to WOFF2. No glyph subsetting was performed on Noto Sans Bengali.
+Each output retains the complete source cmap and GSUB/GPOS shaping tables.
+
+Each family directory contains its upstream OFL.txt. Font display is swap;
+faces are demand-loaded by CSS without font preloads or external requests.
