@@ -8,6 +8,18 @@
     
     if (!form) return;
 
+    let submissionId = null;
+
+    function createSubmissionId() {
+        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+            return window.crypto.randomUUID();
+        }
+        if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+            return 'prayer-' + Array.from(window.crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('');
+        }
+        return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+    }
+
     function sanitizeInput(str) {
         if (!str || typeof str !== 'string') return '';
         return str
@@ -43,6 +55,8 @@
             return;
         }
 
+        if (!submissionId) submissionId = createSubmissionId();
+
         // Set loading state
         if (errorMessage) errorMessage.hidden = true;
         if (submitBtn) {
@@ -55,6 +69,7 @@
         const payload = {
             action: 'addPrayerRequest',
             prayer: {
+                submissionId,
                 name: sanitizedName || (isPrivate ? 'Anonymous (Confidential)' : 'Anonymous Friend'),
                 email: sanitizedEmail || 'Not provided',
                 isAnonymous: !sanitizedName || isPrivate,
@@ -82,6 +97,7 @@
                 throw new Error('Endpoint did not confirm the prayer request');
             }
 
+            submissionId = null;
             form.style.display = 'none';
             if (successMessage) {
                 successMessage.style.display = 'block';

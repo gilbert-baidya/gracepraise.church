@@ -84,13 +84,49 @@ for (const outcome of ['success', 'http-error', 'network-error', 'application-er
           categories: 'Confidential / Pastoral Team',
           details: 'Please pray for peace. শান্তির জন্য প্রার্থনা করুন।',
           status: 'Active', timestamp: expect.any(String),
+          submissionId: expect.any(String),
         },
       });
     }
+    const firstId = requests[0].payload.prayer.submissionId;
+    expect(firstId.length).toBeGreaterThan(0);
+    expect(requests.every(request => request.payload.prayer.submissionId === firstId)).toBe(true);
     await success.getByRole('button', { name: 'Submit Another Request' }).click();
     await expect(form).toBeVisible();
     await expect(error).toBeHidden();
     await expect(page.locator('#prayer-request')).toHaveValue('');
+    await page.locator('#prayer-request').fill('A new prayer after confirmed success.');
+    await submit.click();
+    await expect(success).toBeVisible();
+    expect(requests[requests.length - 1].payload.prayer.submissionId).not.toBe(firstId);
+  });
+}
+
+for (const unavailable of ['randomUUID', 'crypto']) {
+  test(`submission IDs survive retries without ${unavailable}`, async ({ page }) => {
+    await page.addInitScript(unavailable => {
+      Object.defineProperty(unavailable === 'crypto' ? window : window.crypto, unavailable, { value: undefined });
+    }, unavailable);
+    const ids: string[] = [];
+    await page.route('https://script.google.com/**', async route => {
+      ids.push(route.request().postDataJSON().prayer.submissionId);
+      if (ids.length === 1) return route.abort();
+      await route.fulfill({ json: { success: true, duplicate: ids.length === 2 }, headers: { 'access-control-allow-origin': '*' } });
+    });
+    await page.goto('/prayer-request.html');
+    await page.locator('#prayer-request').fill('Please pray for our family.');
+    await page.locator('#prayer-form button[type="submit"]').click();
+    await expect(page.locator('#prayer-error')).toBeVisible();
+    await page.locator('#prayer-form button[type="submit"]').click();
+    await expect(page.locator('#prayer-success')).toBeVisible();
+    expect(ids[0]).toBeTruthy();
+    expect(ids[1]).toBe(ids[0]);
+    await page.getByRole('button', { name: 'Submit Another Request' }).click();
+    await page.locator('#prayer-request').fill('Another prayer.');
+    await page.locator('#prayer-form button[type="submit"]').click();
+    await expect(page.locator('#prayer-success')).toBeVisible();
+    expect(ids[2]).toBeTruthy();
+    expect(ids[2]).not.toBe(ids[0]);
   });
 }
 
