@@ -78,15 +78,23 @@ function doPost(e) {
   }
 }
 
-// Stops spreadsheet formula injection (=, +, -, @) and oversized cells.
-function sanitizeCell(value, maxLength) {
-  let text = value === undefined || value === null ? '' : String(value);
-  text = text.slice(0, maxLength || 2000);
+// Stops spreadsheet formula injection (=, +, -, @).
+function sanitizeCell(value) {
+  const text = value === undefined || value === null ? '' : String(value);
   return /^[=+\-@\t\r]/.test(text) ? "'" + text : text;
 }
 
 function sanitizeRow(values) {
-  return values.map(value => (typeof value === 'number' || typeof value === 'boolean') ? value : sanitizeCell(value, 5000));
+  return values.map(value => (typeof value === 'number' || typeof value === 'boolean') ? value : sanitizeCell(value));
+}
+
+function validateFields(fields) {
+  for (const field of Object.keys(fields)) {
+    if (String(fields[field] ?? '').length > 5000) {
+      return { success: false, message: field + ' must be 5000 characters or fewer.' };
+    }
+  }
+  return null;
 }
 
 function getEvents(sheet) {
@@ -117,6 +125,13 @@ function getEvents(sheet) {
 
 function addEvent(sheet, data) {
   const event = data.event;
+  const invalid = validateFields({
+    'Event date': event.date, 'Event name': event.name, 'Event category': event.category,
+    'Event description': event.description, 'Event added by': event.addedBy,
+    'Event contact': event.contact, 'Event owner': event.owner,
+    'Event timestamp': event.timestamp, 'Event image URL': event.imageUrl
+  });
+  if (invalid) return createJsonResponse(invalid);
   
   // Add new row with event data including imageUrl
   sheet.appendRow(sanitizeRow([
@@ -158,6 +173,13 @@ function deleteEvent(sheet, data) {
 }
 
 function addPrayerRequest(ss, data) {
+  const prayer = data.prayer;
+  const invalid = validateFields({
+    'Prayer name': prayer.name, 'Prayer email': prayer.email,
+    'Prayer categories': prayer.categories, 'Prayer request': prayer.details,
+    'Prayer status': prayer.status, 'Submission ID': prayer.submissionId
+  });
+  if (invalid) return createJsonResponse(invalid);
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
@@ -181,7 +203,6 @@ function addPrayerRequest(ss, data) {
       headerRange.setFontColor('white');
     }
   
-    const prayer = data.prayer;
     const submissionId = typeof prayer.submissionId === 'string' ? prayer.submissionId.trim() : '';
     let submissionColumn = 0;
     if (submissionId) {
@@ -284,6 +305,14 @@ function getSongs(ss) {
 }
 
 function addSong(ss, data) {
+  const song = data.song;
+  const chords = Array.isArray(song.chords) ? song.chords.join(', ') : song.chords || '';
+  const invalid = validateFields({
+    'Song title': song.title, 'Song language': song.language, 'Song category': song.category,
+    'Song key': song.key, 'Song tempo': song.tempo, 'Song preview': song.preview,
+    'Song lyrics': song.lyrics, 'Song chords': chords, 'Song submitted by': song.submittedBy
+  });
+  if (invalid) return createJsonResponse(invalid);
   let songsSheet = ss.getSheetByName('Songs');
   if (!songsSheet) {
     // Create sheet if it doesn't exist
@@ -291,7 +320,6 @@ function addSong(ss, data) {
     songsSheet = ss.getSheetByName('Songs');
   }
   
-  const song = data.song;
   const lastRow = songsSheet.getLastRow();
   const newId = lastRow > 1 ? songsSheet.getRange(lastRow, 1).getValue() + 1 : 1;
   
@@ -304,7 +332,7 @@ function addSong(ss, data) {
     song.tempo || '',
     song.preview || '',
     song.lyrics,
-    Array.isArray(song.chords) ? song.chords.join(', ') : song.chords || '',
+    chords,
     song.submittedBy,
     new Date().toLocaleString()
   ]));
@@ -344,6 +372,12 @@ function addSampleSongs(sheet) {
 }
 
 function addTestimony(ss, data) {
+  const testimony = data.testimony;
+  const invalid = validateFields({
+    'Testimony name': testimony.name, 'Testimony member since': testimony.memberSince,
+    'Testimony text': testimony.text, 'Testimony language': testimony.language
+  });
+  if (invalid) return createJsonResponse(invalid);
   let testimonySheet = ss.getSheetByName('Testimonies');
   if (!testimonySheet) {
     testimonySheet = ss.insertSheet('Testimonies');
@@ -362,7 +396,6 @@ function addTestimony(ss, data) {
     headerRange.setFontColor('white');
   }
   
-  const testimony = data.testimony;
   const lastRow = testimonySheet.getLastRow();
   const newId = lastRow > 1 ? testimonySheet.getRange(lastRow, 1).getValue() + 1 : 1;
   

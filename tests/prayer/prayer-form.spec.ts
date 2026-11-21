@@ -189,3 +189,68 @@ test('empty prayer does not send a request', async ({ page }) => {
   await expect(page.locator('#prayer-success')).toBeHidden();
   expect(requests).toBe(0);
 });
+
+test('over-limit prayer stays visible without sending and can be shortened to the limit', async ({ page }) => {
+  const payloads: any[] = [];
+  await page.route('https://script.google.com/**', async route => {
+    payloads.push(route.request().postDataJSON());
+    await route.fulfill({ json: { success: true }, headers: { 'access-control-allow-origin': '*' } });
+  });
+  await page.goto('/prayer-request.html');
+  const input = page.locator('#prayer-request');
+  await input.fill('x'.repeat(5001));
+  const submit = page.locator('#prayer-form button[type="submit"]');
+  await submit.click();
+  const error = page.locator('#prayer-error');
+  await expect(error).toBeVisible();
+  await expect(error).toHaveAttribute('role', 'alert');
+  await expect(error).toContainText('Prayer request must be 5000 characters or fewer');
+  await expect(error).toBeFocused();
+  await expect(input).toHaveValue('x'.repeat(5001));
+  await expect(submit).toBeEnabled();
+  await expect(page.locator('#prayer-success')).toBeHidden();
+  expect(payloads).toHaveLength(0);
+  await input.fill('x'.repeat(5000));
+  await submit.click();
+  await expect(page.locator('#prayer-success')).toBeVisible();
+  await expect(error).toBeHidden();
+  expect(payloads).toHaveLength(1);
+  expect(payloads[0].prayer.details).toBe('x'.repeat(5000));
+});
+
+test('server validation message is displayed as text with all fields retained', async ({ page }) => {
+  const message = 'Prayer request must be 5000 characters or fewer. <b>Validation</b>';
+  await page.route('https://script.google.com/**', route => route.fulfill({
+    json: { success: false, message }, headers: { 'access-control-allow-origin': '*' },
+  }));
+  await page.goto('/prayer-request.html');
+  await page.locator('#prayer-name').fill('Test Friend');
+  await page.locator('#prayer-email').fill('test@example.com');
+  await page.locator('#prayer-request').fill('Please pray.');
+  await page.locator('#prayer-private').check();
+  await page.locator('#prayer-form button[type="submit"]').click();
+  const error = page.locator('#prayer-error');
+  await expect(error).toBeVisible();
+  await expect(error).toContainText(message);
+  await expect(error.locator('b')).toHaveCount(0);
+  await expect(page.locator('#prayer-name')).toHaveValue('Test Friend');
+  await expect(page.locator('#prayer-email')).toHaveValue('test@example.com');
+  await expect(page.locator('#prayer-request')).toHaveValue('Please pray.');
+  await expect(page.locator('#prayer-private')).toBeChecked();
+});
+
+for (const field of ['name', 'email']) {
+  test(`over-limit prayer ${field} keeps the fields and sends no request`, async ({ page }) => {
+    let requests = 0;
+    await page.route('https://script.google.com/**', async route => { requests++; await route.abort(); });
+    await page.goto('/prayer-request.html');
+    const value = field === 'email' ? `${'x'.repeat(4989)}@example.com` : 'x'.repeat(5001);
+    await page.locator('#prayer-request').fill('Please pray.');
+    await page.locator(`#prayer-${field}`).fill(value);
+    await page.locator('#prayer-form button[type="submit"]').click();
+    await expect(page.locator('#prayer-error')).toBeVisible();
+    await expect(page.locator('#prayer-error')).toContainText(`Prayer ${field} must be 5000 characters or fewer`);
+    await expect(page.locator(`#prayer-${field}`)).toHaveValue(value);
+    expect(requests).toBe(0);
+  });
+}
