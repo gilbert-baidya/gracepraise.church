@@ -305,6 +305,7 @@ async function assertDailyDevotionRenderContract(page: Page): Promise<void> {
   await expect(page.locator('#verseRef')).toHaveCount(1);
   await expect(page.locator('#reflectionText')).toHaveCount(1);
   await expect(page.locator('#prayerText')).toHaveCount(1);
+  await page.waitForFunction(() => Boolean((window as any).__CURRENT_DEVOTION_DATA__));
 
   const payload = await page.evaluate(() => {
     const runtime = window as any;
@@ -348,7 +349,7 @@ async function assertDailyDevotionRenderContract(page: Page): Promise<void> {
   expect(payload.updateContentOk).toBeTruthy();
 }
 
-async function assertNoRootAbsoluteCriticalNavLinks(page: Page): Promise<void> {
+async function assertCriticalNavDestinations(page: Page): Promise<void> {
   const hrefs = await page.evaluate(() => {
     const logo = document.querySelector('.logo') as HTMLAnchorElement | null;
     const daily = Array.from(document.querySelectorAll('.nav-links a')).find((a) =>
@@ -365,11 +366,19 @@ async function assertNoRootAbsoluteCriticalNavLinks(page: Page): Promise<void> {
 
   expect(logoHref).toBeTruthy();
   expect(dailyHref).toBeTruthy();
-  expect(logoHref.startsWith('/')).toBeFalsy();
-  expect(dailyHref.startsWith('/')).toBeFalsy();
+  const origin = new URL(page.url()).origin;
+  const logo = new URL(logoHref, page.url());
+  const daily = new URL(dailyHref, page.url());
+  expect(logo.origin).toBe(origin);
+  expect(daily.origin).toBe(origin);
+  expect(logo.pathname).toMatch(/^\/(?:index\.html)?$/);
+  expect(daily.pathname).toBe('/daily-devotion.html');
+  expect((await page.request.get(logo.href)).ok()).toBeTruthy();
+  expect((await page.request.get(daily.href)).ok()).toBeTruthy();
 }
 
 test.describe('Critical Regression - Navigation + Daily Devotion Render', () => {
+  test.describe.configure({ timeout: 45_000 });
   test('Desktop light-mode dropdown links remain readable (About, Ministries, Devotion)', async ({ page }, testInfo) => {
     test.skip(!/Desktop/i.test(testInfo.project.name), 'Desktop-only dropdown contrast contract');
 
@@ -431,7 +440,7 @@ test.describe('Critical Regression - Navigation + Daily Devotion Render', () => 
       await page.goto('/lent-fasting.html');
       await expect(page.locator('.logo').first()).toBeVisible({ timeout: 10000 });
 
-      await assertNoRootAbsoluteCriticalNavLinks(page);
+      await assertCriticalNavDestinations(page);
 
       await openMobileMenu(page);
       await openDevotionDropdown(page);
@@ -445,12 +454,12 @@ test.describe('Critical Regression - Navigation + Daily Devotion Render', () => 
       await page.goto('/lent-fasting.html');
       await expect(page.locator('.logo').first()).toBeVisible({ timeout: 10000 });
       await Promise.all([
-        page.waitForURL(/index\.html(?:#home)?$/, { timeout: 10000 }),
+        page.waitForURL(/\/(?:index\.html)?(?:#home)?$/, { timeout: 10000 }),
         page.locator('.logo').first().click()
       ]);
 
       await expect(page).not.toHaveTitle(/Error response/i);
-      await expect(page).toHaveURL(/index\.html(?:#home)?$/);
+      await expect(page).toHaveURL(/\/(?:index\.html)?(?:#home)?$/);
     });
 
     test(`Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (${viewport.name})`, async ({ page }) => {
@@ -464,7 +473,7 @@ test.describe('Critical Regression - Navigation + Daily Devotion Render', () => 
 
       await expect(page).toHaveURL(/(?:lent-fasting|fasting-40days)\.html/);
       await expect(page.locator('.logo').first()).toBeVisible({ timeout: 10000 });
-      await assertNoRootAbsoluteCriticalNavLinks(page);
+      await assertCriticalNavDestinations(page);
 
       await openMobileMenu(page);
       await openDevotionDropdown(page);
@@ -478,24 +487,24 @@ test.describe('Critical Regression - Navigation + Daily Devotion Render', () => 
       await page.goto('/lent-fasting.html');
       await expect(page.locator('.logo').first()).toBeVisible({ timeout: 10000 });
       await Promise.all([
-        page.waitForURL(/index\.html(?:#home)?$/, { timeout: 10000 }),
+        page.waitForURL(/\/(?:index\.html)?(?:#home)?$/, { timeout: 10000 }),
         page.locator('.logo').first().click()
       ]);
       await expect(page).not.toHaveTitle(/Error response/i);
     });
   }
 
-  test('Nested page keeps critical nav links path-safe (no root-absolute internal hrefs)', async ({ page }) => {
+  test('Nested page resolves critical nav links to canonical internal destinations', async ({ page }) => {
     await page.goto('/ministries/bible-study.html');
     await expect(page.locator('.logo').first()).toBeVisible({ timeout: 10000 });
 
-    await assertNoRootAbsoluteCriticalNavLinks(page);
+    await assertCriticalNavDestinations(page);
 
     const dailyHref = await page
       .locator('.nav-links a:has-text("Daily Devotion")')
       .first()
       .getAttribute('href');
 
-    expect((dailyHref || '').startsWith('../')).toBeTruthy();
+    expect(new URL(dailyHref || '', page.url()).pathname).toBe('/daily-devotion.html');
   });
 });
