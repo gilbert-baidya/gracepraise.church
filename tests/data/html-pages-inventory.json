@@ -50,7 +50,7 @@
     {
       "htmlPath": "calendar.html",
       "className": "CalendarPage",
-      "expectedTitle": "Calendar 2026 - Grace and Praise Bangladeshi Church | Events & Services",
+      "expectedTitle": "Calendar - Grace and Praise Bangladeshi Church | Events & Services",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",

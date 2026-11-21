@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { CalendarPage } from '../../pages/generated/calendar.page';
 
 test.use({ timezoneId: 'America/Los_Angeles' });
 
@@ -25,6 +26,7 @@ test.beforeEach(async ({ page }) => {
 
 test('opens in the current local month and highlights today', async ({ page }) => {
   await page.goto('/calendar.html');
+  await new CalendarPage(page).assertCoreReady();
   await expect(page.locator('#currentMonth')).toHaveText('November 2026');
   await expect(page.locator('.calendar-grid .day:not(.other-month)')).toHaveCount(30);
   await expect(page.locator('.calendar-grid .today .day-number')).toHaveText('21');
