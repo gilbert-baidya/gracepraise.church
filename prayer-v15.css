@@ -516,6 +516,17 @@ main a[href].prayer-v15-button:not(.btn):not([class*="btn"]):not(.logo):not(.foo
     font-size: 0.8rem;
 }
 
+.prayer-v15-page .prayer-v15-form-error {
+    margin: 20px 0 0;
+    padding: 14px 16px;
+    border-left: 3px solid var(--prayer-gold);
+    border-radius: 4px;
+    background: var(--prayer-mist);
+    color: var(--prayer-ink);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
 .prayer-v15-page .prayer-v15-form-actions {
     padding-top: 24px;
     text-align: center;

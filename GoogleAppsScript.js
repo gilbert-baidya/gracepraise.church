@@ -148,39 +148,74 @@ function deleteEvent(sheet, data) {
 }
 
 function addPrayerRequest(ss, data) {
-  // Get or create Prayer Requests sheet
-  let prayerSheet = ss.getSheetByName('Prayer Requests');
-  if (!prayerSheet) {
-    prayerSheet = ss.insertSheet('Prayer Requests');
-    // Add headers
-    prayerSheet.appendRow([
-      'Timestamp',
-      'Name',
-      'Is Anonymous',
-      'Categories',
-      'Prayer Details',
-      'Status'
-    ]);
-    // Format header row
-    const headerRange = prayerSheet.getRange(1, 1, 1, 6);
-    headerRange.setFontWeight('bold');
-    headerRange.setBackground('#9b59b6');
-    headerRange.setFontColor('white');
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    // Get or create Prayer Requests sheet
+    let prayerSheet = ss.getSheetByName('Prayer Requests');
+    if (!prayerSheet) {
+      prayerSheet = ss.insertSheet('Prayer Requests');
+      // Add headers
+      prayerSheet.appendRow([
+        'Timestamp',
+        'Name',
+        'Is Anonymous',
+        'Categories',
+        'Prayer Details',
+        'Status'
+      ]);
+      // Format header row
+      const headerRange = prayerSheet.getRange(1, 1, 1, 6);
+      headerRange.setFontWeight('bold');
+      headerRange.setBackground('#9b59b6');
+      headerRange.setFontColor('white');
+    }
+  
+    const prayer = data.prayer;
+    const submissionId = typeof prayer.submissionId === 'string' ? prayer.submissionId.trim() : '';
+    let submissionColumn = 0;
+    if (submissionId) {
+      const lastColumn = Math.max(prayerSheet.getLastColumn(), 6);
+      const headers = prayerSheet.getRange(1, 1, 1, lastColumn).getValues()[0];
+      submissionColumn = headers.indexOf('Submission ID') + 1;
+      if (!submissionColumn) {
+        submissionColumn = lastColumn + 1;
+        if (submissionColumn > prayerSheet.getMaxColumns()) {
+          prayerSheet.insertColumnAfter(lastColumn);
+        }
+        prayerSheet.getRange(1, submissionColumn).setValue('Submission ID')
+          .setFontWeight('bold').setBackground('#9b59b6').setFontColor('white');
+      }
+      const lastRow = prayerSheet.getLastRow();
+      if (lastRow > 1 && prayerSheet.getRange(2, submissionColumn, lastRow - 1, 1)
+        .createTextFinder(submissionId).useRegularExpression(false).matchCase(true).matchEntireCell(true).findNext()) {
+        return createJsonResponse({ success: true, duplicate: true });
+      }
+    }
+    const timestamp = new Date().toLocaleString();
+  
+    const row = [
+      timestamp,
+      prayer.name,
+      prayer.isAnonymous ? 'Yes' : 'No',
+      prayer.categories,
+      prayer.details,
+      prayer.status || 'Active'
+    ];
+    if (submissionColumn) {
+      while (row.length < submissionColumn) row.push('');
+      row[submissionColumn - 1] = submissionId;
+    }
+    prayerSheet.appendRow(row);
+  
+    return createJsonResponse({ success: true, message: 'Prayer request added successfully' });
+  } finally {
+    try {
+      SpreadsheetApp.flush();
+    } finally {
+      lock.releaseLock();
+    }
   }
-  
-  const prayer = data.prayer;
-  const timestamp = new Date().toLocaleString();
-  
-  prayerSheet.appendRow([
-    timestamp,
-    prayer.name,
-    prayer.isAnonymous ? 'Yes' : 'No',
-    prayer.categories,
-    prayer.details,
-    prayer.status || 'Active'
-  ]);
-  
-  return createJsonResponse({ success: true, message: 'Prayer request added successfully' });
 }
 
 function getSongs(ss) {
