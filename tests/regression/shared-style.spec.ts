@@ -2,6 +2,16 @@ import { test, expect } from '@playwright/test';
 
 const routes = ['index', 'plan-visit', 'give', 'calendar', 'prayer-request', 'daily-devotion'];
 
+function contrast(foreground: string, background: string) {
+  const luminance = (color: string) => color.match(/[\d.]+/g)!.slice(0, 3)
+    .map(Number).map(channel => channel / 255)
+    .map(channel => channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4)
+    .reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0);
+  const a = luminance(foreground);
+  const b = luminance(background);
+  return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+}
+
 for (const route of routes) {
   test(`${route} uses local shared typography and persistent day/night roles`, async ({ page }) => {
     const externalFonts: string[] = [];
@@ -14,6 +24,7 @@ for (const route of routes) {
       json: { events: [] }, headers: { 'access-control-allow-origin': '*' },
     }));
     await page.addInitScript(() => localStorage.setItem('theme', 'light'));
+    if (route === 'calendar') await page.clock.setFixedTime(new Date('2026-09-21T12:00:00Z'));
     await page.goto(`/${route}.html`);
     await page.evaluate(() => document.fonts.ready);
     await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 247, 240)');
@@ -24,6 +35,11 @@ for (const route of routes) {
     await expect(page.locator('h1').first()).toHaveCSS('line-height', '76px');
     expect(await page.locator('link[rel="stylesheet"]').last().getAttribute('href')).toBe('assets/css/shared-style.css');
     await expect(page.locator('link[rel="preload"][as="font"]')).toHaveCount(0);
+    if (route === 'give' || route === 'prayer-request') {
+      const quote = page.locator(route === 'give' ? '.give-v14-hero-verse p' : '.prayer-v15-scripture blockquote p');
+      await expect(quote).toHaveCSS('font-style', 'italic');
+      await expect(quote).toHaveCSS('font-synthesis', 'style');
+    }
 
     await page.evaluate(() => {
       const section = document.createElement('section');
@@ -71,12 +87,96 @@ for (const route of routes) {
         return element.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - 20 - textWidth;
       })).toBeGreaterThanOrEqual(0);
     }
+    if (route === 'calendar') {
+      await expect(page.locator('#currentMonth')).toHaveText('September 2026');
+      const layout = await page.evaluate(() => {
+        const heading = document.querySelector('#currentMonth')!.getBoundingClientRect();
+        const previous = document.querySelector('#prevMonth')!.getBoundingClientRect();
+        const next = document.querySelector('#nextMonth')!.getBoundingClientRect();
+        return { headingBottom: heading.bottom, previousTop: previous.top, nextTop: next.top,
+          left: Math.min(heading.left, previous.left, next.left), right: Math.max(heading.right, previous.right, next.right),
+          overflow: document.documentElement.scrollWidth - innerWidth };
+      });
+      expect(layout.headingBottom).toBeLessThanOrEqual(layout.previousTop);
+      expect(layout.headingBottom).toBeLessThanOrEqual(layout.nextTop);
+      expect(layout.left).toBeGreaterThanOrEqual(0);
+      expect(layout.right).toBeLessThanOrEqual(320);
+      expect(layout.overflow).toBe(0);
+    }
     expect(await page.locator('.skip-link').evaluate(element => element.getBoundingClientRect().bottom)).toBeLessThan(0);
     await page.locator('.skip-link').focus();
     await expect.poll(() => page.locator('.skip-link').evaluate(element => element.getBoundingClientRect().top)).toBeGreaterThanOrEqual(0);
+    for (const theme of ['light', 'dark']) {
+      await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+      const colors = await page.locator('.skip-link').evaluate(element => ({
+        text: getComputedStyle(element).color, background: getComputedStyle(element).backgroundColor,
+      }));
+      expect(contrast(colors.text, colors.background), `${route} ${theme} skip-link contrast`).toBeGreaterThanOrEqual(4.5);
+    }
     expect(externalFonts).toEqual([]);
   });
 }
+
+test('day-theme focus has a contrasting halo on the dark Visit hero', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('theme', 'light'));
+  await page.goto('/plan-visit.html');
+  const link = page.locator('.visit-hero-v21 .visit-button-secondary');
+  await link.focus();
+  await expect(link).toHaveCSS('outline-width', '3px');
+  await expect(link).toHaveCSS('outline-offset', '3px');
+  await expect(link).toHaveCSS('outline-color', 'rgb(29, 78, 216)');
+  await expect(link).toHaveCSS('box-shadow', 'rgb(255, 255, 255) 0px 0px 0px 3px');
+  expect(contrast('rgb(255, 255, 255)', 'rgb(6, 17, 31)')).toBeGreaterThanOrEqual(3);
+  expect(contrast('rgb(29, 78, 216)', 'rgb(255, 255, 255)')).toBeGreaterThanOrEqual(3);
+});
+
+test('featured event CTAs keep navy labels on gold in interactive states and both themes', async ({ page }) => {
+  await page.route('**/event-flip-cards.js', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+  await page.goto('/index.html');
+  await page.addStyleTag({ content: `
+    #featured-events .flip-card { position: relative; left: auto; top: auto; opacity: 1; transform: none !important; }
+    #featured-events .flip-card-inner { transform: rotateY(180deg) !important; }
+    #featured-events .flip-cards-container { height: auto; gap: 16px; }
+    #featured-events .flip-sticky-wrapper { height: auto; padding-bottom: 32px; }
+  ` });
+  const links = page.locator('#featured-events .card-button');
+  await expect(links).toHaveCount(4);
+  for (const theme of ['light', 'dark']) {
+    await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+    for (const link of await links.all()) {
+      await expect(link).toHaveCSS('color', 'rgb(16, 32, 51)');
+      await expect(link).toHaveCSS('-webkit-text-fill-color', 'rgb(16, 32, 51)');
+      await expect(link).toHaveCSS('background-color', 'rgb(230, 184, 78)');
+    }
+    await page.locator('#featured-events .flip-card').first().hover();
+    await links.first().hover();
+    await expect(links.first()).toHaveCSS('color', 'rgb(16, 32, 51)');
+    await page.mouse.down();
+    await expect(links.first()).toHaveCSS('color', 'rgb(16, 32, 51)');
+    await page.mouse.move(0, 0);
+    await page.mouse.up();
+    await links.first().focus();
+    await expect(links.first()).toHaveCSS('color', 'rgb(16, 32, 51)');
+    await expect(links.first()).toHaveCSS('-webkit-text-fill-color', 'rgb(16, 32, 51)');
+  }
+});
+
+test('Visit language labels use their own language rather than their visibility state', async ({ page }) => {
+  await page.goto('/plan-visit.html');
+  const bengali = page.locator('#langToggleBtn [data-lang="en"]');
+  const english = page.locator('#langToggleBtn [data-lang="bn"]');
+  await expect(bengali).toHaveText('বাংলা');
+  await expect(bengali).toHaveAttribute('lang', 'bn');
+  await expect(bengali).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
+  await expect(english).toHaveText('English');
+  await expect(english).toHaveAttribute('lang', 'en');
+  await expect(english).toHaveCSS('font-family', 'Inter, "Noto Sans Bengali", system-ui, sans-serif');
+  await expect.poll(() => page.locator('#addToGoogleCal').getAttribute('href')).not.toBe('#');
+  await page.locator('#langToggleBtn').click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
+  await expect(english).toBeVisible();
+  await expect(english).toHaveCSS('font-family', 'Inter, "Noto Sans Bengali", system-ui, sans-serif');
+});
 
 test('shared controls remain usable when font downloads fail', async ({ page }) => {
   await page.route('**/assets/fonts/**/*.woff2', route => route.abort());

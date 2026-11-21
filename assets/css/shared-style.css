@@ -151,7 +151,7 @@ html:root body, html:root body:is([data-theme], .dark) {
     font-family: var(--gpbc-font-body);
     font-size: var(--gpbc-body-size);
     line-height: var(--gpbc-body-leading);
-    font-synthesis: none;
+    font-synthesis: style;
 }
 
 :root body :is(p, li, a, button, input, textarea, select, label, small, summary, blockquote, figcaption, table,
@@ -223,6 +223,7 @@ body .site-footer {
 body :focus-visible {
     outline: 3px solid var(--gpbc-link) !important;
     outline-offset: 3px !important;
+    box-shadow: 0 0 0 3px var(--gpbc-surface) !important;
 }
 
 body a.skip-link {
@@ -232,6 +233,9 @@ body a.skip-link {
     transition: none !important;
     max-width: calc(100vw - 40px);
     height: auto;
+    color: var(--gpbc-page) !important;
+    -webkit-text-fill-color: currentColor !important;
+    background: var(--gpbc-text) !important;
 }
 
 body a.skip-link:not(:focus) {
@@ -257,6 +261,8 @@ body :is(.gpbc-card, .card, .info-card, .event-card, .visit-rhythm-card,
     box-shadow: none;
 }
 
+html:root body #featured-events .flip-card .flip-card-back a.card-button,
+html:root body #featured-events .flip-card .flip-card-back a.card-button:is(:link, :visited, :hover, :active, :focus, :focus-visible),
 html:root body :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-v3__button,
     .visit-button-primary, .prayer-v15-button--primary, #paypalPaymentBtn,
     #shareTodayBtn, .share-today-btn, button.primary) {
@@ -278,7 +284,7 @@ html:root body :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-
 
 body :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-v3__button,
     .visit-button-primary, .prayer-v15-button--primary, #paypalPaymentBtn,
-    .share-today-btn, button.primary) * {
+    .share-today-btn, button.primary, #featured-events .card-button) * {
     color: inherit !important;
     -webkit-text-fill-color: currentColor !important;
 }
@@ -348,7 +354,7 @@ body .prayer-v15-success :is(h3, p) {
     min-height: 48px;
 }
 
-:root body :is(:lang(bn), [lang='bn'], [data-lang='bn']), :root body:lang(bn) {
+:root body :is(:lang(bn), [lang='bn'], [data-lang='bn']:not([lang])), :root body:lang(bn) {
     --gpbc-control-leading: 26px;
     --gpbc-support-leading: 24px;
     font-family: var(--gpbc-font-bengali) !important;
@@ -395,6 +401,22 @@ body.page-daily-devotion .devotion-jump-bar {
 }
 
 @media (max-width: 760px) {
+    body .calendar-section .navigation[aria-label='Calendar month navigation'] {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    body #currentMonth {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        min-width: 0;
+        text-align: center;
+    }
+
+    body #prevMonth { grid-column: 1; grid-row: 2; justify-self: start; }
+    body #nextMonth { grid-column: 2; grid-row: 2; justify-self: end; }
+
     :root {
         --gpbc-h1-size: 36px;
         --gpbc-h1-leading: 44px;
