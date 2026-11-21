@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 
 const paypalUrl = 'https://www.paypal.com/ncp/payment/V3AF32ZHJSAME';
 
@@ -103,7 +104,19 @@ test('legacy saved monthly intent never silently reaches one-time checkout', asy
   expect(requests).toEqual([]);
 });
 
-test('monthly query reaches contact without JavaScript for every Give URL', async ({ browser }) => {
+test('Netlify routes monthly intent to contact for every Give URL', () => {
+  const rules = readFileSync('netlify.toml', 'utf8').split('[[redirects]]').slice(1);
+  for (const path of ['/give.html', '/give', '/give/']) {
+    const rule = rules.find(block => block.match(/^\s*from\s*=\s*"([^"]+)"/m)?.[1] === path);
+    expect(rule, `Missing monthly rule for ${path}`).toBeDefined();
+    expect(rule).toMatch(/^\s*to\s*=\s*"\/give-monthly\.html"\s*$/m);
+    expect(rule).toMatch(/^\s*status\s*=\s*302\s*$/m);
+    expect(rule).toMatch(/^\s*force\s*=\s*true\s*$/m);
+    expect(rule).toMatch(/^\s*query\s*=\s*\{\s*frequency\s*=\s*"monthly"\s*\}\s*$/m);
+  }
+});
+
+test('monthly contact destination works without JavaScript on a static server', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   const requests: string[] = [];
@@ -111,16 +124,13 @@ test('monthly query reaches contact without JavaScript for every Give URL', asyn
     requests.push(route.request().url());
     return route.abort();
   });
-  for (const path of ['/give.html', '/give', '/give/']) {
-    const response = await page.goto(path + '?frequency=monthly&lang=bn');
-    expect(response?.status()).toBe(200);
-    expect(response?.request().redirectedFrom()).not.toBeNull();
-    await expect(page).toHaveURL(/\/give-monthly\.html(?:\?|$)/);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Monthly giving is being set up');
-    await expect(page.getByRole('link', { name: 'Ask about monthly giving' })).toHaveAttribute('href', 'mailto:info@gracepraise.church');
-    await expect(page.locator('a[href*="paypal.com"]')).toHaveCount(0);
-    await expect(page.getByRole('link', { name: 'Make a one-time gift instead' })).toHaveAttribute('href', 'give.html?frequency=once');
-  }
+  const response = await page.goto('/give-monthly.html?frequency=monthly&lang=bn');
+  expect(response?.status()).toBe(200);
+  await expect(page).toHaveURL(/\/give-monthly\.html(?:\?|$)/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Monthly giving is being set up');
+  await expect(page.getByRole('link', { name: 'Ask about monthly giving' })).toHaveAttribute('href', 'mailto:info@gracepraise.church');
+  await expect(page.locator('a[href*="paypal.com"]')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Make a one-time gift instead' })).toHaveAttribute('href', 'give.html?frequency=once');
   expect(requests).toEqual([]);
   await context.close();
 });
