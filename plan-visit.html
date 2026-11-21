@@ -21,9 +21,6 @@
     <meta name="twitter:image" content="https://gracepraise.church/images/logo/gpbc-og-banner.jpg" />
 
     <meta name="description" content="Plan your visit to Grace and Praise Bangladeshi Church in San Bernardino, CA. Find Sunday worship time, what to expect, parking, and directions.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     
     <!-- Theme & JS Detection — DO NOT REMOVE -->
     <script>
@@ -63,7 +60,7 @@
     <link rel="stylesheet" href="shape-system.css">
     <link rel="stylesheet" href="heptagon-wheel-sacred.css">
     <link rel="stylesheet" href="plan-visit-v21.css">
-    <link rel="stylesheet" href="website-control.css">
+    <link rel="stylesheet" href="website-control.css" data-gpbc-control-style="true">
     <script src="shared/website-control-runtime.js" defer></script>
     <script src="shared/website-control-schema.js" defer></script>
     <script src="website-control.js" defer></script>
@@ -98,8 +95,9 @@
     
     <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
+    <link rel="stylesheet" href="assets/css/shared-style.css">
 </head>
-<body class="plan-visit-page">
+<body class="plan-visit-page gpbc-shared">
     <!-- Skip to main content for keyboard users -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -190,44 +188,44 @@
             <div class="visit-shell visit-hero-grid">
                 <div class="visit-hero-copy">
                     <p class="visit-eyebrow">
-                        <span data-lang="en">First time at GPBC?</span>
-                        <span data-lang="bn" style="display:none;">GPBC-তে প্রথমবার?</span>
+                        <span data-lang="en" lang="en">First time at GPBC?</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">GPBC-তে প্রথমবার?</span>
                     </p>
                     <h1 id="visit-hero-title">
-                        <span data-lang="en">Plan Your Visit</span>
-                        <span data-lang="bn" style="display:none;">আপনার ভ্রমণের পরিকল্পনা করুন</span>
+                        <span data-lang="en" lang="en">Plan Your Visit</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">আপনার ভ্রমণের পরিকল্পনা করুন</span>
                     </h1>
                     <p class="hero-subtitle">
-                        <span data-lang="en">We’d love to welcome you this Sunday. Here’s everything you need to know before you arrive.</span>
-                        <span data-lang="bn" style="display:none;">এই রবিবার আপনাকে স্বাগত জানাতে আমরা আনন্দিত। আসার আগে আপনার যা জানা দরকার, সবকিছু এখানে আছে।</span>
+                        <span data-lang="en" lang="en">We’d love to welcome you this Sunday. Here’s everything you need to know before you arrive.</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">এই রবিবার আপনাকে স্বাগত জানাতে আমরা আনন্দিত। আসার আগে আপনার যা জানা দরকার, সবকিছু এখানে আছে।</span>
                     </p>
                     <div class="visit-hero-actions">
                         <a class="visit-button visit-button-primary" href="https://www.google.com/maps/search/?api=1&amp;query=1325+Richardson+Street+San+Bernardino+CA+92408" target="_blank" rel="noopener noreferrer">
-                            <span data-lang="en">Get Directions</span>
-                            <span data-lang="bn" style="display:none;">দিকনির্দেশনা নিন</span>
+                            <span data-lang="en" lang="en">Get Directions</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">দিকনির্দেশনা নিন</span>
                             <span aria-hidden="true">↗</span>
                         </a>
                         <a class="visit-button visit-button-secondary" href="#what-to-expect">
-                            <span data-lang="en">What to Expect</span>
-                            <span data-lang="bn" style="display:none;">কী আশা করবেন</span>
+                            <span data-lang="en" lang="en">What to Expect</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">কী আশা করবেন</span>
                         </a>
                     </div>
                     <div class="visit-hero-facts" aria-label="Sunday worship details">
                         <div>
-                            <span class="visit-fact-label" data-lang="en">Sunday Worship</span>
-                            <span class="visit-fact-label" data-lang="bn" style="display:none;">রবিবারের উপাসনা</span>
+                            <span class="visit-fact-label" data-lang="en" lang="en">Sunday Worship</span>
+                            <span class="visit-fact-label" data-lang="bn" lang="bn" style="display:none;">রবিবারের উপাসনা</span>
                             <strong>5:00 PM</strong>
                         </div>
                         <div>
-                            <span class="visit-fact-label" data-lang="en">San Bernardino, California</span>
-                            <span class="visit-fact-label" data-lang="bn" style="display:none;">সান বার্নার্ডিনো, ক্যালিফোর্নিয়া</span>
+                            <span class="visit-fact-label" data-lang="en" lang="en">San Bernardino, California</span>
+                            <span class="visit-fact-label" data-lang="bn" lang="bn" style="display:none;">সান বার্নার্ডিনো, ক্যালিফোর্নিয়া</span>
                             <strong>1325 Richardson Street</strong>
                         </div>
                     </div>
                     <button class="visit-language-toggle" id="langToggleBtn" type="button" data-lang-btn="en" aria-label="Switch language">
                         <span aria-hidden="true">文</span>
-                        <span data-lang="en">বাংলা</span>
-                        <span data-lang="bn" style="display:none;">English</span>
+                        <span data-lang="en" lang="en">বাংলা</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">English</span>
                     </button>
                 </div>
                 <div class="visit-hero-image-wrap">
@@ -235,8 +233,8 @@
                     <img class="visit-hero-image" src="images/community-worship.webp" width="1024" height="1024" loading="eager" fetchpriority="high" decoding="async" alt="GPBC community worship gathering in San Bernardino">
                     <div class="visit-hero-image-caption">
                         <span class="visit-caption-dot" aria-hidden="true"></span>
-                        <span data-lang="en">A place to worship, belong, and grow</span>
-                        <span data-lang="bn" style="display:none;">উপাসনা, আপন হওয়া ও বেড়ে ওঠার একটি স্থান</span>
+                        <span data-lang="en" lang="en">A place to worship, belong, and grow</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">উপাসনা, আপন হওয়া ও বেড়ে ওঠার একটি স্থান</span>
                     </div>
                 </div>
             </div>
@@ -249,16 +247,16 @@
             <div class="visit-shell">
                 <div class="visit-section-heading visit-section-heading-centered">
                     <p class="visit-eyebrow">
-                        <span data-lang="en">Welcome from our pastors</span>
-                        <span data-lang="bn" style="display:none;">আমাদের পাস্টরদের শুভেচ্ছা</span>
+                        <span data-lang="en" lang="en">Welcome from our pastors</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">আমাদের পাস্টরদের শুভেচ্ছা</span>
                     </p>
                     <h2 id="welcome-video-title">
-                        <span data-lang="en">A Welcome from Pastor Gilbert &amp; Dina</span>
-                        <span data-lang="bn" style="display:none;">পাস্টর গিলবার্ট ও দিনার শুভেচ্ছা</span>
+                        <span data-lang="en" lang="en">A Welcome from Pastor Gilbert &amp; Dina</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">পাস্টর গিলবার্ট ও দিনার শুভেচ্ছা</span>
                     </h2>
                     <p>
-                        <span data-lang="en">A personal welcome video from Pastor Gilbert and Dina is coming soon.</span>
-                        <span data-lang="bn" style="display:none;">পাস্টর গিলবার্ট ও দিনার একটি ব্যক্তিগত শুভেচ্ছা ভিডিও শীঘ্রই আসছে।</span>
+                        <span data-lang="en" lang="en">A personal welcome video from Pastor Gilbert and Dina is coming soon.</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">পাস্টর গিলবার্ট ও দিনার একটি ব্যক্তিগত শুভেচ্ছা ভিডিও শীঘ্রই আসছে।</span>
                     </p>
                 </div>
                 <div class="visit-video-placeholder" data-video-placeholder role="img" aria-label="Coming soon: a welcome video from Pastor Gilbert and Dina">
@@ -269,14 +267,14 @@
                         <span class="visit-play-mark" aria-hidden="true">▶</span>
                         <strong>GPBC</strong>
                         <span class="visit-video-label">
-                            <span data-lang="en">A personal welcome for your first visit</span>
-                            <span data-lang="bn" style="display:none;">আপনার প্রথম ভ্রমণের জন্য ব্যক্তিগত শুভেচ্ছা</span>
+                            <span data-lang="en" lang="en">A personal welcome for your first visit</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">আপনার প্রথম ভ্রমণের জন্য ব্যক্তিগত শুভেচ্ছা</span>
                         </span>
                     </div>
                 </div>
                 <p class="visit-video-note">
-                    <span data-lang="en">Until then, we look forward to welcoming you in person this Sunday.</span>
-                    <span data-lang="bn" style="display:none;">ততদিন পর্যন্ত, এই রবিবার আপনাকে ব্যক্তিগতভাবে স্বাগত জানাতে আমরা অপেক্ষায় থাকব।</span>
+                    <span data-lang="en" lang="en">Until then, we look forward to welcoming you in person this Sunday.</span>
+                    <span data-lang="bn" lang="bn" style="display:none;">ততদিন পর্যন্ত, এই রবিবার আপনাকে ব্যক্তিগতভাবে স্বাগত জানাতে আমরা অপেক্ষায় থাকব।</span>
                 </p>
             </div>
         </section>
@@ -284,24 +282,24 @@
         <!-- Service Time & Location -->
         <section class="plan-visit-section visit-section-v21 visit-schedule-section" id="service-info" aria-labelledby="service-info-title">
             <h2>
-                <span id="service-info-title" data-lang="en">Sunday Worship &amp; Our Weekly Rhythm</span>
-                <span id="service-info-title-bn" data-lang="bn" style="display:none;">রবিবারের উপাসনা ও সাপ্তাহিক ছন্দ</span>
+                <span id="service-info-title" data-lang="en" lang="en">Sunday Worship &amp; Our Weekly Rhythm</span>
+                <span id="service-info-title-bn" data-lang="bn" lang="bn" style="display:none;">রবিবারের উপাসনা ও সাপ্তাহিক ছন্দ</span>
             </h2>
             <div class="info-card">
                 <div class="info-item">
                     <span class="info-icon">🕐</span>
                     <div>
                         <h3>
-                            <span data-lang="en">Sunday Worship</span>
-                            <span data-lang="bn" style="display:none;">রবিবার উপাসনা</span>
+                            <span data-lang="en" lang="en">Sunday Worship</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">রবিবার উপাসনা</span>
                         </h3>
                         <p><strong>
-                            <span data-lang="en">Every Sunday at 5:00 PM</span>
-                            <span data-lang="bn" style="display:none;">প্রতি রবিবার সন্ধ্যা ৫:০০ টা</span>
+                            <span data-lang="en" lang="en">Every Sunday at 5:00 PM</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">প্রতি রবিবার সন্ধ্যা ৫:০০ টা</span>
                         </strong></p>
                         <p>
-                            <span data-lang="en">Services last about 90 minutes</span>
-                            <span data-lang="bn" style="display:none;">সেবা প্রায় ৯০ মিনিট স্থায়ী হয়</span>
+                            <span data-lang="en" lang="en">Services last about 90 minutes</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">সেবা প্রায় ৯০ মিনিট স্থায়ী হয়</span>
                         </p>
                     </div>
                 </div>
@@ -309,13 +307,13 @@
                     <span class="info-icon">📍</span>
                     <div>
                         <h3>
-                            <span data-lang="en">Location</span>
-                            <span data-lang="bn" style="display:none;">অবস্থান</span>
+                            <span data-lang="en" lang="en">Location</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">অবস্থান</span>
                         </h3>
                         <p><strong>1325 Richardson Street, San Bernardino, CA 92408</strong></p>
                         <p><a href="https://www.google.com/maps/search/?api=1&amp;query=1325+Richardson+Street+San+Bernardino+CA+92408" target="_blank" rel="noopener noreferrer">
-                            <span data-lang="en">Get Directions →</span>
-                            <span data-lang="bn" style="display:none;">দিকনির্দেশনা পান →</span>
+                            <span data-lang="en" lang="en">Get Directions →</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">দিকনির্দেশনা পান →</span>
                         </a></p>
                     </div>
                 </div>
@@ -324,12 +322,12 @@
             <div class="visit-weekly-rhythm" aria-labelledby="weekly-rhythm-title">
                 <div class="visit-subsection-heading">
                     <p class="visit-eyebrow">
-                        <span data-lang="en">Beyond Sunday</span>
-                        <span data-lang="bn" style="display:none;">রবিবারের বাইরেও</span>
+                        <span data-lang="en" lang="en">Beyond Sunday</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">রবিবারের বাইরেও</span>
                     </p>
                     <h3 id="weekly-rhythm-title">
-                        <span data-lang="en">A rhythm of worship, practice, and prayer</span>
-                        <span data-lang="bn" style="display:none;">উপাসনা, অনুশীলন ও প্রার্থনার ছন্দ</span>
+                        <span data-lang="en" lang="en">A rhythm of worship, practice, and prayer</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">উপাসনা, অনুশীলন ও প্রার্থনার ছন্দ</span>
                     </h3>
                 </div>
                 <div class="visit-rhythm-grid">
@@ -354,36 +352,36 @@
             <!-- Add to Calendar Section -->
             <div class="add-to-calendar">
                 <p class="calendar-intro">
-                    <span data-lang="en">📅 Never miss a service! Add our Sunday Worship to your calendar:</span>
-                    <span data-lang="bn" style="display:none;">📅 কোনো সেবা মিস করবেন না! আপনার ক্যালেন্ডারে আমাদের রবিবার উপাসনা যোগ করুন:</span>
+                    <span data-lang="en" lang="en">📅 Never miss a service! Add our Sunday Worship to your calendar:</span>
+                    <span data-lang="bn" lang="bn" style="display:none;">📅 কোনো সেবা মিস করবেন না! আপনার ক্যালেন্ডারে আমাদের রবিবার উপাসনা যোগ করুন:</span>
                 </p>
                 <div class="calendar-buttons">
                     <a href="#" class="calendar-link" id="addToGoogleCal" target="_blank" rel="noopener">
                         <span class="calendar-icon">🗓️</span>
-                        <span data-lang="en">Google Calendar</span>
-                        <span data-lang="bn" style="display:none;">গুগল ক্যালেন্ডার</span>
+                        <span data-lang="en" lang="en">Google Calendar</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">গুগল ক্যালেন্ডার</span>
                     </a>
                     <a href="#" class="calendar-link" id="addToAppleCal" download="sunday-worship.ics">
                         <span class="calendar-icon">🍎</span>
-                        <span data-lang="en">Apple / iCal</span>
-                        <span data-lang="bn" style="display:none;">অ্যাপল / iCal</span>
+                        <span data-lang="en" lang="en">Apple / iCal</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">অ্যাপল / iCal</span>
                     </a>
                     <a href="#" class="calendar-link" id="addToOutlookCal" download="sunday-worship.ics">
                         <span class="calendar-icon">📆</span>
-                        <span data-lang="en">Outlook</span>
-                        <span data-lang="bn" style="display:none;">আউটলুক</span>
+                        <span data-lang="en" lang="en">Outlook</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">আউটলুক</span>
                     </a>
                 </div>
                 <p class="calendar-note">
-                    <span data-lang="en">This will add a recurring reminder for every Sunday at 5:00 PM</span>
-                    <span data-lang="bn" style="display:none;">এটি প্রতি রবিবার সন্ধ্যা ৫:০০ টার জন্য একটি পুনরাবৃত্ত অনুস্মারক যোগ করবে</span>
+                    <span data-lang="en" lang="en">This will add a recurring reminder for every Sunday at 5:00 PM</span>
+                    <span data-lang="bn" lang="bn" style="display:none;">এটি প্রতি রবিবার সন্ধ্যা ৫:০০ টার জন্য একটি পুনরাবৃত্ত অনুস্মারক যোগ করবে</span>
                 </p>
             </div>
             
             <div class="section-cta">
                 <a href="calendar.html" class="btn btn-primary">
-                    <span data-lang="en">View Full Calendar</span>
-                    <span data-lang="bn" style="display:none;">সম্পূর্ণ ক্যালেন্ডার দেখুন</span>
+                    <span data-lang="en" lang="en">View Full Calendar</span>
+                    <span data-lang="bn" lang="bn" style="display:none;">সম্পূর্ণ ক্যালেন্ডার দেখুন</span>
                 </a>
             </div>
         </section>
@@ -391,39 +389,39 @@
         <!-- What to Expect -->
         <section class="plan-visit-section alt-bg visit-section-v21" id="what-to-expect">
             <h2>
-                <span data-lang="en">What to Expect</span>
-                <span data-lang="bn" style="display:none;">কী প্রত্যাশা করবেন</span>
+                <span data-lang="en" lang="en">What to Expect</span>
+                <span data-lang="bn" lang="bn" style="display:none;">কী প্রত্যাশা করবেন</span>
             </h2>
             <div class="expect-content">
                 <p class="intro-text">
-                    <span data-lang="en">Our Sunday worship is designed to be warm, meaningful, and welcoming. Here's what a typical service looks like:</span>
-                    <span data-lang="bn" style="display:none;">আমাদের রবিবার উপাসনা উষ্ণ, অর্থবহ এবং স্বাগত জানানোর জন্য ডিজাইন করা হয়েছে। একটি সাধারণ সেবা এরকম হয়:</span>
+                    <span data-lang="en" lang="en">Our Sunday worship is designed to be warm, meaningful, and welcoming. Here's what a typical service looks like:</span>
+                    <span data-lang="bn" lang="bn" style="display:none;">আমাদের রবিবার উপাসনা উষ্ণ, অর্থবহ এবং স্বাগত জানানোর জন্য ডিজাইন করা হয়েছে। একটি সাধারণ সেবা এরকম হয়:</span>
                 </p>
                 <ul class="expect-list">
                     <li>
-                        <span data-lang="en">Worship music with heartfelt singing</span>
-                        <span data-lang="bn" style="display:none;">হৃদয় দিয়ে গান গাওয়ার সাথে উপাসনা সঙ্গীত</span>
+                        <span data-lang="en" lang="en">Worship music with heartfelt singing</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">হৃদয় দিয়ে গান গাওয়ার সাথে উপাসনা সঙ্গীত</span>
                     </li>
                     <li>
-                        <span data-lang="en">Prayer time as a community</span>
-                        <span data-lang="bn" style="display:none;">সম্প্রদায় হিসাবে প্রার্থনার সময়</span>
+                        <span data-lang="en" lang="en">Prayer time as a community</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">সম্প্রদায় হিসাবে প্রার্থনার সময়</span>
                     </li>
                     <li>
-                        <span data-lang="en">Bible-based message that's practical and encouraging</span>
-                        <span data-lang="bn" style="display:none;">বাইবেল-ভিত্তিক বার্তা যা ব্যবহারিক এবং উৎসাহজনক</span>
+                        <span data-lang="en" lang="en">Bible-based message that's practical and encouraging</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">বাইবেল-ভিত্তিক বার্তা যা ব্যবহারিক এবং উৎসাহজনক</span>
                     </li>
                     <li>
-                        <span data-lang="en">Fellowship before and after the service</span>
-                        <span data-lang="bn" style="display:none;">সেবার আগে এবং পরে সহভাগিতা</span>
+                        <span data-lang="en" lang="en">Fellowship before and after the service</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">সেবার আগে এবং পরে সহভাগিতা</span>
                     </li>
                     <li>
-                        <span data-lang="en">A family-friendly environment where you can settle in at your own pace</span>
-                        <span data-lang="bn" style="display:none;">একটি পরিবারবান্ধব পরিবেশ, যেখানে আপনি নিজের গতিতে স্বচ্ছন্দ হতে পারেন</span>
+                        <span data-lang="en" lang="en">A family-friendly environment where you can settle in at your own pace</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">একটি পরিবারবান্ধব পরিবেশ, যেখানে আপনি নিজের গতিতে স্বচ্ছন্দ হতে পারেন</span>
                     </li>
                 </ul>
                 <p class="reassurance">
-                    <span data-lang="en">You can participate as much or as little as you're comfortable with. No one will put you on the spot.</span>
-                    <span data-lang="bn" style="display:none;">আপনি যতটা সহজ মনে করেন ততটা অংশগ্রহণ করতে পারেন। কেউ আপনাকে চাপে ফেলবে না।</span>
+                    <span data-lang="en" lang="en">You can participate as much or as little as you're comfortable with. No one will put you on the spot.</span>
+                    <span data-lang="bn" lang="bn" style="display:none;">আপনি যতটা সহজ মনে করেন ততটা অংশগ্রহণ করতে পারেন। কেউ আপনাকে চাপে ফেলবে না।</span>
                 </p>
             </div>
         </section>
@@ -431,28 +429,28 @@
         <!-- Language & Worship Style -->
         <section class="plan-visit-section">
             <h2>
-                <span data-lang="en">Language & Worship Style</span>
-                <span data-lang="bn" style="display:none;">ভাষা এবং উপাসনা শৈলী</span>
+                <span data-lang="en" lang="en">Language & Worship Style</span>
+                <span data-lang="bn" lang="bn" style="display:none;">ভাষা এবং উপাসনা শৈলী</span>
             </h2>
             <div class="language-content">
                 <div class="language-block">
                     <h3>
-                        <span data-lang="en">🗣️ Both Bengali and English</span>
-                        <span data-lang="bn" style="display:none;">🗣️ বাংলা এবং ইংরেজি উভয়</span>
+                        <span data-lang="en" lang="en">🗣️ Both Bengali and English</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">🗣️ বাংলা এবং ইংরেজি উভয়</span>
                     </h3>
                     <p>
-                        <span data-lang="en">We use both languages throughout our services, making everyone feel at home. Whether you're more comfortable in Bengali or English, you'll be able to follow along and participate.</span>
-                        <span data-lang="bn" style="display:none;">আমরা আমাদের সেবায় উভয় ভাষা ব্যবহার করি, যা সবাইকে বাড়ির মতো অনুভব করায়।</span>
+                        <span data-lang="en" lang="en">We use both languages throughout our services, making everyone feel at home. Whether you're more comfortable in Bengali or English, you'll be able to follow along and participate.</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">আমরা আমাদের সেবায় উভয় ভাষা ব্যবহার করি, যা সবাইকে বাড়ির মতো অনুভব করায়।</span>
                     </p>
                 </div>
                 <div class="language-block">
                     <h3>
-                        <span data-lang="en">🤝 A Warm Welcome</span>
-                        <span data-lang="bn" style="display:none;">🤝 উষ্ণ স্বাগত</span>
+                        <span data-lang="en" lang="en">🤝 A Warm Welcome</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">🤝 উষ্ণ স্বাগত</span>
                     </h3>
                     <p>
-                        <span data-lang="en">Whether you are visiting for the first time or returning with family, you will find a warm, family-friendly place to worship and connect.</span>
-                        <span data-lang="bn" style="display:none;">আপনি প্রথমবার আসুন বা পরিবারের সঙ্গে আবার আসুন, এখানে উপাসনা ও পরিচিত হওয়ার জন্য একটি উষ্ণ, পরিবারবান্ধব পরিবেশ পাবেন।</span>
+                        <span data-lang="en" lang="en">Whether you are visiting for the first time or returning with family, you will find a warm, family-friendly place to worship and connect.</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">আপনি প্রথমবার আসুন বা পরিবারের সঙ্গে আবার আসুন, এখানে উপাসনা ও পরিচিত হওয়ার জন্য একটি উষ্ণ, পরিবারবান্ধব পরিবেশ পাবেন।</span>
                     </p>
                 </div>
             </div>
@@ -463,29 +461,29 @@
             <div class="visit-shell">
                 <div class="visit-section-heading">
                     <p class="visit-eyebrow">
-                        <span data-lang="en">Your first Sunday</span>
-                        <span data-lang="bn" style="display:none;">আপনার প্রথম রবিবার</span>
+                        <span data-lang="en" lang="en">Your first Sunday</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">আপনার প্রথম রবিবার</span>
                     </p>
                     <h2 id="visit-journey-title">
-                        <span data-lang="en">A simple way to begin</span>
-                        <span data-lang="bn" style="display:none;">শুরু করার সহজ পথ</span>
+                        <span data-lang="en" lang="en">A simple way to begin</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">শুরু করার সহজ পথ</span>
                     </h2>
                 </div>
                 <div class="visit-journey-grid">
                     <article class="visit-journey-step">
                         <span class="visit-step-number">01</span>
-                        <h3><span data-lang="en">Plan</span><span data-lang="bn" style="display:none;">পরিকল্পনা করুন</span></h3>
-                        <p><span data-lang="en">Know the service time and location before you leave home.</span><span data-lang="bn" style="display:none;">বাড়ি থেকে বের হওয়ার আগে সময় ও স্থান জেনে নিন।</span></p>
+                        <h3><span data-lang="en" lang="en">Plan</span><span data-lang="bn" lang="bn" style="display:none;">পরিকল্পনা করুন</span></h3>
+                        <p><span data-lang="en" lang="en">Know the service time and location before you leave home.</span><span data-lang="bn" lang="bn" style="display:none;">বাড়ি থেকে বের হওয়ার আগে সময় ও স্থান জেনে নিন।</span></p>
                     </article>
                     <article class="visit-journey-step">
                         <span class="visit-step-number">02</span>
-                        <h3><span data-lang="en">Arrive</span><span data-lang="bn" style="display:none;">আসুন</span></h3>
-                        <p><span data-lang="en">Come a few minutes early, find your way in, and settle into the moment.</span><span data-lang="bn" style="display:none;">কয়েক মিনিট আগে এসে সহজে ভেতরে প্রবেশ করুন।</span></p>
+                        <h3><span data-lang="en" lang="en">Arrive</span><span data-lang="bn" lang="bn" style="display:none;">আসুন</span></h3>
+                        <p><span data-lang="en" lang="en">Come a few minutes early, find your way in, and settle into the moment.</span><span data-lang="bn" lang="bn" style="display:none;">কয়েক মিনিট আগে এসে সহজে ভেতরে প্রবেশ করুন।</span></p>
                     </article>
                     <article class="visit-journey-step">
                         <span class="visit-step-number">03</span>
-                        <h3><span data-lang="en">Belong</span><span data-lang="bn" style="display:none;">আপন হয়ে উঠুন</span></h3>
-                        <p><span data-lang="en">Worship, meet the church family, and stay connected.</span><span data-lang="bn" style="display:none;">উপাসনা করুন, চার্চ পরিবারের সঙ্গে পরিচিত হন ও যুক্ত থাকুন।</span></p>
+                        <h3><span data-lang="en" lang="en">Belong</span><span data-lang="bn" lang="bn" style="display:none;">আপন হয়ে উঠুন</span></h3>
+                        <p><span data-lang="en" lang="en">Worship, meet the church family, and stay connected.</span><span data-lang="bn" lang="bn" style="display:none;">উপাসনা করুন, চার্চ পরিবারের সঙ্গে পরিচিত হন ও যুক্ত থাকুন।</span></p>
                     </article>
                 </div>
             </div>
@@ -494,12 +492,12 @@
         <!-- Upcoming Highlights -->
         <section class="plan-visit-section alt-bg">
             <h2>
-                <span data-lang="en">Upcoming Highlights</span>
-                <span data-lang="bn" style="display:none;">আগামী গুরুত্বপূর্ণ অনুষ্ঠান</span>
+                <span data-lang="en" lang="en">Upcoming Highlights</span>
+                <span data-lang="bn" lang="bn" style="display:none;">আগামী গুরুত্বপূর্ণ অনুষ্ঠান</span>
             </h2>
             <p class="intro-text">
-                <span data-lang="en">Here are some important dates coming up. Join us as we celebrate and worship together!</span>
-                <span data-lang="bn" style="display:none;">এখানে কিছু গুরুত্বপূর্ণ তারিখ আসছে। আমাদের সাথে উদযাপন এবং উপাসনা করুন!</span>
+                <span data-lang="en" lang="en">Here are some important dates coming up. Join us as we celebrate and worship together!</span>
+                <span data-lang="bn" lang="bn" style="display:none;">এখানে কিছু গুরুত্বপূর্ণ তারিখ আসছে। আমাদের সাথে উদযাপন এবং উপাসনা করুন!</span>
             </p>
             
             <div class="highlights-list" id="upcomingHighlights">
@@ -508,16 +506,16 @@
                     <div class="highlight-icon">🙏</div>
                     <div class="highlight-content">
                         <h3>
-                            <span data-lang="en">Sunday Worship Service</span>
-                            <span data-lang="bn" style="display:none;">রবিবার উপাসনা সেবা</span>
+                            <span data-lang="en" lang="en">Sunday Worship Service</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">রবিবার উপাসনা সেবা</span>
                         </h3>
                         <p class="highlight-date">
-                            <span data-lang="en">Every Sunday at 5:00 PM</span>
-                            <span data-lang="bn" style="display:none;">প্রতি রবিবার সন্ধ্যা ৫:০০ টা</span>
+                            <span data-lang="en" lang="en">Every Sunday at 5:00 PM</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">প্রতি রবিবার সন্ধ্যা ৫:০০ টা</span>
                         </p>
                         <p class="highlight-desc">
-                            <span data-lang="en">Join us for worship, prayer, and fellowship</span>
-                            <span data-lang="bn" style="display:none;">উপাসনা, প্রার্থনা এবং সহভাগিতার জন্য আমাদের সাথে যোগ দিন</span>
+                            <span data-lang="en" lang="en">Join us for worship, prayer, and fellowship</span>
+                            <span data-lang="bn" lang="bn" style="display:none;">উপাসনা, প্রার্থনা এবং সহভাগিতার জন্য আমাদের সাথে যোগ দিন</span>
                         </p>
                     </div>
                 </div>
@@ -527,8 +525,8 @@
             
             <div class="section-cta">
                 <a href="calendar.html" class="btn btn-primary">
-                    <span data-lang="en">View Full Calendar</span>
-                    <span data-lang="bn" style="display:none;">সম্পূর্ণ ক্যালেন্ডার দেখুন</span>
+                    <span data-lang="en" lang="en">View Full Calendar</span>
+                    <span data-lang="bn" lang="bn" style="display:none;">সম্পূর্ণ ক্যালেন্ডার দেখুন</span>
                 </a>
             </div>
         </section>
@@ -536,38 +534,38 @@
         <!-- Arrival & Parking -->
         <section class="plan-visit-section visit-section-v21 visit-arrival-section" id="arrival-parking" aria-labelledby="arrival-title">
             <h2>
-                <span id="arrival-title" data-lang="en">Arrive with confidence</span>
-                <span id="arrival-title-bn" data-lang="bn" style="display:none;">নিশ্চিন্তে আসুন</span>
+                <span id="arrival-title" data-lang="en" lang="en">Arrive with confidence</span>
+                <span id="arrival-title-bn" data-lang="bn" lang="bn" style="display:none;">নিশ্চিন্তে আসুন</span>
             </h2>
             <div class="arrival-content">
                 <p>
                     <strong>
-                        <span data-lang="en">When to Arrive:</span>
-                        <span data-lang="bn" style="display:none;">কখন আসবেন:</span>
+                        <span data-lang="en" lang="en">When to Arrive:</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">কখন আসবেন:</span>
                     </strong>
-                    <span data-lang="en"> We recommend arriving 10-15 minutes early (around 4:45-4:50 PM). This gives you time to find parking, meet a few friendly faces, and settle in before we start.</span>
-                    <span data-lang="bn" style="display:none;"> আমরা ১০-১৫ মিনিট আগে আসার পরামর্শ দিই (প্রায় ৪:৪৫-৪:৫০ মিনিট)।</span>
+                    <span data-lang="en" lang="en"> We recommend arriving 10-15 minutes early (around 4:45-4:50 PM). This gives you time to find parking, meet a few friendly faces, and settle in before we start.</span>
+                    <span data-lang="bn" lang="bn" style="display:none;"> আমরা ১০-১৫ মিনিট আগে আসার পরামর্শ দিই (প্রায় ৪:৪৫-৪:৫০ মিনিট)।</span>
                 </p>
                 <p>
                     <strong>
-                        <span data-lang="en">Parking:</span>
-                        <span data-lang="bn" style="display:none;">পার্কিং:</span>
+                        <span data-lang="en" lang="en">Parking:</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">পার্কিং:</span>
                     </strong>
-                    <span data-lang="en"> Free parking is available at the building and in the surrounding area.</span>
-                    <span data-lang="bn" style="display:none;"> বিল্ডিং এবং আশেপাশে বিনামূল্যে পার্কিং উপলব্ধ।</span>
+                    <span data-lang="en" lang="en"> Free parking is available at the building and in the surrounding area.</span>
+                    <span data-lang="bn" lang="bn" style="display:none;"> বিল্ডিং এবং আশেপাশে বিনামূল্যে পার্কিং উপলব্ধ।</span>
                 </p>
                 <p>
                     <strong>
-                        <span data-lang="en">First-Time Visitors:</span>
-                        <span data-lang="bn" style="display:none;">প্রথমবার পরিদর্শনকারী:</span>
+                        <span data-lang="en" lang="en">First-Time Visitors:</span>
+                        <span data-lang="bn" lang="bn" style="display:none;">প্রথমবার পরিদর্শনকারী:</span>
                     </strong>
-                    <span data-lang="en"> When you arrive, let someone know it's your first time! Our greeters will be happy to help you find a seat and answer any questions.</span>
-                    <span data-lang="bn" style="display:none;"> আপনি এলে কাউকে জানান এটা আপনার প্রথমবার! আমাদের স্বাগতকারীরা আপনাকে সাহায্য করতে খুশি হবে।</span>
+                    <span data-lang="en" lang="en"> When you arrive, let someone know it's your first time! Our greeters will be happy to help you find a seat and answer any questions.</span>
+                    <span data-lang="bn" lang="bn" style="display:none;"> আপনি এলে কাউকে জানান এটা আপনার প্রথমবার! আমাদের স্বাগতকারীরা আপনাকে সাহায্য করতে খুশি হবে।</span>
                 </p>
             </div>
             <a class="visit-button visit-button-primary visit-arrival-button" href="https://www.google.com/maps/search/?api=1&amp;query=1325+Richardson+Street+San+Bernardino+CA+92408" target="_blank" rel="noopener noreferrer">
-                <span data-lang="en">Get Directions</span>
-                <span data-lang="bn" style="display:none;">দিকনির্দেশনা নিন</span>
+                <span data-lang="en" lang="en">Get Directions</span>
+                <span data-lang="bn" lang="bn" style="display:none;">দিকনির্দেশনা নিন</span>
                 <span aria-hidden="true">↗</span>
             </a>
         </section>
@@ -575,25 +573,25 @@
         <!-- Closing CTA -->
         <section class="plan-visit-cta visit-final-cta-v21" aria-labelledby="visit-final-title">
             <h2>
-                <span id="visit-final-title" data-lang="en">We’d love to welcome you</span>
-                <span id="visit-final-title-bn" data-lang="bn" style="display:none;">আপনাকে স্বাগত জানাতে আমরা আনন্দিত</span>
+                <span id="visit-final-title" data-lang="en" lang="en">We’d love to welcome you</span>
+                <span id="visit-final-title-bn" data-lang="bn" lang="bn" style="display:none;">আপনাকে স্বাগত জানাতে আমরা আনন্দিত</span>
             </h2>
             <p>
-                <span data-lang="en">You’re welcome here. Come worship with us, ask questions, and take your next step at your own pace.</span>
-                <span data-lang="bn" style="display:none;">আপনি এখানে স্বাগত। আমাদের সঙ্গে উপাসনা করুন, প্রশ্ন করুন এবং নিজের গতিতে এগিয়ে চলুন।</span>
+                <span data-lang="en" lang="en">You’re welcome here. Come worship with us, ask questions, and take your next step at your own pace.</span>
+                <span data-lang="bn" lang="bn" style="display:none;">আপনি এখানে স্বাগত। আমাদের সঙ্গে উপাসনা করুন, প্রশ্ন করুন এবং নিজের গতিতে এগিয়ে চলুন।</span>
             </p>
             <div class="cta-buttons">
                 <a href="https://www.google.com/maps/search/?api=1&amp;query=1325+Richardson+Street+San+Bernardino+CA+92408" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                    <span data-lang="en">Get Directions</span>
-                    <span data-lang="bn" style="display:none;">দিকনির্দেশনা নিন</span>
+                    <span data-lang="en" lang="en">Get Directions</span>
+                    <span data-lang="bn" lang="bn" style="display:none;">দিকনির্দেশনা নিন</span>
                 </a>
                 <a href="prayer-request.html" class="btn btn-secondary">
-                    <span data-lang="en">Request Prayer</span>
-                    <span data-lang="bn" style="display:none;">প্রার্থনা সহায়তা</span>
+                    <span data-lang="en" lang="en">Request Prayer</span>
+                    <span data-lang="bn" lang="bn" style="display:none;">প্রার্থনা সহায়তা</span>
                 </a>
                 <a href="mailto:info@gracepraise.church" class="btn btn-secondary">
-                    <span data-lang="en">Contact Us</span>
-                    <span data-lang="bn" style="display:none;">যোগাযোগ করুন</span>
+                    <span data-lang="en" lang="en">Contact Us</span>
+                    <span data-lang="bn" lang="bn" style="display:none;">যোগাযোগ করুন</span>
                 </a>
             </div>
         </section>
@@ -601,16 +599,16 @@
         <!-- Talk to a Pastor -->
         <section class="pastor-connect">
             <h3>
-                <span data-lang="en">Would you like to talk to a pastor?</span>
-                <span data-lang="bn" style="display:none;">আপনি কি একজন যাজকের সাথে কথা বলতে চান?</span>
+                <span data-lang="en" lang="en">Would you like to talk to a pastor?</span>
+                <span data-lang="bn" lang="bn" style="display:none;">আপনি কি একজন যাজকের সাথে কথা বলতে চান?</span>
             </h3>
             <p>
-                <span data-lang="en">If you have questions, need guidance, or simply want to talk, we are here for you.</span>
-                <span data-lang="bn" style="display:none;">আপনার প্রশ্ন, নির্দেশনার প্রয়োজন, বা কথা বলার ইচ্ছা থাকলে, আমরা আপনার জন্য আছি।</span>
+                <span data-lang="en" lang="en">If you have questions, need guidance, or simply want to talk, we are here for you.</span>
+                <span data-lang="bn" lang="bn" style="display:none;">আপনার প্রশ্ন, নির্দেশনার প্রয়োজন, বা কথা বলার ইচ্ছা থাকলে, আমরা আপনার জন্য আছি।</span>
             </p>
             <a href="mailto:info@gracepraise.church" class="pastor-contact-link">
-                <span data-lang="en">📧 Email a Pastor</span>
-                <span data-lang="bn" style="display:none;">📧 যাজককে ইমেল করুন</span>
+                <span data-lang="en" lang="en">📧 Email a Pastor</span>
+                <span data-lang="bn" lang="bn" style="display:none;">📧 যাজককে ইমেল করুন</span>
             </a>
         </section>
     </main>

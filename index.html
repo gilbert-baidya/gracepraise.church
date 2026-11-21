@@ -66,8 +66,6 @@
     <meta name="twitter:image:alt" content="Sunday worship gathering at Grace and Praise Bangladeshi Church">
 
     <!-- Resource Preconnects -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://vimeo.com">
     <link rel="preconnect" href="https://player.vimeo.com">
 
@@ -79,16 +77,6 @@
         imagesrcset="images/homepage/hero-v2/final/worship-desktop.webp 1000w, images/homepage/hero-v2/final/worship-mobile.webp 1200w"
         imagesizes="(max-width: 760px) calc(100vw - 3rem), 430px"
         fetchpriority="high">
-
-    <!-- Prevent the measured hero grid expansion while its required display/body fonts arrive. -->
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-        href="https://fonts.gstatic.com/s/cinzel/v26/8vIJ7ww63mVu7gt79mT7PkRXMw.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-        href="https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2">
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
 
     <!-- Liturgical Calendar Engine + Theme Engine -->
     <script src="liturgical-calendar-engine.js" defer></script>
@@ -490,7 +478,7 @@
     <link rel="stylesheet" href="plan-your-visit-v3.css?v=20260917d">
     <!-- Homepage Welcome Home V4 — isolated editorial section styles. -->
     <link rel="stylesheet" href="welcome-home-v4.css?v=20260917a">
-    <link rel="stylesheet" href="website-control.css">
+    <link rel="stylesheet" href="website-control.css" data-gpbc-control-style="true">
     <!-- Homepage Stay Connected V8 — isolated editorial section styles. -->
     <link rel="stylesheet" href="stay-connected-v8.css?v=20260918-v11-stay-mobile">
     <script src="./js/partials.js?v=20260918-v11-theme-final3" defer></script>
@@ -503,9 +491,10 @@
             body { padding-top: 0; }
         }
     </style>
+    <link rel="stylesheet" href="assets/css/shared-style.css">
 </head>
 
-<body class="homepage" data-page="home">
+<body class="homepage gpbc-shared" data-page="home">
     <!-- Skip to main content for keyboard users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 

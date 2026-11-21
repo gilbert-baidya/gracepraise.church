@@ -79,13 +79,6 @@
     <!-- LCP Preloads -->
     <link rel="preload" as="image" href="images/new-gpbc-logo-final.svg" type="image/svg+xml">
 
-    <!-- Google Fonts for Premium Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
     <!-- Liturgical Calendar Engine + Theme Engine (must run before CSS) -->
     <script src="liturgical-calendar-engine.js"></script>
     <script src="liturgical-theme-engine.js"></script>
@@ -115,9 +108,13 @@
             body { padding-top: 0; }
         }
     </style>
+    <link rel="stylesheet" href="sacred-background.css">
+    <link rel="stylesheet" href="css/sacred-surface-tokens.css">
+    <link rel="stylesheet" href="website-control.css" data-gpbc-control-style="true">
+    <link rel="stylesheet" href="assets/css/shared-style.css">
 </head>
 
-<body class="page-daily-devotion">
+<body class="page-daily-devotion gpbc-shared">
     <!-- Skip to main content for keyboard users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -2188,11 +2185,9 @@
     <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
     <script src="logo-loader.js"></script>
     <!-- Sacred Background Engine -->
-    <link rel="stylesheet" href="sacred-background.css">
     <script src="sacred-background-engine.js"></script>
 
     <!-- Sacred Surface Tokens (Light + Dark Mode) -->
-    <link rel="stylesheet" href="css/sacred-surface-tokens.css">
 
     <!-- Devotion Background Intelligence -->
     <script src="js/devotion-background-intelligence.js"></script>
