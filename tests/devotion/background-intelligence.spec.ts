@@ -13,6 +13,7 @@ test.describe('Daily Devotion - Background Intelligence', () => {
     await devotionPage.goto();
     await page.waitForLoadState('domcontentloaded');
     await expect(page.locator('#devotion-root')).toBeVisible({ timeout: 15000 });
+    await expect.poll(() => readBackground(page), { timeout: 15000 }).toMatch(/url\(.*\.(png|jpg|jpeg|webp)/);
   }
 
   async function readBackground(page: import('@playwright/test').Page) {

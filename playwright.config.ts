@@ -1,12 +1,24 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, type Project } from '@playwright/test';
+
+const suite = process.env.PLAYWRIGHT_SUITE;
+if (suite && !['pr', 'nightly'].includes(suite)) {
+  throw new Error(`Unknown PLAYWRIGHT_SUITE: ${suite}`);
+}
+const crossBrowserTests = [
+  '**/navigation/*.spec.ts',
+  '**/regression/device-theme-regression.spec.ts',
+  '**/devotion/critical-navigation-and-render-regression.spec.ts',
+  '**/footer/site-footer.spec.ts'
+];
 
 export default defineConfig({
   testDir: './tests',
-  testIgnore: ['**/*.test.js', '**/*.test.mjs'],
+  testIgnore: ['**/*.test.js', '**/*.test.mjs', '**/production-publication.spec.ts'],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  retries: process.env.CI ? 1 : 0,
+  workers: process.env.CI ? 2 : undefined,
+  grepInvert: suite === 'pr' ? /@quarantine/ : undefined,
   reporter: process.env.CI 
     ? [['blob'], ['list']]  // CI: blob reports for sharding
     : [
@@ -81,5 +93,28 @@ export default defineConfig({
         // Android Chrome primary target
       }
     }
-  ]
+  ].flatMap((project): Project[] => [{
+    ...project,
+    ...(suite ? {
+      testMatch: project.name === 'Desktop Chrome' ? '**/*.spec.ts' : crossBrowserTests,
+      testIgnore: [
+        '**/production-publication.spec.ts',
+        ...(suite === 'pr' ? ['**/visual/**', '**/performance/**'] : [])
+      ]
+    } : {})
+  }, ...(suite === 'nightly' && project.name !== 'Desktop Chrome' ? [{
+    ...project,
+    name: `${project.name} Quarantine`,
+    testMatch: '**/*.spec.ts',
+    testIgnore: [...crossBrowserTests, '**/production-publication.spec.ts', '**/visual/**', '**/performance/**'],
+    grep: /@quarantine/
+  }] : [])]).concat(process.env.PRODUCTION_BASE_URL ? [{
+    name: 'Production Chrome',
+    use: {
+      ...devices['Desktop Chrome'],
+      baseURL: process.env.PRODUCTION_BASE_URL
+    },
+    testMatch: ['**/production-publication.spec.ts'],
+    testIgnore: []
+  }] : [])
 });

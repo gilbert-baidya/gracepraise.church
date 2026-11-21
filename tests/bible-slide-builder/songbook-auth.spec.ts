@@ -28,6 +28,7 @@ test('loading and SDK failure never expose protected content or start XML loadin
 });
 
 test('real Firebase session: login, return destination, refresh, back navigation and cross-tab logout', async ({ page, context }) => {
+  test.skip(!process.env.SONGBOOK_AUTH_EMULATOR, 'Requires SONGBOOK_AUTH_EMULATOR and the Firebase CDN; start the Auth emulator before opting in.');
   test.setTimeout(90_000);
   await useEmulatedSongbookAuth(page);
   let popups = 0;

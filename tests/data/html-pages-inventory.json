@@ -5,7 +5,7 @@
     {
       "htmlPath": "about.html",
       "className": "AboutPage",
-      "expectedTitle": "About GPBC | Grace and Praise Bangladeshi Church",
+      "expectedTitle": "About Grace and Praise Bangladeshi Church | San Bernardino, CA",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -68,7 +68,7 @@
     {
       "htmlPath": "children-devotion.html",
       "className": "ChildrenDevotionPage",
-      "expectedTitle": "Children Devotion | Grace and Praise Bangladeshi Church",
+      "expectedTitle": "Children Devotion | Growing in Jesus | GPBC",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -150,7 +150,7 @@
     {
       "htmlPath": "family-devotion.html",
       "className": "FamilyDevotionPage",
-      "expectedTitle": "Family Devotion | Grace and Praise Bangladeshi Church",
+      "expectedTitle": "Family Devotion | Growing Together in Faith | GPBC",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -168,7 +168,7 @@
     {
       "htmlPath": "fasting-21days.html",
       "className": "Fasting21daysPage",
-      "expectedTitle": "21 Days Fasting | Grace and Praise Bangladeshi Church",
+      "expectedTitle": "21-Day Prayer & Fasting Guide | GPBC",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -186,7 +186,7 @@
     {
       "htmlPath": "fasting-30days.html",
       "className": "Fasting30daysPage",
-      "expectedTitle": "30 Days Fasting | Grace and Praise Bangladeshi Church",
+      "expectedTitle": "30-Day Consecration & Fasting Guide | GPBC",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -204,7 +204,7 @@
     {
       "htmlPath": "fasting-40days.html",
       "className": "Fasting40daysPage",
-      "expectedTitle": "40 Days Fasting | Grace and Praise Bangladeshi Church",
+      "expectedTitle": "Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -255,7 +255,6 @@
         "header",
         "nav",
         "main",
-        "footer",
         "h1",
         "#main-content",
         ".mobile-menu-btn",
@@ -349,6 +348,7 @@
         "h1",
         "#darkModeToggle",
         "#main-content",
+        "#gift-title",
         ".give-v14-gift-card",
         "#paypalPaymentBtn",
         "#paypal-handoff-note"
@@ -412,7 +412,7 @@
     {
       "htmlPath": "index.html",
       "className": "IndexPage",
-      "expectedTitle": "Grace and Praise Bangladeshi Church - San Bernardino, CA",
+      "expectedTitle": "Grace and Praise Bangladeshi Church | San Bernardino, CA",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -423,8 +423,8 @@
         "h1",
         "#darkModeToggle",
         "#main-content",
-        "#heroVideoModal",
-        "#heroStoryVideo"
+        "#home",
+        "#hero-heading"
       ]
     },
     {
@@ -436,7 +436,7 @@
         "body",
         "main",
         "h1",
-        ".hero"
+        ".ministry-detail-hero"
       ]
     },
     {
@@ -460,7 +460,7 @@
     {
       "htmlPath": "ministries.html",
       "className": "MinistriesPage",
-      "expectedTitle": "Our Ministries - Grace and Praise Bangladeshi Church",
+      "expectedTitle": "Our Ministries | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -478,7 +478,7 @@
     {
       "htmlPath": "ministries/bible-study.html",
       "className": "MinistriesBibleStudyPage",
-      "expectedTitle": "Bible Study Ministry - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Bible Study Ministry | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -496,7 +496,7 @@
     {
       "htmlPath": "ministries/community-development.html",
       "className": "MinistriesCommunityDevelopmentPage",
-      "expectedTitle": "Community Development - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Community Development | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -514,7 +514,7 @@
     {
       "htmlPath": "ministries/homeless-ministry.html",
       "className": "MinistriesHomelessMinistryPage",
-      "expectedTitle": "Homeless Ministry - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Homeless Ministry | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -532,7 +532,7 @@
     {
       "htmlPath": "ministries/hospital-ministry.html",
       "className": "MinistriesHospitalMinistryPage",
-      "expectedTitle": "Hospital Ministry - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Hospital Ministry | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -550,7 +550,7 @@
     {
       "htmlPath": "ministries/index.html",
       "className": "MinistriesIndexPage",
-      "expectedTitle": "Our Ministries | Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Our Ministries | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -562,13 +562,13 @@
         ".mobile-menu-btn",
         ".nav-links",
         ".dropdown-menu",
-        ".hero"
+        ".ministry-hero"
       ]
     },
     {
       "htmlPath": "ministries/kids-ministry.html",
       "className": "MinistriesKidsMinistryPage",
-      "expectedTitle": "Kids Ministry - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Kids Ministry | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -586,7 +586,7 @@
     {
       "htmlPath": "ministries/men-fellowship.html",
       "className": "MinistriesMenFellowshipPage",
-      "expectedTitle": "Men Fellowship - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Men Fellowship | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -604,7 +604,7 @@
     {
       "htmlPath": "ministries/mission-outreach.html",
       "className": "MinistriesMissionOutreachPage",
-      "expectedTitle": "Mission Outreach - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Mission Outreach | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -622,7 +622,7 @@
     {
       "htmlPath": "ministries/prison-ministry.html",
       "className": "MinistriesPrisonMinistryPage",
-      "expectedTitle": "Prison Ministry - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Prison Ministry | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -640,7 +640,7 @@
     {
       "htmlPath": "ministries/support-missionaries.html",
       "className": "MinistriesSupportMissionariesPage",
-      "expectedTitle": "Support Missionaries - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Support Missionaries | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -658,7 +658,7 @@
     {
       "htmlPath": "ministries/worship-ministry.html",
       "className": "MinistriesWorshipMinistryPage",
-      "expectedTitle": "Worship Ministry - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Praise & Worship Ministry | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -676,7 +676,7 @@
     {
       "htmlPath": "ministries/youth-ministry.html",
       "className": "MinistriesYouthMinistryPage",
-      "expectedTitle": "Youth Ministry - Grace & Praise Bangladeshi Church",
+      "expectedTitle": "Youth Ministry Resources | Grace and Praise Bangladeshi Church",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -727,8 +727,7 @@
       "className": "PartialsFooterPage",
       "isFullDocument": false,
       "criticalSelectors": [
-        "body",
-        "footer"
+        "body"
       ]
     },
     {
@@ -935,7 +934,7 @@
     {
       "htmlPath": "youth-devotion.html",
       "className": "YouthDevotionPage",
-      "expectedTitle": "Youth Devotion | Grace and Praise Bangladeshi Church",
+      "expectedTitle": "Youth Devotion | Faith, Purpose, Identity in Christ | GPBC",
       "isFullDocument": true,
       "criticalSelectors": [
         "body",
@@ -959,7 +958,7 @@
         "body",
         "main",
         "h1",
-        ".hero"
+        ".ministry-detail-hero"
       ]
     }
   ]

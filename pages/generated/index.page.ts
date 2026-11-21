@@ -4,8 +4,8 @@ export class IndexPage extends BasePage {
   readonly path = '/index.html';
   readonly pageName = "index.html";
   readonly isFullDocument = true;
-  readonly expectedTitle = "Grace and Praise Bangladeshi Church - San Bernardino, CA";
-  readonly criticalSelectors = ["body","header","nav","main","footer","h1","#darkModeToggle","#main-content","#heroVideoModal","#heroStoryVideo"];
+  readonly expectedTitle = "Grace and Praise Bangladeshi Church | San Bernardino, CA";
+  readonly criticalSelectors = ["body","header","nav","main","footer","h1","#darkModeToggle","#main-content","#home","#hero-heading"];
 
   async openPage() {
     return this.goto();

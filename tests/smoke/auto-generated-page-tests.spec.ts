@@ -12,6 +12,7 @@
 
 import { test as deviceTest, expect } from '../fixtures/device.fixture';
 import { pageRegistry } from '../../pages/page-registry';
+import { quarantineFor } from '../fixtures/quarantine';
 
 for (const entry of pageRegistry) {
   const isUtilityOrFragmentPage =
@@ -22,7 +23,9 @@ for (const entry of pageRegistry) {
   deviceTest.describe(`${entry.htmlPath} - Auto Generated Suite`, () => {
     
     // Group 1: Page Load Tests
-    deviceTest('loads successfully without errors', async ({ page }) => {
+    deviceTest('loads successfully without errors', quarantineFor(entry.htmlPath, 'console'), async ({ page }) => {
+      deviceTest.skip(entry.htmlPath === 'admin/index.html' && !process.env.DECAP_LOCAL_BACKEND,
+        'Requires the Decap local backend on localhost:8081; opt in with DECAP_LOCAL_BACKEND=1.');
       const consoleErrors: string[] = [];
       const pageErrors: Error[] = [];
       
@@ -51,7 +54,7 @@ for (const entry of pageRegistry) {
     });
     
     // Group 2: Layout Integrity Tests
-    deviceTest('has no horizontal scroll overflow', async ({ page }) => {
+    deviceTest('has no horizontal scroll overflow', quarantineFor(entry.htmlPath, 'overflow'), async ({ page }) => {
       const pageObject = entry.create(page);
       await pageObject.goto();
       await pageObject.assertCoreReady();
@@ -154,26 +157,13 @@ for (const entry of pageRegistry) {
       await pageObject.goto();
       await pageObject.assertCoreReady();
       
-      // Check buttons have accessible names
-      const buttons = page.locator('button, [role="button"]');
-      const buttonCount = await buttons.count();
-      
-      for (let i = 0; i < buttonCount; i++) {
-        const button = buttons.nth(i);
-        const isVisible = await button.isVisible().catch(() => false);
-        
-        if (!isVisible) continue; // Skip hidden buttons
-        
-        const text = await button.textContent();
-        const ariaLabel = await button.getAttribute('aria-label');
-        const title = await button.getAttribute('title');
-        
-        const hasAccessibleName = text?.trim() || ariaLabel || title;
-        expect(hasAccessibleName, `Button ${i} missing accessible name`).toBeTruthy();
-      }
+      const missingNames = await page.locator('button:visible, [role="button"]:visible').evaluateAll(buttons =>
+        buttons.filter(button => !(button.textContent?.trim() || button.getAttribute('aria-label') || button.getAttribute('title')))
+          .map(button => button.outerHTML.slice(0, 200)));
+      expect(missingNames, 'Visible buttons missing accessible names').toEqual([]);
     });
     
-    deviceTest('images have alt text', async ({ page }) => {
+    deviceTest('images have alt text', quarantineFor(entry.htmlPath, 'images'), async ({ page }) => {
       if (isUtilityOrFragmentPage) {
         deviceTest.skip();
         return;

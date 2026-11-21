@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+test.skip(!process.env.PRODUCTION_BASE_URL, 'Requires a public-build server via PRODUCTION_BASE_URL and a source server on port 8080.');
+
 const routes = [
   '/index.html', '/songbook.html', '/admin/index.html', '/admin/v21/index.html',
   '/about.html', '/ministries.html', '/give.html', '/prayer-request.html', '/plan-visit.html'
