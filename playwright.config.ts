@@ -13,7 +13,7 @@ const crossBrowserTests = [
 
 export default defineConfig({
   testDir: './tests',
-  testIgnore: ['**/*.test.js', '**/*.test.mjs'],
+  testIgnore: ['**/*.test.js', '**/*.test.mjs', '**/production-publication.spec.ts'],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

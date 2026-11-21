@@ -29,6 +29,13 @@ function collect(suite) {
 
 const pr = collect('pr');
 const nightly = collect('nightly');
+const full = collect();
+
+test('default profile reserves production publication checks for Production Chrome', () => {
+  const publication = full.filter(entry => entry.file.endsWith('production-publication.spec.ts'));
+  assert(publication.length > 0);
+  assert(publication.every(entry => entry.project === 'Production Chrome'));
+});
 
 test('PR gate retains seven-project navigation and real production-artifact coverage', () => {
   const projects = new Set(pr.filter(entry => entry.file.endsWith('navigation-integrity.spec.ts')).map(entry => entry.project));
@@ -41,7 +48,6 @@ test('PR gate retains seven-project navigation and real production-artifact cove
 });
 
 test('nightly collects every spec file and keeps quarantined assertions executable', () => {
-  const full = collect();
   assert.deepEqual(new Set(nightly.map(entry => entry.file)), new Set(full.map(entry => entry.file)));
   assert(nightly.some(entry => entry.tags.includes('quarantine')));
   assert(nightly.some(entry => entry.project === 'iPhone 14 Quarantine' && entry.title.includes('SMS Opt-In')));
