@@ -90,6 +90,47 @@ test('sheet event HTML stays literal in calendar markers, monthly lists and upco
   expect(await page.evaluate(() => (window as any).__calendarXssExecuted)).toBe(false);
 });
 
+for (const [protocol, imageUrl] of [
+  ['HTTPS', 'https://calendar-images.test/accepted.svg'],
+  ['javascript:', 'javascript:window.__modalXssExecuted=true'],
+  ['data:', 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" onload="window.__modalXssExecuted=true"/>'],
+]) {
+  test(`event-detail modal handles ${protocol} images and preserves HTML/quote payloads literally`, async ({ page }) => {
+    const payload = (label: string) => `${label} "><img data-modal-probe src=x onerror="window.__modalXssExecuted=true"><span data-modal-probe title=''>`;
+    const event = { ...sheetEvent, imageUrl, name: payload('Modal name'), addedBy: payload('Added by'), contact: payload('Contact') };
+    await page.addInitScript(() => { (window as any).__modalXssExecuted = false; });
+    await page.route('**/x', route => route.fulfill({ status: 404, body: 'Not an image' }));
+    await page.route('https://calendar-images.test/**', route => route.fulfill({
+      contentType: 'image/svg+xml', body: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="20" height="20" fill="navy"/></svg>',
+    }));
+    await page.route('https://script.google.com/**', route => route.fulfill({
+      json: { events: [event] }, headers: { 'access-control-allow-origin': '*' },
+    }));
+    await page.goto('/calendar.html');
+    await page.locator('.calendar-grid .event-marker').filter({ hasText: 'Modal name' }).click();
+    const modal = page.locator('#eventDetailModal');
+    await expect(modal).toBeVisible();
+    await expect(modal.locator('#eventTitle')).toContainText(event.name);
+    const contact = modal.locator('.event-contact-info');
+    await expect(contact).toContainText(event.addedBy);
+    await expect(contact).toContainText(event.contact);
+    await expect(contact.locator('img, span')).toHaveCount(0);
+    await expect(modal.locator('[data-modal-probe], [onerror], [onload]')).toHaveCount(0);
+    if (protocol === 'HTTPS') {
+      const image = modal.locator('.event-detail-image img');
+      await expect(modal.locator('img')).toHaveCount(1);
+      await expect(image).toBeVisible();
+      await expect(image).toHaveAttribute('src', imageUrl);
+      await expect(image).toHaveAttribute('alt', event.name);
+      await expect(image).toHaveJSProperty('complete', true);
+      await expect(image).toHaveJSProperty('naturalWidth', 20);
+    } else {
+      await expect(modal.locator('.event-detail-image, img')).toHaveCount(0);
+    }
+    expect(await page.evaluate(() => (window as any).__modalXssExecuted)).toBe(false);
+  });
+}
+
 for (const allowed of [false, true]) {
   test(`Sheets response origin is ${allowed ? 'allowed with PR #6' : 'blocked without PR #6'}`, async ({ page }) => {
     let responseRequests = 0;
