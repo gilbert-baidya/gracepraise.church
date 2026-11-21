@@ -295,12 +295,14 @@
             letter-spacing: 0.05em;
         }
         
-        .no-photos {
+        .no-photos,
+        .gallery-error {
             text-align: center;
             padding: var(--spacing-2xl) var(--spacing-md);
             color: var(--color-text-light);
-            display: none;
         }
+
+        .no-photos { display: none; }
         
         .no-photos h2 {
             font-size: var(--font-2xl);
@@ -561,6 +563,12 @@
 
         <section class="gallery-container">
             <div class="gallery-grid" id="galleryGrid"></div>
+
+            <div class="gallery-error" id="galleryError" role="alert" hidden>
+                <h2>Photos couldn't be loaded</h2>
+                <p>Please try again in a moment.</p>
+                <button type="button" class="filter-btn" id="retryGallery">Try again</button>
+            </div>
 
             <div class="no-photos" id="noPhotos">
                 <h2>📷 No Photos Yet</h2>
