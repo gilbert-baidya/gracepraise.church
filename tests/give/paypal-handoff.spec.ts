@@ -79,13 +79,14 @@ test('unconfirmed return survives blocked storage and a fresh reload', async ({ 
   await expect(page.getByRole('radio')).toBeChecked();
 });
 
-test('legacy monthly intent never silently reaches one-time checkout', async ({ page, context }) => {
+test('legacy saved monthly intent never silently reaches one-time checkout', async ({ page, context }) => {
   const requests: string[] = [];
   await context.route('https://www.paypal.com/**', async route => {
     requests.push(route.request().url());
     await route.fulfill({ body: 'Intercepted; no payment' });
   });
-  await page.goto('/give.html?frequency=monthly&lang=en');
+  await page.addInitScript(() => sessionStorage.setItem('gpbc-give-handoff', JSON.stringify({ frequency: 'monthly' })));
+  await page.goto('/give.html?lang=en');
   await expect(page.getByRole('radio')).not.toBeChecked();
   await expect(page.locator('#give-cadence-title')).toHaveText('Monthly giving is being set up');
   await expect(page.locator('#give-paypal')).toHaveAttribute('href', 'mailto:info@gracepraise.church');
@@ -100,6 +101,28 @@ test('legacy monthly intent never silently reaches one-time checkout', async ({ 
   await page.getByRole('radio').check();
   await expect(page.locator('#give-paypal')).toHaveAttribute('href', paypalUrl);
   expect(requests).toEqual([]);
+});
+
+test('monthly query reaches contact without JavaScript for every Give URL', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  const requests: string[] = [];
+  await context.route('https://www.paypal.com/**', route => {
+    requests.push(route.request().url());
+    return route.abort();
+  });
+  for (const path of ['/give.html', '/give', '/give/']) {
+    const response = await page.goto(path + '?frequency=monthly&lang=bn');
+    expect(response?.status()).toBe(200);
+    expect(response?.request().redirectedFrom()).not.toBeNull();
+    await expect(page).toHaveURL(/\/give-monthly\.html(?:\?|$)/);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Monthly giving is being set up');
+    await expect(page.getByRole('link', { name: 'Ask about monthly giving' })).toHaveAttribute('href', 'mailto:info@gracepraise.church');
+    await expect(page.locator('a[href*="paypal.com"]')).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'Make a one-time gift instead' })).toHaveAttribute('href', 'give.html?frequency=once');
+  }
+  expect(requests).toEqual([]);
+  await context.close();
 });
 
 test('untrusted success, pending and cancel parameters do not confirm a payment', async ({ page }) => {

@@ -19,6 +19,27 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/give.html"
+  to = "/give-monthly.html"
+  status = 302
+  force = true
+  query = {frequency = "monthly"}
+
+[[redirects]]
+  from = "/give"
+  to = "/give-monthly.html"
+  status = 302
+  force = true
+  query = {frequency = "monthly"}
+
+[[redirects]]
+  from = "/give/"
+  to = "/give-monthly.html"
+  status = 302
+  force = true
+  query = {frequency = "monthly"}
+
 # Global Security Headers
 [[headers]]
   for = "/*"

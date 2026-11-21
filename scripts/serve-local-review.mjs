@@ -59,6 +59,13 @@ const server = http.createServer(async (req, res) => {
         return;
     }
     const relative = safeRelative(req.url || '/');
+    const url = new URL(req.url || '/', `http://${host}:${port}`);
+    if (['/give.html', '/give', '/give/'].includes(url.pathname)
+        && url.searchParams.get('frequency') === 'monthly') {
+        res.writeHead(302, { Location: '/give-monthly.html' + url.search, 'Cache-Control': 'no-store' });
+        res.end();
+        return;
+    }
     if (!relative || !allowed(relative)) {
         response(res, 404, 'Not found');
         return;
