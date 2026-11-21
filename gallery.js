@@ -26,13 +26,16 @@ async function loadGalleryPhotos() {
         if (!Array.isArray(files) || !files.every(file => typeof file === 'string' && /^\/content\/gallery\/[^/]+\.md$/u.test(file))) {
             throw new Error('Invalid gallery manifest');
         }
-        const photos = await Promise.all(files.map(async file => {
-            const mdResponse = await fetch(file);
-            if (!mdResponse.ok) throw new Error(`Gallery entry returned HTTP ${mdResponse.status}`);
-            const photo = parseFrontmatter(await mdResponse.text());
-            if (!photo || !photo.image) throw new Error('Invalid gallery entry');
-            return photo;
-        }));
+        const photos = [];
+        for (let start = 0; start < files.length; start += 4) {
+            photos.push(...await Promise.all(files.slice(start, start + 4).map(async file => {
+                const mdResponse = await fetch(file);
+                if (!mdResponse.ok) throw new Error(`Gallery entry returned HTTP ${mdResponse.status}`);
+                const photo = parseFrontmatter(await mdResponse.text());
+                if (!photo || !photo.image) throw new Error('Invalid gallery entry');
+                return photo;
+            })));
+        }
         allPhotos = photos.sort((a, b) => new Date(b.date) - new Date(a.date));
         galleryLoadState = 'loaded';
         displayPhotos();
@@ -166,7 +169,7 @@ function initGallery() {
     if (galleryInitialized) return;
     galleryInitialized = true;
 
-    document.getElementById('retryGallery').addEventListener('click', loadGalleryPhotos);
+    document.getElementById('retryGallery')?.addEventListener('click', loadGalleryPhotos);
 
     document.querySelectorAll('.filter-btn[data-category]').forEach(btn => {
         btn.addEventListener('click', () => {

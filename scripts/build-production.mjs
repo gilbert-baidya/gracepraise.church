@@ -176,17 +176,18 @@ export async function assembleProduction({ root, trackedFiles, verify = verifyPr
             await fs.mkdir(path.dirname(target), { recursive: true });
             await fs.copyFile(source, target);
         }
+        const expectedFiles = [...files];
         if (files.includes('gallery.html')) {
-            const galleryFiles = files.filter(relative => /^content\/gallery\/[^/]+\.md$/u.test(relative))
+            const galleryFiles = files.filter(relative => /^content\/gallery\/\d{8}-[^/.]+\.md$/u.test(relative))
                 .map(relative => `/${relative.split('/').map(encodeURIComponent).join('/')}`);
             const manifest = path.join(output, GALLERY_MANIFEST_FILE);
             await fs.mkdir(path.dirname(manifest), { recursive: true });
             await fs.writeFile(manifest, `${JSON.stringify(galleryFiles, null, 2)}\n`);
-            files.push(GALLERY_MANIFEST_FILE);
-            files.sort();
+            expectedFiles.push(GALLERY_MANIFEST_FILE);
+            expectedFiles.sort();
         }
-        await verify(output, { sourceRoot: root, expectedFiles: new Set(files) });
-        return { output, files };
+        await verify(output, { sourceRoot: root, expectedFiles: new Set(expectedFiles) });
+        return { output, files: expectedFiles };
     } catch (error) {
         await fs.rm(output, { recursive: true, force: true });
         throw error;
