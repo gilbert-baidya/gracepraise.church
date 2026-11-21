@@ -6,9 +6,11 @@ function doGet(e) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const eventsSheet = ss.getSheetByName('Events') || ss.getSheets()[0];
   
-  // If there's an action parameter, use it
+  // GET is read-only so a link or <img> tag cannot add or delete data.
   if (e.parameter && e.parameter.action) {
-    return doPost(e);
+    if (e.parameter.action === 'getEvents') return getEvents(eventsSheet);
+    if (e.parameter.action === 'getSongs') return getSongs(ss);
+    return createJsonResponse({ error: 'Use POST for this action' });
   }
   
   // Default: return events for browser access
@@ -69,14 +71,30 @@ function doPost(e) {
       return addTestimony(ss, data);
     }
     
-    return createJsonResponse({ 
-      error: 'Unknown action: ' + data.action,
-      receivedData: data
-    });
+    return createJsonResponse({ error: 'Unknown action' });
     
   } catch (error) {
-    return createJsonResponse({ error: 'Execution error: ' + error.toString() });
+    return createJsonResponse({ error: 'Execution error' });
   }
+}
+
+// Stops spreadsheet formula injection (=, +, -, @).
+function sanitizeCell(value) {
+  const text = value === undefined || value === null ? '' : String(value);
+  return /^[=+\-@\t\r]/.test(text) ? "'" + text : text;
+}
+
+function sanitizeRow(values) {
+  return values.map(value => (typeof value === 'number' || typeof value === 'boolean') ? value : sanitizeCell(value));
+}
+
+function validateFields(fields) {
+  for (const field of Object.keys(fields)) {
+    if (String(fields[field] ?? '').length > 5000) {
+      return { success: false, message: field + ' must be 5000 characters or fewer.' };
+    }
+  }
+  return null;
 }
 
 function getEvents(sheet) {
@@ -107,9 +125,16 @@ function getEvents(sheet) {
 
 function addEvent(sheet, data) {
   const event = data.event;
+  const invalid = validateFields({
+    'Event date': event.date, 'Event name': event.name, 'Event category': event.category,
+    'Event description': event.description, 'Event added by': event.addedBy,
+    'Event contact': event.contact, 'Event owner': event.owner,
+    'Event timestamp': event.timestamp, 'Event image URL': event.imageUrl
+  });
+  if (invalid) return createJsonResponse(invalid);
   
   // Add new row with event data including imageUrl
-  sheet.appendRow([
+  sheet.appendRow(sanitizeRow([
     event.date,                                      // Column A: Date
     event.name,                                      // Column B: Name
     event.category,                                  // Column C: Category
@@ -119,7 +144,7 @@ function addEvent(sheet, data) {
     event.owner || '',                              // Column G: Owner
     event.timestamp || new Date().toISOString(),    // Column H: Timestamp
     event.imageUrl || ''                            // Column I: Image URL
-  ]);
+  ]));
   
   return createJsonResponse({ success: true, message: 'Event added successfully' });
 }
@@ -148,6 +173,17 @@ function deleteEvent(sheet, data) {
 }
 
 function addPrayerRequest(ss, data) {
+  const prayer = data.prayer;
+  const submissionId = prayer.submissionId ?? '';
+  if (typeof submissionId !== 'string' || submissionId.length > 128 || /[^A-Za-z0-9_-]/.test(submissionId) || submissionId.startsWith('-')) {
+    return createJsonResponse({ success: false, message: 'Submission ID must be 1 to 128 characters using only letters, digits, hyphens or underscores, and cannot start with a hyphen.' });
+  }
+  const invalid = validateFields({
+    'Prayer name': prayer.name, 'Prayer email': prayer.email,
+    'Prayer categories': prayer.categories, 'Prayer request': prayer.details,
+    'Prayer status': prayer.status
+  });
+  if (invalid) return createJsonResponse(invalid);
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
@@ -171,8 +207,6 @@ function addPrayerRequest(ss, data) {
       headerRange.setFontColor('white');
     }
   
-    const prayer = data.prayer;
-    const submissionId = typeof prayer.submissionId === 'string' ? prayer.submissionId.trim() : '';
     let submissionColumn = 0;
     if (submissionId) {
       const lastColumn = Math.max(prayerSheet.getLastColumn(), 6);
@@ -194,14 +228,14 @@ function addPrayerRequest(ss, data) {
     }
     const timestamp = new Date().toLocaleString();
   
-    const row = [
+    const row = sanitizeRow([
       timestamp,
       prayer.name,
       prayer.isAnonymous ? 'Yes' : 'No',
       prayer.categories,
       prayer.details,
       prayer.status || 'Active'
-    ];
+    ]);
     if (submissionColumn) {
       while (row.length < submissionColumn) row.push('');
       row[submissionColumn - 1] = submissionId;
@@ -274,6 +308,14 @@ function getSongs(ss) {
 }
 
 function addSong(ss, data) {
+  const song = data.song;
+  const chords = Array.isArray(song.chords) ? song.chords.join(', ') : song.chords || '';
+  const invalid = validateFields({
+    'Song title': song.title, 'Song language': song.language, 'Song category': song.category,
+    'Song key': song.key, 'Song tempo': song.tempo, 'Song preview': song.preview,
+    'Song lyrics': song.lyrics, 'Song chords': chords, 'Song submitted by': song.submittedBy
+  });
+  if (invalid) return createJsonResponse(invalid);
   let songsSheet = ss.getSheetByName('Songs');
   if (!songsSheet) {
     // Create sheet if it doesn't exist
@@ -281,11 +323,10 @@ function addSong(ss, data) {
     songsSheet = ss.getSheetByName('Songs');
   }
   
-  const song = data.song;
   const lastRow = songsSheet.getLastRow();
   const newId = lastRow > 1 ? songsSheet.getRange(lastRow, 1).getValue() + 1 : 1;
   
-  songsSheet.appendRow([
+  songsSheet.appendRow(sanitizeRow([
     newId,
     song.title,
     song.language,
@@ -294,10 +335,10 @@ function addSong(ss, data) {
     song.tempo || '',
     song.preview || '',
     song.lyrics,
-    Array.isArray(song.chords) ? song.chords.join(', ') : song.chords || '',
+    chords,
     song.submittedBy,
     new Date().toLocaleString()
-  ]);
+  ]));
   
   return createJsonResponse({ success: true, message: 'Song added successfully', id: newId });
 }
@@ -334,6 +375,12 @@ function addSampleSongs(sheet) {
 }
 
 function addTestimony(ss, data) {
+  const testimony = data.testimony;
+  const invalid = validateFields({
+    'Testimony name': testimony.name, 'Testimony member since': testimony.memberSince,
+    'Testimony text': testimony.text, 'Testimony language': testimony.language
+  });
+  if (invalid) return createJsonResponse(invalid);
   let testimonySheet = ss.getSheetByName('Testimonies');
   if (!testimonySheet) {
     testimonySheet = ss.insertSheet('Testimonies');
@@ -352,11 +399,10 @@ function addTestimony(ss, data) {
     headerRange.setFontColor('white');
   }
   
-  const testimony = data.testimony;
   const lastRow = testimonySheet.getLastRow();
   const newId = lastRow > 1 ? testimonySheet.getRange(lastRow, 1).getValue() + 1 : 1;
   
-  testimonySheet.appendRow([
+  testimonySheet.appendRow(sanitizeRow([
     newId,
     testimony.name,
     testimony.memberSince || 'Recent member',
@@ -364,7 +410,7 @@ function addTestimony(ss, data) {
     testimony.language,
     new Date().toLocaleString(),
     'Pending Review'
-  ]);
+  ]));
   
   return createJsonResponse({ success: true, message: 'Testimony submitted successfully', id: newId });
 }

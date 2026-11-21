@@ -8,6 +8,14 @@
     
     if (!form) return;
 
+    const defaultErrorMessage = errorMessage ? errorMessage.textContent : '';
+    function showError(message) {
+        if (!errorMessage) return;
+        errorMessage.textContent = message;
+        errorMessage.hidden = false;
+        errorMessage.focus();
+    }
+
     let submissionId = null;
     let submittedFields = null;
 
@@ -18,7 +26,7 @@
         if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
             return 'prayer-' + Array.from(window.crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('');
         }
-        return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+        return `prayer-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
     }
 
     function sanitizeInput(str) {
@@ -48,6 +56,13 @@
         const sanitizedName = sanitizeInput(rawName);
         const sanitizedEmail = sanitizeInput(rawEmail);
         const sanitizedRequest = sanitizeInput(rawRequest);
+
+        for (const [label, value] of [['Prayer name', sanitizedName], ['Prayer email', sanitizedEmail], ['Prayer request', sanitizedRequest]]) {
+            if (value.length > 5000) {
+                showError(`${label} must be 5000 characters or fewer. Your text is still here; please shorten it and try again.`);
+                return;
+            }
+        }
 
         // Validate required field
         if (!sanitizedRequest) {
@@ -104,7 +119,7 @@
             }
             const result = await response.json();
             if (result?.success !== true) {
-                throw new Error('Endpoint did not confirm the prayer request');
+                throw new Error(typeof result?.message === 'string' ? result.message : defaultErrorMessage);
             }
 
             submissionId = null;
@@ -116,10 +131,8 @@
             }
         } catch (error) {
             console.warn('[Prayer Form] Submission failed:', error instanceof Error ? error.message : String(error));
-            if (errorMessage) {
-                errorMessage.hidden = false;
-                errorMessage.focus();
-            }
+            const message = error instanceof Error && error.message ? error.message : defaultErrorMessage;
+            showError(message === defaultErrorMessage ? message : `${message} ${defaultErrorMessage}`);
         } finally {
             if (submitBtn) {
                 submitBtn.disabled = false;
