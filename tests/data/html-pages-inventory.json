@@ -346,11 +346,12 @@
         "nav",
         "main",
         "footer",
-        "form",
         "h1",
         "#darkModeToggle",
         "#main-content",
-        "#online-content"
+        ".give-v14-gift-card",
+        "#paypalPaymentBtn",
+        "#paypal-handoff-note"
       ]
     },
     {
