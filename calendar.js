@@ -1,6 +1,7 @@
 // Calendar Logic
-let currentMonth = 0; // January 2026
-let currentYear = 2026;
+const initialCalendarDate = new Date();
+let currentMonth = initialCalendarDate.getMonth();
+let currentYear = initialCalendarDate.getFullYear();
 let activeFilters = new Set(['gpbc', 'christian']); // Default to showing standard events
 let currentPreset = 'this-week'; // Default to "All Events" preset
 let selectedDate = null;
