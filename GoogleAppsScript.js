@@ -175,7 +175,7 @@ function deleteEvent(sheet, data) {
 function addPrayerRequest(ss, data) {
   const prayer = data.prayer;
   const submissionId = prayer.submissionId ?? '';
-  if (typeof submissionId !== 'string' || (submissionId !== '' && !/^[A-Za-z0-9_][A-Za-z0-9_-]{0,127}$/.test(submissionId))) {
+  if (typeof submissionId !== 'string' || submissionId.length > 128 || /[^A-Za-z0-9_-]/.test(submissionId) || submissionId.startsWith('-')) {
     return createJsonResponse({ success: false, message: 'Submission ID must be 1 to 128 characters using only letters, digits, hyphens or underscores, and cannot start with a hyphen.' });
   }
   const invalid = validateFields({

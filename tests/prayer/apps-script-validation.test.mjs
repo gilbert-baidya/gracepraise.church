@@ -139,7 +139,7 @@ test('existing Songbook archives and Apps Script seed lyrics fit the field limit
   assert(Math.max(...lyrics.map(value => value.length)) <= 5000);
 });
 
-for (const submissionId of ['=1+1', '+1', '-1', '-1-1', '-id', '-1+1', '@SUM(A1)', '\t=1+1', '\r=1+1', '   ', 'has space', 'a.b', ' id', 'id ', 'x'.repeat(129), 123, false, {}, []]) {
+for (const submissionId of ['=1+1', '+1', '-1', '-1-1', '-id', '-1+1', '@SUM(A1)', '\t=1+1', '\r=1+1', '   ', 'has space', 'a.b', ' id', 'id ', 'id\n', 'id\r', 'id\u2028', 'id\u2029', 'x'.repeat(129), 123, false, {}, []]) {
   test(`unsafe submission ID ${JSON.stringify(submissionId)} is rejected without any sheet writes`, () => {
     const f = fixture();
     const result = f.post({ action: 'addPrayerRequest', prayer: { submissionId, details: 'Please pray.' } });
