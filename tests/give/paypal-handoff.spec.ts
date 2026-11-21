@@ -18,7 +18,9 @@ test('PayPal opens the unchanged URL directly without any selection', async ({ p
   const requests: string[] = [];
   const dialogs: string[] = [];
   await context.route('https://www.paypal.com/**', async route => {
-    requests.push(route.request().url());
+    if (route.request().isNavigationRequest() && route.request().resourceType() === 'document') {
+      requests.push(route.request().url());
+    }
     await route.fulfill({ contentType: 'text/html', body: '<h1>PayPal navigation intercepted</h1>' });
   });
   page.on('dialog', async dialog => {
@@ -33,5 +35,39 @@ test('PayPal opens the unchanged URL directly without any selection', async ({ p
   expect(requests).toEqual([paypalUrl]);
   expect(dialogs).toEqual([]);
   await expect(page).toHaveURL(/\/give\.html$/);
+  await popup.close();
+});
+
+test('mobile note styling stays scoped to the giving card', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/give.html');
+  const outsideSize = await page.evaluate(() => {
+    const parent = document.createElement('div');
+    parent.style.fontSize = '40px';
+    const note = document.createElement('div');
+    note.className = 'give-v14-method-note';
+    note.textContent = 'Other method';
+    parent.appendChild(note);
+    document.body.appendChild(parent);
+    return getComputedStyle(note).fontSize;
+  });
+  expect(outsideSize).toBe('40px');
+  await expect(page.locator('.give-v14-gift-card .give-v14-method-note')).toBeVisible();
+});
+
+test('configured Stripe button still opens its own intercepted payment link', async ({ page, context }) => {
+  const stripeUrl = 'https://buy.stripe.com/review-placeholder';
+  await page.route(url => url.pathname === '/donations.js', async route => {
+    const response = await route.fetch();
+    await route.fulfill({ response, body: (await response.text()).replace('https://buy.stripe.com/YOUR_LIVE_STRIPE_LINK_HERE', stripeUrl) });
+  });
+  await context.route('https://buy.stripe.com/**', route => route.fulfill({ contentType: 'text/html', body: '<h1>Stripe navigation intercepted</h1>' }));
+  await page.goto('/give.html');
+  const button = page.locator('#stripePaymentBtn');
+  await expect(button).toBeVisible();
+  const popupPromise = page.waitForEvent('popup');
+  await button.click();
+  const popup = await popupPromise;
+  await expect(popup).toHaveURL(stripeUrl);
   await popup.close();
 });

@@ -112,11 +112,6 @@ function generateDonationQRCodes() {
 }
 
 function handleStripePayment() {
-    if (!isStripePaymentConfigured()) {
-        handlePayPalPayment();
-        return;
-    }
-    
     // Open Stripe payment page in new secure tab
     openSecureLink(DONATION_CONFIG.stripePaymentLink);
 }
