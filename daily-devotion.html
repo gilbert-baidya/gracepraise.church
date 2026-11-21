@@ -1142,6 +1142,18 @@
                 }, 300);
             }
 
+            function renderDevotionSubtitle(date, reference) {
+                if (!headerSubtitle) return;
+                const dateSpan = document.createElement('span');
+                dateSpan.lang = currentLang;
+                dateSpan.textContent = date;
+                const referenceSpan = document.createElement('span');
+                referenceSpan.lang = 'en';
+                referenceSpan.textContent = reference;
+                headerSubtitle.lang = 'en';
+                headerSubtitle.replaceChildren(dateSpan, document.createTextNode(' — '), referenceSpan);
+            }
+
             function renderScripture(reference, verseText, language = 'en') {
                 const globalData = getCurrentDevotionData() || {};
                 const safeReference = (globalData.verseReference || globalData.verse || reference || 'Psalm 46:1').trim();
@@ -1521,14 +1533,12 @@
 
                 // STEP 5: Render Main Card
                 if (headerTitle) headerTitle.lang = getFieldLanguage(data, 'title');
-                if (headerSubtitle) headerSubtitle.lang = currentLang;
                 if (window.safeSetText) {
                     window.safeSetText('#devotionTitle', devotionData.title);
-                    window.safeSetText('#devotionSubtitle', `${devotionData.date} — ${devotionData.verse}`);
                 } else {
                     if (headerTitle) headerTitle.textContent = devotionData.title;
-                    if (headerSubtitle) headerSubtitle.textContent = `${devotionData.date} — ${devotionData.verse}`;
                 }
+                renderDevotionSubtitle(devotionData.date, devotionData.verse);
 
                 renderScripture(devotionData.verseReference || devotionData.verse, devotionData.verseText, getFieldLanguage(data, 'verseText'));
 
@@ -2034,9 +2044,8 @@
 
                     // STEP 3 — Populate main devotion
                     if (headerTitle) headerTitle.lang = 'en';
-                    if (headerSubtitle) headerSubtitle.lang = currentLang;
                     safeSetTextById('devotionTitle', fallback.title);
-                    safeSetTextById('devotionSubtitle', `${fallback.date} — ${fallback.verse}`);
+                    renderDevotionSubtitle(fallback.date, fallback.verse);
                     const fallbackData = setCurrentDevotionData(fallback);
                     renderScripture(fallbackData.verseReference || fallbackData.verse, fallbackData.verseText || fallbackData.verse);
 

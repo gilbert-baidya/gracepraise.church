@@ -12,16 +12,16 @@ function contrast(foreground: string, background: string) {
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 }
 
-test('phone carousel captions keep their compact role inside the circular overlays', async ({ page }) => {
+test('carousel captions keep their compact role inside the circular overlays', async ({ page }) => {
   await page.goto('/index.html');
   await page.evaluate(() => document.fonts.ready);
-  for (const width of [320, 390, 767]) {
+  for (const width of [320, 390, 767, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 844 });
     const captions = page.locator('.block-the-loop .heading h2');
     expect(await captions.count()).toBeGreaterThanOrEqual(4);
     for (const caption of await captions.all()) {
-      await expect(caption).toHaveCSS('font-size', '16px');
-      await expect(caption).toHaveCSS('line-height', '22px');
+      await expect(caption).toHaveCSS('font-size', width < 768 ? '16px' : width === 768 ? '19.2px' : '24px');
+      await expect(caption).toHaveCSS('line-height', width < 768 ? '22px' : width === 768 ? '24.96px' : '31.2px');
       expect(await caption.evaluate(element => {
         const text = element.getBoundingClientRect();
         const overlay = element.closest('.heading')!.getBoundingClientRect();
@@ -30,6 +30,59 @@ test('phone carousel captions keep their compact role inside the circular overla
       })).toBe(true);
     }
   }
+});
+
+test('homepage hero preserves both columns and responsive text at tablet widths', async ({ page }) => {
+  await page.goto('/index.html');
+  await page.evaluate(() => document.fonts.ready);
+  for (const width of [390, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const geometry = await page.locator('.v2-hero-inner').evaluate(element => {
+      const grid = element.getBoundingClientRect();
+      const visual = element.querySelector('.v2-hero-visual')!.getBoundingClientRect();
+      const heading = element.querySelector('h1')!;
+      return { right: grid.right, visualRight: visual.right, visualWidth: visual.width,
+        width: grid.width, headingOverflow: heading.scrollWidth - heading.clientWidth,
+        fontSize: parseFloat(getComputedStyle(heading).fontSize) };
+    });
+    expect(geometry.headingOverflow).toBeLessThanOrEqual(1);
+    expect(geometry.visualRight).toBeLessThanOrEqual(geometry.right + 1);
+    if (width === 768 || width === 1024) {
+      expect(geometry.visualWidth).toBeGreaterThanOrEqual(geometry.width * .4);
+      expect(geometry.fontSize).toBeLessThan(64);
+    }
+  }
+});
+
+test('the Loop CTA keeps an opaque gold background and navy label in both themes', async ({ page }) => {
+  await page.goto('/index.html');
+  for (const theme of ['light', 'dark']) {
+    await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+    const button = page.locator('.block-the-loop .button');
+    await expect(button).toHaveCSS('background-color', 'rgb(230, 184, 78)');
+    await expect(button).toHaveCSS('color', 'rgb(16, 32, 51)');
+  }
+});
+
+test('Visit English-only regions retain English typography after switching to Bangla', async ({ page }) => {
+  await page.route('**/events.js', route => route.fulfill({
+    contentType: 'application/javascript',
+    body: `const events = [{date:'2099-01-01',name:'Future fellowship',description:'English event details',category:'gpbc'}];`,
+  }));
+  await page.goto('/plan-visit.html');
+  await expect(page.locator('#upcomingHighlights .highlight-item:not(.sunday-worship)')).toHaveCount(1);
+  await page.locator('#langToggleBtn').click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
+  for (const selector of ['a.skip-link', 'header .nav-links > li > a', '.site-footer p', '.visit-coming-soon', '.visit-rhythm-card strong', '#upcomingHighlights', '#upcomingHighlights .highlight-item:not(.sunday-worship) p']) {
+    const elements = page.locator(selector);
+    expect(await elements.count()).toBeGreaterThan(0);
+    for (const element of await elements.all()) {
+      expect(await element.evaluate(node => node.matches(':lang(en)'))).toBe(true);
+      await expect(element).toHaveCSS('font-family', 'Inter, "Noto Sans Bengali", system-ui, sans-serif');
+    }
+  }
+  await expect(page.locator('.site-footer h2').first()).toHaveCSS('font-family', 'Lora, Georgia, "Noto Sans Bengali", serif');
+  await expect(page.locator('h1 [data-lang="bn"]')).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
 });
 
 test('homepage countdown arrow and real directions CTA use contrasting colors in every state', async ({ page }) => {
@@ -102,6 +155,12 @@ for (const scenario of ['translated', 'missing', 'empty', 'load-error', 'hydrate
     await expect(page.locator('#dateStrip .date-pill').first()).toHaveAttribute('lang', 'en');
     await expect(page.locator('#langEn')).toHaveAttribute('lang', 'en');
     await expect(page.locator('#langBn')).toHaveAttribute('lang', 'bn');
+    const subtitle = page.locator('#devotionSubtitle');
+    await expect(subtitle.locator('span')).toHaveCount(2);
+    await expect(subtitle.locator('span').first()).toHaveAttribute('lang', 'bn');
+    await expect(subtitle.locator('span').first()).toContainText(/[\u0980-\u09ff]/);
+    await expect(subtitle.locator('span').last()).toHaveAttribute('lang', 'en');
+    await expect(subtitle.locator('span').last()).toHaveText(scenario === 'load-error' ? 'Psalm 46:1' : record.verse);
     if (scenario === 'hydrated') {
       await page.evaluate(() => (window as any).__resolveBible({ text: 'নতুন বাংলা শাস্ত্রের পদ' }));
       await expect(page.locator('#bibleText')).toHaveText('নতুন বাংলা শাস্ত্রের পদ');
@@ -109,6 +168,8 @@ for (const scenario of ['translated', 'missing', 'empty', 'load-error', 'hydrate
     }
     await page.locator('#langEn').click();
     await expect(page.locator('#heroTitle')).toHaveAttribute('lang', 'en');
+    await expect(subtitle.locator('span').first()).toHaveAttribute('lang', 'en');
+    await expect(subtitle.locator('span').last()).toHaveAttribute('lang', 'en');
     for (const selector of ['#devotionTitle', '#bibleText', '[data-devotion-reflection]', '[data-devotion-prayer]']) {
       await expect(page.locator(selector)).toHaveAttribute('lang', 'en');
     }
