@@ -4,7 +4,7 @@ export class MinistriesHomelessMinistryPage extends BasePage {
   readonly path = '/ministries/homeless-ministry.html';
   readonly pageName = "ministries/homeless-ministry.html";
   readonly isFullDocument = true;
-  readonly expectedTitle = "Homeless Ministry - Grace & Praise Bangladeshi Church";
+  readonly expectedTitle = "Homeless Ministry | Grace and Praise Bangladeshi Church";
   readonly criticalSelectors = ["body","header","nav","main","footer","h1","#darkModeToggle","#main-content",".mobile-menu-btn",".nav-links"];
 
   async openPage() {

@@ -5,7 +5,7 @@ export class KidsGamesIndexPage extends BasePage {
   readonly pageName = "kids/games/index.html";
   readonly isFullDocument = true;
   readonly expectedTitle = "Kids Games | GPBC";
-  readonly criticalSelectors = ["body","main","h1",".hero"];
+  readonly criticalSelectors = ["body","main","h1",".ministry-detail-hero"];
 
   async openPage() {
     return this.goto();

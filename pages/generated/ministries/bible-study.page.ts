@@ -4,7 +4,7 @@ export class MinistriesBibleStudyPage extends BasePage {
   readonly path = '/ministries/bible-study.html';
   readonly pageName = "ministries/bible-study.html";
   readonly isFullDocument = true;
-  readonly expectedTitle = "Bible Study Ministry - Grace & Praise Bangladeshi Church";
+  readonly expectedTitle = "Bible Study Ministry | Grace and Praise Bangladeshi Church";
   readonly criticalSelectors = ["body","header","nav","main","footer","h1","#darkModeToggle","#main-content",".mobile-menu-btn",".nav-links"];
 
   async openPage() {

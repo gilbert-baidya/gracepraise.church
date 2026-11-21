@@ -319,108 +319,20 @@ html:has(body.give-v14-page) {
     text-align: center;
 }
 
-.give-v14-gift-card > p {
+.give-v14-gift-card > p:not(.give-v14-method-note) {
     color: var(--give-copy);
     font-size: 0.92rem;
     margin-bottom: 26px;
     text-align: center;
 }
 
-.give-v14-form-group {
-    margin-bottom: 22px;
-}
-
-.give-v14-form-label {
-    color: var(--give-ink);
-    display: block;
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    margin-bottom: 9px;
-    text-transform: uppercase;
-}
-
-.give-v14-amount-wrap {
-    position: relative;
-}
-
-.give-v14-amount-wrap::before {
-    color: var(--give-copy);
-    content: '$';
-    font-size: 1.1rem;
-    font-weight: 700;
-    left: 15px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.give-v14-input,
-.give-v14-select {
-    appearance: none;
-    background: var(--give-surface);
-    border: 1px solid #d7dce4;
-    border-radius: 8px;
-    color: var(--give-ink);
-    font: inherit;
-    min-height: 48px;
-    outline: none;
-    padding: 12px 14px;
-    transition: border-color 180ms ease, box-shadow 180ms ease;
-    width: 100%;
-}
-
-.give-v14-amount {
-    font-size: 1.08rem;
-    font-variant-numeric: tabular-nums;
-    padding-left: 31px;
-}
-
-.give-v14-select {
-    background-image: linear-gradient(45deg, transparent 50%, var(--give-blue) 50%), linear-gradient(135deg, var(--give-blue) 50%, transparent 50%);
-    background-position: calc(100% - 18px) 20px, calc(100% - 13px) 20px;
-    background-repeat: no-repeat;
-    background-size: 5px 5px, 5px 5px;
-    padding-right: 38px;
-}
-
-.give-v14-input:focus,
-.give-v14-select:focus,
 .give-v14-copy:focus,
 .give-v14-qr-link:focus,
 .give-v14-payment:focus,
-.give-v14-preset:focus,
 .give-v14-faq summary:focus-visible {
     border-color: var(--give-blue);
     box-shadow: 0 0 0 3px rgba(20, 88, 166, 0.16);
     outline: none;
-}
-
-.give-v14-presets {
-    display: grid;
-    gap: 8px;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    margin-top: 10px;
-}
-
-.give-v14-preset {
-    background: #fbfaf7;
-    border: 1px solid var(--give-line);
-    border-radius: 8px;
-    color: var(--give-ink);
-    cursor: pointer;
-    font: 700 0.75rem/1.1 inherit;
-    min-height: 38px;
-    padding: 8px 4px;
-    transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
-}
-
-.give-v14-preset:hover,
-.give-v14-preset.active,
-.give-v14-preset.selected {
-    background: var(--give-navy);
-    border-color: var(--give-navy);
-    color: #fffaf0;
 }
 
 .give-v14-payment-stack {
@@ -477,9 +389,9 @@ html:has(body.give-v14-page) {
     border-color: var(--give-blue);
 }
 
-.give-v14-method-note {
-    color: var(--give-muted);
-    font-size: 0.7rem;
+.give-v14-gift-card .give-v14-method-note {
+    color: var(--give-copy);
+    font-size: 0.85rem;
     line-height: 1.45;
     margin: 14px 0 0;
     text-align: center;
@@ -929,22 +841,6 @@ html:has(body.give-v14-page) {
     background-color: #172b40;
 }
 
-[data-theme='dark'] .give-v14-input,
-[data-theme='dark'] .give-v14-select,
-.dark .give-v14-input,
-.dark .give-v14-select {
-    background: #0a1728;
-    border-color: rgba(201, 218, 238, 0.3);
-    color: var(--give-ink);
-}
-
-[data-theme='dark'] .give-v14-preset,
-.dark .give-v14-preset {
-    background: #0a1728;
-    border-color: rgba(201, 218, 238, 0.2);
-    color: var(--give-ink);
-}
-
 [data-theme='dark'] .give-v14-payment-secondary,
 .dark .give-v14-payment-secondary {
     border-color: #71859d;
@@ -1078,17 +974,8 @@ html:has(body.give-v14-page) {
         padding: 32px 20px 26px;
     }
 
-    .give-v14-presets {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .give-v14-presets .give-v14-preset:last-child {
-        grid-column: span 3;
-    }
-
-    .give-v14-form-label,
-    .give-v14-method-note {
-        font-size: 0.78rem;
+    .give-v14-gift-card .give-v14-method-note {
+        font-size: 0.85rem;
     }
 
     .give-v14-method-card {

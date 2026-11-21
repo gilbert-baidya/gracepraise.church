@@ -4,7 +4,7 @@ export class MinistriesSupportMissionariesPage extends BasePage {
   readonly path = '/ministries/support-missionaries.html';
   readonly pageName = "ministries/support-missionaries.html";
   readonly isFullDocument = true;
-  readonly expectedTitle = "Support Missionaries - Grace & Praise Bangladeshi Church";
+  readonly expectedTitle = "Support Missionaries | Grace and Praise Bangladeshi Church";
   readonly criticalSelectors = ["body","header","nav","main","footer","h1","#darkModeToggle","#main-content",".mobile-menu-btn",".nav-links"];
 
   async openPage() {

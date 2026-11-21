@@ -296,7 +296,39 @@
         return null;
     }
 
+    function normalizeNavigationAnchors() {
+        const isHomepage = (pathname) => pathname === '/' || pathname === '/index.html';
+        if (isHomepage(w.location.pathname)) return;
+
+        const destinations = {
+            home: '/#home',
+            'next-service': '/#next-service',
+            live: 'https://www.youtube.com/@GracePraise.Church',
+            prayer: '/prayer-request.html'
+        };
+
+        d.querySelectorAll('header a[href], footer a[href]').forEach((link) => {
+            try {
+                const url = new URL(link.getAttribute('href'), d.baseURI);
+                if (url.origin !== w.location.origin || !url.hash) return;
+
+                const targetId = decodeURIComponent(url.hash.slice(1));
+                if (!Object.prototype.hasOwnProperty.call(destinations, targetId)) return;
+                if (url.pathname === w.location.pathname) {
+                    if (d.getElementById(targetId)) return;
+                } else if (!isHomepage(url.pathname)) {
+                    return;
+                }
+
+                link.setAttribute('href', destinations[targetId]);
+            } catch {
+                return;
+            }
+        });
+    }
+
     function initNavigation(attempt = 0) {
+        normalizeNavigationAnchors();
         if (state.navInitialized || state.navInitializing) return;
 
         const initFn = resolveNavInitializer();
