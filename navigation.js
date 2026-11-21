@@ -681,18 +681,14 @@
                 }
 
                 // Handle Nested Dropdowns
-                if (link.closest('.nav-dropdown-nested')) {
-                    const nestedDropdown = link.closest('.nav-dropdown-nested');
-                    const hitToggle = link.contains(target) || target.classList.contains('dropdown-arrow') || target.closest('.dropdown-arrow');
-
-                    if (hitToggle && nestedDropdown) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        nestedDropdown.classList.toggle('mobile-dropdown-open');
-                        const expanded = nestedDropdown.classList.contains('mobile-dropdown-open');
-                        link.setAttribute('aria-expanded', expanded);
-                        return;
-                    }
+                const nestedDropdown = link.closest('.nav-dropdown-nested');
+                if (nestedDropdown && link.parentNode === nestedDropdown) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    nestedDropdown.classList.toggle('mobile-dropdown-open');
+                    const expanded = nestedDropdown.classList.contains('mobile-dropdown-open');
+                    link.setAttribute('aria-expanded', expanded);
+                    return;
                 }
             }
 
