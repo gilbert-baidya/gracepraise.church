@@ -1,14 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { readFileSync } from 'node:fs';
 
 test.use({ timezoneId: 'America/Los_Angeles' });
 
-const productionCsp = readFileSync('netlify.toml', 'utf8')
-  .match(/^\s*Content-Security-Policy\s*=\s*"([^"]+)"/m)![1];
-const pr6Csp = productionCsp.replace(/connect-src[^;]*/, directive =>
-  directive.includes('https://script.googleusercontent.com') ? directive : `${directive} https://script.googleusercontent.com`);
-const cspWithoutResponseOrigin = productionCsp.replace(/connect-src[^;]*/, directive =>
-  directive.split(/\s+/).filter(source => source !== 'https://script.googleusercontent.com').join(' '));
+const cspWithoutResponseOrigin = "connect-src 'self' https://script.google.com";
+const pr6Csp = `${cspWithoutResponseOrigin} https://script.googleusercontent.com`;
 const sheetEvent = { date: '11/25/2026', name: 'Mock Sheets fellowship', category: 'gpbc', description: 'Mock event only' };
 
 test.beforeEach(async ({ page }) => {
@@ -22,7 +17,7 @@ test.beforeEach(async ({ page }) => {
       headers: { 'access-control-allow-origin': '*' },
     });
   });
-  await page.route('**/calendar.html', async route => {
+  await page.route(url => url.pathname === '/calendar.html', async route => {
     const response = await route.fetch();
     await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': pr6Csp } });
   });
@@ -52,6 +47,17 @@ test('previous and next months cross the year boundary in both directions', asyn
   await expect(page.locator('#currentMonth')).toHaveText('December 2026');
 });
 
+test('heading and metadata stay year-agnostic outside 2026', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2027-01-21T12:00:00Z'));
+  await page.goto('/calendar.html');
+  await expect(page.locator('#currentMonth')).toHaveText('January 2027');
+  await expect(page.locator('h1')).toHaveText('Church Calendar');
+  await expect(page).toHaveTitle(/^Calendar - /);
+  const metadata = await page.locator('meta[name="title"], meta[property="og:title"], meta[name="twitter:title"], meta[name="description"], meta[property="og:description"], meta[name="twitter:description"]').evaluateAll(nodes =>
+    nodes.map(node => node.getAttribute('content')));
+  expect(metadata.every(value => value && !value.includes('2026'))).toBe(true);
+});
+
 test('renders mocked Sheets events in the calendar and monthly list', async ({ page }) => {
   await page.goto('/calendar.html');
   await expect(page.locator('.calendar-grid')).toContainText(sheetEvent.name);
@@ -64,13 +70,17 @@ for (const allowed of [false, true]) {
     await page.addInitScript(() => {
       (window as any).GOOGLE_SHEETS_URL = 'https://script.googleusercontent.com/calendar-events-test';
     });
-    await page.route('**/calendar.html', async route => {
+    await page.route(url => url.pathname === '/calendar.html', async route => {
       const response = await route.fetch();
       await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': allowed ? pr6Csp : cspWithoutResponseOrigin } });
     });
     await page.route('https://script.googleusercontent.com/**', async route => {
-      responseRequests++;
-      await route.fulfill({ json: { events: [sheetEvent] }, headers: { 'access-control-allow-origin': '*' } });
+      if (['GET', 'POST'].includes(route.request().method())) responseRequests++;
+      await route.fulfill({ json: { events: [sheetEvent] }, headers: {
+        'access-control-allow-origin': '*',
+        'access-control-allow-methods': 'GET, POST, OPTIONS',
+        'access-control-allow-headers': '*',
+      } });
     });
     await page.goto('/calendar.html');
     await expect(page.locator('.calendar-grid .day').first()).toBeAttached();
