@@ -168,8 +168,8 @@
                     <button type="button" id="nextDay" aria-label="Next day"><span>Next</span> →</button>
                 </div>
                 <div class="lang-toggle" role="radiogroup" aria-label="Language selection">
-                    <button type="button" id="langEn" class="active" role="radio" aria-checked="true">English</button>
-                    <button type="button" id="langBn" role="radio" aria-checked="false">বাংলা</button>
+                    <button type="button" id="langEn" lang="en" class="active" role="radio" aria-checked="true">English</button>
+                    <button type="button" id="langBn" lang="bn" role="radio" aria-checked="false">বাংলা</button>
                     <button type="button" id="langBoth" role="radio" aria-checked="false">Both</button>
                 </div>
             </div>
@@ -205,8 +205,8 @@
                 <!-- Day Header -->
                 <section class="devotion-section topic-section" aria-labelledby="devotionTopic">
                     <p class="day-header-kicker">Day <span id="dayHeaderNumber">1</span></p>
-                    <h2 id="devotionTopic" class="lang-en"></h2>
-                    <p id="devotionTopicBn" class="lang-bn"></p>
+                    <h2 lang="en" id="devotionTopic" class="lang-en"></h2>
+                    <p lang="bn" id="devotionTopicBn" class="lang-bn"></p>
                     <p id="devotionDate"></p>
                     <div class="completed-badge" id="completedBadge">✓ Completed</div>
                 </section>
@@ -216,20 +216,20 @@
                     <p class="section-kicker">Scripture</p>
                     <h3 id="scriptureHeading">Key Verse</h3>
                     <div class="bible-verse-container">
-                        <p class="scripture-text lang-en" id="verseText"></p>
-                        <p class="scripture-ref lang-en" id="verseRef"></p>
-                        <a href="#" id="bibleGatewayLinkEn" class="bible-gateway-link lang-en" target="_blank"
+                        <p lang="en" class="scripture-text lang-en" id="verseText"></p>
+                        <p lang="en" class="scripture-ref lang-en" id="verseRef"></p>
+                        <a lang="en" href="#" id="bibleGatewayLinkEn" class="bible-gateway-link lang-en" target="_blank"
                             rel="noopener noreferrer">
                             <span class="bible-icon" aria-hidden="true">📖</span>
                             <span>Read Verse (NIV)</span>
                             <span class="external-icon" aria-hidden="true">↗</span>
                         </a>
-                        <p class="scripture-text-bn lang-bn" id="verseTextBn"></p>
-                        <p class="scripture-ref-bn lang-bn" id="verseRefBn"></p>
-                        <a href="#" id="bibleGatewayLinkBn" class="bible-gateway-link lang-bn" target="_blank"
+                        <p lang="bn" class="scripture-text-bn lang-bn" id="verseTextBn"></p>
+                        <p lang="bn" class="scripture-ref-bn lang-bn" id="verseRefBn"></p>
+                        <a lang="bn" href="#" id="bibleGatewayLinkBn" class="bible-gateway-link lang-bn" target="_blank"
                             rel="noopener noreferrer">
                             <span class="bible-icon" aria-hidden="true">📖</span>
-                            <span>পদ পড়ুন (কেরী ভার্সন)</span>
+                            <span lang="bn">পদ পড়ুন (কেরী ভার্সন)</span>
                             <span class="external-icon" aria-hidden="true">↗</span>
                         </a>
                     </div>
@@ -240,8 +240,8 @@
                     <p class="section-kicker">Reflect</p>
                     <h3 id="reflectionHeading">Reflection</h3>
                     <div class="reflection-content" id="reflectionContent">
-                        <div class="reflection-text lang-en" id="reflectionText"></div>
-                        <div class="reflection-text-bn lang-bn" id="reflectionTextBn"></div>
+                        <div lang="en" class="reflection-text lang-en" id="reflectionText"></div>
+                        <div lang="bn" class="reflection-text-bn lang-bn" id="reflectionTextBn"></div>
                     </div>
                     <button class="read-more-btn" id="readMoreBtn" aria-expanded="false">
                         Read more <span class="chevron">▾</span>
@@ -252,8 +252,8 @@
                 <section class="devotion-section prayer-section" aria-labelledby="prayerHeading">
                     <p class="section-kicker">Pray</p>
                     <h3 id="prayerHeading">Prayer</h3>
-                    <div class="prayer-text lang-en" id="prayerText"></div>
-                    <div class="prayer-text-bn lang-bn" id="prayerTextBn"></div>
+                    <div lang="en" class="prayer-text lang-en" id="prayerText"></div>
+                    <div lang="bn" class="prayer-text-bn lang-bn" id="prayerTextBn"></div>
                 </section>
 
                 <!-- Bible Promise (conditional) -->
@@ -261,8 +261,8 @@
                     aria-labelledby="promiseHeading">
                     <p class="section-kicker">Respond</p>
                     <h3 id="promiseHeading">Promise</h3>
-                    <p class="promise-text lang-en" id="promiseText"></p>
-                    <p class="promise-text-bn lang-bn" id="promiseTextBn"></p>
+                    <p lang="en" class="promise-text lang-en" id="promiseText"></p>
+                    <p lang="bn" class="promise-text-bn lang-bn" id="promiseTextBn"></p>
                 </section>
             </article>
 
@@ -1214,7 +1214,13 @@
                 updateWeekTheme() {
                     const theme = WEEK_THEMES.find(w => this.currentDay >= w.start && this.currentDay <= w.end);
                     if (theme && this.elements.heroWeekTheme) {
-                        this.elements.heroWeekTheme.textContent = `${theme.en} · ${theme.bn}`;
+                        const english = document.createElement('span');
+                        english.lang = 'en';
+                        english.textContent = theme.en;
+                        const bengali = document.createElement('span');
+                        bengali.lang = 'bn';
+                        bengali.textContent = theme.bn;
+                        this.elements.heroWeekTheme.replaceChildren(english, ' · ', bengali);
                         this.elements.heroWeekTheme.style.display = '';
                     }
                 },

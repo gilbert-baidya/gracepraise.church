@@ -38,12 +38,17 @@ test.describe('GPBC Bible Slide Builder local milestone', () => {
     await expect(page.locator('.scripture-reference-ribbon').first()).toContainText('গীতসংহিতা ২৩:১');
     await expect(page.locator('.scripture-verse--bn .scripture-verse__text').first())
       .toHaveText('সদাপ্রভু আমার পালক, আমার অভাব হইবে না।');
+    await expect(page.locator('.scripture-verse--bn').first()).toHaveAttribute('lang', 'bn');
+    await expect(page.locator('.scripture-reference-ribbon__bn').first()).toHaveAttribute('lang', 'bn');
+    await expect(page.locator('.scripture-canvas').first()).toHaveAttribute('lang', 'en');
     await expect(page.locator('.scripture-slide-editor--overflow')).toHaveCount(0);
     expect(await page.locator('.scripture-verse--bn').first().evaluate(node => getComputedStyle(node).fontSize)).toBe('72px');
 
     await page.getByLabel('Language').selectOption('bilingual');
     await expect(page.locator('.scripture-verse--en .scripture-verse__text').first())
       .toHaveText('A psalm of David. The LORD is my shepherd, I shall not be in want.');
+    await expect(page.locator('.scripture-verse--en').first()).toHaveAttribute('lang', 'en');
+    await expect(page.locator('label:has(#bookSelector) [lang="bn"]')).toHaveText('পুস্তক');
     const pairs = await page.locator('.scripture-pair').evaluateAll(nodes => nodes.map(node => ({
       verse: (node as HTMLElement).dataset.verse,
       bn: node.querySelector('.scripture-verse--bn')?.textContent,
