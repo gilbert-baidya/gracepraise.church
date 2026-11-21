@@ -917,45 +917,17 @@
                     <p class="give-v14-eyebrow">Make a difference today</p>
                     <h2 id="gift-title">Your Gift</h2>
                     <p>Give securely and help make ministry possible.</p>
-                    <form onsubmit="return false;">
-                        <div class="give-v14-form-group">
-                            <label class="give-v14-form-label" for="amount">Amount</label>
-                            <div class="give-v14-amount-wrap">
-                                <input class="give-v14-input give-v14-amount" id="amount" name="amount" type="number" placeholder="0.00" min="1" step="0.01" inputmode="decimal" aria-label="Giving amount in dollars" required>
-                            </div>
-                            <div class="give-v14-presets" aria-label="Suggested giving amounts">
-                                <button class="give-v14-preset preset-btn" type="button" data-amount="25">$25</button>
-                                <button class="give-v14-preset preset-btn" type="button" data-amount="50">$50</button>
-                                <button class="give-v14-preset preset-btn" type="button" data-amount="100">$100</button>
-                                <button class="give-v14-preset preset-btn" type="button" data-amount="250">$250</button>
-                                <button class="give-v14-preset preset-btn" type="button" data-amount="custom">Custom</button>
-                            </div>
-                        </div>
-
-                        <div class="give-v14-form-group">
-                            <label class="give-v14-form-label" for="purpose">Give to</label>
-                            <select class="give-v14-select" id="purpose" name="purpose" aria-label="Select donation purpose">
-                                <option value="">General Offering</option>
-                                <option value="tithe">Tithe</option>
-                                <option value="missions">Missions</option>
-                                <option value="building">Building Fund</option>
-                                <option value="benevolence">Benevolence</option>
-                                <option value="special">Special Projects</option>
-                            </select>
-                        </div>
-
-                        <div class="give-v14-payment-stack">
-                            <button type="button" id="paypalPaymentBtn" class="give-v14-payment give-v14-payment-primary" aria-label="Continue with PayPal">
-                                <svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20 9.2 4.8h6.2c2.5 0 4 1.2 4 3.3 0 2.9-2.3 4.8-5.5 4.8h-3.2L9.5 20M10.8 12.9h4.1"/></svg>
-                                Continue with PayPal <span aria-hidden="true">→</span>
-                            </button>
-                            <button hidden type="button" id="stripePaymentBtn" class="give-v14-payment give-v14-payment-secondary" aria-label="Continue with credit or debit card">
-                                <svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg>
-                                Continue with Card
-                            </button>
-                        </div>
-                        <p class="give-v14-method-note">Select an amount first. Your secure payment opens in a new tab.</p>
-                    </form>
+                    <div class="give-v14-payment-stack">
+                        <button type="button" id="paypalPaymentBtn" class="give-v14-payment give-v14-payment-primary" aria-label="Continue with PayPal" aria-describedby="paypal-handoff-note">
+                            <svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20 9.2 4.8h6.2c2.5 0 4 1.2 4 3.3 0 2.9-2.3 4.8-5.5 4.8h-3.2L9.5 20M10.8 12.9h4.1"/></svg>
+                            Continue with PayPal <span aria-hidden="true">→</span>
+                        </button>
+                        <button hidden type="button" id="stripePaymentBtn" class="give-v14-payment give-v14-payment-secondary" aria-label="Continue with credit or debit card">
+                            <svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg>
+                            Continue with Card
+                        </button>
+                    </div>
+                    <p class="give-v14-method-note" id="paypal-handoff-note">You'll enter your gift amount securely on PayPal. Your secure payment opens in a new tab.</p>
 
                     <div class="give-v14-trust-mini" aria-label="Giving assurances">
                         <span><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Secure &amp; Encrypted</span>

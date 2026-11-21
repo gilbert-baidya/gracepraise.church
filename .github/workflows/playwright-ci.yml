@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+  schedule:
+    - cron: '15 3 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -13,13 +15,17 @@ concurrency:
 
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: ${{ github.event_name == 'schedule' && 60 || 25 }}
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         shardIndex: [1, 2, 3, 4]
-        shardTotal: [4]
+    env:
+      CI: true
+      PLAYWRIGHT_SUITE: ${{ github.event_name == 'schedule' && 'nightly' || 'pr' }}
+      PRODUCTION_BASE_URL: http://127.0.0.1:8082
+      PLAYWRIGHT_BLOB_OUTPUT_NAME: report-${{ matrix.shardIndex }}.zip
     
     steps:
     - name: Checkout repository
@@ -28,7 +34,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '22'
         cache: 'npm'
         
     - name: Install dependencies
@@ -36,20 +42,24 @@ jobs:
 
     - name: Install Playwright browsers
       run: npx playwright install chromium webkit firefox --with-deps
+
+    - name: Validate suite selection
+      if: matrix.shardIndex == 1
+      run: node --test tests/ci-selection.test.mjs tests/ci-sharding.test.mjs
       
     - name: Start local HTTP server
       run: |
+        npm run build:production
         python3 -m http.server 8080 &
-        sleep 3
+        python3 -m http.server 8082 --directory public-build &
         
     - name: Wait for server to be ready
       run: |
         timeout 30 bash -c 'until curl -f http://127.0.0.1:8080; do sleep 1; done'
+        timeout 30 bash -c 'until curl -f http://127.0.0.1:8082; do sleep 1; done'
         
-    - name: Run Playwright tests (Shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }})
-      run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-      env:
-        CI: true
+    - name: Run Playwright tests (Shard ${{ matrix.shardIndex }}/4)
+      run: node scripts/run-playwright-ci.mjs --shard=${{ matrix.shardIndex }}/4 --global-timeout=${{ github.event_name == 'schedule' && '3000000' || '1200000' }}
         
     - name: Upload blob report to GitHub Actions Artifacts
       if: always()
@@ -71,7 +81,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '22'
         cache: 'npm'
         
     - name: Install dependencies
