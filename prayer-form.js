@@ -4,6 +4,7 @@
 (function() {
     const form = document.getElementById('prayer-form');
     const successMessage = document.getElementById('prayer-success');
+    const errorMessage = document.getElementById('prayer-error');
     
     if (!form) return;
 
@@ -43,6 +44,7 @@
         }
 
         // Set loading state
+        if (errorMessage) errorMessage.hidden = true;
         if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting your prayer...';
@@ -73,21 +75,28 @@
             });
 
             if (!response.ok) {
-                console.warn(`[Prayer Form] Endpoint responded with HTTP status ${response.status}`);
+                throw new Error(`Endpoint responded with HTTP status ${response.status}`);
             }
-        } catch (error) {
-            console.warn('[Prayer Form] Network note:', error.message);
-        } finally {
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalBtnText;
+            const result = await response.json();
+            if (result?.success !== true) {
+                throw new Error('Endpoint did not confirm the prayer request');
             }
 
-            // Hide form, show success message
             form.style.display = 'none';
             if (successMessage) {
                 successMessage.style.display = 'block';
                 successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        } catch (error) {
+            console.warn('[Prayer Form] Submission failed:', error.message);
+            if (errorMessage) {
+                errorMessage.hidden = false;
+                errorMessage.focus();
+            }
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
             }
         }
     });
@@ -97,6 +106,9 @@
 function resetPrayerForm() {
     const form = document.getElementById('prayer-form');
     const successMessage = document.getElementById('prayer-success');
+    const errorMessage = document.getElementById('prayer-error');
+
+    if (errorMessage) errorMessage.hidden = true;
     
     if (form) {
         form.reset();
