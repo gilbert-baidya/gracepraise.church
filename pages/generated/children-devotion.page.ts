@@ -4,7 +4,7 @@ export class ChildrenDevotionPage extends BasePage {
   readonly path = '/children-devotion.html';
   readonly pageName = "children-devotion.html";
   readonly isFullDocument = true;
-  readonly expectedTitle = "Children Devotion | Grace and Praise Bangladeshi Church";
+  readonly expectedTitle = "Children Devotion | Growing in Jesus | GPBC";
   readonly criticalSelectors = ["body","header","nav","main","footer","h1","#darkModeToggle","#main-content",".mobile-menu-btn",".nav-links"];
 
   async openPage() {

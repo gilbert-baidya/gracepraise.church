@@ -4,7 +4,7 @@ export class AboutPage extends BasePage {
   readonly path = '/about.html';
   readonly pageName = "about.html";
   readonly isFullDocument = true;
-  readonly expectedTitle = "About GPBC | Grace and Praise Bangladeshi Church";
+  readonly expectedTitle = "About Grace and Praise Bangladeshi Church | San Bernardino, CA";
   readonly criticalSelectors = ["body","header","nav","main","footer","h1","#darkModeToggle","#main-content",".mobile-menu-btn",".nav-links"];
 
   async openPage() {

@@ -4,7 +4,7 @@ export class MinistriesHospitalMinistryPage extends BasePage {
   readonly path = '/ministries/hospital-ministry.html';
   readonly pageName = "ministries/hospital-ministry.html";
   readonly isFullDocument = true;
-  readonly expectedTitle = "Hospital Ministry - Grace & Praise Bangladeshi Church";
+  readonly expectedTitle = "Hospital Ministry | Grace and Praise Bangladeshi Church";
   readonly criticalSelectors = ["body","header","nav","main","footer","h1","#darkModeToggle","#main-content",".mobile-menu-btn",".nav-links"];
 
   async openPage() {
