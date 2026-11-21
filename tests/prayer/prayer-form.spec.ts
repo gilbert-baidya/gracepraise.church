@@ -1,7 +1,29 @@
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+
+const productionCsp = readFileSync('netlify.toml', 'utf8')
+  .match(/^\s*Content-Security-Policy\s*=\s*"([^"]+)"/m)![1];
 
 test.beforeEach(async ({ page }) => {
   await page.route('https://script.googleusercontent.com/**', route => route.abort());
+  await page.route('**/prayer-request.html', async route => {
+    const response = await route.fetch();
+    await route.fulfill({
+      response,
+      headers: { ...response.headers(), 'content-security-policy': productionCsp },
+    });
+  });
+});
+
+test('production CSP policies allow both Apps Script origins in connect-src', () => {
+  const homepageCsp = readFileSync('index.html', 'utf8')
+    .match(/<meta\s+http-equiv="Content-Security-Policy"\s+content="([^"]+)"/i)![1];
+  for (const policy of [productionCsp, homepageCsp]) {
+    const connectSources = policy.split(';').map(directive => directive.trim())
+      .find(directive => directive.startsWith('connect-src '))!.split(/\s+/).slice(1);
+    expect(connectSources).toContain('https://script.google.com');
+    expect(connectSources).toContain('https://script.googleusercontent.com');
+  }
 });
 
 for (const outcome of ['success', 'http-error', 'network-error', 'application-error', 'invalid-response']) {
