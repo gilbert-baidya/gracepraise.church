@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 export const PUBLICATION_DIRECTORY = 'public-build';
+export const GALLERY_MANIFEST_FILE = 'content/gallery/index.json';
 export const PRESENTATION_RUNTIME_FILES = [
     'js/presentation-library-loader.mjs',
     ...['html-to-image.js', 'pptxgen.bundle.js', 'jspdf.umd.min.js', 'jszip.min.js']
@@ -154,7 +155,8 @@ export async function verifyProductionArtifact(output, { sourceRoot, expectedFil
 export async function assembleProduction({ root, trackedFiles, verify = verifyProductionArtifact }) {
     root = await fs.realpath(root);
     const output = path.join(root, PUBLICATION_DIRECTORY);
-    const files = [...new Set(trackedFiles.map(validateRelativePath))].filter(isProductionFile).sort();
+    const files = [...new Set(trackedFiles.map(validateRelativePath))]
+        .filter(relative => isProductionFile(relative) && relative !== GALLERY_MANIFEST_FILE).sort();
     if (!files.includes('index.html')) throw new Error('Publication source must contain the homepage.');
     for (const relative of files) await assertRegularFile(root, relative);
     try {
@@ -174,8 +176,18 @@ export async function assembleProduction({ root, trackedFiles, verify = verifyPr
             await fs.mkdir(path.dirname(target), { recursive: true });
             await fs.copyFile(source, target);
         }
-        await verify(output, { sourceRoot: root, expectedFiles: new Set(files) });
-        return { output, files };
+        const expectedFiles = [...files];
+        if (files.includes('gallery.html')) {
+            const galleryFiles = files.filter(relative => /^content\/gallery\/\d{8}-[^/.]+\.md$/u.test(relative))
+                .map(relative => `/${relative.split('/').map(encodeURIComponent).join('/')}`);
+            const manifest = path.join(output, GALLERY_MANIFEST_FILE);
+            await fs.mkdir(path.dirname(manifest), { recursive: true });
+            await fs.writeFile(manifest, `${JSON.stringify(galleryFiles, null, 2)}\n`);
+            expectedFiles.push(GALLERY_MANIFEST_FILE);
+            expectedFiles.sort();
+        }
+        await verify(output, { sourceRoot: root, expectedFiles: new Set(expectedFiles) });
+        return { output, files: expectedFiles };
     } catch (error) {
         await fs.rm(output, { recursive: true, force: true });
         throw error;

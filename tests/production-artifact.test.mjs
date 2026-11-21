@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { assembleProduction, isProductionFile, verifyProductionArtifact, PRESENTATION_RUNTIME_FILES } from '../scripts/build-production.mjs';
+import { assembleProduction, isProductionFile, verifyProductionArtifact, PRESENTATION_RUNTIME_FILES, GALLERY_MANIFEST_FILE } from '../scripts/build-production.mjs';
 
 const repository = fileURLToPath(new URL('../', import.meta.url));
 async function fixture(t, entries = { 'index.html': '<h1>Home</h1>' }) {
@@ -55,6 +55,37 @@ test('production assembly preserves content bytes and replaces stale generated f
     assert.equal(await fs.readFile(path.join(root, 'worship-studio/index.html'), 'utf8'), 'LOCAL STUDIO');
     assert.equal(await fs.readFile(path.join(root, 'bible-slide-builder/index.html'), 'utf8'), 'LOCAL BIBLE BUILDER');
     assert.equal(await fs.readFile(path.join(root, 'data/bible/source/en-niv-1984.xml'), 'utf8'), '<XMLBIBLE>AUTHORITATIVE SOURCE</XMLBIBLE>');
+});
+
+test('gallery manifest follows published CMS entries and removes deleted entries on rebuild', async t => {
+    const entries = {
+        'index.html': 'HOME', 'gallery.html': 'GALLERY',
+        'content/gallery/20260101-first photo.md': 'FIRST',
+        'content/gallery/20260102-second.md': 'SECOND',
+        'content/gallery/untracked.md': 'UNPUBLISHED',
+        'content/gallery/old.backup.md': 'BACKUP',
+        [GALLERY_MANIFEST_FILE]: 'STALE MANIFEST'
+    };
+    const root = await fixture(t, entries);
+    const trackedFiles = Object.keys(entries).filter(file => file !== 'content/gallery/untracked.md');
+    const { output, files } = await assembleProduction({ root, trackedFiles });
+    assert.ok(files.includes(GALLERY_MANIFEST_FILE));
+    assert.deepEqual(JSON.parse(await fs.readFile(path.join(output, GALLERY_MANIFEST_FILE), 'utf8')), [
+        '/content/gallery/20260101-first%20photo.md', '/content/gallery/20260102-second.md'
+    ]);
+    assert.equal(await fs.readFile(path.join(root, GALLERY_MANIFEST_FILE), 'utf8'), 'STALE MANIFEST');
+    await fs.unlink(path.join(root, 'content/gallery/20260102-second.md'));
+    await assembleProduction({ root, trackedFiles: trackedFiles.filter(file => file !== 'content/gallery/20260102-second.md') });
+    assert.deepEqual(JSON.parse(await fs.readFile(path.join(output, GALLERY_MANIFEST_FILE), 'utf8')), [
+        '/content/gallery/20260101-first%20photo.md'
+    ]);
+});
+
+test('gallery without published entries gets an empty manifest', async t => {
+    const entries = { 'index.html': 'HOME', 'gallery.html': 'GALLERY' };
+    const root = await fixture(t, entries);
+    const { output } = await assembleProduction({ root, trackedFiles: Object.keys(entries) });
+    assert.deepEqual(JSON.parse(await fs.readFile(path.join(output, GALLERY_MANIFEST_FILE), 'utf8')), []);
 });
 
 test('staged development artifacts are excluded without deleting their source files', async t => {
@@ -156,7 +187,7 @@ test('real production artifact includes major site routes/assets and excludes al
     }
     assert.ok(files.every(isProductionFile));
     const tracked = execFileSync('git', ['ls-files', '-z'], { cwd: repository }).toString().split('\0').filter(Boolean);
-    assert.deepEqual([...files].sort(), [...new Set([...tracked, ...PRESENTATION_RUNTIME_FILES])].filter(isProductionFile).sort());
+    assert.deepEqual([...files].sort(), [...new Set([...tracked, ...PRESENTATION_RUNTIME_FILES, GALLERY_MANIFEST_FILE])].filter(isProductionFile).sort());
     const published = new Set(files);
     const sourceFiles = new Set(tracked);
     for (const file of files.filter(file => /\.(?:html|css|js|mjs)$/u.test(file))) {
