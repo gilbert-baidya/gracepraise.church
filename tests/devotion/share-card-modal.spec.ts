@@ -19,6 +19,8 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     await expect(shareButton).toBeVisible({ timeout: 5000 });
     
     // Click share button
+    await page.waitForFunction(() => Boolean((window as any).__CURRENT_DEVOTION_DATA__));
+    await shareButton.evaluate(button => button.setAttribute('data-share-mode', 'advanced'));
     await shareButton.click();
     
     // Modal should open
@@ -33,6 +35,8 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     
     // Open share modal
     const shareButton = page.locator('#shareCardTrigger');
+    await page.waitForFunction(() => Boolean((window as any).__CURRENT_DEVOTION_DATA__));
+    await shareButton.evaluate(button => button.setAttribute('data-share-mode', 'advanced'));
     await shareButton.click();
     
     // Canvas should be visible
@@ -61,6 +65,8 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     
     // Open share modal
     const shareButton = page.locator('#shareCardTrigger');
+    await page.waitForFunction(() => Boolean((window as any).__CURRENT_DEVOTION_DATA__));
+    await shareButton.evaluate(button => button.setAttribute('data-share-mode', 'advanced'));
     await shareButton.click();
     
     // Wait for canvas to render
@@ -106,6 +112,8 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     
     // Open share modal
     const shareButton = page.locator('#shareCardTrigger');
+    await page.waitForFunction(() => Boolean((window as any).__CURRENT_DEVOTION_DATA__));
+    await shareButton.evaluate(button => button.setAttribute('data-share-mode', 'advanced'));
     await shareButton.click();
     
     // Wait for canvas to render
@@ -132,6 +140,8 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     
     // Open share modal
     const shareButton = page.locator('#shareCardTrigger');
+    await page.waitForFunction(() => Boolean((window as any).__CURRENT_DEVOTION_DATA__));
+    await shareButton.evaluate(button => button.setAttribute('data-share-mode', 'advanced'));
     await shareButton.click();
     
     // Modal should be visible
@@ -161,6 +171,8 @@ test.describe('Daily Devotion - Share Card Modal', () => {
     
     // Open share modal
     const shareButton = page.locator('#shareCardTrigger');
+    await page.waitForFunction(() => Boolean((window as any).__CURRENT_DEVOTION_DATA__));
+    await shareButton.evaluate(button => button.setAttribute('data-share-mode', 'advanced'));
     await shareButton.click();
     
     // Wait for canvas to render

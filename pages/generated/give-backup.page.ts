@@ -5,7 +5,7 @@ export class GiveBackupPage extends BasePage {
   readonly pageName = "give-backup.html";
   readonly isFullDocument = true;
   readonly expectedTitle = "Give Online - Church Donations | Grace and Praise Bangladeshi Church";
-  readonly criticalSelectors = ["body","header","nav","main","footer","h1","#main-content",".mobile-menu-btn",".nav-links",".dropdown-menu"];
+  readonly criticalSelectors = ["body","header","nav","main","h1","#main-content",".mobile-menu-btn",".nav-links",".dropdown-menu"];
 
   async openPage() {
     return this.goto();

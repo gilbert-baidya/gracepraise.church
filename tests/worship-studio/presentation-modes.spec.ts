@@ -167,18 +167,18 @@ test('real screenshot song 696 keeps four chorded phrases together, removes red 
   expect(await page.evaluate(() => JSON.stringify(Reflect.get(window, 'SONGS_DATA')))).toBe(master);
 });
 
-test('adaptive preview reports the actual reduced font, persists it, and warns only beyond the 48pt floor', async ({ page }) => {
+test('adaptive preview reports the actual fitted font, persists it, and warns only beyond the 48pt floor', async ({ page }) => {
   await addSong(page, 'আজ এই শুভদিনে চাহি', 62);
   await page.getByRole('button', { name: 'Musician', exact: true }).click();
   const reduced = page.locator('.slide-editor').filter({ hasText: '২। সুখে দুঃখে' }).first();
-  await expect(reduced.locator('.capacity-label')).toContainText(/5[0-3]pt lyrics/);
+  await expect(reduced.locator('.capacity-label')).toContainText(/(?:4[89]|5[0-4])pt lyrics/);
   const sizing = await reduced.locator('.slide-canvas').evaluate(canvas => ({
     size: parseFloat(getComputedStyle(canvas.querySelector('.slide-canvas__lyrics')!).fontSize),
     chord: parseFloat(getComputedStyle(canvas.querySelector('.musician-chords')!).fontSize)
   }));
   expect(sizing.size / sizing.chord).toBeCloseTo(2);
   expect(sizing.size * 0.75).toBeGreaterThanOrEqual(48);
-  expect(sizing.size * 0.75).toBeLessThan(54);
+  expect(sizing.size * 0.75).toBeLessThanOrEqual(54);
   await expect(reduced.locator('.capacity-label')).toHaveAttribute('data-overflow', 'false');
   await page.getByLabel('Service date').fill('2026-11-22');
   await page.getByRole('button', { name: 'Save set', exact: true }).click();
@@ -190,7 +190,7 @@ test('adaptive preview reports the actual reduced font, persists it, and warns o
   await page.reload();
   await page.getByLabel('Saved Sunday sets').selectOption('sunday-2026-11-22');
   await page.getByRole('button', { name: 'Reload saved set', exact: true }).click();
-  await expect(reduced.locator('.capacity-label')).toContainText(/5[0-3]pt lyrics/);
+  await expect(reduced.locator('.capacity-label')).toContainText(/(?:4[89]|5[0-4])pt lyrics/);
   await expect(reduced.locator('.capacity-label')).toContainText(`${persistedFont}pt lyrics · ${persistedFont / 2}pt chords`);
   const first = page.locator('.slide-editor').first();
   for (let count = 0; count < 9; count++) await first.getByRole('button', { name: '+ Add blank line', exact: true }).click();

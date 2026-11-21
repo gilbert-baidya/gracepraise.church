@@ -73,7 +73,7 @@ export const pageRegistry: PageRegistryEntry[] = [
     htmlPath: "about.html",
     className: "AboutPage",
     isFullDocument: true,
-    expectedTitle: "About GPBC | Grace and Praise Bangladeshi Church",
+    expectedTitle: "About Grace and Praise Bangladeshi Church | San Bernardino, CA",
     create: (page: Page) => new AboutPage(page)
   },
   {
@@ -101,7 +101,7 @@ export const pageRegistry: PageRegistryEntry[] = [
     htmlPath: "children-devotion.html",
     className: "ChildrenDevotionPage",
     isFullDocument: true,
-    expectedTitle: "Children Devotion | Grace and Praise Bangladeshi Church",
+    expectedTitle: "Children Devotion | Growing in Jesus | GPBC",
     create: (page: Page) => new ChildrenDevotionPage(page)
   },
   {
@@ -122,7 +122,7 @@ export const pageRegistry: PageRegistryEntry[] = [
     htmlPath: "daily-devotion.html",
     className: "DailyDevotionPage",
     isFullDocument: true,
-    expectedTitle: "Daily Devotion",
+    expectedTitle: "Daily Devotion | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new DailyDevotionPage(page)
   },
   {
@@ -136,28 +136,28 @@ export const pageRegistry: PageRegistryEntry[] = [
     htmlPath: "family-devotion.html",
     className: "FamilyDevotionPage",
     isFullDocument: true,
-    expectedTitle: "Family Devotion | Grace and Praise Bangladeshi Church",
+    expectedTitle: "Family Devotion | Growing Together in Faith | GPBC",
     create: (page: Page) => new FamilyDevotionPage(page)
   },
   {
     htmlPath: "fasting-21days.html",
     className: "Fasting21daysPage",
     isFullDocument: true,
-    expectedTitle: "21 Days Fasting | Grace and Praise Bangladeshi Church",
+    expectedTitle: "21-Day Prayer & Fasting Guide | GPBC",
     create: (page: Page) => new Fasting21daysPage(page)
   },
   {
     htmlPath: "fasting-30days.html",
     className: "Fasting30daysPage",
     isFullDocument: true,
-    expectedTitle: "30 Days Fasting | Grace and Praise Bangladeshi Church",
+    expectedTitle: "30-Day Consecration & Fasting Guide | GPBC",
     create: (page: Page) => new Fasting30daysPage(page)
   },
   {
     htmlPath: "fasting-40days.html",
     className: "Fasting40daysPage",
     isFullDocument: true,
-    expectedTitle: "40 Days Fasting | Grace and Praise Bangladeshi Church",
+    expectedTitle: "Lent - 40 Days of Prayer and Fasting | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new Fasting40daysPage(page)
   },
   {
@@ -248,7 +248,7 @@ export const pageRegistry: PageRegistryEntry[] = [
     htmlPath: "index.html",
     className: "IndexPage",
     isFullDocument: true,
-    expectedTitle: "Grace and Praise Bangladeshi Church - San Bernardino, CA",
+    expectedTitle: "Grace and Praise Bangladeshi Church | San Bernardino, CA",
     create: (page: Page) => new IndexPage(page)
   },
   {
@@ -269,91 +269,91 @@ export const pageRegistry: PageRegistryEntry[] = [
     htmlPath: "ministries.html",
     className: "MinistriesPage",
     isFullDocument: true,
-    expectedTitle: "Our Ministries - Grace and Praise Bangladeshi Church",
+    expectedTitle: "Our Ministries | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesPage(page)
   },
   {
     htmlPath: "ministries/bible-study.html",
     className: "MinistriesBibleStudyPage",
     isFullDocument: true,
-    expectedTitle: "Bible Study Ministry - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Bible Study Ministry | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesBibleStudyPage(page)
   },
   {
     htmlPath: "ministries/community-development.html",
     className: "MinistriesCommunityDevelopmentPage",
     isFullDocument: true,
-    expectedTitle: "Community Development - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Community Development | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesCommunityDevelopmentPage(page)
   },
   {
     htmlPath: "ministries/homeless-ministry.html",
     className: "MinistriesHomelessMinistryPage",
     isFullDocument: true,
-    expectedTitle: "Homeless Ministry - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Homeless Ministry | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesHomelessMinistryPage(page)
   },
   {
     htmlPath: "ministries/hospital-ministry.html",
     className: "MinistriesHospitalMinistryPage",
     isFullDocument: true,
-    expectedTitle: "Hospital Ministry - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Hospital Ministry | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesHospitalMinistryPage(page)
   },
   {
     htmlPath: "ministries/index.html",
     className: "MinistriesIndexPage",
     isFullDocument: true,
-    expectedTitle: "Our Ministries | Grace & Praise Bangladeshi Church",
+    expectedTitle: "Our Ministries | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesIndexPage(page)
   },
   {
     htmlPath: "ministries/kids-ministry.html",
     className: "MinistriesKidsMinistryPage",
     isFullDocument: true,
-    expectedTitle: "Kids Ministry - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Kids Ministry | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesKidsMinistryPage(page)
   },
   {
     htmlPath: "ministries/men-fellowship.html",
     className: "MinistriesMenFellowshipPage",
     isFullDocument: true,
-    expectedTitle: "Men Fellowship - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Men Fellowship | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesMenFellowshipPage(page)
   },
   {
     htmlPath: "ministries/mission-outreach.html",
     className: "MinistriesMissionOutreachPage",
     isFullDocument: true,
-    expectedTitle: "Mission Outreach - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Mission Outreach | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesMissionOutreachPage(page)
   },
   {
     htmlPath: "ministries/prison-ministry.html",
     className: "MinistriesPrisonMinistryPage",
     isFullDocument: true,
-    expectedTitle: "Prison Ministry - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Prison Ministry | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesPrisonMinistryPage(page)
   },
   {
     htmlPath: "ministries/support-missionaries.html",
     className: "MinistriesSupportMissionariesPage",
     isFullDocument: true,
-    expectedTitle: "Support Missionaries - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Support Missionaries | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesSupportMissionariesPage(page)
   },
   {
     htmlPath: "ministries/worship-ministry.html",
     className: "MinistriesWorshipMinistryPage",
     isFullDocument: true,
-    expectedTitle: "Worship Ministry - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Praise & Worship Ministry | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesWorshipMinistryPage(page)
   },
   {
     htmlPath: "ministries/youth-ministry.html",
     className: "MinistriesYouthMinistryPage",
     isFullDocument: true,
-    expectedTitle: "Youth Ministry - Grace & Praise Bangladeshi Church",
+    expectedTitle: "Youth Ministry Resources | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new MinistriesYouthMinistryPage(page)
   },
   {
@@ -472,7 +472,7 @@ export const pageRegistry: PageRegistryEntry[] = [
     htmlPath: "youth-devotion.html",
     className: "YouthDevotionPage",
     isFullDocument: true,
-    expectedTitle: "Youth Devotion | Grace and Praise Bangladeshi Church",
+    expectedTitle: "Youth Devotion | Faith, Purpose, Identity in Christ | GPBC",
     create: (page: Page) => new YouthDevotionPage(page)
   },
   {
