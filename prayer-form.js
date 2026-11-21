@@ -26,7 +26,7 @@
         if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
             return 'prayer-' + Array.from(window.crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('');
         }
-        return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+        return `prayer-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
     }
 
     function sanitizeInput(str) {

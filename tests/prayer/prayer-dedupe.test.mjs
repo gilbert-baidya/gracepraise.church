@@ -88,9 +88,9 @@ test('distinct IDs append distinct prayers', () => {
 
 test('ID lookup is literal, case-sensitive and matches entire cells', () => {
   const f = fixture();
-  for (const submissionId of ['a.b', 'axb', 'A.B', 'a.b-more']) f.submit({ submissionId });
+  for (const submissionId of ['a_b', 'axb', 'A_B', 'a_b-more']) f.submit({ submissionId });
   assert.equal(f.rows.length, 5);
-  assert.equal(f.submit({ submissionId: 'a.b' }).duplicate, true);
+  assert.equal(f.submit({ submissionId: 'a_b' }).duplicate, true);
   assert.equal(f.rows.length, 5);
 });
 
@@ -140,7 +140,7 @@ test('legacy requests still append without deduplication after ID-column migrati
   assert.equal(f.rows[3].length, 6);
 });
 
-for (const submissionId of [undefined, '', '   ']) {
+for (const submissionId of [undefined, null, '']) {
   test(`legacy requests with ${JSON.stringify(submissionId)} ID retain six-column append behavior`, () => {
     const f = fixture();
     f.submit({ submissionId });

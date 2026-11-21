@@ -174,10 +174,14 @@ function deleteEvent(sheet, data) {
 
 function addPrayerRequest(ss, data) {
   const prayer = data.prayer;
+  const submissionId = prayer.submissionId ?? '';
+  if (typeof submissionId !== 'string' || (submissionId !== '' && !/^[A-Za-z0-9_][A-Za-z0-9_-]{0,127}$/.test(submissionId))) {
+    return createJsonResponse({ success: false, message: 'Submission ID must be 1 to 128 characters using only letters, digits, hyphens or underscores, and cannot start with a hyphen.' });
+  }
   const invalid = validateFields({
     'Prayer name': prayer.name, 'Prayer email': prayer.email,
     'Prayer categories': prayer.categories, 'Prayer request': prayer.details,
-    'Prayer status': prayer.status, 'Submission ID': prayer.submissionId
+    'Prayer status': prayer.status
   });
   if (invalid) return createJsonResponse(invalid);
   const lock = LockService.getScriptLock();
@@ -203,7 +207,6 @@ function addPrayerRequest(ss, data) {
       headerRange.setFontColor('white');
     }
   
-    const submissionId = typeof prayer.submissionId === 'string' ? prayer.submissionId.trim() : '';
     let submissionColumn = 0;
     if (submissionId) {
       const lastColumn = Math.max(prayerSheet.getLastColumn(), 6);

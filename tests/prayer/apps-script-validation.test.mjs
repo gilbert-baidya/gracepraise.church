@@ -6,7 +6,7 @@ import vm from 'node:vm';
 const source = readFileSync(new URL('../../GoogleAppsScript.js', import.meta.url), 'utf8');
 const cases = [
   { action: 'addEvent', key: 'event', sheet: 'Events', fields: ['date', 'name', 'category', 'description', 'addedBy', 'contact', 'owner', 'timestamp', 'imageUrl'], columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
-  { action: 'addPrayerRequest', key: 'prayer', sheet: 'Prayer Requests', fields: ['name', 'email', 'categories', 'details', 'status', 'submissionId'], columns: [1, null, 3, 4, 5, 6] },
+  { action: 'addPrayerRequest', key: 'prayer', sheet: 'Prayer Requests', fields: ['name', 'email', 'categories', 'details', 'status'], columns: [1, null, 3, 4, 5] },
   { action: 'addSong', key: 'song', sheet: 'Songs', fields: ['title', 'language', 'category', 'key', 'tempo', 'preview', 'lyrics', 'chords', 'submittedBy'], columns: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
   { action: 'addTestimony', key: 'testimony', sheet: 'Testimonies', fields: ['name', 'memberSince', 'text', 'language'], columns: [1, 2, 3, 4] },
 ];
@@ -138,3 +138,26 @@ test('existing Songbook archives and Apps Script seed lyrics fit the field limit
   }
   assert(Math.max(...lyrics.map(value => value.length)) <= 5000);
 });
+
+for (const submissionId of ['=1+1', '+1', '-1', '-1-1', '-id', '-1+1', '@SUM(A1)', '\t=1+1', '\r=1+1', '   ', 'has space', 'a.b', ' id', 'id ', 'x'.repeat(129), 123, false, {}, []]) {
+  test(`unsafe submission ID ${JSON.stringify(submissionId)} is rejected without any sheet writes`, () => {
+    const f = fixture();
+    const result = f.post({ action: 'addPrayerRequest', prayer: { submissionId, details: 'Please pray.' } });
+    assert.equal(result.success, false);
+    assert.match(result.message, /Submission ID.*1 to 128.*letters, digits, hyphens or underscores/);
+    assert.equal(f.writes(), 0);
+    assert.equal(f.sheets.size, 1);
+    assert.equal(f.post({ action: 'addPrayerRequest', prayer: { submissionId: 'corrected-id', details: 'Please pray.' } }).success, true);
+  });
+}
+
+for (const submissionId of ['A', '_id', 'a'.repeat(128), 'PRAYER_abc-123', '550e8400-e29b-41d4-a716-446655440000', 'prayer-0123456789abcdef0123456789abcdef', 'prayer-m1abc-0abc-0def']) {
+  test(`safe submission ID ${submissionId} is stored literally and deduplicates`, () => {
+    const f = fixture();
+    const submit = () => f.post({ action: 'addPrayerRequest', prayer: { submissionId, details: 'Please pray.' } });
+    assert.equal(submit().success, true);
+    assert.equal(f.sheets.get('Prayer Requests').rows[1][6], submissionId);
+    assert.deepEqual(submit(), { success: true, duplicate: true });
+    assert.equal(f.sheets.get('Prayer Requests').rows.length, 2);
+  });
+}

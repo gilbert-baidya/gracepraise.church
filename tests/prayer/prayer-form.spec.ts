@@ -90,6 +90,7 @@ for (const outcome of ['success', 'http-error', 'network-error', 'application-er
     }
     const firstId = requests[0].payload.prayer.submissionId;
     expect(firstId.length).toBeGreaterThan(0);
+    expect(firstId).toMatch(/^[A-Za-z0-9_][A-Za-z0-9_-]{0,127}$/);
     expect(requests.every(request => request.payload.prayer.submissionId === firstId)).toBe(true);
     await success.getByRole('button', { name: 'Submit Another Request' }).click();
     await expect(form).toBeVisible();
@@ -120,12 +121,14 @@ for (const unavailable of ['randomUUID', 'crypto']) {
     await page.locator('#prayer-form button[type="submit"]').click();
     await expect(page.locator('#prayer-success')).toBeVisible();
     expect(ids[0]).toBeTruthy();
+    expect(ids[0]).toMatch(/^[A-Za-z0-9_][A-Za-z0-9_-]{0,127}$/);
     expect(ids[1]).toBe(ids[0]);
     await page.getByRole('button', { name: 'Submit Another Request' }).click();
     await page.locator('#prayer-request').fill('Another prayer.');
     await page.locator('#prayer-form button[type="submit"]').click();
     await expect(page.locator('#prayer-success')).toBeVisible();
     expect(ids[2]).toBeTruthy();
+    expect(ids[2]).toMatch(/^[A-Za-z0-9_][A-Za-z0-9_-]{0,127}$/);
     expect(ids[2]).not.toBe(ids[0]);
   });
 }
