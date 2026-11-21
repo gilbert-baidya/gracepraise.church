@@ -12,6 +12,110 @@ function contrast(foreground: string, background: string) {
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 }
 
+test('phone carousel captions keep their compact role inside the circular overlays', async ({ page }) => {
+  await page.goto('/index.html');
+  await page.evaluate(() => document.fonts.ready);
+  for (const width of [320, 390, 767]) {
+    await page.setViewportSize({ width, height: 844 });
+    const captions = page.locator('.block-the-loop .heading h2');
+    expect(await captions.count()).toBeGreaterThanOrEqual(4);
+    for (const caption of await captions.all()) {
+      await expect(caption).toHaveCSS('font-size', '16px');
+      await expect(caption).toHaveCSS('line-height', '22px');
+      expect(await caption.evaluate(element => {
+        const text = element.getBoundingClientRect();
+        const overlay = element.closest('.heading')!.getBoundingClientRect();
+        return !text.width || text.left >= overlay.left && text.right <= overlay.right &&
+          text.top >= overlay.top && text.bottom <= overlay.bottom;
+      })).toBe(true);
+    }
+  }
+});
+
+test('homepage countdown arrow and real directions CTA use contrasting colors in every state', async ({ page }) => {
+  await page.goto('/index.html');
+  await page.addStyleTag({ content: 'header nav, header nav * { pointer-events: none !important; }' });
+  for (const theme of ['light', 'dark']) {
+    await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+    for (const selector of ['#specialEventBanner .banner-link', '.visit-v3__directions']) {
+      const link = page.locator(selector);
+      for (const state of ['default', 'hover', 'active', 'focus']) {
+        if (state === 'hover') await link.hover();
+        if (state === 'active') await page.mouse.down();
+        if (state === 'focus') {
+          await page.mouse.move(0, 0);
+          await page.mouse.up();
+          await link.focus();
+        }
+        await expect(link).toHaveCSS('color', 'rgb(16, 32, 51)');
+        await expect(link).toHaveCSS('-webkit-text-fill-color', 'rgb(16, 32, 51)');
+        await expect(link).toHaveCSS('background-color', 'rgb(230, 184, 78)');
+        await expect(link).toHaveCSS('background-image', 'none');
+        expect(contrast(await link.evaluate(element => getComputedStyle(element).color),
+          await link.evaluate(element => getComputedStyle(element).backgroundColor))).toBeGreaterThanOrEqual(4.5);
+      }
+    }
+  }
+});
+
+for (const scenario of ['translated', 'missing', 'empty', 'load-error', 'hydrated']) {
+  test(`Daily Devotion language metadata follows rendered content: ${scenario}`, async ({ page }) => {
+    await page.clock.setFixedTime(new Date('2026-11-21T12:00:00Z'));
+    const record: Record<string, string> = {
+      date: scenario === 'load-error' ? '2026-10-19' : '2026-11-20',
+      title: 'English title', titleBn: 'বাংলা শিরোনাম', verse: 'John 3:16',
+      verseText: 'English scripture', verseTextBn: 'বাংলা শাস্ত্রের পদ',
+      reflection: 'English reflection', reflectionBn: 'বাংলা ভাবনা',
+      prayer: 'English prayer', prayerBn: 'বাংলা প্রার্থনা',
+    };
+    if (scenario === 'missing' || scenario === 'empty') {
+      for (const key of ['titleBn', 'verseTextBn', 'reflectionBn', 'prayerBn']) {
+        if (scenario === 'missing') delete record[key];
+        else record[key] = '';
+      }
+    }
+    if (scenario === 'hydrated') delete record.verseTextBn;
+    await page.route(url => url.pathname === '/devotions-data.js', route => route.fulfill({
+      contentType: 'application/javascript',
+      body: `window.DEVOTIONS = ${JSON.stringify([record])};
+        window.GPBC_INITIAL_DEVOTION_DATE = '2026-11-20';
+        window.loadDevotionsForMonth = () => Promise.reject(new Error('Fixture data unavailable'));`,
+    }));
+    await page.route(url => url.pathname === '/services/bible/bible-service.js', route => route.fulfill({
+      contentType: 'application/javascript',
+      body: scenario === 'hydrated'
+        ? `window.GPBCBibleService = {getPassage: () => new Promise(resolve => {window.__resolveBible = resolve;})};`
+        : `window.GPBCBibleService = {getPassage: async () => null};`,
+    }));
+    await page.goto('/daily-devotion.html');
+    await expect(page.locator('#devotionTitle')).toHaveText(scenario === 'load-error' ? 'God is our Refuge' : record.title);
+    await page.locator('#langBn').click();
+    await expect(page.locator('#heroTitle')).toHaveAttribute('lang', 'bn');
+    await expect(page.locator('#heroTitle')).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
+    await expect(page.locator('#reflectionHeading')).toHaveAttribute('lang', 'bn');
+    const translated = scenario === 'translated' || scenario === 'hydrated';
+    for (const selector of ['#devotionTitle', '[data-devotion-reflection]', '[data-devotion-prayer]']) {
+      await expect(page.locator(selector)).toHaveAttribute('lang', translated ? 'bn' : 'en');
+    }
+    await expect(page.locator('#bibleReference')).toHaveAttribute('lang', 'en');
+    await expect(page.locator('#bibleText')).toHaveAttribute('lang', scenario === 'translated' ? 'bn' : 'en');
+    await expect(page.locator('#dateStrip .date-pill').first()).toHaveAttribute('lang', 'en');
+    await expect(page.locator('#langEn')).toHaveAttribute('lang', 'en');
+    await expect(page.locator('#langBn')).toHaveAttribute('lang', 'bn');
+    if (scenario === 'hydrated') {
+      await page.evaluate(() => (window as any).__resolveBible({ text: 'নতুন বাংলা শাস্ত্রের পদ' }));
+      await expect(page.locator('#bibleText')).toHaveText('নতুন বাংলা শাস্ত্রের পদ');
+      await expect(page.locator('#bibleText')).toHaveAttribute('lang', 'bn');
+    }
+    await page.locator('#langEn').click();
+    await expect(page.locator('#heroTitle')).toHaveAttribute('lang', 'en');
+    for (const selector of ['#devotionTitle', '#bibleText', '[data-devotion-reflection]', '[data-devotion-prayer]']) {
+      await expect(page.locator(selector)).toHaveAttribute('lang', 'en');
+    }
+    await expect(page.locator('#devotionTitle')).toHaveText(scenario === 'load-error' ? 'God is our Refuge' : record.title);
+  });
+}
+
 for (const route of routes) {
   test(`${route} uses local shared typography and persistent day/night roles`, async ({ page }) => {
     const externalFonts: string[] = [];

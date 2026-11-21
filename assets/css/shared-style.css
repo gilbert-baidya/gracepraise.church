@@ -216,6 +216,17 @@ body a {
     text-decoration-thickness: 1px;
 }
 
+html:root body #specialEventBanner a.banner-link {
+    background: var(--gpbc-gold-fill) !important;
+    color: var(--gpbc-gold-label) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+body a.gpbc-admin-preview-banner__link {
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
 body .site-footer {
     --gpbc-link: #8FBCFF;
 }
@@ -263,7 +274,7 @@ body :is(.gpbc-card, .card, .info-card, .event-card, .visit-rhythm-card,
 
 html:root body #featured-events .flip-card .flip-card-back a.card-button,
 html:root body #featured-events .flip-card .flip-card-back a.card-button:is(:link, :visited, :hover, :active, :focus, :focus-visible),
-html:root body :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-v3__button,
+html:root body :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-v3__button, .visit-v3__directions,
     .visit-button-primary, .prayer-v15-button--primary, #paypalPaymentBtn,
     #shareTodayBtn, .share-today-btn, button.primary) {
     background: var(--gpbc-gold-fill) !important;
@@ -282,7 +293,7 @@ html:root body :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-
     letter-spacing: normal;
 }
 
-body :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-v3__button,
+body :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-v3__button, .visit-v3__directions,
     .visit-button-primary, .prayer-v15-button--primary, #paypalPaymentBtn,
     .share-today-btn, button.primary, #featured-events .card-button) * {
     color: inherit !important;
@@ -398,6 +409,13 @@ html:root body.gpbc-shared h3:lang(bn) {
 
 body.page-daily-devotion .devotion-jump-bar {
     flex-wrap: wrap !important;
+}
+
+@media (max-width: 767px) {
+    html:root body.gpbc-shared .block-the-loop .heading h2 {
+        font-size: 16px !important;
+        line-height: 22px !important;
+    }
 }
 
 @media (max-width: 760px) {

@@ -832,6 +832,13 @@ test.describe('V21 public website-control adapter', () => {
     expect(publicRequests).toBe(0);
     await expect(page.locator('#gpbc-admin-preview-banner')).toContainText('GPBC ADMIN PREVIEW');
     await expect(page.locator('#gpbc-admin-preview-banner')).toContainText('Draft Revision 8');
+    for (const theme of ['light', 'dark']) {
+      await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+      const banner = page.locator('#gpbc-admin-preview-banner');
+      await expect(banner).toHaveCSS('background-color', 'rgb(91, 31, 31)');
+      await expect(banner).toHaveCSS('color', 'rgb(255, 248, 239)');
+      await expect(banner.getByRole('link', { name: 'Return to Admin' })).toHaveCSS('color', 'rgb(255, 248, 239)');
+    }
     expect(await page.locator('[data-gpbc-feature="homepage.planVisit"]').isHidden()).toBe(false);
     expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"]').evaluateAll((elements) => elements.every((element) => !(element as HTMLElement).hidden))).toBe(true);
     expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"]').evaluateAll((elements) => elements.every((element) => element.classList.contains('gpbc-control-coming-soon-link')))).toBe(true);
