@@ -277,8 +277,16 @@ test.describe('V21 public website-control adapter', () => {
   });
 
   test('ACTIVE loading preserves section layout while awaiting configuration', async ({ page }) => {
+    const start = new Date('2026-11-21T12:00:00Z');
+    await page.clock.install({ time: start });
+    await page.clock.pauseAt(new Date(start.getTime() + 1000));
+    let releaseResponse!: () => void;
+    const responseGate = new Promise<void>((resolve) => { releaseResponse = resolve; });
+    let requestStarted!: () => void;
+    const requestGate = new Promise<void>((resolve) => { requestStarted = resolve; });
     await page.route(endpointRoute, async (route) => {
-      await new Promise((resolve) => setTimeout(resolve, 1800));
+      requestStarted();
+      await responseGate;
       await route.fulfill({
         contentType: 'application/json',
         headers: { 'access-control-allow-origin': '*' },
@@ -287,17 +295,25 @@ test.describe('V21 public website-control adapter', () => {
     });
     await configurePage(page, 'ACTIVE');
     await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
-    await page.waitForFunction(() => document.documentElement.dataset.gpbcControlPending === 'true');
+    await page.clock.runFor(1);
+    await requestGate;
 
-    const loadingLayout = await page.locator('[data-gpbc-feature="homepage.planVisit"]').evaluate((element: HTMLElement) => ({
-      visibility: getComputedStyle(element).visibility,
-      hidden: element.hidden,
-      height: element.getBoundingClientRect().height
-    }));
-    expect(loadingLayout).toMatchObject({ visibility: 'hidden', hidden: false });
-    expect(loadingLayout.height).toBeGreaterThan(0);
+    try {
+      const loadingLayout = await page.locator('[data-gpbc-feature="homepage.planVisit"]').evaluate((element: HTMLElement) => ({
+        status: document.documentElement.dataset.gpbcControlStatus,
+        pending: document.documentElement.dataset.gpbcControlPending,
+        visibility: getComputedStyle(element).visibility,
+        hidden: element.hidden,
+        height: element.getBoundingClientRect().height
+      }));
+      expect(loadingLayout).toMatchObject({ status: 'loading', pending: 'true', visibility: 'hidden', hidden: false });
+      expect(loadingLayout.height).toBeGreaterThan(0);
+    } finally {
+      releaseResponse();
+    }
 
-    await waitForAdapter(page);
+    await expect.poll(() => page.evaluate(() => (window as any).GPBCWebsiteControl.getState()))
+      .toMatchObject({ status: 'ready', source: 'published', revision: 8 });
     expect(await page.locator('[data-gpbc-feature="homepage.planVisit"]').evaluate((element: HTMLElement) => getComputedStyle(element).visibility)).toBe('visible');
   });
 
