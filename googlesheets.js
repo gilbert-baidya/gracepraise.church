@@ -57,7 +57,7 @@ async function loadEventsFromGoogleSheets() {
                         normalizedDate = event.date.split('T')[0];
                     }
 
-                    events.push({
+                    const importedEvent = normalizeHolidaySchedule({
                         date: normalizedDate,
                         name: event.name,
                         category: event.category || 'gpbc',
@@ -68,6 +68,18 @@ async function loadEventsFromGoogleSheets() {
                         timestamp: event.timestamp || '',
                         imageUrl: event.imageUrl || ''
                     });
+                    const revised = revisedHolidayEvents.some(event =>
+                        event.name === importedEvent.name && event.date === importedEvent.date);
+                    if (!revised || !events.some(event =>
+                        event.name === importedEvent.name && event.date === importedEvent.date)) {
+                        events.push(importedEvent);
+                    }
+                }
+            });
+
+            revisedHolidayEvents.forEach(event => {
+                if (!events.some(candidate => candidate.date === event.date && candidate.name === event.name)) {
+                    events.push({ ...event });
                 }
             });
 
