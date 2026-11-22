@@ -4,8 +4,8 @@ export class GivePage extends BasePage {
   readonly path = '/give.html';
   readonly pageName = "give.html";
   readonly isFullDocument = true;
-  readonly expectedTitle = "Give | Support Our Ministry | Grace and Praise Bangladeshi Church";
-  readonly criticalSelectors = ["body","header","nav","main","footer","h1","#darkModeToggle","#main-content","#gift-title",".give-v14-gift-card","#paypalPaymentBtn","#paypal-handoff-note"];
+  readonly expectedTitle = "Give | Grace and Praise Bangladeshi Church";
+  readonly criticalSelectors = ["body","header","nav","main","footer","h1","#darkModeToggle","#main-content","#gift-title","#giving-card","#give-paypal","#give-confirmation"];
 
   async openPage() {
     return this.goto();
