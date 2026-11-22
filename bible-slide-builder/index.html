@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="/assets/css/site-language.css">
+    <script src="/js/site-language.js" defer></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow, noarchive">
@@ -10,6 +12,7 @@
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+    <span class="site-language-anchor" id="gpbc-language-en" aria-hidden="true"></span><span class="site-language-anchor" id="gpbc-language-bn" aria-hidden="true"></span>
   <a class="skip-link" href="#builderMain">Skip to builder</a>
 
   <section id="localAccessGate" class="access-gate" aria-labelledby="accessGateTitle">
@@ -31,7 +34,8 @@
         <a href="../songbook.html">← Back to Songbook</a>
         <a href="./review.html">Review gallery</a>
       </div>
-    </header>
+    <div class="site-language-row"><span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn" style="display:none">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" lang="en" data-site-language="en">English</a><a href="?lang=bn#gpbc-language-bn" lang="bn" data-site-language="bn">বাংলা</a></div></div>
+</header>
 
     <main id="builderMain" class="builder-main">
       <section class="hero" aria-labelledby="builderTitle">
@@ -83,7 +87,7 @@
               <div class="inline-field"><input id="fastReference" type="text" placeholder="John 14:1-6 or যোহন ১৪:১-৬" autocomplete="off"><button id="parseReferenceButton" class="button button-secondary" type="button">Parse</button></div>
             </label>
             <p id="parsedReference" class="field-help" aria-live="polite">Or choose the reference below.</p>
-            <label class="field"><span>Book / পুস্তক</span><select id="bookSelector"></select></label>
+            <label class="field"><span>Book / <span lang="bn">পুস্তক</span></span><select id="bookSelector"></select></label>
             <div class="field-grid field-grid--three">
               <label class="field"><span>Chapter</span><select id="chapterSelector"></select></label>
               <label class="field"><span>Start verse</span><select id="startVerse"></select></label>

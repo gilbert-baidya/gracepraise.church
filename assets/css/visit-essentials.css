@@ -1,0 +1,94 @@
+html:root body.visit-essentials-page { padding-top: 0 !important; }
+html:root body.visit-essentials-page > header { position: relative !important; inset: auto !important; padding: 0 !important; height: auto !important; min-height: 104px; background: var(--gpbc-page) !important; border-bottom: 1px solid var(--gpbc-divider); box-shadow: none !important; transition: none !important; }
+html:root body.visit-essentials-page header nav { padding: 0 !important; min-height: 104px; background: transparent !important; transition: none !important; }
+html:root body.visit-essentials-page header .nav-container { min-height: 104px; max-width: 1200px; margin: auto; padding: 0 !important; background: transparent !important; transition: none !important; }
+html:root body.visit-essentials-page header .logo { gap: 10px; width: auto !important; max-width: none !important; flex-shrink: 0; text-decoration: none !important; }
+html:root body.visit-essentials-page header .logo-image { width: 44px !important; height: 44px !important; }
+.visit-brand-copy { display: flex; flex-direction: column; color: var(--gpbc-text); line-height: 20px; }
+html:root body.visit-essentials-page .visit-brand-copy strong { font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important; font-size: 16px; font-weight: 400; }
+.visit-brand-copy small { font-size: 11px; color: var(--gpbc-text-secondary); }
+html:root body.visit-essentials-page header .nav-links { margin-right: 252px; gap: 12px; }
+html:root body.visit-essentials-page header .nav-links > li > a { font-size: 12px; padding-inline: 4px; }
+html:root body.visit-essentials-page #darkModeToggle { position: absolute !important; top: 28px !important; right: max(20px, calc((100vw - 1200px) / 2)) !important; width: 48px !important; height: 48px !important; min-width: 48px; min-height: 48px; border: 1px solid var(--gpbc-control-border); border-radius: 12px; transform: none !important; }
+html:root body.visit-essentials-page .site-language-row { position: absolute; top: 24px; right: max(76px, calc((100vw - 1200px) / 2 + 56px)); padding: 0; min-height: 56px; }
+body.visit-essentials-page .site-language-location { display: none; }
+html:root body.visit-essentials-page main { margin-top: 0 !important; padding-top: 0 !important; }
+html:root body.visit-essentials-page .visit-essentials { background: var(--gpbc-page) !important; color: var(--gpbc-text); padding: 64px 20px 40px !important; min-height: 0 !important; overflow: visible; }
+.visit-essentials::before, .visit-essentials::after { display: none !important; }
+.visit-essentials-grid { max-width: 1200px; margin: auto; display: grid; grid-template-columns: minmax(0, 1fr) 528px; gap: 64px; align-items: center; }
+.visit-essentials-copy { min-width: 0; }
+html:root body.visit-essentials-page .visit-essentials-eyebrow { color: var(--gpbc-gold-text); font-size: 12px; line-height: 20px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 24px; }
+html:root body.visit-essentials-page .visit-essentials h1 { font-size: 60px !important; line-height: 71px !important; letter-spacing: -.02em; color: var(--gpbc-text) !important; margin: 0; }
+html:root:lang(bn) body.visit-essentials-page .visit-essentials h1,
+html:root:not(.site-language-ready):has(#gpbc-language-bn:target) body.visit-essentials-page .visit-essentials h1 { font-family: 'Noto Sans Bengali', sans-serif !important; font-size: 50px !important; line-height: 70px !important; font-weight: 600 !important; letter-spacing: normal; }
+.visit-essentials-intro { font-size: 18px; line-height: 30px; color: var(--gpbc-text-secondary); margin-top: 24px; }
+.visit-summary { min-width: 0; box-sizing: border-box; padding: 28px; background: var(--gpbc-surface); border: 1px solid var(--gpbc-divider); border-top: 4px solid var(--gpbc-gold-fill); border-radius: 20px; }
+.visit-summary p { margin: 0; }
+html body .visit-summary-title { font-size: 12px; line-height: 20px; color: var(--gpbc-gold-text); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 16px; }
+.visit-summary-service { padding-bottom: 16px; }
+html body .visit-summary-time { display: block; font-size: 26px; line-height: 36px; font-weight: 600; }
+html body .visit-summary-language { font-size: 14px; line-height: 22px; color: var(--gpbc-text-secondary); }
+html body .visit-summary-address { padding: 16px 0; margin: 0; border-block: 1px solid var(--gpbc-divider); font-size: 18px; line-height: 28px; font-style: normal; color: var(--gpbc-text); }
+.visit-summary-address span { color: var(--gpbc-text-secondary); }
+.visit-summary-logistics { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-top: 16px; }
+html body .visit-summary-logistics p { font-size: 14px; line-height: 24px; color: var(--gpbc-text-secondary); }
+.visit-summary-logistics strong { font-size: 15px; line-height: 24px; font-weight: 600; color: var(--gpbc-text); }
+html:root body.visit-essentials-page .visit-summary-directions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 16px; width: 100%; box-sizing: border-box; min-height: 52px !important; margin-top: 20px; text-decoration: none !important; }
+html:root body.visit-essentials-page .visit-summary-directions [data-lang] { text-decoration: none !important; }
+html:root body #main-content .visit-summary-directions:is(:link, :visited, :hover, :active, :focus, :focus-visible) { text-decoration: none !important; }
+html body .visit-summary-arrival { margin-top: 12px; font-size: 14px; line-height: 22px; color: var(--gpbc-text-secondary); text-align: center; }
+.visit-essentials-next { max-width: 1200px; margin: 32px auto 0; font-size: 16px; line-height: 26px; font-weight: 600; }
+html:root body.visit-essentials-page #specialEventBanner { position: relative !important; inset: auto !important; transform: none !important; width: fit-content; max-width: calc(100% - 40px); margin: 24px auto !important; }
+html:root body.visit-essentials-page .header-slogan { position: relative !important; inset: auto !important; margin: 24px auto; text-align: center; }
+.visit-essentials [lang='bn'] { letter-spacing: normal !important; text-transform: none !important; }
+html:root body.visit-essentials-page .visit-essentials [data-lang] { font-size: inherit !important; line-height: inherit !important; font-weight: inherit !important; }
+html:root body.visit-essentials-page .visit-summary-address { font-family: Inter, 'Noto Sans Bengali', system-ui, sans-serif !important; }
+.visit-summary-service, .visit-summary-address, .visit-summary-logistics p { position: relative; padding-left: 32px !important; }
+.visit-essentials-icon { position: absolute; top: 4px; left: 0; width: 20px; height: 20px; color: var(--gpbc-gold-text); fill: none; stroke: currentColor; stroke-width: 1.6; }
+.visit-summary-address .visit-essentials-icon { top: 20px; }
+.visit-essentials-page .map-announcement { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (min-width: 1025px) {
+    body.visit-essentials-page .site-language-location { display: none !important; }
+}
+@media (max-width: 1024px) {
+    html:root body.visit-essentials-page > header { min-height: 136px; }
+    html:root body.visit-essentials-page header nav,
+    html:root body.visit-essentials-page header .nav-container { height: 72px; min-height: 72px; }
+    html:root body.visit-essentials-page header .nav-container { padding: 0 20px !important; }
+    html:root body.visit-essentials-page #darkModeToggle { top: 12px !important; right: 80px !important; }
+    html:root body.visit-essentials-page .mobile-menu-btn { position: absolute !important; top: 12px !important; right: 20px !important; width: 48px !important; height: 48px !important; min-width: 48px; min-height: 48px; margin: 0; transform: none !important; }
+    html:root body.visit-essentials-page .site-language-row { position: static; min-height: 64px; padding: 4px 20px; border-top: 1px solid var(--gpbc-divider); }
+    body.visit-essentials-page .site-language-location { display: inline; font-size: 12px; }
+    html:root body.visit-essentials-page header .logo-image { width: 32px !important; height: 32px !important; }
+    html:root body.visit-essentials-page .visit-brand-copy strong { font-size: 13px; }
+    html:root body.visit-essentials-page .visit-brand-copy small { font-size: 10px; }
+    html:root body.visit-essentials-page header .logo { gap: 6px; }
+    .visit-essentials-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+}
+@media (max-width: 760px) {
+    html:root body.visit-essentials-page .visit-essentials { padding: 20px 20px 32px !important; }
+    html:root body.visit-essentials-page .visit-essentials-eyebrow { margin-bottom: 8px; font-size: 12px; line-height: 20px; }
+    html:root body.visit-essentials-page .visit-essentials h1 { font-size: 36px !important; line-height: 44px !important; }
+    html:root:lang(bn) body.visit-essentials-page .visit-essentials h1,
+    html:root:not(.site-language-ready):has(#gpbc-language-bn:target) body.visit-essentials-page .visit-essentials h1 { font-size: 32px !important; line-height: 44px !important; }
+    .visit-essentials-intro { display: none; }
+    .visit-summary { padding: 20px; }
+    html body .visit-summary-title { margin-bottom: 12px; }
+    html body .visit-summary-time { font-size: 23px; line-height: 32px; }
+    .visit-summary-service { padding-bottom: 12px; }
+    html body .visit-summary-address { padding: 12px 0; font-size: 16px; line-height: 25px; }
+    .visit-summary-address .visit-essentials-icon { top: 16px; }
+    .visit-summary-logistics { grid-template-columns: minmax(0, 1fr); gap: 12px; padding-top: 12px; }
+    html body .visit-summary-logistics p { line-height: 22px; }
+    html:root body.visit-essentials-page .visit-summary-directions { margin-top: 16px; }
+    .visit-essentials-next { margin-top: 24px; }
+}
+@media (max-width: 374px) {
+    html:root body.visit-essentials-page .visit-essentials { padding-inline: 16px !important; }
+    html:root body.visit-essentials-page .visit-essentials h1 { font-size: 32px !important; line-height: 40px !important; }
+    html:root:lang(bn) body.visit-essentials-page .visit-essentials h1,
+    html:root:not(.site-language-ready):has(#gpbc-language-bn:target) body.visit-essentials-page .visit-essentials h1 { font-size: 29px !important; line-height: 40px !important; }
+    .visit-summary { padding: 16px; }
+    html:root body.visit-essentials-page header .nav-container { padding-inline: 16px !important; }
+    html:root body.visit-essentials-page .site-language-row { padding-inline: 16px; }
+}

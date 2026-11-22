@@ -51,9 +51,13 @@ test('homepage navigation fragment hrefs remain unchanged', async ({ page, reque
   await page.waitForFunction(() => (window as any).PLATFORM_PARTIALS_READY === true);
   const changed = await page.evaluate((source) => {
     const original = new DOMParser().parseFromString(source, 'text/html');
-    return Array.from(original.querySelectorAll<HTMLAnchorElement>('header a[href*="#"]'))
+    return Array.from(original.querySelectorAll<HTMLAnchorElement>('header a[href*="#"]:not([data-site-language])'))
       .map(link => link.getAttribute('href'))
-      .filter(href => !Array.from(document.querySelectorAll('header a')).some(link => link.getAttribute('href') === href));
+      .filter(href => !Array.from(document.querySelectorAll<HTMLAnchorElement>('header a')).some(link => {
+        const url = new URL(link.href);
+        url.searchParams.delete('lang');
+        return `${url.pathname}${url.search}${url.hash}` === new URL(href!, location.href).pathname + new URL(href!, location.href).search + new URL(href!, location.href).hash;
+      }));
   }, html);
   expect(changed).toEqual([]);
 });
@@ -77,6 +81,6 @@ test('preserves local targets and unrelated hrefs while repairing footer links',
   for (const [index, href] of unchanged.entries()) {
     await expect(page.locator(`#anchor-test-${index}`)).toHaveAttribute('href', href);
   }
-  await expect(page.locator('#anchor-test-footer')).toHaveAttribute('href', '/#home');
-  await expect(page.locator('#anchor-test-encoded')).toHaveAttribute('href', '/#home');
+  await expect(page.locator('#anchor-test-footer')).toHaveAttribute('href', '/?lang=en#home');
+  await expect(page.locator('#anchor-test-encoded')).toHaveAttribute('href', '/?lang=en#home');
 });

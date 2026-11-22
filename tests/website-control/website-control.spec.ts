@@ -93,7 +93,7 @@ test.describe('V21 public website-control adapter', () => {
       domPresence: 'PRESENT',
       expectedAction: 'NO_DOM_CHANGE'
     });
-    expect(planVisit.dependentLinksFound).toContain('plan-visit.html');
+    expect(planVisit.dependentLinksFound.some((href: string) => new URL(href, 'https://gracepraise.church').pathname === '/plan-visit.html')).toBe(true);
     expect((await marker(page, 'homepage.planVisit')).hidden).toBe(false);
     expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState().revision)).toBe(8);
   });
@@ -599,7 +599,7 @@ test.describe('V21 public website-control adapter', () => {
       await waitForAdapter(page);
 
       await expect(page.locator('#gpbc-route-state h1')).toHaveText(heading);
-      await expect(page.locator('.gpbc-route-state__link')).toHaveAttribute('href', 'index.html#home');
+      await expect(page.locator('.gpbc-route-state__link')).toHaveAttribute('href', '/index.html?lang=en#home');
       expect(await page.locator('#main-content').getAttribute('aria-hidden')).toBe('true');
       expect(await page.locator('#main-content').isHidden()).toBe(true);
       expect(await page.locator('#lightbox').isHidden()).toBe(true);
@@ -732,7 +732,7 @@ test.describe('V21 public website-control adapter', () => {
 
     expect(await page.locator('#main-content').isHidden()).toBe(false);
     expect(await page.locator('#gpbc-route-state').count()).toBe(0);
-    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.resolveControlledRoute('/gallery'))).toBeNull();
+    expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.resolveControlledRoute('/gallery'))).toMatchObject({ featureId: 'pages.gallery' });
     expect(await page.evaluate(() => (window as any).GPBCWebsiteControl.getState().routeState)).toBeNull();
 
     await page.reload({ waitUntil: 'domcontentloaded' });

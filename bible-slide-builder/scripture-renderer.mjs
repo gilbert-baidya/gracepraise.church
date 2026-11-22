@@ -11,6 +11,7 @@ function element(documentObject, tag, className, text) {
 function scriptureLine(documentObject, language, segment, focus) {
     const line = element(documentObject, 'div', `scripture-verse scripture-verse--${language}`);
     line.dataset.verse = String(segment.verseNumber);
+    line.lang = language;
     line.classList.toggle('scripture-verse--focus', Boolean(focus));
     const number = element(
         documentObject,
@@ -48,11 +49,19 @@ function addBackground(documentObject, canvas, settings) {
 function renderTitleSlide(documentObject, canvas, slide, settings) {
     const body = element(documentObject, 'div', 'scripture-title-slide');
     const closing = slide.kind === 'closing';
+    const bangla = element(documentObject, 'div', 'scripture-title-slide__bangla', closing ? 'প্রভুর বাক্য' : 'আজকের শাস্ত্রপাঠ');
+    bangla.lang = 'bn';
+    const reference = element(documentObject, 'div', 'scripture-title-slide__reference');
+    const englishReference = element(documentObject, 'span', '', slide.reference.en);
+    englishReference.lang = 'en';
+    const banglaReference = element(documentObject, 'span', '', slide.reference.bn);
+    banglaReference.lang = 'bn';
+    reference.append(englishReference, element(documentObject, 'span', '', '  |  '), banglaReference);
     body.append(
         element(documentObject, 'div', 'scripture-title-slide__eyebrow', closing ? 'THE WORD OF THE LORD' : 'SCRIPTURE READING'),
-        element(documentObject, 'div', 'scripture-title-slide__bangla', closing ? 'প্রভুর বাক্য' : 'আজকের শাস্ত্রপাঠ'),
+        bangla,
         element(documentObject, 'div', 'scripture-title-slide__rule'),
-        element(documentObject, 'div', 'scripture-title-slide__reference', `${slide.reference.en}  |  ${slide.reference.bn}`)
+        reference
     );
     if (settings.showProgramBadge && settings.programType) {
         body.append(element(documentObject, 'div', 'scripture-title-slide__program', settings.programType));
@@ -62,6 +71,7 @@ function renderTitleSlide(documentObject, canvas, slide, settings) {
 
 export function renderScriptureCanvas(documentObject, slide, settings = {}) {
     const canvas = element(documentObject, 'div', 'scripture-canvas');
+    canvas.lang = 'en';
     canvas.dataset.slideId = slide.id;
     canvas.dataset.kind = slide.kind;
     canvas.dataset.languageMode = slide.languageMode;
@@ -85,6 +95,8 @@ export function renderScriptureCanvas(documentObject, slide, settings = {}) {
         element(documentObject, 'span', 'scripture-reference-ribbon__divider', '|'),
         element(documentObject, 'span', 'scripture-reference-ribbon__bn', slide.reference.bn)
     );
+    header.querySelector('.scripture-reference-ribbon__en').lang = 'en';
+    header.querySelector('.scripture-reference-ribbon__bn').lang = 'bn';
     const body = element(documentObject, 'div', 'scripture-body');
     for (const segment of slide.segments) {
         const pair = element(documentObject, 'section', 'scripture-pair');

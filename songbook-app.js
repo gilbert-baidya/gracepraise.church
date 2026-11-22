@@ -27,6 +27,10 @@ let songsDatabase = [...catalogMetadataSongs, ...englishArchiveSongs];
 let songsDataLoaded = false;
 let songsDataPromise = null;
 
+function songTextLanguage(text) {
+    return /[\u0980-\u09ff]/.test(String(text || '')) ? 'bn' : 'en';
+}
+
 function combineSongCatalog(fullBengaliSongs) {
     const englishSongs = Array.isArray(window.GPBC_ENGLISH_SONGS)
         ? window.GPBC_ENGLISH_SONGS
@@ -713,7 +717,7 @@ function updateServicePlaylistUI() {
         item.className = 'playlist-item';
         item.innerHTML = `
             <span class="playlist-number">${index + 1}</span>
-            <span class="playlist-title">${escapeSongHtml(song.title)}</span>
+            <span class="playlist-title" lang="${songTextLanguage(song.title)}">${escapeSongHtml(song.title)}</span>
             <button class="playlist-remove">×</button>
         `;
         item.querySelector('.playlist-remove').addEventListener('click', () => removeFromPlaylist(song.id));
@@ -728,6 +732,9 @@ function showPresentationMode(song) {
     const counter = document.getElementById('presentationCounter');
     
     title.textContent = song.title;
+    modal.lang = 'en';
+    title.lang = songTextLanguage(song.title);
+    content.lang = songTextLanguage(song.lyrics);
     
     // Bilingual mode in presentation
     if (showBilingualMode) {
@@ -753,19 +760,21 @@ function showPresentationMode(song) {
             
             // If it's a chord line and chords are shown, display it
             if (isChordLine && showChords) {
-                bilingualLines.push(escapeSongHtml(line));
+                bilingualLines.push('<span lang="en">' + escapeSongHtml(line) + '</span>');
                 return;
             }
             
             // It's a lyric line - show Bengali and phonetic
-            bilingualLines.push(escapeSongHtml(line)); // Bengali lyric
+            bilingualLines.push('<span lang="' + songTextLanguage(line) + '">' + escapeSongHtml(line) + '</span>');
             const phoneticLine = getSongPhoneticLine(song, line);
-            bilingualLines.push('<span style="color: #aaa; font-size: 0.85em;">' + escapeSongHtml(phoneticLine) + '</span>'); // Phonetic
+            bilingualLines.push('<span lang="en" style="color: #aaa; font-size: 0.85em;">' + escapeSongHtml(phoneticLine) + '</span>'); // Phonetic
         });
         
         content.innerHTML = bilingualLines.join('<br>');
     } else {
-        content.innerHTML = escapeSongHtml(song.lyrics).replace(/\n/g, '<br>');
+        content.innerHTML = song.lyrics.split('\n').map(line =>
+            '<span lang="' + songTextLanguage(line) + '">' + escapeSongHtml(line) + '</span>'
+        ).join('<br>');
     }
     
     counter.textContent = `${window.currentPresentationIndex + 1} / ${servicePlaylist.length}`;
@@ -1015,6 +1024,7 @@ function renderAlphabetIndex() {
     const allBtn = document.createElement('button');
     allBtn.className = 'alphabet-btn active';
     allBtn.textContent = 'সব';
+    allBtn.lang = 'bn';
     allBtn.onclick = () => {
         document.querySelectorAll('.alphabet-btn').forEach(btn => btn.classList.remove('active'));
         allBtn.classList.add('active');
@@ -1028,6 +1038,7 @@ function renderAlphabetIndex() {
         const btn = document.createElement('button');
         btn.className = 'alphabet-btn';
         btn.textContent = char;
+        btn.lang = songTextLanguage(char);
         btn.onclick = () => {
             document.querySelectorAll('.alphabet-btn').forEach(btn => btn.classList.remove('active'));
             btn.classList.add('active');
@@ -1065,8 +1076,10 @@ function renderSongList(songs) {
         const isInPlaylist = servicePlaylist.some(s => s.id === song.id);
         const title = document.createElement('h3');
         title.textContent = song.title;
+        title.lang = songTextLanguage(song.title);
         const category = document.createElement('p');
         category.textContent = song.category || 'Worship';
+        category.lang = songTextLanguage(song.category);
         const addButton = document.createElement('button');
         addButton.type = 'button';
         addButton.className = `add-to-service-btn ${isInPlaylist ? 'in-playlist' : ''}`;
@@ -1163,6 +1176,8 @@ async function openSong(song) {
     if (!modal || !title || !song) return;
 
     title.textContent = song.title;
+    modal.lang = 'en';
+    title.lang = songTextLanguage(song.title);
     currentTranspose = 0;
     currentCapo = getSongSourceCapo(song) ?? 0;
     currentFontSize = 16;
@@ -1172,6 +1187,7 @@ async function openSong(song) {
     const phoneticTitle = document.getElementById('songPhoneticTitle');
     if (phoneticTitle) {
         phoneticTitle.textContent = songHasPhonetic(song) ? getSongPhoneticTitle(song) : '';
+        phoneticTitle.lang = 'en';
         phoneticTitle.hidden = !songHasPhonetic(song);
     }
 
@@ -1380,6 +1396,7 @@ function appendInlineReaderText(container, line) {
         if (showChords) {
             const chord = document.createElement('span');
             chord.className = 'songbook-v18__reader-inline-chord';
+            chord.lang = 'en';
             chord.textContent = getCapoAdjustedChord(match[1]);
             container.appendChild(chord);
         }
@@ -1466,6 +1483,7 @@ function getSongChordAlignments(song) {
 
 function createAnchoredReaderLine(line, alignment, isPhonetic = false) {
     const element = document.createElement('div');
+    element.lang = isPhonetic ? 'en' : songTextLanguage(line);
     element.className = isPhonetic
         ? 'songbook-v18__reader-lyric-line songbook-v18__reader-anchored-line songbook-v18__reader-lyric-line--phonetic'
         : 'songbook-v18__reader-lyric-line songbook-v18__reader-anchored-line';
@@ -1506,6 +1524,7 @@ function createAnchoredReaderLine(line, alignment, isPhonetic = false) {
                 const chord = document.createElement('span');
                 chord.className = 'songbook-v18__reader-inline-chord songbook-v18__reader-anchored-chord';
                 chord.textContent = getCapoAdjustedChord(anchor.chord);
+                chord.lang = 'en';
                 chordStack.appendChild(chord);
             });
             group.appendChild(chordStack);
@@ -1526,6 +1545,7 @@ function createAnchoredReaderLine(line, alignment, isPhonetic = false) {
 
 function createReaderLine(line, type, isPhonetic) {
     const element = document.createElement('div');
+    element.lang = type === 'CHORD' || isPhonetic ? 'en' : songTextLanguage(line);
     element.className = type === 'SECTION'
         ? 'songbook-v18__reader-section'
         : isPhonetic
@@ -1550,6 +1570,7 @@ function renderSongContent(lyrics) {
     const originalLines = lyrics.split('\n');
     const displayLines = showPhonetic ? getSongPhonetic(song).split('\n') : originalLines;
     content.replaceChildren();
+    content.lang = showPhonetic ? 'en' : songTextLanguage(lyrics);
     content.dataset.language = isEnglishSong(song) ? 'english' : showPhonetic ? 'phonetic' : 'bangla';
     content.dataset.chords = showChords ? 'on' : 'off';
     content.dataset.alignment = 'universal';

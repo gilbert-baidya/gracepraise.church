@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="/assets/css/site-language.css">
+    <script src="/js/site-language.js" defer></script>
     <!-- Version: 2026-01-12-mobile-dropdown-fix-v2 -->
     <meta charset="UTF-8">
 
@@ -492,9 +494,11 @@
         }
     </style>
     <link rel="stylesheet" href="assets/css/shared-style.css">
+    <link rel="stylesheet" href="assets/css/visit-essentials.css">
 </head>
 
-<body class="homepage gpbc-shared" data-page="home">
+<body class="homepage gpbc-shared visit-essentials-page" data-page="home">
+    <span class="site-language-anchor" id="gpbc-language-en" aria-hidden="true"></span><span class="site-language-anchor" id="gpbc-language-bn" aria-hidden="true"></span>
     <!-- Skip to main content for keyboard users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -505,12 +509,12 @@
                 <a href="#home" class="logo">
                     <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
                         class="logo-image" loading="eager" decoding="async">
-                </a>
+                <span class="visit-brand-copy" lang="en"><strong>GRACE &amp; PRAISE</strong><small>Bangladeshi Church</small></span></a>
                 <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
-                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <button data-label-en="Toggle mobile menu" data-label-bn="মেনু খুলুন বা বন্ধ করুন" class="mobile-menu-btn" aria-label="Toggle mobile menu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -579,6 +583,35 @@
                 </ul>
             </div>
         </nav>
+        <div class="mobile-overlay"></div>
+    <div class="site-language-row"><span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn" style="display:none">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" lang="en" data-site-language="en">English</a><a href="?lang=bn#gpbc-language-bn" lang="bn" data-site-language="bn">বাংলা</a></div></div>
+</header>
+    <noscript>
+        <span class="dark-mode-fallback" aria-label="Dark mode requires JavaScript"
+            title="JavaScript required for dark mode">☀️</span>
+    </noscript>
+
+
+
+    <main id="main-content" data-site-bilingual>
+        <section class="visit-essentials" id="home" aria-labelledby="hero-heading">
+ <div class="visit-essentials-grid"><div class="visit-essentials-copy">
+ <p class="visit-essentials-eyebrow"><span lang="en" data-lang="en">A church family. A welcome for everyone.</span><span lang="bn" data-lang="bn" style="display:none">একটি পরিবার। সবার জন্য স্বাগতম।</span></p>
+ <h1 id="hero-heading"><span lang="en" data-lang="en">A place to belong.<br>A faith to grow.</span><span lang="bn" data-lang="bn" style="display:none">বিশ্বাসে বেড়ে উঠি,<br>ভালোবাসায় এক হই।</span></h1>
+ <p class="visit-essentials-intro"><span lang="en" data-lang="en">Come as you are. Join our church family for worship, prayer and a Bible-based message.</span><span lang="bn" data-lang="bn" style="display:none">যেমন আছেন তেমনই আসুন। উপাসনা, প্রার্থনা ও বাইবেলের বার্তার জন্য আমাদের সঙ্গে যোগ দিন।</span></p>
+ </div><article id="next-service" class="visit-summary" aria-labelledby="visit-summary-title">
+  <p class="visit-summary-title" id="visit-summary-title"><span lang="en" data-lang="en">Your Sunday at a glance</span><span lang="bn" data-lang="bn" style="display:none">এক নজরে রবিবারের তথ্য</span></p>
+  <div class="visit-summary-service"><svg class="visit-essentials-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg><strong class="visit-summary-time"><span lang="en" data-lang="en">Sunday · 5:00 PM</span><span lang="bn" data-lang="bn" style="display:none">রবিবার · সন্ধ্যা ৫:০০টা</span></strong><p class="visit-summary-language"><span lang="en" data-lang="en">Bengali &amp; English · About 90 minutes</span><span lang="bn" data-lang="bn" style="display:none">বাংলা ও ইংরেজি · প্রায় ৯০ মিনিট</span></p></div>
+  <address class="visit-summary-address" lang="en"><svg class="visit-essentials-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M19 10c0 5-7 12-7 12S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="9" r="2"/></svg>1325 Richardson Street<br><span>San Bernardino, CA 92408</span></address>
+  <div class="visit-summary-logistics">
+    <p><svg class="visit-essentials-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m4 10 2-6h12l2 6v8H4Zm0 0h16M7 18v3m10-3v3M7 13h2m6 0h2"/></svg><strong><span lang="en" data-lang="en">Free parking</span><span lang="bn" data-lang="bn" style="display:none">বিনামূল্যে পার্কিং</span></strong> · <span lang="en" data-lang="en">At the building and nearby.</span><span lang="bn" data-lang="bn" style="display:none">ভবনে ও আশেপাশে।</span></p>
+    <p><svg class="visit-essentials-icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="8" cy="5" r="3"/><circle cx="18" cy="7" r="2"/><path d="M2 22v-6a6 6 0 0 1 12 0v6m1-9a4 4 0 0 1 7 3v6"/></svg><strong><span lang="en" data-lang="en">Kids check-in</span><span lang="bn" data-lang="bn" style="display:none">শিশুদের চেক-ইন</span></strong> · <span lang="en" data-lang="en">Ask a greeter when you arrive.</span><span lang="bn" data-lang="bn" style="display:none">এসে স্বাগতকারীকে জিজ্ঞেস করুন।</span></p>
+  </div>
+  <a class="visit-summary-directions gpbc-button-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=1325+Richardson+Street%2C+San+Bernardino%2C+CA+92408" target="_blank" rel="noopener noreferrer"><span lang="en" data-lang="en">Get directions</span><span lang="bn" data-lang="bn" style="display:none">দিকনির্দেশনা নিন</span><span aria-hidden="true">↗</span><span class="map-announcement"><span lang="en" data-lang="en">opens map in a new tab</span><span lang="bn" data-lang="bn" style="display:none">নতুন ট্যাবে মানচিত্র খুলবে</span></span></a>
+  <p class="visit-summary-arrival"><span lang="en" data-lang="en">Arrive around 4:45–4:50 PM. We’ll help you settle in.</span><span lang="bn" data-lang="bn" style="display:none">বিকেল ৪:৪৫–৪:৫০টার মধ্যে আসুন। আমরা সাহায্য করব।</span></p>
+</article></div>
+ <p class="visit-essentials-next"><a class="visit-expect-link" data-gpbc-feature-link="pages.planVisit" data-gpbc-surface="homepage-cta" href="plan-visit.html"><span lang="en" data-lang="en">What to expect on Sunday</span><span lang="bn" data-lang="bn" style="display:none">রবিবার কী আশা করবেন</span> <span aria-hidden="true">→</span></a></p>
+</section>
         <!-- Header Countdown Overlay -->
         <div id="specialEventBanner" class="hero-countdown-badge header-countdown" role="region" aria-live="polite"
             aria-atomic="true">
@@ -610,232 +643,10 @@
             <span>Living in Grace.</span>
             <span>Rising in Praise.</span>
         </div>
-        <div class="mobile-overlay"></div>
-    </header>
-    <noscript>
-        <span class="dark-mode-fallback" aria-label="Dark mode requires JavaScript"
-            title="JavaScript required for dark mode">☀️</span>
-    </noscript>
 
-
-
-    <main id="main-content">
-        <!-- ------------------------------------------------------------
-             HOMEPAGE HERO V2 (replaces the legacy glassmorphism hero)
-             Styles: hero-v2.css  —  all rules scoped under .v2-hero
-             ------------------------------------------------------------ -->
-        <section class="v2-hero" id="home" aria-labelledby="hero-heading">
-            <!-- Ambient decorative background layers (aria-hidden) -->
-            <div class="v2-hero-bg" aria-hidden="true">
-                <span class="v2-bg-glow v2-bg-glow--gold"></span>
-                <span class="v2-bg-glow v2-bg-glow--teal"></span>
-                <span class="v2-bg-glow v2-bg-glow--rose"></span>
-                <span class="v2-bg-grid"></span>
-                <span class="v2-bg-textile"></span>
-            </div>
-
-            <div class="v2-hero-inner">
-                <!-- ---------- Text column ---------- -->
-                <div class="v2-hero-content" id="hero-content">
-                    <p class="v2-eyebrow">
-                        <span class="v2-eyebrow-mark" aria-hidden="true"></span>
-                        Welcome Home
-                    </p>
-
-                    <h1 class="v2-hero-heading" id="hero-heading">
-                        <span class="v2-heading-line">Grace and Praise</span>
-                        <span class="v2-heading-line v2-heading-accent">Bangladeshi Church</span>
-                    </h1>
-
-                    <p class="v2-tagline">Living in Grace. Rising in Praise.</p>
-
-                    <p class="v2-lede">
-                        The first Bangladeshi church in Southern California<span class="v2-lede-desktop-detail">
-                            — Bangladesh roots, an American home, one family in Christ.</span>
-                    </p>
-
-                    <!-- Service details -->
-                    <dl class="v2-service">
-                        <div class="v2-service-item">
-                            <dt>Sunday</dt>
-                            <dd>5:00 PM</dd>
-                        </div>
-                        <div class="v2-service-divider" aria-hidden="true"></div>
-                        <div class="v2-service-item">
-                            <dt>Location</dt>
-                            <dd>San Bernardino, California</dd>
-                        </div>
-                    </dl>
-
-                    <p class="v2-welcome-line">
-                        Bengali &amp; English Worship <span aria-hidden="true">•</span> Everyone Welcome
-                    </p>
-
-                    <!-- CTAs -->
-                    <div class="v2-cta-group">
-                        <a href="plan-visit.html" class="v2-btn v2-btn--primary" data-gpbc-feature-link="pages.planVisit" data-gpbc-surface="homepage-cta">Plan Your Visit</a>
-                        <a href="https://www.youtube.com/@GracePraise.Church/videos" class="v2-btn v2-btn--secondary"
-                           target="_blank" rel="noopener noreferrer">
-                            <svg class="v2-play-icon" viewBox="0 0 12 14" aria-hidden="true" focusable="false">
-                                <path d="M1 1.2 11 7 1 12.8Z" />
-                            </svg>
-                            Watch Sermons
-                        </a>
-                    </div>
-                </div>
-
-                <!-- ---------- Visual column ---------- -->
-                <div class="v2-hero-visual" aria-hidden="false">
-                    <!-- Southern California silhouette: San Bernardino mountains, palms, soft sunset (decorative) -->
-                    <div class="v2-socal" aria-hidden="true">
-                        <svg viewBox="0 0 600 240" preserveAspectRatio="xMidYMax meet" focusable="false">
-                            <defs>
-                                <radialGradient id="v2SunGrad" cx="50%" cy="100%" r="70%">
-                                    <stop offset="0%" stop-color="#f6d59a" stop-opacity="0.55" />
-                                    <stop offset="45%" stop-color="#e7b84a" stop-opacity="0.22" />
-                                    <stop offset="100%" stop-color="#e7b84a" stop-opacity="0" />
-                                </radialGradient>
-                                <linearGradient id="v2RidgeBack" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#1d3d63" />
-                                    <stop offset="100%" stop-color="#0f2036" />
-                                </linearGradient>
-                                <linearGradient id="v2RidgeFront" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#0f2036" />
-                                    <stop offset="100%" stop-color="#060d1a" />
-                                </linearGradient>
-                            </defs>
-
-                            <!-- soft sunset haze -->
-                            <ellipse cx="300" cy="235" rx="230" ry="150" fill="url(#v2SunGrad)" />
-
-                            <!-- distant San Bernardino ridge (Mt. San Gorgonio profile) -->
-                            <path class="v2-socal-ridge-back" fill="url(#v2RidgeBack)"
-                                d="M0 176 L70 150 L130 168 L200 120 L250 148 L330 96 L400 142 L470 118 L540 150 L600 132 L600 240 L0 240 Z" />
-                            <!-- subtle warm rim on the far ridge -->
-                            <path class="v2-socal-rim" fill="none" stroke="#f6d59a" stroke-opacity="0.28" stroke-width="1.4"
-                                d="M200 120 L250 148 L330 96 L400 142 L470 118" />
-
-                            <!-- foreground ridge -->
-                            <path fill="url(#v2RidgeFront)"
-                                d="M0 210 L90 182 L170 204 L260 170 L350 200 L440 176 L520 202 L600 184 L600 240 L0 240 Z" />
-
-                            <!-- palm silhouettes -->
-                            <g fill="#060d1a" opacity="0.92">
-                                <g transform="translate(96 208)">
-                                    <path d="M-2 0 C-3 -30 -1 -52 0 -66 C1 -52 3 -30 2 0 Z" />
-                                    <path fill="none" stroke="#060d1a" stroke-width="3.4" stroke-linecap="round"
-                                        d="M0 -66 C-16 -78 -30 -78 -42 -70 M0 -66 C-10 -84 -8 -98 2 -108 M0 -66 C16 -80 32 -80 44 -72 M0 -66 C10 -80 26 -84 40 -84 M0 -66 C-8 -80 -22 -84 -36 -84" />
-                                </g>
-                                <g transform="translate(508 204) scale(0.86)">
-                                    <path d="M-2 0 C-3 -30 -1 -52 0 -66 C1 -52 3 -30 2 0 Z" />
-                                    <path fill="none" stroke="#060d1a" stroke-width="3.4" stroke-linecap="round"
-                                        d="M0 -66 C-16 -78 -30 -78 -42 -70 M0 -66 C-10 -84 -8 -98 2 -108 M0 -66 C16 -80 32 -80 44 -72 M0 -66 C10 -80 26 -84 40 -84 M0 -66 C-8 -80 -22 -84 -36 -84" />
-                                </g>
-                            </g>
-                        </svg>
-                    </div>
-
-                    <!-- Bangladeshi flowing textile ribbon (Jamdani-toned, decorative) -->
-                    <div class="v2-ribbon" aria-hidden="true">
-                        <svg viewBox="0 0 420 420" preserveAspectRatio="xMidYMid meet" focusable="false">
-                            <defs>
-                                <linearGradient id="v2RibbonGrad" x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0%" stop-color="#0f7a5a" />
-                                    <stop offset="52%" stop-color="#e7b84a" />
-                                    <stop offset="100%" stop-color="#d1483c" />
-                                </linearGradient>
-                            </defs>
-                            <g fill="none" stroke="url(#v2RibbonGrad)" stroke-linecap="round">
-                                <path stroke-width="10" opacity="0.26"
-                                    d="M-30 300 C70 220 130 350 210 280 S350 170 450 250" />
-                                <path stroke-width="3.2" opacity="0.34"
-                                    d="M-30 322 C70 244 130 372 210 302 S350 192 450 272" />
-                            </g>
-                        </svg>
-                    </div>
-
-                    <!-- Cross focal composition (CSS/SVG, decorative) -->
-                    <div class="v2-cross-stage" role="img"
-                        aria-label="Illustrated luminous cross within a glowing halo and translucent hexagons">
-                        <div class="v2-cross-composition">
-                            <span class="v2-halo" aria-hidden="true"></span>
-                            <span class="v2-hex v2-hex--1" aria-hidden="true"></span>
-                            <span class="v2-hex v2-hex--2" aria-hidden="true"></span>
-                            <span class="v2-hex v2-hex--3" aria-hidden="true"></span>
-
-                            <svg class="v2-cross" viewBox="0 0 120 180" aria-hidden="true" focusable="false">
-                                <defs>
-                                    <linearGradient id="v2CrossGrad" x1="0" y1="0" x2="1" y2="1">
-                                        <stop offset="0%" stop-color="#fbe6b0" />
-                                        <stop offset="45%" stop-color="#e7b84a" />
-                                        <stop offset="100%" stop-color="#b9862a" />
-                                    </linearGradient>
-                                    <filter id="v2CrossGlow" x="-60%" y="-60%" width="220%" height="220%">
-                                        <feGaussianBlur stdDeviation="3.2" result="blur" />
-                                        <feMerge>
-                                            <feMergeNode in="blur" />
-                                            <feMergeNode in="SourceGraphic" />
-                                        </feMerge>
-                                    </filter>
-                                </defs>
-                                <g filter="url(#v2CrossGlow)">
-                                    <rect x="51" y="8" width="18" height="164" rx="6" fill="url(#v2CrossGrad)"
-                                        stroke="#3a2708" stroke-width="1.6" stroke-opacity="0.55" />
-                                    <rect x="20" y="52" width="80" height="18" rx="6" fill="url(#v2CrossGrad)"
-                                        stroke="#3a2708" stroke-width="1.6" stroke-opacity="0.55" />
-                                </g>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- Glass-style replaceable photo cards -->
-                    <figure class="v2-photo-card v2-photo-card--main" data-photo-slot="MAIN_WORSHIP_PHOTO">
-                        <div class="v2-photo-frame">
-                            <img class="v2-photo-img"
-                                alt="GPBC congregation worshiping together during a church service"
-                                src="images/homepage/hero-v2/final/worship-desktop.webp"
-                                srcset="images/homepage/hero-v2/final/worship-desktop.webp 1000w,
-                                        images/homepage/hero-v2/final/worship-mobile.webp 1200w"
-                                sizes="(max-width: 760px) calc(100vw - 3rem), 430px"
-                                width="1200" height="900" decoding="async" fetchpriority="high">
-                            <span class="v2-photo-badge">Worship</span>
-                        </div>
-                        <figcaption class="v2-photo-caption">Sunday Worship</figcaption>
-                    </figure>
-
-                    <figure class="v2-photo-card v2-photo-card--community" data-photo-slot="COMMUNITY_PHOTO">
-                        <div class="v2-photo-frame">
-                            <img class="v2-photo-img"
-                                alt="Members and guests gathered together at Grace and Praise Bangladeshi Church"
-                                src="images/homepage/hero-v2/final/community-desktop.webp"
-                                srcset="images/homepage/hero-v2/final/community-desktop.webp 1000w,
-                                        images/homepage/hero-v2/final/community-mobile.webp 1200w"
-                                sizes="(max-width: 760px) calc(100vw - 3rem), 201px"
-                                width="1200" height="900" decoding="async" loading="lazy">
-                            <span class="v2-photo-badge">Community</span>
-                        </div>
-                        <figcaption class="v2-photo-caption">Community &amp; Fellowship</figcaption>
-                    </figure>
-
-                    <figure class="v2-photo-card v2-photo-card--family" data-photo-slot="FAMILY_PHOTO">
-                        <div class="v2-photo-frame">
-                            <img class="v2-photo-img"
-                                alt="Grace and Praise Bangladeshi Church family gathered together"
-                                src="images/homepage/hero-v2/final/family-desktop.webp"
-                                srcset="images/homepage/hero-v2/final/family-desktop.webp 1000w,
-                                        images/homepage/hero-v2/final/family-mobile.webp 1200w"
-                                sizes="(max-width: 760px) calc(100vw - 3rem), 201px"
-                                width="1200" height="900" decoding="async" loading="lazy">
-                            <span class="v2-photo-badge">Family</span>
-                        </div>
-                        <figcaption class="v2-photo-caption">Church Family</figcaption>
-                    </figure>
-                </div>
-            </div>
-        </section>
 
         <!-- SACRED FOCUS - 3D PARTICLE CROSS -->
-        <section class="sacred-focus" id="sacred-focus">
+        <section lang="en" class="sacred-focus" id="sacred-focus">
             <div class="sacred-focus-canvas" aria-hidden="true">
                 <canvas id="sacred-canvas"></canvas>
             </div>
@@ -858,8 +669,7 @@
 
 
         <!-- PLAN YOUR VISIT V3 -->
-        <section class="visit-v3" id="plan-your-visit" data-gpbc-feature="homepage.planVisit" aria-labelledby="plan-your-visit-heading">
-            <span class="visit-v3__legacy-anchor" id="next-service" aria-hidden="true"></span>
+        <section lang="en" class="visit-v3" id="plan-your-visit" data-gpbc-feature="homepage.planVisit" aria-labelledby="plan-your-visit-heading">
             <span class="visit-v3__legacy-anchor" id="new-here" aria-hidden="true"></span>
 
             <div class="visit-v3__inner">
@@ -888,11 +698,11 @@
 
                     <div class="visit-v3__actions">
                         <a class="visit-v3__directions visit-v3__btn-link"
-                            href="https://www.google.com/maps/search/?api=1&query=1325+Richardson+Street+San+Bernardino+CA+92408"
+                            href="https://www.google.com/maps/dir/?api=1&amp;destination=1325+Richardson+Street%2C+San+Bernardino%2C+CA+92408"
                             target="_blank" rel="noopener noreferrer"
                             aria-label="Get directions to Grace and Praise Bangladeshi Church (opens in a new tab)">
                             Get Directions
-                        </a>
+                        <span class="map-announcement"><span lang="en" data-lang="en">opens map in a new tab</span><span lang="bn" data-lang="bn" style="display:none">নতুন ট্যাবে মানচিত্র খুলবে</span></span></a>
                         <a class="visit-v3__guide visit-v3__btn-link" href="plan-visit.html" data-gpbc-feature-link="pages.planVisit" data-gpbc-surface="homepage-cta">View the Full Visit Guide</a>
                     </div>
                 </div>
@@ -946,7 +756,7 @@
         </section>
 
         <!-- Welcome Home V4 -->
-        <section class="welcome-home-v4" id="about" data-gpbc-feature="homepage.welcomeHome" aria-labelledby="welcome-home-v4-heading">
+        <section lang="en" class="welcome-home-v4" id="about" data-gpbc-feature="homepage.welcomeHome" aria-labelledby="welcome-home-v4-heading">
             <div class="welcome-home-v4__inner">
                 <div class="welcome-home-v4__intro">
                     <p class="welcome-home-v4__eyebrow">Welcome to GPBC</p>
@@ -966,7 +776,7 @@
             </div>
         </section>
 
-        <section class="community-v5" id="community-v5" data-gpbc-feature="homepage.community" aria-labelledby="community-v5-heading">
+        <section lang="en" class="community-v5" id="community-v5" data-gpbc-feature="homepage.community" aria-labelledby="community-v5-heading">
             <div class="community-v5__inner">
                 <div class="community-v5__intro">
                     <p class="community-v5__eyebrow">Life Together</p>
@@ -1053,7 +863,7 @@
         <div id="dynamic-events-container"></div>
 
         <!-- FLIPPING CARDS SCROLL SECTION -->
-        <section class="flip-scroll-section" id="featured-events">
+        <section lang="en" class="flip-scroll-section" id="featured-events">
             <div class="flip-sticky-wrapper">
                 <div class="flip-section-title">
                     <p class="flip-section-eyebrow">Your Next Step</p>
@@ -1152,7 +962,7 @@
 
         <!-- GPBC Loop Scroll – Scroll-driven circular slider. Isolated, safe to remove -->
         <!-- Get Involved: Transformational Loop with Slick Carousel -->
-        <section class="blocks block-the-loop alignfull" id="block_gpbc_transformational_loop">
+        <section lang="en" class="blocks block-the-loop alignfull" id="block_gpbc_transformational_loop">
             <div class="container">
                 <div class="content">
                     <h2 data-aos="fade-up">Get Involved</h2>
@@ -1337,7 +1147,7 @@
              - Static center: Active topic details (crossfade only, never moves)
              - Active side: Always at TOP position
              -------------------------------------------------------------------------- -->
-        <section class="heptagon-wheel-section" aria-label="Our Father in Heaven">
+        <section lang="en" class="heptagon-wheel-section" aria-label="Our Father in Heaven">
 
             <!-- Two-Column Layout -->
             <div class="heptagon-wheel-layout">
@@ -1458,7 +1268,7 @@
         </section>
 
         <!-- Homepage Stay Connected V8 -->
-        <section class="stay-connected-v8" id="stay-connected" aria-labelledby="stay-connected-v8-heading">
+        <section lang="en" class="stay-connected-v8" id="stay-connected" aria-labelledby="stay-connected-v8-heading">
             <div class="stay-connected-v8__inner">
                 <div class="stay-connected-v8__intro">
                     <p class="stay-connected-v8__eyebrow">Stay Connected</p>
