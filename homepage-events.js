@@ -12,7 +12,13 @@ class HomepageEvents {
             display: '1325 Richardson Street, San Bernardino, CA 92408',
             mapsUrl: 'https://maps.google.com/?q=1325+Richardson+Street+CA+92408'
         };
-        if (this.container) {
+        this.mount();
+    }
+
+    mount() {
+        this.container = document.getElementById('dynamic-events-container');
+        if (this.container && !this.mounted) {
+            this.mounted = true;
             this.init();
             this.loadAddressFromContent();
         }
@@ -20,6 +26,105 @@ class HomepageEvents {
 
     init() {
         this.renderUpcomingEvents();
+        window.addEventListener('gpbc:languagechange', () => this.updateFlyerLanguage());
+        window.addEventListener('pageshow', event => {
+            if (event.persisted) this.renderUpcomingEvents();
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) this.renderUpcomingEvents();
+        });
+    }
+
+    getHolidayFlyers() {
+        return [
+            {
+                date: '2026-12-20', slug: 'pre-christmas-dec20',
+                en: 'GPBC Pre-Christmas Celebration — Sunday 20 December 2026, 5 PM Pacific Time. Join us with your family.',
+                bn: 'প্রাক-বড়দিনের উৎসব — রবিবার, ২০ ডিসেম্বর ২০২৬, বিকেল ৫টা (প্যাসিফিক সময়)। সপরিবারে যোগ দিন।'
+            },
+            {
+                date: '2026-12-25', slug: 'christmas-day',
+                en: 'GPBC Christmas Day worship — Friday 25 December 2026, breakfast at 10 AM, worship at 11 AM, fellowship meal afterwards. All times Pacific. Join us with your family.',
+                bn: 'বড়দিনের উপাসনা — শুক্রবার, ২৫ ডিসেম্বর ২০২৬; সকাল ১০টায় প্রাতরাশ, সকাল ১১টায় উপাসনা, পরে সহভাগিতার ভোজ (প্যাসিফিক সময়)। সপরিবারে যোগ দিন।'
+            },
+            {
+                date: '2026-12-31', slug: 'gratitude-dec31',
+                en: 'GPBC Year-end gratitude service — Thursday 31 December 2026, 7 PM Pacific Time. Join us with your family.',
+                bn: 'বর্ষশেষের কৃতজ্ঞতা উপাসনা — বৃহস্পতিবার, ৩১ ডিসেম্বর ২০২৬, সন্ধ্যা ৭টা (প্যাসিফিক সময়)। সপরিবারে যোগ দিন।'
+            },
+            {
+                date: '2027-01-01', slug: 'new-year-jan1',
+                en: 'GPBC New Year worship — Friday 1 January 2027, breakfast at 10 AM, worship at 11 AM Pacific Time. Join us with your family.',
+                bn: 'নববর্ষের উপাসনা — শুক্রবার, ১ জানুয়ারি ২০২৭; সকাল ১০টায় প্রাতরাশ, সকাল ১১টায় উপাসনা (প্যাসিফিক সময়)। সপরিবারে যোগ দিন।'
+            }
+        ];
+    }
+
+    flyerExpiry(flyer) {
+        return this.buildZonedDateTime(flyer.date, '23:59').getTime() + 60_000;
+    }
+
+    createFlyerCard(flyer) {
+        const card = document.createElement('section');
+        card.className = 'special-event-details event-flyer';
+        card.dataset.flyer = flyer.slug;
+        const content = document.createElement('div');
+        content.className = 'event-details-content';
+        const link = document.createElement('a');
+        link.className = 'event-flyer-link';
+        const picture = document.createElement('picture');
+        const base = 'images/events/holiday-2026/' + flyer.slug;
+        for (const [device, type] of [['phone', 'webp'], ['phone', 'png'], ['desktop', 'webp']]) {
+            const source = document.createElement('source');
+            source.type = 'image/' + type;
+            if (device === 'phone') source.media = '(max-width: 767px)';
+            source.srcset = base + '-' + device + '.' + type;
+            source.width = device === 'phone' ? 1080 : 1600;
+            source.height = device === 'phone' ? 1350 : 600;
+            picture.appendChild(source);
+        }
+        const image = document.createElement('img');
+        image.width = 1600;
+        image.height = 600;
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        image.dataset.altEn = flyer.en;
+        image.dataset.altBn = flyer.bn;
+        picture.appendChild(image);
+        image.src = base + '-desktop.png';
+        link.appendChild(picture);
+        content.appendChild(link);
+        const cta = document.createElement('div');
+        cta.className = 'event-cta';
+        const button = document.createElement('a');
+        button.className = 'btn btn-primary';
+        for (const [language, label] of [['en', 'Join us with your family'], ['bn', 'সপরিবারে যোগ দিন']]) {
+            const text = document.createElement('span');
+            text.lang = language;
+            text.dataset.lang = language;
+            text.textContent = label;
+            button.appendChild(text);
+        }
+        cta.appendChild(button);
+        content.appendChild(cta);
+        card.appendChild(content);
+        return card;
+    }
+
+    updateFlyerLanguage() {
+        const language = window.GPBCLanguage?.language === 'bn' ? 'bn' : 'en';
+        this.container.querySelectorAll('.event-flyer').forEach(card => {
+            const image = card.querySelector('img');
+            image.alt = language === 'bn' ? image.dataset.altBn : image.dataset.altEn;
+            image.lang = language;
+            card.lang = language;
+            card.querySelectorAll('a').forEach(link => {
+                link.href = 'plan-visit.html?lang=' + language;
+            });
+            card.querySelectorAll('[data-lang]').forEach(text => {
+                text.hidden = text.dataset.lang !== language;
+            });
+        });
     }
 
     async loadAddressFromContent() {
@@ -291,10 +396,19 @@ class HomepageEvents {
     }
 
     renderUpcomingEvents() {
+        if (!this.container) return;
         const upcomingEvents = this.getSpecialGPBCEvents();
+        const now = Date.now();
+        const flyers = this.getHolidayFlyers().filter(flyer => now < this.flyerExpiry(flyer));
+        clearTimeout(this.flyerTimer);
+        if (flyers.length) {
+            const nextExpiry = Math.min(...flyers.map(flyer => this.flyerExpiry(flyer)));
+            this.flyerTimer = setTimeout(() => this.renderUpcomingEvents(), Math.min(nextExpiry - now, 2_147_483_647));
+        }
 
-        if (upcomingEvents.length === 0) {
+        if (upcomingEvents.length === 0 && flyers.length === 0) {
             // Hide the container if no events
+            this.container.replaceChildren();
             this.container.style.display = 'none';
             return;
         }
@@ -303,19 +417,15 @@ class HomepageEvents {
         this.container.innerHTML = '';
         this.container.style.display = 'block';
 
-        // Render each event
-        upcomingEvents.forEach(event => {
-            const eventCard = this.createEventCard(event);
-            this.container.appendChild(eventCard);
+        const cards = [
+            ...flyers.map(flyer => ({ date: flyer.date, card: this.createFlyerCard(flyer) })),
+            ...upcomingEvents.map(event => ({ date: event.date, card: this.createEventCard(event) }))
+        ];
+        cards.sort((a, b) => a.date.localeCompare(b.date)).forEach(({ card }) => {
+            this.container.appendChild(card);
         });
+        this.updateFlyerLanguage();
     }
 }
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        new HomepageEvents();
-    });
-} else {
-    new HomepageEvents();
-}
+const homepageEvents = new HomepageEvents();

@@ -99,6 +99,10 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    <link rel="stylesheet" href="assets/css/event-flyers.css?v=20261122">
+    <script src="events.js?v=20260129a"></script>
+    <script src="homepage-events.js?v=20261122-holiday-flyers"></script>
+
     <!-- Slick Carousel CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" type="text/css"
@@ -861,6 +865,7 @@
         <!-- Dynamic Upcoming Events Container -->
         <!-- Events are dynamically loaded from events.js by homepage-events.js -->
         <div id="dynamic-events-container"></div>
+        <script>homepageEvents.mount();</script>
 
         <!-- FLIPPING CARDS SCROLL SECTION -->
         <section lang="en" class="flip-scroll-section" id="featured-events">
@@ -4971,47 +4976,7 @@
     <script src="event-flip-cards.js" defer></script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260918-v11-theme-final3" defer></script>
-    <script src="events.js?v=20260129a" defer></script>
     <script src="countdown.js?v=20260129a" defer></script>
-
-    <!-- Load homepage event data only as the events section approaches the viewport. -->
-    <script>
-        (function () {
-            const eventsContainer = document.getElementById('dynamic-events-container');
-            if (!eventsContainer) return;
-
-            let loaded = false;
-            const loadHomepageEvents = () => {
-                if (loaded) return;
-                loaded = true;
-                const script = document.createElement('script');
-                script.src = 'homepage-events.js?v=20260129a';
-                script.async = true;
-                document.body.appendChild(script);
-            };
-
-            const schedule = () => {
-                if (!('IntersectionObserver' in window)) {
-                    loadHomepageEvents();
-                    return;
-                }
-
-                const observer = new IntersectionObserver((entries) => {
-                    if (entries.some((entry) => entry.isIntersecting)) {
-                        observer.disconnect();
-                        loadHomepageEvents();
-                    }
-                }, { rootMargin: '600px 0px' });
-                observer.observe(eventsContainer);
-            };
-
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', schedule, { once: true });
-            } else {
-                schedule();
-            }
-        })();
-    </script>
 
     <!-- SHAPE SYSTEM — Spiritual design interactions -->
     <script src="shape-system.js" defer></script>
