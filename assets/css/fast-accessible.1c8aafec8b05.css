@@ -19,7 +19,9 @@ html:root body.fast-accessible .nav-links li { list-style: none; }
 html:root body.fast-accessible .nav-links a { display: block; }
 html:root body.fast-accessible .nav-dropdown, html:root body.fast-accessible .nav-dropdown-nested { position: relative; }
 html:root body.fast-accessible header :is(.dropdown-menu, .dropdown-menu-nested) { display: none; position: absolute; z-index: 100; min-width: 230px; padding: 8px; background: var(--gpbc-surface); box-shadow: 0 4px 16px #10203333; border: 1px solid var(--gpbc-control-border); }
-html:root body.fast-accessible .nav-dropdown:is(:hover, :focus-within) > .dropdown-menu, html:root body.fast-accessible .nav-dropdown-nested:is(:hover, :focus-within) > .dropdown-menu-nested { display: block; }
+@media (min-width: 1025px) {
+ html:root body.fast-accessible .nav-dropdown:is(:hover, :focus-within) > .dropdown-menu, html:root body.fast-accessible .nav-dropdown-nested:is(:hover, :focus-within) > .dropdown-menu-nested { display: block; }
+}
 html:root body.fast-accessible header .dropdown-menu a { padding: 8px; }
 html:root body.fast-accessible .mobile-menu-btn { display: none; }
 html:root body.fast-accessible .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -156,7 +158,9 @@ body.calendar-page .inline-countdown-banner { margin-bottom: 1rem; }
  html.js-enabled:root body.fast-accessible header .nav-links:not(.mobile-open) { display: none !important; }
  html:root body.fast-accessible header .nav-links a { color: var(--gpbc-link) !important; -webkit-text-fill-color: var(--gpbc-link) !important; min-height: 48px; }
  html:root body.fast-accessible header :is(.dropdown-menu, .dropdown-menu-nested) { position: static; display: none; min-width: 0; }
+ html.js-enabled:root body.fast-accessible header :is(.nav-dropdown, .nav-dropdown-nested):not(.mobile-dropdown-open) > :is(.dropdown-menu, .dropdown-menu-nested) { display: none !important; }
  html:root body.fast-accessible .mobile-dropdown-open > :is(.dropdown-menu, .dropdown-menu-nested) { display: block; }
+ html:not(.js-enabled):root body.fast-accessible .nav-dropdown:is(:hover, :focus-within) > .dropdown-menu, html:not(.js-enabled):root body.fast-accessible .nav-dropdown-nested:is(:hover, :focus-within) > .dropdown-menu-nested { display: block; }
  html:root body.fast-accessible .mobile-overlay { display: none !important; }
  html:root body.fast-accessible.menu-open { overflow: visible !important; position: static !important; height: auto !important; }
  html:root body.fast-accessible #langToggleBtn { grid-column: 1 / -1; min-height: 52px; position: static; }
