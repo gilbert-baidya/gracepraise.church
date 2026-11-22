@@ -1,5 +1,5 @@
 class ActivityCarousel {
-    constructor(configs, createFlyer, previousSlug, userPaused = false) {
+    constructor(configs, createFlyer, previousSlug, userPaused = false, existingRoot = null, createTools = () => null) {
         this.configs = configs;
         this.userPaused = userPaused;
         this.motion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -7,25 +7,31 @@ class ActivityCarousel {
         this.motion.addEventListener('change', this.onMotion);
         this.onVisibility = () => this.updatePlayback();
         document.addEventListener('visibilitychange', this.onVisibility);
-        const root = this.root = document.createElement('div');
+        const root = this.root = existingRoot || document.createElement('div');
         root.className = 'activity-carousel';
+        root.dataset.enhanced = 'true';
+        root.dataset.activityFocus = 'carousel';
         root.setAttribute('role', 'region');
         root.setAttribute('aria-roledescription', 'carousel');
         root.setAttribute('aria-label', 'Church life and upcoming gatherings');
         root.tabIndex = 0;
-        const header = document.createElement('div');
+        const header = root.querySelector('.activity-heading') || document.createElement('div');
         header.className = 'activity-heading';
         const heading = document.createElement('h2');
         this.bilingual(heading, { en: 'Life at GPBC', bn: 'আমাদের মণ্ডলীর জীবন' });
         this.counter = document.createElement('span');
         this.counter.className = 'activity-counter';
         this.counter.setAttribute('aria-hidden', 'true');
-        header.append(heading, this.counter);
-        const stage = this.stage = document.createElement('div');
+        header.replaceChildren(heading, this.counter);
+        const stage = this.stage = root.querySelector('.activity-stage') || document.createElement('div');
         stage.className = 'activity-stage';
         stage.setAttribute('aria-atomic', 'false');
+        const existingTheme = stage.querySelector('.activity-theme');
+        stage.replaceChildren();
         this.slides = configs.map((config, index) => {
-            const slide = config.type === 'theme' ? this.createTheme(config) : createFlyer(config);
+            const slide = config.type === 'theme'
+                ? existingTheme?.dataset.themeConfig === JSON.stringify(config) ? existingTheme : this.createTheme(config)
+                : createFlyer(config);
             slide.classList.add('activity-slide');
             slide.dataset.activity = config.slug;
             slide.setAttribute('role', 'group');
@@ -34,23 +40,27 @@ class ActivityCarousel {
             stage.appendChild(slide);
             return slide;
         });
-        const footer = document.createElement('div');
+        const footer = root.querySelector('.activity-footer') || document.createElement('div');
         footer.className = 'activity-footer';
         const controls = document.createElement('div');
         controls.className = 'activity-controls';
         this.dots = [];
         if (configs.length > 1) {
-            const previous = this.button('activity-arrow activity-prev', 'Previous slide', '←', () => this.show(this.activeIndex - 1));
-            const next = this.button('activity-arrow activity-next', 'Next slide', '→', () => this.show(this.activeIndex + 1));
             const dots = document.createElement('div');
-            dots.className = 'activity-dots';
+            dots.className = 'activity-dots activity-rail';
             dots.setAttribute('role', 'group');
-            dots.setAttribute('aria-label', 'Choose an activity');
+            dots.setAttribute('aria-label', 'Activity date timeline');
+            this.rail = dots;
             this.dots = configs.map((config, index) => {
                 const label = config.label || config.title.en;
                 const dot = this.button('activity-dot', `Slide ${index + 1} of ${configs.length}: ${label}`, '', () => this.show(index));
+                dot.dataset.activityFocus = 'dot:' + config.slug;
+                dot.classList.add('activity-rail-item');
                 const text = document.createElement('span');
-                text.textContent = config.date ? config.date.slice(5).replace('-', '/') + ' · ' + label : config.year + ' · Church Theme';
+                this.bilingual(text, config.date ? {
+                    en: new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'America/Los_Angeles' }).format(new Date(config.date + 'T12:00:00Z')),
+                    bn: new Intl.DateTimeFormat('bn-BD', { month: 'short', day: 'numeric', timeZone: 'America/Los_Angeles' }).format(new Date(config.date + 'T12:00:00Z'))
+                } : { en: 'Theme', bn: 'থিম' });
                 const progress = document.createElement('span');
                 progress.className = 'activity-progress';
                 progress.setAttribute('aria-hidden', 'true');
@@ -62,13 +72,29 @@ class ActivityCarousel {
                 this.userPaused = !this.userPaused;
                 this.updatePlayback();
             });
-            controls.append(previous, dots, next, this.pauseButton);
+            controls.append(dots, this.pauseButton);
         }
-        const cta = document.createElement('a');
+        const cta = footer.querySelector('.activity-cta') || document.createElement('a');
         cta.className = 'btn btn-primary activity-cta';
+        cta.dataset.activityFocus = 'cta';
+        cta.replaceChildren();
         this.bilingual(cta, { en: 'Join us with your family', bn: 'সপরিবারে যোগ দিন' });
-        footer.append(controls, cta);
-        root.append(header, stage, footer);
+        const slot = document.createElement('div');
+        slot.className = 'activity-tool-slot';
+        slot.setAttribute('aria-live', 'off');
+        this.tools = configs.map(config => {
+            const tools = config.type === 'flyer' ? createTools(config) : document.createElement('div');
+            if (!tools) return null;
+            if (config.type === 'theme') {
+                tools.className = 'activity-theme-caption';
+                this.bilingual(tools, { en: config.year + ' ' + config.text.en,
+                    bn: new Intl.NumberFormat('bn', { useGrouping: false }).format(config.year) + ' ' + config.text.bn });
+            }
+            slot.appendChild(tools);
+            return tools;
+        });
+        footer.replaceChildren(controls, slot, cta);
+        root.replaceChildren(header, stage, footer);
         root.addEventListener('mouseenter', () => { this.hovered = true; this.updatePlayback(); });
         root.addEventListener('mouseleave', () => { this.hovered = false; this.updatePlayback(); });
         root.addEventListener('focusin', () => { this.focused = true; this.updatePlayback(); });
@@ -80,6 +106,7 @@ class ActivityCarousel {
             if (configs.length < 2 || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
             event.preventDefault();
             this.show(this.activeIndex + (event.key === 'ArrowRight' ? 1 : -1));
+            if (event.target.closest('.activity-rail')) this.dots[this.activeIndex].focus({ preventScroll: true });
         });
         let touchStart;
         stage.addEventListener('touchstart', event => {
@@ -93,6 +120,8 @@ class ActivityCarousel {
             if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) this.show(this.activeIndex + (dx < 0 ? 1 : -1));
         }, { passive: true });
         const index = configs.findIndex(config => config.slug === previousSlug);
+        this.hovered = root.matches(':hover');
+        this.focused = root.contains(document.activeElement);
         this.show(index < 0 ? 0 : index);
     }
 
@@ -100,6 +129,7 @@ class ActivityCarousel {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = className;
+        button.dataset.activityFocus = className;
         button.setAttribute('aria-label', label);
         button.textContent = text;
         button.addEventListener('click', handler);
@@ -117,44 +147,13 @@ class ActivityCarousel {
     }
 
     createTheme(config) {
-        const slide = document.createElement('div');
-        slide.className = 'activity-theme';
-        const motif = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        motif.setAttribute('viewBox', '0 0 240 240');
-        motif.setAttribute('aria-hidden', 'true');
-        motif.setAttribute('focusable', 'false');
-        motif.classList.add('activity-root-motif');
-        const roots = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        roots.setAttribute('d', 'M120 14V148 M120 48L82 20 M120 70L158 32 M120 92L64 58 M120 112L182 70 M120 148L92 180L72 216 M120 148L148 180L168 216 M120 148V226 M92 180L58 184 M148 180L182 184 M92 180L96 218 M148 180L144 218 M82 20L82 42 M158 32L162 52 M64 58L66 82 M182 70L178 94');
-        motif.appendChild(roots);
-        slide.appendChild(motif);
-        if (config.image) {
-            const image = document.createElement('img');
-            image.src = config.image;
-            image.alt = '';
-            image.className = 'activity-theme-image';
-            slide.appendChild(image);
-        }
-        const content = document.createElement('div');
-        content.className = 'activity-theme-copy';
-        const year = document.createElement('p');
-        year.className = 'activity-theme-year';
-        year.textContent = config.year;
-        const title = document.createElement('h2');
-        this.bilingual(title, config.title);
-        const text = document.createElement('p');
-        text.className = 'activity-theme-subtitle';
-        this.bilingual(text, {
-            en: config.year + ' ' + config.text.en,
-            bn: new Intl.NumberFormat('bn', { useGrouping: false }).format(config.year) + ' ' + config.text.bn
-        });
-        content.append(year, title, text);
-        slide.appendChild(content);
-        return slide;
+        const template = document.createElement('template');
+        template.innerHTML = renderHomeTheme(config);
+        return template.content.firstElementChild;
     }
 
     show(index) {
-        if (this.stage.contains(document.activeElement)) this.root.focus({ preventScroll: true });
+        if (this.stage.contains(document.activeElement) || this.tools.some(tools => tools?.contains(document.activeElement))) this.root.focus({ preventScroll: true });
         this.activeIndex = (index + this.slides.length) % this.slides.length;
         this.activeSlug = this.configs[this.activeIndex].slug;
         this.slides.forEach((slide, position) => {
@@ -164,8 +163,21 @@ class ActivityCarousel {
             slide.setAttribute('aria-hidden', String(!active));
         });
         this.dots.forEach((dot, position) => dot.setAttribute('aria-current', String(position === this.activeIndex)));
+        this.tools.forEach((tools, position) => {
+            if (tools) {
+                tools.hidden = position !== this.activeIndex;
+                tools.inert = position !== this.activeIndex;
+            }
+        });
+        this.scrollActiveItem();
         this.counter.textContent = `${String(this.activeIndex + 1).padStart(2, '0')} / ${String(this.slides.length).padStart(2, '0')}`;
         this.updatePlayback();
+    }
+
+    scrollActiveItem() {
+        const item = this.dots[this.activeIndex];
+        if (!this.rail || !item) return;
+        this.rail.scrollLeft = item.offsetLeft - (this.rail.clientWidth - item.offsetWidth) / 2;
     }
 
     updatePlayback() {

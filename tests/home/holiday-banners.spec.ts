@@ -142,12 +142,18 @@ test.describe('Holiday flyers', () => {
         await route.continue();
       });
       try {
-        await page.goto('/index.html');
+        await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
         await expectFlyers(page, flyers.map(flyer => flyer.slug));
         await page.locator('.event-flyer img').evaluateAll(images => {
           images.forEach(image => (image as HTMLImageElement).loading = 'eager');
         });
-        await page.evaluate(() => document.fonts.ready);
+        await page.evaluate(async () => {
+          const fonts = new Set([...document.querySelectorAll('main *, header *')].map(element => {
+            const style = getComputedStyle(element);
+            return style.fontStyle + ' ' + style.fontWeight + ' ' + style.fontSize + ' ' + style.fontFamily;
+          }));
+          await Promise.all([...fonts].map(font => document.fonts.load(font)));
+        });
         await expect.poll(() => held).toBeGreaterThanOrEqual(4);
         const geometry = () => page.evaluate(() => ({
           pictures: [...document.querySelectorAll('.event-flyer picture')].map(element => {

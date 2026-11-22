@@ -59,6 +59,7 @@ async function loadEventsFromGoogleSheets() {
 
                     const importedEvent = normalizeHolidaySchedule({
                         date: normalizedDate,
+                        sourceDate: normalizedDate,
                         name: event.name,
                         category: event.category || 'gpbc',
                         description: event.description || '',
@@ -153,7 +154,7 @@ async function deleteEventFromGoogleSheets(event) {
             body: JSON.stringify({
                 action: 'deleteEvent',
                 event: {
-                    date: event.date,
+                    date: event.sourceDate || event.date,
                     name: event.name,
                     owner: event.owner || CODE_OWNER
                 }

@@ -164,7 +164,7 @@ function normalizeHolidaySchedule(event) {
         candidate.name === event.name && (candidate.date === event.date ||
             (candidate.date === '2026-12-20' && event.date === '2026-12-13')));
     return revised ? {
-        ...event, date: revised.date, eventTime: revised.eventTime,
+        ...event, sourceDate: event.sourceDate || event.date, date: revised.date, eventTime: revised.eventTime,
         eventDay: revised.eventDay, eventCategory: revised.eventCategory, eventType: revised.eventType
     } : event;
 }
@@ -190,7 +190,10 @@ function loadCustomEvents() {
             localStorage.setItem('gpbcEvents', JSON.stringify(customEvents));
         }
         customEvents.forEach(event => {
-            if (!events.find(e => e.date === event.date && e.name === event.name)) {
+            const existing = events.find(e => e.date === event.date && e.name === event.name);
+            if (existing && revisedHolidayEvents.includes(existing)) {
+                Object.assign(existing, event);
+            } else if (!existing) {
                 events.push(event);
             }
         });

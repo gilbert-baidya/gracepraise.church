@@ -3,6 +3,20 @@
 The first commented entry in js/home-activities.js is the annual theme.
 Change its year, title, bilingual text and optional image there to switch
 to 2027; no renderer edits are needed. The year is formatted in Bengali.
+The theme and its frame are static HTML above the welcome/service-times hero.
+The production build refreshes that HTML from this same configuration, so after
+editing the entry run npm run build:production. Deferred scripts enhance the
+existing theme nodes and add the flyer slides; no-JavaScript visitors still
+see the theme and its Visit link. Ordinary event cards remain below Church Family.
+
+Flyer entries carry Pacific start/end times and a calendar title. Their countdown
+updates at Pacific midnight, the start/end boundary, and tab return, using the
+same scheduling timer as expiry (never a per-second ticker). Ended events remain
+marked Ended until their existing midnight expiry. Calendar downloads are local
+Blobs with stable UIDs, escaped text, UTF-8 folding and Los Angeles time-zone
+rules. The existing content.json Visit address supplies their location.
+The date timeline replaces dots/pills and arrow buttons as the single navigation
+control on both breakpoints; swipe and keyboard navigation remain available.
 Optional showUntil: '2026-12-31' expires the entry after that date's last minute
 in America/Los_Angeles. Null has no expiry.
 

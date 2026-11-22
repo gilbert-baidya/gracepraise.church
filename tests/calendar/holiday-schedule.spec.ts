@@ -17,6 +17,48 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('gpbc:logoLoaderSeen', 'true'));
 });
 
+for (const date of ['2026-12-13', '12/13/2026', '2026-12-20']) {
+  test(`Sheets displays the approved date but deletes the source record: ${date}`, async ({ page }) => {
+    const requests: any[] = [];
+    await page.route('https://script.google.com/**', async route => {
+      const request = JSON.parse(route.request().postData() || '{}');
+      requests.push(request);
+      await route.fulfill({ json: request.action === 'getEvents'
+        ? { events: [{ ...stale[0], date }] } : { success: true } });
+    });
+    await page.goto('/calendar.html');
+    await expect(page.locator('#monthEvents')).toContainText('Dec 20');
+    const result = await page.evaluate(async () => {
+      const event = (window as any).eval('events').find((event: any) => event.name === 'Pre-Christmas Celebration Service');
+      return { date: event.date, deleted: await (window as any).deleteEventFromGoogleSheets(event) };
+    });
+    expect(result).toEqual({ date: '2026-12-20', deleted: true });
+    expect(requests.find(request => request.action === 'deleteEvent').event.date)
+      .toBe(date.includes('13') ? '2026-12-13' : '2026-12-20');
+  });
+}
+
+test('saved holiday source identity survives normalization and a failed Sheets refresh', async ({ page }) => {
+  await page.addInitScript(record => {
+    if (window !== window.top) return;
+    localStorage.setItem('gpbcEventsVersion', '3.1');
+    localStorage.setItem('gpbcEvents', JSON.stringify([record]));
+  }, stale[0]);
+  const deletions: any[] = [];
+  await page.route('https://script.google.com/**', async route => {
+    const request = JSON.parse(route.request().postData() || '{}');
+    if (request.action === 'deleteEvent') deletions.push(request);
+    await route.fulfill({ json: request.action === 'getEvents' ? {} : { success: true } });
+  });
+  await page.goto('/calendar.html');
+  const result = await page.evaluate(async () => {
+    const record = (window as any).eval('events').find((event: any) => event.name === 'Pre-Christmas Celebration Service');
+    return { date: record.date, source: record.sourceDate, deleted: await (window as any).deleteEventFromGoogleSheets(record) };
+  });
+  expect(result).toEqual({ date: '2026-12-20', source: '2026-12-13', deleted: true });
+  expect(deletions[0].event.date).toBe('2026-12-13');
+});
+
 for (const language of ['en', 'bn']) {
   test(`Home and countdown share approved holiday dates in ${language}`, async ({ page }) => {
     await page.goto('/index.html?lang=' + language);

@@ -1,0 +1,35 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import { runInNewContext } from 'node:vm';
+
+const context = { window: {}, TextEncoder };
+runInNewContext(await fs.readFile(new URL('../js/home-activities.js', import.meta.url), 'utf8'), context);
+const flyer = context.window.GPBC_HOME_ACTIVITIES[1];
+
+test('ICS escapes text and folds at UTF-8 octet boundaries; UID is stable', () => {
+    const title = 'Celebration, together; \\ family\n' + 'বাংলা'.repeat(20);
+    const config = { ...flyer, calendarTitle: title };
+    const first = context.homeActivityCalendar(config, 'Church, CA; Room \\ 1\nUpstairs', 'https://gracepraise.church/plan-visit.html?lang=bn', new Date('2026-12-01T12:00:00Z'));
+    const second = context.homeActivityCalendar(config, 'Elsewhere', 'https://gracepraise.church/plan-visit.html', new Date('2026-12-02T12:00:00Z'));
+    assert.equal(first.match(/^UID:.*$/m)[0], second.match(/^UID:.*$/m)[0]);
+    assert.ok(first.endsWith('\r\n'));
+    assert.ok(!/(?<!\r)\n/.test(first));
+    assert.ok(first.split('\r\n').every(line => Buffer.byteLength(line) <= 75));
+    const unfolded = first.replace(/\r\n /g, '');
+    assert.ok(unfolded.includes('SUMMARY:Celebration\\, together\\; \\\\ family\\n' + 'বাংলা'.repeat(20)));
+    assert.ok(unfolded.includes('LOCATION:Church\\, CA\\; Room \\\\ 1\\nUpstairs'));
+    assert.ok(unfolded.includes('plan-visit.html?lang=bn'));
+});
+
+test('ICS accepts empty optional text without introducing undefined fields', () => {
+    const result = context.homeActivityCalendar({ ...flyer, en: '' }, '', '');
+    assert.ok(!result.includes('undefined'));
+    assert.ok(result.includes('LOCATION:\r\n'));
+});
+
+test('ICS rejects missing or invalid scheduling data', () => {
+    for (const config of [null, {}, { ...flyer, start: '25:00' }, { ...flyer, end: '16:00' }]) {
+        assert.throws(() => context.homeActivityCalendar(config, '', ''), /Activity calendar requires/);
+    }
+});

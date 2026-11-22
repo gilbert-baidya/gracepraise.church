@@ -14,6 +14,135 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('gpbc:logoLoaderSeen', 'true'));
 });
 
+test('unchanged tab return retains nodes, focused control and focus-pause', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/index.html');
+  const next = page.locator('.activity-rail-item').nth(1);
+  await next.focus();
+  const state = await page.evaluate(() => {
+    const root = document.querySelector('.activity-carousel');
+    const card = document.querySelector('#dynamic-events-container > .special-event-details');
+    const focus = document.activeElement;
+    let hidden = true;
+    Object.defineProperty(document, 'hidden', { configurable: true, get: () => hidden });
+    document.dispatchEvent(new Event('visibilitychange'));
+    hidden = false;
+    document.dispatchEvent(new Event('visibilitychange'));
+    window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
+    return { root: root === document.querySelector('.activity-carousel'),
+      card: card === document.querySelector('#dynamic-events-container > .special-event-details'),
+      focus: focus === document.activeElement };
+  });
+  expect(state).toEqual({ root: true, card: true, focus: true });
+  await expect(next).toBeFocused();
+  await expect(page.locator('.activity-carousel')).toHaveAttribute('data-playing', 'false');
+});
+
+test('expiry restores an equivalent control and preserves explicit and focus pause', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.clock.setFixedTime(new Date('2026-12-20T23:59:00-08:00'));
+  await page.goto('/index.html');
+  await page.getByRole('button', { name: 'Pause slideshow', exact: true }).click();
+  await page.locator('.activity-dot').nth(2).click();
+  await page.clock.setFixedTime(new Date('2026-12-21T00:00:00-08:00'));
+  await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+  await expect(page.locator('.activity-slide')).toHaveCount(4);
+  await expect(page.locator('[data-activity-focus="dot:christmas-day"]')).toBeFocused();
+  await expect(page.getByRole('button', { name: 'Play slideshow', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: 'Play slideshow', exact: true }).click();
+  await page.locator('[data-activity-focus="dot:church-theme"]').focus();
+  await page.clock.setFixedTime(new Date('2026-12-26T00:00:00-08:00'));
+  await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+  await expect(page.locator('.activity-slide')).toHaveCount(3);
+  await expect(page.locator('[data-activity-focus="dot:church-theme"]')).toBeFocused();
+  await expect(page.locator('.activity-carousel')).toHaveAttribute('data-playing', 'false');
+  await expect(page.getByRole('button', { name: 'Pause slideshow', exact: true })).toHaveAttribute('aria-pressed', 'false');
+});
+
+for (const width of [390, 1440]) {
+  test(`${width}px artwork keyboard focus ring is inset and visible inside the stage`, async ({ page }, testInfo) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/index.html');
+    await page.locator('.activity-dot').nth(1).click();
+    await page.keyboard.press('Tab');
+    const link = page.locator('.activity-slide.is-active .event-flyer-link');
+    await link.focus();
+    await expect(link).toBeFocused();
+    expect(await link.evaluate(element => {
+      const style = getComputedStyle(element);
+      return { offset: style.outlineOffset, width: style.outlineWidth, style: style.outlineStyle };
+    })).toEqual({ offset: '-7px', width: '3px', style: 'solid' });
+    expect(await link.evaluate(element => {
+      const ring = getComputedStyle(element, '::after');
+      return { border: ring.borderTopWidth, inset: ring.top, layer: ring.zIndex };
+    })).toEqual({ border: '3px', inset: '6px', layer: '3' });
+    await page.locator('.activity-stage').screenshot({ path: testInfo.outputPath('artwork-focus.png') });
+  });
+}
+
+for (const script of ['events.js', 'js/home-activities.js', 'js/activity-carousel.js', 'homepage-events.js']) {
+  test(`delayed ${script} does not block parsing and keeps the reserved frame stable`, async ({ page }) => {
+    let release!: () => void;
+    const gate = new Promise<void>(resolve => { release = resolve; });
+    await page.route('**/' + script + '*', async route => { await gate; await route.continue(); });
+    const navigation = page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+    try {
+      await expect(page.locator('#featured-events')).toBeAttached();
+      await expect(page.locator('#home-activities .activity-theme')).toContainText('Rooted in Christ');
+      await expect(page.locator('.activity-carousel')).toHaveAttribute('data-enhanced', 'false');
+      const firstTheme = await page.locator('.activity-theme').elementHandle();
+      await page.locator('.activity-cta').focus();
+      const scripts = await page.locator('head script[src]').evaluateAll(nodes => nodes
+        .filter(node => /\/(events|home-activities|activity-carousel|homepage-events)\.js(?:\?|$)/.test((node as HTMLScriptElement).src))
+        .map(node => ({ path: new URL((node as HTMLScriptElement).src).pathname, defer: (node as HTMLScriptElement).defer })));
+      expect(scripts).toEqual(['events.js', 'js/home-activities.js', 'js/activity-carousel.js', 'homepage-events.js']
+        .map(path => ({ path: '/' + path, defer: true })));
+      const geometry = () => page.evaluate(() => {
+        const container = document.getElementById('home-activities')!.getBoundingClientRect();
+        const following = document.getElementById('home')!.getBoundingClientRect();
+        return { height: container.height, following: following.top - container.top };
+      });
+      const before = await geometry();
+      expect(before.height).toBeGreaterThan(300);
+      release();
+      await navigation;
+      await expect(page.locator('.activity-carousel')).toHaveAttribute('data-enhanced', 'true');
+      await expect(page.locator('.activity-slide')).toHaveCount(5);
+      expect(await firstTheme!.evaluate(element => element === document.querySelector('.activity-theme'))).toBe(true);
+      await expect(page.locator('.activity-cta')).toBeFocused();
+      await expect(page.locator('.activity-carousel')).toHaveAttribute('data-playing', 'false');
+      const after = await geometry();
+      expect(Math.abs(after.height - before.height)).toBeLessThan(.5);
+      expect(Math.abs(after.following - before.following)).toBeLessThan(.5);
+    } finally { release(); await navigation; }
+  });
+}
+
+test('activities lead main, with the unchanged welcome and service times immediately after', async ({ page }) => {
+  await page.goto('/index.html');
+  expect(await page.locator('main').evaluate(main => [...main.children].slice(0, 2).map(child => child.id)))
+    .toEqual(['home-activities', 'home']);
+  await expect(page.locator('#dynamic-events-container .activity-carousel')).toHaveCount(0);
+  await expect(page.locator('#home #hero-heading')).toContainText('A place to belong.');
+  await expect(page.locator('#home .visit-summary-time [data-lang="en"]')).toContainText('Sunday · 5:00 PM');
+});
+
+test.describe('static Home activities', () => {
+  test.use({ javaScriptEnabled: false });
+  test('theme and Visit link paint without JS; skip link targets main', async ({ page }) => {
+    await page.goto('/index.html');
+    await expect(page.locator('#home-activities .activity-theme h2')).toBeVisible();
+    await expect(page.locator('#home-activities .activity-theme h2')).toContainText('Rooted in Christ');
+    await expect(page.locator('.activity-carousel')).toHaveAttribute('data-enhanced', 'false');
+    await expect(page.locator('.activity-cta')).toHaveAttribute('href', 'plan-visit.html?lang=en');
+    await expect(page.locator('.activity-controls button')).toHaveCount(0);
+    await page.locator('.skip-link').focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('#main-content')).toBeFocused();
+  });
+});
+
 test('theme is first, bilingual and entirely swappable through its config', async ({ page }) => {
   await page.goto('/index.html');
   await expect(page.locator('.activity-slide')).toHaveCount(5);
@@ -22,6 +151,12 @@ test('theme is first, bilingual and entirely swappable through its config', asyn
   await page.evaluate(() => (window as any).GPBCLanguage.set('bn'));
   await expect(page.locator('.activity-theme-subtitle [lang="bn"]')).toBeVisible();
   await expect(page.locator('.activity-theme-subtitle [lang="bn"]')).toHaveText('২০২৬ মণ্ডলীর থিম');
+  expect(await page.locator('.activity-heading h2').evaluate(heading => {
+    const bounds = heading.getBoundingClientRect();
+    const frame = document.querySelector('.activity-carousel')!.getBoundingClientRect();
+    const stage = document.querySelector('.activity-stage')!.getBoundingClientRect();
+    return bounds.top >= frame.top && bounds.bottom <= stage.top;
+  })).toBe(true);
   await configure(page, `window.GPBC_HOME_ACTIVITIES[0] = {
     type: 'theme', slug: 'next-theme', year: 2027, title: { en: 'Next approved theme' },
     text: { en: 'Church Theme', bn: 'মণ্ডলীর থিম' }, image: null, showUntil: null
@@ -31,19 +166,19 @@ test('theme is first, bilingual and entirely swappable through its config', asyn
   await expect(page.locator('.activity-theme-subtitle [data-lang="en"]')).toHaveText('2027 Church Theme');
 });
 
-test('previous, next, dots, keyboard and swipe control one accessible slide', async ({ page }) => {
+test('timeline, keyboard and swipe control one accessible slide', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/index.html');
   const root = page.locator('.activity-carousel');
   const active = page.locator('.activity-slide.is-active');
   await expect(root).toHaveAttribute('aria-roledescription', 'carousel');
-  await root.getByRole('button', { name: 'Next slide', exact: true }).click();
+  await root.locator('.activity-rail-item').nth(1).click();
   await expect(active).toHaveAttribute('data-activity', 'pre-christmas-dec20');
-  await root.getByRole('button', { name: 'Previous slide', exact: true }).click();
+  await root.locator('.activity-rail-item').first().click();
   await expect(active).toHaveAttribute('data-activity', 'church-theme');
-  await root.getByRole('button', { name: 'Slide 3 of 5: Christmas Day', exact: true }).click();
+  await root.getByRole('button', { name: 'Slide 3 of 5: Dec 25 · Christmas Day', exact: true }).click();
   await expect(active).toHaveAttribute('data-activity', 'christmas-day');
-  await expect(page.locator('.activity-dot[aria-current="true"]')).toHaveAccessibleName('Slide 3 of 5: Christmas Day');
+  await expect(page.locator('.activity-dot[aria-current="true"]')).toHaveAccessibleName('Slide 3 of 5: Dec 25 · Christmas Day');
   await root.focus();
   await page.keyboard.press('ArrowRight');
   await expect(active).toHaveAttribute('data-activity', 'gratitude-dec31');
@@ -116,7 +251,7 @@ test('theme plus one flyer has controls, theme alone does not, and zero removes 
   await page.clock.setFixedTime(new Date('2027-01-01T12:00:00-08:00'));
   await page.goto('/index.html');
   await expect(page.locator('.activity-slide')).toHaveCount(2);
-  await expect(page.getByRole('button', { name: 'Next slide', exact: true })).toBeVisible();
+  await expect(page.locator('.activity-rail-item')).toHaveCount(2);
   await page.clock.setFixedTime(new Date('2027-01-02T00:00:00-08:00'));
   await page.reload();
   await expect(page.locator('.activity-slide')).toHaveCount(1);
