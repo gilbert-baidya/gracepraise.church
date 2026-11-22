@@ -3,6 +3,80 @@ import { readFileSync } from 'node:fs';
 
 const pages = ['index', 'plan-visit', 'give', 'calendar'];
 const feed = { date: '2026-11-25', name: 'Church fellowship', category: 'gpbc', description: 'Everyone is welcome.' };
+for (const route of ['index', 'calendar']) {
+  test(`${route}: slow fonts do not move cold-load content`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.route('**/*.woff2', async route => {
+      await new Promise(resolve => setTimeout(resolve, 450));
+      await route.continue();
+    });
+    if (route === 'calendar') await page.route('**/redesign-styles.css*', async route => {
+      await new Promise(resolve => setTimeout(resolve, 450));
+      await route.continue();
+    });
+    await page.addInitScript(() => {
+      (window as any).coldLoadShifts = [];
+      new PerformanceObserver(list => {
+        for (const entry of list.getEntries()) (window as any).coldLoadShifts.push((entry as any).value);
+      }).observe({ type: 'layout-shift', buffered: true });
+    });
+    await page.goto('/' + route + '.html?lang=en');
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+      await new Promise(requestAnimationFrame);
+      await new Promise(requestAnimationFrame);
+    });
+    const cls = await page.evaluate(() => (window as any).coldLoadShifts.reduce((sum: number, value: number) => sum + value, 0));
+    expect(cls).toBeLessThanOrEqual(0.1);
+    await expect(page.locator('.hero-content')).toHaveCount(route === 'calendar' ? 1 : 0);
+    if (route === 'calendar') await expect(page.locator('.hero-content')).toHaveCSS('animation-name', 'none');
+  });
+}
+
+test('Calendar loads layout styles before painting and does not flash the retired banner', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/calendar.html');
+  await expect(page.locator('link[rel="stylesheet"][href*="redesign-styles.css"]')).toHaveCount(1);
+  await expect(page.locator('link[data-lazy-href*="redesign-styles.css"]')).toHaveCount(0);
+  await expect(page.locator('#specialEventBanner')).toBeHidden();
+  await page.evaluate(() => {
+    document.documentElement.style.setProperty('--header-total-height', '400px');
+    document.documentElement.style.setProperty('--gpbc-header-total-height', '400px');
+  });
+  await expect(page.locator('.hero')).toHaveCSS('padding-top', '32px');
+});
+
+test('Countdown initializes once and reuses timezone formatters without changing DST or error handling', async ({ page }) => {
+  await page.goto('/calendar.html');
+  await page.waitForFunction(() => Boolean((window as any).gpbcCountdown));
+  const result = await page.evaluate(() => {
+    const original = window.setInterval;
+    const timers: number[] = [];
+    window.setInterval = ((...args: Parameters<typeof setInterval>) => {
+      const id = original(...args);
+      timers.push(id);
+      return id;
+    }) as typeof setInterval;
+    try {
+      const countdown = new (window as any).gpbcCountdown.constructor();
+      countdown.init();
+      countdown.init();
+      const zone = 'America/Los_Angeles';
+      const winter = countdown.getTimeZoneOffset(new Date('2026-03-08T09:30:00Z'), zone);
+      const summer = countdown.getTimeZoneOffset(new Date('2026-03-08T10:30:00Z'), zone);
+      const before = countdown.timeZoneFormatters.get(zone);
+      countdown.getTimeZoneParts(new Date(), zone);
+      let error;
+      try { countdown.getTimeZoneParts(new Date(), 'invalid/timezone'); } catch (e) { error = (e as Error).name; }
+      return { timers: timers.length, winter, summer, reused: before === countdown.timeZoneFormatters.get(zone), error };
+    } finally {
+      window.setInterval = original;
+      timers.forEach(clearInterval);
+    }
+  });
+  expect(result).toEqual({ timers: 1, winter: -8 * 3600000, summer: -7 * 3600000, reused: true, error: 'RangeError' });
+});
+
 test.beforeEach(async ({ page }) => {
   await page.clock.setFixedTime(new Date('2026-11-21T12:00:00Z'));
   await page.route('https://script.google.com/**', route => route.fulfill({ json: { events: [feed] } }));

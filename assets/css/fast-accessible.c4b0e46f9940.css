@@ -1,3 +1,8 @@
+@font-face { font-family: Inter; src: url('../fonts/inter/inter-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: optional; }
+@font-face { font-family: Inter; src: url('../fonts/inter/inter-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: optional; }
+@font-face { font-family: Lora; src: url('../fonts/lora/lora-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: optional; }
+@font-face { font-family: 'Noto Sans Bengali'; src: url('../fonts/notosansbengali/notosansbengali-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: optional; }
+@font-face { font-family: 'Noto Sans Bengali'; src: url('../fonts/notosansbengali/notosansbengali-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: optional; }
 html:root:has(body.fast-accessible) { scroll-padding-top: 0 !important; }
 html:root body.fast-accessible { --gpbc-h1-size: 60px; --gpbc-h1-leading: 71px; padding-top: 0 !important; margin: 0; line-height: 1.625; }
 html:root body.fast-accessible * { box-sizing: border-box; }
@@ -39,7 +44,10 @@ html:root body.fast-accessible .site-language-row:has(#darkModeToggle) .site-lan
 html:root body.fast-accessible .site-language-location { font-size: 16px !important; line-height: 26px !important; }
 html:root body.fast-accessible.visit-essentials-page .visit-essentials h1 { font-size: var(--gpbc-h1-size) !important; line-height: var(--gpbc-h1-leading) !important; }
 html:root body.fast-accessible .visit-summary :is(.visit-summary-language, .visit-summary-logistics p, .visit-summary-arrival) { font-size: 16px; line-height: 26px; }
-html:root body.fast-accessible :is(.hero, h1, .tagline) { animation: none !important; transition: none !important; opacity: 1 !important; }
+html:root body.fast-accessible :is(.hero, .hero-content, h1, .tagline) { animation: none !important; transition: none !important; opacity: 1 !important; }
+html:root body.fast-accessible.calendar-page .hero { padding-top: var(--gpbc-space-8) !important; }
+html:root body.fast-accessible :is(header *, .visit-essentials *, .calendar-filters-section *) { transition: none !important; }
+html:root body.fast-accessible .preset-filter.active { background: var(--gpbc-gold-fill) !important; color: var(--gpbc-gold-label) !important; border-color: #856115 !important; }
 html:root body.fast-accessible :is(.visit-summary-title, .visit-essentials-eyebrow):lang(bn) { font-size: 16px; line-height: 26px; }
 html:root[lang="bn"] body.fast-accessible #darkModeToggle::after { content: 'রাতের মোড'; font-family: var(--gpbc-font-bengali); }
 html:root[lang="bn"][data-theme="dark"] body.fast-accessible #darkModeToggle::after { content: 'দিনের মোড'; }

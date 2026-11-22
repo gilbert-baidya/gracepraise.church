@@ -6,6 +6,7 @@
 class CountdownSystem {
     constructor() {
         this.timeZone = 'America/Los_Angeles';
+        this.timeZoneFormatters = new Map();
 
         // Weekly service display config (schedule comes from events.js when available)
         this.serviceConfig = {
@@ -147,17 +148,21 @@ class CountdownSystem {
     }
 
     getTimeZoneParts(date, timeZone) {
-        const formatter = new Intl.DateTimeFormat('en-US', {
-            timeZone,
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            weekday: 'short',
-            hour12: false
-        });
+        let formatter = this.timeZoneFormatters.get(timeZone);
+        if (!formatter) {
+            formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone,
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                weekday: 'short',
+                hour12: false
+            });
+            this.timeZoneFormatters.set(timeZone, formatter);
+        }
 
         const parts = formatter.formatToParts(date);
         const map = {};
@@ -270,6 +275,8 @@ class CountdownSystem {
     }
 
     init() {
+        if (this.initialized) return;
+        this.initialized = true;
         this.createCountdownBanner();
         this.updateCountdown();
         this.updateInlineCountdown(); // Initialize inline special event countdown

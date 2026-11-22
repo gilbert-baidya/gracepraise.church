@@ -196,7 +196,17 @@ for (const route of routes) {
     await expect(page.locator('h1').first()).toHaveCSS('font-size', fastPage ? '60px' : '64px');
     await expect(page.locator('h1').first()).toHaveCSS('line-height', fastPage ? '71px' : '76px');
     await expect(page.locator('link[href="assets/css/shared-style.css"]')).toHaveCount(1);
-    await expect(page.locator('link[rel="preload"][as="font"]')).toHaveCount(0);
+    const fontPreloads = page.locator('link[rel="preload"][as="font"]');
+    await expect(fontPreloads).toHaveCount(fastPage ? 5 : 0);
+    if (fastPage) {
+      expect(await fontPreloads.evaluateAll(nodes => nodes.map(node => node.getAttribute('href')).sort())).toEqual([
+        '/assets/fonts/inter/inter-400.woff2',
+        '/assets/fonts/inter/inter-600.woff2',
+        '/assets/fonts/lora/lora-400.woff2',
+        '/assets/fonts/notosansbengali/notosansbengali-400.woff2',
+        '/assets/fonts/notosansbengali/notosansbengali-600.woff2',
+      ]);
+    }
     if (route === 'give' || route === 'prayer-request') {
       const quote = page.locator(route === 'give' ? '.give-v14-hero-verse p' : '.prayer-v15-scripture blockquote p');
       await expect(quote).toHaveCSS('font-style', 'italic');
