@@ -88,8 +88,11 @@ async function refreshCalendarEvents(retry = false) {
     const region = document.getElementById('upcomingEventsList');
     const hadFocus = document.activeElement === button;
     button.disabled = true;
+    calendarFeedState = 'loading';
     region.setAttribute('aria-busy', 'true');
     status.textContent = 'Loading upcoming events…';
+    renderMonthEvents();
+    displayUpcomingEvents();
     const loaded = await loadEventsFromGoogleSheets();
     calendarFeedState = loaded ? 'ready' : 'error';
     region.setAttribute('aria-busy', 'false');
@@ -98,11 +101,10 @@ async function refreshCalendarEvents(retry = false) {
     if (!loaded) {
         clearUnverifiedChurchEvents();
         status.textContent = 'Upcoming events are unavailable. Please retry or contact the church.';
-        region.replaceChildren();
     } else {
         status.textContent = retry ? 'Upcoming events updated.' : '';
-        displayUpcomingEvents();
     }
+    displayUpcomingEvents();
     renderCalendar();
     renderMonthEvents();
     if (loaded && hadFocus) {
@@ -466,6 +468,9 @@ function renderCalendar() {
 function createDayElement(dayNumber, isOtherMonth, isToday = false) {
     const dayDiv = document.createElement('td');
     dayDiv.className = 'day';
+    const content = document.createElement('div');
+    content.className = 'day-content';
+    dayDiv.appendChild(content);
 
     if (isOtherMonth) {
         dayDiv.classList.add('other-month');
@@ -485,7 +490,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
     const dayNumberDiv = document.createElement('div');
     dayNumberDiv.className = 'day-number';
     dayNumberDiv.textContent = dayNumber;
-    dayDiv.appendChild(dayNumberDiv);
+    content.appendChild(dayNumberDiv);
 
     // Add events for this day
     if (!isOtherMonth) {
@@ -531,7 +536,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
                     e.preventDefault();
                     showEventDetail(event);
                 });
-                dayDiv.appendChild(eventMarker);
+                content.appendChild(eventMarker);
             }
         });
     }
@@ -577,6 +582,15 @@ function getEventsForMonth(month, year) {
 
 function renderMonthEvents() {
     const monthEventsDiv = document.getElementById('monthEvents');
+    monthEventsDiv.setAttribute('aria-busy', String(calendarFeedState === 'loading'));
+    if (calendarFeedState !== 'ready') {
+        const message = document.createElement('li');
+        message.textContent = calendarFeedState === 'loading'
+            ? 'Loading events for this month…'
+            : 'Events for this month are unavailable. Please retry or contact the church.';
+        monthEventsDiv.replaceChildren(message);
+        return;
+    }
     const monthEvents = getEventsForMonth(currentMonth, currentYear).filter(shouldDisplayEvent);
 
     if (monthEvents.length === 0) {
@@ -797,6 +811,14 @@ function copyToClipboard(text) {
 
 function displayUpcomingEvents() {
     const upcomingEventsList = document.getElementById('upcomingEventsList');
+    if (calendarFeedState !== 'ready') {
+        const message = document.createElement('p');
+        message.textContent = calendarFeedState === 'loading'
+            ? 'Loading upcoming events…'
+            : 'Upcoming events are unavailable. Please retry or contact the church.';
+        upcomingEventsList.replaceChildren(message);
+        return;
+    }
     const reminders = getUpcomingReminders().filter(event => event.category === 'gpbc').slice(0, 3); // Show max 3 events
 
     if (reminders.length === 0) {

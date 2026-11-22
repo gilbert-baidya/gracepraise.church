@@ -72,6 +72,15 @@
                 delete node.dataset.lazySrc;
             }
         }
+        pending.forEach(node => {
+            if (!node.hasAttribute('data-resume-playback')) return;
+            try {
+                const saved = JSON.parse(localStorage.getItem('gpbc_sermon_player_state'));
+                if (typeof saved?.audioUrl !== 'string' || !saved.audioUrl.trim()) return;
+            } catch { return; }
+            pending.delete(node);
+            activate(node);
+        });
         function observeTargets() {
             pending.forEach(node => {
                 const target = node.dataset.visible ? document.querySelector(node.dataset.visible) : node;

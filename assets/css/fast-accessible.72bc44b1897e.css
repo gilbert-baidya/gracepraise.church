@@ -80,11 +80,12 @@ html:root body.fast-accessible .community-v5__caption p { font-size: 16px !impor
 html:root body.fast-accessible .community-v5__caption .community-v5__label { color: var(--gpbc-gold-text) !important; }
 html:root body.fast-accessible .calendar-grid { display: table !important; width: 100%; min-width: 420px; table-layout: fixed; border-collapse: collapse; }
 html:root body.fast-accessible .calendar-grid :is(th, td) { vertical-align: top; border: 1px solid var(--gpbc-divider); }
-html:root body.fast-accessible .calendar-grid .day { height: auto; min-height: 48px; padding: 8px 4px; }
+html:root body.fast-accessible .calendar-grid .day { display: table-cell !important; height: auto; min-height: 48px; padding: 8px 4px; }
+html:root body.fast-accessible .calendar-grid .day-content { display: flex; flex-direction: column; align-items: stretch; min-height: 48px; }
 html:root body.fast-accessible .calendar-grid .event-marker { display: block; white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; padding: 8px 2px; min-height: 48px; font-size: 16px; line-height: 26px; color: var(--gpbc-link) !important; background: var(--gpbc-surface) !important; }
 html:root body.fast-accessible .calendar-grid :is(.weekday, .day-number) { font-size: 16px; line-height: 26px; }
 .fast-calendar-views { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-.fast-calendar-scroll { max-width: 100%; overflow-x: auto; }
+.fast-calendar-scroll { position: relative; max-width: 100%; overflow-x: auto; }
 .calendar-grid .event-marker + .event-marker { margin-top: 8px; }
 #monthEvents > li > ol { list-style: none; margin: 0; padding: 0; }
 .fast-calendar-views button { min-height: 52px; padding: 8px 20px; border: 1px solid var(--gpbc-control-border); border-radius: 12px; background: var(--gpbc-surface); color: var(--gpbc-text); }
