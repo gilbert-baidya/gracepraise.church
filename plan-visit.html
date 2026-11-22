@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="preload" href="/assets/fonts/inter/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/inter/inter-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/lora/lora-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/notosansbengali/notosansbengali-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/notosansbengali/notosansbengali-600.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/site-language.css">
     <script src="/js/site-language.js" defer></script>
     <meta charset="UTF-8">
+    <script>document.documentElement.classList.add("js-enabled");</script>
+    <script src="js/fast-accessible.0865e8073cbe.js" defer></script>
     
     <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,9 +62,6 @@
     </script>
     
     <link rel="stylesheet" href="redesign-styles.css?v=20260918-v11-theme-final3">
-    <link rel="stylesheet" href="logo-loading.css">
-    <link rel="stylesheet" href="logo-styles.css">
-    <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
     <link rel="stylesheet" href="countdown.css">
     <link rel="stylesheet" href="shape-system.css">
     <link rel="stylesheet" href="heptagon-wheel-sacred.css">
@@ -95,33 +99,29 @@
         section, main, .hero { width: 100%; max-width: 100%; }
     </style>
     
-    <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
     <link rel="stylesheet" href="./css/footer-v3.css">
     <link rel="stylesheet" href="assets/css/shared-style.css">
     <link rel="stylesheet" href="assets/css/visit-essentials.css">
+    <link rel="stylesheet" href="assets/css/fast-accessible.1c8aafec8b05.css">
 </head>
-<body class="plan-visit-page gpbc-shared visit-essentials-page">
+<body class="plan-visit-page gpbc-shared fast-accessible visit-essentials-page">
     <span class="site-language-anchor" id="gpbc-language-en" aria-hidden="true"></span><span class="site-language-anchor" id="gpbc-language-bn" aria-hidden="true"></span>
     <!-- Skip to main content for keyboard users -->
 <a href="#main-content" class="skip-link" lang="en">Skip to main content</a>
 
 <!-- Sticky Header/Nav -->
 <header lang="en">
-    <nav>
+    <nav aria-label="Main navigation">
         <div class="nav-container">
             <a href="index.html#home" class="logo">
-                <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church" class="logo-image" loading="eager" decoding="async">
-            <span class="visit-brand-copy" lang="en"><strong>GRACE &amp; PRAISE</strong><small>Bangladeshi Church</small></span></a>
-            <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
-                <span class="sun-icon">☀️</span>
-                <span class="moon-icon">🌙</span>
-            </button>
-            <button data-label-en="Toggle mobile menu" data-label-bn="মেনু খুলুন বা বন্ধ করুন" class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <img src="images/logo/gpbc-mark.40eae7be38cd.webp" width="192" height="192" alt="" class="logo-image" loading="eager" decoding="async">
+            <span class="fast-brand" lang="en">Grace &amp; Praise<span>Bangladeshi Church</span></span></a>
+            <button data-label-en="Menu" data-label-bn="মেনু" class="mobile-menu-btn" aria-label="Menu" aria-controls="nav-links" aria-expanded="false" type="button">
                 <span></span>
                 <span></span>
                 <span></span>
-            </button>
-            <ul class="nav-links">
+            <span class="fast-menu-label"><span data-lang="en" lang="en">Menu</span><span data-lang="bn" lang="bn">মেনু</span></span></button>
+            <ul class="nav-links" id="nav-links">
                 <li><a href="index.html#live">LIVE</a></li>
                 <li><a href="index.html#home">Home</a></li>
                 <li class="nav-dropdown">
@@ -183,11 +183,16 @@
         </div>
     </nav>
     <div class="mobile-overlay"></div>
-<div class="site-language-row"><span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn" style="display:none">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" lang="en" data-site-language="en">English</a><a href="?lang=bn#gpbc-language-bn" lang="bn" data-site-language="bn">বাংলা</a></div></div>
+<div class="site-language-row">
+            <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
+                <span class="sun-icon">☀️</span>
+                <span class="moon-icon">🌙</span>
+            </button>
+<span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn" style="display:none">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" lang="en" data-site-language="en">English</a><a href="?lang=bn#gpbc-language-bn" lang="bn" data-site-language="bn">বাংলা</a></div></div>
 </header>
 
     <!-- Main Content -->
-    <main id="main-content" data-gpbc-route-feature="pages.planVisit" data-site-bilingual>
+    <main tabindex="-1" id="main-content" data-gpbc-route-feature="pages.planVisit" data-site-bilingual>
 <section class="visit-essentials"  aria-labelledby="visit-essentials-heading">
  <div class="visit-essentials-grid"><div class="visit-essentials-copy">
  <p class="visit-essentials-eyebrow"><span lang="en" data-lang="en">A church family. A welcome for everyone.</span><span lang="bn" data-lang="bn" style="display:none">একটি পরিবার। সবার জন্য স্বাগতম।</span></p>
@@ -248,7 +253,7 @@
                 </div>
                 <div class="visit-hero-image-wrap">
                     <div class="visit-hero-image-glow" aria-hidden="true"></div>
-                    <img class="visit-hero-image" src="images/community-worship.webp" width="1024" height="1024" loading="eager" fetchpriority="high" decoding="async" alt="GPBC community worship gathering in San Bernardino">
+                    <img class="visit-hero-image" src="images/community-worship-480.42c5e2f15d48.webp" srcset="images/community-worship-480.42c5e2f15d48.webp 480w, images/community-worship-800.a0dcc52e4e29.webp 800w" sizes="(max-width: 767px) calc(100vw - 40px), 480px" width="1024" height="1024" loading="eager" fetchpriority="high" decoding="async" alt="GPBC community worship gathering in San Bernardino">
                     <div class="visit-hero-image-caption">
                         <span class="visit-caption-dot" aria-hidden="true"></span>
                         <span data-lang="en" lang="en">A place to worship, belong, and grow</span>
@@ -634,11 +639,9 @@
     <script src="navigation.js?v=20260918-v11-theme-final3"></script>
     <script src="events.js" defer></script>
     <!-- Plan Your Visit runtime is dynamically loaded by website-control.js only after a LIVE route decision. -->
-    <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
-    <script src="logo-loader.js"></script>
-
     <!-- Site Footer (Partial Injection) -->
     <div data-partial="site-footer"></div>
+    <noscript><footer lang="en" class="fast-static-footer"><p>Grace and Praise Bangladeshi Church</p><p>1325 Richardson Street, San Bernardino, CA 92408</p><a href="contact.html">Contact us</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-conditions.html">Terms</a></footer></noscript>
 
     <script type="module" src="./js/footer/footer-init.js"></script>
 </body>

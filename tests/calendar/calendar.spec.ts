@@ -9,6 +9,25 @@ const sheetEvent = { date: '11/25/2026', name: 'Mock Sheets fellowship', categor
 
 test.beforeEach(async ({ page }) => {
   await page.clock.setFixedTime(new Date('2026-11-21T12:00:00Z'));
+  await page.route('https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js', route => route.fulfill({
+    contentType: 'application/javascript',
+    body: `window.__calendarEmailCalls = [];
+      window.emailjs = {
+        init(key) { window.__calendarEmailCalls.push(['init', key]); },
+        send(service, template, params) {
+          window.__calendarEmailCalls.push(['send', service, template, params.event_name]);
+          return Promise.resolve({ status: 200, text: 'Mock response' });
+        }
+      };`,
+  }));
+  await page.route('https://upload-widget.cloudinary.com/global/all.js', route => route.fulfill({
+    contentType: 'application/javascript',
+    body: `window.__calendarUploadCalls = [];
+      window.cloudinary = { createUploadWidget(options) {
+        window.__calendarUploadCalls.push([options.cloudName, options.uploadPreset]);
+        return { open() {} };
+      } };`,
+  }));
   await page.route('https://script.googleusercontent.com/**', route => route.abort());
   await page.route('https://script.google.com/**', async route => {
     expect(route.request().method()).toBe('POST');
@@ -22,6 +41,44 @@ test.beforeEach(async ({ page }) => {
     const response = await route.fetch();
     await route.fulfill({ response, headers: { ...response.headers(), 'content-security-policy': pr6Csp } });
   });
+});
+
+test('SDK tags load globals before notification and upload initialization use them', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.assign(window, {
+      EMAILJS_PUBLIC_KEY: 'test-public-key',
+      EMAILJS_SERVICE_ID: 'test-service',
+      EMAILJS_TEMPLATE_ID: 'test-template',
+      CLOUDINARY_CLOUD_NAME: 'test-cloud',
+      CLOUDINARY_UPLOAD_PRESET: 'test-preset',
+    });
+  });
+  await page.goto('/calendar.html');
+  expect(await page.evaluate(() => ({
+    email: typeof (window as any).emailjs?.send,
+    upload: typeof (window as any).cloudinary?.createUploadWidget,
+  }))).toEqual({ email: 'function', upload: 'function' });
+  await page.evaluate(() => {
+    (window as any).sendEventNotification({ date: '2026-11-25', name: 'Mock SDK event', description: 'Test only' });
+    (window as any).initializeCloudinaryWidget();
+  });
+  expect(await page.evaluate(() => (window as any).__calendarEmailCalls)).toEqual([
+    ['init', 'test-public-key'], ['send', 'test-service', 'test-template', 'Mock SDK event'],
+  ]);
+  expect(await page.evaluate(() => (window as any).__calendarUploadCalls)).toEqual([['test-cloud', 'test-preset']]);
+});
+
+test('SDK network failures keep the calendar usable and notification/upload guards safe', async ({ page }) => {
+  await page.route('https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js', route => route.abort());
+  await page.route('https://upload-widget.cloudinary.com/global/all.js', route => route.abort());
+  await page.goto('/calendar.html');
+  expect(await page.evaluate(() => {
+    (window as any).sendEventNotification({ date: '2026-11-25', name: 'Not sent' });
+    (window as any).initializeCloudinaryWidget();
+    return { email: typeof (window as any).emailjs, upload: typeof (window as any).cloudinary };
+  })).toEqual({ email: 'undefined', upload: 'undefined' });
+  await page.locator('#nextMonth').click();
+  await expect(page.locator('#currentMonth')).toHaveText('December 2026');
 });
 
 test('opens in the current local month and highlights today', async ({ page }) => {
@@ -80,6 +137,8 @@ test('sheet event HTML stays literal in calendar markers, monthly lists and upco
   });
   await page.goto('/calendar.html');
   for (const selector of ['.calendar-grid .event-marker', '#monthEvents .event-item', '#upcomingEventsList .upcoming-event-card']) {
+    if (selector.startsWith('.calendar-grid')) await page.locator('#calendar-month-view').click();
+    if (selector.startsWith('#monthEvents')) await page.locator('#calendar-list-view').click();
     const surface = page.locator(selector).filter({ hasText: 'Stored-XSS regression' });
     await expect(surface).toHaveCount(1);
     await expect(surface).toBeVisible();
@@ -107,6 +166,7 @@ for (const [protocol, imageUrl] of [
       json: { events: [event] }, headers: { 'access-control-allow-origin': '*' },
     }));
     await page.goto('/calendar.html');
+    await page.locator('#calendar-month-view').click();
     await page.locator('.calendar-grid .event-marker').filter({ hasText: 'Modal name' }).click();
     const modal = page.locator('#eventDetailModal');
     await expect(modal).toBeVisible();

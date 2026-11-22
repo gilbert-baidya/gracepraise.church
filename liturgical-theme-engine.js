@@ -100,9 +100,8 @@ const LiturgicalThemeEngine = (() => {
 
     // ── Apply theme ──
     function apply(seasonOverride) {
-        const override = typeof localStorage !== 'undefined'
-            ? localStorage.getItem('gpbc-season-override')
-            : null;
+        let override = null;
+        try { override = localStorage.getItem('gpbc-season-override'); } catch { /* Use the current season. */ }
 
         const season = seasonOverride || override || getSeason();
         document.documentElement.dataset.season = season;

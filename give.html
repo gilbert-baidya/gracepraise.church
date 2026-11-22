@@ -2,6 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="preload" href="/assets/fonts/inter/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/inter/inter-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/lora/lora-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/notosansbengali/notosansbengali-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/notosansbengali/notosansbengali-600.woff2" as="font" type="font/woff2" crossorigin>
+<script>document.documentElement.classList.add("js-enabled");</script>
+<script src="js/fast-accessible.0865e8073cbe.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Give | Grace and Praise Bangladeshi Church</title>
 <meta name="description" content="Support worship and community through a one-time gift. Choose your amount and confirm your gift on PayPal.">
@@ -15,8 +22,6 @@
 <link rel="canonical" href="https://gracepraise.church/give">
 <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
 <link rel="stylesheet" href="redesign-styles.css?v=20260918-v11-theme-final3">
-<link rel="stylesheet" href="logo-loading.css">
-<link rel="stylesheet" href="logo-styles.css">
 <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
 <link rel="stylesheet" href="css/footer-v3.css">
 <link rel="stylesheet" href="website-control.css" data-gpbc-control-style="true">
@@ -25,27 +30,24 @@
 <link rel="stylesheet" href="assets/css/site-language.css">
 <script src="js/site-language.js" defer></script>
 <script src="give-one-step.js" defer></script>
+<link rel="stylesheet" href="assets/css/fast-accessible.1c8aafec8b05.css">
 </head>
-<body class="gpbc-shared give-one-step">
+<body class="gpbc-shared give-one-step fast-accessible">
 <span id="gpbc-language-en" class="site-language-anchor" aria-hidden="true"></span><span id="gpbc-language-bn" class="site-language-anchor" aria-hidden="true"></span>
 <a href="#main-content" class="skip-link" lang="en">Skip to main content</a>
     <header lang="en">
-        <nav>
+        <nav aria-label="Main navigation">
             <div class="nav-container">
                 <a href="index.html" class="logo">
-                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
-                        class="logo-image" loading="eager" decoding="async">
-                <span class="give-brand"><strong>GRACE &amp; PRAISE</strong><small>Bangladeshi Church</small></span></a>
-                <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
-                    <span class="sun-icon">☀️</span>
-                    <span class="moon-icon">🌙</span>
+                    <img src="images/logo/gpbc-mark.40eae7be38cd.webp" width="192" height="192" alt="" class="logo-image" loading="eager" decoding="async">
+                <span class="fast-brand" lang="en">Grace &amp; Praise<span>Bangladeshi Church</span></span></a>
+                <button data-label-en="Menu" data-label-bn="মেনু" class="mobile-menu-btn" aria-label="Menu" aria-controls="nav-links" aria-expanded="false" type="button">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span class="fast-menu-label"><span data-lang="en" lang="en">Menu</span><span data-lang="bn" lang="bn">মেনু</span></span>
                 </button>
-                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <ul class="nav-links">
+                <ul class="nav-links" id="nav-links">
                     <li><a href="#live">LIVE</a></li>
                     <li><a href="index.html">Home</a></li>
                     <li class="nav-dropdown">
@@ -110,9 +112,12 @@
             </div>
         </nav>
         <div class="mobile-overlay"></div>
-    <div class="site-language-row"><span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" data-site-language="en" lang="en">English</a><a href="?lang=bn#gpbc-language-bn" data-site-language="bn" lang="bn">বাংলা</a></div></div>
+    <div class="site-language-row"><button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button><span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" data-site-language="en" lang="en">English</a><a href="?lang=bn#gpbc-language-bn" data-site-language="bn" lang="bn">বাংলা</a></div></div>
 </header>
-<main id="main-content">
+<main id="main-content" tabindex="-1">
 <section class="give-flow" aria-labelledby="give-heading">
 <div class="give-intro">
 <p class="give-eyebrow"><span data-give-en="Give with purpose" data-give-bn="উদ্দেশ্য নিয়ে দান করুন" ><span data-lang="en" lang="en">Give with purpose</span><span data-lang="bn" lang="bn">উদ্দেশ্য নিয়ে দান করুন</span></span> · <span lang="bn">দান করুন</span></p>
@@ -155,8 +160,7 @@
 </div></div></section>
 </main>
 <script src="navigation.js?v=20260918-v11-theme-final3"></script>
-<script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
-<script src="logo-loader.js"></script>
+<noscript><footer lang="en" class="fast-static-footer"><p>Grace and Praise Bangladeshi Church</p><p>1325 Richardson Street, San Bernardino, CA 92408</p><a href="contact.html">Contact us</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-conditions.html">Terms</a></footer></noscript>
 <div data-partial="site-footer"></div>
 <script type="module" src="./js/footer/footer-init.js"></script>
 </body>

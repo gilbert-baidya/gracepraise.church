@@ -192,11 +192,21 @@ for (const route of routes) {
     await expect(page.locator('body')).toHaveCSS('color', 'rgb(16, 32, 51)');
     await expect(page.locator('body')).toHaveCSS('font-family', 'Inter, "Noto Sans Bengali", system-ui, sans-serif');
     await expect(page.locator('h1').first()).toHaveCSS('font-family', 'Lora, Georgia, "Noto Sans Bengali", serif');
-    const visitEssentials = route === 'index' || route === 'plan-visit';
-    await expect(page.locator('h1').first()).toHaveCSS('font-size', visitEssentials ? '60px' : '64px');
-    await expect(page.locator('h1').first()).toHaveCSS('line-height', visitEssentials ? '71px' : '76px');
+    const fastPage = ['index', 'plan-visit', 'give', 'calendar'].includes(route);
+    await expect(page.locator('h1').first()).toHaveCSS('font-size', fastPage ? '60px' : '64px');
+    await expect(page.locator('h1').first()).toHaveCSS('line-height', fastPage ? '71px' : '76px');
     await expect(page.locator('link[href="assets/css/shared-style.css"]')).toHaveCount(1);
-    await expect(page.locator('link[rel="preload"][as="font"]')).toHaveCount(0);
+    const fontPreloads = page.locator('link[rel="preload"][as="font"]');
+    await expect(fontPreloads).toHaveCount(fastPage ? 5 : 0);
+    if (fastPage) {
+      expect(await fontPreloads.evaluateAll(nodes => nodes.map(node => node.getAttribute('href')).sort())).toEqual([
+        '/assets/fonts/inter/inter-400.woff2',
+        '/assets/fonts/inter/inter-600.woff2',
+        '/assets/fonts/lora/lora-400.woff2',
+        '/assets/fonts/notosansbengali/notosansbengali-400.woff2',
+        '/assets/fonts/notosansbengali/notosansbengali-600.woff2',
+      ]);
+    }
     if (route === 'give' || route === 'prayer-request') {
       const quote = page.locator(route === 'give' ? '.give-v14-hero-verse p' : '.prayer-v15-scripture blockquote p');
       await expect(quote).toHaveCSS('font-style', 'italic');
@@ -239,7 +249,7 @@ for (const route of routes) {
     await expect(probe.locator('.gpbc-button-primary')).toHaveCSS('color', 'rgb(16, 32, 51)');
     expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('dark');
     await page.setViewportSize({ width: 320, height: 844 });
-    await expect(page.locator('h1').first()).toHaveCSS('font-size', visitEssentials ? '32px' : '36px');
+    await expect(page.locator('h1').first()).toHaveCSS('font-size', fastPage ? '38px' : '36px');
     if (route === 'daily-devotion') {
       expect(await page.locator('#monthSelect').evaluate(element => {
         const style = getComputedStyle(element);

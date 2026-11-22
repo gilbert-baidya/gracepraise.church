@@ -28,6 +28,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
+    unicode-range: U+0000-00FF, U+0964-0965, U+0980-09FF, U+200C-200D;
 }
 
 @font-face {
@@ -36,6 +37,7 @@
     font-style: normal;
     font-weight: 500;
     font-display: swap;
+    unicode-range: U+0000-00FF, U+0964-0965, U+0980-09FF, U+200C-200D;
 }
 
 @font-face {
@@ -44,6 +46,7 @@
     font-style: normal;
     font-weight: 600;
     font-display: swap;
+    unicode-range: U+0000-00FF, U+0964-0965, U+0980-09FF, U+200C-200D;
 }
 
 :root {

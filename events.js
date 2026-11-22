@@ -160,24 +160,28 @@ const EVENTS_VERSION = '3.1';
 
 // Load custom GPBC events from localStorage
 function loadCustomEvents() {
-    // Check version and clear old data if outdated
-    const savedVersion = localStorage.getItem('gpbcEventsVersion');
-    if (savedVersion !== EVENTS_VERSION) {
-        // console.log('Events database updated - clearing old localStorage data'); // Removed for production
-        localStorage.removeItem('gpbcEvents');
-        localStorage.setItem('gpbcEventsVersion', EVENTS_VERSION);
-        return;
-    }
-    
-    const saved = localStorage.getItem('gpbcEvents');
-    if (saved) {
-        const customEvents = JSON.parse(saved);
-        customEvents.forEach(event => {
-            if (!events.find(e => e.date === event.date && e.name === event.name)) {
-                events.push(event);
-            }
-        });
-    }
+    try {
+
+        // Check version and clear old data if outdated
+        const savedVersion = localStorage.getItem('gpbcEventsVersion');
+        if (savedVersion !== EVENTS_VERSION) {
+            // console.log('Events database updated - clearing old localStorage data'); // Removed for production
+            localStorage.removeItem('gpbcEvents');
+            localStorage.setItem('gpbcEventsVersion', EVENTS_VERSION);
+            return;
+        }
+
+        const saved = localStorage.getItem('gpbcEvents');
+        if (saved) {
+            const customEvents = JSON.parse(saved);
+            if (!Array.isArray(customEvents)) return;
+            customEvents.forEach(event => {
+                if (!events.find(e => e.date === event.date && e.name === event.name)) {
+                    events.push(event);
+                }
+            });
+        }
+    } catch { return; }
 }
 
 // Save custom GPBC events to localStorage
