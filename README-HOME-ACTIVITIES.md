@@ -3,7 +3,11 @@
 The first commented entry in js/home-activities.js is the annual theme.
 Change its year, title, bilingual text and optional image there to switch
 to 2027; no renderer edits are needed. The year is formatted in Bengali.
-The theme and its frame are static HTML above the welcome/service-times hero.
+The theme and its frame are static HTML above a slim Sunday-time/address/Visit
+line and the full welcome/service-times hero. Phones use a viewport-bounded,
+uncropped portrait frame and compact controls so that line stays on the first
+screen. Desktop retains its larger slider. The slim line repeats the existing
+visit summary's service time and address.
 The production build refreshes that HTML from this same configuration, so after
 editing the entry run npm run build:production. Deferred scripts enhance the
 existing theme nodes and add the flyer slides; no-JavaScript visitors still

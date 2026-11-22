@@ -210,3 +210,83 @@ body.dark .activity-carousel, body[data-theme="dark"] .activity-carousel {
     .activity-rail { justify-content: flex-start; gap: 8px; }
     .activity-controls { height: 112px; }
 }
+
+#home-service-line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(108px, .8fr);
+    align-items: center;
+    gap: 8px;
+    width: calc(100% - 40px);
+    max-width: 1200px;
+    min-height: 64px;
+    margin: 0 auto 16px;
+    padding: 8px 12px;
+    border: 1px solid #b8924566;
+    border-radius: 16px;
+    background: var(--bg-card, #fffcf5);
+    color: var(--text-primary, #182f3b);
+    box-sizing: border-box;
+}
+#home-service-line .home-service-details { display: flex; flex-direction: column; gap: 2px; }
+#home-service-line .home-service-details > span,
+#home-service-line strong,
+#home-service-line [data-lang] { font-size: 13px !important; line-height: 1.4 !important; }
+#home-service-line a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: #e7b94a;
+    color: #142c3b !important;
+    text-align: center;
+    font-weight: 600;
+}
+@media (min-width: 768px) {
+    #home-service-line { grid-template-columns: 1fr auto; }
+    #home-service-line .home-service-details { flex-direction: row; gap: 16px; }
+}
+@media (max-width: 767px) {
+    #home-activities .activity-carousel {
+        width: calc(100% - 16px);
+        margin: 8px;
+        padding: 8px;
+    }
+    #home-activities .activity-heading { height: 32px; min-height: 32px; padding: 0 4px 4px; }
+    #home-activities .activity-heading h2 { font-size: 18px !important; }
+    #home-activities .activity-stage {
+        width: min(100%, max(160px, calc((100svh - 440px) * .8)));
+        margin-inline: auto;
+    }
+    #home-activities .activity-footer {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 4px 6px;
+        padding-top: 6px;
+    }
+    #home-activities .activity-controls {
+        grid-column: 1 / -1;
+        height: 54px;
+        min-height: 54px;
+        flex-wrap: nowrap;
+    }
+    #home-activities .activity-rail { flex: 1 1 0; height: 54px; min-width: 0; padding: 2px 0; }
+    #home-activities .activity-rail-item { flex-basis: 76px; height: 44px; min-height: 44px; padding: 4px; font-size: 12px !important; }
+    #home-activities .activity-rail-item [data-lang] { font-size: inherit !important; line-height: inherit !important; }
+    #home-activities .activity-pause { flex: 0 0 44px; width: 44px; height: 44px; padding: 0; font-size: 0 !important; opacity: 1; }
+    #home-activities .activity-pause::before { content: "Ⅱ"; font: 18px/1 sans-serif; }
+    #home-activities .activity-pause[aria-pressed="true"]::before { content: "▶"; }
+    #home-activities .activity-tool-slot { height: 44px; }
+    #home-activities .activity-event-tools { flex-direction: row; gap: 4px; }
+    #home-activities .activity-countdown,
+    #home-activities .activity-theme-caption { font-size: 12px; line-height: 1.3; }
+    #home-activities .activity-countdown [data-lang],
+    #home-activities .activity-theme-caption [data-lang],
+    #home-activities .activity-cta [data-lang] { font-size: inherit !important; line-height: inherit !important; }
+    #home-activities .activity-calendar { position: relative; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; }
+    #home-activities .activity-calendar::before { content: ""; position: absolute; top: 10px; left: 10px; width: 20px; height: 22px; border: 2px solid currentColor; border-radius: 3px; background: linear-gradient(currentColor, currentColor) center 4px / 100% 2px no-repeat; }
+    #home-activities .activity-calendar::after { content: ""; position: absolute; top: 22px; left: 16px; width: 8px; height: 8px; background: linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat, linear-gradient(currentColor, currentColor) center / 2px 100% no-repeat; }
+    #home-activities .activity-calendar [data-lang] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    #home-activities .activity-carousel .activity-cta { height: 44px; min-height: 44px !important; padding: 6px 8px !important; font-size: 12px !important; line-height: 1.3 !important; }
+    #home-service-line { width: calc(100% - 16px); margin-bottom: 8px; }
+}

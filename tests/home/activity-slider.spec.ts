@@ -119,10 +119,10 @@ for (const script of ['events.js', 'js/home-activities.js', 'js/activity-carouse
   });
 }
 
-test('activities lead main, with the unchanged welcome and service times immediately after', async ({ page }) => {
+test('activities lead main, followed by the slim service line and unchanged welcome', async ({ page }) => {
   await page.goto('/index.html');
-  expect(await page.locator('main').evaluate(main => [...main.children].slice(0, 2).map(child => child.id)))
-    .toEqual(['home-activities', 'home']);
+  expect(await page.locator('main').evaluate(main => [...main.children].slice(0, 3).map(child => child.id)))
+    .toEqual(['home-activities', 'home-service-line', 'home']);
   await expect(page.locator('#dynamic-events-container .activity-carousel')).toHaveCount(0);
   await expect(page.locator('#home #hero-heading')).toContainText('A place to belong.');
   await expect(page.locator('#home .visit-summary-time [data-lang="en"]')).toContainText('Sunday · 5:00 PM');
