@@ -3,19 +3,14 @@
     const paypal = 'https://www.paypal.com/ncp/payment/V3AF32ZHJSAME';
     const email = 'mailto:info@gracepraise.church';
     const storageKey = 'gpbc-give-handoff';
-    const root = document.documentElement;
     const action = document.getElementById('give-paypal');
     const once = document.getElementById('give-once');
     const status = document.getElementById('give-status');
     const returnLink = document.getElementById('give-return');
-    const toggle = document.getElementById('give-language');
-    const validLanguage = value => value === 'en' || value === 'bn';
-    let savedLanguage;
     let saved;
-    try { savedLanguage = localStorage.getItem('gpbc-language'); } catch {}
     try { saved = JSON.parse(sessionStorage.getItem(storageKey)); } catch {}
     const params = new URL(location.href).searchParams;
-    let language = validLanguage(params.get('lang')) ? params.get('lang') : validLanguage(savedLanguage) ? savedLanguage : 'en';
+    let language = 'en';
     let frequency = params.get('frequency') === 'monthly' ? 'monthly' : params.get('frequency') === 'once' ? 'once' : saved?.frequency === 'monthly' ? 'monthly' : 'once';
     let opening = false;
     let timer;
@@ -33,23 +28,12 @@
         try { sessionStorage.setItem(storageKey, JSON.stringify({ frequency, status: opening ? 'opening' : notice })); } catch {}
         try { history.replaceState({ ...history.state, gpbcGivePending: opening || notice === 'unconfirmed' }, '', location.href); } catch {}
     }
-    function themeLabel() {
-        const button = document.getElementById('darkModeToggle');
-        if (!button) return;
-        const dark = root.dataset.theme === 'dark';
-        button.lang = language;
-        button.setAttribute('aria-label', language === 'bn' ? dark ? 'দিনের মোড চালু করুন' : 'রাতের মোড চালু করুন' : dark ? 'Switch to Day mode' : 'Switch to Night mode');
-    }
     function render() {
-        root.lang = language;
-        document.title = language === 'bn' ? 'দান করুন | Grace and Praise Bangladeshi Church' : 'Give | Grace and Praise Bangladeshi Church';
+        language = window.GPBCLanguage?.language || 'en';
         document.querySelectorAll('[data-give-en]').forEach(element => {
             element.textContent = element.dataset[language === 'bn' ? 'giveBn' : 'giveEn'];
             element.lang = language;
         });
-        toggle.textContent = language === 'en' ? 'বাংলা' : 'English';
-        toggle.lang = language === 'en' ? 'bn' : 'en';
-        toggle.setAttribute('aria-label', language === 'en' ? 'বাংলায় পড়ুন' : 'Read in English');
         once.checked = frequency === 'once';
         action.href = frequency === 'monthly' ? email : paypal;
         if (frequency === 'monthly') {
@@ -67,11 +51,6 @@
         back.hash = 'giving-card';
         returnLink.href = back.pathname + back.search + back.hash;
         returnLink.hidden = notice !== 'unconfirmed';
-        themeLabel();
-    }
-    function resolveLanguage() {
-        const query = new URL(location.href).searchParams.get('lang');
-        if (validLanguage(query)) language = query;
     }
     function restore() {
         clearTimeout(timer);
@@ -80,16 +59,7 @@
         store();
         render();
     }
-    toggle.addEventListener('click', () => {
-        const x = scrollX, y = scrollY;
-        language = language === 'en' ? 'bn' : 'en';
-        const url = new URL(location.href);
-        url.searchParams.set('lang', language);
-        history.replaceState(history.state, '', url);
-        try { localStorage.setItem('gpbc-language', language); } catch {}
-        render();
-        window.scrollTo({ left: x, top: y, behavior: 'instant' });
-    });
+    window.addEventListener('gpbc:languagechange', () => { store(); render(); });
     once.addEventListener('change', () => {
         if (!once.checked || opening) return;
         frequency = 'once';
@@ -111,12 +81,9 @@
         try { location.assign(paypal); } catch { restore(); }
     });
     window.addEventListener('pageshow', event => {
-        resolveLanguage();
         if (event.persisted && opening) restore();
-        else render();
     });
-    window.addEventListener('popstate', () => { resolveLanguage(); render(); });
-    new MutationObserver(themeLabel).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
     store();
-    render();
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render, { once: true });
+    else render();
 })();

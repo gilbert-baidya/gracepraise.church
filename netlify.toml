@@ -14,6 +14,24 @@
   publish = "public-build"
 
 [[redirects]]
+  from = "https://admin.gracepraise.church/assets/css/site-language.css"
+  to = "/assets/css/site-language.css"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://admin.gracepraise.church/js/site-language.js"
+  to = "/js/site-language.js"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://admin.gracepraise.church/assets/fonts/*"
+  to = "/assets/fonts/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "https://admin.gracepraise.church/*"
   to = "/admin/v21/:splat"
   status = 200
@@ -39,6 +57,30 @@
   status = 302
   force = true
   query = {frequency = "monthly"}
+
+[[redirects]]
+  from = "/plan-visit"
+  to = "/plan-visit.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/plan-visit/"
+  to = "/plan-visit.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gallery"
+  to = "/gallery.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gallery/"
+  to = "/gallery.html"
+  status = 301
+  force = true
 
 # Global Security Headers
 [[headers]]

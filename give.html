@@ -22,9 +22,12 @@
 <link rel="stylesheet" href="website-control.css" data-gpbc-control-style="true">
 <link rel="stylesheet" href="assets/css/give-one-step.css">
 <link rel="stylesheet" href="assets/css/shared-style.css">
+<link rel="stylesheet" href="assets/css/site-language.css">
+<script src="js/site-language.js" defer></script>
 <script src="give-one-step.js" defer></script>
 </head>
 <body class="gpbc-shared give-one-step">
+<span id="gpbc-language-en" class="site-language-anchor" aria-hidden="true"></span><span id="gpbc-language-bn" class="site-language-anchor" aria-hidden="true"></span>
 <a href="#main-content" class="skip-link" lang="en">Skip to main content</a>
     <header lang="en">
         <nav>
@@ -37,7 +40,7 @@
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
-                <button id="give-language" type="button" lang="bn" aria-label="বাংলায় পড়ুন">বাংলা</button><button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -107,47 +110,48 @@
             </div>
         </nav>
         <div class="mobile-overlay"></div>
-    </header>
+    <div class="site-language-row"><span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" data-site-language="en" lang="en">English</a><a href="?lang=bn#gpbc-language-bn" data-site-language="bn" lang="bn">বাংলা</a></div></div>
+</header>
 <main id="main-content">
 <section class="give-flow" aria-labelledby="give-heading">
 <div class="give-intro">
-<p class="give-eyebrow"><span data-give-en="Give with purpose" data-give-bn="উদ্দেশ্য নিয়ে দান করুন" >Give with purpose</span> · <span lang="bn">দান করুন</span></p>
-<h1 id="give-heading"><span data-give-en="Generosity, with purpose." data-give-bn="উদ্দেশ্য নিয়ে উদার হোন।" class="give-desktop">Generosity, with purpose.</span><span data-give-en="Give with purpose." data-give-bn="উদ্দেশ্য নিয়ে দান করুন।" class="give-phone">Give with purpose.</span></h1>
-<p class="give-intro-copy"><span data-give-en="Your generosity helps our church worship God, care for people, and share the Gospel—locally and beyond." data-give-bn="আপনার দান ঈশ্বরের উপাসনা, মানুষের সেবা এবং সুসমাচার প্রচারে আমাদের মণ্ডলীকে সাহায্য করে।" class="give-desktop">Your generosity helps our church worship God, care for people, and share the Gospel—locally and beyond.</span><span data-give-en="Support worship and community." data-give-bn="উপাসনা ও সেবায় সহায়তা করুন।" class="give-phone">Support worship and community.</span></p>
+<p class="give-eyebrow"><span data-give-en="Give with purpose" data-give-bn="উদ্দেশ্য নিয়ে দান করুন" ><span data-lang="en" lang="en">Give with purpose</span><span data-lang="bn" lang="bn">উদ্দেশ্য নিয়ে দান করুন</span></span> · <span lang="bn">দান করুন</span></p>
+<h1 id="give-heading"><span data-give-en="Generosity, with purpose." data-give-bn="উদ্দেশ্য নিয়ে উদার হোন।" class="give-desktop"><span data-lang="en" lang="en">Generosity, with purpose.</span><span data-lang="bn" lang="bn">উদ্দেশ্য নিয়ে উদার হোন।</span></span><span data-give-en="Give with purpose." data-give-bn="উদ্দেশ্য নিয়ে দান করুন।" class="give-phone"><span data-lang="en" lang="en">Give with purpose.</span><span data-lang="bn" lang="bn">উদ্দেশ্য নিয়ে দান করুন।</span></span></h1>
+<p class="give-intro-copy"><span data-give-en="Your generosity helps our church worship God, care for people, and share the Gospel—locally and beyond." data-give-bn="আপনার দান ঈশ্বরের উপাসনা, মানুষের সেবা এবং সুসমাচার প্রচারে আমাদের মণ্ডলীকে সাহায্য করে।" class="give-desktop"><span data-lang="en" lang="en">Your generosity helps our church worship God, care for people, and share the Gospel—locally and beyond.</span><span data-lang="bn" lang="bn">আপনার দান ঈশ্বরের উপাসনা, মানুষের সেবা এবং সুসমাচার প্রচারে আমাদের মণ্ডলীকে সাহায্য করে।</span></span><span data-give-en="Support worship and community." data-give-bn="উপাসনা ও সেবায় সহায়তা করুন।" class="give-phone"><span data-lang="en" lang="en">Support worship and community.</span><span data-lang="bn" lang="bn">উপাসনা ও সেবায় সহায়তা করুন।</span></span></p>
 </div>
 <div class="give-action-column">
 <article class="give-card gpbc-card" id="giving-card" aria-labelledby="gift-title">
-<div class="give-card-heading"><h2 data-give-en="Your gift" data-give-bn="আপনার দান" id="gift-title">Your gift</h2><span class="give-heart" aria-hidden="true">♡</span></div>
-<p data-give-en="Give once through PayPal." data-give-bn="পেপ্যালে একবার দান করুন।" class="give-card-intro">Give once through PayPal.</p>
+<div class="give-card-heading"><h2 data-give-en="Your gift" data-give-bn="আপনার দান" id="gift-title"><span data-lang="en" lang="en">Your gift</span><span data-lang="bn" lang="bn">আপনার দান</span></h2><span class="give-heart" aria-hidden="true">♡</span></div>
+<p data-give-en="Give once through PayPal." data-give-bn="পেপ্যালে একবার দান করুন।" class="give-card-intro"><span data-lang="en" lang="en">Give once through PayPal.</span><span data-lang="bn" lang="bn">পেপ্যালে একবার দান করুন।</span></p>
 <fieldset class="give-frequency">
-<legend class="sr-only" data-give-en="Gift frequency" data-give-bn="দানের ধরন">Gift frequency</legend>
-<label for="give-once"><input type="radio" name="frequency" value="once" id="give-once" checked><span data-give-en="One time" data-give-bn="এককালীন" >One time</span></label>
+<legend class="sr-only" data-give-en="Gift frequency" data-give-bn="দানের ধরন"><span data-lang="en" lang="en">Gift frequency</span><span data-lang="bn" lang="bn">দানের ধরন</span></legend>
+<label for="give-once"><input type="radio" name="frequency" value="once" id="give-once" checked><span data-give-en="One time" data-give-bn="এককালীন" ><span data-lang="en" lang="en">One time</span><span data-lang="bn" lang="bn">এককালীন</span></span></label>
 </fieldset>
 <div class="give-cadence" aria-live="polite" aria-atomic="true">
 <span class="give-heart" aria-hidden="true">♡</span><div>
-<h3 data-give-en="A one-time gift" data-give-bn="এককালীন দান" id="give-cadence-title">A one-time gift</h3>
-<p data-give-en="Choose your amount on PayPal." data-give-bn="পেপ্যালে পরিমাণ বেছে নিন।" id="give-cadence-copy">Choose your amount on PayPal.</p>
-<p data-give-en="Give once, with no recurring commitment." data-give-bn="এককালীন দান; নিয়মিত অঙ্গীকার নেই।" id="give-cadence-help" class="give-small">Give once, with no recurring commitment.</p>
+<h3 data-give-en="A one-time gift" data-give-bn="এককালীন দান" id="give-cadence-title"><span data-lang="en" lang="en">A one-time gift</span><span data-lang="bn" lang="bn">এককালীন দান</span></h3>
+<p data-give-en="Choose your amount on PayPal." data-give-bn="পেপ্যালে পরিমাণ বেছে নিন।" id="give-cadence-copy"><span data-lang="en" lang="en">Choose your amount on PayPal.</span><span data-lang="bn" lang="bn">পেপ্যালে পরিমাণ বেছে নিন।</span></p>
+<p data-give-en="Give once, with no recurring commitment." data-give-bn="এককালীন দান; নিয়মিত অঙ্গীকার নেই।" id="give-cadence-help" class="give-small"><span data-lang="en" lang="en">Give once, with no recurring commitment.</span><span data-lang="bn" lang="bn">এককালীন দান; নিয়মিত অঙ্গীকার নেই।</span></p>
 </div></div>
-<p class="give-privacy"><span aria-hidden="true">♧</span> <span data-give-en="No payment details are collected on this site." data-give-bn="এই সাইটে অর্থপ্রদানের কোনো তথ্য সংগ্রহ করা হয় না।" >No payment details are collected on this site.</span></p>
-<a id="give-paypal" class="gpbc-button-primary" href="https://www.paypal.com/ncp/payment/V3AF32ZHJSAME"><span data-give-en="Continue to PayPal" data-give-bn="পেপ্যালে এগিয়ে যান" id="give-action-label">Continue to PayPal</span><span aria-hidden="true">→</span></a>
-<p data-give-en="You’ll review and confirm your gift on PayPal." data-give-bn="পেপ্যালে আপনার দান পর্যালোচনা ও নিশ্চিত করবেন।" id="give-confirmation" class="give-small">You’ll review and confirm your gift on PayPal.</p>
+<p class="give-privacy"><span aria-hidden="true">♧</span> <span data-give-en="No payment details are collected on this site." data-give-bn="এই সাইটে অর্থপ্রদানের কোনো তথ্য সংগ্রহ করা হয় না।" ><span data-lang="en" lang="en">No payment details are collected on this site.</span><span data-lang="bn" lang="bn">এই সাইটে অর্থপ্রদানের কোনো তথ্য সংগ্রহ করা হয় না।</span></span></p>
+<a id="give-paypal" class="gpbc-button-primary" href="https://www.paypal.com/ncp/payment/V3AF32ZHJSAME"><span data-give-en="Continue to PayPal" data-give-bn="পেপ্যালে এগিয়ে যান" id="give-action-label"><span data-lang="en" lang="en">Continue to PayPal</span><span data-lang="bn" lang="bn">পেপ্যালে এগিয়ে যান</span></span><span aria-hidden="true">→</span></a>
+<p data-give-en="You’ll review and confirm your gift on PayPal." data-give-bn="পেপ্যালে আপনার দান পর্যালোচনা ও নিশ্চিত করবেন।" id="give-confirmation" class="give-small"><span data-lang="en" lang="en">You’ll review and confirm your gift on PayPal.</span><span data-lang="bn" lang="bn">পেপ্যালে আপনার দান পর্যালোচনা ও নিশ্চিত করবেন।</span></p>
 <p id="give-status" role="status" aria-live="polite" hidden></p>
-<a data-give-en="Back to giving" data-give-bn="দানের পাতায় ফিরুন" id="give-return" href="give.html#giving-card" hidden>Back to giving</a>
+<a data-give-en="Back to giving" data-give-bn="দানের পাতায় ফিরুন" id="give-return" href="give.html#giving-card" hidden><span data-lang="en" lang="en">Back to giving</span><span data-lang="bn" lang="bn">দানের পাতায় ফিরুন</span></a>
 </article>
-<p class="give-receipts"><span aria-hidden="true">✉</span> <a data-give-en="Receipts &amp; giving help" data-give-bn="রসিদ ও দান সম্পর্কে সহায়তা" href="mailto:info@gracepraise.church">Receipts &amp; giving help</a></p>
+<p class="give-receipts"><span aria-hidden="true">✉</span> <a data-give-en="Receipts &amp; giving help" data-give-bn="রসিদ ও দান সম্পর্কে সহায়তা" href="mailto:info@gracepraise.church"><span data-lang="en" lang="en">Receipts &amp; giving help</span><span data-lang="bn" lang="bn">রসিদ ও দান সম্পর্কে সহায়তা</span></a></p>
 </div>
 <aside class="give-note">
-<blockquote class="give-v14-hero-verse"><p data-give-en="“God loves a cheerful giver.”" data-give-bn="“ঈশ্বর আনন্দচিত্তে দানকারীকে ভালোবাসেন।”" >“God loves a cheerful giver.”</p><cite lang="en">2 Corinthians 9:7</cite></blockquote>
-<p class="give-small"><span class="give-heart" aria-hidden="true">♡</span> <span data-give-en="Thank you for being part of this ministry." data-give-bn="এই সেবার অংশ হওয়ার জন্য আপনাকে ধন্যবাদ।" >Thank you for being part of this ministry.</span></p>
+<blockquote class="give-v14-hero-verse"><p data-give-en="“God loves a cheerful giver.”" data-give-bn="“ঈশ্বর আনন্দচিত্তে দানকারীকে ভালোবাসেন।”" ><span data-lang="en" lang="en">“God loves a cheerful giver.”</span><span data-lang="bn" lang="bn">“ঈশ্বর আনন্দচিত্তে দানকারীকে ভালোবাসেন।”</span></p><cite lang="en">2 Corinthians 9:7</cite></blockquote>
+<p class="give-small"><span class="give-heart" aria-hidden="true">♡</span> <span data-give-en="Thank you for being part of this ministry." data-give-bn="এই সেবার অংশ হওয়ার জন্য আপনাকে ধন্যবাদ।" ><span data-lang="en" lang="en">Thank you for being part of this ministry.</span><span data-lang="bn" lang="bn">এই সেবার অংশ হওয়ার জন্য আপনাকে ধন্যবাদ।</span></span></p>
 </aside>
 </section>
 <section class="give-impact" aria-labelledby="impact-heading"><div class="give-impact-inner">
-<h2 data-give-en="Small acts. Shared impact." data-give-bn="ছোট ছোট দান। একসাথে সেবা।" id="impact-heading">Small acts. Shared impact.</h2>
+<h2 data-give-en="Small acts. Shared impact." data-give-bn="ছোট ছোট দান। একসাথে সেবা।" id="impact-heading"><span data-lang="en" lang="en">Small acts. Shared impact.</span><span data-lang="bn" lang="bn">ছোট ছোট দান। একসাথে সেবা।</span></h2>
 <div class="give-ministry-grid">
-<article><h3 data-give-en="Worship &amp; discipleship" data-give-bn="উপাসনা ও শিষ্যত্ব" >Worship &amp; discipleship</h3><p data-give-en="Prayer, teaching, and worship in the life of our local church." data-give-bn="আমাদের স্থানীয় মণ্ডলীতে প্রার্থনা, শিক্ষা ও উপাসনা।" >Prayer, teaching, and worship in the life of our local church.</p></article>
-<article><h3 data-give-en="Community &amp; mission" data-give-bn="সমাজসেবা ও সুসমাচার প্রচার" >Community &amp; mission</h3><p data-give-en="Care for families and neighbors, and Gospel-centered ministry beyond." data-give-bn="পরিবার ও প্রতিবেশীদের যত্ন এবং সুসমাচারভিত্তিক সেবা।" >Care for families and neighbors, and Gospel-centered ministry beyond.</p></article>
-<aside><h3 data-give-en="Prefer another way to give?" data-give-bn="অন্যভাবে দান করতে চান?" >Prefer another way to give?</h3><p data-give-en="Contact the church for current giving details." data-give-bn="দানের বর্তমান তথ্যের জন্য মণ্ডলীর সঙ্গে যোগাযোগ করুন।" >Contact the church for current giving details.</p><a data-give-en="Ask the church →" data-give-bn="মণ্ডলীকে জিজ্ঞেস করুন →" href="mailto:info@gracepraise.church">Ask the church →</a></aside>
+<article><h3 data-give-en="Worship &amp; discipleship" data-give-bn="উপাসনা ও শিষ্যত্ব" ><span data-lang="en" lang="en">Worship &amp; discipleship</span><span data-lang="bn" lang="bn">উপাসনা ও শিষ্যত্ব</span></h3><p data-give-en="Prayer, teaching, and worship in the life of our local church." data-give-bn="আমাদের স্থানীয় মণ্ডলীতে প্রার্থনা, শিক্ষা ও উপাসনা।" ><span data-lang="en" lang="en">Prayer, teaching, and worship in the life of our local church.</span><span data-lang="bn" lang="bn">আমাদের স্থানীয় মণ্ডলীতে প্রার্থনা, শিক্ষা ও উপাসনা।</span></p></article>
+<article><h3 data-give-en="Community &amp; mission" data-give-bn="সমাজসেবা ও সুসমাচার প্রচার" ><span data-lang="en" lang="en">Community &amp; mission</span><span data-lang="bn" lang="bn">সমাজসেবা ও সুসমাচার প্রচার</span></h3><p data-give-en="Care for families and neighbors, and Gospel-centered ministry beyond." data-give-bn="পরিবার ও প্রতিবেশীদের যত্ন এবং সুসমাচারভিত্তিক সেবা।" ><span data-lang="en" lang="en">Care for families and neighbors, and Gospel-centered ministry beyond.</span><span data-lang="bn" lang="bn">পরিবার ও প্রতিবেশীদের যত্ন এবং সুসমাচারভিত্তিক সেবা।</span></p></article>
+<aside><h3 data-give-en="Prefer another way to give?" data-give-bn="অন্যভাবে দান করতে চান?" ><span data-lang="en" lang="en">Prefer another way to give?</span><span data-lang="bn" lang="bn">অন্যভাবে দান করতে চান?</span></h3><p data-give-en="Contact the church for current giving details." data-give-bn="দানের বর্তমান তথ্যের জন্য মণ্ডলীর সঙ্গে যোগাযোগ করুন।" ><span data-lang="en" lang="en">Contact the church for current giving details.</span><span data-lang="bn" lang="bn">দানের বর্তমান তথ্যের জন্য মণ্ডলীর সঙ্গে যোগাযোগ করুন।</span></p><a data-give-en="Ask the church →" data-give-bn="মণ্ডলীকে জিজ্ঞেস করুন →" href="mailto:info@gracepraise.church"><span data-lang="en" lang="en">Ask the church →</span><span data-lang="bn" lang="bn">মণ্ডলীকে জিজ্ঞেস করুন →</span></a></aside>
 </div></div></section>
 </main>
 <script src="navigation.js?v=20260918-v11-theme-final3"></script>

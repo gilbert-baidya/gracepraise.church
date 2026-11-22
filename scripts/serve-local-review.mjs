@@ -58,6 +58,22 @@ const server = http.createServer(async (req, res) => {
         response(res, 405, 'Method not allowed');
         return;
     }
+    let requestUrl;
+    try {
+        requestUrl = new URL(req.url || '/', `http://${host}:${port}`);
+    } catch {
+        response(res, 404, 'Not found');
+        return;
+    }
+    const aliases = new Map([
+        ['/plan-visit', '/plan-visit.html'], ['/plan-visit/', '/plan-visit.html'],
+        ['/gallery', '/gallery.html'], ['/gallery/', '/gallery.html']
+    ]);
+    if (aliases.has(requestUrl.pathname)) {
+        res.writeHead(301, { Location: `${aliases.get(requestUrl.pathname)}${requestUrl.search}` });
+        res.end();
+        return;
+    }
     const relative = safeRelative(req.url || '/');
     if (!relative) {
         response(res, 404, 'Not found');
@@ -102,6 +118,6 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(port, host, () => {
-    console.log(`GPBC local review server: http://${host}:${port}/`);
+    console.log(`GPBC local review server: http://${host}:${server.address().port}/`);
     console.log('Only public-site files, the two local Studio areas, and the two locked Bible XML sources are served.');
 });

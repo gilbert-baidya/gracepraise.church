@@ -37,7 +37,7 @@ test('real Firebase session: login, return destination, refresh, back navigation
   await expect(page).toHaveURL(/songbook\.html\?returnTo=%2Fbible-slide-builder%2F/u);
   await expect(page.locator('#bibleSlideBuilderLink')).toBeHidden();
   await signIn(page);
-  await expect(page).toHaveURL(/\/bible-slide-builder\/$/u);
+  await expect(page).toHaveURL(/\/bible-slide-builder\/\?lang=en$/u);
   await expect(page.locator('#sourceLockTitle')).toHaveText('SOURCE LOCK VERIFIED');
   await page.reload();
   await expect(page.locator('#sourceLockTitle')).toHaveText('SOURCE LOCK VERIFIED');

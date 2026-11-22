@@ -10,9 +10,8 @@ html:root body.give-one-step .logo-image { width: 44px !important; height: 44px 
 .give-brand small { font-size: 10px; line-height: 18px; color: var(--gpbc-text-secondary); }
 html:root body.give-one-step .nav-links { margin-right: 140px; gap: 12px; }
 html:root body.give-one-step .nav-links > li > a { font-size: 12px; padding-inline: 4px; }
-html:root body.give-one-step #darkModeToggle, #give-language { position: absolute !important; top: 28px !important; width: 48px !important; min-height: 48px; height: 48px !important; border: 1px solid var(--gpbc-control-border); border-radius: 12px; background: var(--gpbc-surface); color: var(--gpbc-text); transform: none !important; margin: 0; }
+html:root body.give-one-step #darkModeToggle { position: absolute !important; top: 28px !important; width: 48px !important; min-height: 48px; height: 48px !important; border: 1px solid var(--gpbc-control-border); border-radius: 12px; background: var(--gpbc-surface); color: var(--gpbc-text); transform: none !important; margin: 0; }
 html:root body.give-one-step #darkModeToggle { right: max(20px, calc((100vw - 1200px) / 2)) !important; }
-#give-language { right: max(80px, calc((100vw - 1200px) / 2 + 60px)); font: 600 14px/24px var(--gpbc-font-body); }
 html:root body.give-one-step main { margin: 0 !important; padding: 0 !important; }
 .give-flow { max-width: 1240px; padding: 56px 20px 64px; margin: auto; display: grid; grid-template-columns: minmax(0, 1fr) 532px; grid-template-areas: "intro action" "note action"; column-gap: 88px; row-gap: 32px; align-items: start; }
 .give-intro { grid-area: intro; min-width: 0; }
@@ -58,8 +57,8 @@ html:root body.give-one-step .give-ministry-grid h3 { font: 600 16px/24px var(--
 .give-ministry-grid p { margin: 0 0 12px; }
 .give-ministry-grid aside { padding-left: 32px; border-left: 1px solid var(--gpbc-divider); }
 .give-ministry-grid a { display: inline-block; min-height: 48px; }
-html:root body.give-one-step :is(.give-flow, .give-impact) :focus-visible, html:root body.give-one-step #give-language:focus-visible { outline: 3px solid #1265B0 !important; outline-offset: 3px !important; }
-html:root[data-theme="dark"] body.give-one-step :is(.give-flow, .give-impact) :focus-visible, html:root[data-theme="dark"] body.give-one-step #give-language:focus-visible { outline-color: #8EC5FF !important; }
+html:root body.give-one-step :is(.give-flow, .give-impact) :focus-visible { outline: 3px solid #1265B0 !important; outline-offset: 3px !important; }
+html:root[data-theme="dark"] body.give-one-step :is(.give-flow, .give-impact) :focus-visible { outline-color: #8EC5FF !important; }
 html:root body.give-one-step .give-note :lang(bn), html:root body.give-one-step main :lang(bn), html:root body.give-one-step :lang(bn) { font-family: var(--gpbc-font-bengali) !important; letter-spacing: normal !important; text-transform: none !important; }
 @media (max-width: 1100px) {
     .give-flow { max-width: 740px; grid-template-columns: minmax(0, 1fr); grid-template-areas: "intro" "action" "note"; gap: 32px; }
@@ -68,9 +67,8 @@ html:root body.give-one-step .give-note :lang(bn), html:root body.give-one-step 
     html:root body.give-one-step header nav, html:root body.give-one-step .nav-container { min-height: 72px; height: auto; }
     html:root body.give-one-step > header { min-height: 72px; }
     html:root body.give-one-step .nav-container { padding: 0 20px !important; }
-    html:root body.give-one-step #darkModeToggle, #give-language { top: 12px !important; }
+    html:root body.give-one-step #darkModeToggle { top: 12px !important; }
     html:root body.give-one-step #darkModeToggle { right: 80px !important; }
-    #give-language { right: 140px; }
     html:root body.give-one-step .mobile-menu-btn { display: flex; position: absolute !important; top: 12px !important; right: 20px !important; width: 48px !important; height: 48px !important; margin: 0; transform: none !important; }
     html:root body.give-one-step .nav-links:not(.active) { display: none; }
     html:root body.give-one-step header .logo { max-width: calc(100% - 176px) !important; }

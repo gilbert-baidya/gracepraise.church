@@ -92,7 +92,7 @@ test('legacy saved monthly intent never silently reaches one-time checkout', asy
   await expect(page.locator('#give-cadence-title')).toHaveText('Monthly giving is being set up');
   await expect(page.locator('#give-paypal')).toHaveAttribute('href', 'mailto:info@gracepraise.church');
   await expect(page.locator('#give-action-label')).toHaveText('Ask about monthly giving');
-  await page.locator('#give-language').click();
+  await page.getByRole('button', { name: 'বাংলা', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
   await expect(page.locator('#give-paypal')).toHaveAttribute('href', 'mailto:info@gracepraise.church');
   await page.locator('#darkModeToggle').click();
@@ -153,7 +153,7 @@ test('locale works with blocked storage and preserves focus, URL and theme', asy
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await page.locator('#darkModeToggle').click();
   const theme = await page.locator('html').getAttribute('data-theme');
-  const toggle = page.locator('#give-language');
+  const toggle = page.locator('[data-site-language="bn"]');
   await toggle.focus();
   await toggle.press('Enter');
   await expect(toggle).toBeFocused();
@@ -225,5 +225,41 @@ test('without JavaScript the one-time provider link and help remain usable', asy
   await expect(page.getByRole('radio')).toBeChecked();
   await expect(page.getByRole('link', { name: 'Continue to PayPal' })).toHaveAttribute('href', paypalUrl);
   await expect(page.getByRole('link', { name: 'Receipts & giving help' })).toBeVisible();
+  await page.getByRole('link', { name: 'বাংলা', exact: true }).click();
+  await expect(page).toHaveURL(/lang=bn#gpbc-language-bn$/);
+  await expect(page.getByRole('link', { name: 'পেপ্যালে এগিয়ে যান', exact: true })).toHaveAttribute('href', paypalUrl);
+  await expect(page.locator('#give-action-label [lang="bn"]')).toBeVisible();
+  await expect(page.locator('#give-action-label [lang="en"]')).not.toBeVisible();
   await context.close();
+});
+
+test('shared locale controller carries Give language through internal links and browser history', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('gpbc-language', 'en'));
+  await page.goto('/give.html?source=church&lang=bn#giving-card');
+  expect(await page.evaluate(() => (window as any).GPBCLanguage.language)).toBe('bn');
+  await expect(page.locator('#give-language')).toHaveCount(0);
+  await expect(page.locator('#give-action-label')).toHaveText('পেপ্যালে এগিয়ে যান');
+  await expect(page.locator('header a[href*="index.html"]').first()).toHaveAttribute('href', /lang=bn/);
+  await expect(page.locator('#give-paypal')).toHaveAttribute('href', paypalUrl);
+  await page.getByRole('button', { name: 'English', exact: true }).click();
+  await expect(page).toHaveURL(/source=church&lang=en#giving-card$/);
+  await expect(page.locator('#give-action-label')).toHaveText('Continue to PayPal');
+  await page.goBack();
+  await expect(page.locator('#give-action-label')).toHaveText('পেপ্যালে এগিয়ে যান');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
+});
+
+test('unconfirmed return survives a shared language switch when storage is blocked', async ({ page }) => {
+  await page.addInitScript(() => {
+    Storage.prototype.getItem = () => { throw new Error('Storage blocked'); };
+    Storage.prototype.setItem = () => { throw new Error('Storage blocked'); };
+  });
+  await page.goto('/give.html?status=pending');
+  await page.getByRole('button', { name: 'বাংলা', exact: true }).click();
+  await page.evaluate(() => history.replaceState(history.state, '', '/give.html?lang=bn'));
+  await page.reload();
+  await expect(page.locator('#give-status')).toContainText('পেপ্যালে যাচাই করুন');
+  await page.getByRole('button', { name: 'English', exact: true }).click();
+  await page.reload();
+  await expect(page.locator('#give-status')).toContainText('Check PayPal before retrying');
 });
