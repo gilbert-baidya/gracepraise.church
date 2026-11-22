@@ -13,7 +13,8 @@ async function expectFlyers(page: Page, slugs: string[]) {
   await expect.poll(() => page.locator('.event-flyer').evaluateAll(
     cards => cards.map(card => (card as HTMLElement).dataset.flyer)
   )).toEqual(slugs);
-  await expect(page.locator('.activity-slide')).toHaveCount(slugs.length + 1);
+  const fastActive = await page.evaluate(() => Date.now() < Date.parse('2027-01-28T00:00:00-08:00'));
+  await expect(page.locator('.activity-slide')).toHaveCount(slugs.length + 1 + Number(fastActive));
   await expect(page.locator('.activity-slide').first()).toHaveAttribute('data-activity', 'church-theme');
 }
 
@@ -65,14 +66,14 @@ test.describe('Holiday flyers', () => {
     }
   }
 
-  test('after the campaign the theme is alone and the original event card remains', async ({ page }) => {
+  test('after the flyers the fast and original event card remain', async ({ page }) => {
     await page.clock.setFixedTime(new Date('2027-01-02T00:00:00-08:00'));
     await page.goto('/index.html');
     await expectFlyers(page, []);
     await expect(page.locator('#dynamic-events-container > .special-event-details')).toHaveCount(1);
     await expect(page.locator('#dynamic-events-container > .special-event-details')).toHaveAttribute('id', 'event-2027-01-03');
-    await expect(page.locator('.activity-controls button')).toHaveCount(0);
-    await expect(page.locator('.activity-carousel')).toHaveAttribute('data-playing', 'false');
+    await expect(page.locator('.activity-rail-item')).toHaveCount(2);
+    await expect(page.locator('.activity-slide').last()).toHaveAttribute('data-activity', 'gratitude-fast-2027');
   });
 
   for (const [width, device] of [[390, 'phone'], [767, 'phone'], [768, 'desktop'], [1440, 'desktop']] as const) {

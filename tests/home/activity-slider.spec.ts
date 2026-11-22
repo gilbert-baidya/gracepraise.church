@@ -46,14 +46,14 @@ test('expiry restores an equivalent control and preserves explicit and focus pau
   await page.locator('.activity-dot').nth(2).click();
   await page.clock.setFixedTime(new Date('2026-12-21T00:00:00-08:00'));
   await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
-  await expect(page.locator('.activity-slide')).toHaveCount(4);
+  await expect(page.locator('.activity-slide')).toHaveCount(5);
   await expect(page.locator('[data-activity-focus="dot:christmas-day"]')).toBeFocused();
   await expect(page.getByRole('button', { name: 'Play slideshow', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.getByRole('button', { name: 'Play slideshow', exact: true }).click();
   await page.locator('[data-activity-focus="dot:church-theme"]').focus();
   await page.clock.setFixedTime(new Date('2026-12-26T00:00:00-08:00'));
   await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
-  await expect(page.locator('.activity-slide')).toHaveCount(3);
+  await expect(page.locator('.activity-slide')).toHaveCount(4);
   await expect(page.locator('[data-activity-focus="dot:church-theme"]')).toBeFocused();
   await expect(page.locator('.activity-carousel')).toHaveAttribute('data-playing', 'false');
   await expect(page.getByRole('button', { name: 'Pause slideshow', exact: true })).toHaveAttribute('aria-pressed', 'false');
@@ -108,7 +108,7 @@ for (const script of ['events.js', 'js/home-activities.js', 'js/activity-carouse
       release();
       await navigation;
       await expect(page.locator('.activity-carousel')).toHaveAttribute('data-enhanced', 'true');
-      await expect(page.locator('.activity-slide')).toHaveCount(5);
+      await expect(page.locator('.activity-slide')).toHaveCount(6);
       expect(await firstTheme!.evaluate(element => element === document.querySelector('.activity-theme'))).toBe(true);
       await expect(page.locator('.activity-cta')).toBeFocused();
       await expect(page.locator('.activity-carousel')).toHaveAttribute('data-playing', 'false');
@@ -145,7 +145,7 @@ test.describe('static Home activities', () => {
 
 test('theme is first, bilingual and entirely swappable through its config', async ({ page }) => {
   await page.goto('/index.html');
-  await expect(page.locator('.activity-slide')).toHaveCount(5);
+  await expect(page.locator('.activity-slide')).toHaveCount(6);
   await expect(page.locator('.activity-slide').first()).toContainText('Rooted in Christ');
   await expect(page.locator('.activity-theme-subtitle [data-lang="en"]')).toHaveText('2026 Church Theme');
   await page.evaluate(() => (window as any).GPBCLanguage.set('bn'));
@@ -176,9 +176,9 @@ test('timeline, keyboard and swipe control one accessible slide', async ({ page 
   await expect(active).toHaveAttribute('data-activity', 'pre-christmas-dec20');
   await root.locator('.activity-rail-item').first().click();
   await expect(active).toHaveAttribute('data-activity', 'church-theme');
-  await root.getByRole('button', { name: 'Slide 3 of 5: Dec 25 · Christmas Day', exact: true }).click();
+  await root.getByRole('button', { name: 'Slide 3 of 6: Dec 25 · Christmas Day', exact: true }).click();
   await expect(active).toHaveAttribute('data-activity', 'christmas-day');
-  await expect(page.locator('.activity-dot[aria-current="true"]')).toHaveAccessibleName('Slide 3 of 5: Dec 25 · Christmas Day');
+  await expect(page.locator('.activity-dot[aria-current="true"]')).toHaveAccessibleName('Slide 3 of 6: Dec 25 · Christmas Day');
   await root.focus();
   await page.keyboard.press('ArrowRight');
   await expect(active).toHaveAttribute('data-activity', 'gratitude-dec31');
@@ -248,6 +248,7 @@ test('autoplay, explicit pause, hover, focus and live announcements stay synchro
 });
 
 test('theme plus one flyer has controls, theme alone does not, and zero removes the carousel', async ({ page }) => {
+  await configure(page, "window.GPBC_HOME_ACTIVITIES = window.GPBC_HOME_ACTIVITIES.filter(entry => entry.type !== 'fast');");
   await page.clock.setFixedTime(new Date('2027-01-01T12:00:00-08:00'));
   await page.goto('/index.html');
   await expect(page.locator('.activity-slide')).toHaveCount(2);
@@ -257,7 +258,7 @@ test('theme plus one flyer has controls, theme alone does not, and zero removes 
   await expect(page.locator('.activity-slide')).toHaveCount(1);
   await expect(page.locator('.activity-controls button')).toHaveCount(0);
   await expect(page.locator('.activity-carousel')).toHaveAttribute('data-playing', 'false');
-  await configure(page, "window.GPBC_HOME_ACTIVITIES[0].showUntil = '2026-12-31';");
+  await configure(page, "window.GPBC_HOME_ACTIVITIES = window.GPBC_HOME_ACTIVITIES.filter(entry => entry.type !== 'fast'); window.GPBC_HOME_ACTIVITIES[0].showUntil = '2026-12-31';");
   await page.clock.setFixedTime(new Date('2027-01-01T12:00:00-08:00'));
   await page.reload();
   await expect(page.locator('.activity-slide')).toHaveCount(1);

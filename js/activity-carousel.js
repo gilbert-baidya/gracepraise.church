@@ -31,7 +31,7 @@ class ActivityCarousel {
         this.slides = configs.map((config, index) => {
             const slide = config.type === 'theme'
                 ? existingTheme?.dataset.themeConfig === JSON.stringify(config) ? existingTheme : this.createTheme(config)
-                : createFlyer(config);
+                : config.type === 'fast' ? this.createFast(config) : createFlyer(config);
             slide.classList.add('activity-slide');
             slide.dataset.activity = config.slug;
             slide.setAttribute('role', 'group');
@@ -57,10 +57,10 @@ class ActivityCarousel {
                 dot.dataset.activityFocus = 'dot:' + config.slug;
                 dot.classList.add('activity-rail-item');
                 const text = document.createElement('span');
-                this.bilingual(text, config.date ? {
+                this.bilingual(text, config.railLabel || (config.date ? {
                     en: new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'America/Los_Angeles' }).format(new Date(config.date + 'T12:00:00Z')),
                     bn: new Intl.DateTimeFormat('bn-BD', { month: 'short', day: 'numeric', timeZone: 'America/Los_Angeles' }).format(new Date(config.date + 'T12:00:00Z'))
-                } : { en: 'Theme', bn: 'থিম' });
+                } : { en: 'Theme', bn: 'থিম' }));
                 const progress = document.createElement('span');
                 progress.className = 'activity-progress';
                 progress.setAttribute('aria-hidden', 'true');
@@ -72,7 +72,8 @@ class ActivityCarousel {
                 this.userPaused = !this.userPaused;
                 this.updatePlayback();
             });
-            controls.append(dots, this.pauseButton);
+            controls.append(dots);
+            header.appendChild(this.pauseButton);
         }
         const cta = footer.querySelector('.activity-cta') || document.createElement('a');
         cta.className = 'btn btn-primary activity-cta';
@@ -85,7 +86,7 @@ class ActivityCarousel {
         slot.className = 'activity-tool-slot';
         slot.setAttribute('aria-live', 'off');
         this.tools = configs.map(config => {
-            const tools = config.type === 'flyer' ? createTools(config) : document.createElement('div');
+            const tools = config.type !== 'theme' ? createTools(config) : document.createElement('div');
             if (!tools) return null;
             if (config.type === 'theme') {
                 tools.className = 'activity-theme-caption';
@@ -151,6 +152,12 @@ class ActivityCarousel {
     createTheme(config) {
         const template = document.createElement('template');
         template.innerHTML = renderHomeTheme(config);
+        return template.content.firstElementChild;
+    }
+
+    createFast(config) {
+        const template = document.createElement('template');
+        template.innerHTML = renderHomeFast(config);
         return template.content.firstElementChild;
     }
 

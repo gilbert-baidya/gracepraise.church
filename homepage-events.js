@@ -41,7 +41,7 @@ class HomepageEvents {
     }
 
     activityExpiry(slide) {
-        const date = slide.type === 'theme' ? slide.showUntil : slide.date;
+        const date = slide.type === 'theme' ? slide.showUntil : slide.endDate || slide.date;
         return date ? this.flyerExpiry({ date }) : Infinity;
     }
 
@@ -95,17 +95,31 @@ class HomepageEvents {
         const { year, month, day } = this.getTimeZoneParts(new Date(now), this.timeZone);
         const today = Date.UTC(year, month - 1, day);
         this.activityCarousel.configs.forEach((flyer, index) => {
+            if (flyer.type === 'fast') {
+                const start = Date.parse(flyer.date + 'T00:00:00Z');
+                const days = Math.round((start - today) / 86_400_000);
+                const total = Math.round((Date.parse(flyer.endDate + 'T00:00:00Z') - start) / 86_400_000) + 1;
+                const number = value => new Intl.NumberFormat('bn', { useGrouping: false }).format(value);
+                const text = days > 0
+                    ? { en: days === 1 ? 'Starts tomorrow' : 'Starts in ' + days + ' days',
+                        bn: days === 1 ? 'আগামীকাল শুরু' : 'শুরু হতে আর ' + number(days) + ' দিন' }
+                    : { en: 'Day ' + (1 - days) + ' of ' + total,
+                        bn: 'উপবাসের দিন ' + number(1 - days) + ' / ' + number(total) };
+                this.activityCarousel.tools[index]?.querySelectorAll('.activity-countdown [data-lang]').forEach(span => {
+                    if (span.textContent !== text[span.dataset.lang]) span.textContent = text[span.dataset.lang];
+                });
+                this.activityCarousel.dots[index]?.classList.toggle('is-today', days === 0);
+                return;
+            }
             if (flyer.type !== 'flyer') return;
             const days = Math.round((Date.parse(flyer.date + 'T00:00:00Z') - today) / 86_400_000);
             const start = this.buildZonedDateTime(flyer.date, flyer.start).getTime();
-            const end = this.buildZonedDateTime(flyer.date, flyer.end).getTime();
             const [hour, minute] = flyer.start.split(':').map(Number);
             const number = value => new Intl.NumberFormat('bn', { useGrouping: false }).format(value);
             const enTime = (hour % 12 || 12) + (minute ? ':' + String(minute).padStart(2, '0') : '') + (hour >= 12 ? ' PM' : ' AM');
             const bnTime = (hour < 12 ? 'সকাল ' : hour < 16 ? 'দুপুর ' : hour < 18 ? 'বিকেল ' : 'সন্ধ্যা ') +
                 number(hour % 12 || 12) + (minute ? ':' + number(minute).padStart(2, '০') : '') + 'টা';
-            const text = now >= end ? { en: 'Ended', bn: 'সমাপ্ত' }
-                : now >= start ? { en: 'Happening now', bn: 'এখন চলছে' }
+            const text = now >= start ? { en: 'Today · started ' + enTime, bn: 'আজ · ' + bnTime + 'য় শুরু হয়েছে' }
                 : days === 0 ? { en: (hour >= 17 ? 'Tonight' : 'Today') + ' · ' + enTime, bn: (hour >= 17 ? 'আজ রাতে' : 'আজ') + ' · ' + bnTime }
                 : days === 1 ? { en: 'Tomorrow', bn: 'আগামীকাল' }
                 : { en: 'In ' + days + ' days', bn: 'আর ' + number(days) + ' দিন' };
@@ -176,11 +190,20 @@ class HomepageEvents {
         });
         const cta = this.activityContainer.querySelector('.activity-cta');
         if (cta) cta.href = 'plan-visit.html?lang=' + language;
+        this.activityCarousel?.configs.forEach((config, index) => {
+            if (config.type !== 'fast') return;
+            const slide = this.activityCarousel.slides[index];
+            const number = value => new Intl.NumberFormat(language, { useGrouping: false }).format(value);
+            slide.lang = language;
+            slide.setAttribute('aria-label', language === 'bn'
+                ? 'স্লাইড ' + number(index + 1) + ' / ' + number(this.activityCarousel.configs.length) + ': ' + config.title.bn
+                : (index + 1) + ' of ' + this.activityCarousel.configs.length + ': ' + config.title.en);
+        });
         this.activityCarousel?.dots.forEach((button, index) => {
             const config = this.activityCarousel.configs[index];
             const date = button.querySelector('[data-lang="' + language + '"]').textContent;
             const label = language === 'bn'
-                ? config.type === 'theme' ? config.title.bn || config.title.en : config.bn.split('—')[0].trim()
+                ? config.title ? config.title.bn || config.title.en : config.bn.split('—')[0].trim()
                 : config.label || config.title.en;
             const number = value => new Intl.NumberFormat(language, { useGrouping: false }).format(value);
             button.setAttribute('aria-label', language === 'bn'
@@ -326,7 +349,19 @@ class HomepageEvents {
         return date.toLocaleDateString('en-US', options);
     }
 
+    renderEventIcon(kind) {
+        const paths = {
+            communion: '<path d="M8 3h8v5a4 4 0 0 1-8 0V3ZM12 12v7M8 21h8M10 6h4"/>',
+            calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 11h18M8 15h2M14 15h2"/>',
+            location: '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
+            music: '<path d="M9 18V5l12-2v13M9 9l12-2"/><ellipse cx="6" cy="18" rx="3" ry="2"/><ellipse cx="18" cy="16" rx="3" ry="2"/>',
+            people: '<circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M17 4a3 3 0 0 1 0 6M18 13a5 5 0 0 1 3 5v3"/>'
+        };
+        return `<svg class="event-detail-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${paths[kind]}</svg>`;
+    }
+
     getEventIcon(event) {
+        if (event.name.includes('Communion')) return this.renderEventIcon('communion');
         // Return emoji icons based on event name/type
         if (event.name.includes('Christmas') || event.name.includes('Advent')) return '🎄';
         if (event.name.includes('Easter')) return '🐣';
@@ -417,7 +452,7 @@ class HomepageEvents {
                 
                 <div class="event-info-grid">
                     <div class="event-info-item">
-                        <span class="info-icon">📅</span>
+                        <span class="info-icon" aria-hidden="true">${this.renderEventIcon('calendar')}</span>
                         <div>
                             <h3>When</h3>
                             <time datetime="${details.datetime}">${details.when}${details.timeLabel !== 'TBA' ? ' at ' + details.timeLabel : ''}</time>
@@ -426,7 +461,7 @@ class HomepageEvents {
                     </div>
                     
                     <div class="event-info-item">
-                        <span class="info-icon">📍</span>
+                        <span class="info-icon" aria-hidden="true">${this.renderEventIcon('location')}</span>
                         <div>
                             <h3>Where</h3>
                             <address>${details.where}</address>
@@ -435,7 +470,7 @@ class HomepageEvents {
                     </div>
                     
                     <div class="event-info-item">
-                        <span class="info-icon">🎵</span>
+                        <span class="info-icon" aria-hidden="true">${this.renderEventIcon('music')}</span>
                         <div>
                             <h3>What to Expect</h3>
                             <p>${details.whatToExpect}</p>
@@ -443,7 +478,7 @@ class HomepageEvents {
                     </div>
                     
                     <div class="event-info-item">
-                        <span class="info-icon">👥</span>
+                        <span class="info-icon" aria-hidden="true">${this.renderEventIcon('people')}</span>
                         <div>
                             <h3>Who's Invited</h3>
                             <p>${details.whosInvited}</p>
@@ -469,13 +504,12 @@ class HomepageEvents {
         clearTimeout(this.flyerTimer);
         if (activities.length) {
             const deadlines = activities.map(slide => this.activityExpiry(slide));
-            if (activities.some(slide => slide.type === 'flyer')) {
+            if (activities.some(slide => slide.type !== 'theme')) {
                 const { year, month, day } = this.getTimeZoneParts(new Date(now), this.timeZone);
                 const tomorrow = new Date(Date.UTC(year, month - 1, day + 1)).toISOString().slice(0, 10);
                 deadlines.push(this.buildZonedDateTime(tomorrow).getTime());
                 activities.filter(slide => slide.type === 'flyer').forEach(slide => {
-                    deadlines.push(this.buildZonedDateTime(slide.date, slide.start).getTime(),
-                        this.buildZonedDateTime(slide.date, slide.end).getTime());
+                    deadlines.push(this.buildZonedDateTime(slide.date, slide.start).getTime());
                 });
             }
             const nextExpiry = Math.min(...deadlines.filter(deadline => deadline > now));

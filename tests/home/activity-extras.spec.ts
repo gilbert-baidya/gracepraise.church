@@ -11,8 +11,12 @@ const cases = [
   ['2026-12-19T12:00:00-08:00', 'pre-christmas-dec20', 'Tomorrow', 'আগামীকাল'],
   ['2026-12-25T08:00:00-08:00', 'christmas-day', 'Today · 10 AM', 'আজ · সকাল ১০টা'],
   ['2026-12-31T08:00:00-08:00', 'gratitude-dec31', 'Tonight · 7 PM', 'আজ রাতে · সন্ধ্যা ৭টা'],
-  ['2026-12-31T19:00:00-08:00', 'gratitude-dec31', 'Happening now', 'এখন চলছে'],
-  ['2026-12-31T21:00:00-08:00', 'gratitude-dec31', 'Ended', 'সমাপ্ত'],
+  ['2026-12-31T19:00:00-08:00', 'gratitude-dec31', 'Today · started 7 PM', 'আজ · সন্ধ্যা ৭টায় শুরু হয়েছে'],
+  ['2026-12-31T21:00:00-08:00', 'gratitude-dec31', 'Today · started 7 PM', 'আজ · সন্ধ্যা ৭টায় শুরু হয়েছে'],
+  ['2026-12-31T23:59:59-08:00', 'gratitude-dec31', 'Today · started 7 PM', 'আজ · সন্ধ্যা ৭টায় শুরু হয়েছে'],
+  ['2026-12-20T17:00:00-08:00', 'pre-christmas-dec20', 'Today · started 5 PM', 'আজ · বিকেল ৫টায় শুরু হয়েছে'],
+  ['2026-12-25T10:00:00-08:00', 'christmas-day', 'Today · started 10 AM', 'আজ · সকাল ১০টায় শুরু হয়েছে'],
+  ['2027-01-01T12:30:00-08:00', 'new-year-jan1', 'Today · started 10 AM', 'আজ · সকাল ১০টায় শুরু হয়েছে'],
   ['2026-12-20T01:00:00Z', 'pre-christmas-dec20', 'Tomorrow', 'আগামীকাল'],
 ];
 
@@ -43,39 +47,39 @@ test('existing boundary timer updates chips and preserves the focused calendar a
   const button = tools.locator('button');
   await button.focus();
   await page.clock.fastForward(1100);
-  await expect(tools.locator('.activity-countdown [lang="en"]')).toHaveText('Happening now');
+  await expect(tools.locator('.activity-countdown [lang="en"]')).toHaveText('Today · started 7 PM');
   await expect(button).toBeFocused();
   await expect(page.locator('.activity-carousel')).toHaveAttribute('data-playing', 'false');
 });
 
-test('date rail is the only item selector, scrolls horizontally and supports keyboard', async ({ page }) => {
+test('date rail is the only item selector, fits horizontally and supports keyboard', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.clock.setFixedTime(new Date('2026-12-20T09:00:00-08:00'));
   await page.goto('/index.html');
   const rail = page.getByRole('group', { name: 'Activity date timeline' });
   await expect(page.getByRole('button', { name: /^(Previous|Next) slide$/ })).toHaveCount(0);
-  await expect(rail.locator('button')).toHaveCount(5);
-  await expect(rail.locator('[data-lang="en"]')).toHaveText(['Theme', 'Dec 20', 'Dec 25', 'Dec 31', 'Jan 1']);
+  await expect(rail.locator('button')).toHaveCount(6);
+  await expect(rail.locator('[data-lang="en"]')).toHaveText(['Theme', 'Dec 20', 'Dec 25', 'Dec 31', 'Jan 1', 'Jan 1–27']);
   await expect(rail.locator('button.is-today')).toHaveCount(1);
   await expect(rail.locator('button.is-today [data-lang="en"]')).toHaveText('Dec 20');
-  await rail.locator('button').last().click();
+  await rail.locator('button').nth(4).click();
   await expect(rail.locator('[aria-current="true"] [data-lang="en"]')).toHaveText('Jan 1');
-  expect(await rail.evaluate(element => element.scrollLeft)).toBeGreaterThan(0);
+  expect(await rail.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   await page.keyboard.press('ArrowLeft');
   await expect(rail.locator('[aria-current="true"]')).toBeFocused();
   await expect(page.locator('.activity-slide.is-active')).toHaveAttribute('data-activity', 'gratitude-dec31');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.clock.setFixedTime(new Date('2026-12-26T09:00:00-08:00'));
   await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
-  await expect(rail.locator('button')).toHaveCount(3);
-  await expect(rail.locator('[data-lang="en"]')).toHaveText(['Theme', 'Dec 31', 'Jan 1']);
+  await expect(rail.locator('button')).toHaveCount(4);
+  await expect(rail.locator('[data-lang="en"]')).toHaveText(['Theme', 'Dec 31', 'Jan 1', 'Jan 1–27']);
 });
 
-for (const [index, date, start, end, title] of [
-  [1, '20261220', '170000', '190000', 'Pre-Christmas Celebration'],
-  [2, '20261225', '100000', '123000', 'Christmas Day Worship'],
-  [3, '20261231', '190000', '210000', 'Year-end Gratitude Service'],
-  [4, '20270101', '100000', '123000', 'New Year Worship'],
+for (const [index, date, start, title] of [
+  [1, '20261220', '170000', 'Pre-Christmas Celebration'],
+  [2, '20261225', '100000', 'Christmas Day Worship'],
+  [3, '20261231', '190000', 'Year-end Gratitude Service'],
+  [4, '20270101', '100000', 'New Year Worship'],
 ] as const) {
   test('local ICS download: ' + title, async ({ page }) => {
     await page.clock.setFixedTime(new Date('2026-12-01T12:00:00-08:00'));
@@ -96,7 +100,7 @@ for (const [index, date, start, end, title] of [
     expect(data.split('\r\n').every(line => Buffer.byteLength(line, 'utf8') <= 75)).toBe(true);
     const unfolded = data.replace(/\r\n /g, '');
     expect(unfolded).toContain('DTSTART;TZID=America/Los_Angeles:' + date + 'T' + start);
-    expect(unfolded).toContain('DTEND;TZID=America/Los_Angeles:' + date + 'T' + end);
+    expect(unfolded).not.toMatch(/^(DTEND|DURATION)[;:]/m);
     expect(unfolded).toContain('BEGIN:VTIMEZONE');
     expect(unfolded).toContain('SUMMARY:' + title);
     expect(unfolded).toContain('LOCATION:1325 Richardson Street\\, San Bernardino\\, CA 92408');

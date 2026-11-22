@@ -70,14 +70,13 @@ test('all holiday JSON-LD windows match the shared activity and ICS schedule', a
     return (window as any).GPBC_HOME_ACTIVITIES.filter((activity: any) => activity.type === 'flyer')
       .map((activity: any) => ({
         expectedStart: activity.date + 'T' + activity.start + ':00-08:00',
-        expectedEnd: activity.date + 'T' + activity.end + ':00-08:00',
         record: records.find(record => record.startDate.startsWith(activity.date))
       }));
   });
   expect(schedules).toHaveLength(4);
   for (const schedule of schedules) {
     expect(schedule.record.startDate).toBe(schedule.expectedStart);
-    expect(schedule.record.endDate).toBe(schedule.expectedEnd);
+    expect(schedule.record).not.toHaveProperty('endDate');
   }
 });
 
