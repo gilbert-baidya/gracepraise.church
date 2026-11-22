@@ -110,7 +110,7 @@ test('Home keeps offscreen supporting photos deferred behind the visit essential
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/index.html');
   const slide = page.locator('.community-v5__slide').first();
-  const caption = (await slide.locator('.community-v5__caption').innerText()).trim().replace(/\s+/g, ' ');
+  const caption = (await slide.locator('.community-v5__caption').textContent())!.trim().replace(/\s+/g, ' ');
   await expect(slide).toHaveAccessibleName(new RegExp(caption));
   const images = await page.locator('main img.fast-lazy-image').evaluateAll(nodes =>
     nodes.filter(node => node.getBoundingClientRect().top > innerHeight * 2)
