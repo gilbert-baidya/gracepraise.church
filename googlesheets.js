@@ -69,18 +69,7 @@ async function loadEventsFromGoogleSheets() {
                         timestamp: event.timestamp || '',
                         imageUrl: event.imageUrl || ''
                     });
-                    const revised = revisedHolidayEvents.some(event =>
-                        event.name === importedEvent.name && event.date === importedEvent.date);
-                    if (!isEventDeleted(importedEvent) && (!revised || !events.some(event =>
-                        event.name === importedEvent.name && event.date === importedEvent.date))) {
-                        events.push(importedEvent);
-                    }
-                }
-            });
-
-            revisedHolidayEvents.forEach(event => {
-                if (!isEventDeleted(event) && !events.some(candidate => candidate.date === event.date && candidate.name === event.name)) {
-                    events.push({ ...event });
+                    events.push(importedEvent);
                 }
             });
 
@@ -113,7 +102,7 @@ async function saveEventToGoogleSheets(event) {
             body: JSON.stringify({
                 action: 'addEvent',
                 event: {
-                    date: event.date,
+                    date: event.sourceDate || event.date,
                     name: event.name,
                     category: event.category,
                     description: event.description || '',
@@ -128,7 +117,6 @@ async function saveEventToGoogleSheets(event) {
 
         if (data.success) {
             // console.log('Event saved to Google Sheets successfully'); // Removed for production
-            clearEventDeletion(event);
             return true;
         } else {
             console.error('Failed to save event to Google Sheets:', data.message);
@@ -166,7 +154,6 @@ async function deleteEventFromGoogleSheets(event) {
 
         if (data.success) {
             // console.log('Event deleted from Google Sheets successfully'); // Removed for production
-            markEventDeleted(event);
             return true;
         } else {
             console.error('Failed to delete event from Google Sheets:', data.message);

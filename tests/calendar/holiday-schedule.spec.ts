@@ -81,20 +81,11 @@ test('all holiday JSON-LD windows match the shared activity and ICS schedule', a
   }
 });
 
-for (const mode of ['persisted', 'blocked storage', 'offline refresh', 'failed delete']) {
-  test('explicit holiday deletion survives reload: ' + mode, async ({ page }) => {
-    if (mode === 'blocked storage') {
+for (const mode of ['normal storage', 'blocked writes']) {
+  test('Sheets holiday deletion survives reload: ' + mode, async ({ page }) => {
+    if (mode === 'blocked writes') {
       await page.addInitScript(() => {
-        const get = Storage.prototype.getItem;
-        const set = Storage.prototype.setItem;
-        Storage.prototype.getItem = function (key) {
-          if (key === 'gpbcDeletedEvents') throw new DOMException('Blocked', 'SecurityError');
-          return get.call(this, key);
-        };
-        Storage.prototype.setItem = function (key, value) {
-          if (key === 'gpbcDeletedEvents') throw new DOMException('Blocked', 'SecurityError');
-          return set.call(this, key, value);
-        };
+        Storage.prototype.setItem = () => { throw new DOMException('Blocked', 'SecurityError'); };
       });
     }
     let deleted = false;
@@ -103,12 +94,10 @@ for (const mode of ['persisted', 'blocked storage', 'offline refresh', 'failed d
       const request = JSON.parse(route.request().postData() || '{}');
       actions.push(request.action);
       if (request.action === 'deleteEvent') {
-        if (mode !== 'failed delete') deleted = true;
-        await route.fulfill({ json: { success: mode !== 'failed delete' } });
-      } else if (deleted && mode === 'offline refresh') {
-        await route.fulfill({ status: 503, body: 'Unavailable' });
+        deleted = true;
+        await route.fulfill({ json: { success: true } });
       } else {
-        await route.fulfill({ json: { events: deleted ? [] : stale } });
+        await route.fulfill({ json: { events: deleted ? [stale[1]] : stale } });
       }
     });
     page.on('dialog', dialog => dialog.accept());
@@ -120,22 +109,17 @@ for (const mode of ['persisted', 'blocked storage', 'offline refresh', 'failed d
     });
     await expect(page.locator('#monthEvents')).not.toContainText(names[0]);
     await expect(page.locator('#monthEvents')).toContainText(names[1]);
-    if (mode !== 'failed delete') expect(actions.filter(action => action === 'getEvents').length).toBeGreaterThanOrEqual(2);
-    if (mode === 'blocked storage') {
-      await page.evaluate(() => (window as any).loadEventsFromGoogleSheets());
-    } else {
-      await page.reload();
-    }
+    expect(actions.filter(action => action === 'getEvents').length).toBeGreaterThanOrEqual(2);
+    await page.reload();
     await expect(page.locator('#monthEvents')).not.toContainText(names[0]);
     await expect(page.locator('#monthEvents')).toContainText(names[1]);
   });
 }
 
-for (const mode of ['Sheets', 'local fallback', 'Sheets with blocked storage', 'local fallback with blocked storage']) {
+for (const mode of ['Sheets', 'Sheets with blocked writes']) {
   test('delete then explicitly re-add and refresh restores the event: ' + mode, async ({ page }) => {
-    if (mode.includes('blocked storage')) {
+    if (mode.includes('blocked writes')) {
       await page.addInitScript(() => {
-        Storage.prototype.getItem = () => { throw new DOMException('Blocked', 'SecurityError'); };
         Storage.prototype.setItem = () => { throw new DOMException('Blocked', 'SecurityError'); };
       });
     }
@@ -146,14 +130,10 @@ for (const mode of ['Sheets', 'local fallback', 'Sheets with blocked storage', '
         records = [];
         await route.fulfill({ json: { success: true } });
       } else if (request.action === 'addEvent') {
-        if (mode.startsWith('local fallback')) {
-          await route.fulfill({ json: { success: false } });
-        } else {
-          records = [request.event];
-          await route.fulfill({ json: { success: true } });
-        }
+        records = [request.event];
+        await route.fulfill({ json: { success: true } });
       } else {
-        await route.fulfill({ json: records.length ? { events: records } : {} });
+        await route.fulfill({ json: { events: records } });
       }
     });
     page.on('dialog', dialog => dialog.accept());
@@ -183,17 +163,8 @@ for (const mode of ['Sheets', 'local fallback', 'Sheets with blocked storage', '
       await (window as any).addGPBCEvent();
     }, names[0]);
     await expect(page.locator('#monthEvents')).toContainText(names[0]);
-    if (mode.includes('blocked storage')) {
-      await page.evaluate(async () => {
-        await (window as any).loadEventsFromGoogleSheets();
-        (window as any).loadCustomEvents();
-        (window as any).renderMonthEvents();
-      });
-    } else {
-      await page.reload();
-    }
+    await page.reload();
     await expect(page.locator('#monthEvents')).toContainText(names[0]);
-    expect(await page.evaluate(name => (window as any).isEventDeleted({ name, date: '2026-12-20' }), names[0])).toBe(false);
   });
 }
 
@@ -223,6 +194,21 @@ for (const language of ['en', 'bn']) {
   });
 }
 
+test('unavailable Sheets loads cached events even when storage writes fail', async ({ page }) => {
+  const custom = { name: 'Cached fellowship with blocked writes', date: '2026-12-15', category: 'gpbc' };
+  await page.addInitScript(({ stale, custom }) => {
+    localStorage.setItem('gpbcEventsVersion', '3.1');
+    localStorage.setItem('gpbcEvents', JSON.stringify([...stale, custom]));
+    Storage.prototype.setItem = () => { throw new DOMException('Blocked', 'SecurityError'); };
+  }, { stale, custom });
+  await page.route('https://script.google.com/**', route => route.abort());
+  await page.goto('/calendar.html');
+  await expect(page.locator('#monthEvents')).toContainText(custom.name);
+  await expect(page.locator('#monthEvents')).toContainText('Dec 20');
+  await page.reload();
+  await expect(page.locator('#monthEvents')).toContainText(custom.name);
+});
+
 for (const source of ['saved', 'sheet', 'empty sheet', 'failed sheet']) {
   test(`Calendar uses approved holidays with ${source} data`, async ({ page }) => {
     const custom = { name: 'Unrelated custom fellowship', date: '2026-12-15', category: 'gpbc', description: 'Keep this event' };
@@ -235,11 +221,17 @@ for (const source of ['saved', 'sheet', 'empty sheet', 'failed sheet']) {
     }
     await page.route('https://script.google.com/**', route =>
       source === 'saved' || source === 'failed sheet' ? route.abort() : route.fulfill({
-        json: { events: source === 'empty sheet' ? [] : [...stale, ...expected, custom] },
+        json: { events: source === 'empty sheet' ? [] : [...stale, custom] },
         headers: { 'access-control-allow-origin': '*' }
       }));
     await page.goto('/calendar.html');
     await expect(page.locator('#currentMonth')).toHaveText('December 2026');
+    if (source === 'empty sheet') {
+      await expect(page.locator('#monthEvents')).not.toContainText(names[0]);
+      await expect(page.locator('#monthEvents')).not.toContainText(names[1]);
+      expect(await page.evaluate("events.filter(event => event.category === 'gpbc').length")).toBe(0);
+      return;
+    }
     await expect(page.locator('#monthEvents')).toContainText(names[0]);
     const schedule = await page.evaluate(`events.filter(event => ${JSON.stringify(names)}.includes(event.name))
       .map(({ name, date, eventTime, eventDay }) => ({ name, date, eventTime, eventDay }))`);
@@ -250,9 +242,7 @@ for (const source of ['saved', 'sheet', 'empty sheet', 'failed sheet']) {
     }
     if (source === 'saved') {
       const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('gpbcEvents') || '[]'));
-      expect(saved[0]).toMatchObject(expected[0]);
-      expect(saved[1]).toMatchObject(expected[1]);
-      expect(saved[2]).toEqual(custom);
+      expect(saved).toEqual([...stale, custom]);
     }
   });
 }

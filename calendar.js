@@ -844,13 +844,11 @@ async function addGPBCEvent() {
         } else {
             // Fallback to localStorage
             events.push(newEvent);
-            clearEventDeletion(newEvent);
             saveCustomEvents();
         }
     } else {
         // Use localStorage
         events.push(newEvent);
-        clearEventDeletion(newEvent);
         saveCustomEvents();
     }
 
@@ -882,14 +880,28 @@ async function deleteCurrentEvent() {
                 await loadEventsFromGoogleSheets();
             } else {
                 // Fallback to localStorage
-                markEventDeleted(currentEvent);
-                saveCustomEvents();
+                const index = events.findIndex(e =>
+                    e.date === currentEvent.date &&
+                    e.name === currentEvent.name &&
+                    e.category === 'gpbc'
+                );
+                if (index !== -1) {
+                    events.splice(index, 1);
+                    saveCustomEvents();
+                }
                 // console.log('Using localStorage fallback for delete'); // Removed for production
             }
         } else {
             // Remove from local array when using localStorage
-            markEventDeleted(currentEvent);
-            saveCustomEvents();
+            const index = events.findIndex(e =>
+                e.date === currentEvent.date &&
+                e.name === currentEvent.name &&
+                e.category === 'gpbc'
+            );
+            if (index !== -1) {
+                events.splice(index, 1);
+                saveCustomEvents();
+            }
         }
 
         hideLoadingIndicator();
