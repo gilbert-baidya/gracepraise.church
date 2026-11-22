@@ -268,3 +268,15 @@ test('late-loading devotion content follows the selected language without relabe
   await expect(page.locator('#devotionTitle')).toHaveText('English title');
   await expect(page.locator('#bibleText')).toHaveAttribute('lang', 'en');
 });
+
+test('Home has unique IDs and Next Service links resolve to the visit summary', async ({ page, visitOrigin }) => {
+  await page.goto(`${visitOrigin}/index.html`);
+  const duplicates = await page.evaluate(() => {
+    const counts = new Map<string, number>();
+    document.querySelectorAll('[id]').forEach(el => counts.set(el.id, (counts.get(el.id) || 0) + 1));
+    return [...counts].filter(([, n]) => n > 1).map(([id]) => id);
+  });
+  expect(duplicates).toEqual([]);
+  await expect(page.locator('[id="next-service"]')).toHaveCount(1);
+  await expect(page.locator('#next-service')).toHaveClass(/visit-summary/);
+});
