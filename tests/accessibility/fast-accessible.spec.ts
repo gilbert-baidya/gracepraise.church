@@ -203,7 +203,7 @@ for (const route of pages) {
     await expect(page.locator('main img[data-lazy-src]:visible')).toHaveCount(0);
     await expect(page.getByRole('contentinfo')).toBeVisible();
     await expect(page.locator('main')).toContainText(route === 'give' ? 'Generosity' : '1325 Richardson Street');
-    if (route === 'give') await expect(page.getByRole('link', { name: /Open online giving/ })).toHaveAttribute('href', 'https://www.paypal.com/ncp/payment/V3AF32ZHJSAME');
+    if (route === 'give') await expect(page.getByRole('link', { name: /Continue to PayPal/ })).toHaveAttribute('href', 'https://www.paypal.com/ncp/payment/V3AF32ZHJSAME');
     await context.close();
   });
 }

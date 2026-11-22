@@ -135,7 +135,7 @@ function displaySongs() {
             <div class="song-info">
                 ${song.key ? `<span class="song-tag key">Key: ${escapeHtml(song.key)}</span>` : ''}
                 <span class="song-tag">${getCategoryIcon(song.category)} ${escapeHtml(song.category)}</span>
-                <span class="song-tag">${getLanguageIcon(song.language)} ${getLanguageName(song.language)}</span>
+                <span class="song-tag">${getLanguageIcon(song.language)} ${escapeHtml(getLanguageName(song.language))}</span>
             </div>
             <p class="song-preview">${escapeHtml(song.preview)}</p>
         </div>
@@ -155,7 +155,7 @@ function showSong(songId) {
             ${song.key ? `<div class="meta-item"><strong>Key:</strong> ${escapeHtml(song.key)}</div>` : ''}
             ${song.tempo ? `<div class="meta-item"><strong>Tempo:</strong> ${escapeHtml(song.tempo)}</div>` : ''}
             <div class="meta-item"><strong>Category:</strong> ${getCategoryIcon(song.category)} ${escapeHtml(song.category)}</div>
-            <div class="meta-item"><strong>Language:</strong> ${getLanguageIcon(song.language)} ${getLanguageName(song.language)}</div>
+            <div class="meta-item"><strong>Language:</strong> ${getLanguageIcon(song.language)} ${escapeHtml(getLanguageName(song.language))}</div>
         </div>
 
         ${song.chords && song.chords.length > 0 ? `

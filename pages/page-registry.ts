@@ -213,7 +213,7 @@ export const pageRegistry: PageRegistryEntry[] = [
     htmlPath: "give.html",
     className: "GivePage",
     isFullDocument: true,
-    expectedTitle: "Give | Support Our Ministry | Grace and Praise Bangladeshi Church",
+    expectedTitle: "Give | Grace and Praise Bangladeshi Church",
     create: (page: Page) => new GivePage(page)
   },
   {

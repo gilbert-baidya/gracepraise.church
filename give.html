@@ -1,799 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <link rel="preload" href="/assets/fonts/inter/inter-400.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/inter/inter-600.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/lora/lora-400.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/notosansbengali/notosansbengali-400.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/assets/fonts/notosansbengali/notosansbengali-600.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/assets/css/site-language.css">
-    <script src="/js/site-language.js" defer></script>
-    <meta charset="UTF-8">
-    <script>document.documentElement.classList.add("js-enabled");</script>
-    <script src="js/fast-accessible.0865e8073cbe.js" defer></script>
-    
-    <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO Meta Tags -->
-    <title>Give | Support Our Ministry | Grace and Praise Bangladeshi Church</title>
-
-    <!-- SEO: Canonical + OpenGraph (auto-injected) -->
-    <meta property="og:site_name" content="Grace and Praise Bangladeshi Church" />
-    <meta property="og:image" content="https://gracepraise.church/images/logo/gpbc-og-banner.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    <meta name="description"
-        content="Support Grace and Praise Bangladeshi Church through secure online giving. Multiple convenient payment options including online payment, QR code, bank transfer, and check.">
-    <meta name="keywords"
-        content="church giving, donate GPBC, online donation, church support, tax-deductible donation">
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="Give | Support Our Ministry | Grace and Praise Bangladeshi Church">
-    <meta property="og:description" content="Support Grace and Praise Bangladeshi Church through secure online giving. Multiple convenient payment options including online payment, QR code, bank transfer, and check.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gracepraise.church/give">
-    <meta name="twitter:title" content="Give | Support Our Ministry | Grace and Praise Bangladeshi Church">
-    <meta name="twitter:description" content="Support Grace and Praise Bangladeshi Church through secure online giving. Multiple convenient payment options including online payment, QR code, bank transfer, and check.">
-    <meta name="twitter:image" content="https://gracepraise.church/images/logo/gpbc-og-banner.jpg">
-
-    <!-- Canonical -->
-    <link rel="canonical" href="https://gracepraise.church/give">
-
-    <!-- Theme & JS Detection — DO NOT REMOVE -->
-    <script>
-        (function () {
-            document.documentElement.classList.add('js-enabled');
-
-            function getInitialTheme() {
-                if (window.Platform && typeof window.Platform.getPreferredTheme === 'function') {
-                    return window.Platform.getPreferredTheme();
-                }
-
-                try {
-                    const savedTheme = localStorage.getItem('theme');
-                    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
-                } catch (error) {
-                    console.warn('[Theme] Saved preference could not be read', error);
-                }
-
-                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            }
-
-            const theme = getInitialTheme();
-            document.documentElement.setAttribute('data-theme', theme);
-            document.documentElement.classList.toggle('dark', theme === 'dark');
-            document.addEventListener('DOMContentLoaded', () => {
-                document.body.setAttribute('data-theme', theme);
-                document.body.classList.toggle('dark', theme === 'dark');
-            });
-        })();
-    </script>
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="redesign-styles.css?v=20260918-v11-theme-final3">
-    <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
-    <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        /* iOS SAFARI OVERFLOW GUARD — REAL DEVICE FIX */
-        @supports (-webkit-touch-callout: none) {
-            body {
-                overflow-x: hidden !important;
-                position: relative;
-            }
-        }
-
-        /* CONTAINER DISCIPLINE — PREVENTS HORIZONTAL SCROLL */
-        img,
-        video,
-        iframe,
-        embed,
-        object {
-            max-width: 100%;
-            height: auto;
-        }
-
-        section,
-        article,
-        main,
-        .hero,
-        .container {
-            width: 100%;
-            max-width: 100%;
-        }
-
-        /* DARK MODE TOGGLE BUTTON */
-        .dark-mode-toggle {
-            background: rgba(45, 122, 143, 0.1);
-            border: 2px solid rgba(45, 122, 143, 0.3);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            margin-left: 15px;
-            font-size: 20px;
-        }
-
-        .dark-mode-toggle:hover {
-            background: rgba(45, 122, 143, 0.2);
-            border-color: rgba(45, 122, 143, 0.5);
-            transform: scale(1.05);
-        }
-
-        .dark-mode-toggle .sun-icon,
-        .dark-mode-toggle .moon-icon {
-            position: absolute;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .dark-mode-toggle .sun-icon {
-            opacity: 1;
-            transform: rotate(0deg);
-        }
-
-        .dark-mode-toggle .moon-icon {
-            opacity: 0;
-            transform: rotate(-180deg);
-        }
-
-        [data-theme="dark"] .dark-mode-toggle .sun-icon {
-            opacity: 0;
-            transform: rotate(180deg);
-        }
-
-        [data-theme="dark"] .dark-mode-toggle .moon-icon {
-            opacity: 1;
-            transform: rotate(0deg);
-        }
-
-        @media (max-width: 768px) {
-            .dark-mode-toggle {
-                width: 36px;
-                height: 36px;
-                font-size: 18px;
-                margin-left: 10px;
-            }
-        }
-    </style>
-
-    <style>
-        /* Skip link for accessibility */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--color-primary);
-            color: white;
-            padding: 8px;
-            text-decoration: none;
-            z-index: 100;
-        }
-
-        .skip-link:focus {
-            top: 0;
-        }
-
-        /* Hero Section */
-        .give-hero {
-            background: linear-gradient(135deg, rgba(30, 58, 95, 0.02) 0%, rgba(201, 169, 97, 0.05) 100%);
-            padding: calc(var(--gpbc-header-total-height) + var(--spacing-lg)) var(--spacing-md) var(--spacing-xl);
-        }
-
-        .give-hero-container {
-            max-width: var(--container-max-width);
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .give-hero h1 {
-            font-family: Georgia, 'Times New Roman', serif;
-            font-size: var(--font-5xl);
-            font-weight: var(--font-bold);
-            color: var(--color-primary);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .give-hero-subtitle {
-            font-size: var(--font-xl);
-            color: var(--color-text);
-            line-height: var(--leading-relaxed);
-            max-width: 700px;
-            margin: 0 auto var(--spacing-xl);
-        }
-
-        /* Bible Verse Card - Prominently Displayed */
-        .verse-card {
-            background: var(--color-surface);
-            border-left: 5px solid var(--color-secondary);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-xl);
-            max-width: 750px;
-            margin: 0 auto;
-            box-shadow: var(--shadow-md);
-        }
-
-        .verse-text {
-            font-size: var(--font-2xl);
-            font-style: italic;
-            color: var(--color-primary);
-            line-height: var(--leading-relaxed);
-            margin-bottom: var(--spacing-md);
-            font-weight: var(--font-medium);
-        }
-
-        .verse-reference {
-            font-size: var(--font-lg);
-            color: var(--color-text-light);
-            text-align: right;
-            font-style: normal;
-        }
-
-        /* Method Selection Section */
-        .method-selection {
-            padding: var(--spacing-2xl) var(--spacing-md);
-            background: var(--color-background);
-        }
-
-        .method-selection-container {
-            max-width: var(--container-max-width);
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-family: Georgia, serif;
-            font-size: var(--font-3xl);
-            font-weight: var(--font-bold);
-            color: var(--color-primary);
-            text-align: center;
-            margin-bottom: var(--spacing-xl);
-        }
-
-        /* Method Cards Grid */
-        .method-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-2xl);
-        }
-
-        @media (max-width: 768px) {
-            .method-cards {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-md);
-            }
-        }
-
-        /* Individual Method Card */
-        .method-card {
-            background: var(--color-surface);
-            border: 3px solid var(--color-border);
-            border-radius: var(--radius-xl);
-            padding: var(--spacing-xl);
-            cursor: pointer;
-            transition: all var(--transition-base);
-            text-align: center;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .method-card:hover {
-            border-color: var(--color-primary);
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .method-card:focus {
-            outline: 3px solid var(--color-secondary);
-            outline-offset: 3px;
-        }
-
-        .method-card.active {
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-            border-color: var(--color-primary-dark);
-            color: var(--color-text-inverse);
-            box-shadow: var(--shadow-xl);
-            transform: translateY(-6px);
-        }
-
-        .method-card.active h3,
-        .method-card.active p {
-            color: var(--color-secondary);
-        }
-
-        .method-card.active .method-icon {
-            transform: scale(1.1);
-        }
-
-        .method-icon {
-            font-size: 4rem;
-            line-height: 1;
-            margin-bottom: var(--spacing-md);
-            transition: transform var(--transition-base);
-        }
-
-        .method-card h3 {
-            font-size: var(--font-2xl);
-            font-weight: var(--font-bold);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .method-card p {
-            font-size: var(--font-base);
-            opacity: 0.9;
-            margin: 0;
-        }
-
-        /* Content Area */
-        .content-area {
-            background: var(--color-surface);
-            border-radius: var(--radius-xl);
-            padding: var(--spacing-2xl);
-            box-shadow: var(--shadow-lg);
-            min-height: 400px;
-        }
-
-        .content-section {
-            display: none;
-            animation: fadeInUp 0.4s ease-out;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .content-section h2 {
-            font-family: Georgia, serif;
-            font-size: var(--font-3xl);
-            color: var(--color-primary);
-            margin-bottom: var(--spacing-xl);
-            text-align: center;
-        }
-
-        /* Online Payment Form */
-        .payment-form {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .form-group {
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .form-label {
-            display: block;
-            font-size: var(--font-base);
-            font-weight: var(--font-semibold);
-            color: var(--color-text);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .form-input,
-        .form-select {
-            width: 100%;
-            padding: var(--spacing-md);
-            font-size: var(--font-lg);
-            border: 2px solid var(--color-border);
-            border-radius: var(--radius-md);
-            transition: all var(--transition-fast);
-        }
-
-        .form-input:focus,
-        .form-select:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 4px rgba(30, 58, 95, 0.1);
-        }
-
-        .amount-wrapper {
-            position: relative;
-        }
-
-        .amount-wrapper::before {
-            content: '$';
-            position: absolute;
-            left: var(--spacing-md);
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: var(--font-xl);
-            font-weight: var(--font-bold);
-            color: var(--color-text-light);
-            pointer-events: none;
-        }
-
-        .amount-wrapper input {
-            padding-left: 2.5rem;
-        }
-
-        /* Preset Amount Buttons */
-        .preset-amounts {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--spacing-sm);
-            margin-top: var(--spacing-sm);
-        }
-
-        @media (max-width: 480px) {
-            .preset-amounts {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .preset-btn {
-            padding: var(--spacing-md);
-            background: var(--color-background);
-            border: 2px solid var(--color-border);
-            border-radius: var(--radius-md);
-            font-size: var(--font-base);
-            font-weight: var(--font-semibold);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .preset-btn:hover {
-            border-color: var(--color-primary);
-            background: var(--color-primary);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .preset-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Payment Buttons */
-        .payment-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-xl);
-        }
-
-        .payment-buttons .btn {
-            padding: var(--spacing-md) var(--spacing-xl);
-            font-size: var(--font-lg);
-            font-weight: var(--font-semibold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-sm);
-            width: 100%;
-        }
-
-        /* QR Code Section */
-        .qr-section {
-            text-align: center;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .qr-container {
-            background: var(--color-background);
-            padding: var(--spacing-2xl);
-            border-radius: var(--radius-lg);
-            margin: var(--spacing-xl) 0;
-        }
-
-        .qr-code-placeholder {
-            width: 280px;
-            height: 280px;
-            margin: 0 auto var(--spacing-md);
-            background: white;
-            border: 4px solid var(--color-primary);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: var(--font-2xl);
-            color: var(--color-text-light);
-            font-weight: var(--font-medium);
-        }
-
-        .qr-instructions {
-            font-size: var(--font-lg);
-            color: var(--color-text-light);
-            line-height: var(--leading-relaxed);
-        }
-
-        /* Bank Transfer Section */
-        .bank-details {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .detail-card {
-            background: var(--color-background);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-md);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--spacing-md);
-            background: white;
-            border-radius: var(--radius-md);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .detail-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .detail-label {
-            font-weight: var(--font-semibold);
-            color: var(--color-text);
-            font-size: var(--font-sm);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .detail-value {
-            font-size: var(--font-base);
-            color: var(--color-text);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .copy-btn {
-            padding: var(--spacing-xs) var(--spacing-sm);
-            background: var(--color-secondary);
-            color: white;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: var(--font-xs);
-            font-weight: var(--font-semibold);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .copy-btn:hover {
-            background: var(--color-accent);
-            transform: scale(1.05);
-        }
-
-        .copy-btn.copied {
-            background: #22c55e;
-        }
-
-        /* Check Section */
-        .check-section {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .mailing-address {
-            background: var(--color-background);
-            border: 2px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-xl);
-            margin: var(--spacing-xl) 0;
-        }
-
-        .mailing-address h3 {
-            font-size: var(--font-xl);
-            color: var(--color-primary);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .address-text {
-            font-size: var(--font-lg);
-            line-height: var(--leading-relaxed);
-            color: var(--color-text);
-        }
-
-        .memo-note {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: var(--spacing-md);
-            border-radius: var(--radius-md);
-            margin-top: var(--spacing-lg);
-        }
-
-        .memo-note strong {
-            color: #92400e;
-        }
-
-        /* Trust Section */
-        .trust-section {
-            background: var(--color-primary);
-            color: white;
-            padding: var(--spacing-xl) var(--spacing-md);
-            margin-top: var(--spacing-2xl);
-        }
-
-        .trust-container {
-            max-width: var(--container-max-width);
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .trust-badges {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: var(--spacing-xl);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .trust-badge {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-            font-size: var(--font-base);
-            font-weight: var(--font-medium);
-        }
-
-        .trust-icon {
-            font-size: var(--font-2xl);
-        }
-
-        .trust-text {
-            max-width: 700px;
-            margin: 0 auto;
-            font-size: var(--font-base);
-            line-height: var(--leading-relaxed);
-            opacity: 0.95;
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            padding: var(--spacing-2xl) var(--spacing-md);
-            background: var(--color-background);
-        }
-
-        .faq-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--spacing-md);
-            overflow: hidden;
-        }
-
-        .faq-question {
-            width: 100%;
-            padding: var(--spacing-lg);
-            background: none;
-            border: none;
-            text-align: left;
-            font-size: var(--font-lg);
-            font-weight: var(--font-semibold);
-            color: var(--color-text);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background var(--transition-fast);
-        }
-
-        .faq-question:hover {
-            background: var(--color-background);
-        }
-
-        .faq-icon {
-            font-size: var(--font-2xl);
-            transition: transform var(--transition-base);
-        }
-
-        .faq-item.open .faq-icon {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height var(--transition-base);
-        }
-
-        .faq-item.open .faq-answer {
-            max-height: 500px;
-        }
-
-        .faq-answer-content {
-            padding: 0 var(--spacing-lg) var(--spacing-lg);
-            color: var(--color-text-light);
-            line-height: var(--leading-relaxed);
-            font-size: var(--font-base);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .give-hero h1 {
-                font-size: var(--font-4xl);
-            }
-
-            .give-hero-subtitle {
-                font-size: var(--font-lg);
-            }
-
-            .verse-text {
-                font-size: var(--font-xl);
-            }
-
-            .section-title {
-                font-size: var(--font-2xl);
-            }
-
-            .content-area {
-                padding: var(--spacing-lg);
-            }
-
-            .detail-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: var(--spacing-xs);
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="./css/footer-v3.css">
-    <link rel="stylesheet" href="give-v14.css?v=20260920">
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
-    <link rel="stylesheet" href="website-control.css" data-gpbc-control-style="true">
-    <link rel="stylesheet" href="assets/css/shared-style.css">
-    <link rel="stylesheet" href="assets/css/fast-accessible.1ececc2dace4.css">
+<meta charset="UTF-8">
+<link rel="preload" href="/assets/fonts/inter/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/inter/inter-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/lora/lora-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/notosansbengali/notosansbengali-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/notosansbengali/notosansbengali-600.woff2" as="font" type="font/woff2" crossorigin>
+<script>document.documentElement.classList.add("js-enabled");</script>
+<script src="js/fast-accessible.0865e8073cbe.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Give | Grace and Praise Bangladeshi Church</title>
+<meta name="description" content="Support worship and community through a one-time gift. Choose your amount and confirm your gift on PayPal.">
+<meta property="og:title" content="Give | Grace and Praise Bangladeshi Church">
+<meta property="og:description" content="Support worship and community through a one-time gift. Review and confirm your gift on PayPal.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Grace and Praise Bangladeshi Church">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://gracepraise.church/give">
+<meta property="og:image" content="https://gracepraise.church/images/logo/gpbc-og-banner.jpg">
+<link rel="canonical" href="https://gracepraise.church/give">
+<script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
+<link rel="stylesheet" href="redesign-styles.css?v=20260918-v11-theme-final3">
+<link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
+<link rel="stylesheet" href="css/footer-v3.css">
+<link rel="stylesheet" href="website-control.css" data-gpbc-control-style="true">
+<link rel="stylesheet" href="assets/css/give-one-step.css">
+<link rel="stylesheet" href="assets/css/shared-style.css">
+<link rel="stylesheet" href="assets/css/site-language.css">
+<script src="js/site-language.js" defer></script>
+<script src="give-one-step.js" defer></script>
+<link rel="stylesheet" href="assets/css/fast-accessible.1ececc2dace4.css">
 </head>
-
-<body class="give-v14-page gpbc-shared fast-accessible">
-    <span class="site-language-anchor" id="gpbc-language-en" aria-hidden="true"></span><span class="site-language-anchor" id="gpbc-language-bn" aria-hidden="true"></span>
-    <!-- Skip Link -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
-    <!-- Header -->
-    <header>
+<body class="gpbc-shared give-one-step fast-accessible">
+<span id="gpbc-language-en" class="site-language-anchor" aria-hidden="true"></span><span id="gpbc-language-bn" class="site-language-anchor" aria-hidden="true"></span>
+<a href="#main-content" class="skip-link" lang="en">Skip to main content</a>
+    <header lang="en">
         <nav aria-label="Main navigation">
             <div class="nav-container">
-                <a href="#home" class="logo">
-                    <img loading="lazy" src="images/logo/gpbc-mark.40eae7be38cd.webp" width="192" height="192" alt=""
-                        class="logo-image" loading="eager" decoding="async">
+                <a href="index.html" class="logo">
+                    <img src="images/logo/gpbc-mark.40eae7be38cd.webp" width="192" height="192" alt="" class="logo-image" loading="eager" decoding="async">
                 <span class="fast-brand" lang="en">Grace &amp; Praise<span>Bangladeshi Church</span></span></a>
                 <button data-label-en="Menu" data-label-bn="মেনু" class="mobile-menu-btn" aria-label="Menu" aria-controls="nav-links" aria-expanded="false" type="button">
                     <span></span>
                     <span></span>
                     <span></span>
-                <span class="fast-menu-label"><span data-lang="en" lang="en">Menu</span><span data-lang="bn" lang="bn">মেনু</span></span></button>
+                    <span class="fast-menu-label"><span data-lang="en" lang="en">Menu</span><span data-lang="bn" lang="bn">মেনু</span></span>
+                </button>
                 <ul class="nav-links" id="nav-links">
                     <li><a href="#live">LIVE</a></li>
                     <li><a href="index.html">Home</a></li>
@@ -859,196 +112,56 @@
             </div>
         </nav>
         <div class="mobile-overlay"></div>
-    <div class="site-language-row">
-                <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
+    <div class="site-language-row"><button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
-                </button>
-<span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn" style="display:none">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" lang="en" data-site-language="en">English</a><a href="?lang=bn#gpbc-language-bn" lang="bn" data-site-language="bn">বাংলা</a></div></div>
+                </button><span class="site-language-location" lang="en" data-lang="en">San Bernardino, CA</span><span class="site-language-location" lang="bn" data-lang="bn">সান বার্নার্ডিনো</span><div class="site-language-choices" role="group" aria-label="Site locale / সাইটের ভাষা"><a href="?lang=en#gpbc-language-en" data-site-language="en" lang="en">English</a><a href="?lang=bn#gpbc-language-bn" data-site-language="bn" lang="bn">বাংলা</a></div></div>
 </header>
-
-    <!-- Main Content -->
-    <main tabindex="-1" id="main-content">
-        <section class="give-v14-hero" aria-labelledby="give-hero-title">
-            <span class="give-v14-hero-cross" aria-hidden="true"></span>
-            <div class="give-v14-container">
-                <div class="give-v14-hero-content">
-                    <p class="give-v14-eyebrow">Together for a greater purpose</p>
-                    <h1 id="give-hero-title" class="give-v14-heading">Generosity is Worship</h1>
-                    <p class="give-v14-hero-copy">Through your generosity, Grace and Praise Bangladeshi Church is able to support worship, serve the community, strengthen churches, and participate in mission work for the glory of God.</p>
-                    <blockquote class="give-v14-hero-verse">
-                        <p>“God loves a cheerful giver.”</p>
-                        <cite>2 Corinthians 9:7</cite>
-                    </blockquote>
-                </div>
-            </div>
-        </section>
-
-        <section class="give-v14-purpose" aria-labelledby="purpose-title">
-            <div class="give-v14-container give-v14-purpose-grid">
-                <div class="give-v14-purpose-intro">
-                    <p class="give-v14-eyebrow">Invest in eternal things</p>
-                    <h2 id="purpose-title" class="give-v14-section-heading">Give With Purpose</h2>
-                    <p class="give-v14-purpose-copy">Your giving helps us worship God, serve people, strengthen churches, and share the Gospel both locally and beyond our community. Every gift—large or small—helps make ministry possible.</p>
-
-                    <div class="give-v14-impact-grid">
-                        <article class="give-v14-impact-card">
-                            <span class="give-v14-impact-icon" aria-hidden="true">
-                                <svg class="give-v14-icon" viewBox="0 0 24 24"><path d="M9 18V5l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="15" r="3"/></svg>
-                            </span>
-                            <h3>Worship</h3>
-                            <p>Supports worship, discipleship, prayer, and the ministry of our local church.</p>
-                        </article>
-                        <article class="give-v14-impact-card">
-                            <span class="give-v14-impact-icon" aria-hidden="true">
-                                <svg class="give-v14-icon" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c.4-3.3 2.3-5 6-5s5.6 1.7 6 5M14 15c3.7-.2 5.8 1.4 6 5"/></svg>
-                            </span>
-                            <h3>Community</h3>
-                            <p>Helps us serve families, care for people, and bring the love of Christ to our community.</p>
-                        </article>
-                        <article class="give-v14-impact-card">
-                            <span class="give-v14-impact-icon" aria-hidden="true">
-                                <svg class="give-v14-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.3 2.5 3.5 5.5 3.5 9S14.3 18.5 12 21M12 3C9.7 5.5 8.5 8.5 8.5 12s1.2 6.5 3.5 9M4.7 7.5h14.6M4.7 16.5h14.6"/></svg>
-                            </span>
-                            <h3>Mission Work</h3>
-                            <p>Helps GPBC participate in mission work and Gospel-centered ministry beyond our local congregation.</p>
-                        </article>
-                        <article class="give-v14-impact-card">
-                            <span class="give-v14-impact-icon" aria-hidden="true">
-                                <svg class="give-v14-icon" viewBox="0 0 24 24"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-5h6v5M12 3v4M9.5 5.5h5"/></svg>
-                            </span>
-                            <h3>Church Support</h3>
-                            <p>Helps strengthen churches, ministries, and ministry partners as opportunities arise.</p>
-                        </article>
-                    </div>
-                </div>
-
-                <aside class="give-v14-gift-card" aria-labelledby="gift-title">
-                    <p class="give-v14-eyebrow">Make a difference today</p>
-                    <h2 id="gift-title">Your Gift</h2>
-                    <p>Give securely and help make ministry possible.</p>
-                    <div class="give-v14-payment-stack">
-                        <button type="button" id="paypalPaymentBtn" class="give-v14-payment give-v14-payment-primary" aria-label="Continue with PayPal" aria-describedby="paypal-handoff-note">
-                            <svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20 9.2 4.8h6.2c2.5 0 4 1.2 4 3.3 0 2.9-2.3 4.8-5.5 4.8h-3.2L9.5 20M10.8 12.9h4.1"/></svg>
-                            Continue with PayPal <span aria-hidden="true">→</span>
-                        </button>
-                        <button hidden type="button" id="stripePaymentBtn" class="give-v14-payment give-v14-payment-secondary" aria-label="Continue with credit or debit card">
-                            <svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg>
-                            Continue with Card
-                        </button>
-                    </div>
-                    <p class="give-v14-method-note" id="paypal-handoff-note">You'll enter your gift amount securely on PayPal. Your secure payment opens in a new tab.</p>
-
-                    <div class="give-v14-trust-mini" aria-label="Giving assurances">
-                        <span><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Secure &amp; Encrypted</span>
-                        <span><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.5-2.9 8-7 10-4.1-2-7-5.5-7-10V6l7-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Tax-Deductible</span>
-                        <span><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 12h6M9 16h6"/></svg>501(c)(3) Nonprofit</span>
-                    </div>
-                </aside>
-            </div>
-        </section>
-
-        <section class="give-v14-other" aria-labelledby="other-ways-title">
-            <div class="give-v14-container">
-                <p class="give-v14-eyebrow">Simple, secure, and personal</p>
-                <h2 id="other-ways-title" class="give-v14-section-heading give-v14-other-heading">Other Ways to Give</h2>
-                <p class="give-v14-other-copy">Choose the giving method that works best for you.</p>
-
-                <div class="give-v14-other-grid">
-                    <article class="give-v14-method-card">
-                        <span class="give-v14-method-icon" aria-hidden="true"><svg class="give-v14-icon" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2M20 14v6h-6M16 16h4"/></svg></span>
-                        <h3>QR Code</h3>
-                        <p>Scan to open the existing PayPal giving link on your phone.</p>
-                        <div id="paypalQR" class="give-v14-qr" tabindex="-1" role="img" aria-label="QR code for PayPal giving"><span class="give-v14-qr-fallback">QR code loading</span></div>
-                        <a class="give-v14-qr-link" href="https://www.paypal.com/ncp/payment/V3AF32ZHJSAME" target="_blank" rel="noopener noreferrer">Open online giving<span class="sr-only"> (opens in a new tab)</span></a>
-                    </article>
-
-                    <article class="give-v14-method-card">
-                        <span class="give-v14-method-icon" aria-hidden="true"><svg class="give-v14-icon" viewBox="0 0 24 24"><path d="M3 20h18M5 20V10h14v10M3 10l9-6 9 6M8 13v4M12 13v4M16 13v4"/></svg></span>
-                        <h3>Bank Transfer / Zelle</h3>
-                        <p>Give directly through your bank using the current Zelle recipient.</p>
-                        <div class="give-v14-bank-meta">
-                            <span class="give-v14-bank-email">gracepraisebangladeshichurch@gmail.com</span>
-                            <button class="give-v14-copy" type="button" data-copy="gracepraisebangladeshichurch@gmail.com" aria-label="Copy Zelle email">Copy</button>
-                        </div>
-                        <p class="give-v14-memo">Recipient: Grace and Praise Bangladeshi Church<br>Memo: GPBC Giving</p>
-                    </article>
-
-                    <article class="give-v14-method-card">
-                        <span class="give-v14-method-icon" aria-hidden="true"><svg class="give-v14-icon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></span>
-                        <h3>Check by Mail</h3>
-                        <p>Send your check to the church using the current mailing address.</p>
-                        <address class="give-v14-address"><strong>Grace and Praise Bangladeshi Church</strong><br>1325 Richardson Street<br>San Bernardino, CA 92408</address>
-                        <p class="give-v14-memo">Please write “GPBC Giving” in the memo line.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="give-v14-impact-row" aria-label="Giving impact">
-            <div class="give-v14-container give-v14-impact-row-grid">
-                <div class="give-v14-impact-row-item"><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20c.4-3.5 2.2-5.2 5.5-5.2S13.1 16.5 13.5 20M13 15c3.7-.2 5.8 1.4 6.2 5"/></svg><span>Supports local &amp; mission ministry<small>Making an eternal impact</small></span></div>
-                <div class="give-v14-impact-row-item"><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5.3-8.8 11.1-8.8 11.1S3.2 14.1 3.2 8.8A4.8 4.8 0 0 1 12 6.2a4.8 4.8 0 0 1 8.8 2.6Z"/></svg><span>Trusted &amp; transparent<small>Handled with integrity</small></span></div>
-                <div class="give-v14-impact-row-item"><svg class="give-v14-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 4.5C12 5 6.5 9.5 5.5 17c3.5.7 8.3-.3 10.8-3.4 2-2.5 3-6 4.2-9.1Z"/><path d="M4 21c2.5-5 6-8 11-10"/></svg><span>For God’s glory<small>Supporting ministry with purpose</small></span></div>
-            </div>
-        </section>
-
-        <section class="give-v14-gratitude" aria-labelledby="gratitude-title">
-            <div class="give-v14-container">
-                <div class="give-v14-gratitude-copy">
-                    <p class="give-v14-eyebrow">A note of gratitude</p>
-                    <h2 id="gratitude-title" class="give-v14-section-heading">Thank You for Your Partnership</h2>
-                    <p class="give-v14-body">Your generosity is a beautiful expression of faith. Together, we can worship, serve our community, strengthen churches, and participate in mission work beyond our walls.</p>
-                    <p class="give-v14-body">Thank you for partnering with what God is doing through Grace and Praise Bangladeshi Church.</p>
-                    <p class="give-v14-closing">With Christ’s love,<br><strong>Grace and Praise Bangladeshi Church</strong></p>
-                </div>
-                <blockquote class="give-v14-gratitude-verse">
-                    <p>“For where your treasure is, there your heart will be also.”</p>
-                    <cite>Matthew 6:21</cite>
-                </blockquote>
-            </div>
-        </section>
-
-        <section class="give-v14-faq" aria-labelledby="faq-title">
-            <div class="give-v14-container">
-                <p class="give-v14-eyebrow">Common questions</p>
-                <h2 id="faq-title" class="give-v14-section-heading">Frequently Asked Questions</h2>
-                <div class="give-v14-faq-list">
-                    <details class="give-v14-faq-item">
-                        <summary>Is my gift tax-deductible?</summary>
-                        <p>Yes! Grace and Praise Bangladeshi Church is a registered 501(c)(3) nonprofit organization. All donations are tax-deductible to the full extent allowed by law. You will receive a receipt for your records at the end of each year or upon request.</p>
-                    </details>
-                    <details class="give-v14-faq-item">
-                        <summary>Can I give monthly or set up recurring donations?</summary>
-                        <p>Yes! You can set up recurring monthly donations through PayPal, or contact our office to arrange automatic bank transfers. Monthly giving helps us plan and sustain ministry throughout the year and ensures consistent support for our programs.</p>
-                    </details>
-                    <details class="give-v14-faq-item">
-                        <summary>Who can I contact if I need help or have questions?</summary>
-                        <p>If you have questions about giving or need assistance, please contact us at <a href="mailto:info@gracepraise.church">info@gracepraise.church</a> or <a href="mailto:bangladeshi.church@gmail.com">bangladeshi.church@gmail.com</a>. We’re here to help!</p>
-                    </details>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <!-- Footer -->
-    <!-- Legacy footer removed -->
-
-
-
-    <script src="give-v14.js?v=20260920"></script>
-
-    <!-- Donations & Payment Processor -->
-    <script src="donations.js"></script>
-
-    <!-- NAVIGATION LOCK — Centralized navigation system -->
-    <script src="navigation.js?v=20260918-v11-theme-final3"></script>
-    <!-- Site Footer (Partial Injection) -->
-    <div data-partial="site-footer"></div>
-    <noscript><footer lang="en" class="fast-static-footer"><p>Grace and Praise Bangladeshi Church</p><p>1325 Richardson Street, San Bernardino, CA 92408</p><a href="contact.html">Contact us</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-conditions.html">Terms</a></footer></noscript>
-
-    <script type="module" src="./js/footer/footer-init.js"></script>
+<main id="main-content" tabindex="-1">
+<section class="give-flow" aria-labelledby="give-heading">
+<div class="give-intro">
+<p class="give-eyebrow"><span data-give-en="Give with purpose" data-give-bn="উদ্দেশ্য নিয়ে দান করুন" ><span data-lang="en" lang="en">Give with purpose</span><span data-lang="bn" lang="bn">উদ্দেশ্য নিয়ে দান করুন</span></span> · <span lang="bn">দান করুন</span></p>
+<h1 id="give-heading"><span data-give-en="Generosity, with purpose." data-give-bn="উদ্দেশ্য নিয়ে উদার হোন।" class="give-desktop"><span data-lang="en" lang="en">Generosity, with purpose.</span><span data-lang="bn" lang="bn">উদ্দেশ্য নিয়ে উদার হোন।</span></span><span data-give-en="Give with purpose." data-give-bn="উদ্দেশ্য নিয়ে দান করুন।" class="give-phone"><span data-lang="en" lang="en">Give with purpose.</span><span data-lang="bn" lang="bn">উদ্দেশ্য নিয়ে দান করুন।</span></span></h1>
+<p class="give-intro-copy"><span data-give-en="Your generosity helps our church worship God, care for people, and share the Gospel—locally and beyond." data-give-bn="আপনার দান ঈশ্বরের উপাসনা, মানুষের সেবা এবং সুসমাচার প্রচারে আমাদের মণ্ডলীকে সাহায্য করে।" class="give-desktop"><span data-lang="en" lang="en">Your generosity helps our church worship God, care for people, and share the Gospel—locally and beyond.</span><span data-lang="bn" lang="bn">আপনার দান ঈশ্বরের উপাসনা, মানুষের সেবা এবং সুসমাচার প্রচারে আমাদের মণ্ডলীকে সাহায্য করে।</span></span><span data-give-en="Support worship and community." data-give-bn="উপাসনা ও সেবায় সহায়তা করুন।" class="give-phone"><span data-lang="en" lang="en">Support worship and community.</span><span data-lang="bn" lang="bn">উপাসনা ও সেবায় সহায়তা করুন।</span></span></p>
+</div>
+<div class="give-action-column">
+<article class="give-card gpbc-card" id="giving-card" aria-labelledby="gift-title">
+<div class="give-card-heading"><h2 data-give-en="Your gift" data-give-bn="আপনার দান" id="gift-title"><span data-lang="en" lang="en">Your gift</span><span data-lang="bn" lang="bn">আপনার দান</span></h2><span class="give-heart" aria-hidden="true">♡</span></div>
+<p data-give-en="Give once through PayPal." data-give-bn="পেপ্যালে একবার দান করুন।" class="give-card-intro"><span data-lang="en" lang="en">Give once through PayPal.</span><span data-lang="bn" lang="bn">পেপ্যালে একবার দান করুন।</span></p>
+<fieldset class="give-frequency">
+<legend class="sr-only" data-give-en="Gift frequency" data-give-bn="দানের ধরন"><span data-lang="en" lang="en">Gift frequency</span><span data-lang="bn" lang="bn">দানের ধরন</span></legend>
+<label for="give-once"><input type="radio" name="frequency" value="once" id="give-once" checked><span data-give-en="One time" data-give-bn="এককালীন" ><span data-lang="en" lang="en">One time</span><span data-lang="bn" lang="bn">এককালীন</span></span></label>
+</fieldset>
+<div class="give-cadence" aria-live="polite" aria-atomic="true">
+<span class="give-heart" aria-hidden="true">♡</span><div>
+<h3 data-give-en="A one-time gift" data-give-bn="এককালীন দান" id="give-cadence-title"><span data-lang="en" lang="en">A one-time gift</span><span data-lang="bn" lang="bn">এককালীন দান</span></h3>
+<p data-give-en="Choose your amount on PayPal." data-give-bn="পেপ্যালে পরিমাণ বেছে নিন।" id="give-cadence-copy"><span data-lang="en" lang="en">Choose your amount on PayPal.</span><span data-lang="bn" lang="bn">পেপ্যালে পরিমাণ বেছে নিন।</span></p>
+<p data-give-en="Give once, with no recurring commitment." data-give-bn="এককালীন দান; নিয়মিত অঙ্গীকার নেই।" id="give-cadence-help" class="give-small"><span data-lang="en" lang="en">Give once, with no recurring commitment.</span><span data-lang="bn" lang="bn">এককালীন দান; নিয়মিত অঙ্গীকার নেই।</span></p>
+</div></div>
+<p class="give-privacy"><span aria-hidden="true">♧</span> <span data-give-en="No payment details are collected on this site." data-give-bn="এই সাইটে অর্থপ্রদানের কোনো তথ্য সংগ্রহ করা হয় না।" ><span data-lang="en" lang="en">No payment details are collected on this site.</span><span data-lang="bn" lang="bn">এই সাইটে অর্থপ্রদানের কোনো তথ্য সংগ্রহ করা হয় না।</span></span></p>
+<a id="give-paypal" class="gpbc-button-primary" href="https://www.paypal.com/ncp/payment/V3AF32ZHJSAME"><span data-give-en="Continue to PayPal" data-give-bn="পেপ্যালে এগিয়ে যান" id="give-action-label"><span data-lang="en" lang="en">Continue to PayPal</span><span data-lang="bn" lang="bn">পেপ্যালে এগিয়ে যান</span></span><span aria-hidden="true">→</span></a>
+<p data-give-en="You’ll review and confirm your gift on PayPal." data-give-bn="পেপ্যালে আপনার দান পর্যালোচনা ও নিশ্চিত করবেন।" id="give-confirmation" class="give-small"><span data-lang="en" lang="en">You’ll review and confirm your gift on PayPal.</span><span data-lang="bn" lang="bn">পেপ্যালে আপনার দান পর্যালোচনা ও নিশ্চিত করবেন।</span></p>
+<p id="give-status" role="status" aria-live="polite" hidden></p>
+<a data-give-en="Back to giving" data-give-bn="দানের পাতায় ফিরুন" id="give-return" href="give.html#giving-card" hidden><span data-lang="en" lang="en">Back to giving</span><span data-lang="bn" lang="bn">দানের পাতায় ফিরুন</span></a>
+</article>
+<p class="give-receipts"><span aria-hidden="true">✉</span> <a data-give-en="Receipts &amp; giving help" data-give-bn="রসিদ ও দান সম্পর্কে সহায়তা" href="mailto:info@gracepraise.church"><span data-lang="en" lang="en">Receipts &amp; giving help</span><span data-lang="bn" lang="bn">রসিদ ও দান সম্পর্কে সহায়তা</span></a></p>
+</div>
+<aside class="give-note">
+<blockquote class="give-v14-hero-verse"><p data-give-en="“God loves a cheerful giver.”" data-give-bn="“ঈশ্বর আনন্দচিত্তে দানকারীকে ভালোবাসেন।”" ><span data-lang="en" lang="en">“God loves a cheerful giver.”</span><span data-lang="bn" lang="bn">“ঈশ্বর আনন্দচিত্তে দানকারীকে ভালোবাসেন।”</span></p><cite lang="en">2 Corinthians 9:7</cite></blockquote>
+<p class="give-small"><span class="give-heart" aria-hidden="true">♡</span> <span data-give-en="Thank you for being part of this ministry." data-give-bn="এই সেবার অংশ হওয়ার জন্য আপনাকে ধন্যবাদ।" ><span data-lang="en" lang="en">Thank you for being part of this ministry.</span><span data-lang="bn" lang="bn">এই সেবার অংশ হওয়ার জন্য আপনাকে ধন্যবাদ।</span></span></p>
+</aside>
+</section>
+<section class="give-impact" aria-labelledby="impact-heading"><div class="give-impact-inner">
+<h2 data-give-en="Small acts. Shared impact." data-give-bn="ছোট ছোট দান। একসাথে সেবা।" id="impact-heading"><span data-lang="en" lang="en">Small acts. Shared impact.</span><span data-lang="bn" lang="bn">ছোট ছোট দান। একসাথে সেবা।</span></h2>
+<div class="give-ministry-grid">
+<article><h3 data-give-en="Worship &amp; discipleship" data-give-bn="উপাসনা ও শিষ্যত্ব" ><span data-lang="en" lang="en">Worship &amp; discipleship</span><span data-lang="bn" lang="bn">উপাসনা ও শিষ্যত্ব</span></h3><p data-give-en="Prayer, teaching, and worship in the life of our local church." data-give-bn="আমাদের স্থানীয় মণ্ডলীতে প্রার্থনা, শিক্ষা ও উপাসনা।" ><span data-lang="en" lang="en">Prayer, teaching, and worship in the life of our local church.</span><span data-lang="bn" lang="bn">আমাদের স্থানীয় মণ্ডলীতে প্রার্থনা, শিক্ষা ও উপাসনা।</span></p></article>
+<article><h3 data-give-en="Community &amp; mission" data-give-bn="সমাজসেবা ও সুসমাচার প্রচার" ><span data-lang="en" lang="en">Community &amp; mission</span><span data-lang="bn" lang="bn">সমাজসেবা ও সুসমাচার প্রচার</span></h3><p data-give-en="Care for families and neighbors, and Gospel-centered ministry beyond." data-give-bn="পরিবার ও প্রতিবেশীদের যত্ন এবং সুসমাচারভিত্তিক সেবা।" ><span data-lang="en" lang="en">Care for families and neighbors, and Gospel-centered ministry beyond.</span><span data-lang="bn" lang="bn">পরিবার ও প্রতিবেশীদের যত্ন এবং সুসমাচারভিত্তিক সেবা।</span></p></article>
+<aside><h3 data-give-en="Prefer another way to give?" data-give-bn="অন্যভাবে দান করতে চান?" ><span data-lang="en" lang="en">Prefer another way to give?</span><span data-lang="bn" lang="bn">অন্যভাবে দান করতে চান?</span></h3><p data-give-en="Contact the church for current giving details." data-give-bn="দানের বর্তমান তথ্যের জন্য মণ্ডলীর সঙ্গে যোগাযোগ করুন।" ><span data-lang="en" lang="en">Contact the church for current giving details.</span><span data-lang="bn" lang="bn">দানের বর্তমান তথ্যের জন্য মণ্ডলীর সঙ্গে যোগাযোগ করুন।</span></p><a data-give-en="Ask the church →" data-give-bn="মণ্ডলীকে জিজ্ঞেস করুন →" href="mailto:info@gracepraise.church"><span data-lang="en" lang="en">Ask the church →</span><span data-lang="bn" lang="bn">মণ্ডলীকে জিজ্ঞেস করুন →</span></a></aside>
+</div></div></section>
+</main>
+<script src="navigation.js?v=20260918-v11-theme-final3"></script>
+<noscript><footer lang="en" class="fast-static-footer"><p>Grace and Praise Bangladeshi Church</p><p>1325 Richardson Street, San Bernardino, CA 92408</p><a href="contact.html">Contact us</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-conditions.html">Terms</a></footer></noscript>
+<div data-partial="site-footer"></div>
+<script type="module" src="./js/footer/footer-init.js"></script>
 </body>
-
 </html>

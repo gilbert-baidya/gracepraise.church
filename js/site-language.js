@@ -9,7 +9,8 @@
   const titles = {
     '/index': ['Welcome', 'স্বাগতম'],
     '/plan-visit': ['Plan Your Visit', 'আপনার প্রথম রবিবার'],
-    '/gallery': ['Photo Gallery', 'ছবির গ্যালারি']
+    '/gallery': ['Photo Gallery', 'ছবির গ্যালারি'],
+    '/give': ['Give', 'দান করুন']
   };
   let current;
   let scheduled = false;
