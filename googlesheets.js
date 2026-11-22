@@ -71,15 +71,15 @@ async function loadEventsFromGoogleSheets() {
                     });
                     const revised = revisedHolidayEvents.some(event =>
                         event.name === importedEvent.name && event.date === importedEvent.date);
-                    if (!revised || !events.some(event =>
-                        event.name === importedEvent.name && event.date === importedEvent.date)) {
+                    if (!isEventDeleted(importedEvent) && (!revised || !events.some(event =>
+                        event.name === importedEvent.name && event.date === importedEvent.date))) {
                         events.push(importedEvent);
                     }
                 }
             });
 
             revisedHolidayEvents.forEach(event => {
-                if (!events.some(candidate => candidate.date === event.date && candidate.name === event.name)) {
+                if (!isEventDeleted(event) && !events.some(candidate => candidate.date === event.date && candidate.name === event.name)) {
                     events.push({ ...event });
                 }
             });
@@ -165,6 +165,7 @@ async function deleteEventFromGoogleSheets(event) {
 
         if (data.success) {
             // console.log('Event deleted from Google Sheets successfully'); // Removed for production
+            markEventDeleted(event);
             return true;
         } else {
             console.error('Failed to delete event from Google Sheets:', data.message);

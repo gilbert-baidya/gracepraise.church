@@ -172,38 +172,73 @@ function normalizeHolidaySchedule(event) {
 // Events database version - increment when structure changes
 const EVENTS_VERSION = '3.1';
 
+const deletedEventKeys = new Set();
+try {
+    const saved = JSON.parse(localStorage.getItem('gpbcDeletedEvents') || '[]');
+    if (Array.isArray(saved)) saved.filter(key => typeof key === 'string').forEach(key => deletedEventKeys.add(key));
+} catch {}
+
+function eventDeletionKey(event) {
+    const source = normalizeHolidaySchedule({ ...event, date: event.sourceDate || event.date });
+    return JSON.stringify([source.date, source.name]);
+}
+
+function isEventDeleted(event) {
+    return deletedEventKeys.has(eventDeletionKey(event));
+}
+
+function markEventDeleted(event) {
+    deletedEventKeys.add(eventDeletionKey(event));
+    try {
+        localStorage.setItem('gpbcDeletedEvents', JSON.stringify([...deletedEventKeys]));
+    } catch {}
+    removeDeletedEvents();
+}
+
+function removeDeletedEvents() {
+    for (let index = events.length - 1; index >= 0; index--) {
+        if (events[index].category === 'gpbc' && isEventDeleted(events[index])) events.splice(index, 1);
+    }
+}
+
 // Load custom GPBC events from localStorage
 function loadCustomEvents() {
-    // Check version and clear old data if outdated
-    const savedVersion = localStorage.getItem('gpbcEventsVersion');
-    if (savedVersion !== EVENTS_VERSION) {
-        // console.log('Events database updated - clearing old localStorage data'); // Removed for production
-        localStorage.removeItem('gpbcEvents');
-        localStorage.setItem('gpbcEventsVersion', EVENTS_VERSION);
-        return;
-    }
-    
-    const saved = localStorage.getItem('gpbcEvents');
-    if (saved) {
-        const customEvents = JSON.parse(saved).map(normalizeHolidaySchedule);
-        if (JSON.stringify(customEvents) !== saved) {
-            localStorage.setItem('gpbcEvents', JSON.stringify(customEvents));
+    removeDeletedEvents();
+    try {
+        // Check version and clear old data if outdated
+        const savedVersion = localStorage.getItem('gpbcEventsVersion');
+        if (savedVersion !== EVENTS_VERSION) {
+            // console.log('Events database updated - clearing old localStorage data'); // Removed for production
+            localStorage.removeItem('gpbcEvents');
+            localStorage.setItem('gpbcEventsVersion', EVENTS_VERSION);
+            return;
         }
-        customEvents.forEach(event => {
-            const existing = events.find(e => e.date === event.date && e.name === event.name);
-            if (existing && revisedHolidayEvents.includes(existing)) {
-                Object.assign(existing, event);
-            } else if (!existing) {
-                events.push(event);
+
+        const saved = localStorage.getItem('gpbcEvents');
+        if (saved) {
+            const customEvents = JSON.parse(saved).map(normalizeHolidaySchedule);
+            if (JSON.stringify(customEvents) !== saved) {
+                localStorage.setItem('gpbcEvents', JSON.stringify(customEvents));
             }
-        });
-    }
+            customEvents.forEach(event => {
+                if (isEventDeleted(event)) return;
+                const existing = events.find(e => e.date === event.date && e.name === event.name);
+                if (existing && revisedHolidayEvents.includes(existing)) {
+                    Object.assign(existing, event);
+                } else if (!existing) {
+                    events.push(event);
+                }
+            });
+        }
+    } catch {}
 }
 
 // Save custom GPBC events to localStorage
 function saveCustomEvents() {
     const gpbcEvents = events.filter(e => e.category === 'gpbc');
-    localStorage.setItem('gpbcEvents', JSON.stringify(gpbcEvents));
+    try {
+        localStorage.setItem('gpbcEvents', JSON.stringify(gpbcEvents));
+    } catch {}
 }
 
 // Load custom events on initialization

@@ -880,30 +880,14 @@ async function deleteCurrentEvent() {
                 await loadEventsFromGoogleSheets();
             } else {
                 // Fallback to localStorage
+                markEventDeleted(currentEvent);
+                saveCustomEvents();
                 // console.log('Using localStorage fallback for delete'); // Removed for production
-                const index = events.findIndex(e =>
-                    e.date === currentEvent.date &&
-                    e.name === currentEvent.name &&
-                    e.category === 'gpbc'
-                );
-
-                if (index !== -1) {
-                    events.splice(index, 1);
-                    saveCustomEvents();
-                }
             }
         } else {
             // Remove from local array when using localStorage
-            const index = events.findIndex(e =>
-                e.date === currentEvent.date &&
-                e.name === currentEvent.name &&
-                e.category === 'gpbc'
-            );
-
-            if (index !== -1) {
-                events.splice(index, 1);
-                saveCustomEvents();
-            }
+            markEventDeleted(currentEvent);
+            saveCustomEvents();
         }
 
         hideLoadingIndicator();

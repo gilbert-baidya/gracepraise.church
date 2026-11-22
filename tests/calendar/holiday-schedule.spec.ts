@@ -59,6 +59,78 @@ test('saved holiday source identity survives normalization and a failed Sheets r
   expect(deletions[0].event.date).toBe('2026-12-13');
 });
 
+test('all holiday JSON-LD windows match the shared activity and ICS schedule', async ({ page }) => {
+  await page.goto('/index.html');
+  const schedules = await page.evaluate(() => {
+    const records = [...document.querySelectorAll('script[type="application/ld+json"]')]
+      .flatMap(script => {
+        const value = JSON.parse(script.textContent || '{}');
+        return value['@graph'] || [value];
+      }).filter(value => value['@type'] === 'Event');
+    return (window as any).GPBC_HOME_ACTIVITIES.filter((activity: any) => activity.type === 'flyer')
+      .map((activity: any) => ({
+        expectedStart: activity.date + 'T' + activity.start + ':00-08:00',
+        expectedEnd: activity.date + 'T' + activity.end + ':00-08:00',
+        record: records.find(record => record.startDate.startsWith(activity.date))
+      }));
+  });
+  expect(schedules).toHaveLength(4);
+  for (const schedule of schedules) {
+    expect(schedule.record.startDate).toBe(schedule.expectedStart);
+    expect(schedule.record.endDate).toBe(schedule.expectedEnd);
+  }
+});
+
+for (const mode of ['persisted', 'blocked storage', 'offline refresh', 'failed delete']) {
+  test('explicit holiday deletion survives reload: ' + mode, async ({ page }) => {
+    if (mode === 'blocked storage') {
+      await page.addInitScript(() => {
+        const get = Storage.prototype.getItem;
+        const set = Storage.prototype.setItem;
+        Storage.prototype.getItem = function (key) {
+          if (key === 'gpbcDeletedEvents') throw new DOMException('Blocked', 'SecurityError');
+          return get.call(this, key);
+        };
+        Storage.prototype.setItem = function (key, value) {
+          if (key === 'gpbcDeletedEvents') throw new DOMException('Blocked', 'SecurityError');
+          return set.call(this, key, value);
+        };
+      });
+    }
+    let deleted = false;
+    const actions: string[] = [];
+    await page.route('https://script.google.com/**', async route => {
+      const request = JSON.parse(route.request().postData() || '{}');
+      actions.push(request.action);
+      if (request.action === 'deleteEvent') {
+        if (mode !== 'failed delete') deleted = true;
+        await route.fulfill({ json: { success: mode !== 'failed delete' } });
+      } else if (deleted && mode === 'offline refresh') {
+        await route.fulfill({ status: 503, body: 'Unavailable' });
+      } else {
+        await route.fulfill({ json: { events: deleted ? [] : stale } });
+      }
+    });
+    page.on('dialog', dialog => dialog.accept());
+    await page.goto('/calendar.html');
+    await expect(page.locator('#monthEvents')).toContainText('Dec 20');
+    await page.evaluate(async () => {
+      (window as any).eval("currentEvent = events.find(event => event.name === 'Pre-Christmas Celebration Service')");
+      await (window as any).deleteCurrentEvent();
+    });
+    await expect(page.locator('#monthEvents')).not.toContainText(names[0]);
+    await expect(page.locator('#monthEvents')).toContainText(names[1]);
+    if (mode !== 'failed delete') expect(actions.filter(action => action === 'getEvents').length).toBeGreaterThanOrEqual(2);
+    if (mode === 'blocked storage') {
+      await page.evaluate(() => (window as any).loadEventsFromGoogleSheets());
+    } else {
+      await page.reload();
+    }
+    await expect(page.locator('#monthEvents')).not.toContainText(names[0]);
+    await expect(page.locator('#monthEvents')).toContainText(names[1]);
+  });
+}
+
 for (const language of ['en', 'bn']) {
   test(`Home and countdown share approved holiday dates in ${language}`, async ({ page }) => {
     await page.goto('/index.html?lang=' + language);

@@ -33,3 +33,21 @@ test('ICS rejects missing or invalid scheduling data', () => {
         assert.throws(() => context.homeActivityCalendar(config, '', ''), /Activity calendar requires/);
     }
 });
+
+test('static holiday JSON-LD agrees with shared config and ICS for all four events', async () => {
+    const html = await fs.readFile(new URL('../index.html', import.meta.url), 'utf8');
+    const records = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+        .flatMap(match => {
+            const value = JSON.parse(match[1]);
+            return value['@graph'] || [value];
+        }).filter(value => value['@type'] === 'Event');
+    for (const config of context.window.GPBC_HOME_ACTIVITIES.filter(value => value.type === 'flyer')) {
+        const record = records.find(value => value.startDate.startsWith(config.date));
+        assert.equal(record.startDate, config.date + 'T' + config.start + ':00-08:00');
+        assert.equal(record.endDate, config.date + 'T' + config.end + ':00-08:00');
+        const ics = context.homeActivityCalendar(config, '', '');
+        for (const [field, time] of [['DTSTART', config.start], ['DTEND', config.end]]) {
+            assert.ok(ics.includes(field + ';TZID=America/Los_Angeles:' + config.date.replaceAll('-', '') + 'T' + time.replace(':', '') + '00'));
+        }
+    }
+});
