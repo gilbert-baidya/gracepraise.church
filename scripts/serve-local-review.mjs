@@ -59,6 +59,10 @@ const server = http.createServer(async (req, res) => {
         return;
     }
     const relative = safeRelative(req.url || '/');
+    if (!relative) {
+        response(res, 404, 'Not found');
+        return;
+    }
     const url = new URL(req.url || '/', `http://${host}:${port}`);
     if (['/give.html', '/give', '/give/'].includes(url.pathname)
         && url.searchParams.get('frequency') === 'monthly') {
