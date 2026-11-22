@@ -1,3 +1,4 @@
+html:root:has(body.fast-accessible) { scroll-padding-top: 0 !important; }
 html:root body.fast-accessible { --gpbc-h1-size: 60px; --gpbc-h1-leading: 71px; padding-top: 0 !important; margin: 0; line-height: 1.625; }
 html:root body.fast-accessible * { box-sizing: border-box; }
 html:root body.fast-accessible img { max-width: 100%; }
@@ -26,8 +27,22 @@ html:root body.fast-accessible #specialEventBanner { position: static !important
 html:root body.fast-accessible #specialEventBanner :is(.badge-content, .inline-countdown, .unit-group) { background: var(--gpbc-surface) !important; }
 html:root body.fast-accessible #specialEventBanner :is(.countdown-value, .countdown-unit, .event-name) { color: var(--gpbc-text) !important; }
 html:root body.fast-accessible #specialEventBanner a { display: inline-flex; align-items: center; justify-content: center; min-width: 48px; min-height: 48px; }
-html:root body.fast-accessible header nav { padding: 0 !important; }
-html:root body.fast-accessible .nav-container { max-width: 1200px; min-height: 104px; padding: 0 20px !important; margin: auto; gap: 16px; }
+html:root body.fast-accessible header nav { padding: 0 !important; height: auto !important; }
+html:root body.fast-accessible .nav-container { max-width: 1200px; min-height: 104px; height: auto !important; padding: 0 20px !important; margin: auto; gap: 16px; }
+html:root body.fast-accessible .site-language-row { position: static; padding: 5px 20px; min-height: 64px; }
+html:root body.fast-accessible .site-language-choices { padding: 0; }
+html:root body.fast-accessible .site-language-row [data-site-language] { min-width: 52px !important; min-height: 52px !important; padding-inline: 8px !important; }
+html:root body.fast-accessible #scrollToTop[hidden] { display: none !important; }
+html:root body.fast-accessible #scrollToTop { left: auto; right: 20px; transform: none !important; background: var(--gpbc-surface); color: var(--gpbc-link); border: 1px solid var(--gpbc-control-border); }
+html:root body.fast-accessible #scrollToTop path { stroke: currentColor; opacity: 1; }
+html:root body.fast-accessible .site-language-row:has(#darkModeToggle) .site-language-location { display: none !important; }
+html:root body.fast-accessible .site-language-location { font-size: 16px !important; line-height: 26px !important; }
+html:root body.fast-accessible.visit-essentials-page .visit-essentials h1 { font-size: var(--gpbc-h1-size) !important; line-height: var(--gpbc-h1-leading) !important; }
+html:root body.fast-accessible .visit-summary :is(.visit-summary-language, .visit-summary-logistics p, .visit-summary-arrival) { font-size: 16px; line-height: 26px; }
+html:root body.fast-accessible :is(.hero, h1, .tagline) { animation: none !important; transition: none !important; opacity: 1 !important; }
+html:root body.fast-accessible :is(.visit-summary-title, .visit-essentials-eyebrow):lang(bn) { font-size: 16px; line-height: 26px; }
+html:root[lang="bn"] body.fast-accessible #darkModeToggle::after { content: 'রাতের মোড'; font-family: var(--gpbc-font-bengali); }
+html:root[lang="bn"][data-theme="dark"] body.fast-accessible #darkModeToggle::after { content: 'দিনের মোড'; }
 html:root body.fast-accessible header .logo { width: auto !important; height: auto !important; min-height: 72px !important; max-width: 270px !important; gap: 12px; text-decoration: none !important; }
 html:root body.fast-accessible .logo-image { width: 48px !important; height: 48px !important; transform: none !important; flex-shrink: 0; }
 .fast-brand { display: flex; flex-direction: column; font-size: 18px; line-height: 26px; color: var(--gpbc-text); }
@@ -47,7 +62,7 @@ html:root body.fast-accessible :lang(bn) { font-family: var(--gpbc-font-bengali)
 html:root body.fast-accessible :is(p, li):lang(bn) { font-size: 18px; line-height: 30px; }
 html:root body.fast-accessible :is(a, button, label):lang(bn) { font-size: 16px; line-height: 26px; }
 html:root body.fast-accessible :is(.welcome-home-v4__eyebrow, .welcome-home-v4__closing, .stay-connected-v8__eyebrow) { color: var(--gpbc-gold-text) !important; }
-html:root body.fast-accessible .stay-connected-v8__title { color: var(--gpbc-text) !important; }
+html:root body.fast-accessible :is(.stay-connected-v8__title, .stay-connected-v8__title span) { color: var(--gpbc-text) !important; -webkit-text-fill-color: currentColor !important; }
 html:root body.fast-accessible .community-v5__dot { width: 48px !important; height: 48px !important; min-width: 48px; border-radius: 12px; transform: none !important; border: 1px solid var(--gpbc-control-border); }
 html:root body.fast-accessible .community-v5__dots { gap: 8px; flex-wrap: wrap; justify-content: center; }
 html:root body.fast-accessible .community-v5__controls { height: auto !important; flex-wrap: wrap; }
@@ -101,12 +116,15 @@ html:root body.fast-accessible #monthEvents { list-style: none; padding: 0; }
 }
 @media (max-width: 1024px) {
  html:root body.fast-accessible > header { min-height: 72px; }
- html:root body.fast-accessible .nav-container { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 0 20px 12px !important; min-height: 72px; }
- html:root body.fast-accessible header .logo { grid-column: 1 / -1; justify-self: start; max-width: 100% !important; }
+ html:root body.fast-accessible .nav-container { display: grid !important; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 0 20px !important; min-height: 72px; }
+ html:root body.fast-accessible header .logo { grid-column: 1; grid-row: 1; justify-self: start; max-width: 100% !important; }
+ html:root body.fast-accessible .mobile-menu-btn { grid-column: 2; grid-row: 1; }
+ html:root body.fast-accessible .site-language-row { flex-wrap: wrap; gap: 8px; }
  html:root body.fast-accessible #darkModeToggle { justify-content: center; min-width: 0; }
  html:root body.fast-accessible .mobile-menu-btn { display: inline-flex !important; position: static !important; inset: auto !important; transform: none !important; margin: 0 !important; width: auto !important; height: auto !important; justify-content: center; align-items: center; color: var(--gpbc-text) !important; border: 1px solid var(--gpbc-control-border); border-radius: 12px; background: var(--gpbc-surface) !important; }
  html:root body.fast-accessible .mobile-menu-btn > span:not(.fast-menu-label) { display: none; }
  html:root body.fast-accessible .mobile-menu-btn > .fast-menu-label { display: inline; width: auto !important; height: auto !important; background: none !important; color: inherit !important; margin: 0; font: 600 16px/26px var(--gpbc-font-body); }
+ html:root body.fast-accessible .mobile-menu-btn :is(.fast-menu-label, .fast-menu-label [data-lang]) { position: static !important; inset: auto !important; width: auto !important; height: auto !important; margin: 0 !important; transform: none !important; opacity: 1 !important; visibility: visible !important; background: none !important; color: inherit !important; }
  html:root body.fast-accessible header .nav-links { position: static !important; inset: auto !important; width: 100% !important; max-height: none !important; height: auto !important; overflow: visible !important; display: flex !important; flex-direction: column; grid-column: 1 / -1; padding: 12px !important; transform: none !important; visibility: visible !important; opacity: 1 !important; background: var(--gpbc-surface) !important; box-shadow: none !important; border-radius: 12px; }
  html.js-enabled:root body.fast-accessible header .nav-links:not(.mobile-open) { display: none !important; }
  html:root body.fast-accessible header .nav-links a { color: var(--gpbc-link) !important; -webkit-text-fill-color: var(--gpbc-link) !important; min-height: 48px; }
@@ -121,8 +139,17 @@ html:root body.fast-accessible #monthEvents { list-style: none; padding: 0; }
 }
 @media (max-width: 767px) {
  html:root body.fast-accessible { --gpbc-h1-size: 38px; --gpbc-h1-leading: 46px; }
+ html:root body.fast-accessible.visit-essentials-page .visit-essentials { padding: 16px 20px 32px !important; }
+ html:root body.fast-accessible .visit-essentials-grid { gap: 16px; }
+ html:root[lang="bn"] body.fast-accessible.visit-essentials-page .visit-essentials h1, html:root:not(.site-language-ready):has(#gpbc-language-bn:target) body.fast-accessible.visit-essentials-page .visit-essentials h1 { font-size: 36px !important; line-height: 50px !important; }
  html:root body.fast-accessible .v2-heading-line { white-space: normal !important; }
  html:root body.fast-accessible h1:lang(bn), html:root body.fast-accessible.gpbc-shared .v2-hero-heading:lang(bn) { font-size: 36px !important; line-height: 50px !important; }
+}
+@media (max-width: 374px) {
+ html:root body.fast-accessible .visit-summary-title { margin-bottom: 8px; }
+ html:root body.fast-accessible .visit-summary-service { padding-bottom: 8px; }
+ html:root body.fast-accessible .visit-summary-logistics { gap: 8px; }
+ html:root body.fast-accessible .visit-summary-arrival { margin-top: 8px; }
 }
 @media (max-width: 767px), (min-width: 1101px) {
  html:root body.fast-accessible.gpbc-shared .v2-hero-heading { line-height: var(--gpbc-h1-leading) !important; }

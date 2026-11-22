@@ -4,8 +4,8 @@ import { createHash } from 'node:crypto';
 
 test('optimized assets use content hashes and immutable cache rules without caching HTML', () => {
   const sources = ['index.html', 'plan-visit.html', 'give.html', 'calendar.html', 'partials/site-footer.html', 'content/settings/logo.json'].map(file => readFileSync(file, 'utf8'));
-  for (const directory of ['assets/css', 'js', 'images/logo', 'images/homepage/hero-v2/final', 'images']) {
-    const names = readdirSync(directory).filter(name => /^(?:fast-accessible|gpbc-mark|(?:worship|family|community)-480|community-worship-(?:480|800))\.[a-f0-9]{12}\.(?:css|js|webp)$/.test(name));
+  for (const directory of ['assets/css', 'js', 'images/logo', 'images']) {
+    const names = readdirSync(directory).filter(name => /^(?:fast-accessible|gpbc-mark|community-worship-(?:480|800))\.[a-f0-9]{12}\.(?:css|js|webp)$/.test(name));
     expect(names.length).toBeGreaterThan(0);
     for (const name of names) {
       const path = directory + '/' + name;

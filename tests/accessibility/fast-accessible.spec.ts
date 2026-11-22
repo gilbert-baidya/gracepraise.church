@@ -8,6 +8,51 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://script.google.com/**', route => route.fulfill({ json: { events: [feed] } }));
 });
 
+for (const theme of ['light', 'dark']) {
+  test(`lazy Stay Connected heading keeps readable ${theme} text fill`, async ({ page }) => {
+    await page.addInitScript(theme => localStorage.setItem('theme', theme), theme);
+    await page.setViewportSize({ width: 390, height: 844 });
+    for (const language of ['en', 'bn']) {
+      await page.goto('/index.html?lang=' + language);
+      const heading = page.locator('#stay-connected-v8-heading');
+      await heading.evaluate(element => element.scrollIntoView({ behavior: 'instant', block: 'center' }));
+      await page.waitForFunction(() => [...document.styleSheets].some(sheet => sheet.href?.includes('/stay-connected-v8.css')));
+      for (const node of [heading, heading.locator('span')]) {
+        const text = theme === 'dark' ? 'rgb(245, 241, 232)' : 'rgb(16, 32, 51)';
+        await expect(node).toHaveCSS('color', text);
+        await expect(node).toHaveCSS('-webkit-text-fill-color', text);
+      }
+      await page.locator('.mobile-menu-btn').click();
+      await expect(page.locator('.fast-menu-label > span:visible')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+      for (const label of [page.locator('.fast-menu-label'), page.locator('.fast-menu-label > span:visible')]) {
+        await expect(label).toHaveCSS('transform', 'none');
+        await expect(label).toHaveCSS('opacity', '1');
+      }
+    }
+  });
+}
+
+test('Home keeps offscreen supporting photos deferred behind the visit essentials', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/index.html');
+  const slide = page.locator('.community-v5__slide').first();
+  const caption = (await slide.locator('.community-v5__caption').innerText()).trim().replace(/\s+/g, ' ');
+  await expect(slide).toHaveAccessibleName(new RegExp(caption));
+  const images = await page.locator('main img.fast-lazy-image').evaluateAll(nodes =>
+    nodes.filter(node => node.getBoundingClientRect().top > innerHeight * 2)
+      .map(node => ({ requested: node.hasAttribute('src'), fallback: node.nextElementSibling?.tagName })));
+  expect(images.length).toBeGreaterThan(0);
+  expect(images.every(image => !image.requested && image.fallback === 'NOSCRIPT')).toBe(true);
+  const backToTop = page.locator('#scrollToTop');
+  await expect(backToTop).toBeHidden();
+  await page.evaluate(() => scrollTo({ top: 500, behavior: 'instant' }));
+  await expect(backToTop).toBeVisible();
+  await backToTop.click();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await expect(backToTop).toBeHidden();
+  await expect(page.locator('#main-content')).toBeFocused();
+});
+
 for (const route of pages) {
   test(`${route}: in-flow disclosure, skip focus and storage-blocked theme`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
@@ -77,6 +122,7 @@ for (const route of pages) {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 320, height: 800 } });
     const page = await context.newPage();
     await page.goto('/' + route + '.html');
+    await expect(page.locator('.site-language-row #darkModeToggle')).toHaveCount(1);
     await expect(page.locator('header .nav-links')).toBeVisible();
     await expect(page.locator('header a[href]').first()).toBeVisible();
     await expect(page.locator('#nav-links')).toHaveCount(1);

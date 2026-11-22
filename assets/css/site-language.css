@@ -1,0 +1,60 @@
+@font-face { font-family: Inter; src: url('../fonts/inter/inter-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: Inter; src: url('../fonts/inter/inter-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Noto Sans Bengali'; src: url('../fonts/notosansbengali/notosansbengali-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Noto Sans Bengali'; src: url('../fonts/notosansbengali/notosansbengali-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+.site-language-row {
+    position: relative;
+    z-index: 10001;
+    --language-page: var(--gpbc-page, #FAF7F0);
+    --language-text: var(--gpbc-text, #102033);
+    --language-border: var(--gpbc-control-border, #7B8794);
+    --language-focus: var(--gpbc-link, #1D4ED8);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 20px;
+    min-height: 64px;
+    box-sizing: border-box;
+    background: var(--language-page);
+    color: var(--language-text);
+}
+:is(html, body):is([data-theme='dark'], .dark) .site-language-row {
+    --language-page: var(--gpbc-page, #0B1420);
+    --language-text: var(--gpbc-text, #F5F1E8);
+    --language-border: var(--gpbc-control-border, #788A9F);
+    --language-focus: var(--gpbc-link, #8FBCFF);
+}
+html body .site-language-location[data-lang] { font-size: 14px !important; line-height: 22px !important; }
+.site-language-choices { display: inline-flex; padding: 3px; border: 1px solid var(--language-border); border-radius: 12px; gap: 2px; }
+html body .site-language-row a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px !important;
+    min-width: 72px !important;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    color: var(--language-text) !important;
+    background: transparent;
+    font: 600 16px/26px Inter, 'Noto Sans Bengali', system-ui, sans-serif !important;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+html body .site-language-row a:lang(bn) { font-family: 'Noto Sans Bengali', sans-serif !important; letter-spacing: normal; text-transform: none; }
+html body .site-language-row a[aria-pressed='true'],
+html:not(.site-language-ready):not(:has(#gpbc-language-bn:target)) .site-language-row a[data-site-language='en'],
+html:not(.site-language-ready):has(#gpbc-language-bn:target) .site-language-row a[data-site-language='bn'] {
+    background: var(--language-text);
+    color: var(--language-page) !important;
+    box-shadow: inset 0 -3px 0 var(--gpbc-gold-fill, #E6B84E);
+}
+html body .site-language-row a[aria-pressed='true']::before,
+html:not(.site-language-ready):not(:has(#gpbc-language-bn:target)) .site-language-row a[data-site-language='en']::before,
+html:not(.site-language-ready):has(#gpbc-language-bn:target) .site-language-row a[data-site-language='bn']::before { content: '✓'; margin-right: 5px; }
+html body .site-language-row a:focus-visible { outline: 3px solid var(--language-focus) !important; outline-offset: 3px !important; }
+html:not(.site-language-ready):not(:has(#gpbc-language-bn:target)) [data-lang='bn'],
+html:not(.site-language-ready):has(#gpbc-language-bn:target) [data-lang='en'] { display: none !important; }
+html:not(.site-language-ready):has(#gpbc-language-bn:target) [data-lang='bn'] { display: revert !important; }
+.site-language-anchor { position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: hidden; }

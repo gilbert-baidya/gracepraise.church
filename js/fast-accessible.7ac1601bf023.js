@@ -34,6 +34,16 @@
     }
     const ready = () => {
         initializeBranding();
+        const backToTop = document.getElementById('scrollToTop');
+        if (backToTop) {
+            const updateBackToTop = () => { backToTop.hidden = window.scrollY <= 300; };
+            updateBackToTop();
+            window.addEventListener('scroll', updateBackToTop, { passive: true });
+            backToTop.addEventListener('click', () => {
+                document.getElementById('main-content')?.focus({ preventScroll: true });
+                window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+            });
+        }
         const pending = new Set(document.querySelectorAll('[data-lazy-href], [data-lazy-src]'));
         const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
             entries.filter(entry => entry.isIntersecting).forEach(entry => {
@@ -76,6 +86,9 @@
             if (node.getAttribute(name) !== value) node.setAttribute(name, value);
         }
         function annotate() {
+            const utilities = document.querySelector('.site-language-row');
+            const appearance = document.getElementById('darkModeToggle');
+            if (utilities && appearance && !utilities.contains(appearance)) utilities.prepend(appearance);
             const countdown = document.getElementById('specialEventBanner');
             if (countdown) {
                 setAttribute(countdown, 'aria-live', 'off');

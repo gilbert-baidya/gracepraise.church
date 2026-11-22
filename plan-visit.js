@@ -9,43 +9,6 @@
     }
   }
 
-  function initializeLanguage() {
-    const storageKey = 'gpbc-language';
-    let currentLanguage = 'en';
-    try {
-      currentLanguage = localStorage.getItem(storageKey) || 'en';
-    } catch (error) {
-      currentLanguage = 'en';
-    }
-
-    function switchLanguage(language) {
-      currentLanguage = language;
-      try {
-        localStorage.setItem(storageKey, language);
-      } catch (error) {
-        // A storage restriction should not disable the page language toggle.
-      }
-      document.querySelectorAll('[data-lang]').forEach((element) => {
-        element.style.display = 'none';
-      });
-      document.querySelectorAll(`[data-lang="${language}"]`).forEach((element) => {
-        element.style.display = '';
-      });
-      document.querySelectorAll('[data-lang-btn]').forEach((button) => {
-        button.classList.toggle('active', button.dataset.langBtn === language);
-      });
-      document.documentElement.lang = language;
-    }
-
-    const toggleButton = document.getElementById('langToggleBtn');
-    if (toggleButton) {
-      toggleButton.addEventListener('click', () => {
-        switchLanguage(currentLanguage === 'en' ? 'bn' : 'en');
-      });
-    }
-    switchLanguage(currentLanguage);
-  }
-
   function initializeHighlights() {
     const container = document.getElementById('upcomingHighlights');
     if (!container) return;
@@ -120,7 +83,6 @@
   }
 
   onReady(() => {
-    initializeLanguage();
     initializeHighlights();
     initializeCalendarLinks();
   });

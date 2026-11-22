@@ -9,7 +9,6 @@ const assets = [
     ['assets/css', 'fast-accessible', 'css'],
     ['js', 'fast-accessible', 'js'],
     ['images/logo', 'gpbc-mark', 'webp'],
-    ...['worship', 'family', 'community'].map(name => ['images/homepage/hero-v2/final', name + '-480', 'webp']),
     ...['480', '800'].map(size => ['images', 'community-worship-' + size, 'webp'])
 ];
 const sources = new Map(await Promise.all(references.map(async file => [file, await fs.readFile(path.join(root, file), 'utf8')])));

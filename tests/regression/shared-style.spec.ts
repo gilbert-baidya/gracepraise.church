@@ -32,25 +32,21 @@ test('carousel captions keep their compact role inside the circular overlays', a
   }
 });
 
-test('homepage hero preserves both columns and responsive text at tablet widths', async ({ page }) => {
+test('homepage visit essentials reflow into one column at tablet widths', async ({ page }) => {
   await page.goto('/index.html');
   await page.evaluate(() => document.fonts.ready);
   for (const width of [390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
-    const geometry = await page.locator('.v2-hero-inner').evaluate(element => {
+    const geometry = await page.locator('.visit-essentials-grid').evaluate(element => {
       const grid = element.getBoundingClientRect();
-      const visual = element.querySelector('.v2-hero-visual')!.getBoundingClientRect();
+      const summary = element.querySelector('.visit-summary')!.getBoundingClientRect();
       const heading = element.querySelector('h1')!;
-      return { right: grid.right, visualRight: visual.right, visualWidth: visual.width,
-        width: grid.width, headingOverflow: heading.scrollWidth - heading.clientWidth,
-        fontSize: parseFloat(getComputedStyle(heading).fontSize) };
+      return { right: grid.right, summaryRight: summary.right, summaryWidth: summary.width,
+        width: grid.width, headingOverflow: heading.scrollWidth - heading.clientWidth };
     });
     expect(geometry.headingOverflow).toBeLessThanOrEqual(1);
-    expect(geometry.visualRight).toBeLessThanOrEqual(geometry.right + 1);
-    if (width === 768 || width === 1024) {
-      expect(geometry.visualWidth).toBeGreaterThanOrEqual(geometry.width * .4);
-      expect(geometry.fontSize).toBeLessThan(64);
-    }
+    expect(geometry.summaryRight).toBeLessThanOrEqual(geometry.right + 1);
+    expect(geometry.summaryWidth).toBeCloseTo(width <= 1024 ? geometry.width : 528, 0);
   }
 });
 
@@ -71,7 +67,7 @@ test('Visit English-only regions retain English typography after switching to Ba
   }));
   await page.goto('/plan-visit.html');
   await expect(page.locator('#upcomingHighlights .highlight-item:not(.sunday-worship)')).toHaveCount(1);
-  await page.locator('#langToggleBtn').click();
+  await page.locator('[data-site-language="bn"]').click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
   for (const selector of ['a.skip-link', 'header .nav-links > li > a', '.site-footer p', '.visit-coming-soon', '.visit-rhythm-card strong', '#upcomingHighlights', '#upcomingHighlights .highlight-item:not(.sunday-worship) p']) {
     const elements = page.locator(selector);
@@ -199,7 +195,7 @@ for (const route of routes) {
     const fastPage = ['index', 'plan-visit', 'give', 'calendar'].includes(route);
     await expect(page.locator('h1').first()).toHaveCSS('font-size', fastPage ? '60px' : '64px');
     await expect(page.locator('h1').first()).toHaveCSS('line-height', fastPage ? '71px' : '76px');
-    expect(await page.locator('link[rel="stylesheet"]').last().getAttribute('href')).toBe('assets/css/shared-style.css');
+    await expect(page.locator('link[href="assets/css/shared-style.css"]')).toHaveCount(1);
     await expect(page.locator('link[rel="preload"][as="font"]')).toHaveCount(0);
     if (route === 'give' || route === 'prayer-request') {
       const quote = page.locator(route === 'give' ? '.give-v14-hero-verse p' : '.prayer-v15-scripture blockquote p');
@@ -283,17 +279,17 @@ for (const route of routes) {
   });
 }
 
-test('day-theme focus has a contrasting halo on the dark Visit hero', async ({ page }) => {
+test('day-theme focus has a contrasting outline and halo on the Visit directions', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('theme', 'light'));
   await page.goto('/plan-visit.html');
-  const link = page.locator('.visit-hero-v21 .visit-button-secondary');
+  const link = page.locator('.visit-summary-directions');
   await link.focus();
   await expect(link).toHaveCSS('outline-width', '3px');
   await expect(link).toHaveCSS('outline-offset', '3px');
   await expect(link).toHaveCSS('outline-color', 'rgb(29, 78, 216)');
   await expect(link).toHaveCSS('box-shadow', 'rgb(255, 255, 255) 0px 0px 0px 3px');
-  expect(contrast('rgb(255, 255, 255)', 'rgb(6, 17, 31)')).toBeGreaterThanOrEqual(3);
-  expect(contrast('rgb(29, 78, 216)', 'rgb(255, 255, 255)')).toBeGreaterThanOrEqual(3);
+  const surface = await page.locator('.visit-summary').evaluate(element => getComputedStyle(element).backgroundColor);
+  expect(contrast('rgb(29, 78, 216)', surface)).toBeGreaterThanOrEqual(3);
 });
 
 test('featured event CTAs keep navy labels on gold in interactive states and both themes', async ({ page }) => {
@@ -329,8 +325,8 @@ test('featured event CTAs keep navy labels on gold in interactive states and bot
 
 test('Visit language labels use their own language rather than their visibility state', async ({ page }) => {
   await page.goto('/plan-visit.html');
-  const bengali = page.locator('#langToggleBtn [data-lang="en"]');
-  const english = page.locator('#langToggleBtn [data-lang="bn"]');
+  const bengali = page.locator('[data-site-language="bn"]');
+  const english = page.locator('[data-site-language="en"]');
   await expect(bengali).toHaveText('বাংলা');
   await expect(bengali).toHaveAttribute('lang', 'bn');
   await expect(bengali).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
@@ -338,7 +334,7 @@ test('Visit language labels use their own language rather than their visibility 
   await expect(english).toHaveAttribute('lang', 'en');
   await expect(english).toHaveCSS('font-family', 'Inter, "Noto Sans Bengali", system-ui, sans-serif');
   await expect.poll(() => page.locator('#addToGoogleCal').getAttribute('href')).not.toBe('#');
-  await page.locator('#langToggleBtn').click();
+  await bengali.click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
   await expect(english).toBeVisible();
   await expect(english).toHaveCSS('font-family', 'Inter, "Noto Sans Bengali", system-ui, sans-serif');
@@ -356,7 +352,7 @@ test('shared controls remain usable when font downloads fail', async ({ page }) 
 
 test('Visit Sunday Worship highlight heading uses Bengali typography in Bangla mode', async ({ page }) => {
   await page.goto('/plan-visit.html');
-  await page.locator('#langToggleBtn').click();
+  await page.locator('[data-site-language="bn"]').click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
   const heading = page.locator('#upcomingHighlights .sunday-worship h3:visible');
   await expect(heading).toHaveCount(1);
