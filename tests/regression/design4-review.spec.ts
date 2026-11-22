@@ -2,14 +2,22 @@ import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.clock.setFixedTime(new Date('2026-11-21T12:00:00Z'));
+  await page.route('https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js', route => route.fulfill({
+    contentType: 'application/javascript', body: 'window.emailjs = { init() {}, send() { return Promise.resolve({}); } };',
+  }));
+  await page.route('https://upload-widget.cloudinary.com/global/all.js', route => route.fulfill({
+    contentType: 'application/javascript', body: 'window.cloudinary = { createUploadWidget() { return { open() {} }; } };',
+  }));
   await page.route('https://script.google.com/**', route => route.fulfill({ json: { events: [] } }));
 });
 
 for (const width of [390, 1440]) {
-  test(`calendar weeks align in seven columns at ${width}px`, async ({ page }) => {
+  test(`calendar weeks align in seven columns at ${width}px`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('/calendar.html');
+    await expect(page.locator('link[href*="homepage-responsive-fix"], link[data-lazy-href*="homepage-responsive-fix"]')).toHaveCount(0);
     await page.locator('#calendar-month-view').click();
+    await expect(page.locator('.calendar-grid')).toBeVisible();
     await expect(page.locator('#calendar-month-region')).toHaveCSS('position', 'relative');
     await expect(page.locator('.calendar-grid tbody tr').first().locator('td')).toHaveCount(7);
     const rows = await page.locator('.calendar-grid tbody tr').evaluateAll(rows => rows.map(row =>
@@ -21,11 +29,12 @@ for (const width of [390, 1440]) {
       expect(row).toHaveLength(7);
       for (let i = 0; i < row.length; i++) {
         expect(row[i].display).toBe('table-cell');
+        expect(row[i].width).toBeGreaterThan(0);
         expect(Math.abs(row[i].top - row[0].top)).toBeLessThan(1);
         if (i) expect(Math.abs(row[i].x - row[i - 1].x - row[i - 1].width)).toBeLessThan(1);
       }
     }
-    await page.locator('.calendar-grid').screenshot({ path: `/home/ubuntu/gpbc-audit/design4/pr18/calendar-columns-${width}.png` });
+    await page.locator('.calendar-grid').screenshot({ path: testInfo.outputPath(`calendar-columns-${width}.png`) });
   });
 }
 
