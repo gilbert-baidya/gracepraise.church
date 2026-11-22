@@ -1,6 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 
-test.use({ serviceWorkers: 'block' });
+test.use({ serviceWorkers: 'block', reducedMotion: 'reduce' });
 
 const flyers = [
   { slug: 'pre-christmas-dec20', date: '2026-12-20', time: '17:00', en: ['Pre-Christmas Celebration', 'Sunday 20 December 2026', '5 PM'], bn: ['প্রাক-বড়দিনের উৎসব', '২০ ডিসেম্বর ২০২৬', '৫টা'] },
@@ -13,6 +13,8 @@ async function expectFlyers(page: Page, slugs: string[]) {
   await expect.poll(() => page.locator('.event-flyer').evaluateAll(
     cards => cards.map(card => (card as HTMLElement).dataset.flyer)
   )).toEqual(slugs);
+  await expect(page.locator('.activity-slide')).toHaveCount(slugs.length + 1);
+  await expect(page.locator('.activity-slide').first()).toHaveAttribute('data-activity', 'church-theme');
 }
 
 async function loadFlyerImages(page: Page) {
@@ -63,12 +65,14 @@ test.describe('Holiday flyers', () => {
     }
   }
 
-  test('after the campaign only the original event card remains', async ({ page }) => {
+  test('after the campaign the theme is alone and the original event card remains', async ({ page }) => {
     await page.clock.setFixedTime(new Date('2027-01-02T00:00:00-08:00'));
     await page.goto('/index.html');
     await expectFlyers(page, []);
-    await expect(page.locator('#dynamic-events-container > section')).toHaveCount(1);
-    await expect(page.locator('#dynamic-events-container > section')).toHaveAttribute('id', 'event-2027-01-03');
+    await expect(page.locator('#dynamic-events-container > .special-event-details')).toHaveCount(1);
+    await expect(page.locator('#dynamic-events-container > .special-event-details')).toHaveAttribute('id', 'event-2027-01-03');
+    await expect(page.locator('.activity-controls button')).toHaveCount(0);
+    await expect(page.locator('.activity-carousel')).toHaveAttribute('data-playing', 'false');
   });
 
   for (const [width, device] of [[390, 'phone'], [767, 'phone'], [768, 'desktop'], [1440, 'desktop']] as const) {
@@ -117,11 +121,11 @@ test.describe('Holiday flyers', () => {
           await expect(link).toHaveAttribute('href', /plan-visit\.html\?lang=(en|bn)$/);
           expect(new URL((await link.getAttribute('href'))!, page.url()).searchParams.get('lang')).toBe(language);
         }
-        await expect(card.locator(`.event-cta [data-lang="${language}"]`)).toBeVisible();
-        await expect(card.locator(`.event-cta [data-lang="${language === 'bn' ? 'en' : 'bn'}"]`)).toBeHidden();
       }
+      await expect(page.locator(`.activity-cta [data-lang="${language}"]`)).toBeVisible();
+      await expect(page.locator(`.activity-cta [data-lang="${language === 'bn' ? 'en' : 'bn'}"]`)).toBeHidden();
     }
-    await page.locator('[data-flyer="pre-christmas-dec20"] .event-cta a').click();
+    await page.locator('.activity-cta').click();
     await expect(page).toHaveURL(/\/plan-visit\.html\?lang=bn$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
   });
@@ -180,7 +184,7 @@ test.describe('Holiday flyers', () => {
     for (const flyer of flyers) {
       const card = page.locator(`[data-flyer="${flyer.slug}"]`);
       await expect(card.locator('img')).toHaveAttribute('alt', new RegExp(flyer.bn[0]));
-      await expect(card.locator('.event-cta a')).toHaveAttribute('href', /plan-visit\.html\?lang=bn$/);
+      await expect(page.locator('.activity-cta')).toHaveAttribute('href', /plan-visit\.html\?lang=bn$/);
       const picture = await card.locator('picture').boundingBox();
       expect(picture!.height).toBeGreaterThan(0);
     }

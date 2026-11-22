@@ -48,6 +48,7 @@ for (const source of ['saved', 'sheet', 'empty sheet', 'failed sheet']) {
     const custom = { name: 'Unrelated custom fellowship', date: '2026-12-15', category: 'gpbc', description: 'Keep this event' };
     if (source === 'saved') {
       await page.addInitScript(({ stale, custom }) => {
+        if (window !== window.top) return;
         localStorage.setItem('gpbcEventsVersion', '3.1');
         localStorage.setItem('gpbcEvents', JSON.stringify([...stale, custom]));
       }, { stale, custom });

@@ -36,28 +36,12 @@ class HomepageEvents {
     }
 
     getHolidayFlyers() {
-        return [
-            {
-                date: '2026-12-20', slug: 'pre-christmas-dec20',
-                en: 'GPBC Pre-Christmas Celebration — Sunday 20 December 2026, 5 PM Pacific Time. Join us with your family.',
-                bn: 'প্রাক-বড়দিনের উৎসব — রবিবার, ২০ ডিসেম্বর ২০২৬, বিকেল ৫টা (প্যাসিফিক সময়)। সপরিবারে যোগ দিন।'
-            },
-            {
-                date: '2026-12-25', slug: 'christmas-day',
-                en: 'GPBC Christmas Day worship — Friday 25 December 2026, breakfast at 10 AM, worship at 11 AM, fellowship meal afterwards. All times Pacific. Join us with your family.',
-                bn: 'বড়দিনের উপাসনা — শুক্রবার, ২৫ ডিসেম্বর ২০২৬; সকাল ১০টায় প্রাতরাশ, সকাল ১১টায় উপাসনা, পরে সহভাগিতার ভোজ (প্যাসিফিক সময়)। সপরিবারে যোগ দিন।'
-            },
-            {
-                date: '2026-12-31', slug: 'gratitude-dec31',
-                en: 'GPBC Year-end gratitude service — Thursday 31 December 2026, 7 PM Pacific Time. Join us with your family.',
-                bn: 'বর্ষশেষের কৃতজ্ঞতা উপাসনা — বৃহস্পতিবার, ৩১ ডিসেম্বর ২০২৬, সন্ধ্যা ৭টা (প্যাসিফিক সময়)। সপরিবারে যোগ দিন।'
-            },
-            {
-                date: '2027-01-01', slug: 'new-year-jan1',
-                en: 'GPBC New Year worship — Friday 1 January 2027, breakfast at 10 AM, worship at 11 AM Pacific Time. Join us with your family.',
-                bn: 'নববর্ষের উপাসনা — শুক্রবার, ১ জানুয়ারি ২০২৭; সকাল ১০টায় প্রাতরাশ, সকাল ১১টায় উপাসনা (প্যাসিফিক সময়)। সপরিবারে যোগ দিন।'
-            }
-        ];
+        return (window.GPBC_HOME_ACTIVITIES || []).filter(slide => slide.type === 'flyer');
+    }
+
+    activityExpiry(slide) {
+        const date = slide.type === 'theme' ? slide.showUntil : slide.date;
+        return date ? this.flyerExpiry({ date }) : Infinity;
     }
 
     flyerExpiry(flyer) {
@@ -65,7 +49,7 @@ class HomepageEvents {
     }
 
     createFlyerCard(flyer) {
-        const card = document.createElement('section');
+        const card = document.createElement('div');
         card.className = 'special-event-details event-flyer';
         card.dataset.flyer = flyer.slug;
         const content = document.createElement('div');
@@ -73,7 +57,7 @@ class HomepageEvents {
         const link = document.createElement('a');
         link.className = 'event-flyer-link';
         const picture = document.createElement('picture');
-        const base = 'images/events/holiday-2026/' + flyer.slug;
+        const base = flyer.imageBase || 'images/events/holiday-2026/' + flyer.slug;
         for (const [device, type] of [['phone', 'webp'], ['phone', 'png'], ['desktop', 'webp']]) {
             const source = document.createElement('source');
             source.type = 'image/' + type;
@@ -94,19 +78,6 @@ class HomepageEvents {
         image.src = base + '-desktop.png';
         link.appendChild(picture);
         content.appendChild(link);
-        const cta = document.createElement('div');
-        cta.className = 'event-cta';
-        const button = document.createElement('a');
-        button.className = 'btn btn-primary';
-        for (const [language, label] of [['en', 'Join us with your family'], ['bn', 'সপরিবারে যোগ দিন']]) {
-            const text = document.createElement('span');
-            text.lang = language;
-            text.dataset.lang = language;
-            text.textContent = label;
-            button.appendChild(text);
-        }
-        cta.appendChild(button);
-        content.appendChild(cta);
         card.appendChild(content);
         return card;
     }
@@ -125,6 +96,11 @@ class HomepageEvents {
                 text.hidden = text.dataset.lang !== language;
             });
         });
+        this.container.querySelectorAll('.activity-carousel [data-lang]').forEach(text => {
+            text.hidden = text.dataset.lang !== language;
+        });
+        const cta = this.container.querySelector('.activity-cta');
+        if (cta) cta.href = 'plan-visit.html?lang=' + language;
     }
 
     async loadAddressFromContent() {
@@ -138,8 +114,12 @@ class HomepageEvents {
                     display: addr.fullAddress,
                     mapsUrl: addr.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(addr.fullAddress)}`
                 };
-                // Re-render with corrected address if cards already rendered
-                this.renderUpcomingEvents();
+                this.container.querySelectorAll('.event-info-item address').forEach(address => {
+                    address.textContent = this.churchAddress.display;
+                });
+                this.container.querySelectorAll('.event-info-item .map-link').forEach(link => {
+                    link.href = this.churchAddress.mapsUrl;
+                });
             }
         } catch (err) {
             console.warn('Could not load address from content.json, using fallback:', err);
@@ -399,14 +379,19 @@ class HomepageEvents {
         if (!this.container) return;
         const upcomingEvents = this.getSpecialGPBCEvents();
         const now = Date.now();
-        const flyers = this.getHolidayFlyers().filter(flyer => now < this.flyerExpiry(flyer));
+        const activities = (window.GPBC_HOME_ACTIVITIES || []).filter(slide => now < this.activityExpiry(slide));
+        const previousSlug = this.activityCarousel?.activeSlug;
+        const userPaused = this.activityCarousel?.userPaused;
+        this.activityCarousel?.destroy();
         clearTimeout(this.flyerTimer);
-        if (flyers.length) {
-            const nextExpiry = Math.min(...flyers.map(flyer => this.flyerExpiry(flyer)));
-            this.flyerTimer = setTimeout(() => this.renderUpcomingEvents(), Math.min(nextExpiry - now, 2_147_483_647));
+        if (activities.length) {
+            const nextExpiry = Math.min(...activities.map(slide => this.activityExpiry(slide)));
+            if (Number.isFinite(nextExpiry)) {
+                this.flyerTimer = setTimeout(() => this.renderUpcomingEvents(), Math.min(nextExpiry - now, 2_147_483_647));
+            }
         }
 
-        if (upcomingEvents.length === 0 && flyers.length === 0) {
+        if (upcomingEvents.length === 0 && activities.length === 0) {
             // Hide the container if no events
             this.container.replaceChildren();
             this.container.style.display = 'none';
@@ -417,8 +402,13 @@ class HomepageEvents {
         this.container.innerHTML = '';
         this.container.style.display = 'block';
 
+        this.activityCarousel = null;
+        if (activities.length) {
+            this.activityCarousel = new ActivityCarousel(activities, flyer => this.createFlyerCard(flyer), previousSlug, userPaused);
+            this.container.appendChild(this.activityCarousel.root);
+            this.activityCarousel.updatePlayback();
+        }
         const cards = [
-            ...flyers.map(flyer => ({ date: flyer.date, card: this.createFlyerCard(flyer) })),
             ...upcomingEvents.map(event => ({ date: event.date, card: this.createEventCard(event) }))
         ];
         cards.sort((a, b) => a.date.localeCompare(b.date)).forEach(({ card }) => {
