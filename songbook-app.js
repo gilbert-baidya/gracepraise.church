@@ -1,6 +1,12 @@
 // Main application logic
 const SONGBOOK_COORDINATOR_EMAIL = 'gilbert.baidya@gmail.com';
 
+function escapeSongHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[ch]);
+}
+
 let currentFontSize = 16;
 let currentTranspose = 0;
 let currentCapo = 0;
@@ -60,7 +66,7 @@ function ensureSongsDataLoaded() {
 function renderSongDataLoadingState(message = 'Loading song details…') {
     const songList = document.getElementById('songList');
     if (songList) {
-        songList.innerHTML = `<p style="color: white; text-align: center; grid-column: 1/-1;">${message}</p>`;
+        songList.innerHTML = `<p style="color: white; text-align: center; grid-column: 1/-1;">${escapeSongHtml(message)}</p>`;
     }
 }
 
@@ -707,9 +713,10 @@ function updateServicePlaylistUI() {
         item.className = 'playlist-item';
         item.innerHTML = `
             <span class="playlist-number">${index + 1}</span>
-            <span class="playlist-title">${song.title}</span>
-            <button class="playlist-remove" onclick="removeFromPlaylist(${song.id})">×</button>
+            <span class="playlist-title">${escapeSongHtml(song.title)}</span>
+            <button class="playlist-remove">×</button>
         `;
+        item.querySelector('.playlist-remove').addEventListener('click', () => removeFromPlaylist(song.id));
         list.appendChild(item);
     });
 }
@@ -746,19 +753,19 @@ function showPresentationMode(song) {
             
             // If it's a chord line and chords are shown, display it
             if (isChordLine && showChords) {
-                bilingualLines.push(line);
+                bilingualLines.push(escapeSongHtml(line));
                 return;
             }
             
             // It's a lyric line - show Bengali and phonetic
-            bilingualLines.push(line); // Bengali lyric
+            bilingualLines.push(escapeSongHtml(line)); // Bengali lyric
             const phoneticLine = getSongPhoneticLine(song, line);
-            bilingualLines.push('<span style="color: #aaa; font-size: 0.85em;">' + phoneticLine + '</span>'); // Phonetic
+            bilingualLines.push('<span style="color: #aaa; font-size: 0.85em;">' + escapeSongHtml(phoneticLine) + '</span>'); // Phonetic
         });
         
         content.innerHTML = bilingualLines.join('<br>');
     } else {
-        content.innerHTML = song.lyrics.replace(/\n/g, '<br>');
+        content.innerHTML = escapeSongHtml(song.lyrics).replace(/\n/g, '<br>');
     }
     
     counter.textContent = `${window.currentPresentationIndex + 1} / ${servicePlaylist.length}`;
