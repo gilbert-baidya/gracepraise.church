@@ -76,6 +76,8 @@ class ActivityCarousel {
         }
         const cta = footer.querySelector('.activity-cta') || document.createElement('a');
         cta.className = 'btn btn-primary activity-cta';
+        cta.dataset.gpbcFeatureLink = 'pages.planVisit';
+        cta.dataset.gpbcSurface = 'homepage-cta';
         cta.dataset.activityFocus = 'cta';
         cta.replaceChildren();
         this.bilingual(cta, { en: 'Join us with your family', bn: 'সপরিবারে যোগ দিন' });

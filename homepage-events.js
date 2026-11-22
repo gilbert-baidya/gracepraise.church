@@ -128,6 +128,8 @@ class HomepageEvents {
         content.className = 'event-details-content';
         const link = document.createElement('a');
         link.className = 'event-flyer-link';
+        link.dataset.gpbcFeatureLink = 'pages.planVisit';
+        link.dataset.gpbcSurface = 'homepage-cta';
         link.dataset.activityFocus = 'artwork:' + flyer.slug;
         const picture = document.createElement('picture');
         const base = flyer.imageBase || 'images/events/holiday-2026/' + flyer.slug;
