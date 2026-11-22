@@ -456,12 +456,12 @@ test.describe('Critical Regression - Navigation + Daily Devotion Render', () => 
       await page.goto('/lent-fasting.html');
       await expect(page.locator('.logo').first()).toBeVisible({ timeout: 10000 });
       await Promise.all([
-        page.waitForURL(/\/(?:index\.html)?(?:#home)?$/, { timeout: 10000 }),
+        page.waitForURL(/\/(?:index\.html)?\?lang=en(?:#home)?$/, { timeout: 10000 }),
         page.locator('.logo').first().click()
       ]);
 
       await expect(page).not.toHaveTitle(/Error response/i);
-      await expect(page).toHaveURL(/\/(?:index\.html)?(?:#home)?$/);
+      await expect(page).toHaveURL(/\/(?:index\.html)?\?lang=en(?:#home)?$/);
     });
 
     test(`Home -> Devotion -> Lent -> Devotion -> Daily + logo route remains valid (${viewport.name})`, async ({ page }) => {
@@ -489,7 +489,7 @@ test.describe('Critical Regression - Navigation + Daily Devotion Render', () => 
       await page.goto('/lent-fasting.html');
       await expect(page.locator('.logo').first()).toBeVisible({ timeout: 10000 });
       await Promise.all([
-        page.waitForURL(/\/(?:index\.html)?(?:#home)?$/, { timeout: 10000 }),
+        page.waitForURL(/\/(?:index\.html)?\?lang=en(?:#home)?$/, { timeout: 10000 }),
         page.locator('.logo').first().click()
       ]);
       await expect(page).not.toHaveTitle(/Error response/i);

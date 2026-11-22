@@ -68,6 +68,7 @@
         const chip = document.createElement('span');
         chip.className = 'songbook-v18__chip';
         chip.textContent = label;
+        chip.lang = songTextLanguage(label);
         return chip;
     }
 
@@ -99,8 +100,10 @@
             card.insertBefore(top, title);
 
             title.className = 'songbook-v18__song-title';
+            title.lang = songTextLanguage(song.title);
             category.className = 'songbook-v18__song-category';
             category.textContent = song.category || 'Worship';
+            category.lang = songTextLanguage(song.category);
 
             const meta = document.createElement('div');
             meta.className = 'songbook-v18__song-meta';
@@ -144,6 +147,7 @@
         const title = document.createElement('h3');
         title.className = 'songbook-v18__featured-title';
         title.textContent = song.title;
+        title.lang = songTextLanguage(song.title);
         const meta = document.createElement('div');
         meta.className = 'songbook-v18__featured-meta';
         meta.appendChild(songChip(languageLabel(song)));
@@ -194,6 +198,7 @@
             number.textContent = String(index + 1);
             const name = document.createElement('span');
             name.textContent = song.title;
+            name.lang = songTextLanguage(song.title);
             item.append(number, name);
             list.appendChild(item);
         });
@@ -335,12 +340,14 @@
 
         const search = $('#searchInput');
         if (search?.value.trim()) {
+            summary.lang = 'en';
             const count = lastRenderedSongs.length;
             summary.textContent = `Search results · ${formatIndexCount(count)} song${count === 1 ? '' : 's'}`;
             return;
         }
 
         const language = getIndexLanguage();
+        summary.lang = language === 'bangla' && !(selectedIndexLetter === 'all' && currentLanguageFilter === 'all') ? 'bn' : 'en';
         const filteredSongs = typeof getFilteredSongs === 'function' ? getFilteredSongs() : [];
         const selectedSongs = selectedIndexLetter === 'all'
             ? filteredSongs
@@ -354,7 +361,11 @@
             const label = language === 'bangla' ? 'সব বাংলা গান' : 'All English Songs';
             summary.textContent = `${label} · ${formatIndexCount(count)}`;
         } else if (language === 'bangla') {
-            summary.textContent = `${selectedIndexLetter} দিয়ে শুরু · ${formatIndexCount(count)} songs`;
+            summary.textContent = `${selectedIndexLetter} দিয়ে শুরু · ${formatIndexCount(count)} `;
+            const unit = document.createElement('span');
+            unit.lang = 'en';
+            unit.textContent = 'songs';
+            summary.appendChild(unit);
         } else {
             summary.textContent = `Starting with ${selectedIndexLetter} · ${formatIndexCount(count)} songs`;
         }
@@ -420,6 +431,7 @@
             button.className = 'alphabet-btn songbook-v18__index-letter';
             button.dataset.indexLetter = letter;
             button.textContent = label;
+            button.lang = songTextLanguage(label);
             button.setAttribute('aria-pressed', String(selectedIndexLetter === letter));
             const languageLabel = language === 'bangla' ? 'Bengali' : 'English';
             const description = isAll

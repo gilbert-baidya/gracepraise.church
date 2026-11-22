@@ -186,8 +186,8 @@ const app = {
         const cardHtml = b => `
             <div class="book-card" role="button" tabindex="0" onclick="app.selectBook('${b.id}')" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); app.selectBook('${b.id}'); }">
                 <div class="book-icon">${b.icon}</div>
-                <div class="book-name">${b.en}</div>
-                <div class="book-name-bn">${b.bn}</div>
+                <div class="book-name" lang="en">${b.en}</div>
+                <div class="book-name-bn" lang="bn">${b.bn}</div>
             </div>
         `;
 
@@ -198,7 +198,7 @@ const app = {
     selectBook(bookId) {
         const book = this.books.find(b => b.id === bookId);
         this.state.currentBook = book;
-        document.getElementById('selectedBookName').innerText = `${book.en} / ${book.bn}`;
+        document.getElementById('selectedBookName').innerHTML = `<span lang="en">${book.en}</span> / <span lang="bn">${book.bn}</span>`;
         this.renderConstellation(book);
         this.showView('constellation');
     },
@@ -247,13 +247,13 @@ const app = {
             const verseNumbers = [...new Set([...englishByVerse.keys(), ...bengaliByVerse.keys()])]
                 .sort((left, right) => Number(left) - Number(right));
 
-            passageDisplay.innerText = `${book.en} ${chapter} / ${book.bn} ${chapter}`;
+            passageDisplay.innerHTML = `<span lang="en">${book.en} ${chapter}</span> / <span lang="bn">${book.bn} ${chapter}</span>`;
             container.innerHTML = verseNumbers.map((verseNumber) => `
                 <div class="verse-row ${this.state.language}-mode" role="button" tabindex="0" aria-label="Focus verse ${escapeHtml(verseNumber)}" data-verse="${escapeHtml(verseNumber)}" onclick="app.focusVerse(${Number(verseNumber)})" onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); app.focusVerse(${Number(verseNumber)}); }">
-                    <div class="verse-text-en">
+                    <div class="verse-text-en" lang="en">
                         <span class="verse-num">${escapeHtml(verseNumber)}</span> ${escapeHtml(englishByVerse.get(verseNumber) || '')}
                     </div>
-                    <div class="verse-text-bn">
+                    <div class="verse-text-bn" lang="bn">
                         <span class="verse-num">${escapeHtml(verseNumber)}</span> ${escapeHtml(bengaliByVerse.get(verseNumber) || '')}
                     </div>
                 </div>
@@ -261,7 +261,7 @@ const app = {
 
             this.updateLanguageUI();
         } catch (error) {
-            passageDisplay.innerText = `${book.en} ${chapter} / ${book.bn} ${chapter}`;
+            passageDisplay.innerHTML = `<span lang="en">${book.en} ${chapter}</span> / <span lang="bn">${book.bn} ${chapter}</span>`;
             container.innerHTML = '<p class="verse-error" role="alert">This Bible passage could not be loaded. Please try again.</p>';
             console.error('[BibleReader] Passage load failed:', error);
         }
