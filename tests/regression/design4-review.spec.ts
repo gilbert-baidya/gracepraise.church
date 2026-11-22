@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://script.google.com/**', route => route.fulfill({ json: { events: [] } }));
 });
 
-for (const width of [390, 1440]) {
+for (const width of [390, 768, 1440]) {
   test(`calendar weeks align in seven columns at ${width}px`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('/calendar.html');
@@ -35,6 +35,34 @@ for (const width of [390, 1440]) {
       }
     }
     await page.locator('.calendar-grid').screenshot({ path: testInfo.outputPath(`calendar-columns-${width}.png`) });
+  });
+}
+
+for (const width of [390, 768]) {
+  test(`calendar keeps mobile header and title rules before below-fold styling at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('/calendar.html');
+    await expect(page.locator('.nav-container')).toHaveCSS('gap', '16px');
+    expect(await page.locator('header .logo').evaluate(node => parseFloat(getComputedStyle(node).marginTop))).toBeCloseTo(-10.4, 1);
+    await expect(page.locator('.mobile-menu-btn')).toHaveCSS('padding-top', '13.6px');
+    await expect(page.locator('.hero h1')).toHaveCSS('padding-left', '8px');
+    await expect(page.locator('.hero h1')).toHaveCSS('hyphens', 'none');
+    await expect(page.locator('.inline-banner-content')).toHaveCSS('flex-direction', 'column');
+    await expect(page.locator('main')).toHaveCSS('margin-top', '0px');
+    const geometry = () => page.locator('header, .hero, .calendar-filters-section').evaluateAll(nodes =>
+      nodes.map(node => {
+        const rect = node.getBoundingClientRect();
+        return { y: rect.y + scrollY, height: rect.height };
+      }));
+    const before = await geometry();
+    await page.locator('footer').scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => [...document.styleSheets].some(sheet => sheet.href?.includes('footer-v3.css')));
+    const after = await geometry();
+    for (let i = 0; i < before.length; i++) {
+      expect(after[i].y).toBeCloseTo(before[i].y, 1);
+      expect(after[i].height).toBeCloseTo(before[i].height, 1);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
   });
 }
 

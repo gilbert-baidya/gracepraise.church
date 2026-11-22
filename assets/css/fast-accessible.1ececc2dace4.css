@@ -119,6 +119,24 @@ html:root body.fast-accessible #featured-events, html:root body.fast-accessible 
 html:root body.fast-accessible #featured-events :is(.flip-section-eyebrow, .flip-section-subtitle, .flip-section-lead, .card-step, .card-category, .card-front-copy, p) { color: var(--gpbc-text-secondary) !important; }
 html:root body.fast-accessible .fast-static-footer { max-width: 1200px; margin: 40px auto; padding: 24px 20px; }
 html:root body.fast-accessible #monthEvents { list-style: none; padding: 0; }
+body.calendar-page .inline-countdown-banner { margin-bottom: 1rem; }
+@media (max-width: 768px) {
+ body.calendar-page .inline-banner-content { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 0.3rem !important; padding: 0.5rem !important; text-align: center; }
+ body.calendar-page :is(.banner-line-1, .banner-line-2) { display: flex; align-items: center; gap: 0.3rem; }
+ body.calendar-page .event-icon { font-size: 1rem !important; flex-shrink: 0; }
+ body.calendar-page .event-label, body.calendar-page .event-label strong { font-size: 0.75rem !important; }
+ body.calendar-page .countdown-value, body.calendar-page .countdown-unit { pointer-events: none; user-select: none; }
+ body.calendar-page .countdown-value { font-size: 0.8rem !important; padding: 0.15rem 0.25rem !important; min-width: 1.6ch !important; }
+ body.calendar-page .countdown-unit { font-size: 0.6rem !important; margin-right: 0.1rem !important; }
+ body.calendar-page .banner-link { display: inline-block !important; align-items: center; justify-content: center; min-height: 32px; margin-left: 0.5rem; font-size: 0.7rem !important; padding: 0.2rem 0.5rem !important; white-space: nowrap !important; }
+ body.calendar-page .banner-link:active { transform: scale(0.95); background: #fff; }
+ html:root body.fast-accessible.calendar-page .nav-container { gap: 1rem !important; }
+ html:root body.fast-accessible.calendar-page header .logo { margin: -0.65rem; }
+ html:root body.fast-accessible.calendar-page header .logo:active { transform: scale(0.97); opacity: 0.85; }
+ html:root body.fast-accessible.calendar-page header .logo:focus-visible { border-radius: 4px; }
+ html:root body.fast-accessible.calendar-page .mobile-menu-btn { padding: 0.85rem !important; }
+ html:root body.fast-accessible.calendar-page .hero h1 { max-width: 100%; padding-inline: 0.5rem; hyphens: none; }
+}
 @media (max-width: 1279px) and (min-width: 1025px) {
  html:root body.fast-accessible .nav-container { flex-wrap: wrap; justify-content: space-between; }
  html:root body.fast-accessible .nav-links { flex-wrap: wrap; justify-content: center; }
