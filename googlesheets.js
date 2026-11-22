@@ -128,6 +128,7 @@ async function saveEventToGoogleSheets(event) {
 
         if (data.success) {
             // console.log('Event saved to Google Sheets successfully'); // Removed for production
+            clearEventDeletion(event);
             return true;
         } else {
             console.error('Failed to save event to Google Sheets:', data.message);

@@ -131,6 +131,72 @@ for (const mode of ['persisted', 'blocked storage', 'offline refresh', 'failed d
   });
 }
 
+for (const mode of ['Sheets', 'local fallback', 'Sheets with blocked storage', 'local fallback with blocked storage']) {
+  test('delete then explicitly re-add and refresh restores the event: ' + mode, async ({ page }) => {
+    if (mode.includes('blocked storage')) {
+      await page.addInitScript(() => {
+        Storage.prototype.getItem = () => { throw new DOMException('Blocked', 'SecurityError'); };
+        Storage.prototype.setItem = () => { throw new DOMException('Blocked', 'SecurityError'); };
+      });
+    }
+    let records = [stale[0]];
+    await page.route('https://script.google.com/**', async route => {
+      const request = JSON.parse(route.request().postData() || '{}');
+      if (request.action === 'deleteEvent') {
+        records = [];
+        await route.fulfill({ json: { success: true } });
+      } else if (request.action === 'addEvent') {
+        if (mode.startsWith('local fallback')) {
+          await route.fulfill({ json: { success: false } });
+        } else {
+          records = [request.event];
+          await route.fulfill({ json: { success: true } });
+        }
+      } else {
+        await route.fulfill({ json: records.length ? { events: records } : {} });
+      }
+    });
+    page.on('dialog', dialog => dialog.accept());
+    await page.goto('/calendar.html');
+    await expect(page.locator('#monthEvents')).toContainText(names[0]);
+    await page.evaluate(async () => {
+      (window as any).eval("currentEvent = events.find(event => event.name === 'Pre-Christmas Celebration Service')");
+      await (window as any).deleteCurrentEvent();
+    });
+    await expect(page.locator('#monthEvents')).not.toContainText(names[0]);
+    await page.evaluate(async name => {
+      (window as any).sendEventNotification = () => {};
+      const form = document.createElement('div');
+      form.id = 'addEventModal';
+      for (const id of ['eventAddedBy', 'eventContact', 'eventName', 'eventDateInput', 'eventDescription', 'eventImageUrl']) {
+        const existing = document.getElementById(id);
+        if (existing) existing.id = 'detail-' + id;
+        const input = document.createElement('input');
+        input.id = id;
+        form.append(input);
+      }
+      document.body.append(form);
+      for (const [id, value] of Object.entries({
+        eventAddedBy: 'Test only', eventContact: 'test@example.test',
+        eventName: name, eventDateInput: '2026-12-20'
+      })) (document.getElementById(id) as HTMLInputElement).value = value;
+      await (window as any).addGPBCEvent();
+    }, names[0]);
+    await expect(page.locator('#monthEvents')).toContainText(names[0]);
+    if (mode.includes('blocked storage')) {
+      await page.evaluate(async () => {
+        await (window as any).loadEventsFromGoogleSheets();
+        (window as any).loadCustomEvents();
+        (window as any).renderMonthEvents();
+      });
+    } else {
+      await page.reload();
+    }
+    await expect(page.locator('#monthEvents')).toContainText(names[0]);
+    expect(await page.evaluate(name => (window as any).isEventDeleted({ name, date: '2026-12-20' }), names[0])).toBe(false);
+  });
+}
+
 for (const language of ['en', 'bn']) {
   test(`Home and countdown share approved holiday dates in ${language}`, async ({ page }) => {
     await page.goto('/index.html?lang=' + language);

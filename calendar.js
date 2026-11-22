@@ -844,11 +844,13 @@ async function addGPBCEvent() {
         } else {
             // Fallback to localStorage
             events.push(newEvent);
+            clearEventDeletion(newEvent);
             saveCustomEvents();
         }
     } else {
         // Use localStorage
         events.push(newEvent);
+        clearEventDeletion(newEvent);
         saveCustomEvents();
     }
 

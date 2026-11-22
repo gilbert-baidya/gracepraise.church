@@ -195,6 +195,13 @@ function markEventDeleted(event) {
     removeDeletedEvents();
 }
 
+function clearEventDeletion(event) {
+    deletedEventKeys.delete(eventDeletionKey(event));
+    try {
+        localStorage.setItem('gpbcDeletedEvents', JSON.stringify([...deletedEventKeys]));
+    } catch {}
+}
+
 function removeDeletedEvents() {
     for (let index = events.length - 1; index >= 0; index--) {
         if (events[index].category === 'gpbc' && isEventDeleted(events[index])) events.splice(index, 1);
