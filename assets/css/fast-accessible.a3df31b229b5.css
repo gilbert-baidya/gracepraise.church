@@ -1,0 +1,134 @@
+html:root body.fast-accessible { --gpbc-h1-size: 60px; --gpbc-h1-leading: 71px; padding-top: 0 !important; margin: 0; line-height: 1.625; }
+html:root body.fast-accessible * { box-sizing: border-box; }
+html:root body.fast-accessible img { max-width: 100%; }
+html:root body.fast-accessible h1 { line-height: var(--gpbc-h1-leading) !important; }
+html:root body.fast-accessible :is(h1, h2, h3, h4) { overflow-wrap: anywhere; }
+.fast-lazy-image { display: none; }
+html.js-enabled .fast-lazy-image { display: block; }
+html:root body.fast-accessible .container { width: 100%; max-width: 1200px; margin-inline: auto; padding-inline: 20px; }
+html:root body.fast-accessible .nav-container { display: flex; align-items: center; justify-content: space-between; }
+html:root body.fast-accessible header .logo { display: flex; align-items: center; }
+html:root body.fast-accessible .nav-links { list-style: none; display: flex; align-items: center; padding: 0; }
+html:root body.fast-accessible .nav-links li { list-style: none; }
+html:root body.fast-accessible .nav-links a { display: block; }
+html:root body.fast-accessible .nav-dropdown, html:root body.fast-accessible .nav-dropdown-nested { position: relative; }
+html:root body.fast-accessible header :is(.dropdown-menu, .dropdown-menu-nested) { display: none; position: absolute; z-index: 100; min-width: 230px; padding: 8px; background: var(--gpbc-surface); box-shadow: 0 4px 16px #10203333; border: 1px solid var(--gpbc-control-border); }
+html:root body.fast-accessible .nav-dropdown:is(:hover, :focus-within) > .dropdown-menu, html:root body.fast-accessible .nav-dropdown-nested:is(:hover, :focus-within) > .dropdown-menu-nested { display: block; }
+html:root body.fast-accessible header .dropdown-menu a { padding: 8px; }
+html:root body.fast-accessible .mobile-menu-btn { display: none; }
+html:root body.fast-accessible .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+html:root body.fast-accessible .sun-icon { display: inline; }
+html:root body.fast-accessible .moon-icon { display: none; }
+html:root[data-theme="dark"] body.fast-accessible .sun-icon { display: none; }
+html:root[data-theme="dark"] body.fast-accessible .moon-icon { display: inline; }
+html:root body.fast-accessible > header { position: relative !important; inset: auto !important; padding: 0 !important; min-height: 104px; height: auto !important; background: var(--gpbc-page) !important; color: var(--gpbc-text); }
+html:root body.fast-accessible #specialEventBanner { position: static !important; inset: auto !important; transform: none !important; background: var(--gpbc-surface) !important; }
+html:root body.fast-accessible #specialEventBanner :is(.badge-content, .inline-countdown, .unit-group) { background: var(--gpbc-surface) !important; }
+html:root body.fast-accessible #specialEventBanner :is(.countdown-value, .countdown-unit, .event-name) { color: var(--gpbc-text) !important; }
+html:root body.fast-accessible #specialEventBanner a { display: inline-flex; align-items: center; justify-content: center; min-width: 48px; min-height: 48px; }
+html:root body.fast-accessible header nav { padding: 0 !important; }
+html:root body.fast-accessible .nav-container { max-width: 1200px; min-height: 104px; padding: 0 20px !important; margin: auto; gap: 16px; }
+html:root body.fast-accessible header .logo { width: auto !important; height: auto !important; min-height: 72px !important; max-width: 270px !important; gap: 12px; text-decoration: none !important; }
+html:root body.fast-accessible .logo-image { width: 48px !important; height: 48px !important; transform: none !important; flex-shrink: 0; }
+.fast-brand { display: flex; flex-direction: column; font-size: 18px; line-height: 26px; color: var(--gpbc-text); }
+.fast-brand > span { font-size: 16px; line-height: 26px; color: var(--gpbc-text-secondary); }
+html:root body.fast-accessible header :is(button, .dark-mode-toggle) { min-height: 52px; min-width: 48px; }
+html:root body.fast-accessible #darkModeToggle { position: static !important; inset: auto !important; transform: none !important; width: auto !important; height: auto !important; display: inline-flex !important; align-items: center; gap: 8px; padding: 8px 12px !important; border: 1px solid var(--gpbc-control-border); border-radius: 12px; background: var(--gpbc-surface) !important; color: var(--gpbc-text) !important; }
+html:root body.fast-accessible #darkModeToggle::after { content: 'Night mode'; font: 400 16px/26px var(--gpbc-font-body); }
+html:root[data-theme="dark"] body.fast-accessible #darkModeToggle::after { content: 'Day mode'; }
+html:root body.fast-accessible #darkModeToggle :is(.sun-icon, .moon-icon) { position: static !important; inset: auto !important; transform: none !important; flex: 0 0 auto; }
+html:root body.fast-accessible .header-slogan { display: none !important; }
+html:root body.fast-accessible header .nav-links { margin: 0; gap: 8px; }
+html:root body.fast-accessible header .nav-links a { min-height: 48px; padding: 8px; font-size: 16px; }
+html:root body.fast-accessible :is(button, .btn, input, select, textarea) { border-color: var(--gpbc-control-border); }
+html:root body.fast-accessible button { min-height: 52px !important; min-width: 48px !important; }
+html:root body.fast-accessible :is(.gpbc-button-primary, .btn-primary, .v2-btn--primary, .visit-v3__directions, .block-the-loop .button, .visit-button-primary, .give-v14-primary, #paypalPaymentBtn, button.primary) { border: 1px solid #856115 !important; min-height: 52px !important; }
+html:root body.fast-accessible :lang(bn) { font-family: var(--gpbc-font-bengali) !important; font-weight: 400 !important; letter-spacing: normal !important; text-transform: none !important; }
+html:root body.fast-accessible :is(p, li):lang(bn) { font-size: 18px; line-height: 30px; }
+html:root body.fast-accessible :is(a, button, label):lang(bn) { font-size: 16px; line-height: 26px; }
+html:root body.fast-accessible :is(.welcome-home-v4__eyebrow, .welcome-home-v4__closing, .stay-connected-v8__eyebrow) { color: var(--gpbc-gold-text) !important; }
+html:root body.fast-accessible .stay-connected-v8__title { color: var(--gpbc-text) !important; }
+html:root body.fast-accessible .community-v5__dot { width: 48px !important; height: 48px !important; min-width: 48px; border-radius: 12px; transform: none !important; border: 1px solid var(--gpbc-control-border); }
+html:root body.fast-accessible .community-v5__dots { gap: 8px; flex-wrap: wrap; justify-content: center; }
+html:root body.fast-accessible .community-v5__controls { height: auto !important; flex-wrap: wrap; }
+html:root body.fast-accessible .community-v5__slide:not(.is-active) .community-v5__caption { visibility: hidden; }
+html:root body.fast-accessible .community-v5__caption { background: var(--gpbc-surface) !important; }
+html:root body.fast-accessible .community-v5__caption p { font-size: 16px !important; line-height: 26px !important; color: var(--gpbc-text-secondary) !important; }
+html:root body.fast-accessible .community-v5__caption .community-v5__label { color: var(--gpbc-gold-text) !important; }
+html:root body.fast-accessible .calendar-grid { display: table !important; width: 100%; min-width: 420px; table-layout: fixed; border-collapse: collapse; }
+html:root body.fast-accessible .calendar-grid :is(th, td) { vertical-align: top; border: 1px solid var(--gpbc-divider); }
+html:root body.fast-accessible .calendar-grid .day { height: auto; min-height: 48px; padding: 8px 4px; }
+html:root body.fast-accessible .calendar-grid .event-marker { display: block; white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; padding: 8px 2px; min-height: 48px; font-size: 16px; line-height: 26px; color: var(--gpbc-link) !important; background: var(--gpbc-surface) !important; }
+html:root body.fast-accessible .calendar-grid :is(.weekday, .day-number) { font-size: 16px; line-height: 26px; }
+.fast-calendar-views { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.fast-calendar-scroll { max-width: 100%; overflow-x: auto; }
+.calendar-grid .event-marker + .event-marker { margin-top: 8px; }
+#monthEvents > li > ol { list-style: none; margin: 0; padding: 0; }
+.fast-calendar-views button { min-height: 52px; padding: 8px 20px; border: 1px solid var(--gpbc-control-border); border-radius: 12px; background: var(--gpbc-surface); color: var(--gpbc-text); }
+.fast-calendar-views button[aria-pressed="true"] { background: var(--gpbc-gold-fill); color: var(--gpbc-gold-label); }
+html:root body.fast-accessible .calendar-grid[hidden], html:root body.fast-accessible .events-sidebar[hidden] { display: none !important; }
+html:root body.fast-accessible .calendar-section > .container { width: 100%; padding-inline: 20px; }
+html:root body.fast-accessible :is(.event-item, .events-sidebar) { background: var(--gpbc-surface) !important; color: var(--gpbc-text) !important; }
+.fast-sunday { max-width: 1200px; margin: 24px auto; padding: 24px 20px; background: var(--gpbc-surface-quiet); border-radius: 20px; color: var(--gpbc-text); }
+.fast-sunday p { margin: 0 0 8px; }
+html:root body.fast-accessible :is(.visit-rhythm-day, .visit-eyebrow, .visit-step-number, .give-v14-eyebrow) { color: var(--gpbc-gold-text) !important; }
+html:root body.fast-accessible :is(.give-v14-trust-mini span, .give-v14-impact-row-item small, .tagline) { color: var(--gpbc-text-secondary) !important; }
+html:root body.fast-accessible :is(.visit-journey-section, #what-to-expect) { background: var(--gpbc-surface-quiet) !important; }
+html:root body.fast-accessible .block-the-loop .slider:not(.slick-initialized) { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); height: auto !important; gap: 24px; }
+html:root body.fast-accessible .block-the-loop .slider:not(.slick-initialized) > div { position: relative !important; opacity: 1 !important; transform: none !important; height: auto !important; width: 100% !important; }
+html:root body.fast-accessible #upcomingEventsList { min-height: 160px; }
+html:root body.fast-accessible .upcoming-event-card { padding: 24px; color: var(--gpbc-link); background: var(--gpbc-surface); border: 1px solid var(--gpbc-control-border); border-radius: 20px; }
+html:root body.fast-accessible :is(#calendarFeedRetry, .give-v14-qr-link, .btn) { min-height: 52px; min-width: 48px; }
+html:root body.fast-accessible .give-v14-qr-link { display: inline-flex; align-items: center; }
+html:root body.fast-accessible .site-footer { --gpbc-link: inherit; background: var(--gpbc-page) !important; }
+html:root body.fast-accessible .site-footer :is(h2, h3, p, small, span, .sacred-footer__legal-copy) { color: var(--gpbc-text) !important; -webkit-text-fill-color: currentColor !important; text-shadow: none !important; opacity: 1 !important; }
+html:root body.fast-accessible .site-footer :is(.sacred-footer__monogram, .footer-nav-title, .sacred-footer__statement small, .sacred-footer__follow > span) { color: var(--gpbc-gold-text) !important; }
+html:root body.fast-accessible .site-footer :is(p, small, span, a, li):lang(en) { font-family: var(--gpbc-font-body) !important; }
+html:root body.fast-accessible .site-footer .sacred-footer__statement > span { font-family: var(--gpbc-font-heading) !important; }
+html:root body.fast-accessible .site-footer .footer-nav-title { font: 600 16px/26px var(--gpbc-font-body) !important; letter-spacing: normal !important; }
+html:root body.fast-accessible .site-footer :is(small, .sacred-footer__legal-copy, #footer-auto-year):lang(en) { font-size: 16px; line-height: 26px; }
+html:root body.fast-accessible footer :is(p, li, a):lang(en) { font-size: 16px; line-height: 26px; }
+html:root body.fast-accessible footer a { display: inline-flex; align-items: center; min-height: 48px; min-width: 48px; }
+html:root body.fast-accessible #eventCategory > span { background: var(--gpbc-surface-quiet) !important; color: var(--gpbc-text) !important; border: 1px solid var(--gpbc-control-border); }
+html:root body.fast-accessible .event-contact-info { color: var(--gpbc-text-secondary) !important; border-color: var(--gpbc-control-border) !important; }
+html:root body.fast-accessible #featured-events, html:root body.fast-accessible #featured-events :is(.flip-card-front, .flip-card-back) { background: var(--gpbc-surface) !important; }
+html:root body.fast-accessible #featured-events :is(.flip-section-eyebrow, .flip-section-subtitle, .flip-section-lead, .card-step, .card-category, .card-front-copy, p) { color: var(--gpbc-text-secondary) !important; }
+html:root body.fast-accessible .fast-static-footer { max-width: 1200px; margin: 40px auto; padding: 24px 20px; }
+html:root body.fast-accessible #monthEvents { list-style: none; padding: 0; }
+@media (max-width: 1279px) and (min-width: 1025px) {
+ html:root body.fast-accessible .nav-container { flex-wrap: wrap; justify-content: space-between; }
+ html:root body.fast-accessible .nav-links { flex-wrap: wrap; justify-content: center; }
+}
+@media (max-width: 1024px) {
+ html:root body.fast-accessible > header { min-height: 72px; }
+ html:root body.fast-accessible .nav-container { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 0 20px 12px !important; min-height: 72px; }
+ html:root body.fast-accessible header .logo { grid-column: 1 / -1; justify-self: start; max-width: 100% !important; }
+ html:root body.fast-accessible #darkModeToggle { justify-content: center; min-width: 0; }
+ html:root body.fast-accessible .mobile-menu-btn { display: inline-flex !important; position: static !important; inset: auto !important; transform: none !important; margin: 0 !important; width: auto !important; height: auto !important; justify-content: center; align-items: center; color: var(--gpbc-text) !important; border: 1px solid var(--gpbc-control-border); border-radius: 12px; background: var(--gpbc-surface) !important; }
+ html:root body.fast-accessible .mobile-menu-btn > span:not(.fast-menu-label) { display: none; }
+ html:root body.fast-accessible .mobile-menu-btn > .fast-menu-label { display: inline; width: auto !important; height: auto !important; background: none !important; color: inherit !important; margin: 0; font: 600 16px/26px var(--gpbc-font-body); }
+ html:root body.fast-accessible header .nav-links { position: static !important; inset: auto !important; width: 100% !important; max-height: none !important; height: auto !important; overflow: visible !important; display: flex !important; flex-direction: column; grid-column: 1 / -1; padding: 12px !important; transform: none !important; visibility: visible !important; opacity: 1 !important; background: var(--gpbc-surface) !important; box-shadow: none !important; border-radius: 12px; }
+ html.js-enabled:root body.fast-accessible header .nav-links:not(.mobile-open) { display: none !important; }
+ html:root body.fast-accessible header .nav-links a { color: var(--gpbc-link) !important; -webkit-text-fill-color: var(--gpbc-link) !important; min-height: 48px; }
+ html:root body.fast-accessible header :is(.dropdown-menu, .dropdown-menu-nested) { position: static; display: none; min-width: 0; }
+ html:root body.fast-accessible .mobile-dropdown-open > :is(.dropdown-menu, .dropdown-menu-nested) { display: block; }
+ html:root body.fast-accessible .mobile-overlay { display: none !important; }
+ html:root body.fast-accessible.menu-open { overflow: visible !important; position: static !important; height: auto !important; }
+ html:root body.fast-accessible #langToggleBtn { grid-column: 1 / -1; min-height: 52px; position: static; }
+}
+@media (prefers-reduced-motion: reduce) {
+ html:root body.fast-accessible *, html:root body.fast-accessible *::before, html:root body.fast-accessible *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+@media (max-width: 767px) {
+ html:root body.fast-accessible { --gpbc-h1-size: 38px; --gpbc-h1-leading: 46px; }
+ html:root body.fast-accessible .v2-heading-line { white-space: normal !important; }
+ html:root body.fast-accessible h1:lang(bn), html:root body.fast-accessible.gpbc-shared .v2-hero-heading:lang(bn) { font-size: 36px !important; line-height: 50px !important; }
+}
+@media (max-width: 767px), (min-width: 1101px) {
+ html:root body.fast-accessible.gpbc-shared .v2-hero-heading { line-height: var(--gpbc-h1-leading) !important; }
+}
+@media (forced-colors: active) {
+ html:root body.fast-accessible :is(button, a, input, select, textarea) { forced-color-adjust: auto; }
+}
+html:not(.js-enabled):root body.fast-accessible .fast-lazy-image { display: none !important; }
+html:not(.js-enabled):root body.fast-accessible :is(.mobile-menu-btn, #darkModeToggle, #langToggleBtn) { display: none !important; }

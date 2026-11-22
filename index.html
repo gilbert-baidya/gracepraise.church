@@ -4,6 +4,8 @@
 <head>
     <!-- Version: 2026-01-12-mobile-dropdown-fix-v2 -->
     <meta charset="UTF-8">
+    <script>document.documentElement.classList.add("js-enabled");</script>
+    <script src="js/fast-accessible.d5234074a064.js" defer></script>
 
     <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,13 +72,8 @@
     <link rel="preconnect" href="https://player.vimeo.com">
 
     <!-- LCP Preloads -->
-    <link rel="preload" as="image" href="images/new-gpbc-logo-final.svg" type="image/svg+xml">
-    <link rel="preload" as="image"
-        href="images/homepage/hero-v2/final/worship-desktop.webp"
-        type="image/webp"
-        imagesrcset="images/homepage/hero-v2/final/worship-desktop.webp 1000w, images/homepage/hero-v2/final/worship-mobile.webp 1200w"
-        imagesizes="(max-width: 760px) calc(100vw - 3rem), 430px"
-        fetchpriority="high">
+
+
 
     <!-- Liturgical Calendar Engine + Theme Engine -->
     <script src="liturgical-calendar-engine.js" defer></script>
@@ -84,26 +81,25 @@
 
     <!-- Sacred Design Token System (foundation → seasons → components) -->
     <link rel="stylesheet" href="sacred-tokens.css?v=20260918-v11-theme-final3">
-    <link rel="stylesheet" href="styles.bundle.css?v=20260918-v11-stay-mobile">
-    <link rel="stylesheet" href="liturgical-tokens.css">
-    <link rel="stylesheet" href="hero-upgrade.css?v=20260203c">
+    <link rel="stylesheet" data-lazy-href="styles.bundle.css?v=20260918-v11-stay-mobile" data-visible='#about'><noscript><link rel="stylesheet" href="styles.bundle.css?v=20260918-v11-stay-mobile"></noscript>
+    <link rel="stylesheet" data-lazy-href="liturgical-tokens.css" data-visible='#about'><noscript><link rel="stylesheet" href="liturgical-tokens.css"></noscript>
+    <link rel="stylesheet" data-lazy-href="hero-upgrade.css?v=20260203c" data-visible='#about'><noscript><link rel="stylesheet" href="hero-upgrade.css?v=20260203c"></noscript>
     <link rel="stylesheet" href="countdown.css">
-    <link rel="stylesheet" href="community-carousel-v5.css?v=20260919-v12-header-containment">
-    <link rel="stylesheet" href="event-flip-cards.css">
-    <link rel="stylesheet" href="shape-system.css">
-    <link rel="stylesheet" href="heptagon-wheel-sacred.css?v=20260918-v11-home-contrast">
-    <link rel="stylesheet" href="assets/css/homepage-readability-upgrade.css?v=20260919-v12-header-containment">
+    <link rel="stylesheet" data-lazy-href="community-carousel-v5.css?v=20260919-v12-header-containment" data-visible='.community-v5'><noscript><link rel="stylesheet" href="community-carousel-v5.css?v=20260919-v12-header-containment"></noscript>
+    <link rel="stylesheet" data-lazy-href="event-flip-cards.css" data-visible='#featured-events'><noscript><link rel="stylesheet" href="event-flip-cards.css"></noscript>
+    <link rel="stylesheet" data-lazy-href="shape-system.css" data-visible='#about'><noscript><link rel="stylesheet" href="shape-system.css"></noscript>
+    <link rel="stylesheet" data-lazy-href="heptagon-wheel-sacred.css?v=20260918-v11-home-contrast" data-visible='#about'><noscript><link rel="stylesheet" href="heptagon-wheel-sacred.css?v=20260918-v11-home-contrast"></noscript>
+    <link rel="stylesheet" data-lazy-href="assets/css/homepage-readability-upgrade.css?v=20260919-v12-header-containment" data-visible='#about'><noscript><link rel="stylesheet" href="assets/css/homepage-readability-upgrade.css?v=20260919-v12-header-containment"></noscript>
 
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 
     <!-- Slick Carousel CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+
 
     <!-- Slick Carousel JS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js" defer></script>
+
 
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
@@ -457,9 +453,6 @@
     </script>
 
     <!-- Logo System & Position Styles -->
-    <link rel="stylesheet" href="logo-loading.css">
-    <link rel="stylesheet" href="logo-styles.css?v=20260203c">
-    <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-stay-mobile">
     <!-- Favicon Package - Trinity Cross -->
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
@@ -468,20 +461,19 @@
     <meta name="msapplication-TileColor" content="#2b5797">
     <meta name="msapplication-config" content="images/favicons/browserconfig.xml">
     <!-- Centralized Footer v3 CSS -->
-    <link rel="stylesheet" href="./css/footer-v3.css?v=20260918-v11-floating-control">
+    <link rel="stylesheet" data-lazy-href="./css/footer-v3.css?v=20260918-v11-floating-control" data-visible=".site-footer"><noscript><link rel="stylesheet" href="./css/footer-v3.css?v=20260918-v11-floating-control"></noscript>
 
     <!-- Homepage Hero V2 — loaded last so it wins the cascade against the
          legacy hero overrides. Every rule is scoped under .v2-hero, so it
          cannot affect any other production section. -->
     <link rel="stylesheet" href="hero-v2.css?v=20260918-v11-mobile-hero">
     <!-- Homepage Plan Your Visit V3 — isolated from shared section styles. -->
-    <link rel="stylesheet" href="plan-your-visit-v3.css?v=20260917d">
+    <link rel="stylesheet" data-lazy-href="plan-your-visit-v3.css?v=20260917d" data-visible='#plan-your-visit'><noscript><link rel="stylesheet" href="plan-your-visit-v3.css?v=20260917d"></noscript>
     <!-- Homepage Welcome Home V4 — isolated editorial section styles. -->
-    <link rel="stylesheet" href="welcome-home-v4.css?v=20260917a">
+    <link rel="stylesheet" data-lazy-href="welcome-home-v4.css?v=20260917a" data-visible='#about'><noscript><link rel="stylesheet" href="welcome-home-v4.css?v=20260917a"></noscript>
     <link rel="stylesheet" href="website-control.css" data-gpbc-control-style="true">
     <!-- Homepage Stay Connected V8 — isolated editorial section styles. -->
-    <link rel="stylesheet" href="stay-connected-v8.css?v=20260918-v11-stay-mobile">
-    <script src="./js/partials.js?v=20260918-v11-theme-final3" defer></script>
+    <link rel="stylesheet" data-lazy-href="stay-connected-v8.css?v=20260918-v11-stay-mobile" data-visible='#stay-connected'><noscript><link rel="stylesheet" href="stay-connected-v8.css?v=20260918-v11-stay-mobile"></noscript>
     <!-- Reserve the measured desktop fixed-header space before runtime/CSS settle. -->
     <style id="gpbc-desktop-header-reservation">
         @media (min-width: 1025px) {
@@ -491,31 +483,32 @@
             body { padding-top: 0; }
         }
     </style>
+    <link rel="stylesheet" href="assets/css/fast-accessible.a3df31b229b5.css">
     <link rel="stylesheet" href="assets/css/shared-style.css">
 </head>
 
-<body class="homepage gpbc-shared" data-page="home">
+<body class="homepage gpbc-shared fast-accessible" data-page="home">
     <!-- Skip to main content for keyboard users -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Sticky Header/Nav -->
     <header>
-        <nav>
+        <nav aria-label="Main navigation">
             <div class="nav-container">
                 <a href="#home" class="logo">
-                    <img src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
+                    <img src="images/logo/gpbc-mark.40eae7be38cd.webp" width="192" height="192" alt=""
                         class="logo-image" loading="eager" decoding="async">
-                </a>
+                <span class="fast-brand" lang="en">Grace &amp; Praise<span>Bangladeshi Church</span></span></a>
                 <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
-                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <button class="mobile-menu-btn" aria-label="Menu" aria-controls="nav-links" aria-expanded="false" type="button">
                     <span></span>
                     <span></span>
                     <span></span>
-                </button>
-                <ul class="nav-links">
+                <span class="fast-menu-label">Menu</span></button>
+                <ul class="nav-links" id="nav-links">
                     <li><a href="https://www.youtube.com/@GracePraise.Church" target="_blank"
                             rel="noopener noreferrer">LIVE</a></li>
                     <li><a href="#home" class="active">Home</a></li>
@@ -619,7 +612,12 @@
 
 
 
-    <main id="main-content">
+    <main tabindex="-1" id="main-content">
+        <aside class="fast-sunday" aria-label="Sunday worship invitation" lang="en">
+            <p><strong>Sunday worship · 5:00 PM Pacific Time</strong></p>
+            <p>1325 Richardson Street, San Bernardino, CA 92408</p>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=1325+Richardson+Street+San+Bernardino+CA+92408" target="_blank" rel="noopener noreferrer">Get directions<span class="sr-only"> (opens map in a new tab)</span></a>
+        </aside>
         <!-- ------------------------------------------------------------
              HOMEPAGE HERO V2 (replaces the legacy glassmorphism hero)
              Styles: hero-v2.css  —  all rules scoped under .v2-hero
@@ -791,13 +789,18 @@
                     <!-- Glass-style replaceable photo cards -->
                     <figure class="v2-photo-card v2-photo-card--main" data-photo-slot="MAIN_WORSHIP_PHOTO">
                         <div class="v2-photo-frame">
-                            <img class="v2-photo-img"
+                            <img class="fast-lazy-image v2-photo-img"
+                                alt="GPBC congregation worshiping together during a church service"
+                                data-lazy-src="images/homepage/hero-v2/final/worship-desktop.webp"
+                                data-lazy-srcset="images/homepage/hero-v2/final/worship-480.450839599cb3.webp 480w, images/homepage/hero-v2/final/worship-desktop.webp 1000w"
+                                sizes="(max-width: 760px) calc(100vw - 3rem), 430px"
+                                width="1200" height="900" decoding="async" fetchpriority="high" data-visible=".v2-hero-visual"><noscript><img class="v2-photo-img"
                                 alt="GPBC congregation worshiping together during a church service"
                                 src="images/homepage/hero-v2/final/worship-desktop.webp"
                                 srcset="images/homepage/hero-v2/final/worship-desktop.webp 1000w,
                                         images/homepage/hero-v2/final/worship-mobile.webp 1200w"
                                 sizes="(max-width: 760px) calc(100vw - 3rem), 430px"
-                                width="1200" height="900" decoding="async" fetchpriority="high">
+                                width="1200" height="900" decoding="async" loading="lazy" ></noscript>
                             <span class="v2-photo-badge">Worship</span>
                         </div>
                         <figcaption class="v2-photo-caption">Sunday Worship</figcaption>
@@ -805,13 +808,18 @@
 
                     <figure class="v2-photo-card v2-photo-card--community" data-photo-slot="COMMUNITY_PHOTO">
                         <div class="v2-photo-frame">
-                            <img class="v2-photo-img"
+                            <img class="fast-lazy-image v2-photo-img"
+                                alt="Members and guests gathered together at Grace and Praise Bangladeshi Church"
+                                data-lazy-src="images/homepage/hero-v2/final/community-desktop.webp"
+                                data-lazy-srcset="images/homepage/hero-v2/final/community-480.e0aa57b06e0d.webp 480w, images/homepage/hero-v2/final/community-desktop.webp 1000w"
+                                sizes="(max-width: 760px) calc(100vw - 3rem), 201px"
+                                width="1200" height="900" decoding="async" loading="lazy" data-visible=".v2-hero-visual"><noscript><img class="v2-photo-img"
                                 alt="Members and guests gathered together at Grace and Praise Bangladeshi Church"
                                 src="images/homepage/hero-v2/final/community-desktop.webp"
                                 srcset="images/homepage/hero-v2/final/community-desktop.webp 1000w,
                                         images/homepage/hero-v2/final/community-mobile.webp 1200w"
                                 sizes="(max-width: 760px) calc(100vw - 3rem), 201px"
-                                width="1200" height="900" decoding="async" loading="lazy">
+                                width="1200" height="900" decoding="async" loading="lazy" ></noscript>
                             <span class="v2-photo-badge">Community</span>
                         </div>
                         <figcaption class="v2-photo-caption">Community &amp; Fellowship</figcaption>
@@ -819,13 +827,18 @@
 
                     <figure class="v2-photo-card v2-photo-card--family" data-photo-slot="FAMILY_PHOTO">
                         <div class="v2-photo-frame">
-                            <img class="v2-photo-img"
+                            <img class="fast-lazy-image v2-photo-img"
+                                alt="Grace and Praise Bangladeshi Church family gathered together"
+                                data-lazy-src="images/homepage/hero-v2/final/family-desktop.webp"
+                                data-lazy-srcset="images/homepage/hero-v2/final/family-480.5a23ab002df3.webp 480w, images/homepage/hero-v2/final/family-desktop.webp 1000w"
+                                sizes="(max-width: 760px) calc(100vw - 3rem), 201px"
+                                width="1200" height="900" decoding="async" loading="lazy" data-visible=".v2-hero-visual"><noscript><img class="v2-photo-img"
                                 alt="Grace and Praise Bangladeshi Church family gathered together"
                                 src="images/homepage/hero-v2/final/family-desktop.webp"
                                 srcset="images/homepage/hero-v2/final/family-desktop.webp 1000w,
                                         images/homepage/hero-v2/final/family-mobile.webp 1200w"
                                 sizes="(max-width: 760px) calc(100vw - 3rem), 201px"
-                                width="1200" height="900" decoding="async" loading="lazy">
+                                width="1200" height="900" decoding="async" loading="lazy" ></noscript>
                             <span class="v2-photo-badge">Family</span>
                         </div>
                         <figcaption class="v2-photo-caption">Church Family</figcaption>
@@ -900,12 +913,15 @@
                 <figure class="visit-v3__visual">
                     <picture>
                         <source media="(max-width: 51.25rem)"
-                            srcset="images/homepage/plan-your-visit/gpbc-plan-your-visit-mobile.webp"
+                            data-lazy-srcset="images/homepage/plan-your-visit/gpbc-plan-your-visit-mobile.webp"
                             width="1200" height="750">
-                        <img class="visit-v3__image"
+                        <img class="fast-lazy-image visit-v3__image"
+                            data-lazy-src="images/homepage/plan-your-visit/gpbc-plan-your-visit-desktop.webp"
+                            alt="Pastor preaching to the congregation at Grace and Praise Bangladeshi Church with the cross behind him."
+                            width="1000" height="1116" loading="lazy" decoding="async"><noscript><img class="visit-v3__image"
                             src="images/homepage/plan-your-visit/gpbc-plan-your-visit-desktop.webp"
                             alt="Pastor preaching to the congregation at Grace and Praise Bangladeshi Church with the cross behind him."
-                            width="1000" height="1116" loading="lazy" decoding="async">
+                            width="1000" height="1116" loading="lazy" decoding="async"></noscript>
                     </picture>
                 </figure>
 
@@ -956,10 +972,13 @@
                 </div>
 
                 <figure class="welcome-home-v4__visual">
-                    <img class="welcome-home-v4__image"
+                    <img class="fast-lazy-image welcome-home-v4__image"
+                        data-lazy-src="images/homepage/hero-v2/final/family-desktop.webp"
+                        alt="A diverse GPBC church family gathered together for a group photograph."
+                        width="1000" height="750" loading="lazy" decoding="async"><noscript><img class="welcome-home-v4__image"
                         src="images/homepage/hero-v2/final/family-desktop.webp"
                         alt="A diverse GPBC church family gathered together for a group photograph."
-                        width="1000" height="750" loading="lazy" decoding="async">
+                        width="1000" height="750" loading="lazy" decoding="async"></noscript>
                 </figure>
 
                 <p class="welcome-home-v4__closing">There is a place for you here.</p>
@@ -978,7 +997,7 @@
                     <div class="community-v5__track">
                         <article class="community-v5__slide is-active" tabindex="0" data-index="0" role="button" aria-label="View Sunday Worship slide">
                             <figure class="community-v5__media">
-                                <img src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church" width="900" height="700" loading="lazy" decoding="async">
+                                <img class="fast-lazy-image" data-lazy-src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church" width="900" height="700" loading="lazy" decoding="async"><noscript><img src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church" width="900" height="700" loading="lazy" decoding="async"></noscript>
                             </figure>
                             <div class="community-v5__caption">
                                 <p class="community-v5__label">Sunday Worship</p>
@@ -988,7 +1007,7 @@
 
                         <article class="community-v5__slide" tabindex="0" data-index="1" role="button" aria-label="View Family Fellowship slide">
                             <figure class="community-v5__media">
-                                <img src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC" width="900" height="700" loading="lazy" decoding="async">
+                                <img class="fast-lazy-image" data-lazy-src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC" width="900" height="700" loading="lazy" decoding="async"><noscript><img src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC" width="900" height="700" loading="lazy" decoding="async"></noscript>
                             </figure>
                             <div class="community-v5__caption">
                                 <p class="community-v5__label">Family Fellowship</p>
@@ -998,7 +1017,7 @@
 
                         <article class="community-v5__slide" tabindex="0" data-index="2" role="button" aria-label="View Youth Gathering slide">
                             <figure class="community-v5__media">
-                                <img src="images/community-youth-night.webp" alt="GPBC youth gathering in worship and fellowship" width="900" height="700" loading="lazy" decoding="async">
+                                <img class="fast-lazy-image" data-lazy-src="images/community-youth-night.webp" alt="GPBC youth gathering in worship and fellowship" width="900" height="700" loading="lazy" decoding="async"><noscript><img src="images/community-youth-night.webp" alt="GPBC youth gathering in worship and fellowship" width="900" height="700" loading="lazy" decoding="async"></noscript>
                             </figure>
                             <div class="community-v5__caption">
                                 <p class="community-v5__label">Youth Gathering</p>
@@ -1008,7 +1027,7 @@
 
                         <article class="community-v5__slide" tabindex="0" data-index="3" role="button" aria-label="View Bible Study slide">
                             <figure class="community-v5__media">
-                                <img src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church" width="900" height="700" loading="lazy" decoding="async">
+                                <img class="fast-lazy-image" data-lazy-src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church" width="900" height="700" loading="lazy" decoding="async"><noscript><img src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church" width="900" height="700" loading="lazy" decoding="async"></noscript>
                             </figure>
                             <div class="community-v5__caption">
                                 <p class="community-v5__label">Bible Study</p>
@@ -1018,7 +1037,7 @@
 
                         <article class="community-v5__slide" tabindex="0" data-index="4" role="button" aria-label="View Prayer and Service slide">
                             <figure class="community-v5__media">
-                                <img src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community" width="900" height="700" loading="lazy" decoding="async">
+                                <img class="fast-lazy-image" data-lazy-src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community" width="900" height="700" loading="lazy" decoding="async"><noscript><img src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community" width="900" height="700" loading="lazy" decoding="async"></noscript>
                             </figure>
                             <div class="community-v5__caption">
                                 <p class="community-v5__label">Prayer &amp; Service</p>
@@ -1074,8 +1093,9 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church"
-                                        width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img class="fast-lazy-image" data-lazy-src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church"
+                                        width="1024" height="1024" loading="lazy" decoding="async"><noscript><img src="images/community-worship.webp" alt="Church family worship together at Grace and Praise Bangladeshi Church"
+                                        width="1024" height="1024" loading="lazy" decoding="async"></noscript>
                                 </div>
                                 <h3 class="card-back-title">Worship With Us</h3>
                                 <p>Come into God's presence and experience worship, prayer, and the Word together.</p>
@@ -1095,8 +1115,9 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC"
-                                        width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img class="fast-lazy-image" data-lazy-src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC"
+                                        width="1024" height="1024" loading="lazy" decoding="async"><noscript><img src="images/community-greeting.webp" alt="A warm greeting and fellowship moment during church life at GPBC"
+                                        width="1024" height="1024" loading="lazy" decoding="async"></noscript>
                                 </div>
                                 <h3 class="card-back-title">Find Your Family</h3>
                                 <p>You were never meant to walk alone. Build meaningful relationships in the GPBC family.</p>
@@ -1116,8 +1137,9 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church"
-                                        width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img class="fast-lazy-image" data-lazy-src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church"
+                                        width="1024" height="1024" loading="lazy" decoding="async"><noscript><img src="images/community-bible-study.webp" alt="Small group Bible study at Grace and Praise Bangladeshi Church"
+                                        width="1024" height="1024" loading="lazy" decoding="async"></noscript>
                                 </div>
                                 <h3 class="card-back-title">Grow in Christ</h3>
                                 <p>Grow through Scripture, prayer, discipleship, and a deeper relationship with Jesus.</p>
@@ -1137,8 +1159,9 @@
                             </div>
                             <div class="flip-card-back">
                                 <div class="card-image-wrap">
-                                    <img src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community"
-                                        width="1800" height="1350" loading="lazy" decoding="async">
+                                    <img class="fast-lazy-image" data-lazy-src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community"
+                                        width="1800" height="1350" loading="lazy" decoding="async"><noscript><img src="images/homepage/community-v5/fasting-prayer-hands.webp" alt="Prayerful fasting and service in the GPBC community"
+                                        width="1800" height="1350" loading="lazy" decoding="async"></noscript>
                                 </div>
                                 <h3 class="card-back-title">Serve With Purpose</h3>
                                 <p>Use your gifts to serve God, strengthen the church, and make a difference in the lives of others.</p>
@@ -1179,8 +1202,10 @@
                                 <h2>Follow Jesus</h2>
                             </div>
                             <img loading="lazy" decoding="async" width="1080" height="1080"
+                                data-lazy-src="images/community-worship.webp" class="fast-lazy-image attachment-large size-large"
+                                alt="Baptism and worship at Grace and Praise" /><noscript><img loading="lazy" decoding="async" width="1080" height="1080"
                                 src="images/community-worship.webp" class="attachment-large size-large"
-                                alt="Baptism and worship at Grace and Praise" />
+                                alt="Baptism and worship at Grace and Praise" /></noscript>
                         </div>
                         <div>
                             <div class="heading">
@@ -1196,8 +1221,10 @@
                                 <h2>Grow Together</h2>
                             </div>
                             <img loading="lazy" decoding="async" width="1080" height="1080"
+                                data-lazy-src="images/community-greeting.webp" class="fast-lazy-image attachment-large size-large"
+                                alt="Community prayer and fellowship at Grace and Praise" /><noscript><img loading="lazy" decoding="async" width="1080" height="1080"
                                 src="images/community-greeting.webp" class="attachment-large size-large"
-                                alt="Community prayer and fellowship at Grace and Praise" />
+                                alt="Community prayer and fellowship at Grace and Praise" /></noscript>
                         </div>
                         <div>
                             <div class="heading">
@@ -1211,8 +1238,10 @@
                                 <h2>Serve One Another</h2>
                             </div>
                             <img loading="lazy" decoding="async" width="1080" height="1080"
+                                data-lazy-src="images/community-youth-night.webp" class="fast-lazy-image attachment-large size-large"
+                                alt="Serving one another with love and encouragement" /><noscript><img loading="lazy" decoding="async" width="1080" height="1080"
                                 src="images/community-youth-night.webp" class="attachment-large size-large"
-                                alt="Serving one another with love and encouragement" />
+                                alt="Serving one another with love and encouragement" /></noscript>
                         </div>
                         <div>
                             <div class="heading">
@@ -1229,96 +1258,16 @@
                                 <h2>Change The World</h2>
                             </div>
                             <img loading="lazy" decoding="async" width="1080" height="1080"
+                                data-lazy-src="images/community-bible-study.webp" class="fast-lazy-image attachment-large size-large"
+                                alt="Community outreach and spiritual growth through the Word" /><noscript><img loading="lazy" decoding="async" width="1080" height="1080"
                                 src="images/community-bible-study.webp" class="attachment-large size-large"
-                                alt="Community outreach and spiritual growth through the Word" />
+                                alt="Community outreach and spiritual growth through the Word" /></noscript>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <script>
-            jQuery(function ($) {
-                $(document).ready(function () {
-                    const $slider = $('#block_gpbc_transformational_loop .slider');
 
-                    $slider.slick({
-                        fade: true,
-                        autoplay: true,
-                        autoplaySpeed: 3000,
-                        pauseOnFocus: false,
-                        pauseOnHover: false,
-                        pauseOnDotsHover: false,
-                        arrows: false,
-                        dots: true,
-                        infinite: true,
-                        speed: 850,
-                        swipe: true
-                    });
-
-                    // Wait for slick to be fully initialized
-                    setTimeout(function () {
-                        const $dotsContainer = $slider.closest('.block-the-loop').find('.slick-dots');
-
-                        // Add transition CSS
-                        $dotsContainer.css({
-                            'transition': 'transform 0.85s ease'
-                        });
-
-                        $dotsContainer.find('li').css({
-                            'transition': 'all 0.85s ease'
-                        });
-
-                        // Find and mark the top dot by position
-                        function markTopDot() {
-                            const dots = $dotsContainer.find('li').get();
-                            let topDot = null;
-                            let minTop = Infinity;
-
-                            dots.forEach(dot => {
-                                const top = dot.getBoundingClientRect().top;
-                                if (top < minTop) {
-                                    minTop = top;
-                                    topDot = dot;
-                                }
-                            });
-
-                            $dotsContainer.find('li').removeClass('is-top-dot');
-                            if (topDot) $(topDot).addClass('is-top-dot');
-                        }
-
-                        // Mark top dot initially
-                        markTopDot();
-
-                        // Rotate dots on slide change
-                        $slider.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-                            const rotation = nextSlide * 90;
-                            $dotsContainer.css('transform', `translate(-50%, -50%) rotate(-${rotation}deg)`);
-
-                            // Counter-rotate individual dots to keep them upright
-                            $dotsContainer.find('li').each(function (index) {
-                                const $li = $(this);
-                                let baseTransform = '';
-
-                                if (index === 0) {
-                                    baseTransform = 'translateX(-50%)';
-                                } else if (index === 1) {
-                                    baseTransform = 'translateY(-50%)';
-                                } else if (index === 2) {
-                                    baseTransform = 'translateX(-50%)';
-                                } else if (index === 3) {
-                                    baseTransform = 'translateY(-50%)';
-                                }
-
-                                $li.css('transform', `${baseTransform} rotate(${rotation}deg)`);
-                            });
-
-                            // Re-mark top dot after rotation animation
-                            setTimeout(markTopDot, 850);
-                        });
-                    }, 100);
-                });
-            });
-        </script>
 
         <!-- ----------------------------------------
              SHAPE SYSTEM: RECTANGLE - Teaching & Stability
@@ -1331,7 +1280,7 @@
              Purpose: Visual catechism where geometry teaches theology
              Interaction: Rotate to bring each side to TOP (active position)
              Content: 7 aspects from the Lord's Prayer (Matthew 6:9-13)
-             
+
              ARCHITECTURE:
              - Rotating layer: Heptagon outline + wall text labels (rotate together)
              - Static center: Active topic details (crossfade only, never moves)
@@ -1473,11 +1422,13 @@
                 <div class="stay-connected-v8__grid">
                     <article class="stay-connected-v8__card stay-connected-v8__card--events">
                         <a class="stay-connected-v8__link stay-connected-v8__btn-link" href="calendar.html"
-                            aria-label="View Events: Discover upcoming services, fellowships, and special events.">
+                            >
                             <figure class="stay-connected-v8__media">
-                                <img src="images/community-worship.webp"
+                                <img class="fast-lazy-image" data-lazy-src="images/community-worship.webp"
                                     alt="Grace and Praise church family worshiping together"
-                                    width="1024" height="1024" loading="lazy" decoding="async">
+                                    width="1024" height="1024" loading="lazy" decoding="async"><noscript><img src="images/community-worship.webp"
+                                    alt="Grace and Praise church family worshiping together"
+                                    width="1024" height="1024" loading="lazy" decoding="async"></noscript>
                                 <span class="stay-connected-v8__icon stay-connected-v8__icon--teal" aria-hidden="true">
                                     <svg viewBox="0 0 24 24" focusable="false">
                                         <rect x="3.5" y="5" width="17" height="16" rx="2"></rect>
@@ -1498,11 +1449,13 @@
 
                     <article class="stay-connected-v8__card stay-connected-v8__card--prayer">
                         <a class="stay-connected-v8__link stay-connected-v8__btn-link" href="prayer-request.html"
-                            aria-label="Submit a Prayer: Share your prayer requests and pray with our church family.">
+                            >
                             <figure class="stay-connected-v8__media">
-                                <img src="images/community-greeting.webp"
+                                <img class="fast-lazy-image" data-lazy-src="images/community-greeting.webp"
                                     alt="Two people praying together over an open Bible"
-                                    width="1024" height="1024" loading="lazy" decoding="async">
+                                    width="1024" height="1024" loading="lazy" decoding="async"><noscript><img src="images/community-greeting.webp"
+                                    alt="Two people praying together over an open Bible"
+                                    width="1024" height="1024" loading="lazy" decoding="async"></noscript>
                                 <span class="stay-connected-v8__icon stay-connected-v8__icon--gold" aria-hidden="true">
                                     <svg viewBox="0 0 24 24" focusable="false">
                                         <path d="M12 20.5s-7-4.35-7-10.1A4.1 4.1 0 0 1 12 8a4.1 4.1 0 0 1 7 2.4c0 5.75-7 10.1-7 10.1Z"></path>
@@ -1523,11 +1476,13 @@
 
                     <article class="stay-connected-v8__card stay-connected-v8__card--worship">
                         <a class="stay-connected-v8__link stay-connected-v8__btn-link" href="ministries/worship-ministry.html"
-                            aria-label="Explore Praise and Worship Ministry: Serving God through worship, music, prayer, and praise as one church family.">
+                            >
                             <figure class="stay-connected-v8__media">
-                                <img src="images/homepage/hero-v2/final/worship-desktop.webp"
+                                <img class="fast-lazy-image" data-lazy-src="images/homepage/hero-v2/final/worship-desktop.webp"
                                     alt="Grace and Praise worship ministry leading the church in praise"
-                                    width="1000" height="750" loading="lazy" decoding="async">
+                                    width="1000" height="750" loading="lazy" decoding="async"><noscript><img src="images/homepage/hero-v2/final/worship-desktop.webp"
+                                    alt="Grace and Praise worship ministry leading the church in praise"
+                                    width="1000" height="750" loading="lazy" decoding="async"></noscript>
                                 <span class="stay-connected-v8__icon stay-connected-v8__icon--teal" aria-hidden="true">
                                     <svg viewBox="0 0 24 24" focusable="false">
                                         <path d="M9 18V5l10-2v13"></path>
@@ -1549,11 +1504,13 @@
 
                     <article class="stay-connected-v8__card stay-connected-v8__card--devotion">
                         <a class="stay-connected-v8__link stay-connected-v8__btn-link" href="daily-devotion.html"
-                            aria-label="Read Today's Daily Devotion: Be encouraged by God's Word every day.">
+                            >
                             <figure class="stay-connected-v8__media">
-                                <img src="images/devotions/daily-devotion-hero.webp"
+                                <img class="fast-lazy-image" data-lazy-src="images/devotions/daily-devotion-hero.webp"
                                     alt="A warmly lit devotional scene with Scripture and a candle"
-                                    width="1024" height="1024" loading="lazy" decoding="async">
+                                    width="1024" height="1024" loading="lazy" decoding="async"><noscript><img src="images/devotions/daily-devotion-hero.webp"
+                                    alt="A warmly lit devotional scene with Scripture and a candle"
+                                    width="1024" height="1024" loading="lazy" decoding="async"></noscript>
                                 <span class="stay-connected-v8__icon stay-connected-v8__icon--teal" aria-hidden="true">
                                     <svg viewBox="0 0 24 24" focusable="false">
                                         <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z"></path>
@@ -1574,11 +1531,13 @@
 
                     <article class="stay-connected-v8__card stay-connected-v8__card--give">
                         <a class="stay-connected-v8__link stay-connected-v8__btn-link" href="give.html"
-                            aria-label="Give Online: Partner with what God is doing through GPBC.">
+                            >
                             <figure class="stay-connected-v8__media">
-                                <img src="images/homepage/hero-v2/final/family-desktop.webp"
+                                <img class="fast-lazy-image" data-lazy-src="images/homepage/hero-v2/final/family-desktop.webp"
                                     alt="Grace and Praise church family gathered together"
-                                    width="1200" height="900" loading="lazy" decoding="async">
+                                    width="1200" height="900" loading="lazy" decoding="async"><noscript><img src="images/homepage/hero-v2/final/family-desktop.webp"
+                                    alt="Grace and Praise church family gathered together"
+                                    width="1200" height="900" loading="lazy" decoding="async"></noscript>
                                 <span class="stay-connected-v8__icon stay-connected-v8__icon--gold" aria-hidden="true">
                                     <svg viewBox="0 0 24 24" focusable="false">
                                         <path d="M20.5 12.5v5.25A2.25 2.25 0 0 1 18.25 20H5.75a2.25 2.25 0 0 1-2.25-2.25V9.5h17v3"></path>
@@ -4798,7 +4757,7 @@
             }
 
             function startAuto() {
-                if (prefersReducedMotion || autoTimer || !isVisible) return;
+                if (document.body.classList.contains('fast-accessible') || prefersReducedMotion || autoTimer || !isVisible) return;
                 autoTimer = setInterval(nextStep, AUTO_DELAY);
             }
 
@@ -5157,8 +5116,8 @@
     <script src="shared/website-control-runtime.js" defer></script>
     <script src="shared/website-control-schema.js" defer></script>
     <script src="website-control.js" defer></script>
-    <script src="community-carousel-v5.js" defer></script>
-    <script src="event-flip-cards.js" defer></script>
+    <script data-lazy-src="community-carousel-v5.js" data-visible=".community-v5"></script>
+    <script data-lazy-src="event-flip-cards.js" data-visible="#featured-events"></script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260918-v11-theme-final3" defer></script>
     <script src="events.js?v=20260129a" defer></script>
@@ -5204,13 +5163,13 @@
     </script>
 
     <!-- SHAPE SYSTEM — Spiritual design interactions -->
-    <script src="shape-system.js" defer></script>
+    <script data-lazy-src="shape-system.js" data-visible=".shape-section"></script>
 
     <!-- HEPTAGON CAROUSEL — Sacred geometry scroll interaction -->
-    <script src="heptagon-wheel-sacred.js" defer></script>
+    <script data-lazy-src="heptagon-wheel-sacred.js" data-visible=".heptagon-wheel-container"></script>
 
     <!-- HOMEPAGE RESPONSIVE FIX — Dynamic header height sync (mobile/iPad only) -->
-    <script src="homepage-responsive-fix.js" defer></script>
+    <script data-lazy-src="homepage-responsive-fix.js" data-visible="#about"></script>
 
     <!-- SCROLL TO TOP BUTTON -->
     <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
@@ -5252,15 +5211,14 @@
         })();
     </script>
     <!-- Logo System Scripts -->
-    <script src="logo-loading.js?v=20260918-v11-theme-final3" defer></script>
-    <script src="logo-loader.js" defer></script>
-    <script src="hero-upgrade.js" defer></script>
+    <script data-lazy-src="hero-upgrade.js" data-visible="#about"></script>
 
     <!-- Site Footer (Partial Injection) -->
     <div data-partial="site-footer"></div>
+    <noscript><footer lang="en" class="fast-static-footer"><p>Grace and Praise Bangladeshi Church</p><p>1325 Richardson Street, San Bernardino, CA 92408</p><a href="contact.html">Contact us</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-conditions.html">Terms</a></footer></noscript>
 
     <!-- Persistent Floating Sermon Player -->
-    <script src="js/sermon-player.js" defer></script>
+    <script data-lazy-src="js/sermon-player.js" data-visible="footer"></script>
 
     <script type="module" src="./js/footer/footer-init.js"></script>
 

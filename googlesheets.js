@@ -29,7 +29,7 @@ async function loadEventsFromGoogleSheets() {
 
         const data = await response.json();
 
-        if (data.events) {
+        if (Array.isArray(data.events) && data.events.every(event => typeof event.date === 'string' && typeof event.name === 'string')) {
             // Clear existing GPBC events from array
             for (let i = events.length - 1; i >= 0; i--) {
                 if (events[i].category === 'gpbc') {

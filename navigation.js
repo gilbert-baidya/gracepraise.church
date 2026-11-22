@@ -463,7 +463,9 @@
                 if (firstLink) firstLink.focus();
             }, 100);
             // Phase 6: Focus trap within mobile menu
-            navLinks.addEventListener('keydown', trapFocusInMenu);
+            if (!document.body.classList.contains('fast-accessible')) {
+                navLinks.addEventListener('keydown', trapFocusInMenu);
+            }
         } else {
             // Return focus to burger button on close
             navLinks.removeEventListener('keydown', trapFocusInMenu);

@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <script>document.documentElement.classList.add("js-enabled");</script>
+    <script src="js/fast-accessible.d5234074a064.js" defer></script>
     
     <script src="platform-runtime.js?v=20260918-v11-theme-final3"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,11 +65,7 @@
     </script>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="redesign-styles.css?v=20260918-v11-theme-final3">
-    <link rel="stylesheet" href="logo-loading.css">
-    <link rel="stylesheet" href="logo-styles.css">
-    <link rel="stylesheet" href="dark-mode-toggle-position.css?v=20260918-v11-theme-final3">
-
+    <link rel="stylesheet" data-lazy-href="redesign-styles.css?v=20260918-v11-theme-final3" data-visible='main > section:nth-of-type(2)'><noscript><link rel="stylesheet" href="redesign-styles.css?v=20260918-v11-theme-final3"></noscript>
     <!-- GLOBAL LAYOUT LOCK — SAFE, DO NOT REMOVE -->
     <style>
         *,
@@ -763,36 +761,36 @@
             }
         }
     </style>
-    <script src="./js/partials.js?v=20260918-v11-theme-final3"></script>
-    <link rel="stylesheet" href="./css/footer-v3.css">
+    <link rel="stylesheet" data-lazy-href="./css/footer-v3.css" data-visible=".site-footer"><noscript><link rel="stylesheet" href="./css/footer-v3.css"></noscript>
     <link rel="stylesheet" href="give-v14.css?v=20260920">
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js" defer></script>
     <link rel="stylesheet" href="website-control.css" data-gpbc-control-style="true">
+    <link rel="stylesheet" href="assets/css/fast-accessible.a3df31b229b5.css">
     <link rel="stylesheet" href="assets/css/shared-style.css">
 </head>
 
-<body class="give-v14-page gpbc-shared">
+<body class="give-v14-page gpbc-shared fast-accessible">
     <!-- Skip Link -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Header -->
     <header>
-        <nav>
+        <nav aria-label="Main navigation">
             <div class="nav-container">
                 <a href="#home" class="logo">
-                    <img loading="lazy" src="images/new-gpbc-logo-final.svg" alt="Grace and Praise Bangladeshi Church"
+                    <img loading="lazy" src="images/logo/gpbc-mark.40eae7be38cd.webp" width="192" height="192" alt=""
                         class="logo-image" loading="eager" decoding="async">
-                </a>
+                <span class="fast-brand" lang="en">Grace &amp; Praise<span>Bangladeshi Church</span></span></a>
                 <button id="darkModeToggle" class="dark-mode-toggle" type="button" aria-label="Switch to Night mode" aria-pressed="false" title="Switch to Night mode">
                     <span class="sun-icon">☀️</span>
                     <span class="moon-icon">🌙</span>
                 </button>
-                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+                <button class="mobile-menu-btn" aria-label="Menu" aria-controls="nav-links" aria-expanded="false" type="button">
                     <span></span>
                     <span></span>
                     <span></span>
-                </button>
-                <ul class="nav-links">
+                <span class="fast-menu-label">Menu</span></button>
+                <ul class="nav-links" id="nav-links">
                     <li><a href="#live">LIVE</a></li>
                     <li><a href="index.html">Home</a></li>
                     <li class="nav-dropdown">
@@ -860,7 +858,7 @@
     </header>
 
     <!-- Main Content -->
-    <main id="main-content">
+    <main tabindex="-1" id="main-content">
         <section class="give-v14-hero" aria-labelledby="give-hero-title">
             <span class="give-v14-hero-cross" aria-hidden="true"></span>
             <div class="give-v14-container">
@@ -952,7 +950,7 @@
                         <h3>QR Code</h3>
                         <p>Scan to open the existing PayPal giving link on your phone.</p>
                         <div id="paypalQR" class="give-v14-qr" tabindex="-1" role="img" aria-label="QR code for PayPal giving"><span class="give-v14-qr-fallback">QR code loading</span></div>
-                        <button class="give-v14-qr-link" type="button" data-scroll-to="paypalQR">View QR Code</button>
+                        <a class="give-v14-qr-link" href="https://www.paypal.com/ncp/payment/V3AF32ZHJSAME" target="_blank" rel="noopener noreferrer">Open online giving<span class="sr-only"> (opens in a new tab)</span></a>
                     </article>
 
                     <article class="give-v14-method-card">
@@ -1036,11 +1034,9 @@
 
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260918-v11-theme-final3"></script>
-    <script src="logo-loading.js?v=20260918-v11-theme-final3"></script>
-    <script src="logo-loader.js"></script>
-
     <!-- Site Footer (Partial Injection) -->
     <div data-partial="site-footer"></div>
+    <noscript><footer lang="en" class="fast-static-footer"><p>Grace and Praise Bangladeshi Church</p><p>1325 Richardson Street, San Bernardino, CA 92408</p><a href="contact.html">Contact us</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-conditions.html">Terms</a></footer></noscript>
 
     <script type="module" src="./js/footer/footer-init.js"></script>
 </body>

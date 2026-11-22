@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+function initializeCommunityCarousel() {
     const root = document.querySelector('.community-v5');
     if (!root) return;
 
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             slide.style.pointerEvents = pointerEvents;
             slide.classList.toggle('is-active', isActive);
             slide.setAttribute('aria-hidden', String(!isActive));
+            slide.setAttribute('aria-label', slide.querySelector('.community-v5__caption').textContent.trim().replace(/\s+/g, ' '));
             slide.tabIndex = isActive ? 0 : -1;
         });
 
@@ -116,4 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     updateCarousel(0);
-});
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeCommunityCarousel, { once: true });
+else initializeCommunityCarousel();

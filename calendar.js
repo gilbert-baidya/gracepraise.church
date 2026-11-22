@@ -45,36 +45,92 @@ if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') 
 }
 
 // Initialize calendar on page load
+let calendarFeedState = 'loading';
 document.addEventListener('DOMContentLoaded', async function () {
-    // Generate Calendar Access QR Code
-    generateCalendarAccessQR();
-
-    // Sync checkboxes with current filter state
     updateAdvancedCheckboxes();
-
-    // Load events from Google Sheets if configured
-    if (USE_GOOGLE_SHEETS && GOOGLE_SHEETS_URL !== 'YOUR_WEB_APP_URL_HERE') {
-        showLoadingIndicator('Loading events from database...');
-        const loaded = await loadEventsFromGoogleSheets();
-        hideLoadingIndicator();
-
-        if (!loaded) {
-            // Fallback to localStorage if Google Sheets fails
-            loadCustomEvents();
-        }
-    } else {
-        // Use localStorage
-        loadCustomEvents();
-    }
-
+    clearUnverifiedChurchEvents();
     initializeCalendar();
     setupEventListeners();
-    displayUpcomingEvents();
-    checkAndShowReminders();
-    setupDonationModal();
-    setupPrayerRequestModal();
-    initializeCloudinaryWidget();
+    setupCalendarViews();
+    document.getElementById('calendarFeedRetry').addEventListener('click', () => refreshCalendarEvents(true));
+    const qr = document.getElementById('calendarAccessQR');
+    if (qr && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+            if (!entries.some(entry => entry.isIntersecting)) return;
+            observer.disconnect();
+            loadCalendarLibrary('QRCode', 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js')
+                .then(generateCalendarAccessQR).catch(() => { qr.textContent = 'Use the Open calendar link below.'; });
+        });
+        observer.observe(qr.parentElement);
+    }
+    await refreshCalendarEvents();
 });
+
+function setupCalendarViews() {
+    const list = document.getElementById('month-event-list');
+    const month = document.getElementById('calendar-month-table');
+    const buttons = [document.getElementById('calendar-list-view'), document.getElementById('calendar-month-view')];
+    function select(view) {
+        list.hidden = view !== 'list';
+        month.hidden = view !== 'month';
+        document.getElementById('calendar-month-region').hidden = month.hidden;
+        buttons[0].setAttribute('aria-pressed', String(view === 'list'));
+        buttons[1].setAttribute('aria-pressed', String(view === 'month'));
+    }
+    buttons[0].addEventListener('click', () => select('list'));
+    buttons[1].addEventListener('click', () => select('month'));
+    select(matchMedia('(max-width: 767px)').matches ? 'list' : 'month');
+}
+
+async function refreshCalendarEvents(retry = false) {
+    const status = document.getElementById('calendarFeedStatus');
+    const button = document.getElementById('calendarFeedRetry');
+    const region = document.getElementById('upcomingEventsList');
+    const hadFocus = document.activeElement === button;
+    button.disabled = true;
+    region.setAttribute('aria-busy', 'true');
+    status.textContent = 'Loading upcoming events…';
+    const loaded = await loadEventsFromGoogleSheets();
+    calendarFeedState = loaded ? 'ready' : 'error';
+    region.setAttribute('aria-busy', 'false');
+    button.disabled = false;
+    button.hidden = loaded;
+    if (!loaded) {
+        clearUnverifiedChurchEvents();
+        status.textContent = 'Upcoming events are unavailable. Please retry or contact the church.';
+        region.replaceChildren();
+    } else {
+        status.textContent = retry ? 'Upcoming events updated.' : '';
+        displayUpcomingEvents();
+    }
+    renderCalendar();
+    renderMonthEvents();
+    if (loaded && hadFocus) {
+        const heading = document.getElementById('currentMonth');
+        heading.tabIndex = -1;
+        heading.focus();
+    }
+}
+
+const calendarLibraries = new Map();
+function clearUnverifiedChurchEvents() {
+    for (let index = events.length - 1; index >= 0; index--) {
+        if (events[index].category === 'gpbc') events.splice(index, 1);
+    }
+}
+function loadCalendarLibrary(name, url) {
+    if (window[name]) return Promise.resolve();
+    if (calendarLibraries.has(name)) return calendarLibraries.get(name);
+    const promise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = url;
+        script.onload = resolve;
+        script.onerror = () => { calendarLibraries.delete(name); script.remove(); reject(new Error('Library unavailable')); };
+        document.head.appendChild(script);
+    });
+    calendarLibraries.set(name, promise);
+    return promise;
+}
 
 function applyPreset(preset) {
     currentPreset = preset;
@@ -371,14 +427,20 @@ function renderCalendar() {
     const calendarGrid = document.querySelector('.calendar-grid');
 
     // Keep weekday headers
-    const weekdayHeaders = calendarGrid.querySelectorAll('.weekday');
-    calendarGrid.innerHTML = '';
-    weekdayHeaders.forEach(header => calendarGrid.appendChild(header));
+    const body = calendarGrid.tBodies[0];
+    body.replaceChildren();
+    calendarGrid.caption.textContent = currentMonthEl.textContent;
+    let row;
+    let cellCount = 0;
+    function appendDay(day) {
+        if (cellCount++ % 7 === 0) row = body.insertRow();
+        row.appendChild(day);
+    }
 
     // Previous month days
     for (let i = firstDayIndex - 1; i >= 0; i--) {
         const day = createDayElement(prevLastDayDate - i, true);
-        calendarGrid.appendChild(day);
+        appendDay(day);
     }
 
     // Current month days
@@ -388,7 +450,7 @@ function renderCalendar() {
             currentMonth === today.getMonth() &&
             i === today.getDate();
         const day = createDayElement(i, false, isToday);
-        calendarGrid.appendChild(day);
+        appendDay(day);
     }
 
     // Next month days to fill the grid
@@ -397,12 +459,12 @@ function renderCalendar() {
 
     for (let i = 1; i <= remainingCells; i++) {
         const day = createDayElement(i, true);
-        calendarGrid.appendChild(day);
+        appendDay(day);
     }
 }
 
 function createDayElement(dayNumber, isOtherMonth, isToday = false) {
-    const dayDiv = document.createElement('div');
+    const dayDiv = document.createElement('td');
     dayDiv.className = 'day';
 
     if (isOtherMonth) {
@@ -414,8 +476,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
 
     // Add Sunday class for subtle highlighting
     if (!isOtherMonth) {
-        const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(dayNumber).padStart(2, '0')}`;
-        const date = new Date(dateString);
+        const date = new Date(currentYear, currentMonth, dayNumber);
         if (date.getDay() === 0) { // Sunday
             dayDiv.classList.add('sunday');
         }
@@ -425,18 +486,6 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
     dayNumberDiv.className = 'day-number';
     dayNumberDiv.textContent = dayNumber;
     dayDiv.appendChild(dayNumberDiv);
-
-    // Make day clickable to add events (only for current month days)
-    if (!isOtherMonth) {
-        dayDiv.style.cursor = 'pointer';
-        dayDiv.addEventListener('click', (e) => {
-            // Only show add event modal if not clicking on an event marker
-            if (!e.target.classList.contains('event-marker')) {
-                const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(dayNumber).padStart(2, '0')}`;
-                showAddEventModal(dateString);
-            }
-        });
-    }
 
     // Add events for this day
     if (!isOtherMonth) {
@@ -448,7 +497,8 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
 
         dayEvents.forEach(event => {
             if (shouldDisplayEvent(event)) {
-                const eventMarker = document.createElement('div');
+                const eventMarker = document.createElement('a');
+                eventMarker.href = '#eventDetailModal';
                 eventMarker.className = `event-marker ${event.category}`;
 
                 // Check if event was added in the last 7 days
@@ -459,7 +509,17 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
                 const isFriendly = isFirstTimeFriendly(event);
                 const friendlyBadge = isFriendly ? '<span class="visitor-friendly-badge" title="A great service to start your journey with us">👋</span> ' : '';
 
-                eventMarker.innerHTML = `${friendlyBadge}${newIcon}${categoryEmojis[event.category]} ${escapeHtml(event.name)}`;
+                const icons = document.createElement('span');
+                icons.setAttribute('aria-hidden', 'true');
+                icons.innerHTML = `${friendlyBadge}${newIcon}${categoryEmojis[event.category]} `;
+                const name = document.createElement('span');
+                name.lang = /[\u0980-\u09ff]/.test(event.name) ? 'bn' : 'en';
+                name.textContent = event.name;
+                const fullDate = document.createElement('span');
+                fullDate.lang = 'en';
+                fullDate.className = 'sr-only';
+                fullDate.textContent = ', ' + new Date(currentYear, currentMonth, dayNumber).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                eventMarker.append(icons, name, fullDate);
 
                 // Add special styling for new events
                 if (isNew) {
@@ -468,7 +528,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
                 }
 
                 eventMarker.addEventListener('click', (e) => {
-                    e.stopPropagation();
+                    e.preventDefault();
                     showEventDetail(event);
                 });
                 dayDiv.appendChild(eventMarker);
@@ -517,10 +577,10 @@ function getEventsForMonth(month, year) {
 
 function renderMonthEvents() {
     const monthEventsDiv = document.getElementById('monthEvents');
-    const monthEvents = getEventsForMonth(currentMonth, currentYear);
+    const monthEvents = getEventsForMonth(currentMonth, currentYear).filter(shouldDisplayEvent);
 
     if (monthEvents.length === 0) {
-        monthEventsDiv.innerHTML = '<p style="color: #666;">No events this month</p>';
+        monthEventsDiv.innerHTML = '<li>No events this month</li>';
         return;
     }
 
@@ -529,18 +589,20 @@ function renderMonthEvents() {
     const now = new Date();
     const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
 
+    const dateGroups = new Map();
     monthEvents.forEach(event => {
         if (shouldDisplayEvent(event)) {
-            const eventItem = document.createElement('div');
+            const eventItem = document.createElement('li');
             eventItem.className = `event-item ${event.category}`;
 
             // Fix timezone issue by treating as local date
             const [year, month, day] = event.date.split('-');
             const eventDate = new Date(year, month - 1, day);
             const formattedDate = eventDate.toLocaleDateString('en-US', {
-                weekday: 'short',
-                month: 'short',
-                day: 'numeric'
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
             });
 
             // Check if event was added in the last 7 days
@@ -559,13 +621,22 @@ function renderMonthEvents() {
             }
 
             eventItem.innerHTML = `
-                <div class="event-name">${categoryEmojis[event.category]} ${escapeHtml(event.name)}${newBadge}</div>
-                <div class="event-date">${formattedDate}</div>
+                <a class="event-name" href="#eventDetailModal"><span lang="${/[\u0980-\u09ff]/.test(event.name) ? 'bn' : 'en'}">${escapeHtml(event.name)}</span> · <span lang="en">${formattedDate}</span></a>${newBadge}
+                <div class="event-date">${formattedDate}</div><p>Time to be confirmed · Pacific Time · Place to be confirmed</p>
                 ${friendlyBadge}
             `;
 
-            eventItem.addEventListener('click', () => showEventDetail(event));
-            monthEventsDiv.appendChild(eventItem);
+            eventItem.querySelector('a').addEventListener('click', e => { e.preventDefault(); showEventDetail(event); });
+            if (!dateGroups.has(event.date)) {
+                const group = document.createElement('li');
+                const heading = document.createElement('h4');
+                heading.textContent = formattedDate;
+                const list = document.createElement('ol');
+                group.append(heading, list);
+                monthEventsDiv.appendChild(group);
+                dateGroups.set(event.date, list);
+            }
+            dateGroups.get(event.date).appendChild(eventItem);
         }
     });
 }
@@ -586,6 +657,8 @@ function showEventDetail(event) {
     document.getElementById('eventTitle').textContent = `${categoryEmojis[event.category]} ${event.name}`;
     document.getElementById('eventDate').textContent = formattedDate;
     document.getElementById('eventDescription').textContent = event.description;
+    document.getElementById('eventTitle').lang = /[\u0980-\u09ff]/.test(event.name) ? 'bn' : 'en';
+    document.getElementById('eventDescription').lang = /[\u0980-\u09ff]/.test(event.description || '') ? 'bn' : 'en';
 
     // Remove any existing contact info or image
     const existingContactInfo = document.querySelector('.event-contact-info');
@@ -724,25 +797,27 @@ function copyToClipboard(text) {
 
 function displayUpcomingEvents() {
     const upcomingEventsList = document.getElementById('upcomingEventsList');
-    const reminders = getUpcomingReminders().slice(0, 3); // Show max 3 events
+    const reminders = getUpcomingReminders().filter(event => event.category === 'gpbc').slice(0, 3); // Show max 3 events
 
     if (reminders.length === 0) {
-        upcomingEventsList.innerHTML = '<div class="upcoming-events-empty">No upcoming events in the next 2 months</div>';
+        upcomingEventsList.innerHTML = '<div class="upcoming-events-empty">No other gatherings are scheduled yet</div>';
     } else {
         upcomingEventsList.innerHTML = '';
         reminders.forEach(reminder => {
-            const eventCard = document.createElement('div');
+            const eventCard = document.createElement('a');
+            eventCard.href = '#eventDetailModal';
             eventCard.className = 'upcoming-event-card';
 
             eventCard.innerHTML = `
-                <div class="event-date">${escapeHtml(reminder.dateFormatted)}</div>
-                <div class="event-title">${escapeHtml(reminder.name)}</div>
+                <div class="event-date" lang="en">${new Date(reminder.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                <div class="event-title" lang="${/[\u0980-\u09ff]/.test(reminder.name) ? 'bn' : 'en'}">${escapeHtml(reminder.name)}</div><p>Time to be confirmed · Pacific Time · Place to be confirmed</p>
                 <div class="event-category">${categoryEmojis[reminder.category]} ${escapeHtml(reminder.category)}</div>
             `;
 
             // Add click to show event details
             eventCard.style.cursor = 'pointer';
-            eventCard.addEventListener('click', () => {
+            eventCard.addEventListener('click', event => {
+                event.preventDefault();
                 showEventDetailsModal(reminder);
             });
 
@@ -917,7 +992,9 @@ async function deleteCurrentEvent() {
     }
 }
 
-function downloadCalendarAsImage() {
+async function downloadCalendarAsImage() {
+    try { await loadCalendarLibrary('html2canvas', 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'); }
+    catch { alert('Calendar image could not be created. Please retry.'); return; }
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'];
 

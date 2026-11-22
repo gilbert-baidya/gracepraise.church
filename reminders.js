@@ -51,7 +51,8 @@ function enableBrowserNotifications() {
 
 // Check for events happening today or soon
 function checkDailyReminders() {
-    const notificationsEnabled = localStorage.getItem('notificationsEnabled') === 'true';
+    let notificationsEnabled = false;
+    try { notificationsEnabled = localStorage.getItem('notificationsEnabled') === 'true'; } catch { return; }
     if (!notificationsEnabled) return;
 
     const today = new Date();
@@ -153,8 +154,11 @@ function saveReminderPreferences(preferences) {
 
 // Load reminder preferences from local storage
 function loadReminderPreferences() {
-    const saved = localStorage.getItem('reminderPreferences');
-    return saved ? JSON.parse(saved) : {
+    try {
+        const saved = localStorage.getItem('reminderPreferences');
+        if (saved) return JSON.parse(saved);
+    } catch { /* Use defaults when preferences are unavailable. */ }
+    return {
         bangladeshi: true,
         american: true,
         christian: true,

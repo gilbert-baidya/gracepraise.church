@@ -80,6 +80,7 @@ test('sheet event HTML stays literal in calendar markers, monthly lists and upco
   });
   await page.goto('/calendar.html');
   for (const selector of ['.calendar-grid .event-marker', '#monthEvents .event-item', '#upcomingEventsList .upcoming-event-card']) {
+    if (selector.startsWith('#monthEvents')) await page.locator('#calendar-list-view').click();
     const surface = page.locator(selector).filter({ hasText: 'Stored-XSS regression' });
     await expect(surface).toHaveCount(1);
     await expect(surface).toBeVisible();

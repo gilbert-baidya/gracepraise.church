@@ -36,8 +36,14 @@ test.describe('V10 shared footer rendering', () => {
       const footer = page.locator('footer.site-footer');
       await expect(footer, `Missing shared V10 footer on ${route}`).toHaveCount(1);
       await expect(footer).toBeVisible();
-      await expect(footer.locator('.sacred-footer__logo')).toHaveJSProperty('complete', true);
-      await expect(footer.locator('.sacred-footer__logo')).toHaveAttribute('src', /new-gpbc-logo-final\.svg$/);
+      await footer.locator('.sacred-footer__logo').evaluate(element => element.scrollIntoView({ behavior: 'instant', block: 'center' }));
+      await expect.poll(async () => {
+        const logo = footer.locator('.sacred-footer__logo');
+        const complete = await logo.evaluate((image: HTMLImageElement) => image.complete);
+        if (!complete) await logo.evaluate(element => element.scrollIntoView({ behavior: 'instant', block: 'center' }));
+        return complete;
+      }).toBe(true);
+      await expect(footer.locator('.sacred-footer__logo')).toHaveAttribute('src', /gpbc-mark\.[a-f0-9]{12}\.webp$/);
       await expect.poll(() => footer.locator('.sacred-footer__logo').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
       await expect(footer.locator('#footer-auto-year')).toHaveText(String(new Date().getFullYear()));
     });

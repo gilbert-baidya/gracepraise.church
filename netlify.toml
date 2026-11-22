@@ -23,6 +23,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
@@ -153,3 +154,13 @@ from = "http://pastor.gracepraise.church/*"
 to = "https://gracepraise.church/pastor/:splat"
 status = 301
 force = true
+
+[[headers]]
+for = "/assets/css/fast-accessible.*.css"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/js/fast-accessible.*.js"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
