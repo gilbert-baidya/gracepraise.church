@@ -40,6 +40,10 @@ for (const width of [320, 390, 844, 1024, 1440]) {
           return {
             width: element.clientWidth, scrollWidth: element.scrollWidth,
             pageWidth: document.documentElement.scrollWidth, viewport: innerWidth,
+            days: [...element.querySelectorAll(':scope > .day')].map(day => {
+              const rect = day.getBoundingClientRect();
+              return { top: rect.top, height: rect.height };
+            }),
             weekdays: [...element.querySelectorAll(':scope > .weekday')].map(day => {
               const rect = day.getBoundingClientRect();
               return { left: rect.left - box.left, right: rect.right - box.left, width: rect.width, top: rect.top,
@@ -50,6 +54,10 @@ for (const width of [320, 390, 844, 1024, 1440]) {
         expect(geometry.weekdays).toHaveLength(7);
         expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.width + 1);
         expect(geometry.pageWidth).toBeLessThanOrEqual(geometry.viewport);
+        for (let index = 0; index < geometry.days.length; index += 7) {
+          const heights = geometry.days.slice(index, index + 7).map(day => day.height);
+          expect(Math.max(...heights) - Math.min(...heights)).toBeLessThanOrEqual(1);
+        }
         for (const day of geometry.weekdays) {
           expect(day.left).toBeGreaterThanOrEqual(-1);
           expect(day.right).toBeLessThanOrEqual(geometry.width + 1);
