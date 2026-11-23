@@ -6,6 +6,7 @@ let activeFilters = new Set(['gpbc', 'christian']); // Default to showing standa
 let currentPreset = 'this-week'; // Default to "All Events" preset
 let selectedDate = null;
 let currentEvent = null;
+let isDeletingEvent = false;
 
 const CODE_OWNER = 'gilbert-baidya'; // Change to your GitHub username
 
@@ -864,55 +865,68 @@ async function addGPBCEvent() {
 }
 
 async function deleteCurrentEvent() {
+    if (isDeletingEvent) return;
     const eventToDelete = currentEvent;
     if (!eventToDelete || eventToDelete.category !== 'gpbc') {
         alert('Only GPBC events can be deleted.');
         return;
     }
 
-    if (confirm(`Are you sure you want to delete "${eventToDelete.name}"?`)) {
-        showLoadingIndicator('Deleting event...');
+    const identity = {
+        date: eventToDelete.sourceDate || eventToDelete.date,
+        name: eventToDelete.name,
+        owner: eventToDelete.owner || CODE_OWNER
+    };
+    const matchesEvent = event => event && event.category === 'gpbc' &&
+        (event.sourceDate || event.date) === identity.date &&
+        event.name === identity.name && (event.owner || CODE_OWNER) === identity.owner;
 
-        // Try to delete from Google Sheets first
-        if (USE_GOOGLE_SHEETS && GOOGLE_SHEETS_URL !== 'YOUR_WEB_APP_URL_HERE') {
-            const deleted = await deleteEventFromGoogleSheets(eventToDelete);
-            if (deleted) {
-                // Reload all events from Google Sheets to get the latest data
-                await loadEventsFromGoogleSheets();
+    if (confirm(`Are you sure you want to delete "${eventToDelete.name}"?`)) {
+        isDeletingEvent = true;
+        const deleteButton = document.getElementById('deleteEventBtn');
+        if (deleteButton) deleteButton.disabled = true;
+        try {
+            showLoadingIndicator('Deleting event...');
+
+            // Try to delete from Google Sheets first
+            if (USE_GOOGLE_SHEETS && GOOGLE_SHEETS_URL !== 'YOUR_WEB_APP_URL_HERE') {
+                const deleted = await deleteEventFromGoogleSheets(eventToDelete);
+                if (deleted) {
+                    // Reload all events from Google Sheets to get the latest data
+                    await loadEventsFromGoogleSheets();
+                } else {
+                    // Fallback to localStorage
+                    const index = events.findIndex(matchesEvent);
+                    if (index !== -1) {
+                        events.splice(index, 1);
+                        saveCustomEvents();
+                    }
+                    // console.log('Using localStorage fallback for delete'); // Removed for production
+                }
             } else {
-                // Fallback to localStorage
-                const index = events.findIndex(e =>
-                    e.date === eventToDelete.date &&
-                    e.name === eventToDelete.name &&
-                    e.category === 'gpbc'
-                );
+                // Remove from local array when using localStorage
+                const index = events.findIndex(matchesEvent);
                 if (index !== -1) {
                     events.splice(index, 1);
                     saveCustomEvents();
                 }
-                // console.log('Using localStorage fallback for delete'); // Removed for production
             }
-        } else {
-            // Remove from local array when using localStorage
-            const index = events.findIndex(e =>
-                e.date === eventToDelete.date &&
-                e.name === eventToDelete.name &&
-                e.category === 'gpbc'
-            );
-            if (index !== -1) {
-                events.splice(index, 1);
-                saveCustomEvents();
+
+            hideLoadingIndicator();
+
+            // Close modal and refresh calendar
+            if (matchesEvent(currentEvent)) {
+                document.getElementById('eventDetailModal').style.display = 'none';
+                currentEvent = null;
             }
+            renderCalendar();
+            renderMonthEvents();
+            alert(`✓ Event "${identity.name}" deleted successfully!`);
+        } finally {
+            hideLoadingIndicator();
+            isDeletingEvent = false;
+            if (deleteButton) deleteButton.disabled = false;
         }
-
-        hideLoadingIndicator();
-
-        // Close modal and refresh calendar
-        document.getElementById('eventDetailModal').style.display = 'none';
-        renderCalendar();
-        renderMonthEvents();
-        alert(`✓ Event "${eventToDelete.name}" deleted successfully!`);
-        currentEvent = null;
     }
 }
 
