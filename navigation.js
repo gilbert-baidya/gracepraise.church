@@ -24,6 +24,13 @@
 
     // Canonical breakpoint constant (unified across all files)
     const NAV_BREAKPOINT = 1024;
+    const drawerStyle = document.createElement('link');
+    drawerStyle.rel = 'stylesheet';
+    drawerStyle.href = new URL('assets/css/mobile-drawer.css', document.currentScript.src).href;
+    drawerStyle.addEventListener('load', () => {
+        document.documentElement.dataset.drawerStyles = 'ready';
+    });
+    document.head.appendChild(drawerStyle);
 
     // Telemetry markers (console only, no external calls)
     const NAV_TELEMETRY = {
@@ -69,69 +76,6 @@
     const MAX_INIT_ATTEMPTS = 3;
     const root = document.documentElement;
 
-    // FORCE CSS OVERRIDE FOR MOBILE DROPDOWN CONTRAST
-    // Scope strictly to mobile-open dropdown states so desktop light mode is unaffected.
-    const mobileContrastStyle = document.createElement('style');
-    mobileContrastStyle.innerHTML = `
-        @media (max-width: 1024px) {
-            /* Keep submenu container transparent in the mobile overlay */
-            body .nav-links .nav-dropdown.mobile-dropdown-open > .dropdown-menu,
-            body .nav-links .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu,
-            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested,
-            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested,
-            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > .dropdown-menu,
-            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu,
-            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested,
-            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested {
-                background: transparent !important;
-                background-color: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-                border-radius: 0 !important;
-                backdrop-filter: none !important;
-                -webkit-backdrop-filter: none !important;
-            }
-
-            /* High-contrast mobile dropdown pills */
-            body .nav-links .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a,
-            body .nav-links .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a,
-            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a,
-            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a,
-            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a,
-            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a,
-            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a,
-            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a {
-                color: #f8fafc !important;
-                background: linear-gradient(135deg, rgba(51, 65, 85, 0.9), rgba(30, 41, 59, 0.92)) !important;
-                border: 1px solid rgba(148, 163, 184, 0.16) !important;
-                border-radius: 14px !important;
-                text-shadow: none !important;
-                -webkit-text-fill-color: #f8fafc !important;
-            }
-
-            body .nav-links .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a:hover,
-            body .nav-links .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a:hover,
-            body .nav-links .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a:focus-visible,
-            body .nav-links .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a:focus-visible,
-            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a:hover,
-            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a:hover,
-            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a:focus-visible,
-            body .nav-links .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a:focus-visible,
-            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a:hover,
-            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a:hover,
-            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > .dropdown-menu > li > a:focus-visible,
-            body.menu-open .nav-links.mobile-open .nav-dropdown.mobile-dropdown-open > ul.dropdown-menu > li > a:focus-visible,
-            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a:hover,
-            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a:hover,
-            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > .dropdown-menu-nested > li > a:focus-visible,
-            body.menu-open .nav-links.mobile-open .nav-dropdown-nested.mobile-dropdown-open > ul.dropdown-menu-nested > li > a:focus-visible {
-                background: linear-gradient(135deg, rgba(30, 41, 59, 0.96), rgba(15, 23, 42, 0.98)) !important;
-                color: #ffffff !important;
-                -webkit-text-fill-color: #ffffff !important;
-            }
-        }
-    `;
-    document.head.appendChild(mobileContrastStyle);
 
     // Phase 4: Deterministic State Machine
     let currentNavMode = 'UNKNOWN'; // 'MOBILE' | 'DESKTOP'
@@ -825,6 +769,9 @@
         darkModeToggle.setAttribute('aria-pressed', String(isDark));
         darkModeToggle.setAttribute('aria-label', isDark ? 'Switch to Day mode' : 'Switch to Night mode');
         darkModeToggle.setAttribute('title', isDark ? 'Switch to Day mode' : 'Switch to Night mode');
+        if (!darkModeToggle.querySelector('[data-theme-icon]')) {
+            darkModeToggle.innerHTML = '<svg data-theme-icon="sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg data-theme-icon="moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>';
+        }
     }
 
     function initThemeToggle() {
@@ -894,6 +841,14 @@
                 link.classList.add('nav-active');
             }
         });
+        const normalize = pathname => pathname.replace(/\/index\.html$/, '/').replace(/\/$/, '');
+        const current = normalize(location.pathname);
+        const match = Array.from(links).find(link => {
+            const url = new URL(link.href, location.href);
+            return url.origin === location.origin && normalize(url.pathname) === current &&
+                (!url.hash || url.hash === '#home');
+        });
+        links.forEach(link => link.toggleAttribute('data-drawer-current', link === match));
     }
 
     function initializeNavigationSystem() {
@@ -911,6 +866,26 @@
         }
 
         initAttempts = 0;
+        header.setAttribute('data-gpbc-drawer', '');
+        if (!header.querySelector('#darkModeToggle') && mobileMenuBtn) {
+            const toggle = document.createElement('button');
+            toggle.id = 'darkModeToggle';
+            toggle.className = 'dark-mode-toggle';
+            toggle.type = 'button';
+            toggle.setAttribute('data-drawer-toggle', '');
+            mobileMenuBtn.before(toggle);
+        }
+        const logo = header.querySelector('.logo');
+        const legacyWordmark = logo?.querySelector('.give-brand');
+        if (legacyWordmark) legacyWordmark.classList.add('visit-brand-copy');
+        if (logo && !logo.querySelector('.visit-brand-copy')) {
+            const wordmark = document.createElement('span');
+            wordmark.className = 'visit-brand-copy';
+            wordmark.lang = 'en';
+            wordmark.setAttribute('data-drawer-wordmark', '');
+            wordmark.innerHTML = '<strong>GRACE &amp; PRAISE</strong><small>Bangladeshi Church</small>';
+            logo.appendChild(wordmark);
+        }
         attachHeaderHeightListener();
 
         updateScrollPadding();
