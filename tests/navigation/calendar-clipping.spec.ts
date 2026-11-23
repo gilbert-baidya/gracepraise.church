@@ -82,13 +82,30 @@ for (const width of [320, 390, 844, 1024, 1440]) {
       const markers = page.locator('.calendar-grid .event-marker');
       await expect(markers.filter({ hasText: 'HOLY COMMUNION SERVICE WITH A VERY LONG FELLOWSHIP TITLE' })).toHaveAttribute('lang', 'en');
       await expect(markers.filter({ hasText: 'শুক্রবারের বাইবেল শিক্ষা ও প্রার্থনার সভা' })).toHaveAttribute('lang', 'bn');
-      const words = await markers.evaluateAll(elements => elements.flatMap(element => {
+      const words = await markers.evaluateAll((elements, checkBengaliWords) => elements.flatMap(element => {
         const style = getComputedStyle(element);
         const box = element.getBoundingClientRect();
         const checks = [{ text: element.textContent, valid:
-          style.wordBreak === 'normal' && style.overflowWrap === 'break-word' && style.hyphens === 'auto' &&
+          style.wordBreak === 'normal' && style.overflowWrap === 'break-word' && style.hyphens === (element.lang === 'bn' ? 'manual' : 'auto') &&
           style.overflow !== 'hidden' && style.textOverflow !== 'ellipsis' &&
           element.scrollWidth <= element.clientWidth + 1 }];
+        if (checkBengaliWords && element.lang === 'bn') {
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          while (walker.nextNode()) {
+            const node = walker.currentNode;
+            for (const match of (node.textContent || '').matchAll(/\S+/g)) {
+              if (!/[\u0980-\u09ff]/.test(match[0])) continue;
+              const range = document.createRange();
+              range.setStart(node, match.index!);
+              range.setEnd(node, match.index! + match[0].length);
+              const rects = [...range.getClientRects()].filter(rect => rect.width > .1);
+              const tops = rects.map(rect => rect.top);
+              checks.push({ text: match[0], valid: tops.length > 0 &&
+                Math.max(...tops) - Math.min(...tops) <= 1 &&
+                rects.every(rect => rect.left >= box.left - 1 && rect.right <= box.right + 1) });
+            }
+          }
+        }
         if (!element.textContent?.includes('HOLY COMMUNION SERVICE WITH A VERY LONG FELLOWSHIP TITLE')) return checks;
         let previous: Element | null = null;
         for (const span of element.children) {
@@ -108,7 +125,7 @@ for (const width of [320, 390, 844, 1024, 1440]) {
           previous = span;
         }
         return checks;
-      }));
+      }), [390, 844].includes(width));
       for (const word of words) expect(word.valid, word.text || 'empty marker').toBe(true);
       const labels = await page.locator('#monthEvents .event-name').evaluateAll(elements => elements.map(element => {
         const box = element.getBoundingClientRect();
