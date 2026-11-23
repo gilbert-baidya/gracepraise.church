@@ -382,6 +382,10 @@
             normalizeInjectedPaths(headerContainer, basePath);
         }
 
+        if (d.querySelector('header .nav-links')) {
+            initNavigation();
+        }
+
         // Support both old and new footer approaches
         if (newFooterMount) {
             try {
