@@ -30,7 +30,7 @@ async function sharedHeader(page: import('@playwright/test').Page, open: boolean
     const brand = document.querySelector('header .visit-brand-copy')!;
     const brandRange = document.createRange(); brandRange.selectNodeContents(brand);
     const text = brandRange.getBoundingClientRect();
-    const item = document.querySelector('header .nav-links > li')!.getBoundingClientRect();
+    const item = document.querySelector('header .nav-links > li:not([data-drawer-language])')!.getBoundingClientRect();
     const intersects = (a: DOMRect, b: DOMRect) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
     const style = getComputedStyle(toggle);
     const closeStyle = getComputedStyle(document.querySelector('header .mobile-menu-btn')!);
@@ -57,9 +57,9 @@ async function sharedHeader(page: import('@playwright/test').Page, open: boolean
   expect(geometry.border).toBe('rgb(148, 163, 184)');
   expect(geometry.radius).toBe('12px');
   if (open) {
-    expect(Math.abs(geometry.firstOffset - 88)).toBeLessThanOrEqual(2);
+    expect(Math.abs(geometry.firstOffset - 148)).toBeLessThanOrEqual(2);
     expect(geometry.closeContrast).toBeGreaterThanOrEqual(3);
-    const rows = await page.locator('header .nav-links a').evaluateAll(links => links.map(link => ({
+    const rows = await page.locator('header .nav-links a:not([data-site-language])').evaluateAll(links => links.map(link => ({
       underline: getComputedStyle(link).textDecorationLine.includes('underline'),
       background: getComputedStyle(link).backgroundColor, border: getComputedStyle(link).borderTopWidth,
       shadow: getComputedStyle(link).boxShadow, current: link.hasAttribute('data-drawer-current'),

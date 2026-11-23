@@ -164,6 +164,16 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         contain: none !important;
     }
     html:root body.menu-open header[data-gpbc-drawer] .site-language-row { z-index: 0; }
+    html:root body.menu-open header[data-gpbc-drawer] nav::before {
+        content: '';
+        position: fixed;
+        inset: 0 0 auto;
+        height: 72px;
+        background: #0F172A;
+        z-index: 2000;
+        pointer-events: none;
+    }
+    html:root body header[data-gpbc-drawer] .nav-container { z-index: auto !important; }
     html:root body.menu-open header[data-gpbc-drawer] :is(.visit-brand-copy, .mobile-menu-btn) {
         color: #F5F1E8 !important;
     }
@@ -176,7 +186,8 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         max-height: none !important;
         box-sizing: border-box !important;
         margin: 0 !important;
-        padding: 88px 16px 24px !important;
+        padding: 148px 16px 24px !important;
+        transform: none !important;
         background: #0F172A !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
@@ -194,6 +205,35 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         margin: 0 !important;
         padding: 0 !important;
         border: 0 !important;
+    }
+    html:root body header[data-gpbc-drawer] #nav-links [data-drawer-language] {
+        position: fixed !important;
+        inset: 72px 0 auto !important;
+        box-sizing: border-box !important;
+        height: 60px !important;
+        padding: 8px 16px !important;
+        background: #0F172A !important;
+        z-index: 2 !important;
+    }
+    html:root body header[data-gpbc-drawer] #nav-links .site-language-choices {
+        display: flex !important;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+    html:root body.menu-open header[data-gpbc-drawer] #nav-links .site-language-choices a {
+        width: auto !important;
+        min-height: 44px !important;
+        padding: 8px 16px !important;
+        border: 1px solid #94A3B8 !important;
+    }
+    html:root body header[data-gpbc-drawer] #nav-links .mobile-dropdown-open > :is(.dropdown-menu, .dropdown-menu-nested) {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        position: static !important;
+        transform: none !important;
+        max-height: none !important;
     }
     html:root body.menu-open header[data-gpbc-drawer] #nav-links.mobile-open a {
         transition: none !important;
@@ -230,7 +270,7 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         background: #263B56 !important;
         font-weight: 600 !important;
     }
-    html:root body header[data-gpbc-drawer] :is(.dropdown-menu, .dropdown-menu-nested) {
+    html:root body header[data-gpbc-drawer] #nav-links :is(.dropdown-menu, .dropdown-menu-nested) {
         background: transparent !important;
         background-image: none !important;
         border: 0 !important;
@@ -242,5 +282,26 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         outline: 3px solid #8FBCFF !important;
         outline-offset: 2px !important;
         box-shadow: none !important;
+    }
+}
+
+@media (min-width: 1025px) {
+    html:root body header[data-gpbc-drawer].desktop-dropdown-open .site-language-row { z-index: 0 !important; }
+    html:root body header[data-gpbc-drawer] .nav-links { overflow: visible !important; }
+    html:root body header[data-gpbc-drawer] #nav-links :is(.dropdown-menu, .dropdown-menu-nested) {
+        --nav-menu-shift: 0px;
+        max-width: calc(100vw - 24px) !important;
+        transform: translateX(var(--nav-menu-shift)) !important;
+        transition: opacity .2s !important;
+        z-index: 10003 !important;
+    }
+    html:root body header[data-gpbc-drawer] #nav-links [data-nav-dismissed] > .dropdown-menu {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transition: none !important;
+    }
+    html:root body header[data-gpbc-drawer] #nav-links [data-nav-preparing] > .dropdown-menu {
+        visibility: hidden !important;
     }
 }

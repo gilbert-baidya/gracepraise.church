@@ -326,6 +326,20 @@
     let lastScroll = 0;
     let scrollTimer;
     let scrollPosition = 0;
+    let bodyScrollStyles;
+
+    function placeDrawerLanguage(open) {
+        const choices = header?.querySelector('.site-language-choices');
+        const row = header?.querySelector('.site-language-row');
+        if (!choices || !row) return;
+        let holder = navLinks.querySelector('[data-drawer-language]');
+        if (open && !holder) {
+            holder = document.createElement('li');
+            holder.setAttribute('data-drawer-language', '');
+            navLinks.prepend(holder);
+        }
+        (open ? holder : row).append(choices);
+    }
 
     function setAnimationLock(durationMs) {
         if (!navLinks) return;
@@ -368,6 +382,8 @@
         if (isOpening) {
             // Save current scroll position before locking
             scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+            bodyScrollStyles = Object.fromEntries(['position', 'top', 'left', 'right', 'width'].map(key => [key, document.body.style[key]]));
+            Object.assign(document.body.style, { position: 'fixed', top: `-${scrollPosition}px`, left: '0', right: '0', width: '100%' });
 
             // Phase 4: Update ARIA expanded BEFORE visual transition
             mobileMenuBtn.setAttribute('aria-expanded', 'true');
@@ -381,14 +397,6 @@
             navLinks.setAttribute('aria-hidden', 'true');
             navLinks.setAttribute('inert', '');
 
-            // Only restore scroll if NOT navigating to anchor
-            if (!isNavigatingToAnchor) {
-                window.scrollTo({ top: scrollPosition, left: 0, behavior: 'auto' });
-            }
-
-            // Reset flag after restoration
-            isNavigatingToAnchor = false;
-
             closeAllDropdowns();
         }
 
@@ -396,6 +404,12 @@
         navLinks.classList.toggle('mobile-open');
         mobileOverlay.classList.toggle('active');
         document.body.classList.toggle('menu-open');
+        placeDrawerLanguage(isOpening);
+        if (!isOpening) {
+            Object.assign(document.body.style, bodyScrollStyles);
+            if (!isNavigatingToAnchor) window.scrollTo({ top: scrollPosition, left: 0, behavior: 'instant' });
+            isNavigatingToAnchor = false;
+        }
 
         // Keep lock deterministic around menu transitions to avoid stale toggle states.
         setAnimationLock(lockDuration);
@@ -404,14 +418,14 @@
             // Phase 5: Focus first link for keyboard users
             setTimeout(() => {
                 const firstLink = navLinks.querySelector('a');
-                if (firstLink) firstLink.focus();
+                if (firstLink && navLinks.classList.contains('mobile-open')) firstLink.focus({ preventScroll: true });
             }, 100);
             // Phase 6: Focus trap within mobile menu
             navLinks.addEventListener('keydown', trapFocusInMenu);
         } else {
             // Return focus to burger button on close
             navLinks.removeEventListener('keydown', trapFocusInMenu);
-            mobileMenuBtn.focus();
+            mobileMenuBtn.focus({ preventScroll: true });
         }
     }
 
@@ -472,9 +486,11 @@
     // DROPDOWN MANAGEMENT (MOBILE & DESKTOP)
     // ============================================
 
-    function closeAllDropdowns() {
+    function closeAllDropdowns(dismiss = true) {
+        header?.classList.remove('desktop-dropdown-open');
         navDropdowns.forEach(dropdown => {
             dropdown.classList.remove('mobile-dropdown-open');
+            if (dismiss) dropdown.setAttribute('data-nav-dismissed', '');
             const toggle = dropdown.querySelector('a');
             if (toggle) {
                 toggle.setAttribute('aria-expanded', 'false');
@@ -552,7 +568,7 @@
             const link = target.closest('a');
 
             // 1. If not a link/toggle, ignore
-            if (!link) return;
+            if (!link || link.matches('[data-site-language]')) return;
 
             // DEBUG
             // updateDebugLog(`Click: ${link.textContent.trim().substring(0, 15)}... Class: ${link.className}`);
@@ -667,11 +683,43 @@
             if (!toggle || !menu) return;
             if (dropdown.dataset.keyboardInit === 'true') return;
             dropdown.dataset.keyboardInit = 'true';
+            const open = () => {
+                if (getNavMode() !== 'DESKTOP') return;
+                dropdown.setAttribute('data-nav-preparing', '');
+                dropdown.removeAttribute('data-nav-dismissed');
+                menu.style.setProperty('--nav-menu-shift', '0px');
+                const box = menu.getBoundingClientRect();
+                const shift = box.right > innerWidth - 12 ? innerWidth - 12 - box.right : box.left < 12 ? 12 - box.left : 0;
+                menu.style.setProperty('--nav-menu-shift', `${shift}px`);
+                header.classList.add('desktop-dropdown-open');
+                toggle.setAttribute('aria-expanded', 'true');
+                dropdown.removeAttribute('data-nav-preparing');
+            };
+            const updateLayer = () => queueMicrotask(() => {
+                header.classList.toggle('desktop-dropdown-open', getNavMode() === 'DESKTOP' &&
+                    Array.from(navDropdowns).some(item => !item.hasAttribute('data-nav-dismissed') &&
+                        (item.matches(':hover') || item.contains(document.activeElement))));
+            });
+            dropdown.addEventListener('mouseenter', open);
+            dropdown.addEventListener('mouseleave', updateLayer);
+            dropdown.addEventListener('focusout', updateLayer);
+            dropdown.addEventListener('focusin', event => {
+                if (!dropdown.contains(event.relatedTarget)) open();
+            });
+            toggle.addEventListener('keydown', event => {
+                if (getNavMode() === 'DESKTOP' && event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    open();
+                    requestAnimationFrame(() => {
+                        if (toggle.getAttribute('aria-expanded') === 'true') menu.querySelector('a')?.focus();
+                    });
+                }
+            });
 
             // ESC key closes dropdown
             toggle.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
-                    closeAllDropdowns();
+                    closeAllDropdowns(true);
                 }
             });
 
@@ -689,7 +737,7 @@
                         prevLink.focus();
                     } else if (e.key === 'Escape') {
                         e.preventDefault();
-                        closeAllDropdowns();
+                        closeAllDropdowns(true);
                         toggle.focus();
                     }
                 });
@@ -728,7 +776,7 @@
 
     function handleGlobalKeydown(e) {
         if (e.key === 'Escape') {
-            closeAllDropdowns();
+            closeAllDropdowns(true);
             if (navLinks && navLinks.classList.contains('mobile-open')) {
                 e.preventDefault();
                 toggleMobileMenu();
@@ -832,7 +880,7 @@
     function markCurrentPageNav() {
         if (!navLinks) return;
         const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-        const links = navLinks.querySelectorAll('a[href]');
+        const links = navLinks.querySelectorAll('a[href]:not([data-site-language])');
         links.forEach(link => {
             const href = (link.getAttribute('href') || '').split('#')[0].split('?')[0];
             const linkPage = href.split('/').pop() || 'index.html';
