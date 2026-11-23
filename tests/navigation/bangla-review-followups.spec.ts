@@ -7,6 +7,56 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://fonts.googleapis.com/**', route => route.abort());
 });
 
+for (const route of ['about', 'contact', 'ministries', 'index']) {
+  test(route + ' Bengali copy uses bundled glyphs without non-bundled fonts', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.route('**/*', request => request.request().resourceType() === 'font' &&
+      !request.request().url().includes('/assets/fonts/notosansbengali/')
+      ? request.abort() : request.fallback());
+    await page.goto('/' + route + '.html?lang=bn');
+    await expect(page.locator('html')).toHaveAttribute('data-bangla-catalog', 'ready');
+    await expect(page.locator('.sacred-footer .footer-nav-title').first()).toHaveAttribute('lang', 'bn');
+    await page.locator('.about-beliefs details').evaluateAll(elements =>
+      elements.forEach(element => (element as HTMLDetailsElement).open = true));
+    await page.evaluate(() => document.fonts.ready);
+    const result = await page.evaluate(async () => {
+      const weights = new Set([...document.fonts].filter(face =>
+        face.family.replace(/['"]/g, '') === 'Noto Sans Bengali').map(face => face.weight));
+      for (const weight of weights) {
+        const probe = new FontFace('GPBC Bundled Bengali Probe',
+          'url(/assets/fonts/notosansbengali/notosansbengali-' + weight + '.woff2)', { weight });
+        document.fonts.add(await probe.load());
+      }
+      const areas = ['main', '.sacred-footer', 'header nav', '.about-beliefs'];
+      return areas.filter(area => document.querySelector(area)).map(area => {
+        const elements = [...document.querySelector(area)!.querySelectorAll('*')].filter(element =>
+          element.getClientRects().length > 0 && parseFloat(getComputedStyle(element).fontSize) > 0 &&
+          [...element.childNodes].some(node => node.nodeType === Node.TEXT_NODE && /[\u0980-\u09ff]/.test(node.textContent || '')));
+        return { area, count: elements.length, glyphs: elements.map(element => {
+          const style = getComputedStyle(element);
+          const text = (element.textContent || '').match(/[\u0980-\u09ff]+/g)!.join('');
+          const canvas = document.createElement('canvas').getContext('2d')!;
+          const prefix = style.fontStyle + ' ' + style.fontWeight + ' ' + style.fontSize + ' ';
+          canvas.font = prefix + style.fontFamily;
+          const actual = canvas.measureText(text).width;
+          canvas.font = prefix + '"GPBC Bundled Bengali Probe"';
+          return { family: style.fontFamily, actual, reference: canvas.measureText(text).width,
+            loaded: document.fonts.check(style.fontWeight + ' ' + style.fontSize + ' "Noto Sans Bengali"', text) };
+        }) };
+      });
+    });
+    for (const area of result) {
+      expect(area.count, area.area).toBeGreaterThan(0);
+      for (const glyphs of area.glyphs) {
+        expect(glyphs.family, area.area).toMatch(/^"Noto Sans Bengali"/);
+        expect(glyphs.loaded, area.area).toBe(true);
+        expect(glyphs.actual, area.area).toBeGreaterThan(0);
+        expect(glyphs.actual, area.area).toBeCloseTo(glyphs.reference, 1);
+      }
+    }
+  });
+}
+
 for (const width of [1440, 1024]) {
   test('Home visit photo matches main dimensions and centers in Bengali at ' + width, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 });

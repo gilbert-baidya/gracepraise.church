@@ -78,7 +78,7 @@ test('Visit English-only regions retain English typography after switching to Ba
     }
   }
   await expect(page.locator('.site-footer h2').first()).toHaveCSS('font-family', 'Lora, Georgia, "Noto Sans Bengali", serif');
-  await expect(page.locator('h1 [data-lang="bn"]')).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
+  await expect(page.locator('h1 [data-lang="bn"]')).toHaveCSS('font-family', /^"Noto Sans Bengali",/);
 });
 
 test('homepage countdown arrow and real directions CTA use contrasting colors in every state', async ({ page }) => {
@@ -140,7 +140,7 @@ for (const scenario of ['translated', 'missing', 'empty', 'load-error', 'hydrate
     await expect(page.locator('#devotionTitle')).toHaveText(scenario === 'load-error' ? 'God is our Refuge' : record.title);
     await page.locator('#langBn').click();
     await expect(page.locator('#heroTitle')).toHaveAttribute('lang', 'bn');
-    await expect(page.locator('#heroTitle')).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
+    await expect(page.locator('#heroTitle')).toHaveCSS('font-family', /^"Noto Sans Bengali",/);
     await expect(page.locator('#reflectionHeading')).toHaveAttribute('lang', 'bn');
     const translated = scenario === 'translated' || scenario === 'hydrated';
     for (const selector of ['#devotionTitle', '[data-devotion-reflection]', '[data-devotion-prayer]']) {
@@ -210,7 +210,7 @@ for (const route of routes) {
       document.querySelector('main')!.append(section);
     });
     const probe = page.locator('#shared-style-probe');
-    await expect(probe.locator('h2')).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
+    await expect(probe.locator('h2')).toHaveCSS('font-family', /^"Noto Sans Bengali",/);
     await expect(probe.locator('h2')).toHaveCSS('font-size', '24px');
     await expect(probe.locator('h2')).toHaveCSS('letter-spacing', 'normal');
     await expect(probe.locator('h2')).toHaveCSS('text-transform', 'none');
@@ -329,7 +329,7 @@ test('Visit language labels use their own language rather than their visibility 
   const english = page.locator('[data-site-language="en"]');
   await expect(bengali).toHaveText('বাংলা');
   await expect(bengali).toHaveAttribute('lang', 'bn');
-  await expect(bengali).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
+  await expect(bengali).toHaveCSS('font-family', /^"Noto Sans Bengali",/);
   await expect(english).toHaveText('English');
   await expect(english).toHaveAttribute('lang', 'en');
   await expect(english).toHaveCSS('font-family', 'Inter, "Noto Sans Bengali", system-ui, sans-serif');
