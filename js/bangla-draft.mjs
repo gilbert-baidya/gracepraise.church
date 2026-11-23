@@ -648,11 +648,12 @@ export function applyDraft(document, identity, language) {
     const english = reverse.get(identity).get(normalized);
     const translated = english ? normalized : translate(node.textContent, identity);
     if (!translated) continue;
-    const span = document.createElement('span');
-    span.dataset.banglaText = '';
-    span.dataset.en = english || node.textContent;
-    span.dataset.bn = node.textContent.match(/^\s*/)[0] + translated + node.textContent.match(/\s*$/)[0];
-    node.replaceWith(span);
+    const target = node.parentElement.matches('.footer-nav-title') && node.parentElement.childNodes.length === 1
+      ? node.parentElement : document.createElement('span');
+    target.dataset.banglaText = '';
+    target.dataset.en = english || node.textContent;
+    target.dataset.bn = node.textContent.match(/^\s*/)[0] + translated + node.textContent.match(/\s*$/)[0];
+    if (target !== node.parentElement) node.replaceWith(target);
   }
   for (const element of document.querySelectorAll('[data-bangla-text]')) {
     const text = element.dataset[language];

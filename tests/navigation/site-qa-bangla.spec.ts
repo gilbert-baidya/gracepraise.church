@@ -51,6 +51,42 @@ for (const route of routes) {
   });
 }
 
+test('footer headings retain plain text geometry while empty, unknown and nested content stays intact', async ({ page }) => {
+  await page.goto('/index.html?lang=bn', { waitUntil: 'domcontentloaded' });
+  const headings = page.locator('.sacred-footer .footer-nav-title');
+  await expect(headings.first()).toHaveAttribute('data-bangla-text', '');
+  expect(await headings.evaluateAll(elements => elements.every(element => {
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    return element.childNodes.length === 1 && element.firstChild?.nodeType === Node.TEXT_NODE &&
+      range.getClientRects().length === 1 && element.hasAttribute('data-en') && element.hasAttribute('data-bn');
+  }))).toBe(true);
+  const pair = await headings.first().evaluate(element => ({
+    en: (element as HTMLElement).dataset.en!, bn: (element as HTMLElement).dataset.bn!,
+  }));
+  await page.evaluate(pair => {
+    const fixture = document.createElement('div');
+    fixture.id = 'draft-footer-fixtures';
+    fixture.innerHTML = '<h4 class="footer-nav-title"></h4><h4 class="footer-nav-title">Uncatalogued footer heading</h4><h4 class="footer-nav-title"><strong></strong></h4>';
+    fixture.querySelector('strong')!.textContent = pair.en;
+    document.querySelector('.sacred-footer')!.append(fixture);
+  }, pair);
+  const fixture = page.locator('#draft-footer-fixtures');
+  await expect(fixture.locator('strong')).toHaveText(pair.bn.trim());
+  await expect(fixture.locator('strong > [data-bangla-text]')).toHaveCount(1);
+  await expect(fixture.locator('h4').nth(0)).toBeEmpty();
+  await expect(fixture.locator('h4').nth(0)).not.toHaveAttribute('data-en', /.*/);
+  await expect(fixture.locator('h4').nth(1)).toHaveText('Uncatalogued footer heading');
+  await expect(fixture.locator('h4').nth(1)).not.toHaveAttribute('data-en', /.*/);
+  for (const language of ['en', 'bn'] as const) {
+    await page.evaluate(language => (window as any).GPBCLanguage.set(language), language);
+    await expect(headings.first()).toHaveText(pair[language].trim());
+    await expect(headings.first()).toHaveAttribute('lang', language);
+    await expect(headings.first().locator('*')).toHaveCount(0);
+    await expect(fixture.locator('strong')).toHaveText(pair[language].trim());
+  }
+});
+
 test('all title drafts resolve to Bengali on their public routes', async ({ page }) => {
   test.setTimeout(300_000);
   for (const route of Object.keys(titles).filter(route => route !== '/ministries/index')) {
