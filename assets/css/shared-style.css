@@ -379,6 +379,9 @@ body .prayer-v15-success :is(h3, p) {
     letter-spacing: normal !important;
     text-transform: none !important;
     word-break: normal;
+}
+
+:root body :is(:lang(bn), [lang='bn'], [data-lang='bn']:not([lang])):not(:where(.calendar-grid, .calendar-grid *)), :root body:lang(bn) {
     overflow-wrap: normal;
 }
 

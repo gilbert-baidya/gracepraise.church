@@ -7,6 +7,41 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://fonts.googleapis.com/**', route => route.abort());
 });
 
+for (const theme of ['light', 'dark']) {
+  test('Calendar Bengali markers retain anywhere wrapping in ' + theme, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.clock.setFixedTime(new Date('2026-11-21T12:00:00Z'));
+    await page.route('https://script.google.com/**', route => route.fulfill({
+      json: { events: [
+        { date: '11/25/2026', name: 'Holy Communion Service', category: 'gpbc' },
+        { date: '11/27/2026', name: 'Friday Instrument Lesson', category: 'gpbc' },
+      ] }, headers: { 'access-control-allow-origin': '*' },
+    }));
+    await page.goto('/calendar.html?lang=bn');
+    await expect(page.locator('html')).toHaveAttribute('data-bangla-catalog', 'ready');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
+    await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+    for (const name of ['Holy Communion Service', 'Friday Instrument Lesson']) {
+      await expect(page.locator('.calendar-grid .event-marker').filter({ hasText: name }).first()).toBeAttached();
+    }
+    await page.evaluate(() => document.fonts.ready);
+    const markers = await page.locator('.calendar-grid .event-marker').evaluateAll(elements => elements.map(element => {
+      const box = element.getBoundingClientRect();
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return { wrap: getComputedStyle(element).overflowWrap,
+        fits: element.scrollWidth <= element.clientWidth + 1 && element.scrollHeight <= element.clientHeight + 1,
+        readable: [...range.getClientRects()].every(rect => rect.left >= box.left - 1 && rect.right <= box.right + 1) };
+    }));
+    expect(markers.length).toBeGreaterThanOrEqual(2);
+    for (const marker of markers) {
+      expect(marker.wrap).toBe('anywhere');
+      expect(marker.fits).toBe(true);
+      expect(marker.readable).toBe(true);
+    }
+  });
+}
+
 for (const route of ['about', 'contact', 'ministries', 'index']) {
   test(route + ' Bengali copy uses bundled glyphs without non-bundled fonts', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });

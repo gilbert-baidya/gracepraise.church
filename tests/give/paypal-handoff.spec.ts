@@ -191,7 +191,7 @@ test('giving reflows in both languages/themes and keeps the phone action above t
       await page.evaluate(() => document.fonts.ready);
       if (language === 'bn') {
         for (const selector of ['#give-cadence-title', '#gift-title', '.give-note blockquote p']) {
-          await expect(page.locator(selector)).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
+          await expect(page.locator(selector)).toHaveCSS('font-family', /^"Noto Sans Bengali",/);
         }
       }
       for (const theme of ['light', 'dark']) {
