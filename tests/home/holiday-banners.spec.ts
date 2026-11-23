@@ -108,6 +108,31 @@ test.describe('Holiday flyers', () => {
     });
   }
 
+  for (const format of ['webp', 'png'] as const) {
+    test('pre-Christmas portrait selects Bangla ' + format + ' artwork only in Bangla', async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      if (format === 'png') {
+        await page.route('**/homepage-events.js?*', async route => {
+          const response = await route.fetch();
+          const source = (await response.text()).replace("source.type = 'image/' + type;", "source.type = type === 'webp' ? 'image/x-unsupported' : 'image/png';");
+          await route.fulfill({ response, body: source });
+        });
+      }
+      await page.goto('/index.html?lang=bn');
+      const image = page.locator('[data-flyer="pre-christmas-dec20"] img');
+      const artwork = (device: string) => new URL('images/events/holiday-2026/pre-christmas-dec20-' + device + '.' + format, page.url()).href;
+      await expect(image).toHaveJSProperty('currentSrc', artwork('phone-bn'));
+      await expect(image).toHaveAttribute('alt', /বিশেষ পরিবেশনা: গোয়ালঘরের রাজা/);
+      await loadFlyerImages(page);
+      await page.evaluate(() => (window as any).GPBCLanguage.set('en'));
+      await expect(image).toHaveJSProperty('currentSrc', artwork('phone'));
+      await page.evaluate(() => (window as any).GPBCLanguage.set('bn'));
+      await expect(image).toHaveJSProperty('currentSrc', artwork('phone-bn'));
+      await page.setViewportSize({ width: 844, height: 390 });
+      await expect(image).toHaveJSProperty('currentSrc', artwork('desktop'));
+    });
+  }
+
   test('full English and Bengali information, language attributes and visit links stay synchronized', async ({ page }) => {
     await page.goto('/index.html?lang=bn');
     for (const language of ['bn', 'en', 'bn'] as const) {
