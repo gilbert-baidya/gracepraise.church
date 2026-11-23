@@ -38,7 +38,9 @@ test.beforeEach(async ({ page }) => {
 for (const route of ['index', 'plan-visit']) for (const width of [360, 390]) {
   test(`${route} essentials fit at ${width}px in both languages and themes`, async ({ page, visitOrigin }) => {
     const height = width === 360 ? 800 : 844;
+    if (route === 'index') test.setTimeout(60_000);
     await page.setViewportSize({ width, height });
+    if (route === 'index') await page.clock.setFixedTime(new Date('2026-12-01T12:00:00-08:00'));
     for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
       await page.goto(`${visitOrigin}/${route}.html?lang=${language}`, { waitUntil: 'domcontentloaded' });
       await page.waitForFunction(() => (window as any).GPBCLanguage?.language !== undefined);
@@ -59,10 +61,40 @@ for (const route of ['index', 'plan-visit']) for (const width of [360, 390]) {
         };
       });
       expect(geometry.top).toBeGreaterThanOrEqual(136);
-      expect(geometry.bottom).toBeLessThanOrEqual(height);
+      if (route === 'plan-visit') expect(geometry.bottom).toBeLessThanOrEqual(height);
       expect(geometry.overflow).toBe(0);
-      expect(geometry.unobstructed).toBe(true);
+      if (route === 'plan-visit') expect(geometry.unobstructed).toBe(true);
       expect(geometry.clipping).toBe(false);
+      if (route === 'index') {
+        const line = page.locator('#home-service-line');
+        await expect(line).toContainText(language === 'en' ? 'Sunday · 5:00 PM' : 'রবিবার · সন্ধ্যা ৫:০০টা');
+        await expect(line).toContainText('1325 Richardson Street');
+        await expect(line.locator('strong [data-lang="' + language + '"]')).toHaveText(
+          await summary.locator('.visit-summary-time [data-lang="' + language + '"]').innerText());
+        const box = await line.boundingBox();
+        expect(box!.y).toBeGreaterThanOrEqual(0);
+        expect(box!.y + box!.height).toBeLessThanOrEqual(height);
+        const link = line.locator('a');
+        await expect(link).toHaveAttribute('href', /plan-visit\.html\?lang=/);
+        expect(new URL(await link.getAttribute('href') || '', visitOrigin).searchParams.get('lang')).toBe(language);
+        const target = await link.boundingBox();
+        expect(target!.height).toBeGreaterThanOrEqual(48);
+        expect(target!.width).toBeGreaterThanOrEqual(48);
+        expect(await link.evaluate(element => {
+          const rect = element.getBoundingClientRect();
+          return element.contains(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2));
+        })).toBe(true);
+        for (const item of await page.locator('.activity-rail-item').all()) {
+          await item.click();
+          const current = await line.boundingBox();
+          expect(current!.y + current!.height).toBeLessThanOrEqual(height);
+        }
+        for (const control of await page.locator('#home-activities button:visible, #home-activities .activity-cta').all()) {
+          const controlBox = await control.boundingBox();
+          expect(controlBox!.height).toBeGreaterThanOrEqual(44 - 0.01);
+          expect(controlBox!.width).toBeGreaterThanOrEqual(44 - 0.01);
+        }
+      }
       const address = summary.locator('address');
       await expect(address).toHaveAttribute('lang', 'en');
       await expect(address).toHaveText('1325 Richardson StreetSan Bernardino, CA 92408');

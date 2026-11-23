@@ -3,6 +3,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { runInNewContext } from 'node:vm';
 
 export const PUBLICATION_DIRECTORY = 'public-build';
 export const GALLERY_MANIFEST_FILE = 'content/gallery/index.json';
@@ -177,6 +178,17 @@ export async function assembleProduction({ root, trackedFiles, verify = verifyPr
             await fs.copyFile(source, target);
         }
         const expectedFiles = [...files];
+        const homepage = path.join(output, 'index.html');
+        const markup = await fs.readFile(homepage, 'utf8');
+        if (markup.includes('<!-- HOME_ACTIVITY_THEME_START -->')) {
+            const context = { window: {} };
+            runInNewContext(await fs.readFile(path.join(root, 'js/home-activities.js'), 'utf8'), context);
+            const theme = context.renderHomeActivityShell(context.window.GPBC_HOME_ACTIVITIES[0]);
+            await fs.writeFile(homepage, markup.replace(
+                /<!-- HOME_ACTIVITY_THEME_START -->[\s\S]*?<!-- HOME_ACTIVITY_THEME_END -->/u,
+                () => '<!-- HOME_ACTIVITY_THEME_START -->' + theme + '<!-- HOME_ACTIVITY_THEME_END -->'
+            ));
+        }
         if (files.includes('gallery.html')) {
             const galleryFiles = files.filter(relative => /^content\/gallery\/\d{8}-[^/.]+\.md$/u.test(relative))
                 .map(relative => `/${relative.split('/').map(encodeURIComponent).join('/')}`);

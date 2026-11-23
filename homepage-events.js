@@ -12,7 +12,14 @@ class HomepageEvents {
             display: '1325 Richardson Street, San Bernardino, CA 92408',
             mapsUrl: 'https://maps.google.com/?q=1325+Richardson+Street+CA+92408'
         };
-        if (this.container) {
+        this.mount();
+    }
+
+    mount() {
+        this.container = document.getElementById('dynamic-events-container');
+        this.activityContainer = document.getElementById('home-activities') || this.container;
+        if (this.container && !this.mounted) {
+            this.mounted = true;
             this.init();
             this.loadAddressFromContent();
         }
@@ -20,6 +27,189 @@ class HomepageEvents {
 
     init() {
         this.renderUpcomingEvents();
+        window.addEventListener('gpbc:languagechange', () => this.updateFlyerLanguage());
+        window.addEventListener('pageshow', event => {
+            if (event.persisted) this.renderUpcomingEvents();
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) this.renderUpcomingEvents();
+        });
+    }
+
+    getHolidayFlyers() {
+        return (window.GPBC_HOME_ACTIVITIES || []).filter(slide => slide.type === 'flyer');
+    }
+
+    activityExpiry(slide) {
+        const date = slide.type === 'theme' ? slide.showUntil : slide.endDate || slide.date;
+        return date ? this.flyerExpiry({ date }) : Infinity;
+    }
+
+    flyerExpiry(flyer) {
+        return this.buildZonedDateTime(flyer.date, '23:59').getTime() + 60_000;
+    }
+
+    createActivityTools(flyer) {
+        const tools = document.createElement('div');
+        tools.className = 'activity-event-tools';
+        tools.dataset.activityTools = flyer.slug;
+        tools.setAttribute('aria-live', 'off');
+        const chip = document.createElement('span');
+        chip.className = 'activity-countdown';
+        this.activityCarouselLanguage(chip, { en: '', bn: '' });
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'activity-calendar';
+        button.dataset.activityFocus = 'calendar:' + flyer.slug;
+        this.activityCarouselLanguage(button, { en: 'Add to calendar', bn: 'ক্যালেন্ডারে রাখুন' });
+        button.addEventListener('click', () => {
+            const language = window.GPBCLanguage?.language === 'bn' ? 'bn' : 'en';
+            const visit = new URL('plan-visit.html?lang=' + language, location.href).href;
+            const url = URL.createObjectURL(new Blob([
+                homeActivityCalendar(flyer, this.churchAddress.display, visit)
+            ], { type: 'text/calendar;charset=utf-8' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = flyer.slug + '.ics';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 60_000);
+        });
+        tools.append(chip, button);
+        return tools;
+    }
+
+    activityCarouselLanguage(parent, values) {
+        for (const language of ['en', 'bn']) {
+            const span = document.createElement('span');
+            span.lang = language;
+            span.dataset.lang = language;
+            span.textContent = values[language];
+            parent.appendChild(span);
+        }
+    }
+
+    updateActivityDetails(now = Date.now()) {
+        if (!this.activityCarousel) return;
+        const { year, month, day } = this.getTimeZoneParts(new Date(now), this.timeZone);
+        const today = Date.UTC(year, month - 1, day);
+        this.activityCarousel.configs.forEach((flyer, index) => {
+            if (flyer.type === 'fast') {
+                const start = Date.parse(flyer.date + 'T00:00:00Z');
+                const days = Math.round((start - today) / 86_400_000);
+                const total = Math.round((Date.parse(flyer.endDate + 'T00:00:00Z') - start) / 86_400_000) + 1;
+                const number = value => new Intl.NumberFormat('bn', { useGrouping: false }).format(value);
+                const text = days > 0
+                    ? { en: days === 1 ? 'Starts tomorrow' : 'Starts in ' + days + ' days',
+                        bn: days === 1 ? 'আগামীকাল শুরু' : 'শুরু হতে আর ' + number(days) + ' দিন' }
+                    : { en: 'Day ' + (1 - days) + ' of ' + total,
+                        bn: 'উপবাসের দিন ' + number(1 - days) + ' / ' + number(total) };
+                this.activityCarousel.tools[index]?.querySelectorAll('.activity-countdown [data-lang]').forEach(span => {
+                    if (span.textContent !== text[span.dataset.lang]) span.textContent = text[span.dataset.lang];
+                });
+                this.activityCarousel.dots[index]?.classList.toggle('is-today', days === 0);
+                return;
+            }
+            if (flyer.type !== 'flyer') return;
+            const days = Math.round((Date.parse(flyer.date + 'T00:00:00Z') - today) / 86_400_000);
+            const start = this.buildZonedDateTime(flyer.date, flyer.start).getTime();
+            const [hour, minute] = flyer.start.split(':').map(Number);
+            const number = value => new Intl.NumberFormat('bn', { useGrouping: false }).format(value);
+            const enTime = (hour % 12 || 12) + (minute ? ':' + String(minute).padStart(2, '0') : '') + (hour >= 12 ? ' PM' : ' AM');
+            const bnTime = (hour < 12 ? 'সকাল ' : hour < 16 ? 'দুপুর ' : hour < 18 ? 'বিকেল ' : 'সন্ধ্যা ') +
+                number(hour % 12 || 12) + (minute ? ':' + number(minute).padStart(2, '০') : '') + 'টা';
+            const text = now >= start ? { en: 'Today · started ' + enTime, bn: 'আজ · ' + bnTime + 'য় শুরু হয়েছে' }
+                : days === 0 ? { en: (hour >= 17 ? 'Tonight' : 'Today') + ' · ' + enTime, bn: (hour >= 17 ? 'আজ রাতে' : 'আজ') + ' · ' + bnTime }
+                : days === 1 ? { en: 'Tomorrow', bn: 'আগামীকাল' }
+                : { en: 'In ' + days + ' days', bn: 'আর ' + number(days) + ' দিন' };
+            this.activityCarousel.tools[index]?.querySelectorAll('.activity-countdown [data-lang]').forEach(span => {
+                if (span.textContent !== text[span.dataset.lang]) span.textContent = text[span.dataset.lang];
+            });
+            const item = this.activityCarousel.dots[index];
+            if (item) {
+                item.classList.toggle('is-today', days === 0);
+                item.dataset.today = String(days === 0);
+            }
+        });
+    }
+
+    createFlyerCard(flyer) {
+        const card = document.createElement('div');
+        card.className = 'special-event-details event-flyer';
+        card.dataset.flyer = flyer.slug;
+        const content = document.createElement('div');
+        content.className = 'event-details-content';
+        const link = document.createElement('a');
+        link.className = 'event-flyer-link';
+        link.dataset.gpbcFeatureLink = 'pages.planVisit';
+        link.dataset.gpbcSurface = 'homepage-cta';
+        link.dataset.activityFocus = 'artwork:' + flyer.slug;
+        const picture = document.createElement('picture');
+        const base = flyer.imageBase || 'images/events/holiday-2026/' + flyer.slug;
+        for (const [device, type] of [['phone', 'webp'], ['phone', 'png'], ['desktop', 'webp']]) {
+            const source = document.createElement('source');
+            source.type = 'image/' + type;
+            if (device === 'phone') source.media = '(max-width: 767px)';
+            source.srcset = base + '-' + device + '.' + type;
+            source.width = device === 'phone' ? 1080 : 1600;
+            source.height = device === 'phone' ? 1350 : 600;
+            picture.appendChild(source);
+        }
+        const image = document.createElement('img');
+        image.width = 1600;
+        image.height = 600;
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        image.dataset.altEn = flyer.en;
+        image.dataset.altBn = flyer.bn;
+        picture.appendChild(image);
+        image.src = base + '-desktop.png';
+        link.appendChild(picture);
+        content.appendChild(link);
+        card.appendChild(content);
+        return card;
+    }
+
+    updateFlyerLanguage() {
+        const language = window.GPBCLanguage?.language === 'bn' ? 'bn' : 'en';
+        this.activityContainer.querySelectorAll('.event-flyer').forEach(card => {
+            const image = card.querySelector('img');
+            image.alt = language === 'bn' ? image.dataset.altBn : image.dataset.altEn;
+            image.lang = language;
+            card.lang = language;
+            card.querySelectorAll('a').forEach(link => {
+                link.href = 'plan-visit.html?lang=' + language;
+            });
+            card.querySelectorAll('[data-lang]').forEach(text => {
+                text.hidden = text.dataset.lang !== language;
+            });
+        });
+        this.activityContainer.querySelectorAll('.activity-carousel [data-lang]').forEach(text => {
+            text.hidden = text.dataset.lang !== language;
+        });
+        const cta = this.activityContainer.querySelector('.activity-cta');
+        if (cta) cta.href = 'plan-visit.html?lang=' + language;
+        this.activityCarousel?.configs.forEach((config, index) => {
+            if (config.type !== 'fast') return;
+            const slide = this.activityCarousel.slides[index];
+            const number = value => new Intl.NumberFormat(language, { useGrouping: false }).format(value);
+            slide.lang = language;
+            slide.setAttribute('aria-label', language === 'bn'
+                ? 'স্লাইড ' + number(index + 1) + ' / ' + number(this.activityCarousel.configs.length) + ': ' + config.title.bn
+                : (index + 1) + ' of ' + this.activityCarousel.configs.length + ': ' + config.title.en);
+        });
+        this.activityCarousel?.dots.forEach((button, index) => {
+            const config = this.activityCarousel.configs[index];
+            const date = button.querySelector('[data-lang="' + language + '"]').textContent;
+            const label = language === 'bn'
+                ? config.title ? config.title.bn || config.title.en : config.bn.split('—')[0].trim()
+                : config.label || config.title.en;
+            const number = value => new Intl.NumberFormat(language, { useGrouping: false }).format(value);
+            button.setAttribute('aria-label', language === 'bn'
+                ? 'স্লাইড ' + number(index + 1) + ' / ' + number(this.activityCarousel.configs.length) + ': ' + date + ' · ' + label
+                : 'Slide ' + (index + 1) + ' of ' + this.activityCarousel.configs.length + ': ' + date + ' · ' + label);
+        });
     }
 
     async loadAddressFromContent() {
@@ -33,8 +223,12 @@ class HomepageEvents {
                     display: addr.fullAddress,
                     mapsUrl: addr.mapsUrl || `https://maps.google.com/?q=${encodeURIComponent(addr.fullAddress)}`
                 };
-                // Re-render with corrected address if cards already rendered
-                this.renderUpcomingEvents();
+                this.container.querySelectorAll('.event-info-item address').forEach(address => {
+                    address.textContent = this.churchAddress.display;
+                });
+                this.container.querySelectorAll('.event-info-item .map-link').forEach(link => {
+                    link.href = this.churchAddress.mapsUrl;
+                });
             }
         } catch (err) {
             console.warn('Could not load address from content.json, using fallback:', err);
@@ -155,7 +349,19 @@ class HomepageEvents {
         return date.toLocaleDateString('en-US', options);
     }
 
+    renderEventIcon(kind) {
+        const paths = {
+            communion: '<path d="M8 3h8v5a4 4 0 0 1-8 0V3ZM12 12v7M8 21h8M10 6h4"/>',
+            calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 11h18M8 15h2M14 15h2"/>',
+            location: '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
+            music: '<path d="M9 18V5l12-2v13M9 9l12-2"/><ellipse cx="6" cy="18" rx="3" ry="2"/><ellipse cx="18" cy="16" rx="3" ry="2"/>',
+            people: '<circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M17 4a3 3 0 0 1 0 6M18 13a5 5 0 0 1 3 5v3"/>'
+        };
+        return `<svg class="event-detail-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${paths[kind]}</svg>`;
+    }
+
     getEventIcon(event) {
+        if (event.name.includes('Communion')) return this.renderEventIcon('communion');
         // Return emoji icons based on event name/type
         if (event.name.includes('Christmas') || event.name.includes('Advent')) return '🎄';
         if (event.name.includes('Easter')) return '🐣';
@@ -246,7 +452,7 @@ class HomepageEvents {
                 
                 <div class="event-info-grid">
                     <div class="event-info-item">
-                        <span class="info-icon">📅</span>
+                        <span class="info-icon" aria-hidden="true">${this.renderEventIcon('calendar')}</span>
                         <div>
                             <h3>When</h3>
                             <time datetime="${details.datetime}">${details.when}${details.timeLabel !== 'TBA' ? ' at ' + details.timeLabel : ''}</time>
@@ -255,7 +461,7 @@ class HomepageEvents {
                     </div>
                     
                     <div class="event-info-item">
-                        <span class="info-icon">📍</span>
+                        <span class="info-icon" aria-hidden="true">${this.renderEventIcon('location')}</span>
                         <div>
                             <h3>Where</h3>
                             <address>${details.where}</address>
@@ -264,7 +470,7 @@ class HomepageEvents {
                     </div>
                     
                     <div class="event-info-item">
-                        <span class="info-icon">🎵</span>
+                        <span class="info-icon" aria-hidden="true">${this.renderEventIcon('music')}</span>
                         <div>
                             <h3>What to Expect</h3>
                             <p>${details.whatToExpect}</p>
@@ -272,7 +478,7 @@ class HomepageEvents {
                     </div>
                     
                     <div class="event-info-item">
-                        <span class="info-icon">👥</span>
+                        <span class="info-icon" aria-hidden="true">${this.renderEventIcon('people')}</span>
                         <div>
                             <h3>Who's Invited</h3>
                             <p>${details.whosInvited}</p>
@@ -291,31 +497,75 @@ class HomepageEvents {
     }
 
     renderUpcomingEvents() {
+        if (!this.container) return;
         const upcomingEvents = this.getSpecialGPBCEvents();
-
-        if (upcomingEvents.length === 0) {
-            // Hide the container if no events
-            this.container.style.display = 'none';
-            return;
+        const now = Date.now();
+        const activities = (window.GPBC_HOME_ACTIVITIES || []).filter(slide => now < this.activityExpiry(slide));
+        clearTimeout(this.flyerTimer);
+        if (activities.length) {
+            const deadlines = activities.map(slide => this.activityExpiry(slide));
+            if (activities.some(slide => slide.type !== 'theme')) {
+                const { year, month, day } = this.getTimeZoneParts(new Date(now), this.timeZone);
+                const tomorrow = new Date(Date.UTC(year, month - 1, day + 1)).toISOString().slice(0, 10);
+                deadlines.push(this.buildZonedDateTime(tomorrow).getTime());
+                activities.filter(slide => slide.type === 'flyer').forEach(slide => {
+                    deadlines.push(this.buildZonedDateTime(slide.date, slide.start).getTime());
+                });
+            }
+            const nextExpiry = Math.min(...deadlines.filter(deadline => deadline > now));
+            if (Number.isFinite(nextExpiry)) {
+                this.flyerTimer = setTimeout(() => this.renderUpcomingEvents(), Math.min(nextExpiry - now, 2_147_483_647));
+            }
         }
+        const signature = JSON.stringify({ activities, upcomingEvents });
+        this.updateActivityDetails(now);
+        if (signature === this.renderSignature) return;
+        this.renderSignature = signature;
+        const focused = [this.container, this.activityContainer].some(host => host.contains(document.activeElement)) ? document.activeElement : null;
+        const focusKey = focused?.dataset.activityFocus;
+        const staticRoot = !this.activityCarousel && this.activityContainer.querySelector('[data-enhanced="false"]');
+        const previousSlug = this.activityCarousel?.activeSlug;
+        const userPaused = this.activityCarousel?.userPaused;
+        this.activityCarousel?.destroy();
+        this.activityCarousel = null;
+        this.container.replaceChildren();
+        this.container.style.display = upcomingEvents.length ? 'block' : 'none';
+        this.activityContainer.style.display = activities.length ? 'flow-root' : 'none';
 
-        // Clear container
-        this.container.innerHTML = '';
-        this.container.style.display = 'block';
-
-        // Render each event
-        upcomingEvents.forEach(event => {
-            const eventCard = this.createEventCard(event);
-            this.container.appendChild(eventCard);
+        if (activities.length) {
+            this.activityCarousel = new ActivityCarousel(activities, flyer => this.createFlyerCard(flyer), previousSlug, userPaused, staticRoot, flyer => this.createActivityTools(flyer));
+            this.activityContainer.replaceChildren(this.activityCarousel.root);
+            this.activityCarousel.scrollActiveItem();
+            this.activityCarousel.hovered = this.activityCarousel.root.matches(':hover');
+            this.activityCarousel.updatePlayback();
+        } else if (this.activityContainer !== this.container) {
+            this.activityContainer.replaceChildren();
+        }
+        if (this.activityContainer === this.container) this.container.style.display = activities.length || upcomingEvents.length ? 'block' : 'none';
+        const cards = [
+            ...upcomingEvents.map(event => {
+                const card = this.createEventCard(event);
+                card.querySelectorAll('a, button').forEach((control, index) => {
+                    control.dataset.activityFocus = 'event:' + event.date + ':' + event.name + ':' + index;
+                });
+                return { date: event.date, card };
+            })
+        ];
+        cards.sort((a, b) => a.date.localeCompare(b.date)).forEach(({ card }) => {
+            this.container.appendChild(card);
         });
+        this.updateFlyerLanguage();
+        this.updateActivityDetails(now);
+        if (focused) {
+            const selector = focusKey && '[data-activity-focus="' + CSS.escape(focusKey) + '"]';
+            const equivalent = selector && (this.activityContainer.querySelector(selector) || this.container.querySelector(selector));
+            const target = equivalent && !equivalent.closest('[inert]') ? equivalent
+                : this.activityCarousel?.root || document.getElementById('home') || this.container.nextElementSibling;
+            if (!target) return;
+            if (!equivalent && target !== this.activityCarousel?.root) target.tabIndex = -1;
+            target.focus({ preventScroll: true });
+        }
     }
 }
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        new HomepageEvents();
-    });
-} else {
-    new HomepageEvents();
-}
+const homepageEvents = new HomepageEvents();

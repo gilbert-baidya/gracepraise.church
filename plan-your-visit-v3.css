@@ -287,7 +287,8 @@ html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) 
 
 .visit-v3 .visit-v3__expectation-item {
     display: grid;
-    grid-template-columns: 1.75rem minmax(0, 1fr);
+    grid-template-columns: 28px minmax(0, 1fr);
+    align-items: start;
     gap: 0.8rem;
     min-width: 0;
     margin: 0;
@@ -303,22 +304,35 @@ html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) 
 }
 
 .visit-v3 .visit-v3__expectation-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--visit-v3-line);
+    border-radius: 6px;
     color: var(--visit-v3-gold);
-    font-size: 0.6875rem;
+    font-size: 0.75rem !important;
     font-weight: 700;
     letter-spacing: 0.12em;
     line-height: 1.6;
 }
 
 .visit-v3 .visit-v3__expectation-title {
+    display: flex;
+    align-items: center;
+    min-height: 28px;
+    text-align: start;
     margin: 0;
     color: var(--visit-v3-text);
-    font-size: 1rem;
+    font-size: 1rem !important;
     font-weight: 700;
     line-height: 1.35;
 }
 
 .visit-v3 .visit-v3__expectation-copy {
+    text-align: start;
+    max-width: none;
     margin: 0.55rem 0 0;
     color: var(--visit-v3-muted);
     font-size: 0.9375rem;

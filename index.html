@@ -99,6 +99,12 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    <link rel="stylesheet" href="assets/css/event-flyers.css?v=20261122-firstscreen">
+    <script defer src="events.js?v=20261122-review"></script>
+    <script defer src="js/home-activities.js?v=20261122-review"></script>
+    <script defer src="js/activity-carousel.js?v=20261122-review"></script>
+    <script defer src="homepage-events.js?v=20261122-review"></script>
+
     <!-- Slick Carousel CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" type="text/css"
@@ -343,8 +349,7 @@
       "@type": "Event",
       "name": "Gratitude & New Year Celebration",
       "description": "Join us for a special evening of worship, thanksgiving, and hope as we celebrate the new year together.",
-      "startDate": "2026-12-31T22:30:00-08:00",
-      "endDate": "2027-01-01T01:00:00-08:00",
+      "startDate": "2026-12-31T19:00:00-08:00",
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "location": {
@@ -373,6 +378,35 @@
     </script>
 
     <!-- Structured Data for Church Identity -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Event",
+          "name": "Pre-Christmas Celebration",
+          "startDate": "2026-12-20T17:00:00-08:00",
+          "location": { "@id": "https://gracepraise.church/#church" },
+          "organizer": { "@id": "https://gracepraise.church/#church" }
+        },
+        {
+          "@type": "Event",
+          "name": "Christmas Day Worship",
+          "startDate": "2026-12-25T10:00:00-08:00",
+          "location": { "@id": "https://gracepraise.church/#church" },
+          "organizer": { "@id": "https://gracepraise.church/#church" }
+        },
+        {
+          "@type": "Event",
+          "name": "New Year Worship",
+          "startDate": "2027-01-01T10:00:00-08:00",
+          "location": { "@id": "https://gracepraise.church/#church" },
+          "organizer": { "@id": "https://gracepraise.church/#church" }
+        }
+      ]
+    }
+    </script>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -593,8 +627,20 @@
 
 
 
-    <main id="main-content" data-site-bilingual>
-        <section class="visit-essentials" id="home" aria-labelledby="hero-heading">
+    <main id="main-content" tabindex="-1" data-site-bilingual>
+        <section id="home-activities">
+        <!-- HOME_ACTIVITY_THEME_START --><div class="activity-carousel" data-enhanced="false" data-playing="false" data-activity-focus="carousel" role="region" aria-roledescription="carousel" aria-label="Church life and upcoming gatherings" tabindex="0"><div class="activity-heading"><h2><span data-lang="en" lang="en">Life at GPBC</span><span data-lang="bn" lang="bn" hidden>আমাদের মণ্ডলীর জীবন</span></h2><span class="activity-counter" aria-hidden="true">01 / 01</span></div><div class="activity-stage" aria-live="polite" aria-atomic="false"><div class="activity-theme activity-slide is-active" data-activity="church-theme" role="group" aria-roledescription="slide" aria-label="1 of 1: Rooted in Christ" aria-hidden="false" data-theme-config="{&quot;type&quot;:&quot;theme&quot;,&quot;slug&quot;:&quot;church-theme&quot;,&quot;year&quot;:2026,&quot;title&quot;:{&quot;en&quot;:&quot;Rooted in Christ&quot;},&quot;text&quot;:{&quot;en&quot;:&quot;Church Theme&quot;,&quot;bn&quot;:&quot;মণ্ডলীর থিম&quot;},&quot;image&quot;:null,&quot;showUntil&quot;:null}"><svg class="activity-root-motif" viewBox="0 0 240 240" aria-hidden="true" focusable="false"><path d="M120 14V148 M120 48L82 20 M120 70L158 32 M120 92L64 58 M120 112L182 70 M120 148L92 180L72 216 M120 148L148 180L168 216 M120 148V226 M92 180L58 184 M148 180L182 184 M92 180L96 218 M148 180L144 218 M82 20L82 42 M158 32L162 52 M64 58L66 82 M182 70L178 94"/></svg><div class="activity-theme-copy"><p class="activity-theme-year">2026</p><h3><span data-lang="en" lang="en">Rooted in Christ</span><span data-lang="bn" lang="en" hidden>Rooted in Christ</span></h3><p class="activity-theme-subtitle"><span data-lang="en" lang="en">2026 Church Theme</span><span data-lang="bn" lang="bn" hidden>২০২৬ মণ্ডলীর থিম</span></p></div></div></div><div class="activity-footer"><div class="activity-controls"></div><div class="activity-tool-slot" aria-live="off"></div><a class="btn btn-primary activity-cta" data-activity-focus="cta" data-gpbc-feature-link="pages.planVisit" data-gpbc-surface="homepage-cta" href="plan-visit.html?lang=en"><span data-lang="en" lang="en">Join us with your family</span><span data-lang="bn" lang="bn" hidden>সপরিবারে যোগ দিন</span></a></div></div><!-- HOME_ACTIVITY_THEME_END -->
+        </section>
+    <div id="home-service-line" class="home-service-line" role="region" aria-label="Sunday worship and visit information">
+        <div class="home-service-details">
+            <strong><span lang="en" data-lang="en">Sunday · 5:00 PM</span><span lang="bn" data-lang="bn" style="display:none">রবিবার · সন্ধ্যা ৫:০০টা</span></strong>
+            <span lang="en">1325 Richardson Street</span>
+        </div>
+        <a href="plan-visit.html?lang=en" data-gpbc-feature-link="pages.planVisit" data-gpbc-surface="homepage-cta">
+            <span lang="en" data-lang="en">Plan Your Visit</span><span lang="bn" data-lang="bn" style="display:none">আপনার ভ্রমণের পরিকল্পনা করুন</span>
+        </a>
+    </div>
+    <section class="visit-essentials" id="home" aria-labelledby="hero-heading">
  <div class="visit-essentials-grid"><div class="visit-essentials-copy">
  <p class="visit-essentials-eyebrow"><span lang="en" data-lang="en">A church family. A welcome for everyone.</span><span lang="bn" data-lang="bn" style="display:none">একটি পরিবার। সবার জন্য স্বাগতম।</span></p>
  <h1 id="hero-heading"><span lang="en" data-lang="en">A place to belong.<br>A faith to grow.</span><span lang="bn" data-lang="bn" style="display:none">বিশ্বাসে বেড়ে উঠি,<br>ভালোবাসায় এক হই।</span></h1>
@@ -4971,47 +5017,7 @@
     <script src="event-flip-cards.js" defer></script>
     <!-- NAVIGATION LOCK — Centralized navigation system -->
     <script src="navigation.js?v=20260918-v11-theme-final3" defer></script>
-    <script src="events.js?v=20260129a" defer></script>
     <script src="countdown.js?v=20260129a" defer></script>
-
-    <!-- Load homepage event data only as the events section approaches the viewport. -->
-    <script>
-        (function () {
-            const eventsContainer = document.getElementById('dynamic-events-container');
-            if (!eventsContainer) return;
-
-            let loaded = false;
-            const loadHomepageEvents = () => {
-                if (loaded) return;
-                loaded = true;
-                const script = document.createElement('script');
-                script.src = 'homepage-events.js?v=20260129a';
-                script.async = true;
-                document.body.appendChild(script);
-            };
-
-            const schedule = () => {
-                if (!('IntersectionObserver' in window)) {
-                    loadHomepageEvents();
-                    return;
-                }
-
-                const observer = new IntersectionObserver((entries) => {
-                    if (entries.some((entry) => entry.isIntersecting)) {
-                        observer.disconnect();
-                        loadHomepageEvents();
-                    }
-                }, { rootMargin: '600px 0px' });
-                observer.observe(eventsContainer);
-            };
-
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', schedule, { once: true });
-            } else {
-                schedule();
-            }
-        })();
-    </script>
 
     <!-- SHAPE SYSTEM — Spiritual design interactions -->
     <script src="shape-system.js" defer></script>

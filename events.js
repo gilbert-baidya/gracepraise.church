@@ -3,7 +3,7 @@ const events = [
     // GPBC RECURRING WEEKLY EVENTS (Generated for next 10 years from Jan 2026)
     // 🎼 Friday 5:30 PM - Instrument Lesson
     ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
-        const date = new Date(2026, 0, 2 + (i * 7)); // Start Jan 2, 2026 (Friday)
+        const date = new Date(Date.UTC(2026, 0, 2 + (i * 7))); // Start Jan 2, 2026 (Friday)
         return {
             date: date.toISOString().split('T')[0],
             name: '🎼 Friday Instrument Lesson',
@@ -18,7 +18,7 @@ const events = [
     }),
     // 🎶 Friday 6:30 PM - Worship Practice
     ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
-        const date = new Date(2026, 0, 2 + (i * 7)); // Start Jan 2, 2026 (Friday)
+        const date = new Date(Date.UTC(2026, 0, 2 + (i * 7))); // Start Jan 2, 2026 (Friday)
         return {
             date: date.toISOString().split('T')[0],
             name: '🎶 Friday Worship Practice',
@@ -33,7 +33,7 @@ const events = [
     }),
     // 🙌 Saturday 12:00 PM - Fasting Prayer
     ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
-        const date = new Date(2026, 0, 3 + (i * 7)); // Start Jan 3, 2026 (Saturday)
+        const date = new Date(Date.UTC(2026, 0, 3 + (i * 7))); // Start Jan 3, 2026 (Saturday)
         return {
             date: date.toISOString().split('T')[0],
             name: '🙌 Fasting Prayer',
@@ -48,7 +48,7 @@ const events = [
     }),
     // Sunday 5:00 PM - Worship Service
     ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
-        const date = new Date(2026, 0, 4 + (i * 7)); // Start Jan 4, 2026 (Sunday)
+        const date = new Date(Date.UTC(2026, 0, 4 + (i * 7))); // Start Jan 4, 2026 (Sunday)
         return {
             date: date.toISOString().split('T')[0],
             name: 'Worship Service',
@@ -68,11 +68,11 @@ const events = [
         const month = i % 12;
         
         // Find the first Sunday of the month
-        const firstDay = new Date(year, month, 1);
-        const dayOfWeek = firstDay.getDay();
+        const firstDay = new Date(Date.UTC(year, month, 1));
+        const dayOfWeek = firstDay.getUTCDay();
         const firstSunday = dayOfWeek === 0 ? 1 : (7 - dayOfWeek) + 1;
         
-        const date = new Date(year, month, firstSunday);
+        const date = new Date(Date.UTC(year, month, firstSunday));
         
         return {
             date: date.toISOString().split('T')[0],
@@ -121,12 +121,12 @@ const events = [
     { date: '2026-05-24', name: 'Pentecost Sunday Service', category: 'gpbc', eventCategory: 'GPBC', eventType: 'worship', eventDay: 'Sunday', eventTime: '5:00 PM', description: 'Special service celebrating the birth of the Church and the outpouring of the Holy Spirit with dynamic worship and teaching' },
     { date: '2026-05-24', name: 'Pentecost', category: 'christian', description: 'Celebrating the descent of the Holy Spirit' },
     { date: '2026-11-29', name: 'First Sunday of Advent', category: 'christian', description: 'Beginning of the Christian liturgical year' },
-    { date: '2026-12-13', name: 'Pre-Christmas Celebration Service', category: 'gpbc', eventCategory: 'GPBC', eventType: 'worship', eventDay: 'Sunday', eventTime: '5:00 PM', description: 'Special pre-Christmas service with traditional carols, nativity story, candlelight worship, and fellowship dinner' },
+    { date: '2026-12-20', name: 'Pre-Christmas Celebration Service', category: 'gpbc', eventCategory: 'GPBC', eventType: 'worship', eventDay: 'Sunday', eventTime: '5:00 PM', description: 'Special pre-Christmas service with traditional carols, nativity story, candlelight worship, and fellowship dinner' },
     { date: '2026-12-24', name: 'Christmas Eve Candlelight Service', category: 'gpbc', eventCategory: 'GPBC', eventType: 'worship', eventDay: 'Thursday', eventTime: '7:00 PM', description: 'Special Christmas Eve service celebrating the birth of Jesus with beautiful candlelight worship, Christmas music, and the Christmas story' },
     { date: '2026-12-24', name: 'Christmas Eve', category: 'christian', description: 'Evening before Christmas Day' },
     { date: '2026-12-25', name: 'Christmas Day', category: 'christian', description: 'Celebrating the birth of Jesus Christ' },
     { date: '2026-12-26', name: 'Boxing Day', category: 'christian', description: 'Traditional day of giving to the less fortunate' },
-    { date: '2026-12-31', name: 'Gratitude & New Year Celebration', category: 'gpbc', eventCategory: 'GPBC', eventType: 'worship', eventDay: 'Thursday', eventTime: '10:30 PM', description: 'Special year-end service with worship music, testimonies of gratitude, prayer for the new year, and fellowship as we welcome 2027 together' },
+    { date: '2026-12-31', name: 'Gratitude & New Year Celebration', category: 'gpbc', eventCategory: 'GPBC', eventType: 'worship', eventDay: 'Thursday', eventTime: '7:00 PM', description: 'Special year-end service with worship music, testimonies of gratitude, prayer for the new year, and fellowship as we welcome 2027 together' },
 
     // SPECIAL DAYS
     { date: '2026-02-14', name: 'Valentine\'s Day', category: 'special', description: 'Day of love and romance' },
@@ -155,35 +155,60 @@ const categoryEmojis = {
     gpbc: '⛪'
 };
 
+const revisedHolidayEvents = events.filter(event =>
+    (event.name === 'Pre-Christmas Celebration Service' && event.date === '2026-12-20') ||
+    (event.name === 'Gratitude & New Year Celebration' && event.date === '2026-12-31'));
+
+function normalizeHolidaySchedule(event) {
+    // TODO: Remove the 2026 Dec 13 → Dec 20 import shim after 2027-01-28.
+    const sourceDate = event.sourceDate || event.date;
+    const revised = revisedHolidayEvents.find(candidate =>
+        candidate.name === event.name && (candidate.date === sourceDate ||
+            (candidate.date === '2026-12-20' && sourceDate === '2026-12-13')));
+    return revised ? {
+        ...event, sourceDate: event.sourceDate || event.date, date: revised.date, eventTime: revised.eventTime,
+        eventDay: revised.eventDay, eventCategory: revised.eventCategory, eventType: revised.eventType
+    } : event;
+}
+
 // Events database version - increment when structure changes
 const EVENTS_VERSION = '3.1';
 
 // Load custom GPBC events from localStorage
 function loadCustomEvents() {
-    // Check version and clear old data if outdated
-    const savedVersion = localStorage.getItem('gpbcEventsVersion');
-    if (savedVersion !== EVENTS_VERSION) {
-        // console.log('Events database updated - clearing old localStorage data'); // Removed for production
-        localStorage.removeItem('gpbcEvents');
-        localStorage.setItem('gpbcEventsVersion', EVENTS_VERSION);
-        return;
-    }
-    
-    const saved = localStorage.getItem('gpbcEvents');
-    if (saved) {
-        const customEvents = JSON.parse(saved);
-        customEvents.forEach(event => {
-            if (!events.find(e => e.date === event.date && e.name === event.name)) {
-                events.push(event);
-            }
-        });
+    try {
+        // Check version and clear old data if outdated
+        const savedVersion = localStorage.getItem('gpbcEventsVersion');
+        if (savedVersion !== EVENTS_VERSION) {
+            // console.log('Events database updated - clearing old localStorage data'); // Removed for production
+            localStorage.removeItem('gpbcEvents');
+            localStorage.setItem('gpbcEventsVersion', EVENTS_VERSION);
+            return;
+        }
+
+        const saved = localStorage.getItem('gpbcEvents');
+        if (saved) {
+            const customEvents = JSON.parse(saved).map(normalizeHolidaySchedule);
+            customEvents.forEach(event => {
+                const existing = events.find(e => e.date === event.date && e.name === event.name);
+                if (existing && revisedHolidayEvents.includes(existing)) {
+                    Object.assign(existing, event);
+                } else if (!existing) {
+                    events.push(event);
+                }
+            });
+        }
+    } catch (error) {
+        console.warn('Unable to load saved church events:', error instanceof Error ? error.name : 'UnknownError');
     }
 }
 
 // Save custom GPBC events to localStorage
 function saveCustomEvents() {
     const gpbcEvents = events.filter(e => e.category === 'gpbc');
-    localStorage.setItem('gpbcEvents', JSON.stringify(gpbcEvents));
+    try {
+        localStorage.setItem('gpbcEvents', JSON.stringify(gpbcEvents));
+    } catch {}
 }
 
 // Load custom events on initialization
