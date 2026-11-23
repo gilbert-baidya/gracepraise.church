@@ -207,24 +207,20 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         border: 0 !important;
     }
     html:root body header[data-gpbc-drawer] #nav-links [data-drawer-language] {
+        --language-page: #0F172A;
+        --language-text: #F5F1E8;
+        --language-border: #94A3B8;
+        --language-focus: #8FBCFF;
         position: fixed !important;
         inset: 72px 0 auto !important;
         box-sizing: border-box !important;
-        height: 60px !important;
-        padding: 8px 16px !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end;
+        height: 64px !important;
+        padding: 4px 16px !important;
         background: #0F172A !important;
         z-index: 2 !important;
-    }
-    html:root body header[data-gpbc-drawer] #nav-links .site-language-choices {
-        display: flex !important;
-        justify-content: flex-end;
-        gap: 8px;
-    }
-    html:root body.menu-open header[data-gpbc-drawer] #nav-links .site-language-choices a {
-        width: auto !important;
-        min-height: 44px !important;
-        padding: 8px 16px !important;
-        border: 1px solid #94A3B8 !important;
     }
     html:root body header[data-gpbc-drawer] #nav-links .mobile-dropdown-open > :is(.dropdown-menu, .dropdown-menu-nested) {
         display: block !important;
@@ -235,7 +231,7 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         transform: none !important;
         max-height: none !important;
     }
-    html:root body.menu-open header[data-gpbc-drawer] #nav-links.mobile-open a {
+    html:root body.menu-open header[data-gpbc-drawer] #nav-links.mobile-open a:not([data-site-language]) {
         transition: none !important;
         display: flex !important;
         align-items: center !important;
@@ -264,8 +260,17 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         -webkit-text-fill-color: currentColor !important;
         text-decoration: none !important;
     }
-    html:root body header[data-gpbc-drawer] #nav-links a::before,
+    html:root body header[data-gpbc-drawer] #nav-links a:not([data-site-language])::before,
     html:root body header[data-gpbc-drawer] #nav-links a::after { display: none !important; }
+    html:root body.menu-open header[data-gpbc-drawer] #nav-links.mobile-open :is(.dropdown-menu, .dropdown-menu-nested) a {
+        padding-inline-start: 32px !important;
+        font-size: 15px !important;
+        color: #CBD5E1 !important;
+    }
+    html:root body.menu-open header[data-gpbc-drawer] #nav-links.mobile-open .dropdown-menu .dropdown-menu-nested a {
+        padding-inline-start: 48px !important;
+    }
+    html:root body header[data-gpbc-drawer] #nav-links .dropdown-arrow { transform: none !important; }
     html:root body.menu-open header[data-gpbc-drawer] #nav-links.mobile-open a[data-drawer-current] {
         background: #263B56 !important;
         font-weight: 600 !important;
@@ -286,6 +291,15 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
 }
 
 @media (min-width: 1025px) {
+    html:root body header[data-gpbc-drawer] #nav-links :is(.nav-dropdown, .nav-dropdown-nested):where(:hover, :focus-within) > :is(.dropdown-menu, .dropdown-menu-nested) {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+    html:root body header[data-gpbc-drawer] #nav-links :is(.dropdown-menu, .dropdown-menu-nested) * {
+        transition-property: color, background-color, border-color, box-shadow, transform, opacity !important;
+    }
     html:root body header[data-gpbc-drawer].desktop-dropdown-open .site-language-row { z-index: 0 !important; }
     html:root body header[data-gpbc-drawer] .nav-links { overflow: visible !important; }
     html:root body header[data-gpbc-drawer] #nav-links :is(.dropdown-menu, .dropdown-menu-nested) {
@@ -295,13 +309,13 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         transition: opacity .2s !important;
         z-index: 10003 !important;
     }
-    html:root body header[data-gpbc-drawer] #nav-links [data-nav-dismissed] > .dropdown-menu {
+    html:root body header[data-gpbc-drawer] #nav-links [data-nav-dismissed] > :is(.dropdown-menu, .dropdown-menu-nested) {
         visibility: hidden !important;
         opacity: 0 !important;
         pointer-events: none !important;
         transition: none !important;
     }
-    html:root body header[data-gpbc-drawer] #nav-links [data-nav-preparing] > .dropdown-menu {
+    html:root body header[data-gpbc-drawer] #nav-links [data-nav-preparing] > :is(.dropdown-menu, .dropdown-menu-nested) {
         visibility: hidden !important;
     }
 }

@@ -57,6 +57,12 @@ async function sharedHeader(page: import('@playwright/test').Page, open: boolean
   expect(geometry.border).toBe('rgb(148, 163, 184)');
   expect(geometry.radius).toBe('12px');
   if (open) {
+    const languageStyles = await page.locator('header .nav-links [data-site-language]').evaluateAll(links =>
+      links.map(link => {
+        const style = getComputedStyle(link);
+        return [style.display, style.padding, style.borderRadius, style.fontSize, style.lineHeight];
+      }));
+    expect(languageStyles).toEqual(Array(2).fill(['flex', '0px 10px', '8px', '16px', '26px']));
     expect(Math.abs(geometry.firstOffset - 148)).toBeLessThanOrEqual(2);
     expect(geometry.closeContrast).toBeGreaterThanOrEqual(3);
     const rows = await page.locator('header .nav-links a:not([data-site-language])').evaluateAll(links => links.map(link => ({

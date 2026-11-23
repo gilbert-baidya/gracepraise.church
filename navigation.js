@@ -339,6 +339,7 @@
             navLinks.prepend(holder);
         }
         (open ? holder : row).append(choices);
+        if (!open) holder?.remove();
     }
 
     function setAnimationLock(durationMs) {
@@ -405,6 +406,7 @@
         mobileOverlay.classList.toggle('active');
         document.body.classList.toggle('menu-open');
         placeDrawerLanguage(isOpening);
+        navLinks.querySelectorAll('.nav-dropdown, .nav-dropdown-nested').forEach(updateDropdownArrow);
         if (!isOpening) {
             Object.assign(document.body.style, bodyScrollStyles);
             if (!isNavigatingToAnchor) window.scrollTo({ top: scrollPosition, left: 0, behavior: 'instant' });
@@ -486,9 +488,18 @@
     // DROPDOWN MANAGEMENT (MOBILE & DESKTOP)
     // ============================================
 
+    function updateDropdownArrow(dropdown) {
+        const arrow = dropdown.querySelector(':scope > a .dropdown-arrow');
+        if (!arrow) return;
+        if (!arrow.hasAttribute('data-desktop-arrow')) arrow.dataset.desktopArrow = arrow.textContent;
+        arrow.textContent = getNavMode() === 'MOBILE'
+            ? dropdown.classList.contains('mobile-dropdown-open') ? '▴' : '▾'
+            : arrow.dataset.desktopArrow;
+    }
+
     function closeAllDropdowns(dismiss = true) {
         header?.classList.remove('desktop-dropdown-open');
-        navDropdowns.forEach(dropdown => {
+        navLinks.querySelectorAll('.nav-dropdown, .nav-dropdown-nested').forEach(dropdown => {
             dropdown.classList.remove('mobile-dropdown-open');
             if (dismiss) dropdown.setAttribute('data-nav-dismissed', '');
             const toggle = dropdown.querySelector('a');
@@ -496,6 +507,7 @@
                 toggle.setAttribute('aria-expanded', 'false');
             }
         });
+        navLinks.querySelectorAll('.nav-dropdown, .nav-dropdown-nested').forEach(updateDropdownArrow);
     }
 
     function inferHrefPrefix() {
@@ -628,6 +640,7 @@
                         if (d !== parentDropdown) {
                             d.classList.remove('mobile-dropdown-open');
                             d.querySelector('a')?.setAttribute('aria-expanded', 'false');
+                            updateDropdownArrow(d);
                         }
                     });
 
@@ -637,6 +650,7 @@
 
                     // Let CSS handle display via mobile-dropdown-open class
                     link.setAttribute('aria-expanded', newState);
+                    updateDropdownArrow(parentDropdown);
                     return;
                 }
 
@@ -648,6 +662,7 @@
                     nestedDropdown.classList.toggle('mobile-dropdown-open');
                     const expanded = nestedDropdown.classList.contains('mobile-dropdown-open');
                     link.setAttribute('aria-expanded', expanded);
+                    updateDropdownArrow(nestedDropdown);
                     return;
                 }
             }
@@ -675,6 +690,29 @@
     // ACCESSIBILITY: KEYBOARD NAVIGATION
     // ============================================
 
+    function openDesktopDropdown(dropdown) {
+        if (getNavMode() !== 'DESKTOP') return;
+        const toggle = dropdown.querySelector(':scope > a');
+        const menu = dropdown.querySelector(':scope > :is(.dropdown-menu, .dropdown-menu-nested)');
+        if (!toggle || !menu) return;
+        dropdown.setAttribute('data-nav-preparing', '');
+        dropdown.removeAttribute('data-nav-dismissed');
+        menu.style.setProperty('--nav-menu-shift', '0px');
+        const box = menu.getBoundingClientRect();
+        const shift = box.right > innerWidth - 12 ? innerWidth - 12 - box.right : box.left < 12 ? 12 - box.left : 0;
+        menu.style.setProperty('--nav-menu-shift', `${shift}px`);
+        header.classList.add('desktop-dropdown-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        dropdown.removeAttribute('data-nav-preparing');
+    }
+
+    function closeNestedDropdown(dropdown) {
+        dropdown.setAttribute('data-nav-dismissed', '');
+        const toggle = dropdown.querySelector(':scope > a');
+        toggle?.setAttribute('aria-expanded', 'false');
+        toggle?.focus();
+    }
+
     function initKeyboardNavigation() {
         navDropdowns.forEach(dropdown => {
             const toggle = dropdown.querySelector('a');
@@ -683,18 +721,7 @@
             if (!toggle || !menu) return;
             if (dropdown.dataset.keyboardInit === 'true') return;
             dropdown.dataset.keyboardInit = 'true';
-            const open = () => {
-                if (getNavMode() !== 'DESKTOP') return;
-                dropdown.setAttribute('data-nav-preparing', '');
-                dropdown.removeAttribute('data-nav-dismissed');
-                menu.style.setProperty('--nav-menu-shift', '0px');
-                const box = menu.getBoundingClientRect();
-                const shift = box.right > innerWidth - 12 ? innerWidth - 12 - box.right : box.left < 12 ? 12 - box.left : 0;
-                menu.style.setProperty('--nav-menu-shift', `${shift}px`);
-                header.classList.add('desktop-dropdown-open');
-                toggle.setAttribute('aria-expanded', 'true');
-                dropdown.removeAttribute('data-nav-preparing');
-            };
+            const open = () => openDesktopDropdown(dropdown);
             const updateLayer = () => queueMicrotask(() => {
                 header.classList.toggle('desktop-dropdown-open', getNavMode() === 'DESKTOP' &&
                     Array.from(navDropdowns).some(item => !item.hasAttribute('data-nav-dismissed') &&
@@ -724,9 +751,10 @@
             });
 
             // Arrow keys navigation
-            const menuLinks = menu.querySelectorAll('a');
+            const menuLinks = menu.querySelectorAll(':scope > li > a');
             menuLinks.forEach((link, index) => {
                 link.addEventListener('keydown', (e) => {
+                    if (getNavMode() !== 'DESKTOP') return;
                     if (e.key === 'ArrowDown') {
                         e.preventDefault();
                         const nextLink = menuLinks[index + 1] || menuLinks[0];
@@ -737,10 +765,56 @@
                         prevLink.focus();
                     } else if (e.key === 'Escape') {
                         e.preventDefault();
+                        e.stopPropagation();
+                        if (link.parentElement.classList.contains('nav-dropdown-nested') &&
+                            link.getAttribute('aria-expanded') === 'true') {
+                            closeNestedDropdown(link.parentElement);
+                            return;
+                        }
                         closeAllDropdowns(true);
                         toggle.focus();
                     }
                 });
+            });
+        });
+        navLinks.querySelectorAll('.nav-dropdown-nested').forEach(dropdown => {
+            if (dropdown.dataset.keyboardInit === 'true') return;
+            const toggle = dropdown.querySelector(':scope > a');
+            const menu = dropdown.querySelector(':scope > .dropdown-menu-nested');
+            if (!toggle || !menu) return;
+            dropdown.dataset.keyboardInit = 'true';
+            const open = () => openDesktopDropdown(dropdown);
+            dropdown.addEventListener('mouseenter', open);
+            dropdown.addEventListener('focusin', event => {
+                if (!dropdown.contains(event.relatedTarget)) open();
+            });
+            toggle.addEventListener('keydown', event => {
+                if (getNavMode() !== 'DESKTOP') return;
+                if (['ArrowRight', 'Enter', ' '].includes(event.key)) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    open();
+                    requestAnimationFrame(() => menu.querySelector('a')?.focus());
+                } else if (event.key === 'ArrowLeft') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    closeNestedDropdown(dropdown);
+                }
+            });
+            menu.addEventListener('keydown', event => {
+                if (getNavMode() !== 'DESKTOP') return;
+                const links = Array.from(menu.querySelectorAll(':scope > li > a'));
+                const index = links.indexOf(document.activeElement);
+                if (event.key === 'Escape' || event.key === 'ArrowLeft') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    closeNestedDropdown(dropdown);
+                } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const step = event.key === 'ArrowDown' ? 1 : -1;
+                    links[(index + step + links.length) % links.length]?.focus();
+                }
             });
         });
     }

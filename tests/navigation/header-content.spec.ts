@@ -30,6 +30,10 @@ for (const route of publicPages) for (const width of [1440, 390]) {
     if (protectedTool) await expect(page.locator('#builderApp')).toBeVisible();
     const heading = page.locator('h1:visible').first();
     await expect(heading).toBeVisible();
+    if (await page.locator('script[src*="navigation.js"]').count()) {
+      await page.waitForFunction(() => (window as any).PLATFORM_NAV_READY === true);
+      await expect(page.locator('header[data-gpbc-drawer]')).toBeAttached();
+    }
     await page.evaluate(() => document.fonts.ready);
     if (await page.locator('header .mobile-menu-btn').count()) {
       await expect(page.locator('html')).toHaveAttribute('data-drawer-styles', 'ready');
