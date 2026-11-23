@@ -304,11 +304,15 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         box-shadow: none !important;
     }
     html:root body header[data-gpbc-drawer] #nav-links.mobile-open [data-drawer-language] .site-language-choices a {
+        background: transparent !important;
+        color: var(--language-text) !important;
         outline: none !important;
         box-shadow: none !important;
         transition-property: color, background-color, border-color !important;
     }
     html:root body header[data-gpbc-drawer] #nav-links.mobile-open [data-drawer-language] .site-language-choices a[aria-pressed='true'] {
+        background: var(--language-text) !important;
+        color: var(--language-page) !important;
         box-shadow: inset 0 -3px 0 var(--gpbc-gold-fill, #E6B84E) !important;
     }
     html:root body header[data-gpbc-drawer] #nav-links.mobile-open [data-drawer-language] .site-language-choices a:focus:not(:focus-visible) {

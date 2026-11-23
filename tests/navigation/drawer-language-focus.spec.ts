@@ -24,6 +24,30 @@ for (const route of ['index', 'plan-visit', 'daily-devotion', 'about', 'calendar
       await burger.tap();
       const pills = page.locator('#nav-links [data-site-language]');
       await expect(pills.first()).toBeFocused();
+      const readablePills = async () => {
+        await expect(pills).toHaveCount(2);
+        await expect(page.locator('#nav-links [data-site-language][aria-pressed="true"]')).toHaveCount(1);
+        await expect(page.locator('#nav-links [data-site-language][aria-pressed="false"]')).toHaveCount(1);
+        for (const pill of await pills.all()) {
+          const selected = await pill.getAttribute('aria-pressed') === 'true';
+          await expect(pill).toHaveCSS('color', selected ? 'rgb(15, 23, 42)' : 'rgb(245, 241, 232)');
+          await expect(pill).toHaveCSS('background-color', selected ? 'rgb(245, 241, 232)' : 'rgba(0, 0, 0, 0)');
+          await expect(pill).toHaveCSS('background-image', 'none');
+          const contrast = await pill.evaluate(element => {
+            const style = getComputedStyle(element);
+            const ink = style.getPropertyValue('-webkit-text-fill-color') || style.color;
+            const paper = style.backgroundColor === 'rgba(0, 0, 0, 0)' ?
+              getComputedStyle(element.closest('[data-drawer-language]')!).backgroundColor : style.backgroundColor;
+            const luminance = (color: string) => (color.match(/[\d.]+/g) || []).slice(0, 3)
+              .map(Number).map(value => value / 255).map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4)
+              .reduce((sum, value, index) => sum + value * [.2126, .7152, .0722][index], 0);
+            const light = luminance(ink), dark = luminance(paper);
+            return (Math.max(light, dark) + .05) / (Math.min(light, dark) + .05);
+          });
+          expect(contrast).toBeGreaterThanOrEqual(4.5);
+        }
+      };
+      await readablePills();
       const noPointerRing = async () => {
         const styles = await pills.evaluateAll(elements => elements.map(element => {
           const style = getComputedStyle(element);
@@ -42,6 +66,7 @@ for (const route of ['index', 'plan-visit', 'daily-devotion', 'about', 'calendar
         await pill.tap();
         await expect(pill).toHaveAttribute('aria-pressed', 'true');
         await noPointerRing();
+        await readablePills();
       }
       await burger.focus();
       const attempts = await page.locator('#nav-links a:visible').count() + 4;
@@ -64,10 +89,12 @@ for (const route of ['index', 'plan-visit', 'daily-devotion', 'about', 'calendar
           return (Math.max(ring, background) + .05) / (Math.min(ring, background) + .05);
         });
         expect(contrast).toBeGreaterThanOrEqual(3);
+        await readablePills();
         if (await pill.getAttribute('data-site-language') === 'en') await page.keyboard.press('Tab');
       }
       await pills.first().tap();
       await noPointerRing();
+      await readablePills();
       await expect(page.locator('#nav-links')).toHaveClass(/mobile-open/);
     });
   }
