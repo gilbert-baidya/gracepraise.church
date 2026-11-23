@@ -25,9 +25,12 @@ for (const width of [360, 390, 490, 1440]) {
           items: [...rail.querySelectorAll('button')].map(button => {
             const item = button.getBoundingClientRect();
             const label = button.querySelector('[data-lang="' + language + '"]')!.getBoundingClientRect();
+            const style = getComputedStyle(button);
+            const left = item.left + parseFloat(style.borderLeftWidth) + parseFloat(style.paddingLeft);
+            const right = item.right - parseFloat(style.borderRightWidth) - parseFloat(style.paddingRight);
             return { height: item.height, width: item.width,
-              centered: getComputedStyle(button).textAlign === 'center',
-              fits: button.scrollWidth <= button.clientWidth + 1 && label.left >= item.left && label.right <= item.right + 1,
+              centered: style.textAlign === 'center',
+              fits: button.scrollWidth <= button.clientWidth + 1 && label.left >= left - 1 && label.right <= right + 1,
               inRail: item.left >= box.left && item.right <= box.right + 1 };
           }),
           captionCentered: getComputedStyle(document.querySelector('.activity-theme-caption')!).textAlign === 'center',
@@ -45,7 +48,7 @@ for (const width of [360, 390, 490, 1440]) {
           expect(item.inRail).toBe(true);
           expect(Math.abs(item.width - geometry.items[0].width)).toBeLessThan(1);
         } else {
-          expect(item.width).toBeGreaterThanOrEqual(76);
+          expect(item.width).toBeGreaterThanOrEqual(84);
         }
       }
       if (!geometry.fits) {

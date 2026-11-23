@@ -96,7 +96,8 @@ export default defineConfig({
   ].flatMap((project): Project[] => [{
     ...project,
     ...(suite ? {
-      testMatch: project.name === 'Desktop Chrome' ? '**/*.spec.ts' : crossBrowserTests,
+      testMatch: project.name === 'Desktop Chrome' ? '**/*.spec.ts'
+        : project.name === 'Desktop Safari' ? [...crossBrowserTests, '**/home/activity-rail.spec.ts'] : crossBrowserTests,
       testIgnore: [
         '**/production-publication.spec.ts',
         ...(suite === 'pr' ? ['**/visual/**', '**/performance/**'] : [])

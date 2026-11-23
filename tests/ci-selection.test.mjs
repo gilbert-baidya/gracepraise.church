@@ -70,6 +70,11 @@ test('PR gate retains seven-project navigation and real production-artifact cove
   assert(!pr.some(entry => entry.tags.includes('quarantine')));
 });
 
+test('PR gate includes mobile date-chip geometry in WebKit', () => {
+  const rail = pr.filter(entry => entry.project === 'Desktop Safari' && entry.file.endsWith('activity-rail.spec.ts'));
+  for (const width of [360, 390, 490]) assert(rail.some(entry => entry.title.startsWith(width + 'px')));
+});
+
 test('nightly collects every spec file and keeps quarantined assertions executable', () => {
   assert.deepEqual(new Set(nightly.map(entry => entry.file)), new Set(full.map(entry => entry.file)));
   assert(nightly.some(entry => entry.tags.includes('quarantine')));

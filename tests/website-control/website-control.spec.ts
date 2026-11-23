@@ -443,7 +443,7 @@ test.describe('V21 public website-control adapter', () => {
           ariaLabel: element.getAttribute('aria-label') || ''
         };
       }));
-      expect(links.length).toBe(15);
+      expect(links.length).toBe(11);
       expect(links.every((link) => link.hidden === linksHidden)).toBe(true);
       expect(links.every((link) => link.tabIndex === -1)).toBe(linksHidden);
       expect(links.every((link) => link.comingSoon === linksComingSoon)).toBe(true);

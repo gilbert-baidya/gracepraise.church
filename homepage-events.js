@@ -142,6 +142,7 @@ class HomepageEvents {
         content.className = 'event-details-content';
         const picture = document.createElement('picture');
         const base = flyer.imageBase || 'images/events/holiday-2026/' + flyer.slug;
+        const artworkVersion = '?v=20261123-flyer-art';
         const sources = [
             ...(flyer.portraitImageBn ? [[flyer.portraitImageBn, 'webp', 'phone', 'bn'], [flyer.portraitImageBn, 'png', 'phone', 'bn']] : []),
             [base + '-phone', 'webp', 'phone'], [base + '-phone', 'png', 'phone'], [base + '-desktop', 'webp', 'desktop']
@@ -153,7 +154,7 @@ class HomepageEvents {
                 source.dataset.flyerLanguage = language;
                 source.media = 'not all';
             } else if (device === 'phone') source.media = '(max-width: 767px)';
-            source.srcset = path + '.' + type;
+            source.srcset = path + '.' + type + artworkVersion;
             source.width = device === 'phone' ? 1080 : 1600;
             source.height = device === 'phone' ? 1350 : 600;
             picture.appendChild(source);
@@ -166,7 +167,7 @@ class HomepageEvents {
         image.dataset.altEn = flyer.en;
         image.dataset.altBn = flyer.bn;
         picture.appendChild(image);
-        image.src = base + '-desktop.png';
+        image.src = base + '-desktop.png' + artworkVersion;
         content.appendChild(picture);
         card.appendChild(content);
         return card;

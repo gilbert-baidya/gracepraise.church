@@ -148,7 +148,45 @@ test.describe('static Home activities', () => {
     await page.keyboard.press('Enter');
     await expect(page.locator('#main-content')).toBeFocused();
   });
+
+  test('mobile service-line visit link is the only visible CTA without JavaScript', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/index.html');
+    await expect(page.locator('#home-service-line a')).toBeVisible();
+    await expect(page.locator('.activity-cta')).toBeHidden();
+  });
 });
+
+for (const language of ['en', 'bn']) {
+  test('mobile service-line CTA falls back without changing height: ' + language, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    let release!: () => void;
+    const gate = new Promise<void>(resolve => { release = resolve; });
+    await page.route('**/homepage-events.js?*', async route => { await gate; await route.continue(); });
+    const navigation = page.goto('/index.html?lang=' + language);
+    const line = page.locator('#home-service-line');
+    const service = line.locator('a');
+    const carousel = page.locator('.activity-carousel');
+    const cta = carousel.locator('.activity-cta');
+    try {
+      await expect(carousel).toHaveAttribute('data-enhanced', 'false');
+      await expect(service).toBeVisible();
+      await expect(cta).toBeHidden();
+      const before = (await line.boundingBox())!.height;
+      release();
+      await navigation;
+      await expect(carousel).toHaveAttribute('data-enhanced', 'true');
+      await expect(cta).toBeVisible();
+      await expect(service).toBeHidden();
+      expect((await line.boundingBox())!.height).toBeCloseTo(before, 1);
+      await cta.evaluate((button: HTMLElement) => { button.hidden = true; });
+      await expect(cta).toBeHidden();
+      await expect(service).toBeVisible();
+      expect((await line.boundingBox())!.height).toBeCloseTo(before, 1);
+      await expect(service).toHaveJSProperty('href', new URL('/plan-visit.html?lang=' + language, page.url()).href);
+    } finally { release(); await navigation; }
+  });
+}
 
 test('theme is first, bilingual and entirely swappable through its config', async ({ page }) => {
   await page.goto('/index.html');
