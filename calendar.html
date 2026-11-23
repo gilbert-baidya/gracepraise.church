@@ -280,6 +280,17 @@
             content: '\00ad';
         }
 
+        html:root body .calendar-grid .event-marker:focus-visible {
+            outline-offset: -3px !important;
+            box-shadow: none !important;
+        }
+
+        @media (max-width: 1024px) {
+            html:root body .calendar-grid .event-marker {
+                min-width: min(44px, 100%) !important;
+            }
+        }
+
         html:root body .calendar-grid .event-marker .calendar-event-run:lang(en) {
             -webkit-hyphens: auto;
             hyphens: auto;
@@ -761,6 +772,14 @@
             .qr-helper-card p {
                 font-size: 0.9rem !important;
                 line-height: 1.45;
+            }
+        }
+
+        @media (min-width: 360px) and (max-width: 375px) {
+            html:root body .calendar-grid .event-marker .calendar-event-text {
+                display: block;
+                inline-size: calc(100% - 0.6em);
+                margin-inline: auto;
             }
         }
 
@@ -1298,7 +1317,7 @@
             </div>
         </div>
 
-        <div id="eventDetailModal" class="modal" role="dialog" aria-labelledby="eventTitle" aria-modal="true">
+        <div id="eventDetailModal" class="modal" role="dialog" aria-labelledby="eventTitle" aria-modal="true" tabindex="-1">
             <div class="modal-content">
                 <button class="close" aria-label="Close event details modal">&times;</button>
                 <h2 id="eventTitle"></h2>

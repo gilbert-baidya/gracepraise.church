@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 test.use({ serviceWorkers: 'block', reducedMotion: 'reduce' });
 
@@ -16,6 +16,7 @@ test.beforeEach(async ({ page }) => {
       { date: '11/27/2026', name: 'FELLOWSHIP'.repeat(10), category: 'gpbc' },
       { date: '11/23/2026', name: 'İrem FELLOWSHIP', category: 'gpbc' },
       { date: '11/24/2026', name: 'COMMUNION প্রার্থনার FELLOWSHIP', category: 'gpbc' },
+      { date: '11/28/2026', name: 'SATURDAY FELLOWSHIP', category: 'gpbc' },
     ] },
     headers: { 'access-control-allow-origin': '*' },
   }));
@@ -71,7 +72,68 @@ test('calendar preserves labels and empty names if discretionary hyphenation is 
   expect(await page.evaluate(() => (window as any).calendarEventLabel(null).textContent)).toBe('');
 });
 
-for (const width of [320, 340, 359]) for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
+test('real event dialog traps keyboard focus and restores its opening label', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 900 });
+  await page.goto('/calendar.html');
+  const opener = page.getByRole('button', { name: 'İrem FELLOWSHIP', exact: true });
+  const dialog = page.locator('#eventDetailModal');
+  const close = dialog.getByRole('button', { name: 'Close event details modal', exact: true });
+  await opener.press('Enter');
+  await expect(dialog).toBeVisible();
+  await expect(close).toBeFocused();
+  const controls = dialog.locator('button:enabled:visible, a[href]:visible, input:enabled:visible, [tabindex="0"]:visible');
+  expect(await controls.count()).toBeGreaterThan(1);
+  await close.press('Shift+Tab');
+  await expect(controls.last()).toBeFocused();
+  await controls.last().press('Tab');
+  await expect(close).toBeFocused();
+  for (let index = 0; index < await controls.count() + 2; index++) {
+    await page.keyboard.press('Tab');
+    expect(await dialog.evaluate(element => element.contains(document.activeElement))).toBe(true);
+  }
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(opener).toBeFocused();
+  await opener.press('Space');
+  await expect(close).toBeFocused();
+  await close.click();
+  await expect(dialog).toBeHidden();
+  await expect(opener).toBeFocused();
+  await opener.click();
+  await expect(dialog).toBeVisible();
+  await expect(close).toBeFocused();
+  await close.click();
+  await expect(dialog).toBeHidden();
+  await expect(opener).toBeFocused();
+  await opener.click();
+  await dialog.click({ position: { x: 5, y: 5 } });
+  await expect(dialog).toBeHidden();
+  await expect(opener).toBeFocused();
+});
+
+async function checkSaturdayFocus(page: Page) {
+  const marker = page.getByRole('button', { name: 'SATURDAY FELLOWSHIP', exact: true });
+  await marker.focus();
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Shift+Tab');
+  await expect(marker).toBeFocused();
+  const ring = await marker.evaluate(element => {
+    const box = element.getBoundingClientRect(), grid = element.closest('.calendar-grid')!.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    return { left: box.left, right: box.right, gridLeft: grid.left, gridRight: grid.right,
+      offset: parseFloat(style.outlineOffset), width: parseFloat(style.outlineWidth),
+      style: style.outlineStyle, shadow: style.boxShadow, visible: element.matches(':focus-visible') };
+  });
+  expect(ring.visible).toBe(true);
+  expect(ring.style).toBe('solid');
+  expect(ring.width).toBeGreaterThanOrEqual(2);
+  expect(ring.offset + ring.width).toBeLessThanOrEqual(0);
+  expect(ring.shadow).toBe('none');
+  expect(ring.left).toBeGreaterThanOrEqual(ring.gridLeft);
+  expect(ring.right).toBeLessThanOrEqual(ring.gridRight);
+}
+
+for (const width of [320, 340, 359, 360, 375]) for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
   test(`narrow marker ink stays inside day content: ${width} ${language} ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/calendar.html?lang=' + language);
@@ -88,6 +150,11 @@ for (const width of [320, 340, 359]) for (const language of ['en', 'bn']) for (c
       const check = (text: string, start: number, end: number) => {
         if (start < left - .5 || end > right + .5) failures.push({ text, left: start, right: end, cellLeft: left, cellRight: right });
       };
+      const label = marker.getBoundingClientRect(), grid = day.closest('.calendar-grid')!.getBoundingClientRect();
+      check('label box', label.left, label.right);
+      if (label.left < grid.left || label.right > grid.right) failures.push({
+        text: 'label outside grid', left: label.left, right: label.right, cellLeft: grid.left, cellRight: grid.right,
+      });
       for (const span of visual.querySelectorAll('span')) {
         if (span.children.length || !span.textContent?.trim()) continue;
         for (const rect of span.getClientRects()) if (rect.width > .1) check(span.textContent, rect.left, rect.right);
@@ -114,6 +181,7 @@ for (const width of [320, 340, 359]) for (const language of ['en', 'bn']) for (c
       return failures;
     }));
     expect(failures).toEqual([]);
+    await checkSaturdayFocus(page);
   });
 }
 
@@ -123,6 +191,7 @@ for (const width of [320, 390, 844, 1024, 1440]) {
       await page.setViewportSize({ width, height: width === 844 ? 390 : 900 });
       await page.goto('/calendar.html?lang=' + language, { waitUntil: 'domcontentloaded' });
       await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+      if (width === 1440) await checkSaturdayFocus(page);
       await expect(page.locator('#monthEvents')).toContainText('HOLY COMMUNION SERVICE WITH A VERY LONG FELLOWSHIP TITLE');
       await page.evaluate(() => document.fonts.ready);
       const grid = page.locator('.calendar-grid[role="grid"]');

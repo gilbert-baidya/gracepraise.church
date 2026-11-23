@@ -6,6 +6,7 @@ let activeFilters = new Set(['gpbc', 'christian']); // Default to showing standa
 let currentPreset = 'this-week'; // Default to "All Events" preset
 let selectedDate = null;
 let currentEvent = null;
+let eventDetailOpener = null;
 
 const CODE_OWNER = 'gilbert-baidya'; // Change to your GitHub username
 
@@ -332,14 +333,35 @@ function setupEventListeners() {
     // Close modals
     document.querySelectorAll('.close').forEach(closeBtn => {
         closeBtn.addEventListener('click', function () {
-            this.closest('.modal').style.display = 'none';
+            closeCalendarModal(this.closest('.modal'));
         });
     });
 
     // Close modal when clicking outside
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) {
-            e.target.style.display = 'none';
+            closeCalendarModal(e.target);
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        const modal = document.getElementById('eventDetailModal');
+        if (!modal.getClientRects().length) return;
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            event.stopPropagation();
+            closeCalendarModal(modal);
+        } else if (event.key === 'Tab') {
+            const controls = [...modal.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')]
+                .filter(element => element.tabIndex >= 0 && !element.matches(':disabled') &&
+                    element.getClientRects().length && getComputedStyle(element).visibility !== 'hidden');
+            const first = controls[0], last = controls[controls.length - 1];
+            if (!first || !modal.contains(document.activeElement) ||
+                (event.shiftKey ? document.activeElement === first : document.activeElement === last)) {
+                event.preventDefault();
+                (event.shiftKey ? last : first)?.focus();
+                if (!first) modal.focus();
+            }
         }
     });
 
@@ -515,7 +537,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
 
                 eventMarker.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    showEventDetail(event);
+                    showEventDetail(event, eventMarker);
                 });
                 dayDiv.appendChild(eventMarker);
             }
@@ -616,8 +638,18 @@ function renderMonthEvents() {
     });
 }
 
-function showEventDetail(event) {
+function closeCalendarModal(modal) {
+    modal.style.display = 'none';
+    if (modal.id === 'eventDetailModal') {
+        const opener = eventDetailOpener;
+        eventDetailOpener = null;
+        if (opener?.isConnected) opener.focus({ preventScroll: true });
+    }
+}
+
+function showEventDetail(event, opener = document.activeElement) {
     currentEvent = event;
+    eventDetailOpener = opener;
     const modal = document.getElementById('eventDetailModal');
     // Fix timezone issue by treating as local date
     const [year, month, day] = event.date.split('-');
@@ -721,6 +753,7 @@ function showEventDetail(event) {
     }
 
     modal.style.display = 'block';
+    modal.querySelector('.close').focus();
 }
 
 function shareEvents() {
