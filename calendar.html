@@ -265,7 +265,7 @@
         html:root body .calendar-grid .event-marker {
             min-width: 0;
             max-width: 100%;
-            padding-inline: 0.5em;
+            padding-inline: 0 0.3em;
             white-space: normal;
             overflow: visible;
             text-overflow: clip;
@@ -280,7 +280,13 @@
             content: '\00ad';
         }
 
-        html:root body .calendar-grid .event-marker:lang(bn) {
+        html:root body .calendar-grid .event-marker .calendar-event-run:lang(en) {
+            -webkit-hyphens: auto;
+            hyphens: auto;
+        }
+
+        html:root body .calendar-grid .event-marker:lang(bn),
+        html:root body .calendar-grid .event-marker .calendar-event-run:lang(bn) {
             padding-inline: 0;
             -webkit-hyphens: manual;
             hyphens: manual;
@@ -700,7 +706,7 @@
                 min-width: 0;
                 overflow: visible;
                 text-overflow: clip;
-                font-size: clamp(0.53rem, 2.6vw, 0.72rem) !important;
+                font-size: clamp(10.14px, 2.6vw, 0.72rem) !important;
                 line-height: 1.15 !important;
                 overflow-wrap: break-word;
                 text-align: center;

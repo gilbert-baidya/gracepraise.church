@@ -29,16 +29,26 @@ function escapeHtml(value) {
     })[ch]);
 }
 
-function calendarEventLabel(name) {
+function calendarEventLabel(name, hyphenated = true) {
     const fragment = document.createDocumentFragment();
-    for (const token of String(name ?? '').match(/[A-Za-z]+|[^A-Za-z]+/g) || []) {
-        const parts = window.GPBCCalendarHyphenator?.hyphenate(token) || [token];
-        parts.forEach((part, index) => {
+    for (const word of String(name ?? '').match(/[\p{L}\p{M}\u200c\u200d]+|[^\p{L}\p{M}\u200c\u200d]+/gu) || []) {
+        const asciiWord = /^[A-Za-z]+$/.test(word);
+        for (const run of word.match(/[\u0980-\u09ff\u200c\u200d]+|[^\u0980-\u09ff\u200c\u200d]+/gu) || []) {
             const span = document.createElement('span');
-            span.textContent = part;
-            if (index < parts.length - 1) span.className = 'calendar-word-break';
+            span.className = 'calendar-event-run';
+            if (/[\u0980-\u09ff]/.test(run)) span.lang = 'bn';
+            else if (/\p{Script=Latin}/u.test(run)) span.lang = 'en';
+            if (hyphenated && asciiWord) {
+                const parts = window.GPBCCalendarHyphenator?.hyphenate(run) || [run];
+                parts.forEach((part, index) => {
+                    const piece = document.createElement('span');
+                    piece.textContent = part;
+                    if (index < parts.length - 1) piece.className = 'calendar-word-break';
+                    span.appendChild(piece);
+                });
+            } else span.textContent = run;
             fragment.appendChild(span);
-        });
+        }
     }
     return fragment;
 }
@@ -460,11 +470,13 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
         const now = new Date();
         const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
 
-        dayEvents.forEach(event => {
+        dayEvents.forEach((event, index) => {
             if (shouldDisplayEvent(event)) {
                 const eventMarker = document.createElement('div');
                 eventMarker.className = `event-marker ${event.category}`;
-                eventMarker.lang = /[\u0980-\u09ff]/.test(event.name) ? 'bn' : 'en';
+                eventMarker.lang = /[\u0980-\u09ff]/.test(event.name) && !/\p{Script=Latin}/u.test(event.name) ? 'bn' : 'en';
+                eventMarker.setAttribute('role', 'button');
+                eventMarker.tabIndex = 0;
 
                 // Check if event was added in the last 7 days
                 const isNew = event.timestamp && new Date(event.timestamp) > sevenDaysAgo;
@@ -474,8 +486,26 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
                 const isFriendly = isFirstTimeFriendly(event);
                 const friendlyBadge = isFriendly ? '<span class="visitor-friendly-badge" title="A great service to start your journey with us">👋</span> ' : '';
 
-                eventMarker.innerHTML = `${friendlyBadge}${newIcon}${categoryEmojis[event.category]} `;
-                eventMarker.appendChild(calendarEventLabel(event.name));
+                const title = document.createElement('span');
+                title.className = 'sr-only calendar-event-title';
+                title.id = `calendar-event-${dateString}-${index}`;
+                title.appendChild(calendarEventLabel(event.name, false));
+                eventMarker.setAttribute('aria-labelledby', title.id);
+                const visual = document.createElement('span');
+                visual.className = 'calendar-event-visual';
+                visual.setAttribute('aria-hidden', 'true');
+                visual.innerHTML = `${friendlyBadge}${newIcon}${categoryEmojis[event.category]} `;
+                const text = document.createElement('span');
+                text.className = 'calendar-event-text';
+                text.appendChild(calendarEventLabel(event.name));
+                visual.appendChild(text);
+                eventMarker.append(title, visual);
+                eventMarker.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        eventMarker.click();
+                    }
+                });
 
                 // Add special styling for new events
                 if (isNew) {

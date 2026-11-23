@@ -14,9 +14,51 @@ test.beforeEach(async ({ page }) => {
       { date: '11/25/2026', name: 'HOLY COMMUNION SERVICE WITH A VERY LONG FELLOWSHIP TITLE', category: 'gpbc' },
       { date: '11/26/2026', name: 'শুক্রবারের বাইবেল শিক্ষা ও প্রার্থনার সভা', category: 'gpbc' },
       { date: '11/27/2026', name: 'FELLOWSHIP'.repeat(10), category: 'gpbc' },
+      { date: '11/23/2026', name: 'İrem FELLOWSHIP', category: 'gpbc' },
+      { date: '11/24/2026', name: 'COMMUNION প্রার্থনার FELLOWSHIP', category: 'gpbc' },
     ] },
     headers: { 'access-control-allow-origin': '*' },
   }));
+});
+
+test('calendar preserves Unicode words and exposes one unsplit mixed-language title', async ({ page }) => {
+  await page.goto('/calendar.html');
+  for (const title of ['İrem FELLOWSHIP', 'COMMUNION প্রার্থনার FELLOWSHIP']) {
+    const marker = page.getByRole('button', { name: title, exact: true });
+    await expect(marker).toHaveCount(1);
+    await expect(marker).toHaveAccessibleName(title);
+    await expect(marker.locator('.calendar-event-text')).toHaveText(title);
+    await expect(marker.locator('.calendar-event-visual')).toHaveAttribute('aria-hidden', 'true');
+  }
+  const marker = page.getByRole('button', { name: 'COMMUNION প্রার্থনার FELLOWSHIP', exact: true });
+  for (const selector of ['.calendar-event-title', '.calendar-event-text']) {
+    expect(await marker.locator(selector + ' [lang]').evaluateAll(elements =>
+      elements.map(element => ({ text: element.textContent, lang: element.lang, hyphens: getComputedStyle(element).hyphens })))).toEqual([
+      { text: 'COMMUNION', lang: 'en', hyphens: 'auto' },
+      { text: 'প্রার্থনার', lang: 'bn', hyphens: 'manual' },
+      { text: 'FELLOWSHIP', lang: 'en', hyphens: 'auto' },
+    ]);
+  }
+  const calls = await page.evaluate(() => {
+    const hyphenator = (window as any).GPBCCalendarHyphenator;
+    const original = hyphenator.hyphenate;
+    const tokens: string[] = [];
+    try {
+      hyphenator.hyphenate = (token: string) => { tokens.push(token); return original.call(hyphenator, token); };
+      (window as any).calendarEventLabel('İrem FELLOWSHIP café Graceপ্রার্থনা');
+      return tokens;
+    } finally { hyphenator.hyphenate = original; }
+  });
+  expect(calls).toEqual(['FELLOWSHIP']);
+  await page.evaluate(() => {
+    (window as any).__openedCalendarTitles = [];
+    (window as any).showEventDetail = (event: { name: string }) => (window as any).__openedCalendarTitles.push(event.name);
+  });
+  await marker.press('Enter');
+  await marker.press('Space');
+  expect(await page.evaluate(() => (window as any).__openedCalendarTitles)).toEqual([
+    'COMMUNION প্রার্থনার FELLOWSHIP', 'COMMUNION প্রার্থনার FELLOWSHIP',
+  ]);
 });
 
 test('calendar preserves labels and empty names if discretionary hyphenation is unavailable', async ({ page }) => {
@@ -80,6 +122,11 @@ for (const width of [320, 390, 844, 1024, 1440]) {
       };
       await assertGrid();
       const markers = page.locator('.calendar-grid .event-marker');
+      if (width === 320 || width === 390) {
+        for (const size of await markers.evaluateAll(elements => elements.map(element => parseFloat(getComputedStyle(element).fontSize)))) {
+          expect(size).toBeCloseTo(10.14, 2);
+        }
+      }
       await expect(markers.filter({ hasText: 'HOLY COMMUNION SERVICE WITH A VERY LONG FELLOWSHIP TITLE' })).toHaveAttribute('lang', 'en');
       await expect(markers.filter({ hasText: 'শুক্রবারের বাইবেল শিক্ষা ও প্রার্থনার সভা' })).toHaveAttribute('lang', 'bn');
       const words = await markers.evaluateAll((elements, checkBengaliWords) => elements.flatMap(element => {
@@ -90,7 +137,7 @@ for (const width of [320, 390, 844, 1024, 1440]) {
           style.overflow !== 'hidden' && style.textOverflow !== 'ellipsis' &&
           element.scrollWidth <= element.clientWidth + 1 }];
         if (checkBengaliWords && element.lang === 'bn') {
-          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          const walker = document.createTreeWalker(element.querySelector('.calendar-event-text')!, NodeFilter.SHOW_TEXT);
           while (walker.nextNode()) {
             const node = walker.currentNode;
             for (const match of (node.textContent || '').matchAll(/\S+/g)) {
@@ -107,22 +154,24 @@ for (const width of [320, 390, 844, 1024, 1440]) {
           }
         }
         if (!element.textContent?.includes('HOLY COMMUNION SERVICE WITH A VERY LONG FELLOWSHIP TITLE')) return checks;
-        let previous: Element | null = null;
-        for (const span of element.children) {
-          if (!/^[A-Za-z]+$/.test(span.textContent || '')) { previous = null; continue; }
-          const range = document.createRange();
-          range.selectNodeContents(span);
-          const rects = [...range.getClientRects()].filter(rect => rect.width > .1);
-          const tops = rects.map(rect => rect.top);
-          checks.push({ text: span.textContent, valid: tops.length > 0 &&
-            Math.max(...tops) - Math.min(...tops) <= 1 &&
-            rects.every(rect => rect.left >= box.left - 1 && rect.right <= box.right + 1) });
-          if (previous && Math.abs(previous.getBoundingClientRect().top - span.getBoundingClientRect().top) > 1) {
-            checks.push({ text: previous.textContent + ' / ' + span.textContent, valid:
-              previous.classList.contains('calendar-word-break') &&
-              getComputedStyle(previous, '::after').content === '"\u00ad"' });
+        for (const run of element.querySelectorAll('.calendar-event-text .calendar-event-run[lang="en"]')) {
+          let previous: Element | null = null;
+          for (const span of run.children) {
+            if (!/^[A-Za-z]+$/.test(span.textContent || '')) { previous = null; continue; }
+            const range = document.createRange();
+            range.selectNodeContents(span);
+            const rects = [...range.getClientRects()].filter(rect => rect.width > .1);
+            const tops = rects.map(rect => rect.top);
+            checks.push({ text: span.textContent, valid: tops.length > 0 &&
+              Math.max(...tops) - Math.min(...tops) <= 1 &&
+              rects.every(rect => rect.left >= box.left - 1 && rect.right <= box.right + 1) });
+            if (previous && Math.abs(previous.getBoundingClientRect().top - span.getBoundingClientRect().top) > 1) {
+              checks.push({ text: previous.textContent + ' / ' + span.textContent, valid:
+                previous.classList.contains('calendar-word-break') &&
+                getComputedStyle(previous, '::after').content === '"\u00ad"' });
+            }
+            previous = span;
           }
-          previous = span;
         }
         return checks;
       }), [390, 844].includes(width));
