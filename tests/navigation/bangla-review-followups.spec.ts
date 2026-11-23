@@ -96,6 +96,8 @@ for (const route of ['about', 'contact', 'ministries', 'index']) {
 for (const baseline of [
   { width: 865, minimumWidth: 396.89, ratios: [396.89 / 608] },
   { width: 900, minimumWidth: 413.80, ratios: [413.80 / 608] },
+  { width: 960, minimumWidth: 441.55, ratios: [441.55 / 608] },
+  { width: 961, minimumWidth: 433.92, ratios: [433.92 / 668.8, 433.92 / 611.19] },
   { width: 1024, minimumWidth: 462.52, ratios: [462.52 / 668.8, 462.52 / 621.44] },
   { width: 1200, minimumWidth: 542.33, ratios: [542.33 / 680.98, 542.33 / 630.27] },
   { width: 1440, minimumWidth: 652.94, ratios: [652.94 / 728.67, 620.95 / 692.97] },
@@ -146,6 +148,48 @@ for (const baseline of [
     for (const dimension of ['width', 'height'] as const) {
       expect(Math.max(...sizes.map(size => size[dimension])) - Math.min(...sizes.map(size => size[dimension]))).toBeLessThanOrEqual(2);
     }
+  });
+}
+
+function mainVisitImageWidth(width: number, rootFont: number) {
+  const clamp = (minimum: number, value: number, maximum: number) => Math.max(minimum, Math.min(value, maximum));
+  const tablet = width <= 960;
+  const padding = tablet ? clamp(1.75 * rootFont, .04 * width, 2.5 * rootFont) : clamp(1.25 * rootFont, .05 * width, 4 * rootFont);
+  const inner = Math.min(77.5 * rootFont, width - 2 * padding);
+  const gap = tablet ? clamp(2.25 * rootFont, .04 * width, 3.5 * rootFont) : clamp(3 * rootFont, .06 * width, 5.5 * rootFont);
+  const space = inner - gap;
+  const left = tablet ? .475 : .46;
+  return (space * left < 22 * rootFont ? space - 22 * rootFont : space) * (1 - left) - 2;
+}
+
+for (const [start, end] of [[865, 1056], [1056, 1248], [1248, 1440]]) for (const language of ['en', 'bn']) {
+  test(`Home visit photo has no crop cliff in a 1px sweep: ${language} ${start}-${end}`, async ({ page }) => {
+    test.setTimeout(180_000);
+    await page.setViewportSize({ width: start, height: 1000 });
+    await page.goto('/index.html?lang=' + language);
+    await expect(page.locator('html')).toHaveAttribute('data-bangla-catalog', 'ready');
+    await page.locator('.visit-v3__image').scrollIntoViewIfNeeded();
+    await expect.poll(() => page.locator('.visit-v3__image').evaluate(image => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    await page.locator('.visit-v3__image').evaluate(async image => {
+      await (image as HTMLImageElement).decode();
+      await document.fonts.ready;
+    });
+    let previous = 0, minimumRatio = Infinity, largestDrop = 0;
+    for (let width = start; width <= end; width++) {
+      await page.setViewportSize({ width, height: 1000 });
+      const geometry = await page.locator('.visit-v3__image').evaluate(image => ({
+        width: image.getBoundingClientRect().width,
+        pageWidth: document.documentElement.scrollWidth, viewport: innerWidth,
+      }));
+      const reference = Math.max(mainVisitImageWidth(width, 16), mainVisitImageWidth(width, 17.6));
+      expect(geometry.width, language + '/' + width + ' versus main').toBeGreaterThanOrEqual(.9 * reference);
+      expect(geometry.pageWidth, language + '/' + width + ' overflow').toBeLessThanOrEqual(geometry.viewport);
+      if (previous) expect(geometry.width, language + '/' + width + ' width drop').toBeGreaterThanOrEqual(.9 * previous);
+      minimumRatio = Math.min(minimumRatio, geometry.width / reference);
+      largestDrop = Math.max(largestDrop, previous - geometry.width);
+      previous = geometry.width;
+    }
+    console.log('visit-photo sweep', language, JSON.stringify({ start, end, widths: end - start + 1, minimumRatio, largestDrop }));
   });
 }
 
