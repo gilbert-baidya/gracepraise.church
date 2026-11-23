@@ -59,27 +59,34 @@ test('expiry restores an equivalent control and preserves explicit and focus pau
   await expect(page.getByRole('button', { name: 'Pause slideshow', exact: true })).toHaveAttribute('aria-pressed', 'false');
 });
 
-for (const width of [390, 1440]) {
-  test(`${width}px artwork keyboard focus ring is inset and visible inside the stage`, async ({ page }, testInfo) => {
-    await page.setViewportSize({ width, height: 900 });
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/index.html');
-    await page.locator('.activity-dot').nth(1).click();
-    await page.keyboard.press('Tab');
-    const link = page.locator('.activity-slide.is-active .event-flyer-link');
-    await link.focus();
-    await expect(link).toBeFocused();
-    expect(await link.evaluate(element => {
-      const style = getComputedStyle(element);
-      return { offset: style.outlineOffset, width: style.outlineWidth, style: style.outlineStyle };
-    })).toEqual({ offset: '-7px', width: '3px', style: 'solid' });
-    expect(await link.evaluate(element => {
-      const ring = getComputedStyle(element, '::after');
-      return { border: ring.borderTopWidth, inset: ring.top, layer: ring.zIndex };
-    })).toEqual({ border: '3px', inset: '6px', layer: '3' });
-    await page.locator('.activity-stage').screenshot({ path: testInfo.outputPath('artwork-focus.png') });
-  });
-}
+test('390px flyer fills the card and has one visit action and a visible calendar label in both languages', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/index.html');
+  await page.locator('.activity-dot').nth(1).click();
+  const active = page.locator('.event-flyer.is-active');
+  const cta = page.locator('.activity-cta');
+  const calendar = page.locator('.activity-event-tools:not([hidden]) .activity-calendar');
+  expect(await active.locator('img').evaluate(image => {
+    const card = image.closest('.activity-carousel')!;
+    const style = getComputedStyle(card);
+    const insets = ['paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth'] as const;
+    const contentWidth = card.getBoundingClientRect().width - insets.reduce((sum, edge) => sum + parseFloat(style[edge]), 0);
+    return Math.abs(contentWidth - image.getBoundingClientRect().width);
+  })).toBeLessThan(0.5);
+  await expect(active.getByRole('link')).toHaveCount(0);
+  await expect(page.locator('#home-service-line a')).toBeHidden();
+  for (const language of ['en', 'bn']) {
+    await page.evaluate(lang => (window as any).GPBCLanguage.set(lang), language);
+    await expect(cta).toHaveJSProperty('href', new URL('/plan-visit.html?lang=' + language, page.url()).href);
+    for (const control of [cta, calendar]) {
+      const label = control.locator('[data-lang="' + language + '"]');
+      await expect(label).toBeVisible();
+      expect((await label.boundingBox())!.width).toBeGreaterThan(20);
+      await expect(control).toHaveCSS('text-decoration-line', 'none');
+    }
+  }
+});
 
 for (const script of ['events.js', 'js/home-activities.js', 'js/activity-carousel.js', 'homepage-events.js']) {
   test(`delayed ${script} does not block parsing and keeps the reserved frame stable`, async ({ page }) => {
@@ -200,8 +207,8 @@ test('timeline, keyboard and swipe control one accessible slide', async ({ page 
     await expect(slide).toHaveAttribute('inert', '');
     await expect(slide).toHaveAttribute('aria-hidden', 'true');
   }
-  const artLink = active.locator('a');
-  await artLink.focus();
+  const calendar = root.getByRole('button', { name: 'Add to calendar' });
+  await calendar.focus();
   await page.keyboard.press('Tab');
   expect(await page.evaluate(() => Boolean(document.activeElement?.closest('[inert]')))).toBe(false);
 });

@@ -118,11 +118,9 @@ test.describe('Holiday flyers', () => {
         await expect(card.locator('img')).toHaveAttribute('lang', language);
         const alt = await card.locator('img').getAttribute('alt');
         for (const information of flyer[language]) expect(alt).toContain(information);
-        for (const link of await card.locator('a').all()) {
-          await expect(link).toHaveAttribute('href', /plan-visit\.html\?lang=(en|bn)$/);
-          expect(new URL((await link.getAttribute('href'))!, page.url()).searchParams.get('lang')).toBe(language);
-        }
+        await expect(card.locator('a')).toHaveCount(0);
       }
+      await expect(page.locator('.activity-cta')).toHaveJSProperty('href', new URL('/plan-visit.html?lang=' + language, page.url()).href);
       await expect(page.locator(`.activity-cta [data-lang="${language}"]`)).toBeVisible();
       await expect(page.locator(`.activity-cta [data-lang="${language === 'bn' ? 'en' : 'bn'}"]`)).toBeHidden();
     }

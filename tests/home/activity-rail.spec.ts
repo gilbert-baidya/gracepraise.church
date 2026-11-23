@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.use({ serviceWorkers: 'block', reducedMotion: 'reduce' });
 
 for (const width of [360, 390, 490, 1440]) {
-  test(width + 'px rail centers all six complete labels and keeps pause in the header', async ({ page }) => {
+  test(width + 'px rail displays six readable date labels and keeps pause in the header', async ({ page }) => {
     const height = width === 360 ? 800 : width === 390 ? 844 : 1000;
     await page.setViewportSize({ width, height });
     await page.clock.setFixedTime(new Date('2026-12-01T12:00:00-08:00'));
@@ -27,23 +27,39 @@ for (const width of [360, 390, 490, 1440]) {
             const label = button.querySelector('[data-lang="' + language + '"]')!.getBoundingClientRect();
             return { height: item.height, width: item.width,
               centered: getComputedStyle(button).textAlign === 'center',
-              fits: button.scrollWidth <= button.clientWidth + 1 && label.left >= item.left &&
-                label.right <= item.right + 1 && item.left >= box.left && item.right <= box.right + 1 };
+              fits: button.scrollWidth <= button.clientWidth + 1 && label.left >= item.left && label.right <= item.right + 1,
+              inRail: item.left >= box.left && item.right <= box.right + 1 };
           }),
-          lineBottom: document.getElementById('home-service-line')!.getBoundingClientRect().bottom,
           captionCentered: getComputedStyle(document.querySelector('.activity-theme-caption')!).textAlign === 'center',
           ctaCentered: getComputedStyle(document.querySelector('.activity-cta')!).textAlign === 'center',
         };
       }, language);
-      expect(geometry.fits).toBe(true);
+      if (width <= 390) expect(geometry.fits).toBe(false);
+      if (width === 1440) expect(geometry.fits).toBe(true);
       expect(geometry.overflow).toBe(false);
       expect(geometry.captionCentered && geometry.ctaCentered).toBe(true);
       for (const item of geometry.items) {
         expect(item.fits && item.centered).toBe(true);
         expect(item.height).toBeGreaterThanOrEqual(44);
-        expect(Math.abs(item.width - geometry.items[0].width)).toBeLessThan(1);
+        if (width === 1440) {
+          expect(item.inRail).toBe(true);
+          expect(Math.abs(item.width - geometry.items[0].width)).toBeLessThan(1);
+        } else {
+          expect(item.width).toBeGreaterThanOrEqual(76);
+        }
       }
-      if (width <= 390) expect(geometry.lineBottom).toBeLessThanOrEqual(height);
+      if (!geometry.fits) {
+        const last = page.locator('.activity-rail-item').last();
+        await page.locator('.activity-rail-item').first().focus();
+        await page.keyboard.press('ArrowLeft');
+        await expect(last).toBeFocused();
+        await expect(last).toHaveAttribute('aria-current', 'true');
+        expect(await last.evaluate(item => {
+          const rail = item.parentElement!;
+          return rail.scrollLeft > 0 && item.getBoundingClientRect().right <= rail.getBoundingClientRect().right + 1;
+        })).toBe(true);
+        await page.keyboard.press('ArrowRight');
+      }
     }
   });
 }

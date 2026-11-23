@@ -140,11 +140,6 @@ class HomepageEvents {
         card.dataset.flyer = flyer.slug;
         const content = document.createElement('div');
         content.className = 'event-details-content';
-        const link = document.createElement('a');
-        link.className = 'event-flyer-link';
-        link.dataset.gpbcFeatureLink = 'pages.planVisit';
-        link.dataset.gpbcSurface = 'homepage-cta';
-        link.dataset.activityFocus = 'artwork:' + flyer.slug;
         const picture = document.createElement('picture');
         const base = flyer.imageBase || 'images/events/holiday-2026/' + flyer.slug;
         for (const [device, type] of [['phone', 'webp'], ['phone', 'png'], ['desktop', 'webp']]) {
@@ -165,8 +160,7 @@ class HomepageEvents {
         image.dataset.altBn = flyer.bn;
         picture.appendChild(image);
         image.src = base + '-desktop.png';
-        link.appendChild(picture);
-        content.appendChild(link);
+        content.appendChild(picture);
         card.appendChild(content);
         return card;
     }
@@ -178,9 +172,6 @@ class HomepageEvents {
             image.alt = language === 'bn' ? image.dataset.altBn : image.dataset.altEn;
             image.lang = language;
             card.lang = language;
-            card.querySelectorAll('a').forEach(link => {
-                link.href = 'plan-visit.html?lang=' + language;
-            });
             card.querySelectorAll('[data-lang]').forEach(text => {
                 text.hidden = text.dataset.lang !== language;
             });

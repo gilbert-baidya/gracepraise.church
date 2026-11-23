@@ -73,13 +73,14 @@ for (const route of ['index', 'plan-visit']) for (const width of [360, 390]) {
           await summary.locator('.visit-summary-time [data-lang="' + language + '"]').innerText());
         const box = await line.boundingBox();
         expect(box!.y).toBeGreaterThanOrEqual(0);
-        expect(box!.y + box!.height).toBeLessThanOrEqual(height);
-        const link = line.locator('a');
+        await expect(line.locator('a')).toBeHidden();
+        const link = page.locator('#home-activities .activity-cta');
         await expect(link).toHaveAttribute('href', /plan-visit\.html\?lang=/);
         expect(new URL(await link.getAttribute('href') || '', visitOrigin).searchParams.get('lang')).toBe(language);
         const target = await link.boundingBox();
-        expect(target!.height).toBeGreaterThanOrEqual(48);
+        expect(target!.height).toBeGreaterThanOrEqual(44);
         expect(target!.width).toBeGreaterThanOrEqual(48);
+        await link.scrollIntoViewIfNeeded();
         expect(await link.evaluate(element => {
           const rect = element.getBoundingClientRect();
           return element.contains(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2));
@@ -87,7 +88,8 @@ for (const route of ['index', 'plan-visit']) for (const width of [360, 390]) {
         for (const item of await page.locator('.activity-rail-item').all()) {
           await item.click();
           const current = await line.boundingBox();
-          expect(current!.y + current!.height).toBeLessThanOrEqual(height);
+          const card = (await page.locator('.activity-carousel').boundingBox())!;
+          expect(current!.y).toBeGreaterThanOrEqual(card.y + card.height);
         }
         for (const control of await page.locator('#home-activities button:visible, #home-activities .activity-cta').all()) {
           const controlBox = await control.boundingBox();

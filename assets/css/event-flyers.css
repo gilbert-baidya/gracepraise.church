@@ -1,8 +1,3 @@
-.event-flyer-link,
-.event-flyer-link picture {
-    display: block;
-}
-
 html body #home-activities { display: flow-root; width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; min-height: 0 !important; background: transparent !important; }
 #home-activities .activity-carousel { margin-top: 16px; margin-bottom: 16px; }
 .activity-carousel, .activity-carousel * { box-sizing: border-box; }
@@ -11,29 +6,13 @@ html body #home-activities { display: flow-root; width: 100% !important; max-wid
 #home-activities .activity-heading h2 [data-lang] { font-size: inherit !important; line-height: inherit !important; font-weight: inherit !important; }
 .activity-controls { height: 52px; }
 .activity-carousel .activity-cta { height: 56px; }
-.activity-carousel .event-flyer-link:focus-visible {
-    outline: 3px solid #fff5db !important;
-    outline-offset: -7px !important;
-    position: relative;
-    z-index: 2;
-}
-.activity-carousel .event-flyer-link:focus-visible::after {
-    content: "";
-    position: absolute;
-    inset: 6px;
-    border: 3px solid #fff5db;
-    border-radius: 12px;
-    box-shadow: 0 0 0 2px #0a1428;
-    z-index: 3;
-    pointer-events: none;
-}
-
-.event-flyer-link picture {
+.event-flyer picture {
+    display: block;
     position: relative;
     aspect-ratio: 8 / 3;
 }
 
-.event-flyer-link img {
+.event-flyer img {
     position: absolute;
     inset: 0;
     display: block;
@@ -86,7 +65,6 @@ html body #home-activities { display: flow-root; width: 100% !important; max-wid
 }
 .activity-stage > .activity-slide.is-active { opacity: 1; visibility: visible; pointer-events: auto; z-index: 1; }
 .activity-slide .event-details-content { width: 100%; height: 100%; max-width: none; padding: 0; margin: 0; }
-.activity-slide .event-flyer-link { width: 100%; height: 100%; }
 .activity-slide picture { transform: translateY(5px) scale(.99); transition: transform 1.2s cubic-bezier(.2,.6,.2,1); }
 .activity-slide.is-active picture { transform: none; }
 .activity-footer { display: grid; justify-items: center; gap: 16px; padding-top: 18px; }
@@ -135,6 +113,7 @@ body.dark .activity-carousel, body[data-theme="dark"] .activity-carousel {
 }
 .activity-carousel :focus-visible { outline: 3px solid #b47b12; outline-offset: 4px; }
 .activity-carousel .activity-cta { min-height: 44px; margin: 0; padding: 12px 26px; border-radius: 28px; text-align: center; }
+#home-activities .activity-cta, #home-activities .activity-carousel button, #home-service-line a { text-decoration-line: none !important; }
 .activity-theme { display: grid; place-items: center; background: radial-gradient(ellipse at 80% 20%, #37616b66, transparent 55%), linear-gradient(135deg, #102536, #123b45 65%, #092331); color: #fff5de; }
 .activity-root-motif { position: absolute; width: 45%; height: 135%; right: -4%; top: -12%; opacity: .22; fill: none; stroke: #e9ca82; stroke-width: .8; pointer-events: none; }
 .activity-theme::after { content: ""; position: absolute; inset: 20px; border: 1px solid #e3bd642e; border-radius: 6px; pointer-events: none; }
@@ -193,7 +172,7 @@ body.dark .activity-carousel, body[data-theme="dark"] .activity-carousel {
     #home-activities .activity-carousel .activity-theme h3 { font-size: 42px !important; }
     .activity-theme-subtitle { font-size: 15px; }
     .activity-root-motif { width: 95%; right: -40%; opacity: .22; }
-    .event-flyer-link picture {
+    .event-flyer picture {
         aspect-ratio: 4 / 5;
     }
 }
@@ -272,10 +251,6 @@ body.dark .activity-carousel, body[data-theme="dark"] .activity-carousel {
     #home-activities .activity-heading { height: 44px; min-height: 44px; padding: 0 4px; }
     #home-activities .activity-heading h2 { font-size: 18px !important; }
     #home-activities .activity-heading h2 [data-lang] { font-size: inherit !important; line-height: inherit !important; }
-    #home-activities .activity-stage {
-        width: min(100%, max(160px, calc((100svh - 488px) * .8)));
-        margin-inline: auto;
-    }
     #home-activities .activity-footer {
         grid-template-columns: minmax(0, 1fr);
         gap: 4px 6px;
@@ -283,32 +258,36 @@ body.dark .activity-carousel, body[data-theme="dark"] .activity-carousel {
     }
     #home-activities .activity-controls {
         grid-column: 1 / -1;
-        height: 54px;
-        min-height: 54px;
+        height: 64px;
+        min-height: 64px;
         flex-wrap: nowrap;
     }
-    #home-activities .activity-rail { height: 54px; min-width: 0; padding: 2px 0; gap: 3px; }
-    #home-activities .activity-rail-item { height: 44px; min-height: 44px; padding: 3px; font-size: 11px !important; }
-    #home-activities .activity-rail-item [data-lang] { font-size: inherit !important; line-height: inherit !important; }
+    #home-activities .activity-rail { grid-auto-columns: minmax(76px, 1fr); height: 64px; min-width: 0; padding: 2px 0; overflow-x: auto; }
+    #home-activities .activity-rail-item { height: 44px; min-height: 44px; padding: 6px 8px; font-size: 13px !important; }
+    #home-activities .activity-rail-item [data-lang] { font-size: inherit !important; line-height: inherit !important; white-space: nowrap; }
+    #home-activities .activity-rail-item:focus-visible { outline-offset: -3px; }
     #home-activities .activity-pause { flex: 0 0 44px; width: 44px; height: 44px; padding: 0; font-size: 0 !important; opacity: 1; }
     #home-activities .activity-pause::before { content: "Ⅱ"; font: 18px/1 sans-serif; }
     #home-activities .activity-pause[aria-pressed="true"]::before { content: "▶"; }
     #home-activities .activity-tool-slot { height: 44px; }
-    #home-activities .activity-event-tools { flex-direction: row; gap: 4px; }
+    #home-activities .activity-event-tools { flex-direction: row; gap: 8px; }
     #home-activities .activity-countdown,
     #home-activities .activity-theme-caption { font-size: 12px; line-height: 1.3; }
     #home-activities .activity-countdown [data-lang],
     #home-activities .activity-theme-caption [data-lang],
     #home-activities .activity-cta [data-lang] { font-size: inherit !important; line-height: inherit !important; }
-    #home-activities .activity-calendar { position: relative; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; }
-    #home-activities .activity-calendar::before { content: ""; position: absolute; top: 10px; left: 10px; width: 20px; height: 22px; border: 2px solid currentColor; border-radius: 3px; background: linear-gradient(currentColor, currentColor) center 4px / 100% 2px no-repeat; }
-    #home-activities .activity-calendar::after { content: ""; position: absolute; top: 22px; left: 16px; width: 8px; height: 8px; background: linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat, linear-gradient(currentColor, currentColor) center / 2px 100% no-repeat; }
-    #home-activities .activity-calendar [data-lang] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    #home-activities .activity-calendar { padding: 4px 10px; }
+    #home-activities .activity-calendar [data-lang] { font-size: 13px !important; line-height: 1.3 !important; }
     #home-activities .activity-carousel .activity-cta { display: flex; align-items: center; justify-content: center; width: min(100%, 260px); text-align: center; height: 44px; min-height: 44px !important; padding: 6px 8px !important; font-size: 12px !important; line-height: 1.3 !important; }
     #home-service-line { width: calc(100% - 16px); margin-bottom: 8px; }
     html[lang="bn"] #home-service-line { grid-template-columns: minmax(0, 1fr); }
     html[lang="bn"] #home-service-line .home-service-details { align-items: center; text-align: center; }
     #home-service-line a { white-space: nowrap; }
+}
+@media (max-width: 767px), (hover: none) and (pointer: coarse) and (max-height: 500px) {
+    #home-activities:has(.activity-carousel[data-enhanced="true"] .activity-cta) + #home-service-line { grid-template-columns: minmax(0, 1fr); }
+    #home-activities:has(.activity-carousel[data-enhanced="true"] .activity-cta) + #home-service-line a { display: none; }
+    #home-activities:has(.activity-carousel[data-enhanced="true"] .activity-cta) + #home-service-line .home-service-details { align-items: center; justify-content: center; text-align: center; }
 }
 @media (max-width: 375px) {
     .activity-fast-copy { padding: 16px; }
