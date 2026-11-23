@@ -52,7 +52,7 @@ test('existing boundary timer updates chips and preserves the focused calendar a
   await expect(page.locator('.activity-carousel')).toHaveAttribute('data-playing', 'false');
 });
 
-test('date rail is the only item selector, scrolls horizontally and supports keyboard', async ({ page }) => {
+test('date rail is the only item selector, fits all chips and supports keyboard', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.clock.setFixedTime(new Date('2026-12-20T09:00:00-08:00'));
   await page.goto('/index.html');
@@ -64,7 +64,7 @@ test('date rail is the only item selector, scrolls horizontally and supports key
   await expect(rail.locator('button.is-today [data-lang="en"]')).toHaveText('Dec 20');
   await rail.locator('button').nth(4).click();
   await expect(rail.locator('[aria-current="true"] [data-lang="en"]')).toHaveText('Jan 1');
-  expect(await rail.evaluate(element => element.scrollLeft)).toBeGreaterThan(0);
+  expect(await rail.evaluate(element => element.scrollWidth)).toBe(await rail.evaluate(element => element.clientWidth));
   await page.keyboard.press('ArrowLeft');
   await expect(rail.locator('[aria-current="true"]')).toBeFocused();
   await expect(page.locator('.activity-slide.is-active')).toHaveAttribute('data-activity', 'gratitude-dec31');

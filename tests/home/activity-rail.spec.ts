@@ -19,8 +19,11 @@ for (const width of [360, 390, 490, 1440]) {
       await page.evaluate(() => document.fonts.ready);
       const geometry = await page.locator('.activity-rail').evaluate((rail, language) => {
         const box = rail.getBoundingClientRect();
+        const card = rail.closest('.activity-carousel')!;
+        const cardBox = card.getBoundingClientRect();
         return {
           fits: rail.scrollWidth <= rail.clientWidth + 1,
+          inCard: rail.scrollWidth <= card.clientWidth && box.left >= cardBox.left && box.right <= cardBox.right,
           overflow: document.documentElement.scrollWidth > innerWidth,
           items: [...rail.querySelectorAll('button')].map(button => {
             const item = button.getBoundingClientRect();
@@ -28,40 +31,46 @@ for (const width of [360, 390, 490, 1440]) {
             const style = getComputedStyle(button);
             const left = item.left + parseFloat(style.borderLeftWidth) + parseFloat(style.paddingLeft);
             const right = item.right - parseFloat(style.borderRightWidth) - parseFloat(style.paddingRight);
+            const top = item.top + parseFloat(style.borderTopWidth) + parseFloat(style.paddingTop);
+            const bottom = item.bottom - parseFloat(style.borderBottomWidth) - parseFloat(style.paddingBottom);
             return { height: item.height, width: item.width,
               centered: style.textAlign === 'center',
-              fits: button.scrollWidth <= button.clientWidth + 1 && label.left >= left - 1 && label.right <= right + 1,
+              fits: button.scrollWidth <= button.clientWidth + 1 && label.left >= left - 1 && label.right <= right + 1 &&
+                label.top >= top - 1 && label.bottom <= bottom + 1,
               inRail: item.left >= box.left && item.right <= box.right + 1 };
           }),
           captionCentered: getComputedStyle(document.querySelector('.activity-theme-caption')!).textAlign === 'center',
           ctaCentered: getComputedStyle(document.querySelector('.activity-cta')!).textAlign === 'center',
         };
       }, language);
-      if (width <= 390) expect(geometry.fits).toBe(false);
-      if (width === 1440) expect(geometry.fits).toBe(true);
+      expect(geometry.fits && geometry.inCard).toBe(true);
       expect(geometry.overflow).toBe(false);
       expect(geometry.captionCentered && geometry.ctaCentered).toBe(true);
       for (const item of geometry.items) {
         expect(item.fits && item.centered).toBe(true);
         expect(item.height).toBeGreaterThanOrEqual(44);
-        if (width === 1440) {
-          expect(item.inRail).toBe(true);
-          expect(Math.abs(item.width - geometry.items[0].width)).toBeLessThan(1);
-        } else {
-          expect(item.width).toBeGreaterThanOrEqual(84);
-        }
+        expect(item.width).toBeGreaterThanOrEqual(44);
+        expect(item.inRail).toBe(true);
+        expect(Math.abs(item.width - geometry.items[0].width)).toBeLessThan(1);
       }
-      if (!geometry.fits) {
+      if (width <= 390) {
         const last = page.locator('.activity-rail-item').last();
         await page.locator('.activity-rail-item').first().focus();
         await page.keyboard.press('ArrowLeft');
         await expect(last).toBeFocused();
         await expect(last).toHaveAttribute('aria-current', 'true');
-        expect(await last.evaluate(item => {
-          const rail = item.parentElement!;
-          return rail.scrollLeft > 0 && item.getBoundingClientRect().right <= rail.getBoundingClientRect().right + 1;
-        })).toBe(true);
+        expect(await last.evaluate(item =>
+          item.getBoundingClientRect().right <= item.parentElement!.getBoundingClientRect().right)).toBe(true);
         await page.keyboard.press('ArrowRight');
+        const first = page.locator('.activity-rail-item').first();
+        await expect(first).toBeFocused();
+        await expect(first).toHaveAttribute('aria-current', 'true');
+        expect(await first.evaluate(item => {
+          const rail = item.parentElement!;
+          const next = item.nextElementSibling!;
+          return item.getBoundingClientRect().left >= rail.getBoundingClientRect().left &&
+            next.getBoundingClientRect().right <= rail.getBoundingClientRect().right;
+        })).toBe(true);
       }
     }
   });

@@ -264,9 +264,9 @@ body.dark .activity-carousel, body[data-theme="dark"] .activity-carousel {
         min-height: 64px;
         flex-wrap: nowrap;
     }
-    #home-activities .activity-rail { grid-auto-columns: minmax(84px, 1fr); height: 64px; min-width: 0; padding: 2px 0; overflow-x: auto; }
-    #home-activities .activity-rail-item { height: 44px; min-height: 44px; padding: 6px 8px; font-size: 13px !important; }
-    #home-activities .activity-rail-item [data-lang] { font-size: inherit !important; line-height: inherit !important; white-space: nowrap; }
+    #home-activities .activity-rail { height: 64px; min-width: 0; gap: 4px; padding: 2px 0; }
+    #home-activities .activity-rail-item { height: 44px; min-height: 44px; padding: 0 2px; font-size: 13px !important; }
+    #home-activities .activity-rail-item [data-lang] { font-size: inherit !important; line-height: inherit !important; }
     #home-activities .activity-rail-item:focus-visible { outline-offset: -3px; }
     #home-activities .activity-pause { flex: 0 0 44px; width: 44px; height: 44px; padding: 0; font-size: 0 !important; opacity: 1; }
     #home-activities .activity-pause::before { content: "Ⅱ"; font: 18px/1 sans-serif; }
