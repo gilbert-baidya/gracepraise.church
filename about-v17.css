@@ -675,7 +675,7 @@ body[data-theme="dark"] .about-v17,
     display: none;
 }
 
-.about-beliefs summary span {
+.about-beliefs summary .about-belief-number {
     color: var(--about-gold-deep);
     font-size: 0.72rem;
     letter-spacing: 0.08em;

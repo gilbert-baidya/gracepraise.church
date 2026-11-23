@@ -15,7 +15,18 @@
   let current;
   let scheduled = false;
   let syncingContent = false;
+  let draft;
   const contentRequests = new Map();
+  if (!location.pathname.startsWith('/admin/') && !location.hostname.startsWith('admin.')) {
+    import('./bangla-draft.mjs').then(module => {
+      draft = module;
+      root.dataset.banglaCatalog = 'ready';
+      if (current) update();
+    }).catch(() => {
+      root.dataset.banglaCatalog = 'unavailable';
+      console.warn('Bangla draft catalog could not be loaded.');
+    });
+  }
 
   function savedLanguage() {
     try { return localStorage.getItem('gpbc-language'); } catch { return null; }
@@ -41,16 +52,18 @@
   function update() {
     root.classList.add('site-language-ready');
     setAttribute(root, 'lang', current);
+    if (draft) draft.applyDraft(document, identity, current);
+    const translatedTitle = document.querySelector('title')?.dataset.bn || draft?.titles[identity] || titles[identity]?.[1];
+    const routeHeading = document.querySelector('#gpbc-route-state:not([hidden]) h1')?.textContent;
+    const heading = current === 'bn' ? draft?.common[routeHeading] || draft?.translate(routeHeading || '', identity) || routeHeading : routeHeading;
+    const title = heading ? heading + ' | Grace and Praise Bangladeshi Church' :
+      current === 'en' || !translatedTitle ? originalTitle : translatedTitle + ' | Grace and Praise Bangladeshi Church';
+    if (document.title !== title) document.title = title;
+    if (root.hasAttribute('data-site-language-document-only')) return;
     if (!document.querySelector('.site-language-row')) {
       const header = document.querySelector('body > header, #site-header header');
       if (header) header.append(languageRow());
     }
-    const translatedTitle = titles[identity];
-    const routeHeading = document.querySelector('#gpbc-route-state:not([hidden]) h1')?.textContent;
-    const title = routeHeading ? `${routeHeading} | Grace and Praise Bangladeshi Church${current === 'bn' ? ' · বাংলা' : ''}` : current === 'en' ? originalTitle : translatedTitle
-      ? `${translatedTitle[current === 'bn' ? 1 : 0]} | Grace and Praise Bangladeshi Church`
-      : `${originalTitle}${current === 'bn' ? ' · বাংলা' : ''}`;
-    if (document.title !== title) document.title = title;
     document.querySelectorAll('[data-lang="en"], [data-lang="bn"]').forEach(element => {
       if (!element.hasAttribute('lang')) setAttribute(element, 'lang', element.dataset.lang);
       const active = element.dataset.lang === current;
@@ -134,9 +147,10 @@
     current = resolve();
     update();
     document.addEventListener('click', event => {
-      const contentLanguage = event.target.closest?.('#langEn, #langBn, #cdLangEn, #cdLangBn');
+      const contentLanguage = event.target.closest?.('#langEn, #langBn, #cdLangEn, #cdLangBn, [data-loop-lang], [data-gpbc-lang]');
       if (contentLanguage && !syncingContent) {
-        switchLanguage(contentLanguage.id.endsWith('Bn') ? 'bn' : 'en');
+        switchLanguage(contentLanguage.dataset.loopLang || contentLanguage.dataset.gpbcLang ||
+          (contentLanguage.id.endsWith('Bn') ? 'bn' : 'en'));
         return;
       }
       const link = event.target.closest?.('[data-site-language]');
