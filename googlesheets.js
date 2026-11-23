@@ -57,8 +57,9 @@ async function loadEventsFromGoogleSheets() {
                         normalizedDate = event.date.split('T')[0];
                     }
 
-                    events.push({
+                    const importedEvent = normalizeHolidaySchedule({
                         date: normalizedDate,
+                        sourceDate: normalizedDate,
                         name: event.name,
                         category: event.category || 'gpbc',
                         description: event.description || '',
@@ -68,6 +69,7 @@ async function loadEventsFromGoogleSheets() {
                         timestamp: event.timestamp || '',
                         imageUrl: event.imageUrl || ''
                     });
+                    events.push(importedEvent);
                 }
             });
 
@@ -100,7 +102,7 @@ async function saveEventToGoogleSheets(event) {
             body: JSON.stringify({
                 action: 'addEvent',
                 event: {
-                    date: event.date,
+                    date: event.sourceDate || event.date,
                     name: event.name,
                     category: event.category,
                     description: event.description || '',
@@ -141,7 +143,7 @@ async function deleteEventFromGoogleSheets(event) {
             body: JSON.stringify({
                 action: 'deleteEvent',
                 event: {
-                    date: event.date,
+                    date: event.sourceDate || event.date,
                     name: event.name,
                     owner: event.owner || CODE_OWNER
                 }

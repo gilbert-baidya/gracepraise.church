@@ -204,6 +204,7 @@ body .site-footer .sacred-footer__brand-text h2 {
 
 .sacred-footer__column {
     position: relative;
+    min-width: 0;
     padding: 0 16px 8px;
 }
 
@@ -221,14 +222,16 @@ body .site-footer .sacred-footer__brand-text h2 {
     display: none;
 }
 
-.sacred-footer__column .footer-nav-title {
+body .site-footer.sacred-footer .sacred-footer__column .footer-nav-title {
     position: relative;
     margin: 0 0 16px;
     font-family: Inter, -apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    font-size: 0.95rem;
+    font-size: 0.95rem !important;
+    white-space: nowrap;
+    word-break: normal;
     color: var(--footer-v9-gold-soft);
     text-align: center;
 }
@@ -261,6 +264,10 @@ body .site-footer .sacred-footer__brand-text h2 {
     align-items: center;
     justify-content: center;
     min-width: auto;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
     min-height: 44px;
     padding: 6px 4px;
     color: var(--footer-v9-ivory);
@@ -445,7 +452,7 @@ body .site-footer .sacred-footer__brand-text h2 {
     }
 
     #footer-nav-connect .footer-link {
-        white-space: nowrap;
+        white-space: normal;
     }
 }
 

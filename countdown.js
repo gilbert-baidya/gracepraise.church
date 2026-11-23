@@ -156,7 +156,7 @@ class CountdownSystem {
             minute: '2-digit',
             second: '2-digit',
             weekday: 'short',
-            hour12: false
+            hourCycle: 'h23'
         });
 
         const parts = formatter.formatToParts(date);

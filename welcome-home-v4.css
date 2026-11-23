@@ -14,6 +14,7 @@ body.homepage .welcome-home-v4 {
     color: var(--welcome-home-v4-text);
     text-align: center;
     scroll-margin-top: clamp(5.5rem, 9vw, 7.5rem);
+    padding-inline: clamp(20px, 5vw, 64px) !important;
 }
 
 .welcome-home-v4,
@@ -34,7 +35,7 @@ body.homepage .welcome-home-v4 {
 }
 
 body.homepage .welcome-home-v4__eyebrow {
-    margin: 0 0 1.15rem;
+    margin: 0 auto 1.15rem;
     color: var(--welcome-home-v4-gold);
     font-family: "Space Grotesk", Arial, sans-serif;
     font-size: 0.78rem;
@@ -125,7 +126,7 @@ body.homepage[data-theme="dark"] .welcome-home-v4__visual {
 }
 
 @media (max-width: 54rem) {
-    .welcome-home-v4 {
+    body.homepage .welcome-home-v4 {
         padding: clamp(5rem, 12vw, 7rem) clamp(1.5rem, 6vw, 3rem) clamp(5rem, 12vw, 7rem);
     }
 
@@ -139,7 +140,7 @@ body.homepage[data-theme="dark"] .welcome-home-v4__visual {
 }
 
 @media (max-width: 37.5rem) {
-    .welcome-home-v4 {
+    body.homepage .welcome-home-v4 {
         padding: 4.5rem 1.25rem 5rem;
     }
 
