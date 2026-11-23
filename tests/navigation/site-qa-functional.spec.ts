@@ -46,6 +46,45 @@ test('calendar has seven-cell ARIA rows before and after month changes, and Esca
   await expect(page.locator('.calendar-grid')).toBeVisible();
 });
 
+test('Calendar event details restore focus to their opener or a surviving calendar target', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-11-21T12:00:00Z'));
+  await page.route('https://script.google.com/**', route => route.fulfill({
+    json: { events: [{ date: '11/25/2026', name: 'Focus return regression', category: 'gpbc', description: 'Test event' }] },
+    headers: { 'access-control-allow-origin': '*' },
+  }));
+  await page.goto('/calendar.html');
+  const modal = page.locator('#eventDetailModal');
+  const close = modal.getByRole('button', { name: 'Close event details modal' });
+  const marker = page.locator('.calendar-grid .event-marker').filter({ hasText: 'Focus return regression' }).first();
+  const monthlyEvent = page.locator('#monthEvents .event-item').filter({ hasText: 'Focus return regression' }).first();
+  for (const opener of [marker, monthlyEvent]) {
+    for (const method of ['Escape', 'button']) {
+      await opener.click();
+      await expect(modal).toBeVisible();
+      await expect(close).toBeFocused();
+      if (method === 'Escape') await page.keyboard.press('Escape');
+      else await close.click();
+      await expect(modal).toBeHidden();
+      await expect(opener).toBeFocused();
+      await page.keyboard.press('Escape');
+      await expect(opener).toBeFocused();
+    }
+  }
+  await marker.click();
+  await page.evaluate(() => (window as any).renderCalendar());
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.calendar-grid .day[data-date="2026-11-25"]')).toBeFocused();
+  await monthlyEvent.click();
+  await page.evaluate(() => document.getElementById('nextMonth')!.click());
+  await close.click();
+  await expect(page.locator('.calendar-grid')).toBeFocused();
+  await page.evaluate(() => {
+    (window as any).showEventDetail({ date: '2026-12-25', name: 'No opener', category: 'gpbc', description: '' }, null);
+  });
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.calendar-grid .day[data-date="2026-12-25"]')).toBeFocused();
+});
+
 test('Bengali gratitude selection is safe while the data request is pending', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
