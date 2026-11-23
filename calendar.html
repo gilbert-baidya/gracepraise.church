@@ -775,11 +775,13 @@
             }
         }
 
-        @media (min-width: 360px) and (max-width: 375px) {
-            html:root body .calendar-grid .event-marker .calendar-event-text {
-                display: block;
-                inline-size: calc(100% - 0.6em);
-                margin-inline: auto;
+        @media (min-width: 360px) and (max-width: 389px) {
+            .calendar-grid .day {
+                padding-inline: 0 0.025rem;
+            }
+
+            html:root body .calendar-grid .event-marker:lang(bn) {
+                padding-inline: 0;
             }
         }
 

@@ -133,7 +133,7 @@ async function checkSaturdayFocus(page: Page) {
   expect(ring.right).toBeLessThanOrEqual(ring.gridRight);
 }
 
-for (const width of [320, 340, 359, 360, 375]) for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
+for (const width of [320, 340, 359, 360, 361, 375, 389]) for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
   test(`narrow marker ink stays inside day content: ${width} ${language} ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/calendar.html?lang=' + language);
@@ -185,7 +185,7 @@ for (const width of [320, 340, 359, 360, 375]) for (const language of ['en', 'bn
   });
 }
 
-for (const width of [320, 390, 844, 1024, 1440]) {
+for (const width of [320, 360, 361, 375, 389, 390, 844, 1024, 1440]) {
   for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
     test(`seven bounded weekdays and wrapping labels: ${width} ${theme} ${language}`, async ({ page }) => {
       await page.setViewportSize({ width, height: width === 844 ? 390 : 900 });
@@ -251,7 +251,7 @@ for (const width of [320, 390, 844, 1024, 1440]) {
           style.wordBreak === 'normal' && style.overflowWrap === 'break-word' && style.hyphens === (element.lang === 'bn' ? 'manual' : 'auto') &&
           style.overflow !== 'hidden' && style.textOverflow !== 'ellipsis' &&
           element.scrollWidth <= element.clientWidth + 1 }];
-        if (checkBengaliWords && element.lang === 'bn') {
+        if (checkBengaliWords) {
           const walker = document.createTreeWalker(element.querySelector('.calendar-event-text')!, NodeFilter.SHOW_TEXT);
           while (walker.nextNode()) {
             const node = walker.currentNode;
@@ -289,7 +289,7 @@ for (const width of [320, 390, 844, 1024, 1440]) {
           }
         }
         return checks;
-      }), [390, 844].includes(width));
+      }), [360, 361, 375, 389, 390, 844].includes(width));
       for (const word of words) expect(word.valid, word.text || 'empty marker').toBe(true);
       const labels = await page.locator('#monthEvents .event-name').evaluateAll(elements => elements.map(element => {
         const box = element.getBoundingClientRect();
