@@ -30,7 +30,7 @@ for (const route of routes) {
         const parent = node.parentElement!;
         const text = node.textContent!.trim().replace(/\s+/g, ' ');
         if (!/[A-Za-z]{2}|[\u0980-\u09ff]/.test(text) || proper.test(text) ||
-            parent.closest('script, style, noscript, svg, [hidden], [aria-hidden="true"], .sr-only, .visually-hidden') ||
+            parent.closest('script, style, noscript, svg, [hidden], [aria-hidden="true"], .sr-only, .visually-hidden, [data-bangla-exclude]') ||
             !parent.getClientRects().length || getComputedStyle(parent).visibility !== 'visible') continue;
         total++;
         if (!/[\u0980-\u09ff]/.test(text)) english.push(text);
@@ -147,9 +147,23 @@ test('Calendar month changes and event details use Bengali labels without transl
     date: '2026-12-06', name: 'Worship Service', category: 'gpbc',
     description: 'Private description remains unchanged.'
   }));
-  await expect(page.locator('#eventTitle')).toContainText('উপাসনা');
+  await expect(page.locator('#eventTitle')).toContainText('Worship Service');
   await expect(page.locator('#eventDate')).toContainText('৬ ডিসেম্বর, ২০২৬');
   await expect(page.locator('#eventDescription')).toHaveText('Private description remains unchanged.');
+  for (const description of ['Worship Service', '', '<img src=x onerror=alert(1)>']) {
+    await page.evaluate(description => (window as any).showEventDetail({
+      date: '2026-12-06', name: 'Worship Service', category: 'gpbc', description,
+    }), description);
+    for (const language of ['en', 'bn']) {
+      await page.evaluate(async language => {
+        (window as any).GPBCLanguage.set(language);
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      }, language);
+      await expect(page.locator('#eventTitle')).toHaveText('⛪ Worship Service');
+      await expect(page.locator('#eventDescription')).toHaveText(description);
+      await expect(page.locator('#eventDescription img')).toHaveCount(0);
+    }
+  }
   await page.getByRole('button', { name: 'আয়োজনের বিস্তারিত বন্ধ করুন', exact: true }).click();
   await expect(page.locator('#eventDetailModal')).toBeHidden();
 });

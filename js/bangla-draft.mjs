@@ -643,7 +643,7 @@ export function applyDraft(document, identity, language) {
   const nodes = [];
   while (walker.nextNode()) nodes.push(walker.currentNode);
   for (const node of nodes) {
-    if (node.parentElement.closest('script, style, noscript, svg, textarea, input, select, option, code, pre, [contenteditable], [data-lang], [data-bangla-text], [data-en][data-bn]')) continue;
+    if (node.parentElement.closest('script, style, noscript, svg, textarea, input, select, option, code, pre, [contenteditable], [data-lang], [data-bangla-text], [data-en][data-bn], [data-bangla-exclude]')) continue;
     const normalized = node.textContent.trim().replace(/\s+/g, ' ');
     const english = reverse.get(identity).get(normalized);
     const translated = english ? normalized : translate(node.textContent, identity);
@@ -656,6 +656,7 @@ export function applyDraft(document, identity, language) {
     if (target !== node.parentElement) node.replaceWith(target);
   }
   for (const element of document.querySelectorAll('[data-bangla-text]')) {
+    if (element.closest('[data-bangla-exclude]')) continue;
     const text = element.dataset[language];
     if (renderedLanguage.get(element) !== language) {
       element.textContent = text;
@@ -664,7 +665,7 @@ export function applyDraft(document, identity, language) {
     if (element.lang !== language) element.lang = language;
   }
   for (const element of document.querySelectorAll('[placeholder], [aria-label], [title]')) {
-    if (element.closest('[contenteditable], [data-lang], [data-site-language]')) continue;
+    if (element.closest('[contenteditable], [data-lang], [data-site-language], [data-bangla-exclude]')) continue;
     let saved = attributeTranslations.get(element);
     if (!saved) { saved = new Map(); attributeTranslations.set(element, saved); }
     for (const attribute of ['placeholder', 'aria-label', 'title']) {

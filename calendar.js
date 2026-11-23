@@ -450,6 +450,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
             if (shouldDisplayEvent(event)) {
                 const eventMarker = document.createElement('div');
                 eventMarker.className = `event-marker ${event.category}`;
+                eventMarker.setAttribute('data-bangla-exclude', '');
 
                 // Check if event was added in the last 7 days
                 const isNew = event.timestamp && new Date(event.timestamp) > sevenDaysAgo;
@@ -559,7 +560,7 @@ function renderMonthEvents() {
             }
 
             eventItem.innerHTML = `
-                <div class="event-name">${categoryEmojis[event.category]} ${escapeHtml(event.name)}${newBadge}</div>
+                <div class="event-name" data-bangla-exclude>${categoryEmojis[event.category]} ${escapeHtml(event.name)}${newBadge}</div>
                 <div class="event-date">${formattedDate}</div>
                 ${friendlyBadge}
             `;

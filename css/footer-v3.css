@@ -236,6 +236,12 @@ body .site-footer.sacred-footer .sacred-footer__column .footer-nav-title {
     text-align: center;
 }
 
+html[lang="bn"] body .site-footer.sacred-footer :is(.footer-nav-title, .footer-link, .footer-legal-link) {
+    font-family: "Noto Sans Bengali", sans-serif;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
 .sacred-footer__column .footer-nav-title::after {
     content: "";
     display: block;
