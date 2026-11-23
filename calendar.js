@@ -924,17 +924,16 @@ async function deleteCurrentEvent() {
                 await loadEventsFromGoogleSheets();
             } else {
                 // Fallback to localStorage
-                // console.log('Using localStorage fallback for delete'); // Removed for production
                 const index = events.findIndex(e =>
                     e.date === currentEvent.date &&
                     e.name === currentEvent.name &&
                     e.category === 'gpbc'
                 );
-
                 if (index !== -1) {
                     events.splice(index, 1);
                     saveCustomEvents();
                 }
+                // console.log('Using localStorage fallback for delete'); // Removed for production
             }
         } else {
             // Remove from local array when using localStorage
@@ -943,7 +942,6 @@ async function deleteCurrentEvent() {
                 e.name === currentEvent.name &&
                 e.category === 'gpbc'
             );
-
             if (index !== -1) {
                 events.splice(index, 1);
                 saveCustomEvents();

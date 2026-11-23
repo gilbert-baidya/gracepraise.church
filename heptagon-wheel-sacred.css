@@ -251,6 +251,17 @@
    CENTER CONTENT — Static position (NEVER moves)
    ========================================================================== */
 
+body.homepage .heptagon-center-item h2 { font-size: clamp(1.5rem, 2.1vw, 2.15rem) !important; line-height: 1.15 !important; }
+body.homepage .heptagon-center-item p { font-size: 15px !important; line-height: 1.5 !important; }
+body.homepage .heptagon-center-item .scripture { font-size: 12px !important; }
+@media (max-width: 640px) {
+  body.homepage .heptagon-center-content { width: 64%; height: 74%; }
+  body.homepage .heptagon-center-inner { width: 100%; padding: 0; }
+  body.homepage .heptagon-center-item h2 { font-size: 20px !important; margin-bottom: 8px; }
+  body.homepage .heptagon-center-item p { max-width: 100%; font-size: 12px !important; line-height: 1.45 !important; }
+  body.homepage .heptagon-center-item .scripture { font-size: 10px !important; margin-bottom: 10px; }
+}
+
 .heptagon-center-content {
   position: absolute;
   width: 52%;

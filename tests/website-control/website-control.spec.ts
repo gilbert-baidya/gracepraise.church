@@ -1,5 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 
+test.use({ serviceWorkers: 'block' });
+
 // Keep the fixture generated from the same checked-in registry used by the
 // browser adapter and the trusted backend. This prevents the test payload from
 // silently drifting to a partial feature map.
@@ -397,6 +399,8 @@ test.describe('V21 public website-control adapter', () => {
   });
 
   test('Plan Your Visit homepage/page combination matrix controls dependent surfaces without broken links', async ({ page }) => {
+    await page.clock.setFixedTime(new Date('2026-12-01T12:00:00-08:00'));
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     let currentConfig = publishedConfig();
     await page.route(endpointRoute, async (route) => {
       await route.fulfill({
@@ -439,7 +443,7 @@ test.describe('V21 public website-control adapter', () => {
           ariaLabel: element.getAttribute('aria-label') || ''
         };
       }));
-      expect(links.length).toBe(9);
+      expect(links.length).toBe(15);
       expect(links.every((link) => link.hidden === linksHidden)).toBe(true);
       expect(links.every((link) => link.tabIndex === -1)).toBe(linksHidden);
       expect(links.every((link) => link.comingSoon === linksComingSoon)).toBe(true);
@@ -456,6 +460,9 @@ test.describe('V21 public website-control adapter', () => {
   });
 
   test('Plan Your Visit dependent surfaces preserve navigation framework and shadow diagnostics', async ({ page }) => {
+    await page.clock.setFixedTime(new Date('2026-12-01T12:00:00-08:00'));
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize({ width: 1440, height: 900 });
     await page.route(endpointRoute, async (route) => {
       await route.fulfill({
         contentType: 'application/json',
@@ -476,13 +483,73 @@ test.describe('V21 public website-control adapter', () => {
       expect.objectContaining({ surfaceType: 'homepage-cta', domPresence: 'PRESENT', expectedActiveAction: 'CONTROL_HIDDEN', actualShadowAction: 'NONE — SHADOW MODE' }),
       expect.objectContaining({ surfaceType: 'footer-link', domPresence: 'PRESENT' })
     ]));
-    expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"]:visible').count()).toBe(9);
+    expect(await page.locator('[data-gpbc-feature-link="pages.planVisit"]:visible').count()).toBe(11);
     expect(await page.locator('header .nav-links').isVisible()).toBe(true);
     await page.setViewportSize({ width: 390, height: 900 });
     expect(await page.locator('header .mobile-menu-btn').isVisible()).toBe(true);
     expect(await page.locator('header .nav-links').count()).toBe(1);
     expect(await page.locator('header [data-gpbc-feature-link="pages.planVisit"]').count()).toBe(0);
   });
+
+  for (const state of ['LIVE', 'HIDDEN', 'COMING_SOON'] as FeatureState[]) {
+    test('activity visit links follow page controls after deferred rebuild and language change: ' + state, async ({ page }) => {
+      await page.clock.setFixedTime(new Date('2026-12-01T12:00:00-08:00'));
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.route(endpointRoute, route => route.fulfill({
+        contentType: 'application/json',
+        headers: { 'access-control-allow-origin': '*' },
+        body: JSON.stringify(publishedConfig({ 'pages.planVisit': state }))
+      }));
+      await configurePage(page, 'ACTIVE');
+      await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+      await waitForAdapter(page);
+      const links = page.locator('#home-activities a[href*="plan-visit.html"], #home-service-line a[href*="plan-visit.html"]');
+      await expect(links).toHaveCount(6);
+      for (const expectedCount of [6, 5]) {
+        if (expectedCount === 5) {
+          await page.evaluate(() => {
+            (window as any).GPBC_HOME_ACTIVITIES = (window as any).GPBC_HOME_ACTIVITIES
+              .filter((entry: any) => entry.slug !== 'gratitude-dec31');
+            document.dispatchEvent(new Event('visibilitychange'));
+            (window as any).GPBCLanguage.set('bn');
+          });
+        }
+        await expect(links).toHaveCount(expectedCount);
+        for (const link of await links.all()) {
+          await expect(link).toHaveAttribute('data-gpbc-feature-link', 'pages.planVisit');
+          await expect(link).toHaveAttribute('data-gpbc-surface', 'homepage-cta');
+          await expect(link).toHaveAttribute('data-gpbc-control-state', state);
+          await expect(link).toHaveJSProperty('href', new URL('/plan-visit.html?lang=' + (expectedCount === 5 ? 'bn' : 'en'), page.url()).href);
+          if (state === 'HIDDEN') {
+            await expect(link).toBeHidden();
+            await expect(link).toHaveAttribute('hidden', '');
+            await expect(link).toHaveAttribute('inert', '');
+            await expect(link).toHaveAttribute('aria-hidden', 'true');
+            await expect(link).toHaveAttribute('tabindex', '-1');
+          } else {
+            await expect(link).not.toHaveAttribute('hidden', '');
+            if (state === 'COMING_SOON') {
+              await expect(link).toHaveClass(/gpbc-control-coming-soon-link/);
+              await expect(link).toHaveAttribute('aria-label', /coming soon/i);
+            }
+          }
+        }
+      }
+      await page.locator('.activity-rail-item').nth(1).click();
+      await expect.poll(() => page.locator('.activity-slide[aria-hidden="true"]').evaluateAll(slides =>
+        slides.flatMap(slide => [...slide.querySelectorAll<HTMLElement>('a[href], [tabindex]')])
+          .filter(control => control.tabIndex >= 0).length)).toBe(0);
+      if (state !== 'HIDDEN') {
+        await expect(page.locator('.activity-slide.is-active .event-flyer-link')).not.toHaveAttribute('tabindex');
+      }
+      if (state === 'COMING_SOON') {
+        await page.locator('.activity-rail-item').nth(1).click();
+        await page.locator('.activity-slide.is-active .event-flyer-link').click();
+        await expect(page).toHaveURL(/plan-visit\.html\?lang=bn$/);
+        await expect(page.locator('#gpbc-route-state h1')).toHaveText('Plan Your Visit Coming Soon');
+      }
+    });
+  }
 
   test('shared footer bootstrap applies Plan Your Visit control on secondary pages', async ({ page }) => {
     await page.route(endpointRoute, async (route) => {

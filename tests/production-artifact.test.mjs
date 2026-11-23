@@ -18,6 +18,30 @@ async function fixture(t, entries = { 'index.html': '<h1>Home</h1>' }) {
     return root;
 }
 
+for (const empty of [false, true]) {
+    test(`static Home theme uses the shared configuration: ${empty ? 'empty' : 'swapped and escaped'}`, async t => {
+        const config = await fs.readFile(path.join(repository, 'js/home-activities.js'), 'utf8');
+        const entries = {
+            'index.html': '<main><!-- HOME_ACTIVITY_THEME_START -->stale<!-- HOME_ACTIVITY_THEME_END --></main>',
+            'js/home-activities.js': config + (empty ? '\nwindow.GPBC_HOME_ACTIVITIES = [];' :
+                '\nwindow.GPBC_HOME_ACTIVITIES[0].year = 2027; window.GPBC_HOME_ACTIVITIES[0].title.en = "Abide <strong> & Grow";')
+        };
+        const root = await fixture(t, entries);
+        const { output } = await assembleProduction({ root, trackedFiles: Object.keys(entries) });
+        const markup = await fs.readFile(path.join(output, 'index.html'), 'utf8');
+        assert.ok(!markup.includes('stale'));
+        if (empty) {
+            assert.ok(!markup.includes('activity-carousel'));
+        } else {
+            assert.ok(markup.includes('2027 Church Theme'));
+            assert.ok(markup.includes('২০২৭ মণ্ডলীর থিম'));
+            assert.ok(markup.includes('Abide &lt;strong&gt; &amp; Grow'));
+            assert.ok(!markup.includes('<strong>'));
+            assert.ok(markup.includes('data-enhanced="false"'));
+        }
+    });
+}
+
 test('publication selects web runtime/CMS content, not development or private files', () => {
     for (const file of ['index.html', 'songbook-app.js', 'admin/v21/admin-auth.js', 'admin/config.yml',
         'content/gallery/20251217-dewri-family.md', 'data/bible/index/niv1984.json',

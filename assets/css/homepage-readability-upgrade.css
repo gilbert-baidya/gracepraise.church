@@ -3,7 +3,25 @@
    Scope: Homepage visual readability and color contrast only
    ========================================================================== */
 
+@media (max-width: 767px) {
+    #sacred-focus .container { width: 100%; padding-inline: 20px; }
+    #sacred-focus .sacred-focus-content { width: 100%; padding: 24px 0; }
+    #sacred-focus .eyebrow { font-size: 14px !important; letter-spacing: .25em; white-space: nowrap; }
+    #sacred-focus .sacred-focus-content > p { margin-inline: auto; }
+    #sacred-focus .sacred-actions { display: grid; justify-items: center; padding: 0; gap: 12px; }
+    #sacred-focus .sacred-actions .btn { display: flex; align-items: center; justify-content: center; width: min(100%, 260px); min-height: 48px; padding-inline: 16px; white-space: nowrap; }
+}
+
 /* Core homepage readability tokens */
+body.homepage:not(.dark):not([data-theme="dark"]) :is(.heptagon-wall-label.active, .heptagon-center-item .scripture, .stay-connected-v8__eyebrow, .welcome-home-v4__eyebrow, .welcome-home-v4__closing, .flip-card--come .card-step, .flip-card--build .card-step) {
+    color: #805b08 !important;
+}
+
+@media (max-width: 767px) {
+    body.homepage :is(.theological-intro, .event-tagline) { padding-inline: 12px; box-sizing: border-box; }
+    body.homepage .heptagon-wheel-container { width: min(78vw, 320px); height: min(78vw, 320px); }
+}
+
 body.homepage,
 body[data-page="home"] {
     --home-read-text: #1f2937;
