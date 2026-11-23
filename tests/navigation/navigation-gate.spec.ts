@@ -6,11 +6,187 @@ const languageLinkStyles = (elements: Element[]) => elements.map(element => {
     style.padding, style.fontSize, style.fontWeight, style.lineHeight, style.whiteSpace];
 });
 
+const menuLinkHit = (element: Element) => {
+  const box = element.getBoundingClientRect();
+  return box.top >= 0 && box.bottom <= innerHeight && box.left >= 0 && box.right <= innerWidth &&
+    element.contains(document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2));
+};
+
 test.use({ serviceWorkers: 'block' });
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.addInitScript(() => localStorage.setItem('gpbc:logoLoaderSeen', 'true'));
 });
+
+const menuViewports = ['index', 'bible-reader', 'daily-devotion', 'fasting-40days', 'lent-fasting']
+  .flatMap(route => [{ route, width: 1440, height: 900 }, { route, width: 1024, height: 768 }]);
+menuViewports.push({ route: 'bible-reader', width: 1440, height: 600 });
+for (const { route, width, height } of menuViewports) {
+  for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
+    test(`menu vertical fit: ${route} ${width}x${height} ${language} ${theme}`, async ({ page, isMobile }) => {
+      test.skip(width > 1024 && isMobile, 'Desktop dropdowns use desktop pointer and keyboard projects');
+      await page.setViewportSize({ width, height });
+      await page.addInitScript(() => {
+        localStorage.setItem('gpbc-lent-visited-2026', '1');
+        window.addEventListener('DEVOTION_RENDER_COMPLETE', () => { (window as any).__menuDevotionReady = true; });
+      });
+      await page.route('https://fonts.googleapis.com/**', request => request.abort());
+      await page.route('https://script.google.com/**', request => request.abort());
+      await page.goto('/' + route + '.html?lang=' + language, { waitUntil: 'domcontentloaded' });
+      await expect(page.locator('header[data-gpbc-drawer]')).toBeAttached();
+      await expect(page.locator('html')).toHaveAttribute('data-drawer-styles', 'ready');
+      await expect(page.locator('#nav-links')).toHaveAttribute('lang', language);
+      if (route === 'daily-devotion') await page.waitForFunction(() => (window as any).__menuDevotionReady);
+      await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+      await page.evaluate(() => document.fonts.ready);
+      if (width === 1024) {
+        const burger = page.locator('.mobile-menu-btn');
+        await expect(burger).toBeVisible();
+        await burger.focus();
+        await page.keyboard.press('Enter');
+        const nav = page.locator('#nav-links');
+        await expect(nav).toHaveClass(/mobile-open/);
+        await expect(nav.locator('a').first()).toBeFocused();
+        const bounds = await nav.boundingBox();
+        expect(bounds!.y).toBeGreaterThanOrEqual(0);
+        expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(height + 1);
+        const last = nav.locator(':scope > li:not([data-drawer-language]) > a').last();
+        const attempts = await nav.locator('a:visible').count() + 2;
+        for (let index = 0; index < attempts && !await last.evaluate(element => element === document.activeElement); index++) {
+          await page.keyboard.press('Tab');
+        }
+        await expect(last).toBeFocused();
+        expect(await last.evaluate(menuLinkHit)).toBe(true);
+        await page.keyboard.press('Escape');
+        await expect(nav).not.toHaveClass(/mobile-open/);
+        return;
+      }
+      for (const destination of ['about.html', 'ministries.html', 'daily-devotion.html']) {
+        const dropdown = page.locator('#nav-links > .nav-dropdown')
+          .filter({ has: page.locator(`:scope > a[href*="${destination}"]`) }).first();
+        const toggle = dropdown.locator(':scope > a');
+        const menu = dropdown.locator(':scope > .dropdown-menu');
+        await toggle.focus();
+        await page.keyboard.press('ArrowDown');
+        const bounds = await menu.boundingBox();
+        expect(bounds!.y).toBeGreaterThanOrEqual(0);
+        expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(height - 11);
+        const first = menu.locator(':scope > li > a').first();
+        const last = menu.locator(':scope > li > a').last();
+        await expect(first).toBeFocused();
+        expect(await first.evaluate(menuLinkHit)).toBe(true);
+        await page.keyboard.press('ArrowUp');
+        await expect(last).toBeFocused();
+        expect(await last.evaluate(menuLinkHit)).toBe(true);
+        if (await dropdown.getAttribute('data-nav-scrollable') !== null) {
+          await expect(menu).toHaveCSS('overflow-y', 'auto');
+          expect(await menu.evaluate(element => element.scrollHeight - element.clientHeight)).toBeGreaterThan(0);
+        }
+        if (destination === 'about.html') {
+          const tools = dropdown.locator('.nav-dropdown-nested');
+          await expect(tools.locator(':scope > a')).toBeFocused();
+          await page.keyboard.press('ArrowRight');
+          const nested = tools.locator(':scope > .dropdown-menu-nested');
+          await expect(nested.locator('a').first()).toBeFocused();
+          expect(await nested.locator('a').first().evaluate(menuLinkHit)).toBe(true);
+          await page.keyboard.press('ArrowUp');
+          await expect(nested.locator('a').last()).toBeFocused();
+          expect(await nested.locator('a').last().evaluate(menuLinkHit)).toBe(true);
+          await page.keyboard.press('Escape');
+          await expect(nested).toBeHidden();
+        }
+        await page.keyboard.press('Escape');
+        await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+        await expect(menu).toBeHidden();
+        await page.mouse.move(0, height - 1);
+      }
+    });
+  }
+}
+
+for (const route of ['index', 'about', 'daily-devotion']) {
+  for (const [width, height] of [[320, 844], [390, 844], [430, 932], [844, 390]]) {
+    for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
+      test(`drawer fixed region: ${route} ${width}x${height} ${language} ${theme}`, async ({ page }) => {
+        await page.setViewportSize({ width, height });
+        await page.addInitScript(() => window.addEventListener('DEVOTION_RENDER_COMPLETE', () => {
+          (window as any).__fixedDrawerDevotionReady = true;
+        }));
+        await page.route('https://script.google.com/**', request => request.abort());
+        await page.route('https://fonts.googleapis.com/**', request => request.abort());
+        await page.goto('/' + route + '.html?lang=' + language, { waitUntil: 'domcontentloaded' });
+        await expect(page.locator('header[data-gpbc-drawer]')).toBeAttached();
+        await expect(page.locator('html')).toHaveAttribute('data-drawer-styles', 'ready');
+        await expect(page.locator('#nav-links')).toHaveAttribute('lang', language);
+        if (route === 'daily-devotion') await page.waitForFunction(() => (window as any).__fixedDrawerDevotionReady);
+        await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+        await page.evaluate(() => document.fonts.ready);
+        await page.evaluate(() => scrollTo({ top: 120, behavior: 'instant' }));
+        const burger = page.locator('.mobile-menu-btn');
+        const originalScroll = await burger.evaluate(element => {
+          const position = { y: scrollY, pixel: 1 / devicePixelRatio };
+          (element as HTMLButtonElement).click();
+          return position;
+        });
+        const nav = page.locator('#nav-links');
+        await expect(nav.locator('a').first()).toBeFocused();
+        for (const target of [language === 'en' ? 'bn' : 'en', language]) {
+          await nav.locator('[data-site-language="' + target + '"]').click();
+          await expect(page.locator('#nav-links')).toHaveAttribute('lang', target);
+          await expect(nav.locator('[data-site-language="' + target + '"]')).toHaveAttribute('aria-pressed', 'true');
+          await expect(nav).toHaveClass(/mobile-open/);
+        }
+        for (const target of [theme === 'light' ? 'dark' : 'light', theme]) {
+          await page.locator('#darkModeToggle').click();
+          await expect(page.locator('html')).toHaveAttribute('data-theme', target);
+          await expect(nav).toHaveClass(/mobile-open/);
+        }
+        const about = nav.locator(':scope > .nav-dropdown').filter({ has: page.locator(':scope > a[href*="about.html"]') }).first();
+        for (const expanded of [false, true]) {
+          if (expanded) {
+            await about.locator(':scope > a').click();
+            await expect(about).toHaveClass(/mobile-dropdown-open/);
+          }
+          for (const fraction of [0, .5, 1]) {
+            await nav.evaluate((element, fraction) => { element.scrollTop = (element.scrollHeight - element.clientHeight) * fraction; }, fraction);
+            const state = await nav.evaluate(element => {
+              const box = element.getBoundingClientRect();
+              const region = document.querySelector('[data-drawer-language]')!.getBoundingClientRect();
+              const hit = (control: Element) => {
+                const rect = control.getBoundingClientRect();
+                return rect.top >= 0 && rect.bottom <= innerHeight &&
+                  control.contains(document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2));
+              };
+              const controls = [...document.querySelectorAll('.mobile-menu-btn, #darkModeToggle, [data-drawer-language] [data-site-language]')];
+              const rows = [...element.querySelectorAll('li:not([data-drawer-language]) > a')].filter(row => row.getBoundingClientRect().height > 0);
+              return { top: box.top, regionBottom: region.bottom, bottom: box.bottom, height: innerHeight,
+                locked: document.body.style.position === 'fixed' && scrollY === 0,
+                controls: controls.every(hit),
+                clipped: rows.every(row => {
+                  const rect = row.getBoundingClientRect();
+                  if (rect.top >= box.top || rect.bottom <= 0) return true;
+                  const y = Math.min(rect.bottom, box.top) - 1;
+                  return y < 0 || !row.contains(document.elementFromPoint(rect.left + rect.width / 2, y));
+                }),
+                lastBottom: rows.at(-1)!.getBoundingClientRect().bottom,
+                bottomPadding: parseFloat(getComputedStyle(element).paddingBottom) };
+            });
+            expect(state.top).toBeGreaterThanOrEqual(state.regionBottom);
+            expect(state.bottom).toBeLessThanOrEqual(state.height);
+            expect(state.controls).toBe(true);
+            expect(state.clipped).toBe(true);
+            expect(state.locked).toBe(true);
+            if (fraction === 1) expect(state.lastBottom).toBeLessThanOrEqual(state.bottom - state.bottomPadding + 1);
+          }
+          await nav.evaluate(element => { element.scrollTop = 0; });
+        }
+        await burger.click();
+        await expect(nav).not.toHaveClass(/mobile-open/);
+        expect(Math.abs(await page.evaluate(() => scrollY) - originalScroll.y)).toBeLessThanOrEqual(originalScroll.pixel);
+      });
+    }
+  }
+}
 
 for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
   for (const width of [390, 844]) {

@@ -138,6 +138,11 @@
     function handleResize() {
         debouncedUpdateScrollPadding();
         debouncedApplyNavMode();
+        refreshDesktopDropdowns();
+    }
+
+    function handleDropdownLayoutChange() {
+        requestAnimationFrame(refreshDesktopDropdowns);
     }
 
     function handleOrientationChange() {
@@ -164,6 +169,8 @@
         }
         if (resizeListenerAdded) {
             window.removeEventListener('resize', handleResize);
+            window.removeEventListener('gpbc:languagechange', handleDropdownLayoutChange);
+            document.fonts?.removeEventListener('loadingdone', handleDropdownLayoutChange);
             resizeListenerAdded = false;
         }
         if (orientationListenerAdded) {
@@ -294,6 +301,7 @@
         if (header) {
             header.style.top = bannerInHeader ? '0px' : `${bannerHeight}px`;
         }
+        refreshDesktopDropdowns();
     }
 
     const debouncedUpdateScrollPadding = debounce(updateScrollPadding, 150);
@@ -338,7 +346,8 @@
             holder.setAttribute('data-drawer-language', '');
             navLinks.prepend(holder);
         }
-        (open ? holder : row).append(choices);
+        const source = open ? row : holder;
+        if (source) (open ? holder : row).append(...source.childNodes);
         if (!open) holder?.remove();
     }
 
@@ -501,6 +510,9 @@
         header?.classList.remove('desktop-dropdown-open');
         navLinks.querySelectorAll('.nav-dropdown, .nav-dropdown-nested').forEach(dropdown => {
             dropdown.classList.remove('mobile-dropdown-open');
+            dropdown.removeAttribute('data-nav-scrollable');
+            dropdown.querySelector(':scope > :is(.dropdown-menu, .dropdown-menu-nested)')
+                ?.style.removeProperty('--nav-menu-max-height');
             if (dismiss) dropdown.setAttribute('data-nav-dismissed', '');
             const toggle = dropdown.querySelector('a');
             if (toggle) {
@@ -695,22 +707,61 @@
         const toggle = dropdown.querySelector(':scope > a');
         const menu = dropdown.querySelector(':scope > :is(.dropdown-menu, .dropdown-menu-nested)');
         if (!toggle || !menu) return;
+        const scrollTop = menu.scrollTop;
+        const inline = dropdown.classList.contains('nav-dropdown-nested') &&
+            dropdown.closest('.nav-dropdown[data-nav-scrollable]');
         dropdown.setAttribute('data-nav-preparing', '');
         dropdown.removeAttribute('data-nav-dismissed');
+        dropdown.removeAttribute('data-nav-scrollable');
+        menu.style.removeProperty('--nav-menu-max-height');
         menu.style.setProperty('--nav-menu-shift', '0px');
+        menu.style.setProperty('--nav-menu-lift', '0px');
         const box = menu.getBoundingClientRect();
-        const shift = box.right > innerWidth - 12 ? innerWidth - 12 - box.right : box.left < 12 ? 12 - box.left : 0;
+        const parentMenu = dropdown.parentElement.closest('.dropdown-menu');
+        const minimumTop = parentMenu ? parentMenu.getBoundingClientRect().top : box.top;
+        if (!inline) {
+            const available = Math.max(0, innerHeight - minimumTop - 12);
+            menu.style.setProperty('--nav-menu-max-height', `${available}px`);
+            dropdown.toggleAttribute('data-nav-scrollable', box.height > available);
+        }
+        const constrainedBox = menu.getBoundingClientRect();
+        if (parentMenu && !inline) {
+            const lift = Math.max(minimumTop - constrainedBox.top, Math.min(0, innerHeight - 12 - constrainedBox.bottom));
+            menu.style.setProperty('--nav-menu-lift', `${lift}px`);
+        }
+        const shift = constrainedBox.right > innerWidth - 12 ? innerWidth - 12 - constrainedBox.right
+            : constrainedBox.left < 12 ? 12 - constrainedBox.left : 0;
         menu.style.setProperty('--nav-menu-shift', `${shift}px`);
+        menu.scrollTop = scrollTop;
         header.classList.add('desktop-dropdown-open');
         toggle.setAttribute('aria-expanded', 'true');
         dropdown.removeAttribute('data-nav-preparing');
+    }
+
+    function refreshDesktopDropdowns() {
+        if (getNavMode() !== 'DESKTOP' || !navLinks) return;
+        [...navDropdowns, ...navNestedDropdowns].filter(dropdown =>
+            !dropdown.hasAttribute('data-nav-dismissed') && dropdown.matches(':hover, :focus-within'))
+            .forEach(dropdown => {
+                openDesktopDropdown(dropdown);
+                const menu = dropdown.querySelector(':scope > :is(.dropdown-menu, .dropdown-menu-nested)');
+                if (menu?.contains(document.activeElement)) {
+                    document.activeElement.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+                }
+            });
     }
 
     function closeNestedDropdown(dropdown) {
         dropdown.setAttribute('data-nav-dismissed', '');
         const toggle = dropdown.querySelector(':scope > a');
         toggle?.setAttribute('aria-expanded', 'false');
-        toggle?.focus();
+        focusDropdownLink(toggle);
+    }
+
+    function focusDropdownLink(link) {
+        if (!link) return;
+        link.focus({ preventScroll: true });
+        link.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     }
 
     function initKeyboardNavigation() {
@@ -738,7 +789,7 @@
                     event.preventDefault();
                     open();
                     requestAnimationFrame(() => {
-                        if (toggle.getAttribute('aria-expanded') === 'true') menu.querySelector('a')?.focus();
+                        if (toggle.getAttribute('aria-expanded') === 'true') focusDropdownLink(menu.querySelector('a'));
                     });
                 }
             });
@@ -758,11 +809,11 @@
                     if (e.key === 'ArrowDown') {
                         e.preventDefault();
                         const nextLink = menuLinks[index + 1] || menuLinks[0];
-                        nextLink.focus();
+                        focusDropdownLink(nextLink);
                     } else if (e.key === 'ArrowUp') {
                         e.preventDefault();
                         const prevLink = menuLinks[index - 1] || menuLinks[menuLinks.length - 1];
-                        prevLink.focus();
+                        focusDropdownLink(prevLink);
                     } else if (e.key === 'Escape') {
                         e.preventDefault();
                         e.stopPropagation();
@@ -794,7 +845,7 @@
                     event.preventDefault();
                     event.stopPropagation();
                     open();
-                    requestAnimationFrame(() => menu.querySelector('a')?.focus());
+                    requestAnimationFrame(() => focusDropdownLink(menu.querySelector('a')));
                 } else if (event.key === 'ArrowLeft') {
                     event.preventDefault();
                     event.stopPropagation();
@@ -813,7 +864,7 @@
                     event.preventDefault();
                     event.stopPropagation();
                     const step = event.key === 'ArrowDown' ? 1 : -1;
-                    links[(index + step + links.length) % links.length]?.focus();
+                    focusDropdownLink(links[(index + step + links.length) % links.length]);
                 }
             });
         });
@@ -835,13 +886,14 @@
 
         const clickedInsideMenu = e.target.closest('.nav-links');
         const clickedBurger = e.target.closest('.mobile-menu-btn');
+        const clickedTheme = e.target.closest('#darkModeToggle');
         const clickedOverlay = e.target.closest('.mobile-overlay');
         const clickedLogo = e.target.closest('.logo');
 
         // Overlay already has its own click handler; skip duplicate toggle.
         if (clickedOverlay) return;
 
-        if (!clickedInsideMenu && !clickedBurger) {
+        if (!clickedInsideMenu && !clickedBurger && !clickedTheme) {
             toggleMobileMenu();
         } else if (clickedLogo) {
             toggleMobileMenu();
@@ -1013,6 +1065,8 @@
         updateScrollPadding();
         if (!resizeListenerAdded) {
             window.addEventListener('resize', handleResize);
+            window.addEventListener('gpbc:languagechange', handleDropdownLayoutChange);
+            document.fonts?.addEventListener('loadingdone', handleDropdownLayoutChange);
             resizeListenerAdded = true;
         }
         if (!orientationListenerAdded) {

@@ -158,7 +158,9 @@ LIVE = সরাসরি সম্প্রচার
         const control = document.getElementById(`${prefix}${current === 'bn' ? 'Bn' : 'En'}`);
         if (control && !control.disabled && contentRequests.get(prefix) !== current) {
           contentRequests.set(prefix, current);
-          if (!control.classList.contains('active') && !control.classList.contains('is-active')) control.click();
+          if (!control.classList.contains('active') && !control.classList.contains('is-active')) {
+            control.dispatchEvent(new MouseEvent('click', { bubbles: false, cancelable: true }));
+          }
         }
       }
       syncingContent = false;
