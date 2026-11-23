@@ -1003,7 +1003,7 @@
             document.getElementById('langBn').setAttribute('aria-checked', lang === 'bn');
 
             // Update content
-            const devotion = devotionalData.devotions.find(d => d.day === currentDay);
+            const devotion = devotionalData?.devotions?.find(d => d.day === currentDay);
             if (devotion) updateContent(devotion);
         }
 

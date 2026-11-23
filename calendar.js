@@ -6,6 +6,7 @@ let activeFilters = new Set(['gpbc', 'christian']); // Default to showing standa
 let currentPreset = 'this-week'; // Default to "All Events" preset
 let selectedDate = null;
 let currentEvent = null;
+let eventDetailOpener = null;
 
 const CODE_OWNER = 'gilbert-baidya'; // Change to your GitHub username
 
@@ -308,14 +309,26 @@ function setupEventListeners() {
     // Close modals
     document.querySelectorAll('.close').forEach(closeBtn => {
         closeBtn.addEventListener('click', function () {
-            this.closest('.modal').style.display = 'none';
+            const modal = this.closest('.modal');
+            if (modal.id === 'eventDetailModal') closeEventDetail();
+            else modal.style.display = 'none';
         });
     });
 
     // Close modal when clicking outside
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) {
-            e.target.style.display = 'none';
+            if (e.target.id === 'eventDetailModal') closeEventDetail();
+            else e.target.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        const modal = document.getElementById('eventDetailModal');
+        if (modal && getComputedStyle(modal).display !== 'none') {
+            event.preventDefault();
+            closeEventDetail();
         }
     });
 
@@ -399,11 +412,22 @@ function renderCalendar() {
         const day = createDayElement(i, true);
         calendarGrid.appendChild(day);
     }
+
+    const cells = [...calendarGrid.children];
+    calendarGrid.replaceChildren();
+    for (let index = 0; index < cells.length; index += 7) {
+        const row = document.createElement('div');
+        row.className = 'calendar-row';
+        row.setAttribute('role', 'row');
+        row.append(...cells.slice(index, index + 7));
+        calendarGrid.appendChild(row);
+    }
 }
 
 function createDayElement(dayNumber, isOtherMonth, isToday = false) {
     const dayDiv = document.createElement('div');
     dayDiv.className = 'day';
+    dayDiv.setAttribute('role', 'gridcell');
 
     if (isOtherMonth) {
         dayDiv.classList.add('other-month');
@@ -415,6 +439,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
     // Add Sunday class for subtle highlighting
     if (!isOtherMonth) {
         const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(dayNumber).padStart(2, '0')}`;
+        dayDiv.dataset.date = dateString;
         const date = new Date(dateString);
         if (date.getDay() === 0) { // Sunday
             dayDiv.classList.add('sunday');
@@ -469,7 +494,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
 
                 eventMarker.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    showEventDetail(event);
+                    showEventDetail(event, e.currentTarget);
                 });
                 dayDiv.appendChild(eventMarker);
             }
@@ -564,15 +589,33 @@ function renderMonthEvents() {
                 ${friendlyBadge}
             `;
 
-            eventItem.addEventListener('click', () => showEventDetail(event));
+            eventItem.addEventListener('click', e => showEventDetail(event, e.currentTarget));
             monthEventsDiv.appendChild(eventItem);
         }
     });
 }
 
-function showEventDetail(event) {
+function closeEventDetail() {
+    const modal = document.getElementById('eventDetailModal');
+    if (!modal || getComputedStyle(modal).display === 'none') return;
+    modal.style.display = 'none';
+    const calendar = document.querySelector('.calendar-grid');
+    const day = Array.from(calendar?.querySelectorAll('.day[data-date]') || [])
+        .find(element => element.dataset.date === currentEvent?.date);
+    const opener = eventDetailOpener;
+    eventDetailOpener = null;
+    const target = opener?.isConnected && opener.getClientRects().length &&
+        getComputedStyle(opener).visibility !== 'hidden' ? opener : day || calendar;
+    if (!target) return;
+    if (target.tabIndex < 0 && !target.hasAttribute('tabindex')) target.tabIndex = -1;
+    target.focus();
+}
+
+function showEventDetail(event, opener = document.activeElement) {
     currentEvent = event;
     const modal = document.getElementById('eventDetailModal');
+    eventDetailOpener = opener instanceof HTMLElement && opener !== document.body &&
+        !modal.contains(opener) ? opener : null;
     // Fix timezone issue by treating as local date
     const [year, month, day] = event.date.split('-');
     const eventDate = new Date(year, month - 1, day);
@@ -675,6 +718,7 @@ function showEventDetail(event) {
     }
 
     modal.style.display = 'block';
+    modal.querySelector('.close')?.focus();
 }
 
 function shareEvents() {
@@ -907,9 +951,9 @@ async function deleteCurrentEvent() {
         hideLoadingIndicator();
 
         // Close modal and refresh calendar
-        document.getElementById('eventDetailModal').style.display = 'none';
         renderCalendar();
         renderMonthEvents();
+        closeEventDetail();
         alert(`✓ Event "${currentEvent.name}" deleted successfully!`);
         currentEvent = null;
     }

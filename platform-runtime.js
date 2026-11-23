@@ -341,7 +341,7 @@
 
         state.navInitializing = true;
         try {
-            initFn();
+            if (initFn() === false) return;
             state.navInitialized = true;
             w.PLATFORM_NAV_READY = true;
         } catch (error) {
@@ -380,6 +380,7 @@
                 injectHeaderFallback(headerContainer, basePath);
             }
             normalizeInjectedPaths(headerContainer, basePath);
+            initNavigation();
         }
 
         // Support both old and new footer approaches

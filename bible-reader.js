@@ -58,7 +58,7 @@ const app = {
         { id: 'jon', en: 'Jonah', bn: 'যোনা', chapters: 4, test: 'ot', icon: '🐋' },
         { id: 'mic', en: 'Micah', bn: 'মীখা', chapters: 7, test: 'ot', icon: '🕊️' },
         { id: 'nah', en: 'Nahum', bn: 'নহূম', chapters: 3, test: 'ot', icon: '💨' },
-        { id: 'hab', en: 'হবক্‌কূক', bn: 'Habakkuk', chapters: 3, test: 'ot', icon: '🎺' },
+        { id: 'hab', en: 'Habakkuk', bn: 'হবক্‌কূক', chapters: 3, test: 'ot', icon: '🎺' },
         { id: 'zep', en: 'Zephaniah', bn: 'সফনিয়', chapters: 3, test: 'ot', icon: '⏳' },
         { id: 'hag', en: 'Haggai', bn: 'হগয়', chapters: 2, test: 'ot', icon: '🕋' },
         { id: 'zec', en: 'Zechariah', bn: 'সখরিয়', chapters: 14, test: 'ot', icon: '🌖' },

@@ -24,5 +24,20 @@
         <p lang="bn"><a href="give.html?frequency=once&amp;lang=bn">এককালীন দান করুন</a></p>
     </main>
     <footer><p>Grace and Praise Bangladeshi Church</p></footer>
+    <script>
+        (() => {
+            let language = new URL(location.href).searchParams.get('lang');
+            if (language !== 'en' && language !== 'bn') {
+                try { language = localStorage.getItem('gpbc-language'); } catch {}
+            }
+            if (language !== 'en' && language !== 'bn') return;
+            document.querySelectorAll('a[href]').forEach(link => {
+                const url = new URL(link.getAttribute('href'), location.href);
+                if (url.origin !== location.origin || url.hash || url.searchParams.has('lang')) return;
+                url.searchParams.set('lang', language);
+                link.href = url.pathname + url.search;
+            });
+        })();
+    </script>
 </body>
 </html>

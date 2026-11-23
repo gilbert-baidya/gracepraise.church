@@ -73,6 +73,11 @@
     // Scope strictly to mobile-open dropdown states so desktop light mode is unaffected.
     const mobileContrastStyle = document.createElement('style');
     mobileContrastStyle.innerHTML = `
+        @media (min-width: 1025px) {
+            .nav-dropdown.gpbc-dropdown-dismissed > .dropdown-menu {
+                display: none !important;
+            }
+        }
         @media (max-width: 1024px) {
             /* Keep submenu container transparent in the mobile overlay */
             body .nav-links .nav-dropdown.mobile-dropdown-open > .dropdown-menu,
@@ -723,11 +728,27 @@
             if (!toggle || !menu) return;
             if (dropdown.dataset.keyboardInit === 'true') return;
             dropdown.dataset.keyboardInit = 'true';
+            const syncExpanded = () => {
+                if (getNavMode() !== 'DESKTOP') return;
+                const open = !dropdown.classList.contains('gpbc-dropdown-dismissed') &&
+                    (dropdown.matches(':hover') || dropdown.contains(document.activeElement));
+                toggle.setAttribute('aria-expanded', String(open));
+            };
+            dropdown.addEventListener('mouseenter', () => {
+                dropdown.classList.remove('gpbc-dropdown-dismissed');
+                syncExpanded();
+            });
+            dropdown.addEventListener('mouseleave', syncExpanded);
+            dropdown.addEventListener('focusin', event => {
+                if (!dropdown.contains(event.relatedTarget)) dropdown.classList.remove('gpbc-dropdown-dismissed');
+                syncExpanded();
+            });
+            dropdown.addEventListener('focusout', () => queueMicrotask(syncExpanded));
 
             // ESC key closes dropdown
             toggle.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
-                    closeAllDropdowns();
+                    dismissDesktopDropdowns();
                 }
             });
 
@@ -745,8 +766,8 @@
                         prevLink.focus();
                     } else if (e.key === 'Escape') {
                         e.preventDefault();
-                        closeAllDropdowns();
                         toggle.focus();
+                        dismissDesktopDropdowns();
                     }
                 });
             });
@@ -784,11 +805,26 @@
 
     function handleGlobalKeydown(e) {
         if (e.key === 'Escape') {
-            closeAllDropdowns();
+            if (getNavMode() === 'DESKTOP') {
+                const dropdown = document.activeElement?.closest('.nav-dropdown') ||
+                    navDropdowns.find(item => item.matches(':hover'));
+                if (dropdown) {
+                    e.preventDefault();
+                    dropdown.querySelector('a')?.focus();
+                }
+            }
+            dismissDesktopDropdowns();
             if (navLinks && navLinks.classList.contains('mobile-open')) {
                 e.preventDefault();
                 toggleMobileMenu();
             }
+        }
+    }
+
+    function dismissDesktopDropdowns() {
+        closeAllDropdowns();
+        if (getNavMode() === 'DESKTOP') {
+            navDropdowns.forEach(dropdown => dropdown.classList.add('gpbc-dropdown-dismissed'));
         }
     }
 
@@ -907,7 +943,7 @@
 
         if (!header || !navLinks) {
             scheduleInitRetry();
-            return;
+            return false;
         }
 
         initAttempts = 0;
@@ -996,6 +1032,7 @@
         });
 
         document.dispatchEvent(new CustomEvent('gpbc:navReady'));
+        return true;
     }
 
     if (typeof window !== 'undefined') {

@@ -221,6 +221,14 @@
             box-shadow: 0 1px 3px rgba(30, 58, 95, 0.06);
         }
 
+        .calendar-row {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            place-items: stretch;
+            grid-column: 1 / -1;
+            gap: inherit;
+        }
+
         .calendar-grid .weekday {
             font-family: Georgia, 'Times New Roman', serif;
             font-weight: var(--font-bold);
@@ -1084,6 +1092,7 @@
                 <!-- Calendar Grid -->
                 <div class="calendar-grid" role="grid" aria-label="Monthly calendar view"
                     style="margin-bottom: var(--spacing-lg);">
+                    <div class="calendar-row" role="row">
                     <div class="weekday" role="columnheader">Sun</div>
                     <div class="weekday" role="columnheader">Mon</div>
                     <div class="weekday" role="columnheader">Tue</div>
@@ -1091,6 +1100,7 @@
                     <div class="weekday" role="columnheader">Thu</div>
                     <div class="weekday" role="columnheader">Fri</div>
                     <div class="weekday" role="columnheader">Sat</div>
+                    </div>
                     <!-- Calendar days will be inserted here by JavaScript -->
                 </div>
 
