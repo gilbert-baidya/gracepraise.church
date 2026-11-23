@@ -864,25 +864,26 @@ async function addGPBCEvent() {
 }
 
 async function deleteCurrentEvent() {
-    if (!currentEvent || currentEvent.category !== 'gpbc') {
+    const eventToDelete = currentEvent;
+    if (!eventToDelete || eventToDelete.category !== 'gpbc') {
         alert('Only GPBC events can be deleted.');
         return;
     }
 
-    if (confirm(`Are you sure you want to delete "${currentEvent.name}"?`)) {
+    if (confirm(`Are you sure you want to delete "${eventToDelete.name}"?`)) {
         showLoadingIndicator('Deleting event...');
 
         // Try to delete from Google Sheets first
         if (USE_GOOGLE_SHEETS && GOOGLE_SHEETS_URL !== 'YOUR_WEB_APP_URL_HERE') {
-            const deleted = await deleteEventFromGoogleSheets(currentEvent);
+            const deleted = await deleteEventFromGoogleSheets(eventToDelete);
             if (deleted) {
                 // Reload all events from Google Sheets to get the latest data
                 await loadEventsFromGoogleSheets();
             } else {
                 // Fallback to localStorage
                 const index = events.findIndex(e =>
-                    e.date === currentEvent.date &&
-                    e.name === currentEvent.name &&
+                    e.date === eventToDelete.date &&
+                    e.name === eventToDelete.name &&
                     e.category === 'gpbc'
                 );
                 if (index !== -1) {
@@ -894,8 +895,8 @@ async function deleteCurrentEvent() {
         } else {
             // Remove from local array when using localStorage
             const index = events.findIndex(e =>
-                e.date === currentEvent.date &&
-                e.name === currentEvent.name &&
+                e.date === eventToDelete.date &&
+                e.name === eventToDelete.name &&
                 e.category === 'gpbc'
             );
             if (index !== -1) {
@@ -910,7 +911,7 @@ async function deleteCurrentEvent() {
         document.getElementById('eventDetailModal').style.display = 'none';
         renderCalendar();
         renderMonthEvents();
-        alert(`✓ Event "${currentEvent.name}" deleted successfully!`);
+        alert(`✓ Event "${eventToDelete.name}" deleted successfully!`);
         currentEvent = null;
     }
 }
