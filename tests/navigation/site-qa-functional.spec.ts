@@ -2,7 +2,14 @@ import { test, expect } from '@playwright/test';
 
 test.use({ serviceWorkers: 'block', reducedMotion: 'reduce' });
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('gpbc:logoLoaderSeen', 'true'));
+  await page.addInitScript(() => {
+    localStorage.setItem('gpbc:logoLoaderSeen', 'true');
+    document.addEventListener('DOMContentLoaded', () => {
+      if (location.pathname === '/calendar.html') {
+        localStorage.setItem('lastReminderCheck', new Date().toDateString());
+      }
+    }, { once: true });
+  });
   await page.route('https://script.google.com/**', route => route.abort());
   await page.route('https://upload-widget.cloudinary.com/global/all.js', route => route.fulfill({
     contentType: 'application/javascript',
@@ -177,7 +184,8 @@ test('devotion fallback prayer link reaches the real prayer page', async ({ page
 });
 
 test('Habakkuk atlas search shows the correctly tagged English and Bengali names', async ({ page }) => {
-  await page.goto('/bible-reader.html');
+  await page.goto('/bible-reader.html', { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('.book-card')).toHaveCount(66);
   await page.locator('#smartSearch').fill('Habakkuk');
   const book = page.locator('.book-card');
   await expect(book).toHaveCount(1);
