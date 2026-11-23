@@ -18,7 +18,7 @@ body.homepage .visit-v3 {
     position: relative;
     isolation: isolate;
     margin: 0;
-    padding: clamp(5.5rem, 8vw, 7.5rem) clamp(1.25rem, 5vw, 4rem) clamp(5rem, 7vw, 7rem);
+    padding: clamp(5.5rem, 8vw, 7.5rem) clamp(22px, 5vw, 70.4px) clamp(5rem, 7vw, 7rem);
     scroll-margin-top: clamp(5.5rem, 9vw, 7.5rem);
     background: linear-gradient(180deg,
             var(--visit-v3-bg-top) 0%,
@@ -67,13 +67,13 @@ html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) 
 
 .visit-v3 .visit-v3__inner {
     display: grid;
-    grid-template-columns: minmax(22rem, 0.46fr) minmax(0, 0.54fr);
+    grid-template-columns: minmax(387.2px, 0.46fr) minmax(0, 0.54fr);
     grid-template-areas:
         "intro visual"
         "details visual"
         "expectations expectations";
-    gap: 0 clamp(3rem, 6vw, 5.5rem);
-    width: min(100%, 1240px);
+    gap: 0 clamp(52.8px, 6vw, 96.8px);
+    width: min(100%, 1364px);
     margin: 0 auto;
 }
 
@@ -116,8 +116,7 @@ html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) 
 .visit-v3 .visit-v3__visual {
     position: relative;
     grid-area: visual;
-    align-self: start;
-    aspect-ratio: 6 / 7;
+    align-self: center;
     min-width: 0;
     min-height: 0;
     margin: 0;
@@ -138,12 +137,10 @@ html:not([data-theme="dark"]) body.homepage:not(.dark):not([data-theme="dark"]) 
 }
 
 .visit-v3 .visit-v3__image {
-    position: absolute;
-    inset: 0;
     display: block;
     width: 100%;
-    height: 100%;
-    min-height: 0;
+    height: auto;
+    min-height: 668.8px;
     object-fit: cover;
     object-position: 30% center;
 }
@@ -385,8 +382,8 @@ body.homepage[data-theme="dark"] .visit-v3 {
     }
 
     .visit-v3 .visit-v3__inner {
-        grid-template-columns: minmax(22rem, 0.475fr) minmax(0, 0.525fr);
-        gap: 0 clamp(2.25rem, 4vw, 3.5rem);
+        grid-template-columns: minmax(387.2px, 0.475fr) minmax(0, 0.525fr);
+        gap: 0 clamp(39.6px, 4vw, 61.6px);
     }
 
     .visit-v3 .visit-v3__title {
@@ -445,14 +442,12 @@ body.homepage[data-theme="dark"] .visit-v3 {
     }
 
     .visit-v3 .visit-v3__visual {
-        aspect-ratio: auto;
         min-height: 0;
         margin-top: clamp(2rem, 6vw, 3rem);
         border-radius: 1.35rem 0.3rem 1.35rem 0.3rem;
     }
 
     .visit-v3 .visit-v3__image {
-        position: static;
         height: auto;
         min-height: 0;
         aspect-ratio: 16 / 10;

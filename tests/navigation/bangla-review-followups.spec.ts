@@ -8,11 +8,14 @@ test.beforeEach(async ({ page }) => {
 });
 
 for (const width of [1440, 1024]) {
-  test('Home visit crop is language-independent at ' + width, async ({ page }) => {
+  test('Home visit photo matches main dimensions and centers in Bengali at ' + width, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('/index.html?lang=en');
     await expect(page.locator('html')).toHaveAttribute('data-bangla-catalog', 'ready');
-    const heights: number[] = [];
+    const mainBanglaImage = width === 1440
+      ? { width: 652.94, height: 728.67 }
+      : { width: 462.52, height: 668.8 };
+    const sizes: { width: number; height: number }[] = [];
     for (const language of ['en', 'bn', 'en']) {
       await page.evaluate(language => (window as any).GPBCLanguage.set(language), language);
       await page.evaluate(() => document.fonts.ready);
@@ -20,20 +23,27 @@ for (const width of [1440, 1024]) {
         const visual = element.getBoundingClientRect();
         const image = element.querySelector('img')!;
         const box = image.getBoundingClientRect();
-        return { height: box.height, ratio: visual.width / visual.height, align: getComputedStyle(element).alignSelf,
-          fit: getComputedStyle(image).objectFit, right: box.right, visualRight: visual.right };
+        const intro = element.parentElement!.querySelector('.visit-v3__intro')!.getBoundingClientRect();
+        const details = element.parentElement!.querySelector('.visit-v3__details')!.getBoundingClientRect();
+        return { width: box.width, height: box.height, align: getComputedStyle(element).alignSelf,
+          fit: getComputedStyle(image).objectFit, right: box.right, visualRight: visual.right,
+          gapAbove: visual.top - intro.top, gapBelow: details.bottom - visual.bottom };
       });
-      expect(geometry.align).toBe('start');
-      expect(geometry.ratio).toBeCloseTo(6 / 7, 2);
+      expect(geometry.align).toBe('center');
       expect(geometry.fit).toBe('cover');
       expect(geometry.right).toBeLessThanOrEqual(geometry.visualRight);
-      if (width === 1440) {
-        expect(geometry.height).toBeGreaterThan(720);
-        expect(geometry.height).toBeLessThan(740);
+      expect(Math.abs(geometry.width - mainBanglaImage.width)).toBeLessThanOrEqual(2);
+      expect(Math.abs(geometry.height - mainBanglaImage.height)).toBeLessThanOrEqual(2);
+      if (language === 'bn') {
+        expect(geometry.gapAbove).toBeGreaterThan(0);
+        expect(geometry.gapBelow).toBeGreaterThan(0);
+        expect(Math.abs(geometry.gapAbove - geometry.gapBelow)).toBeLessThanOrEqual(2);
       }
-      heights.push(geometry.height);
+      sizes.push(geometry);
     }
-    expect(Math.max(...heights) - Math.min(...heights)).toBeLessThanOrEqual(2);
+    for (const dimension of ['width', 'height'] as const) {
+      expect(Math.max(...sizes.map(size => size[dimension])) - Math.min(...sizes.map(size => size[dimension]))).toBeLessThanOrEqual(2);
+    }
   });
 }
 
