@@ -19,6 +19,16 @@ test.beforeEach(async ({ page }) => {
   }));
 });
 
+test('calendar preserves labels and empty names if discretionary hyphenation is unavailable', async ({ page }) => {
+  await page.route('**/assets/vendor/calendar-hyphenation.js', route => route.abort());
+  await page.goto('/calendar.html');
+  await expect(page.locator('.calendar-grid .event-marker').filter({
+    hasText: 'HOLY COMMUNION SERVICE WITH A VERY LONG FELLOWSHIP TITLE',
+  })).toHaveCount(1);
+  expect(await page.evaluate(() => (window as any).calendarEventLabel('').textContent)).toBe('');
+  expect(await page.evaluate(() => (window as any).calendarEventLabel(null).textContent)).toBe('');
+});
+
 for (const width of [320, 390, 844, 1024, 1440]) {
   for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
     test(`seven bounded weekdays and wrapping labels: ${width} ${theme} ${language}`, async ({ page }) => {
@@ -42,7 +52,7 @@ for (const width of [320, 390, 844, 1024, 1440]) {
             pageWidth: document.documentElement.scrollWidth, viewport: innerWidth,
             days: [...element.querySelectorAll(':scope > .day')].map(day => {
               const rect = day.getBoundingClientRect();
-              return { top: rect.top, height: rect.height };
+              return { top: rect.top, height: rect.height, dateTop: day.querySelector('.day-number')!.getBoundingClientRect().top };
             }),
             weekdays: [...element.querySelectorAll(':scope > .weekday')].map(day => {
               const rect = day.getBoundingClientRect();
@@ -57,6 +67,8 @@ for (const width of [320, 390, 844, 1024, 1440]) {
         for (let index = 0; index < geometry.days.length; index += 7) {
           const heights = geometry.days.slice(index, index + 7).map(day => day.height);
           expect(Math.max(...heights) - Math.min(...heights)).toBeLessThanOrEqual(1);
+          const dates = geometry.days.slice(index, index + 7).map(day => day.dateTop);
+          expect(Math.max(...dates) - Math.min(...dates)).toBeLessThanOrEqual(1);
         }
         for (const day of geometry.weekdays) {
           expect(day.left).toBeGreaterThanOrEqual(-1);
@@ -67,6 +79,37 @@ for (const width of [320, 390, 844, 1024, 1440]) {
         }
       };
       await assertGrid();
+      const markers = page.locator('.calendar-grid .event-marker');
+      await expect(markers.filter({ hasText: 'HOLY COMMUNION SERVICE WITH A VERY LONG FELLOWSHIP TITLE' })).toHaveAttribute('lang', 'en');
+      await expect(markers.filter({ hasText: 'শুক্রবারের বাইবেল শিক্ষা ও প্রার্থনার সভা' })).toHaveAttribute('lang', 'bn');
+      const words = await markers.evaluateAll(elements => elements.flatMap(element => {
+        const style = getComputedStyle(element);
+        const box = element.getBoundingClientRect();
+        const checks = [{ text: element.textContent, valid:
+          style.wordBreak === 'normal' && style.overflowWrap === 'break-word' && style.hyphens === 'auto' &&
+          style.overflow !== 'hidden' && style.textOverflow !== 'ellipsis' &&
+          element.scrollWidth <= element.clientWidth + 1 }];
+        if (!element.textContent?.includes('HOLY COMMUNION SERVICE WITH A VERY LONG FELLOWSHIP TITLE')) return checks;
+        let previous: Element | null = null;
+        for (const span of element.children) {
+          if (!/^[A-Za-z]+$/.test(span.textContent || '')) { previous = null; continue; }
+          const range = document.createRange();
+          range.selectNodeContents(span);
+          const rects = [...range.getClientRects()].filter(rect => rect.width > .1);
+          const tops = rects.map(rect => rect.top);
+          checks.push({ text: span.textContent, valid: tops.length > 0 &&
+            Math.max(...tops) - Math.min(...tops) <= 1 &&
+            rects.every(rect => rect.left >= box.left - 1 && rect.right <= box.right + 1) });
+          if (previous && Math.abs(previous.getBoundingClientRect().top - span.getBoundingClientRect().top) > 1) {
+            checks.push({ text: previous.textContent + ' / ' + span.textContent, valid:
+              previous.classList.contains('calendar-word-break') &&
+              getComputedStyle(previous, '::after').content === '"\u00ad"' });
+          }
+          previous = span;
+        }
+        return checks;
+      }));
+      for (const word of words) expect(word.valid, word.text || 'empty marker').toBe(true);
       const labels = await page.locator('#monthEvents .event-name').evaluateAll(elements => elements.map(element => {
         const box = element.getBoundingClientRect();
         const range = document.createRange();

@@ -238,12 +238,12 @@
             align-self: stretch;
             width: 100%;
             min-width: 0;
-            overflow-wrap: anywhere;
+            overflow-wrap: break-word;
             aspect-ratio: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: flex-start;
             padding: var(--spacing-sm);
             cursor: pointer;
             transition: background var(--transition-base);
@@ -255,6 +255,34 @@
 
         .calendar-grid .day:hover {
             background: var(--bg-section);
+        }
+
+        .calendar-grid .day-number {
+            flex: 0 0 auto;
+            text-align: center;
+        }
+
+        html:root body .calendar-grid .event-marker {
+            min-width: 0;
+            max-width: 100%;
+            padding-inline: 0.5em;
+            white-space: normal;
+            overflow: visible;
+            text-overflow: clip;
+            word-break: normal;
+            overflow-wrap: break-word;
+            -webkit-hyphens: auto;
+            hyphens: auto;
+            text-align: center;
+        }
+
+        .calendar-word-break::after {
+            content: '\00ad';
+        }
+
+        html:root body .calendar-grid .event-marker span {
+            word-break: normal;
+            overflow-wrap: break-word;
         }
 
         .calendar-grid .day.other-month {
@@ -664,11 +692,11 @@
                 width: 100%;
                 max-width: 100%;
                 min-width: 0;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                font-size: clamp(0.6rem, 2.6vw, 0.72rem) !important;
+                overflow: visible;
+                text-overflow: clip;
+                font-size: clamp(0.53rem, 2.6vw, 0.72rem) !important;
                 line-height: 1.15 !important;
-                overflow-wrap: anywhere;
+                overflow-wrap: break-word;
                 text-align: center;
             }
 
@@ -1272,6 +1300,7 @@
 
     <script src="events.js"></script>
     <script src="googlesheets.js"></script>
+    <script src="assets/vendor/calendar-hyphenation.js"></script>
     <script src="calendar.js"></script>
     <script src="reminders.js"></script>
     <script src="members.js"></script>

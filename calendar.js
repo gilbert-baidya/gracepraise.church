@@ -29,6 +29,20 @@ function escapeHtml(value) {
     })[ch]);
 }
 
+function calendarEventLabel(name) {
+    const fragment = document.createDocumentFragment();
+    for (const token of String(name ?? '').match(/[A-Za-z]+|[^A-Za-z]+/g) || []) {
+        const parts = window.GPBCCalendarHyphenator?.hyphenate(token) || [token];
+        parts.forEach((part, index) => {
+            const span = document.createElement('span');
+            span.textContent = part;
+            if (index < parts.length - 1) span.className = 'calendar-word-break';
+            fragment.appendChild(span);
+        });
+    }
+    return fragment;
+}
+
 function safeImageUrl(url) {
     if (!url) return '';
     try {
@@ -450,6 +464,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
             if (shouldDisplayEvent(event)) {
                 const eventMarker = document.createElement('div');
                 eventMarker.className = `event-marker ${event.category}`;
+                eventMarker.lang = /[\u0980-\u09ff]/.test(event.name) ? 'bn' : 'en';
 
                 // Check if event was added in the last 7 days
                 const isNew = event.timestamp && new Date(event.timestamp) > sevenDaysAgo;
@@ -459,7 +474,8 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
                 const isFriendly = isFirstTimeFriendly(event);
                 const friendlyBadge = isFriendly ? '<span class="visitor-friendly-badge" title="A great service to start your journey with us">👋</span> ' : '';
 
-                eventMarker.innerHTML = `${friendlyBadge}${newIcon}${categoryEmojis[event.category]} ${escapeHtml(event.name)}`;
+                eventMarker.innerHTML = `${friendlyBadge}${newIcon}${categoryEmojis[event.category]} `;
+                eventMarker.appendChild(calendarEventLabel(event.name));
 
                 // Add special styling for new events
                 if (isNew) {
