@@ -303,6 +303,21 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
         outline-offset: 2px !important;
         box-shadow: none !important;
     }
+    html:root body header[data-gpbc-drawer] #nav-links.mobile-open [data-drawer-language] .site-language-choices a {
+        outline: none !important;
+        box-shadow: none !important;
+        transition-property: color, background-color, border-color !important;
+    }
+    html:root body header[data-gpbc-drawer] #nav-links.mobile-open [data-drawer-language] .site-language-choices a[aria-pressed='true'] {
+        box-shadow: inset 0 -3px 0 var(--gpbc-gold-fill, #E6B84E) !important;
+    }
+    html:root body header[data-gpbc-drawer] #nav-links.mobile-open [data-drawer-language] .site-language-choices a:focus:not(:focus-visible) {
+        outline: none !important;
+    }
+    html:root body header[data-gpbc-drawer] #nav-links.mobile-open [data-drawer-language] .site-language-choices a:focus-visible {
+        outline: 3px solid #8FBCFF !important;
+        outline-offset: 3px !important;
+    }
 }
 
 @media (min-width: 1025px) {
