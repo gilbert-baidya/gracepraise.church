@@ -4,6 +4,10 @@ test.use({ serviceWorkers: 'block', reducedMotion: 'reduce' });
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('gpbc:logoLoaderSeen', 'true'));
   await page.route('https://script.google.com/**', route => route.abort());
+  await page.route('https://upload-widget.cloudinary.com/global/all.js', route => route.fulfill({
+    contentType: 'application/javascript',
+    body: 'window.cloudinary = { createUploadWidget: () => ({ open() {} }) };',
+  }));
 });
 
 test('monthly giving preserves Bengali on both missing-query links', async ({ page }) => {
