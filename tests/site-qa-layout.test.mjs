@@ -32,7 +32,7 @@ test('vector adaptation is opt-in on both affected routes without changing event
 });
 
 test('interior contrast rules exclude Home and the PR 18 replacement shell', async () => {
-  const css = await read('assets/css/interior-readability.css');
+  const css = await read('assets/css/site-language.css');
   assert.match(css, /body:not\(\.homepage\):not\(\.fast-accessible\)/);
   assert.match(css, /--interior-gold-text: #765405/);
   assert.match(css, /--interior-gold-text: #e3bd6d/);

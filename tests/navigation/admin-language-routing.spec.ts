@@ -36,7 +36,11 @@ test('all shared-language font URLs stay inside the published font exception', a
     const cssUrl = new URL('assets/css/site-language.css', root);
     const css = await fs.readFile(cssUrl, 'utf8');
     const fonts = [...css.matchAll(/url\(['"]?([^'")]+)['"]?\)/g)].map(match => new URL(match[1], cssUrl));
-    assert.equal(fonts.length, 4);
+    assert.doesNotMatch(css, /@import\b/);
+    assert.deepEqual(fonts.map(font => font.pathname.split('/').pop()).sort(), [
+        'inter-400.woff2', 'inter-600.woff2', 'lora-400.woff2',
+        'notosansbengali-400.woff2', 'notosansbengali-600.woff2'
+    ]);
     for (const font of fonts) {
         assert.ok(font.href.startsWith(new URL('assets/fonts/', root).href));
         assert.ok((await fs.stat(font)).isFile());

@@ -1,4 +1,160 @@
-@import url('./interior-readability.css');
+html:root body:not(.homepage):not(.fast-accessible) {
+    --interior-gold-text: #765405;
+    --interior-blue-text: #365f7e;
+    --interior-green-text: #356859;
+    --interior-coral-text: #8e4a38;
+    --interior-violet-text: #5d477f;
+    --interior-link-text: #1d4ed8;
+    --interior-muted-text: #334155;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) .about-v17 {
+    --about-gold-deep: var(--interior-gold-text);
+}
+
+html:root:is([data-theme="dark"], .dark) body:not(.homepage):not(.fast-accessible),
+html:root body:not(.homepage):not(.fast-accessible):is([data-theme="dark"], .dark) {
+    --interior-gold-text: #e3bd6d;
+    --interior-blue-text: #9ac7e5;
+    --interior-green-text: #91d1c8;
+    --interior-coral-text: #f0a18c;
+    --interior-violet-text: #c4b6e6;
+    --interior-link-text: #93c5fd;
+    --interior-muted-text: #c5d0dc;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) :is(
+    .children-v16-available, .family-v16-available, .youth-v16-available,
+    .fasting-v16-next, .ministry-hero, .about-profile--featured, .about-purpose-card--dark
+) {
+    --interior-gold-text: #e3bd6d;
+}
+
+html:root:is([data-theme="dark"], .dark) body:not(.homepage):not(.fast-accessible) > header {
+    background-color: #0f1b2e !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content .about-child__closing .about-child__related a {
+    color: #fffdf7 !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) .skip-link {
+    color: #fffdf7 !important;
+    background: #173b52 !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible):not(.about-child):not(:has(.about-hero)) .nav-links a.active {
+    color: var(--interior-link-text) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) :is(
+    .children-v16-kicker, .family-v16-kicker, .youth-v16-kicker,
+    .fasting-v16-kicker, .ministry-eyebrow, .ministry-kicker, .day-header-kicker, .contrast-icon,
+    .ministry-group__number, .ministry-scripture cite, .ministry-detail-hero__mark span,
+    .about-child__section:not(.about-child__section--dark) .about-child__eyebrow,
+    .about-child__section:not(.about-child__section--dark) .about-child__quote,
+    .about-value__number, .about-timeline__marker, .about-resource__type
+) {
+    color: var(--interior-gold-text) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) :is(.about-child__section--dark, .about-child__hero) .about-child__quote {
+    color: var(--child-ivory) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content :is(
+    .visit-eyebrow, .visit-rhythm-day, .visit-step-number, .section-eyebrow,
+    .calendar-section .event-name, .songbook-v18__section-kicker
+) {
+    color: var(--interior-gold-text) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content .songbook-v18__featured .songbook-v18__section-kicker {
+    color: var(--sb18-gold) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content .visit-eyebrow [data-lang] {
+    color: inherit !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) :is(.children-v16-scripture cite, .songbook-v18__quick-icon, .songbook-v18__song-note) {
+    color: var(--interior-blue-text) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) :is(.fasting-v16-scripture cite, .fasting-v16-week-label) {
+    color: var(--interior-green-text) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) .children-v16-resource-icon {
+    color: var(--interior-coral-text) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) .fasting-v16-focus-grid article > span {
+    color: var(--interior-violet-text) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content :is(
+    .about-button, .about-child__button, .about-hero__scroll,
+    .fasting-v16-cta, .children-v16-live-card, .family-v16-live-card, .youth-v16-live-card
+) {
+    color: #fffdf7 !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content .ministry-button:not(.ministry-button--quiet) {
+    color: var(--m-paper) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content :is(
+    .about-button--gold, .about-child__button--gold, .ministry-cta .ministry-button
+) {
+    color: #17233b !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content :is(
+    .about-button, .about-child__button, .ministry-button, .fasting-v16-cta,
+    .children-v16-live-card, .family-v16-live-card, .youth-v16-live-card
+) span {
+    color: inherit !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content :is(
+    #what-to-expect .intro-text, #what-to-expect .expect-note, #what-to-expect .reassurance, .visit-journey-step p
+) {
+    color: var(--interior-muted-text) !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content :is(
+    #what-to-expect .intro-text, #what-to-expect .expect-note, #what-to-expect .reassurance, .visit-journey-step p
+) [data-lang] {
+    color: inherit !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #main-content .journey-bottom-nav .journey-day-button small {
+    color: #dfbe73 !important;
+}
+
+html:root body:not(.homepage):not(.fast-accessible) #eventCategory span {
+    background: #173b52 !important;
+    color: #fffdf7 !important;
+}
+
+@media (max-width: 600px) {
+    body.about-child:not(.fast-accessible) .about-child__reading {
+        width: min(calc(100% - 2rem), 790px);
+    }
+    body.plan-visit-page:not(.fast-accessible) #main-content > .plan-visit-section {
+        padding-inline: 16px;
+        box-sizing: border-box;
+    }
+    body.page-daily-devotion:not(.fast-accessible) #main-content {
+        padding-inline: 16px;
+        box-sizing: border-box;
+    }
+    body.page-daily-devotion:not(.fast-accessible) #monthSelect {
+        min-width: 150px;
+    }
+}
+
 @font-face { font-family: Lora; src: url('../fonts/lora/lora-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: Inter; src: url('../fonts/inter/inter-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: Inter; src: url('../fonts/inter/inter-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }

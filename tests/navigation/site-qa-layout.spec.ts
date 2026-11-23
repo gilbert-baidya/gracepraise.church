@@ -25,6 +25,12 @@ const pages = [...new Set([...contrastPages, ...bengaliPages, ...gutterPages])];
 test.use({ serviceWorkers: 'block', reducedMotion: 'reduce' });
 test.setTimeout(120_000);
 
+async function openLayoutPage(page: import('@playwright/test').Page, route: string, language: string) {
+  await page.goto('/' + route + '?lang=' + language, { waitUntil: 'domcontentloaded' });
+  if (route === 'bible-slide-builder/index.html') await page.waitForURL(/\/songbook\.html/);
+  await expect(page.locator('.site-language-choices').first()).toBeAttached();
+}
+
 for (const route of pages) {
   for (const language of ['en', 'bn']) {
     test(`QA layout: ${route} ${language}`, async ({ page }) => {
@@ -35,11 +41,7 @@ for (const route of pages) {
         }
       });
       await page.route('https://script.google.com/**', request => request.abort());
-      await page.goto('/' + route + '?lang=' + language, {
-        waitUntil: route === 'gallery.html' ? 'domcontentloaded' : 'networkidle'
-      });
-      if (route === 'bible-slide-builder/index.html') await page.waitForURL(/\/songbook\.html/);
-      await expect(page.locator('.site-language-choices').first()).toBeAttached();
+      await openLayoutPage(page, route, language);
       await page.evaluate(async () => {
         await document.fonts.load('16px "Noto Sans Bengali"', 'সান বার্নার্ডিনো');
         await document.fonts.ready;
@@ -142,6 +144,31 @@ for (const route of pages) {
     });
   }
 }
+
+test('Lent layout readiness does not depend on unrelated background requests settling', async ({ page }) => {
+  test.setTimeout(30_000);
+  let release: (() => void) | undefined;
+  const pending = new Promise<void>(resolve => { release = resolve; });
+  let requested = false;
+  await page.route('**/__layout-background', async route => {
+    requested = true;
+    await pending;
+    await route.fulfill({ body: 'ok' });
+  });
+  await page.addInitScript(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/__layout-background').catch(() => {});
+    }, { once: true });
+  });
+  try {
+    await openLayoutPage(page, 'lent-fasting.html', 'en');
+    await expect.poll(() => requested).toBe(true);
+    await page.evaluate(() => document.fonts.ready);
+    await expect(page.locator('.site-language-choices').first()).toBeVisible();
+  } finally {
+    release?.();
+  }
+});
 
 for (const route of ['bible-reader.html', 'calendar.html']) {
   test(`vector icons survive deferred rendering on ${route}`, async ({ page }) => {
