@@ -13,7 +13,7 @@ body.songbook-v18 {
     --sb18-ivory: #f7f5ef;
     --sb18-paper: #fffdfa;
     --sb18-ink: #10263d;
-    --sb18-muted: #61738a;
+    --sb18-muted: #4f6075;
     --sb18-line: rgba(16, 38, 61, 0.12);
     --sb18-shadow: 0 18px 48px rgba(8, 38, 65, 0.09);
     background: var(--sb18-ivory);
@@ -27,6 +27,11 @@ body.songbook-v18[data-theme="dark"] {
     --sb18-muted: #a8bacd;
     --sb18-line: rgba(174, 208, 240, 0.16);
     --sb18-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
+}
+
+body.songbook-v18[data-theme="dark"] :is(.songbook-v18__mobile-more, .songbook-v18__text-link,
+    .songbook-v18__song-open, .songbook-v18__chip, .songbook-v18__filter-label) {
+    color: #93c5fd;
 }
 
 .songbook-v18,

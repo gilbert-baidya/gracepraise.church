@@ -1,6 +1,8 @@
 /* V16 Bible Reader presentation. Scoped to this route so the shared system stays frozen. */
 
 body.page-bible-reader {
+    --font-heading: Lora, Georgia, 'Noto Sans Bengali', serif;
+    --font-scripture: Lora, Georgia, 'Noto Sans Bengali', serif;
     --reader-bg: #f6f1e8;
     --reader-surface: #fffdf8;
     --reader-surface-raised: #ffffff;

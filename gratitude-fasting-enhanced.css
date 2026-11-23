@@ -53,7 +53,7 @@ body {
 
 /* ===== ENHANCED HERO ===== */
 .devotion-hero h1 {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important;
     letter-spacing: -0.02em !important;
 }
 
@@ -166,14 +166,14 @@ body {
     top: -20px !important;
     left: 20px !important;
     font-size: 200px !important;
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important;
     color: rgba(251, 191, 36, 0.08) !important;
     line-height: 1 !important;
     pointer-events: none !important;
 }
 
 .scripture-section h3 {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important;
     font-size: 1.75rem !important;
     margin-bottom: 1.5rem !important;
     font-weight: 700 !important;
@@ -182,7 +182,7 @@ body {
 }
 
 .scripture-text {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important;
     font-size: 1.35rem !important;
     line-height: 1.9 !important;
     margin-bottom: 1rem !important;
@@ -202,7 +202,7 @@ body {
 /* ===== REFLECTION & PRAYER SECTIONS ===== */
 .reflection-section h3,
 .prayer-section h3 {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important;
     font-size: 1.75rem !important;
     margin-bottom: 1.5rem !important;
     font-weight: 700 !important;
@@ -226,7 +226,7 @@ body {
 }
 
 .promise-box strong {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important;
     font-size: 1.125rem !important;
 }
 
@@ -248,7 +248,7 @@ body {
 }
 
 .share-section h3 {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important;
     font-size: 1.5rem !important;
     margin-bottom: 1.25rem !important;
     font-weight: 700 !important;
@@ -302,7 +302,7 @@ body {
 
 /* ===== TOPIC HEADER ===== */
 #devotionTopic {
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important;
     font-size: 2.25rem !important;
     font-weight: 800 !important;
     letter-spacing: -0.02em !important;
@@ -331,9 +331,9 @@ body {
     --gratitude-muted: #626d6c;
     --gratitude-card: #fffdfa;
     --gratitude-card-soft: #f3eee4;
-    --gratitude-amber: #b97d35;
+    --gratitude-amber: #765405;
     --gratitude-honey: #d5a75b;
-    --gratitude-sage: #718878;
+    --gratitude-sage: #405f49;
     --gratitude-border: rgba(48, 65, 70, 0.14);
     --gratitude-shadow: 0 16px 38px rgba(48, 55, 51, 0.09);
     --gratitude-shell: 1120px;
@@ -405,7 +405,7 @@ main {
     text-wrap: balance;
 }
 
-/* Keep the desktop hero on one stable line while Playfair Display loads. */
+/* Keep the desktop hero on one stable line while Lora loads. */
 @media (min-width: 1025px) {
     .devotion-hero h1 {
         max-width: none;
@@ -647,7 +647,7 @@ main {
 .share-section h3 {
     margin: 0 0 1rem !important;
     color: var(--gratitude-ink) !important;
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important;
     font-size: clamp(1.45rem, 3vw, 2.05rem) !important;
     line-height: 1.15 !important;
 }
@@ -729,8 +729,8 @@ main {
 .share-primary-trigger {
     flex: 0 0 auto;
     padding: 0.65rem 1rem !important;
-    color: #fffaf0 !important;
     background: var(--gratitude-sage) !important;
+    color: var(--gratitude-page) !important;
     border: 1px solid transparent !important;
     border-radius: 10px !important;
     font-weight: 800 !important;
@@ -789,13 +789,14 @@ main {
 }
 
 .journey-bottom-nav .section-kicker {
+    --gratitude-amber: #e0b568;
     color: #e1b768 !important;
 }
 
 .journey-bottom-nav h2 {
     margin: 0.55rem 0 0 !important;
     color: #fff8ed !important;
-    font-family: 'Playfair Display', Georgia, serif !important;
+    font-family: Lora, Georgia, 'Noto Sans Bengali', serif !important;
     font-size: clamp(1.45rem, 3vw, 2rem) !important;
     line-height: 1.16 !important;
 }
