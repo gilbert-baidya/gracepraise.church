@@ -92,14 +92,22 @@ for (const route of ['about', 'contact', 'ministries', 'index']) {
   });
 }
 
-for (const width of [1440, 1024]) {
+// Rendered EN/BN baselines from main 6a11402, with non-bundled font requests blocked.
+for (const baseline of [
+  { width: 865, minimumWidth: 396.89, ratios: [396.89 / 608] },
+  { width: 900, minimumWidth: 413.80, ratios: [413.80 / 608] },
+  { width: 1024, minimumWidth: 462.52, ratios: [462.52 / 668.8, 462.52 / 621.44] },
+  { width: 1200, minimumWidth: 542.33, ratios: [542.33 / 680.98, 542.33 / 630.27] },
+  { width: 1440, minimumWidth: 652.94, ratios: [652.94 / 728.67, 620.95 / 692.97] },
+]) {
+  const { width } = baseline;
   test('Home visit photo matches main dimensions and centers in Bengali at ' + width, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('/index.html?lang=en');
     await expect(page.locator('html')).toHaveAttribute('data-bangla-catalog', 'ready');
-    const mainBanglaImage = width === 1440
+    const fixedImage = width === 1440
       ? { width: 652.94, height: 728.67 }
-      : { width: 462.52, height: 668.8 };
+      : width === 1024 ? { width: 462.52, height: 668.8 } : null;
     const sizes: { width: number; height: number }[] = [];
     for (const language of ['en', 'bn', 'en']) {
       await page.evaluate(language => (window as any).GPBCLanguage.set(language), language);
@@ -112,13 +120,22 @@ for (const width of [1440, 1024]) {
         const details = element.parentElement!.querySelector('.visit-v3__details')!.getBoundingClientRect();
         return { width: box.width, height: box.height, align: getComputedStyle(element).alignSelf,
           fit: getComputedStyle(image).objectFit, right: box.right, visualRight: visual.right,
+          gridColumns: getComputedStyle(element.parentElement!).gridTemplateColumns.split(' ').length,
+          pageWidth: document.documentElement.scrollWidth, viewportWidth: innerWidth,
           gapAbove: visual.top - intro.top, gapBelow: details.bottom - visual.bottom };
       });
       expect(geometry.align).toBe('center');
       expect(geometry.fit).toBe('cover');
       expect(geometry.right).toBeLessThanOrEqual(geometry.visualRight);
-      expect(Math.abs(geometry.width - mainBanglaImage.width)).toBeLessThanOrEqual(2);
-      expect(Math.abs(geometry.height - mainBanglaImage.height)).toBeLessThanOrEqual(2);
+      expect(geometry.gridColumns).toBe(2);
+      expect(geometry.pageWidth).toBeLessThanOrEqual(geometry.viewportWidth);
+      expect(geometry.width).toBeGreaterThanOrEqual(baseline.minimumWidth - 2);
+      expect(geometry.width / geometry.height).toBeGreaterThanOrEqual(Math.min(...baseline.ratios) - 0.005);
+      expect(geometry.width / geometry.height).toBeLessThanOrEqual(Math.max(...baseline.ratios) + 0.005);
+      if (fixedImage) {
+        expect(Math.abs(geometry.width - fixedImage.width)).toBeLessThanOrEqual(2);
+        expect(Math.abs(geometry.height - fixedImage.height)).toBeLessThanOrEqual(2);
+      }
       if (language === 'bn') {
         expect(geometry.gapAbove).toBeGreaterThan(0);
         expect(geometry.gapBelow).toBeGreaterThan(0);

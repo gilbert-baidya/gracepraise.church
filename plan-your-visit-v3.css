@@ -382,8 +382,12 @@ body.homepage[data-theme="dark"] .visit-v3 {
     }
 
     .visit-v3 .visit-v3__inner {
-        grid-template-columns: minmax(387.2px, 0.475fr) minmax(0, 0.525fr);
-        gap: 0 clamp(39.6px, 4vw, 61.6px);
+        grid-template-columns: minmax(0, 0.475fr) minmax(0, 0.525fr);
+        gap: 0 clamp(36px, 4vw, 56px);
+    }
+
+    .visit-v3 .visit-v3__image {
+        min-height: 608px;
     }
 
     .visit-v3 .visit-v3__title {
