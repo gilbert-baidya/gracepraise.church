@@ -72,7 +72,7 @@ test('PR gate retains seven-project navigation and real production-artifact cove
 
 test('PR gate includes mobile date-chip geometry in WebKit', () => {
   const rail = pr.filter(entry => entry.project === 'Desktop Safari' && entry.file.endsWith('activity-rail.spec.ts'));
-  for (const width of [360, 390, 490]) assert(rail.some(entry => entry.title.startsWith(width + 'px')));
+  for (const width of [320, 360, 390, 490]) assert(rail.some(entry => entry.title.startsWith(width + 'px')));
 });
 
 test('nightly collects every spec file and keeps quarantined assertions executable', () => {

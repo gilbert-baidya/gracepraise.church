@@ -523,7 +523,9 @@ class HomepageEvents {
         this.updateActivityDetails(now);
         if (signature === this.renderSignature) return;
         this.renderSignature = signature;
-        const focused = [this.container, this.activityContainer].some(host => host.contains(document.activeElement)) ? document.activeElement : null;
+        const activeElement = document.activeElement;
+        const focused = [this.container, this.activityContainer].some(host => host.contains(activeElement)) ? activeElement : null;
+        const focusedServiceLink = activeElement?.matches('#home-service-line a') ? activeElement : null;
         const focusKey = focused?.dataset.activityFocus;
         const staticRoot = !this.activityCarousel && this.activityContainer.querySelector('[data-enhanced="false"]');
         const previousSlug = this.activityCarousel?.activeSlug;
@@ -566,6 +568,9 @@ class HomepageEvents {
             if (!target) return;
             if (!equivalent && target !== this.activityCarousel?.root) target.tabIndex = -1;
             target.focus({ preventScroll: true });
+        } else if (focusedServiceLink && !focusedServiceLink.getClientRects().length) {
+            const cta = this.activityCarousel?.root.querySelector('.activity-cta');
+            if (cta?.getClientRects().length && !cta.closest('[inert]')) cta.focus({ preventScroll: true });
         }
     }
 }

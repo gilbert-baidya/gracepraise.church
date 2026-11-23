@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test';
 
 test.use({ serviceWorkers: 'block', reducedMotion: 'reduce' });
 
-for (const width of [360, 390, 490, 1440]) {
+for (const width of [320, 360, 390, 490, 1440]) {
   test(width + 'px rail displays six readable date labels and keeps pause in the header', async ({ page }) => {
-    const height = width === 360 ? 800 : width === 390 ? 844 : 1000;
+    const height = width === 320 ? 568 : width === 360 ? 800 : width === 390 ? 844 : 1000;
     await page.setViewportSize({ width, height });
     await page.clock.setFixedTime(new Date('2026-12-01T12:00:00-08:00'));
     await page.addInitScript(() => localStorage.setItem('gpbc:logoLoaderSeen', 'true'));

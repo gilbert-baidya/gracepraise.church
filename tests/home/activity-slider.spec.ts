@@ -99,7 +99,10 @@ for (const script of ['events.js', 'js/home-activities.js', 'js/activity-carouse
       await expect(page.locator('#home-activities .activity-theme')).toContainText('Rooted in Christ');
       await expect(page.locator('.activity-carousel')).toHaveAttribute('data-enhanced', 'false');
       const firstTheme = await page.locator('.activity-theme').elementHandle();
-      await page.locator('.activity-cta').focus();
+      const cta = page.locator('.activity-cta');
+      const initialCTA = await cta.isVisible() ? cta : page.locator('#home-service-line a');
+      await initialCTA.focus();
+      await expect(initialCTA).toBeFocused();
       const scripts = await page.locator('head script[src]').evaluateAll(nodes => nodes
         .filter(node => /\/(events|home-activities|activity-carousel|homepage-events)\.js(?:\?|$)/.test((node as HTMLScriptElement).src))
         .map(node => ({ path: new URL((node as HTMLScriptElement).src).pathname, defer: (node as HTMLScriptElement).defer })));
@@ -125,6 +128,24 @@ for (const script of ['events.js', 'js/home-activities.js', 'js/activity-carouse
     } finally { release(); await navigation; }
   });
 }
+
+test('phone keeps visit focus when the carousel replaces the service-line action', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  let release!: () => void;
+  const gate = new Promise<void>(resolve => { release = resolve; });
+  await page.route('**/homepage-events.js?*', async route => { await gate; await route.continue(); });
+  const navigation = page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+  const serviceLink = page.locator('#home-service-line a');
+  try {
+    await expect(serviceLink).toBeVisible();
+    await serviceLink.focus();
+    await expect(serviceLink).toBeFocused();
+    release();
+    await navigation;
+    await expect(serviceLink).toBeHidden();
+    await expect(page.locator('.activity-cta')).toBeFocused();
+  } finally { release(); await navigation; }
+});
 
 test('activities lead main, followed by the slim service line and unchanged welcome', async ({ page }) => {
   await page.goto('/index.html');
