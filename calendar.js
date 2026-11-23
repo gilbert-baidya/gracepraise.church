@@ -319,6 +319,15 @@ function setupEventListeners() {
         }
     });
 
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        const modal = document.getElementById('eventDetailModal');
+        if (modal && getComputedStyle(modal).display !== 'none') {
+            event.preventDefault();
+            modal.style.display = 'none';
+        }
+    });
+
     // Add event form
     const addEventForm = document.getElementById('addEventForm');
     if (addEventForm) {
@@ -399,11 +408,22 @@ function renderCalendar() {
         const day = createDayElement(i, true);
         calendarGrid.appendChild(day);
     }
+
+    const cells = [...calendarGrid.children];
+    calendarGrid.replaceChildren();
+    for (let index = 0; index < cells.length; index += 7) {
+        const row = document.createElement('div');
+        row.className = 'calendar-row';
+        row.setAttribute('role', 'row');
+        row.append(...cells.slice(index, index + 7));
+        calendarGrid.appendChild(row);
+    }
 }
 
 function createDayElement(dayNumber, isOtherMonth, isToday = false) {
     const dayDiv = document.createElement('div');
     dayDiv.className = 'day';
+    dayDiv.setAttribute('role', 'gridcell');
 
     if (isOtherMonth) {
         dayDiv.classList.add('other-month');

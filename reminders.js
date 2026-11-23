@@ -86,52 +86,6 @@ function checkDailyReminders() {
     });
 }
 
-// Export reminders to calendar format (iCal)
-function exportRemindersToICS() {
-    const reminders = getUpcomingReminders();
-    let icsContent = 'BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Calendar 2026//EN\n';
-    
-    reminders.forEach(event => {
-        const eventDate = new Date(event.date);
-        const dateString = eventDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-        
-        icsContent += 'BEGIN:VEVENT\n';
-        icsContent += `DTSTART:${dateString}\n`;
-        icsContent += `SUMMARY:${event.name}\n`;
-        icsContent += `DESCRIPTION:${event.description}\n`;
-        icsContent += `CATEGORIES:${event.category.toUpperCase()}\n`;
-        
-        // Add reminder 2 months before (60 days)
-        icsContent += 'BEGIN:VALARM\n';
-        icsContent += 'TRIGGER:-P60D\n';
-        icsContent += 'ACTION:DISPLAY\n';
-        icsContent += `DESCRIPTION:Reminder: ${event.name} in 2 months\n`;
-        icsContent += 'END:VALARM\n';
-        
-        // Add reminder 1 week before
-        icsContent += 'BEGIN:VALARM\n';
-        icsContent += 'TRIGGER:-P7D\n';
-        icsContent += 'ACTION:DISPLAY\n';
-        icsContent += `DESCRIPTION:Reminder: ${event.name} in 1 week\n`;
-        icsContent += 'END:VALARM\n';
-        
-        icsContent += 'END:VEVENT\n';
-    });
-    
-    icsContent += 'END:VCALENDAR';
-    
-    // Download the file
-    const blob = new Blob([icsContent], { type: 'text/calendar' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'calendar-2026-reminders.ics';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-
 // Get reminder statistics
 function getReminderStats() {
     const reminders = getUpcomingReminders();
