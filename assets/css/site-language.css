@@ -19,6 +19,19 @@
     background: var(--language-page);
     color: var(--language-text);
 }
+@media (max-width: 1024px) {
+    html:root body.menu-open header .site-language-row {
+        z-index: 0;
+    }
+    html:root body.menu-open header .nav-links {
+        margin: 0 !important;
+        background: #0F172A !important;
+    }
+    html:root body.menu-open header :is(.nav-links a, .nav-links a *, .logo, .logo *, .visit-brand-copy, .visit-brand-copy *) {
+        color: #F5F1E8 !important;
+        -webkit-text-fill-color: currentColor !important;
+    }
+}
 :is(html, body):is([data-theme='dark'], .dark) .site-language-row {
     --language-page: var(--gpbc-page, #0B1420);
     --language-text: var(--gpbc-text, #F5F1E8);
