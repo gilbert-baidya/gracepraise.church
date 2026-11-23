@@ -18,7 +18,7 @@ for (const width of [360, 390, 490, 1440]) {
       const result = await page.evaluate(() => {
         const box = (selector: string) => document.querySelector(selector)!.getBoundingClientRect();
         const center = (selector: string) => { const b = box(selector); return b.left + b.width / 2; };
-        const theme = center('.activity-theme h2');
+        const theme = center('.activity-theme h3');
         const footer = center('.activity-footer');
         const header = document.querySelector('.activity-heading h2 [data-lang="' + document.documentElement.lang + '"]')!;
         const headerRange = document.createRange(); headerRange.selectNodeContents(header);

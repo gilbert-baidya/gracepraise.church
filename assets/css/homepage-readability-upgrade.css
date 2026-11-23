@@ -13,6 +13,15 @@
 }
 
 /* Core homepage readability tokens */
+body.homepage:not(.dark):not([data-theme="dark"]) :is(.heptagon-wall-label.active, .heptagon-center-item .scripture, .stay-connected-v8__eyebrow, .welcome-home-v4__eyebrow, .welcome-home-v4__closing, .flip-card--come .card-step, .flip-card--build .card-step) {
+    color: #805b08 !important;
+}
+
+@media (max-width: 767px) {
+    body.homepage :is(.theological-intro, .event-tagline) { padding-inline: 12px; box-sizing: border-box; }
+    body.homepage .heptagon-wheel-container { width: min(78vw, 320px); height: min(78vw, 320px); }
+}
+
 body.homepage,
 body[data-page="home"] {
     --home-read-text: #1f2937;

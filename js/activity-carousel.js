@@ -1,6 +1,7 @@
 class ActivityCarousel {
     constructor(configs, createFlyer, previousSlug, userPaused = false, existingRoot = null, createTools = () => null) {
         this.configs = configs;
+        this.slideTabIndexes = new WeakMap();
         this.userPaused = userPaused;
         this.motion = matchMedia('(prefers-reduced-motion: reduce)');
         this.onMotion = () => this.updatePlayback();
@@ -126,6 +127,8 @@ class ActivityCarousel {
         this.hovered = root.matches(':hover');
         this.focused = root.contains(document.activeElement);
         this.show(index < 0 ? 0 : index);
+        this.focusObserver = new MutationObserver(() => this.updateSlideFocusability());
+        this.focusObserver.observe(stage, { childList: true, subtree: true, attributes: true, attributeFilter: ['tabindex', 'hidden', 'inert'] });
     }
 
     button(className, label, text, handler) {
@@ -171,6 +174,7 @@ class ActivityCarousel {
             slide.inert = !active;
             slide.setAttribute('aria-hidden', String(!active));
         });
+        this.updateSlideFocusability();
         this.dots.forEach((dot, position) => dot.setAttribute('aria-current', String(position === this.activeIndex)));
         this.tools.forEach((tools, position) => {
             if (tools) {
@@ -187,6 +191,20 @@ class ActivityCarousel {
         const item = this.dots[this.activeIndex];
         if (!this.rail || !item) return;
         this.rail.scrollLeft = item.offsetLeft - (this.rail.clientWidth - item.offsetWidth) / 2;
+    }
+
+    updateSlideFocusability() {
+        this.slides.forEach((slide, position) => {
+            slide.querySelectorAll('a[href], button, input, select, textarea, summary, [tabindex], [contenteditable="true"]').forEach(control => {
+                if (!this.slideTabIndexes.has(control)) this.slideTabIndexes.set(control, control.getAttribute('tabindex'));
+                const original = this.slideTabIndexes.get(control);
+                const enabled = position === this.activeIndex && !control.closest('[hidden], [inert]');
+                const desired = enabled ? original : '-1';
+                if (control.getAttribute('tabindex') === desired) return;
+                if (desired === null) control.removeAttribute('tabindex');
+                else control.setAttribute('tabindex', desired);
+            });
+        });
     }
 
     updatePlayback() {
@@ -212,6 +230,7 @@ class ActivityCarousel {
 
     destroy() {
         clearTimeout(this.timer);
+        this.focusObserver.disconnect();
         this.progress?.cancel();
         this.motion.removeEventListener('change', this.onMotion);
         document.removeEventListener('visibilitychange', this.onVisibility);

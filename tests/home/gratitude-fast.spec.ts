@@ -40,7 +40,7 @@ test('upcoming fast follows New Year with bilingual text, date rail and controll
   await rail.click();
   const fast = page.locator('.activity-fast');
   await expect(fast).toBeVisible();
-  await expect(fast.locator('h2 [lang="en"]')).toHaveText('Gratitude Fast 2027');
+  await expect(fast.locator('h3 [lang="en"]')).toHaveText('Gratitude Fast 2027');
   await expect(fast.locator('.activity-fast-dates [lang="en"]')).toHaveText('January 1 – 27, 2027');
   await expect(fast.locator('.activity-fast-message [lang="en"]')).toHaveText(en);
   const cta = page.locator('.activity-cta');
@@ -49,7 +49,7 @@ test('upcoming fast follows New Year with bilingual text, date rail and controll
   await page.evaluate(() => (window as any).GPBCLanguage.set('bn'));
   await expect(fast).toHaveAttribute('lang', 'bn');
   await expect(fast).toHaveAccessibleName(/কৃতজ্ঞতার উপবাস ২০২৭/);
-  await expect(fast.locator('h2 [lang="bn"]')).toHaveText('কৃতজ্ঞতার উপবাস ২০২৭');
+  await expect(fast.locator('h3 [lang="bn"]')).toHaveText('কৃতজ্ঞতার উপবাস ২০২৭');
   await expect(fast.locator('.activity-fast-message [lang="bn"]')).toBeVisible();
   await expect(fast.locator('.activity-fast-message [lang="bn"]')).toHaveText(bn);
   await expect(fast.locator('.activity-fast-dates [lang="bn"]')).toHaveText('১–২৭ জানুয়ারি, ২০২৭');

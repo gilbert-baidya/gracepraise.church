@@ -535,6 +535,13 @@ test.describe('V21 public website-control adapter', () => {
           }
         }
       }
+      await page.locator('.activity-rail-item').nth(1).click();
+      await expect.poll(() => page.locator('.activity-slide[aria-hidden="true"]').evaluateAll(slides =>
+        slides.flatMap(slide => [...slide.querySelectorAll<HTMLElement>('a[href], [tabindex]')])
+          .filter(control => control.tabIndex >= 0).length)).toBe(0);
+      if (state !== 'HIDDEN') {
+        await expect(page.locator('.activity-slide.is-active .event-flyer-link')).not.toHaveAttribute('tabindex');
+      }
       if (state === 'COMING_SOON') {
         await page.locator('.activity-rail-item').nth(1).click();
         await page.locator('.activity-slide.is-active .event-flyer-link').click();

@@ -132,8 +132,8 @@ test.describe('static Home activities', () => {
   test.use({ javaScriptEnabled: false });
   test('theme and Visit link paint without JS; skip link targets main', async ({ page }) => {
     await page.goto('/index.html');
-    await expect(page.locator('#home-activities .activity-theme h2')).toBeVisible();
-    await expect(page.locator('#home-activities .activity-theme h2')).toContainText('Rooted in Christ');
+    await expect(page.locator('#home-activities .activity-theme h3')).toBeVisible();
+    await expect(page.locator('#home-activities .activity-theme h3')).toContainText('Rooted in Christ');
     await expect(page.locator('.activity-carousel')).toHaveAttribute('data-enhanced', 'false');
     await expect(page.locator('.activity-cta')).toHaveAttribute('href', 'plan-visit.html?lang=en');
     await expect(page.locator('.activity-controls button')).toHaveCount(0);
@@ -279,7 +279,7 @@ for (const width of [390, 1440]) {
     expect(bounds!.x).toBeGreaterThanOrEqual(0);
     expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width + .5);
     expect(await page.locator('.activity-theme').evaluate(element => getComputedStyle(element).backgroundImage)).toContain('gradient');
-    expect(await page.locator('.activity-theme h2').evaluate(element => getComputedStyle(element).color)).toBe('rgb(255, 245, 222)');
+    expect(await page.locator('.activity-theme h3').evaluate(element => getComputedStyle(element).color)).toBe('rgb(255, 245, 222)');
     const geometry = () => page.evaluate(() => {
       const stage = document.querySelector('.activity-stage')!.getBoundingClientRect();
       return { width: stage.width, height: stage.height, following: document.getElementById('featured-events')!.getBoundingClientRect().top + scrollY };

@@ -25,7 +25,7 @@ function load(localStorage = storage(), fetch = async () => ({ ok: false, status
     const context = {
         localStorage, fetch, AbortController, setTimeout, clearTimeout,
         USE_GOOGLE_SHEETS: true, GOOGLE_SHEETS_URL: 'https://example.test/sheets',
-        CODE_OWNER: 'test', console: { error() {} }
+        CODE_OWNER: 'test', console: { error() {}, warn() {} }
     };
     runInNewContext(source + '\n' + sheets, context);
     return context;
@@ -34,6 +34,17 @@ function load(localStorage = storage(), fetch = async () => ({ ok: false, status
 function records(context) {
     return JSON.parse(runInNewContext("JSON.stringify(events.filter(event => event.category === 'gpbc'))", context));
 }
+
+test('invalid saved data warns without exposing its contents', () => {
+    const context = load();
+    const warnings = [];
+    context.console.warn = (...args) => warnings.push(args);
+    context.localStorage.values.set('gpbcEvents', '{"private-person-email":');
+    context.loadCustomEvents();
+    assert.equal(warnings.length, 1);
+    assert.match(warnings[0][0], /Unable to load saved church events/);
+    assert.ok(!JSON.stringify(warnings).includes('private-person-email'));
+});
 
 test('offline defaults remain available with empty or blocked storage', () => {
     const blocked = () => { throw new Error('Storage blocked'); };

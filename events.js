@@ -3,7 +3,7 @@ const events = [
     // GPBC RECURRING WEEKLY EVENTS (Generated for next 10 years from Jan 2026)
     // 🎼 Friday 5:30 PM - Instrument Lesson
     ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
-        const date = new Date(2026, 0, 2 + (i * 7)); // Start Jan 2, 2026 (Friday)
+        const date = new Date(Date.UTC(2026, 0, 2 + (i * 7))); // Start Jan 2, 2026 (Friday)
         return {
             date: date.toISOString().split('T')[0],
             name: '🎼 Friday Instrument Lesson',
@@ -18,7 +18,7 @@ const events = [
     }),
     // 🎶 Friday 6:30 PM - Worship Practice
     ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
-        const date = new Date(2026, 0, 2 + (i * 7)); // Start Jan 2, 2026 (Friday)
+        const date = new Date(Date.UTC(2026, 0, 2 + (i * 7))); // Start Jan 2, 2026 (Friday)
         return {
             date: date.toISOString().split('T')[0],
             name: '🎶 Friday Worship Practice',
@@ -33,7 +33,7 @@ const events = [
     }),
     // 🙌 Saturday 12:00 PM - Fasting Prayer
     ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
-        const date = new Date(2026, 0, 3 + (i * 7)); // Start Jan 3, 2026 (Saturday)
+        const date = new Date(Date.UTC(2026, 0, 3 + (i * 7))); // Start Jan 3, 2026 (Saturday)
         return {
             date: date.toISOString().split('T')[0],
             name: '🙌 Fasting Prayer',
@@ -48,7 +48,7 @@ const events = [
     }),
     // Sunday 5:00 PM - Worship Service
     ...Array.from({length: 520}, (_, i) => { // 52 weeks * 10 years
-        const date = new Date(2026, 0, 4 + (i * 7)); // Start Jan 4, 2026 (Sunday)
+        const date = new Date(Date.UTC(2026, 0, 4 + (i * 7))); // Start Jan 4, 2026 (Sunday)
         return {
             date: date.toISOString().split('T')[0],
             name: 'Worship Service',
@@ -68,11 +68,11 @@ const events = [
         const month = i % 12;
         
         // Find the first Sunday of the month
-        const firstDay = new Date(year, month, 1);
-        const dayOfWeek = firstDay.getDay();
+        const firstDay = new Date(Date.UTC(year, month, 1));
+        const dayOfWeek = firstDay.getUTCDay();
         const firstSunday = dayOfWeek === 0 ? 1 : (7 - dayOfWeek) + 1;
         
-        const date = new Date(year, month, firstSunday);
+        const date = new Date(Date.UTC(year, month, firstSunday));
         
         return {
             date: date.toISOString().split('T')[0],
@@ -160,6 +160,7 @@ const revisedHolidayEvents = events.filter(event =>
     (event.name === 'Gratitude & New Year Celebration' && event.date === '2026-12-31'));
 
 function normalizeHolidaySchedule(event) {
+    // TODO: Remove the 2026 Dec 13 → Dec 20 import shim after 2027-01-28.
     const sourceDate = event.sourceDate || event.date;
     const revised = revisedHolidayEvents.find(candidate =>
         candidate.name === event.name && (candidate.date === sourceDate ||
@@ -197,7 +198,9 @@ function loadCustomEvents() {
                 }
             });
         }
-    } catch {}
+    } catch (error) {
+        console.warn('Unable to load saved church events:', error instanceof Error ? error.name : 'UnknownError');
+    }
 }
 
 // Save custom GPBC events to localStorage
