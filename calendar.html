@@ -764,6 +764,20 @@
             }
         }
 
+        @media (max-width: 359px) {
+            html:root body .calendar-grid .event-marker {
+                min-width: 0 !important;
+                padding-inline: 0;
+                font-size: clamp(8.5px, 2.6vw, 0.72rem) !important;
+            }
+
+            html:root body .calendar-grid .event-marker .calendar-event-text {
+                display: block;
+                inline-size: calc(100% - 0.6em);
+                margin-inline: auto;
+            }
+        }
+
         body[data-theme="dark"].calendar-page .calendar-filters-section,
         body[data-theme="dark"].calendar-page .calendar-section,
         body[data-theme="dark"].calendar-page .recurring-events-section,

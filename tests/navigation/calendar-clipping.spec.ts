@@ -71,6 +71,52 @@ test('calendar preserves labels and empty names if discretionary hyphenation is 
   expect(await page.evaluate(() => (window as any).calendarEventLabel(null).textContent)).toBe('');
 });
 
+for (const width of [320, 340, 359]) for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
+  test(`narrow marker ink stays inside day content: ${width} ${language} ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/calendar.html?lang=' + language);
+    await expect(page.locator('.calendar-event-text').filter({ hasText: 'İrem FELLOWSHIP' })).toHaveCount(1);
+    await page.evaluate(theme => (window as any).Platform.applyTheme(theme), theme);
+    await page.evaluate(() => document.fonts.ready);
+    const failures = await page.locator('.calendar-grid .event-marker').evaluateAll(markers => markers.flatMap(marker => {
+      const day = marker.closest('.day')!;
+      const box = day.getBoundingClientRect(), style = getComputedStyle(day);
+      const left = box.left + parseFloat(style.borderLeftWidth) + parseFloat(style.paddingLeft);
+      const right = box.right - parseFloat(style.borderRightWidth) - parseFloat(style.paddingRight);
+      const visual = marker.querySelector('.calendar-event-visual')!;
+      const failures: { text: string; left: number; right: number; cellLeft: number; cellRight: number }[] = [];
+      const check = (text: string, start: number, end: number) => {
+        if (start < left - .5 || end > right + .5) failures.push({ text, left: start, right: end, cellLeft: left, cellRight: right });
+      };
+      for (const span of visual.querySelectorAll('span')) {
+        if (span.children.length || !span.textContent?.trim()) continue;
+        for (const rect of span.getClientRects()) if (rect.width > .1) check(span.textContent, rect.left, rect.right);
+      }
+      const walker = document.createTreeWalker(visual, NodeFilter.SHOW_TEXT);
+      const canvas = document.createElement('canvas').getContext('2d')!;
+      const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+      while (walker.nextNode()) {
+        const node = walker.currentNode, text = node.textContent || '';
+        const font = getComputedStyle(node.parentElement!);
+        canvas.font = font.font;
+        for (const { segment, index } of segmenter.segment(text)) {
+          if (!segment.trim() || segment === '\u00ad') continue;
+          const range = document.createRange();
+          range.setStart(node, index);
+          range.setEnd(node, index + segment.length);
+          const ink = canvas.measureText(segment);
+          for (const rect of range.getClientRects()) if (rect.width > .1) {
+            check(segment, rect.left, rect.right);
+            check(segment + ' ink', rect.left - ink.actualBoundingBoxLeft, rect.left + ink.actualBoundingBoxRight);
+          }
+        }
+      }
+      return failures;
+    }));
+    expect(failures).toEqual([]);
+  });
+}
+
 for (const width of [320, 390, 844, 1024, 1440]) {
   for (const language of ['en', 'bn']) for (const theme of ['light', 'dark']) {
     test(`seven bounded weekdays and wrapping labels: ${width} ${theme} ${language}`, async ({ page }) => {
@@ -124,7 +170,7 @@ for (const width of [320, 390, 844, 1024, 1440]) {
       const markers = page.locator('.calendar-grid .event-marker');
       if (width === 320 || width === 390) {
         for (const size of await markers.evaluateAll(elements => elements.map(element => parseFloat(getComputedStyle(element).fontSize)))) {
-          expect(size).toBeCloseTo(10.14, 2);
+          expect(size).toBeCloseTo(width === 320 ? 8.5 : 10.14, 2);
         }
       }
       await expect(markers.filter({ hasText: 'HOLY COMMUNION SERVICE WITH A VERY LONG FELLOWSHIP TITLE' })).toHaveAttribute('lang', 'en');
