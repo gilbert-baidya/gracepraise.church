@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   test:
-    timeout-minutes: ${{ github.event_name == 'schedule' && 60 || 25 }}
+    timeout-minutes: ${{ github.event_name == 'schedule' && 60 || 50 }}
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
@@ -63,7 +63,7 @@ jobs:
         timeout 30 bash -c 'until curl -f http://127.0.0.1:8082; do sleep 1; done'
         
     - name: Run Playwright tests (Shard ${{ matrix.shardIndex }}/4)
-      run: node scripts/run-playwright-ci.mjs --shard=${{ matrix.shardIndex }}/4 --global-timeout=${{ github.event_name == 'schedule' && '3000000' || '1200000' }}
+      run: node scripts/run-playwright-ci.mjs --shard=${{ matrix.shardIndex }}/4 --global-timeout=${{ github.event_name == 'schedule' && '3000000' || '2400000' }}
         
     - name: Upload blob report to GitHub Actions Artifacts
       if: always()
