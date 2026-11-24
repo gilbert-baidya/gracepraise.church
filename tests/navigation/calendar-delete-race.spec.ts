@@ -122,6 +122,50 @@ test('rejected deletion distinguishes records with the same name and date by own
   expect(await page.evaluate(() => (window as any).eval('currentEvent.owner'))).toBe(first.owner);
 });
 
+test('rejected deletion keeps an identical second record open and focused', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-11-21T12:00:00Z'));
+  await page.addInitScript(() => {
+    localStorage.setItem('gpbc:logoLoaderSeen', 'true');
+    localStorage.setItem('lastReminderCheck', new Date().toDateString());
+  });
+  let release!: () => void;
+  const gate = new Promise<void>(resolve => { release = resolve; });
+  const deletions: unknown[] = [], messages: string[] = [];
+  await page.route('https://script.google.com/**', async route => {
+    const payload = route.request().postDataJSON();
+    if (payload.action === 'deleteEvent') { deletions.push(payload.event); await gate; }
+    await route.fulfill({ json: payload.action === 'getEvents' ? { events: [eventA, { ...eventA }] } : { success: false },
+      headers: { 'access-control-allow-origin': '*' } });
+  });
+  page.on('dialog', async dialog => { messages.push(dialog.message()); await dialog.accept(); });
+  try {
+    await page.goto('/calendar.html');
+    const markers = page.locator('.calendar-grid .event-marker').filter({ hasText: eventA.name });
+    await expect(markers).toHaveCount(2);
+    await markers.nth(0).click();
+    const deleted = await page.evaluate(() => (window as any).eval('events.indexOf(currentEvent)'));
+    await page.locator('#deleteEventBtn').click();
+    await expect.poll(() => deletions.length).toBe(1);
+    await page.locator('#eventDetailModal .close').click();
+    await markers.nth(1).click();
+    const opened = await page.evaluate(() => (window as any).eval('events.indexOf(currentEvent)'));
+    expect(opened).not.toBe(deleted);
+    const focusedControl = page.locator('#eventDetailModal .close');
+    await focusedControl.focus();
+    release();
+    await expect.poll(() => messages.length).toBe(2);
+    await expect(markers).toHaveCount(1);
+    await expect.soft(page.locator('#eventDetailModal')).toBeVisible();
+    await expect.soft(focusedControl).toBeFocused();
+    expect.soft(await page.evaluate(() => (window as any).eval('currentEvent !== null && events.includes(currentEvent)'))).toBe(true);
+    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('gpbcEvents') || '[]'));
+    expect.soft(saved.filter((event: { name: string }) => event.name === eventA.name)).toHaveLength(1);
+  } finally {
+    release();
+    await page.unrouteAll({ behavior: 'wait' });
+  }
+});
+
 for (const success of [true, false]) {
   test(`repeat Delete clicks send one request and one success alert: server success=${success}`, async ({ page }) => {
     await page.clock.setFixedTime(new Date('2026-11-21T12:00:00Z'));

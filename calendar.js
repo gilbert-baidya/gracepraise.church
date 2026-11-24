@@ -880,6 +880,14 @@ async function deleteCurrentEvent() {
     const matchesEvent = event => event && event.category === 'gpbc' &&
         (event.sourceDate || event.date) === identity.date &&
         event.name === identity.name && (event.owner || CODE_OWNER) === identity.owner;
+    const removeDeletedEvent = () => {
+        let index = events.indexOf(eventToDelete);
+        if (index === -1) index = events.findIndex(matchesEvent);
+        if (index !== -1) {
+            events.splice(index, 1);
+            saveCustomEvents();
+        }
+    };
 
     if (confirm(`Are you sure you want to delete "${eventToDelete.name}"?`)) {
         isDeletingEvent = true;
@@ -896,26 +904,18 @@ async function deleteCurrentEvent() {
                     await loadEventsFromGoogleSheets();
                 } else {
                     // Fallback to localStorage
-                    const index = events.findIndex(matchesEvent);
-                    if (index !== -1) {
-                        events.splice(index, 1);
-                        saveCustomEvents();
-                    }
+                    removeDeletedEvent();
                     // console.log('Using localStorage fallback for delete'); // Removed for production
                 }
             } else {
                 // Remove from local array when using localStorage
-                const index = events.findIndex(matchesEvent);
-                if (index !== -1) {
-                    events.splice(index, 1);
-                    saveCustomEvents();
-                }
+                removeDeletedEvent();
             }
 
             hideLoadingIndicator();
 
             // Close modal and refresh calendar
-            if (matchesEvent(currentEvent)) {
+            if (currentEvent === eventToDelete) {
                 document.getElementById('eventDetailModal').style.display = 'none';
                 currentEvent = null;
             }
