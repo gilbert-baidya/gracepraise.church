@@ -148,6 +148,10 @@ html:root body header[data-gpbc-drawer] #darkModeToggle[data-drawer-toggle] { di
     html:root body header[data-gpbc-drawer] .mobile-menu-btn span {
         background: currentColor !important;
     }
+    html:root:is([data-theme='dark'], .dark) body header[data-gpbc-drawer] :is(.visit-brand-copy, .mobile-menu-btn),
+    html:root body:is([data-theme='dark'], .dark) header[data-gpbc-drawer] :is(.visit-brand-copy, .mobile-menu-btn) {
+        color: #F5F1E8 !important;
+    }
     html:root body.menu-open header[data-gpbc-drawer] {
         position: fixed !important;
         inset: 0 0 auto !important;
