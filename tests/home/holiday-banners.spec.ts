@@ -85,7 +85,7 @@ test.describe('Holiday flyers', () => {
       await loadFlyerImages(page);
       for (const flyer of flyers) {
         const image = page.locator(`[data-flyer="${flyer.slug}"] img`);
-        await expect(image).toHaveJSProperty('currentSrc', versionedArtwork(flyer.slug + '-' + device + '.webp', page.url()));
+        await expect(image).toHaveJSProperty('currentSrc', versionedArtwork(flyer.slug + '-' + device + '-en.webp', page.url()));
         await expect(image).toHaveAttribute('width', '1600');
         await expect(image).toHaveAttribute('height', '600');
       }
@@ -104,14 +104,14 @@ test.describe('Holiday flyers', () => {
       await loadFlyerImages(page);
       for (const flyer of flyers) {
         await expect(page.locator(`[data-flyer="${flyer.slug}"] img`)).toHaveJSProperty(
-          'currentSrc', versionedArtwork(flyer.slug + '-' + device + '.png', page.url())
+          'currentSrc', versionedArtwork(flyer.slug + '-' + device + '-en.png', page.url())
         );
       }
     });
   }
 
   for (const format of ['webp', 'png'] as const) {
-    test('pre-Christmas portrait selects Bangla ' + format + ' artwork only in Bangla', async ({ page }) => {
+    test('artwork follows the selected language in ' + format, async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
       if (format === 'png') {
         await page.route('**/homepage-events.js?*', async route => {
@@ -121,17 +121,25 @@ test.describe('Holiday flyers', () => {
         });
       }
       await page.goto('/index.html?lang=bn');
-      const image = page.locator('[data-flyer="pre-christmas-dec20"] img');
-      const artwork = (device: string) => versionedArtwork('pre-christmas-dec20-' + device + '.' + format, page.url());
-      await expect(image).toHaveJSProperty('currentSrc', artwork('phone-bn'));
-      await expect(image).toHaveAttribute('alt', /বিশেষ পরিবেশনা: গোয়ালঘরের রাজা/);
       await loadFlyerImages(page);
-      await page.evaluate(() => (window as any).GPBCLanguage.set('en'));
-      await expect(image).toHaveJSProperty('currentSrc', artwork('phone'));
-      await page.evaluate(() => (window as any).GPBCLanguage.set('bn'));
-      await expect(image).toHaveJSProperty('currentSrc', artwork('phone-bn'));
+      const setLanguage = (language: string) => page.evaluate(lang => (window as any).GPBCLanguage.set(lang), language);
+      const expectArtwork = async (variant: (slug: string) => string, extension: string) => {
+        for (const flyer of flyers) {
+          await expect(page.locator(`[data-flyer="${flyer.slug}"] img`)).toHaveJSProperty(
+            'currentSrc', versionedArtwork(flyer.slug + '-' + variant(flyer.slug) + '.' + extension, page.url()));
+        }
+      };
+      const bangla = (slug: string) => slug === 'pre-christmas-dec20' ? 'phone-bn' : 'phone';
+      await expectArtwork(bangla, format);
+      await expect(page.locator('[data-flyer="pre-christmas-dec20"] img')).toHaveAttribute('alt', /বিশেষ পরিবেশনা: গোয়ালঘরের রাজা/);
+      await setLanguage('en');
+      await expectArtwork(() => 'phone-en', format);
+      await setLanguage('bn');
+      await expectArtwork(bangla, format);
       await page.setViewportSize({ width: 844, height: 390 });
-      await expect(image).toHaveJSProperty('currentSrc', artwork('desktop'));
+      await expectArtwork(() => 'desktop', format);
+      await setLanguage('en');
+      await expectArtwork(() => 'desktop-en', format);
     });
   }
 
