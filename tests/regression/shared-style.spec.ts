@@ -69,13 +69,19 @@ test('Visit English-only regions retain English typography after switching to Ba
   await expect(page.locator('#upcomingHighlights .highlight-item:not(.sunday-worship)')).toHaveCount(1);
   await page.locator('[data-site-language="bn"]').click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
-  for (const selector of ['a.skip-link', 'header .nav-links > li > a', '.site-footer p', '.visit-coming-soon', '.visit-rhythm-card strong', '#upcomingHighlights', '#upcomingHighlights .highlight-item:not(.sunday-worship) p']) {
+  for (const selector of ['a.skip-link', '.site-footer p', '.visit-coming-soon', '.visit-rhythm-card strong', '#upcomingHighlights', '#upcomingHighlights .highlight-item:not(.sunday-worship) p']) {
     const elements = page.locator(selector);
     expect(await elements.count()).toBeGreaterThan(0);
     for (const element of await elements.all()) {
       expect(await element.evaluate(node => node.matches(':lang(en)'))).toBe(true);
       await expect(element).toHaveCSS('font-family', 'Inter, "Noto Sans Bengali", system-ui, sans-serif');
     }
+  }
+  const navigation = page.locator('header .nav-links > li > a:not([data-site-language])');
+  expect(await navigation.count()).toBeGreaterThan(0);
+  for (const link of await navigation.all()) {
+    expect(await link.evaluate(node => node.matches(':lang(bn)'))).toBe(true);
+    await expect(link).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');
   }
   await expect(page.locator('.site-footer h2').first()).toHaveCSS('font-family', 'Lora, Georgia, "Noto Sans Bengali", serif');
   await expect(page.locator('h1 [data-lang="bn"]')).toHaveCSS('font-family', '"Noto Sans Bengali", sans-serif');

@@ -16,6 +16,84 @@
   let scheduled = false;
   let syncingContent = false;
   const contentRequests = new Map();
+  const navText = new WeakMap();
+  const navLabels = new Map(`
+Home = প্রথম পাতা
+About = আমাদের সম্পর্কে
+ABOUT = আমাদের সম্পর্কে
+About Overview = আমাদের সম্পর্কে এক নজরে
+Our History = আমাদের ইতিহাস
+Our Mission = আমাদের লক্ষ্য
+Our Leadership = আমাদের নেতৃত্ব
+Our Pastor = আমাদের পাস্টর
+Our Beliefs = আমাদের বিশ্বাস
+Our Core Values = আমাদের মূল মূল্যবোধ
+Position Papers = বিশ্বাস ও চর্চা সম্পর্কে আমাদের অবস্থান
+Testimonies = বিশ্বাসের সাক্ষ্য
+Tools = উপকরণ
+Songbook = গানের সংকলন
+GPBC Song Book = GPBC গানের সংকলন
+Bible Slide Builder = বাইবেলের পদের স্লাইড তৈরি
+Ministries = পরিচর্যা
+MINISTRIES = পরিচর্যা
+Ministries Overview = পরিচর্যা এক নজরে
+Bible Study = বাইবেল অধ্যয়ন
+Community Development = সমাজ উন্নয়ন
+Homeless Ministry = গৃহহীন মানুষের পরিচর্যা
+Hospital Ministry = হাসপাতালে রোগীদের পরিচর্যা
+Kids Ministry = শিশুদের পরিচর্যা
+Men Fellowship = পুরুষদের সহভাগিতা
+Mission Outreach = মিশন ও সুসমাচার প্রচার
+Prison Ministry = কারাবন্দিদের পরিচর্যা
+Support Missionaries = মিশনারিদের পাশে দাঁড়ান
+Praise & Worship Ministry = প্রশংসা ও উপাসনা
+Next Service = পরবর্তী উপাসনা
+Calendar = দিনপঞ্জি
+Gallery = ছবির গ্যালারি
+Prayer = প্রার্থনা
+Devotion = বাইবেল ধ্যান
+Holy Bible = পবিত্র বাইবেল
+Daily Devotion = দৈনিক বাইবেল ধ্যান
+Couples Devotion = দম্পতিদের বাইবেল ধ্যান
+Family Devotion = পরিবারের বাইবেল ধ্যান
+Youth Devotion = যুবসমাজের বাইবেল ধ্যান
+Children Devotion = শিশুদের বাইবেল ধ্যান
+21 Days Fasting = ২১ দিনের উপবাস
+30 Days Fasting = ৩০ দিনের উপবাস
+Lent - 40 Days = প্রাক্-পুনরুত্থান পর্বের ৪০ দিনের উপবাস
+Gratitude Fasting (2026 - 26 Days) = কৃতজ্ঞতার উপবাস (২০২৬ — ২৬ দিন)
+Give = দান করুন
+LIVE = সরাসরি সম্প্রচার
+`.trim().split('\n').map(row => row.split(' = ')));
+
+  function translateNavigation() {
+    document.querySelectorAll('header .nav-links').forEach(nav => {
+      setAttribute(nav, 'lang', current);
+      nav.querySelectorAll('a:not([data-site-language])').forEach(link => {
+        const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT);
+        let translated = false;
+        let node;
+        while ((node = walker.nextNode())) {
+          if (node.parentElement.closest('.dropdown-arrow')) continue;
+          if (!navText.has(node)) {
+            const english = node.textContent;
+            const key = english.trim().replace(/\s+/g, ' ');
+            let bengali = navLabels.get(key);
+            if (link.getAttribute('href')?.includes('gratitude-fasting')) {
+              if (/^\d+$/.test(key)) bengali = key.replace(/\d/g, digit => '০১২৩৪৫৬৭৮৯'[Number(digit)]);
+              else bengali ||= { 'Gratitude Fasting (': 'কৃতজ্ঞতার উপবাস (', '-': '—', 'Days)': 'দিন)' }[key];
+            }
+            if (bengali) navText.set(node, { en: english, bn: english.replace(english.trim(), bengali) });
+          }
+          const labels = navText.get(node);
+          if (!labels) continue;
+          translated = true;
+          if (node.textContent !== labels[current]) node.textContent = labels[current];
+        }
+        setAttribute(link, 'lang', translated ? current : 'en');
+      });
+    });
+  }
 
   function savedLanguage() {
     try { return localStorage.getItem('gpbc-language'); } catch { return null; }
@@ -73,13 +151,16 @@
     document.querySelectorAll('main:not([data-site-bilingual]), main[data-site-bilingual] > section:not(.visit-essentials), .site-footer, body > header, #site-header header, .admin-header, header .nav-links, a.skip-link, a.v2-skip-link, a.sr-only[href^="#"], a.sr-only-focusable[href^="#"]').forEach(element => {
       if (!element.hasAttribute('lang')) setAttribute(element, 'lang', 'en');
     });
+    translateNavigation();
     if (!syncingContent) {
       syncingContent = true;
       for (const prefix of ['lang', 'cdLang']) {
         const control = document.getElementById(`${prefix}${current === 'bn' ? 'Bn' : 'En'}`);
         if (control && !control.disabled && contentRequests.get(prefix) !== current) {
           contentRequests.set(prefix, current);
-          if (!control.classList.contains('active') && !control.classList.contains('is-active')) control.click();
+          if (!control.classList.contains('active') && !control.classList.contains('is-active')) {
+            control.dispatchEvent(new MouseEvent('click', { bubbles: false, cancelable: true }));
+          }
         }
       }
       syncingContent = false;

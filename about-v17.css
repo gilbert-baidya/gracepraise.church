@@ -401,6 +401,10 @@ body[data-theme="dark"] .about-v17,
 }
 
 /* Jump navigation */
+.about-v17 section[id] {
+    scroll-margin-top: calc(var(--about-jump-nav-height, 4.2rem) + 1px);
+}
+
 .about-jump-nav {
     position: sticky;
     top: var(--header-total-height, 134px);

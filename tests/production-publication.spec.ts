@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.skip(!process.env.PRODUCTION_BASE_URL, 'Requires a public-build server via PRODUCTION_BASE_URL and a source server on port 8080.');
+const sourceBaseURL = process.env.SOURCE_BASE_URL || 'http://127.0.0.1:8080';
 
 const routes = [
   '/index.html', '/songbook.html', '/admin/index.html', '/admin/v21/index.html',
@@ -11,7 +12,7 @@ for (const route of routes) {
   test(`production artifact preserves ${route} and its existing local assets`, async ({ page, request }) => {
     const response = await page.goto(route, { waitUntil: 'domcontentloaded' });
     expect(response?.status()).toBe(200);
-    expect(await response?.body()).toEqual(await (await request.get(`http://127.0.0.1:8080${route}`)).body());
+    expect(await response?.body()).toEqual(await (await request.get(`${sourceBaseURL}${route}`)).body());
     await expect(page.locator('body')).toBeVisible();
     await expect(page).not.toHaveTitle(/404|Error response/i);
     const assets = await page.locator('script[src], link[rel="stylesheet"][href], img[src]').evaluateAll(nodes =>
@@ -20,7 +21,7 @@ for (const route of routes) {
     for (const asset of [...new Set(assets)]) {
       const url = new URL(asset, page.url());
       const artifact = await request.get(url.href);
-      const source = await request.get(`http://127.0.0.1:8080${url.pathname}${url.search}`);
+      const source = await request.get(`${sourceBaseURL}${url.pathname}${url.search}`);
       if (source.ok()) {
         expect(artifact.ok(), `Missing artifact asset: ${route} → ${asset}`).toBe(true);
         expect(await artifact.body(), asset).toEqual(await source.body());

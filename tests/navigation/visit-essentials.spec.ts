@@ -214,6 +214,7 @@ test('explicit language works with storage blocked', async ({ page, visitOrigin 
 });
 
 test('keyboard switching retains focus, scroll and theme, with visible selected state', async ({ page, visitOrigin }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(`${visitOrigin}/index.html?lang=en&campaign=keyboard#language-proof`);
   const english = page.locator('[data-site-language="en"]');
   const bengali = page.locator('[data-site-language="bn"]');

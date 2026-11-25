@@ -6,6 +6,13 @@
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const revealItems = root.querySelectorAll('[data-reveal]');
+    const jumpNav = root.querySelector('.about-jump-nav');
+    if (jumpNav) {
+        const updateJumpNavHeight = () => root.style.setProperty('--about-jump-nav-height', `${jumpNav.getBoundingClientRect().height}px`);
+        updateJumpNavHeight();
+        if ('ResizeObserver' in window) new ResizeObserver(updateJumpNavHeight).observe(jumpNav);
+        else window.addEventListener('resize', updateJumpNavHeight);
+    }
 
     if (reducedMotion || !('IntersectionObserver' in window)) {
         revealItems.forEach((item) => item.classList.add('is-visible'));
