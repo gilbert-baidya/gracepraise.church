@@ -59,27 +59,34 @@ test('expiry restores an equivalent control and preserves explicit and focus pau
   await expect(page.getByRole('button', { name: 'Pause slideshow', exact: true })).toHaveAttribute('aria-pressed', 'false');
 });
 
-for (const width of [390, 1440]) {
-  test(`${width}px artwork keyboard focus ring is inset and visible inside the stage`, async ({ page }, testInfo) => {
-    await page.setViewportSize({ width, height: 900 });
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/index.html');
-    await page.locator('.activity-dot').nth(1).click();
-    await page.keyboard.press('Tab');
-    const link = page.locator('.activity-slide.is-active .event-flyer-link');
-    await link.focus();
-    await expect(link).toBeFocused();
-    expect(await link.evaluate(element => {
-      const style = getComputedStyle(element);
-      return { offset: style.outlineOffset, width: style.outlineWidth, style: style.outlineStyle };
-    })).toEqual({ offset: '-7px', width: '3px', style: 'solid' });
-    expect(await link.evaluate(element => {
-      const ring = getComputedStyle(element, '::after');
-      return { border: ring.borderTopWidth, inset: ring.top, layer: ring.zIndex };
-    })).toEqual({ border: '3px', inset: '6px', layer: '3' });
-    await page.locator('.activity-stage').screenshot({ path: testInfo.outputPath('artwork-focus.png') });
-  });
-}
+test('390px flyer fills the card and has one visit action and a visible calendar label in both languages', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/index.html');
+  await page.locator('.activity-dot').nth(1).click();
+  const active = page.locator('.event-flyer.is-active');
+  const cta = page.locator('.activity-cta');
+  const calendar = page.locator('.activity-event-tools:not([hidden]) .activity-calendar');
+  expect(await active.locator('img').evaluate(image => {
+    const card = image.closest('.activity-carousel')!;
+    const style = getComputedStyle(card);
+    const insets = ['paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth'] as const;
+    const contentWidth = card.getBoundingClientRect().width - insets.reduce((sum, edge) => sum + parseFloat(style[edge]), 0);
+    return Math.abs(contentWidth - image.getBoundingClientRect().width);
+  })).toBeLessThan(0.5);
+  await expect(active.getByRole('link')).toHaveCount(0);
+  await expect(page.locator('#home-service-line a')).toBeHidden();
+  for (const language of ['en', 'bn']) {
+    await page.evaluate(lang => (window as any).GPBCLanguage.set(lang), language);
+    await expect(cta).toHaveJSProperty('href', new URL('/plan-visit.html?lang=' + language, page.url()).href);
+    for (const control of [cta, calendar]) {
+      const label = control.locator('[data-lang="' + language + '"]');
+      await expect(label).toBeVisible();
+      expect((await label.boundingBox())!.width).toBeGreaterThan(20);
+      await expect(control).toHaveCSS('text-decoration-line', 'none');
+    }
+  }
+});
 
 for (const script of ['events.js', 'js/home-activities.js', 'js/activity-carousel.js', 'homepage-events.js']) {
   test(`delayed ${script} does not block parsing and keeps the reserved frame stable`, async ({ page }) => {
@@ -92,7 +99,10 @@ for (const script of ['events.js', 'js/home-activities.js', 'js/activity-carouse
       await expect(page.locator('#home-activities .activity-theme')).toContainText('Rooted in Christ');
       await expect(page.locator('.activity-carousel')).toHaveAttribute('data-enhanced', 'false');
       const firstTheme = await page.locator('.activity-theme').elementHandle();
-      await page.locator('.activity-cta').focus();
+      const cta = page.locator('.activity-cta');
+      const initialCTA = await cta.isVisible() ? cta : page.locator('#home-service-line a');
+      await initialCTA.focus();
+      await expect(initialCTA).toBeFocused();
       const scripts = await page.locator('head script[src]').evaluateAll(nodes => nodes
         .filter(node => /\/(events|home-activities|activity-carousel|homepage-events)\.js(?:\?|$)/.test((node as HTMLScriptElement).src))
         .map(node => ({ path: new URL((node as HTMLScriptElement).src).pathname, defer: (node as HTMLScriptElement).defer })));
@@ -119,6 +129,24 @@ for (const script of ['events.js', 'js/home-activities.js', 'js/activity-carouse
   });
 }
 
+test('phone keeps visit focus when the carousel replaces the service-line action', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  let release!: () => void;
+  const gate = new Promise<void>(resolve => { release = resolve; });
+  await page.route('**/homepage-events.js?*', async route => { await gate; await route.continue(); });
+  const navigation = page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+  const serviceLink = page.locator('#home-service-line a');
+  try {
+    await expect(serviceLink).toBeVisible();
+    await serviceLink.focus();
+    await expect(serviceLink).toBeFocused();
+    release();
+    await navigation;
+    await expect(serviceLink).toBeHidden();
+    await expect(page.locator('.activity-cta')).toBeFocused();
+  } finally { release(); await navigation; }
+});
+
 test('activities lead main, followed by the slim service line and unchanged welcome', async ({ page }) => {
   await page.goto('/index.html');
   expect(await page.locator('main').evaluate(main => [...main.children].slice(0, 3).map(child => child.id)))
@@ -141,7 +169,45 @@ test.describe('static Home activities', () => {
     await page.keyboard.press('Enter');
     await expect(page.locator('#main-content')).toBeFocused();
   });
+
+  test('mobile service-line visit link is the only visible CTA without JavaScript', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/index.html');
+    await expect(page.locator('#home-service-line a')).toBeVisible();
+    await expect(page.locator('.activity-cta')).toBeHidden();
+  });
 });
+
+for (const language of ['en', 'bn']) {
+  test('mobile service-line CTA falls back without changing height: ' + language, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    let release!: () => void;
+    const gate = new Promise<void>(resolve => { release = resolve; });
+    await page.route('**/homepage-events.js?*', async route => { await gate; await route.continue(); });
+    const navigation = page.goto('/index.html?lang=' + language);
+    const line = page.locator('#home-service-line');
+    const service = line.locator('a');
+    const carousel = page.locator('.activity-carousel');
+    const cta = carousel.locator('.activity-cta');
+    try {
+      await expect(carousel).toHaveAttribute('data-enhanced', 'false');
+      await expect(service).toBeVisible();
+      await expect(cta).toBeHidden();
+      const before = (await line.boundingBox())!.height;
+      release();
+      await navigation;
+      await expect(carousel).toHaveAttribute('data-enhanced', 'true');
+      await expect(cta).toBeVisible();
+      await expect(service).toBeHidden();
+      expect((await line.boundingBox())!.height).toBeCloseTo(before, 1);
+      await cta.evaluate((button: HTMLElement) => { button.hidden = true; });
+      await expect(cta).toBeHidden();
+      await expect(service).toBeVisible();
+      expect((await line.boundingBox())!.height).toBeCloseTo(before, 1);
+      await expect(service).toHaveJSProperty('href', new URL('/plan-visit.html?lang=' + language, page.url()).href);
+    } finally { release(); await navigation; }
+  });
+}
 
 test('theme is first, bilingual and entirely swappable through its config', async ({ page }) => {
   await page.goto('/index.html');
@@ -200,8 +266,8 @@ test('timeline, keyboard and swipe control one accessible slide', async ({ page 
     await expect(slide).toHaveAttribute('inert', '');
     await expect(slide).toHaveAttribute('aria-hidden', 'true');
   }
-  const artLink = active.locator('a');
-  await artLink.focus();
+  const calendar = root.getByRole('button', { name: 'Add to calendar' });
+  await calendar.focus();
   await page.keyboard.press('Tab');
   expect(await page.evaluate(() => Boolean(document.activeElement?.closest('[inert]')))).toBe(false);
 });

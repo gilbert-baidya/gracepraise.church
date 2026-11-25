@@ -140,18 +140,21 @@ class HomepageEvents {
         card.dataset.flyer = flyer.slug;
         const content = document.createElement('div');
         content.className = 'event-details-content';
-        const link = document.createElement('a');
-        link.className = 'event-flyer-link';
-        link.dataset.gpbcFeatureLink = 'pages.planVisit';
-        link.dataset.gpbcSurface = 'homepage-cta';
-        link.dataset.activityFocus = 'artwork:' + flyer.slug;
         const picture = document.createElement('picture');
         const base = flyer.imageBase || 'images/events/holiday-2026/' + flyer.slug;
-        for (const [device, type] of [['phone', 'webp'], ['phone', 'png'], ['desktop', 'webp']]) {
+        const artworkVersion = '?v=20261123-flyer-art';
+        const sources = [
+            ...(flyer.portraitImageBn ? [[flyer.portraitImageBn, 'webp', 'phone', 'bn'], [flyer.portraitImageBn, 'png', 'phone', 'bn']] : []),
+            [base + '-phone', 'webp', 'phone'], [base + '-phone', 'png', 'phone'], [base + '-desktop', 'webp', 'desktop']
+        ];
+        for (const [path, type, device, language] of sources) {
             const source = document.createElement('source');
             source.type = 'image/' + type;
-            if (device === 'phone') source.media = '(max-width: 767px)';
-            source.srcset = base + '-' + device + '.' + type;
+            if (language) {
+                source.dataset.flyerLanguage = language;
+                source.media = 'not all';
+            } else if (device === 'phone') source.media = '(max-width: 767px)';
+            source.srcset = path + '.' + type + artworkVersion;
             source.width = device === 'phone' ? 1080 : 1600;
             source.height = device === 'phone' ? 1350 : 600;
             picture.appendChild(source);
@@ -164,9 +167,8 @@ class HomepageEvents {
         image.dataset.altEn = flyer.en;
         image.dataset.altBn = flyer.bn;
         picture.appendChild(image);
-        image.src = base + '-desktop.png';
-        link.appendChild(picture);
-        content.appendChild(link);
+        image.src = base + '-desktop.png' + artworkVersion;
+        content.appendChild(picture);
         card.appendChild(content);
         return card;
     }
@@ -174,13 +176,13 @@ class HomepageEvents {
     updateFlyerLanguage() {
         const language = window.GPBCLanguage?.language === 'bn' ? 'bn' : 'en';
         this.activityContainer.querySelectorAll('.event-flyer').forEach(card => {
+            card.querySelectorAll('source[data-flyer-language]').forEach(source => {
+                source.media = source.dataset.flyerLanguage === language ? '(max-width: 767px)' : 'not all';
+            });
             const image = card.querySelector('img');
             image.alt = language === 'bn' ? image.dataset.altBn : image.dataset.altEn;
             image.lang = language;
             card.lang = language;
-            card.querySelectorAll('a').forEach(link => {
-                link.href = 'plan-visit.html?lang=' + language;
-            });
             card.querySelectorAll('[data-lang]').forEach(text => {
                 text.hidden = text.dataset.lang !== language;
             });
@@ -521,7 +523,9 @@ class HomepageEvents {
         this.updateActivityDetails(now);
         if (signature === this.renderSignature) return;
         this.renderSignature = signature;
-        const focused = [this.container, this.activityContainer].some(host => host.contains(document.activeElement)) ? document.activeElement : null;
+        const activeElement = document.activeElement;
+        const focused = [this.container, this.activityContainer].some(host => host.contains(activeElement)) ? activeElement : null;
+        const focusedServiceLink = activeElement?.matches('#home-service-line a') ? activeElement : null;
         const focusKey = focused?.dataset.activityFocus;
         const staticRoot = !this.activityCarousel && this.activityContainer.querySelector('[data-enhanced="false"]');
         const previousSlug = this.activityCarousel?.activeSlug;
@@ -564,6 +568,9 @@ class HomepageEvents {
             if (!target) return;
             if (!equivalent && target !== this.activityCarousel?.root) target.tabIndex = -1;
             target.focus({ preventScroll: true });
+        } else if (focusedServiceLink && !focusedServiceLink.getClientRects().length) {
+            const cta = this.activityCarousel?.root.querySelector('.activity-cta');
+            if (cta?.getClientRects().length && !cta.closest('[inert]')) cta.focus({ preventScroll: true });
         }
     }
 }

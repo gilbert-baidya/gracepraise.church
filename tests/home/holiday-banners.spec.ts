@@ -2,6 +2,8 @@ import { test, expect, type Page } from '@playwright/test';
 
 test.use({ serviceWorkers: 'block', reducedMotion: 'reduce' });
 
+const versionedArtwork = (path: string, baseUrl: string) => new URL('images/events/holiday-2026/' + path + '?v=20261123-flyer-art', baseUrl).href;
+
 const flyers = [
   { slug: 'pre-christmas-dec20', date: '2026-12-20', time: '17:00', en: ['Pre-Christmas Celebration', 'Sunday 20 December 2026', '5 PM'], bn: ['প্রাক-বড়দিনের উৎসব', '২০ ডিসেম্বর ২০২৬', '৫টা'] },
   { slug: 'christmas-day', date: '2026-12-25', time: '11:00', en: ['Christmas Day worship', 'Friday 25 December 2026', '10 AM', '11 AM', 'fellowship meal'], bn: ['বড়দিনের উপাসনা', '২৫ ডিসেম্বর ২০২৬', '১০টায়', '১১টায়', 'ভোজ'] },
@@ -83,7 +85,7 @@ test.describe('Holiday flyers', () => {
       await loadFlyerImages(page);
       for (const flyer of flyers) {
         const image = page.locator(`[data-flyer="${flyer.slug}"] img`);
-        await expect(image).toHaveJSProperty('currentSrc', new URL('images/events/holiday-2026/' + flyer.slug + '-' + device + '.webp', page.url()).href);
+        await expect(image).toHaveJSProperty('currentSrc', versionedArtwork(flyer.slug + '-' + device + '.webp', page.url()));
         await expect(image).toHaveAttribute('width', '1600');
         await expect(image).toHaveAttribute('height', '600');
       }
@@ -102,9 +104,34 @@ test.describe('Holiday flyers', () => {
       await loadFlyerImages(page);
       for (const flyer of flyers) {
         await expect(page.locator(`[data-flyer="${flyer.slug}"] img`)).toHaveJSProperty(
-          'currentSrc', new URL('images/events/holiday-2026/' + flyer.slug + '-' + device + '.png', page.url()).href
+          'currentSrc', versionedArtwork(flyer.slug + '-' + device + '.png', page.url())
         );
       }
+    });
+  }
+
+  for (const format of ['webp', 'png'] as const) {
+    test('pre-Christmas portrait selects Bangla ' + format + ' artwork only in Bangla', async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      if (format === 'png') {
+        await page.route('**/homepage-events.js?*', async route => {
+          const response = await route.fetch();
+          const source = (await response.text()).replace("source.type = 'image/' + type;", "source.type = type === 'webp' ? 'image/x-unsupported' : 'image/png';");
+          await route.fulfill({ response, body: source });
+        });
+      }
+      await page.goto('/index.html?lang=bn');
+      const image = page.locator('[data-flyer="pre-christmas-dec20"] img');
+      const artwork = (device: string) => versionedArtwork('pre-christmas-dec20-' + device + '.' + format, page.url());
+      await expect(image).toHaveJSProperty('currentSrc', artwork('phone-bn'));
+      await expect(image).toHaveAttribute('alt', /বিশেষ পরিবেশনা: গোয়ালঘরের রাজা/);
+      await loadFlyerImages(page);
+      await page.evaluate(() => (window as any).GPBCLanguage.set('en'));
+      await expect(image).toHaveJSProperty('currentSrc', artwork('phone'));
+      await page.evaluate(() => (window as any).GPBCLanguage.set('bn'));
+      await expect(image).toHaveJSProperty('currentSrc', artwork('phone-bn'));
+      await page.setViewportSize({ width: 844, height: 390 });
+      await expect(image).toHaveJSProperty('currentSrc', artwork('desktop'));
     });
   }
 
@@ -118,11 +145,9 @@ test.describe('Holiday flyers', () => {
         await expect(card.locator('img')).toHaveAttribute('lang', language);
         const alt = await card.locator('img').getAttribute('alt');
         for (const information of flyer[language]) expect(alt).toContain(information);
-        for (const link of await card.locator('a').all()) {
-          await expect(link).toHaveAttribute('href', /plan-visit\.html\?lang=(en|bn)$/);
-          expect(new URL((await link.getAttribute('href'))!, page.url()).searchParams.get('lang')).toBe(language);
-        }
+        await expect(card.locator('a')).toHaveCount(0);
       }
+      await expect(page.locator('.activity-cta')).toHaveJSProperty('href', new URL('/plan-visit.html?lang=' + language, page.url()).href);
       await expect(page.locator(`.activity-cta [data-lang="${language}"]`)).toBeVisible();
       await expect(page.locator(`.activity-cta [data-lang="${language === 'bn' ? 'en' : 'bn'}"]`)).toBeHidden();
     }

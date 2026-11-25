@@ -9,8 +9,9 @@ window.GPBC_HOME_ACTIVITIES = [
     {
         type: 'flyer', date: '2026-12-20', slug: 'pre-christmas-dec20', label: 'Pre-Christmas Celebration',
         start: '17:00', calendarTitle: 'Pre-Christmas Celebration',
+        portraitImageBn: 'images/events/holiday-2026/pre-christmas-dec20-phone-bn',
         en: 'GPBC Pre-Christmas Celebration — Sunday 20 December 2026, 5 PM Pacific Time. Join us with your family.',
-        bn: 'প্রাক-বড়দিনের উৎসব — রবিবার, ২০ ডিসেম্বর ২০২৬, বিকেল ৫টা (প্যাসিফিক সময়)। সপরিবারে যোগ দিন।'
+        bn: 'প্রাক-বড়দিনের উৎসব — রবিবার, ২০ ডিসেম্বর ২০২৬, বিকেল ৫টা (প্যাসিফিক সময়)। বিশেষ পরিবেশনা: গোয়ালঘরের রাজা। উপাসনা, নাটক, সংগীত ও সহভাগিতা। সপরিবারে যোগ দিন।'
     },
     {
         type: 'flyer', date: '2026-12-25', slug: 'christmas-day', label: 'Christmas Day',

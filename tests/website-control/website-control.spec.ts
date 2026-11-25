@@ -443,7 +443,7 @@ test.describe('V21 public website-control adapter', () => {
           ariaLabel: element.getAttribute('aria-label') || ''
         };
       }));
-      expect(links.length).toBe(15);
+      expect(links.length).toBe(11);
       expect(links.every((link) => link.hidden === linksHidden)).toBe(true);
       expect(links.every((link) => link.tabIndex === -1)).toBe(linksHidden);
       expect(links.every((link) => link.comingSoon === linksComingSoon)).toBe(true);
@@ -504,9 +504,9 @@ test.describe('V21 public website-control adapter', () => {
       await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
       await waitForAdapter(page);
       const links = page.locator('#home-activities a[href*="plan-visit.html"], #home-service-line a[href*="plan-visit.html"]');
-      await expect(links).toHaveCount(6);
-      for (const expectedCount of [6, 5]) {
-        if (expectedCount === 5) {
+      await expect(links).toHaveCount(2);
+      for (const language of ['en', 'bn']) {
+        if (language === 'bn') {
           await page.evaluate(() => {
             (window as any).GPBC_HOME_ACTIVITIES = (window as any).GPBC_HOME_ACTIVITIES
               .filter((entry: any) => entry.slug !== 'gratitude-dec31');
@@ -514,12 +514,12 @@ test.describe('V21 public website-control adapter', () => {
             (window as any).GPBCLanguage.set('bn');
           });
         }
-        await expect(links).toHaveCount(expectedCount);
+        await expect(links).toHaveCount(2);
         for (const link of await links.all()) {
           await expect(link).toHaveAttribute('data-gpbc-feature-link', 'pages.planVisit');
           await expect(link).toHaveAttribute('data-gpbc-surface', 'homepage-cta');
           await expect(link).toHaveAttribute('data-gpbc-control-state', state);
-          await expect(link).toHaveJSProperty('href', new URL('/plan-visit.html?lang=' + (expectedCount === 5 ? 'bn' : 'en'), page.url()).href);
+          await expect(link).toHaveJSProperty('href', new URL('/plan-visit.html?lang=' + language, page.url()).href);
           if (state === 'HIDDEN') {
             await expect(link).toBeHidden();
             await expect(link).toHaveAttribute('hidden', '');
@@ -540,11 +540,11 @@ test.describe('V21 public website-control adapter', () => {
         slides.flatMap(slide => [...slide.querySelectorAll<HTMLElement>('a[href], [tabindex]')])
           .filter(control => control.tabIndex >= 0).length)).toBe(0);
       if (state !== 'HIDDEN') {
-        await expect(page.locator('.activity-slide.is-active .event-flyer-link')).not.toHaveAttribute('tabindex');
+        await expect(page.locator('.activity-cta')).not.toHaveAttribute('tabindex');
       }
       if (state === 'COMING_SOON') {
         await page.locator('.activity-rail-item').nth(1).click();
-        await page.locator('.activity-slide.is-active .event-flyer-link').click();
+        await page.locator('.activity-cta').click();
         await expect(page).toHaveURL(/plan-visit\.html\?lang=bn$/);
         await expect(page.locator('#gpbc-route-state h1')).toHaveText('Plan Your Visit Coming Soon');
       }

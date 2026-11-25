@@ -22,7 +22,7 @@ for (const width of [360, 390, 490, 1440]) {
         const footer = center('.activity-footer');
         const header = document.querySelector('.activity-heading h2 [data-lang="' + document.documentElement.lang + '"]')!;
         const headerRange = document.createRange(); headerRange.selectNodeContents(header);
-        const link = document.querySelector('#home-service-line a')!;
+        const link = document.querySelector('.activity-cta')!;
         const label = link.querySelector('[data-lang]:not([hidden])')!;
         const labelRange = document.createRange();
         labelRange.selectNodeContents(label);
@@ -57,7 +57,7 @@ for (const width of [360, 390, 490, 1440]) {
           welcomeDelta: Math.abs(center('.welcome-home-v4__eyebrow') - center('.welcome-home-v4__title')),
           welcomeGutter: Math.min(copy.left - welcome.left, welcome.right - copy.right),
           linkLines: labelRange.getClientRects().length,
-          lineBottom: box('#home-service-line').bottom,
+          lineBelowCard: box('#home-service-line').top >= box('.activity-carousel').bottom,
           headings, footerFits, numberAlignment,
           wheelFits: quote.top >= wheel.top + 10 && quote.bottom <= wheel.bottom - 20,
         };
@@ -70,7 +70,7 @@ for (const width of [360, 390, 490, 1440]) {
       expect(result.headerFits).toBe(true);
       expect(result.headings.every(lines => lines === 1)).toBe(true);
       expect(result.linkLines).toBe(1);
-      if (width <= 390) expect(result.lineBottom).toBeLessThanOrEqual(width === 360 ? 800 : 844);
+      expect(result.lineBelowCard).toBe(true);
       if (width < 768) {
         expect(result.welcomeGutter).toBeGreaterThanOrEqual(19);
         expect(result.wheelFits).toBe(true);

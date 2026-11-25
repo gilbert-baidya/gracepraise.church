@@ -69,7 +69,8 @@ for (const width of [360, 390]) {
       await expect(page.locator('.activity-stage h2')).toHaveCount(0);
       await expect(page.locator('.activity-stage h3')).toHaveCount(2);
       await page.locator('.activity-rail-item').nth(1).click();
-      await expect(page.locator('.activity-slide.is-active a')).not.toHaveAttribute('tabindex');
+      await expect(page.locator('.activity-slide.is-active a')).toHaveCount(0);
+      await expect(page.locator('.activity-cta')).not.toHaveAttribute('tabindex');
       const values = await page.evaluate(() => {
         const gutter = [...document.querySelectorAll('.theological-intro, .event-tagline')].map(element => {
           const range = document.createRange(); range.selectNodeContents(element);
