@@ -143,21 +143,24 @@ class HomepageEvents {
         const picture = document.createElement('picture');
         const base = flyer.imageBase || 'images/events/holiday-2026/' + flyer.slug;
         const artworkVersion = '?v=20261123-flyer-art';
-        const sources = [
-            ...(flyer.portraitImageBn ? [[flyer.portraitImageBn, 'webp', 'phone', 'bn'], [flyer.portraitImageBn, 'png', 'phone', 'bn']] : []),
-            [base + '-phone', 'webp', 'phone'], [base + '-phone', 'png', 'phone'], [base + '-desktop', 'webp', 'desktop']
-        ];
-        for (const [path, type, device, language] of sources) {
-            const source = document.createElement('source');
-            source.type = 'image/' + type;
-            if (language) {
-                source.dataset.flyerLanguage = language;
-                source.media = 'not all';
-            } else if (device === 'phone') source.media = '(max-width: 767px)';
-            source.srcset = path + '.' + type + artworkVersion;
-            source.width = device === 'phone' ? 1080 : 1600;
-            source.height = device === 'phone' ? 1350 : 600;
-            picture.appendChild(source);
+        const artwork = {
+            en: { phone: base + '-phone-en', desktop: base + '-desktop-en' },
+            bn: { phone: flyer.portraitImageBn || base + '-phone', desktop: base + '-desktop' }
+        };
+        const language = this.flyerLanguage();
+        for (const variant of ['en', 'bn']) {
+            const { phone, desktop } = artwork[variant];
+            for (const [path, type, device] of [[phone, 'webp', 'phone'], [phone, 'png', 'phone'], [desktop, 'webp', 'desktop']]) {
+                const source = document.createElement('source');
+                source.type = 'image/' + type;
+                source.dataset.flyerLanguage = variant;
+                source.dataset.flyerMedia = device === 'phone' ? '(max-width: 767px)' : 'all';
+                source.media = variant === language ? source.dataset.flyerMedia : 'not all';
+                source.srcset = path + '.' + type + artworkVersion;
+                source.width = device === 'phone' ? 1080 : 1600;
+                source.height = device === 'phone' ? 1350 : 600;
+                picture.appendChild(source);
+            }
         }
         const image = document.createElement('img');
         image.width = 1600;
@@ -166,20 +169,28 @@ class HomepageEvents {
         image.decoding = 'async';
         image.dataset.altEn = flyer.en;
         image.dataset.altBn = flyer.bn;
+        image.dataset.srcEn = artwork.en.desktop + '.png' + artworkVersion;
+        image.dataset.srcBn = artwork.bn.desktop + '.png' + artworkVersion;
         picture.appendChild(image);
-        image.src = base + '-desktop.png' + artworkVersion;
+        image.src = language === 'bn' ? image.dataset.srcBn : image.dataset.srcEn;
         content.appendChild(picture);
         card.appendChild(content);
         return card;
     }
 
+    flyerLanguage() {
+        return window.GPBCLanguage?.language === 'bn' ? 'bn' : 'en';
+    }
+
     updateFlyerLanguage() {
-        const language = window.GPBCLanguage?.language === 'bn' ? 'bn' : 'en';
+        const language = this.flyerLanguage();
         this.activityContainer.querySelectorAll('.event-flyer').forEach(card => {
             card.querySelectorAll('source[data-flyer-language]').forEach(source => {
-                source.media = source.dataset.flyerLanguage === language ? '(max-width: 767px)' : 'not all';
+                source.media = source.dataset.flyerLanguage === language ? source.dataset.flyerMedia : 'not all';
             });
             const image = card.querySelector('img');
+            const src = language === 'bn' ? image.dataset.srcBn : image.dataset.srcEn;
+            if (image.getAttribute('src') !== src) image.src = src;
             image.alt = language === 'bn' ? image.dataset.altBn : image.dataset.altEn;
             image.lang = language;
             card.lang = language;
