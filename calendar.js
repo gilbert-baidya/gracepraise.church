@@ -6,6 +6,7 @@ let activeFilters = new Set(['gpbc', 'christian']); // Default to showing standa
 let currentPreset = 'this-week'; // Default to "All Events" preset
 let selectedDate = null;
 let currentEvent = null;
+let eventDetailOpener = null;
 
 const CODE_OWNER = 'gilbert-baidya'; // Change to your GitHub username
 
@@ -27,6 +28,30 @@ function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     })[ch]);
+}
+
+function calendarEventLabel(name, hyphenated = true) {
+    const fragment = document.createDocumentFragment();
+    for (const word of String(name ?? '').match(/[\p{L}\p{M}\u200c\u200d]+|[^\p{L}\p{M}\u200c\u200d]+/gu) || []) {
+        const asciiWord = /^[A-Za-z]+$/.test(word);
+        for (const run of word.match(/[\u0980-\u09ff\u200c\u200d]+|[^\u0980-\u09ff\u200c\u200d]+/gu) || []) {
+            const span = document.createElement('span');
+            span.className = 'calendar-event-run';
+            if (/[\u0980-\u09ff]/.test(run)) span.lang = 'bn';
+            else if (/\p{Script=Latin}/u.test(run)) span.lang = 'en';
+            if (hyphenated && asciiWord) {
+                const parts = window.GPBCCalendarHyphenator?.hyphenate(run) || [run];
+                parts.forEach((part, index) => {
+                    const piece = document.createElement('span');
+                    piece.textContent = part;
+                    if (index < parts.length - 1) piece.className = 'calendar-word-break';
+                    span.appendChild(piece);
+                });
+            } else span.textContent = run;
+            fragment.appendChild(span);
+        }
+    }
+    return fragment;
 }
 
 function safeImageUrl(url) {
@@ -308,14 +333,35 @@ function setupEventListeners() {
     // Close modals
     document.querySelectorAll('.close').forEach(closeBtn => {
         closeBtn.addEventListener('click', function () {
-            this.closest('.modal').style.display = 'none';
+            closeCalendarModal(this.closest('.modal'));
         });
     });
 
     // Close modal when clicking outside
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) {
-            e.target.style.display = 'none';
+            closeCalendarModal(e.target);
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        const modal = document.getElementById('eventDetailModal');
+        if (!modal.getClientRects().length) return;
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            event.stopPropagation();
+            closeCalendarModal(modal);
+        } else if (event.key === 'Tab') {
+            const controls = [...modal.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')]
+                .filter(element => element.tabIndex >= 0 && !element.matches(':disabled') &&
+                    element.getClientRects().length && getComputedStyle(element).visibility !== 'hidden');
+            const first = controls[0], last = controls[controls.length - 1];
+            if (!first || !modal.contains(document.activeElement) ||
+                (event.shiftKey ? document.activeElement === first : document.activeElement === last)) {
+                event.preventDefault();
+                (event.shiftKey ? last : first)?.focus();
+                if (!first) modal.focus();
+            }
         }
     });
 
@@ -446,10 +492,13 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
         const now = new Date();
         const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
 
-        dayEvents.forEach(event => {
+        dayEvents.forEach((event, index) => {
             if (shouldDisplayEvent(event)) {
                 const eventMarker = document.createElement('div');
                 eventMarker.className = `event-marker ${event.category}`;
+                eventMarker.lang = /[\u0980-\u09ff]/.test(event.name) && !/\p{Script=Latin}/u.test(event.name) ? 'bn' : 'en';
+                eventMarker.setAttribute('role', 'button');
+                eventMarker.tabIndex = 0;
 
                 // Check if event was added in the last 7 days
                 const isNew = event.timestamp && new Date(event.timestamp) > sevenDaysAgo;
@@ -459,7 +508,26 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
                 const isFriendly = isFirstTimeFriendly(event);
                 const friendlyBadge = isFriendly ? '<span class="visitor-friendly-badge" title="A great service to start your journey with us">👋</span> ' : '';
 
-                eventMarker.innerHTML = `${friendlyBadge}${newIcon}${categoryEmojis[event.category]} ${escapeHtml(event.name)}`;
+                const title = document.createElement('span');
+                title.className = 'sr-only calendar-event-title';
+                title.id = `calendar-event-${dateString}-${index}`;
+                title.appendChild(calendarEventLabel(event.name, false));
+                eventMarker.setAttribute('aria-labelledby', title.id);
+                const visual = document.createElement('span');
+                visual.className = 'calendar-event-visual';
+                visual.setAttribute('aria-hidden', 'true');
+                visual.innerHTML = `${friendlyBadge}${newIcon}${categoryEmojis[event.category]} `;
+                const text = document.createElement('span');
+                text.className = 'calendar-event-text';
+                text.appendChild(calendarEventLabel(event.name));
+                visual.appendChild(text);
+                eventMarker.append(title, visual);
+                eventMarker.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        eventMarker.click();
+                    }
+                });
 
                 // Add special styling for new events
                 if (isNew) {
@@ -469,7 +537,7 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
 
                 eventMarker.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    showEventDetail(event);
+                    showEventDetail(event, eventMarker);
                 });
                 dayDiv.appendChild(eventMarker);
             }
@@ -570,8 +638,18 @@ function renderMonthEvents() {
     });
 }
 
-function showEventDetail(event) {
+function closeCalendarModal(modal) {
+    modal.style.display = 'none';
+    if (modal.id === 'eventDetailModal') {
+        const opener = eventDetailOpener;
+        eventDetailOpener = null;
+        if (opener?.isConnected) opener.focus({ preventScroll: true });
+    }
+}
+
+function showEventDetail(event, opener = document.activeElement) {
     currentEvent = event;
+    eventDetailOpener = opener;
     const modal = document.getElementById('eventDetailModal');
     // Fix timezone issue by treating as local date
     const [year, month, day] = event.date.split('-');
@@ -675,6 +753,7 @@ function showEventDetail(event) {
     }
 
     modal.style.display = 'block';
+    modal.querySelector('.close').focus();
 }
 
 function shareEvents() {
