@@ -1,5 +1,11 @@
 /* V16 Bible Reader presentation. Scoped to this route so the shared system stays frozen. */
 
+@media (min-width: 1025px) {
+    body.page-bible-reader #site-header .nav-links {
+        margin-right: 64px !important;
+    }
+}
+
 body.page-bible-reader {
     --reader-bg: #f6f1e8;
     --reader-surface: #fffdf8;

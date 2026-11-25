@@ -22,35 +22,17 @@
     overflow: clip;
 }
 
-/* About is intentionally art-directed, but the shared header still needs a
- * solid brand surface in day mode for readable navigation. */
-body:not(.dark) > header,
-body[data-theme="light"] > header,
-html[data-theme="light"] body > header {
-    background: var(--brand-primary) !important;
-    border-bottom-color: transparent !important;
-}
+@media (min-width: 1025px) {
+    html:root body > header,
+    html:root body > header.scrolled {
+        background: var(--theme-bg-page) !important;
+        border-bottom-color: var(--theme-border-subtle) !important;
+    }
 
-body:not(.dark):not([data-theme="dark"]) > header.scrolled,
-body[data-theme="light"] > header.scrolled,
-html[data-theme="light"] body > header.scrolled {
-    background: var(--brand-primary) !important;
-    border-bottom-color: rgba(215, 181, 124, 0.45) !important;
-}
-
-body:not(.dark) > header .nav-links a,
-body[data-theme="light"] > header .nav-links a,
-html[data-theme="light"] body > header .nav-links a,
-body:not(.dark) > header .logo,
-body[data-theme="light"] > header .logo,
-html[data-theme="light"] body > header .logo {
-    color: #ffffff !important;
-}
-
-body:not(.dark) > header .mobile-menu-btn span,
-body[data-theme="light"] > header .mobile-menu-btn span,
-html[data-theme="light"] body > header .mobile-menu-btn span {
-    background-color: #ffffff !important;
+    html:root body > header .nav-links a,
+    html:root body > header .logo {
+        color: var(--theme-text-primary) !important;
+    }
 }
 
 body.dark .about-v17,
